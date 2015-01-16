@@ -56,9 +56,13 @@
     <Compile Include="AddressType.cs" />
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
-    <Compile Include="Migrations\201501131231041_InitialCreate.cs" />
-    <Compile Include="Migrations\201501131231041_InitialCreate.Designer.cs">
-      <DependentUpon>201501131231041_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201501162219502_IntialCreate.cs" />
+    <Compile Include="Migrations\201501162219502_IntialCreate.Designer.cs">
+      <DependentUpon>201501162219502_IntialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201501162224049_LocationLatLongNullable.cs" />
+    <Compile Include="Migrations\201501162224049_LocationLatLongNullable.Designer.cs">
+      <DependentUpon>201501162224049_LocationLatLongNullable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Theme.cs" />
@@ -107,8 +111,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201501131231041_InitialCreate.resx">
-      <DependentUpon>201501131231041_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201501162219502_IntialCreate.resx">
+      <DependentUpon>201501162219502_IntialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201501162224049_LocationLatLongNullable.resx">
+      <DependentUpon>201501162224049_LocationLatLongNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
