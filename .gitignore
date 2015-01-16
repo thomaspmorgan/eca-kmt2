@@ -19,3 +19,5 @@
 /App/ECA.WebApi/obj/Debug/ECA.WebApi.pdb
 *.suo
 /App/ECA.Database/ECA.Database.dbmdl
+/App/ECA.Database/bin/Debug
+/App/ECA.Database/obj/Debug

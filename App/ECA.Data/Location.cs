@@ -15,9 +15,12 @@ namespace ECA.Data
     public class Location
     {
         public int LocationId { get; set; }
-        public LocationType LocationType { get; set; }
-        public float Latitude { get; set; }
-        public float Longitude { get; set; }
+        [Required]
+        public int LocationTypeId { get; set; }
+        [Required]
+        public virtual LocationType LocationType { get; set; }
+        public float? Latitude { get; set; }
+        public float? Longitude { get; set; }
         public string Street1 { get; set; }
         public string Street2 { get; set; }
         public string Street3 { get; set; }
