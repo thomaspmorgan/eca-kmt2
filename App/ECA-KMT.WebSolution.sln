@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Data", "ECA.Data\ECA.Data.csproj", "{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ECA.Database", "ECA.Database\ECA.Database.sqlproj", "{CBE7E562-DE45-4780-88E7-B925E0A1D13F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebApi", "ECA.WebApi\ECA.WebApi.csproj", "{72993AAF-4C9F-4EA3-A3CB-263D20C32DE0}"
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "ECA.WebApi.Azure", "ECA.WebApi.Azure\ECA.WebApi.Azure.ccproj", "{CEA0E515-55A9-43AC-AA46-A6B31F6B98B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebApp", "ECA.WebApp\ECA.WebApp.csproj", "{AB0D36D6-90E0-45E2-8B7A-03850C4E46D4}"
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "ECA.WebApp.Azure", "ECA.WebApp.Azure\ECA.WebApp.Azure.ccproj", "{F429743A-20E6-428E-9BCA-9B8D543B7F95}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBE7E562-DE45-4780-88E7-B925E0A1D13F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBE7E562-DE45-4780-88E7-B925E0A1D13F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBE7E562-DE45-4780-88E7-B925E0A1D13F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CBE7E562-DE45-4780-88E7-B925E0A1D13F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBE7E562-DE45-4780-88E7-B925E0A1D13F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBE7E562-DE45-4780-88E7-B925E0A1D13F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{72993AAF-4C9F-4EA3-A3CB-263D20C32DE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72993AAF-4C9F-4EA3-A3CB-263D20C32DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72993AAF-4C9F-4EA3-A3CB-263D20C32DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72993AAF-4C9F-4EA3-A3CB-263D20C32DE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA0E515-55A9-43AC-AA46-A6B31F6B98B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA0E515-55A9-43AC-AA46-A6B31F6B98B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA0E515-55A9-43AC-AA46-A6B31F6B98B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA0E515-55A9-43AC-AA46-A6B31F6B98B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB0D36D6-90E0-45E2-8B7A-03850C4E46D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB0D36D6-90E0-45E2-8B7A-03850C4E46D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB0D36D6-90E0-45E2-8B7A-03850C4E46D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB0D36D6-90E0-45E2-8B7A-03850C4E46D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F429743A-20E6-428E-9BCA-9B8D543B7F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F429743A-20E6-428E-9BCA-9B8D543B7F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F429743A-20E6-428E-9BCA-9B8D543B7F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F429743A-20E6-428E-9BCA-9B8D543B7F95}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

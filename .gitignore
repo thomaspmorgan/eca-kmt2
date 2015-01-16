@@ -1,0 +1,21 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/App/ECA.Console/bin/Debug
+/App/ECA.Console/obj/Debug
+/App/ECA.Data/bin/Debug
+/App/ECA.Data/bin/Debug
+/App/ECA.WebApi/bin
+/App/ECA.WebApp/bin
+/App/ECA.WebApp/obj/Debug/ECA.WebApp.csproj.FileListAbsolute.txt
+/App/ECA.WebApp/obj/Debug/ECA.WebApp.csprojResolveAssemblyReference.cache
+/App/ECA.WebApp/obj/Debug/ECA.WebApp.dll
+/App/ECA.WebApp/obj/Debug/ECA.WebApp.pdb
+/App/ECA.Data/obj/Debug
+/App/ECA.WebApi/obj/Debug/ECA.WebApi.csproj.FileListAbsolute.txt
+/App/ECA.WebApi/obj/Debug/ECA.WebApi.csprojResolveAssemblyReference.cache
+/App/ECA.WebApi/obj/Debug/ECA.WebApi.dll
+/App/ECA.WebApi/obj/Debug/ECA.WebApi.pdb
+*.suo
+/App/ECA.Database/ECA.Database.dbmdl
