@@ -1,0 +1,138 @@
+@import "colors.less";
+
+div.plan-display * {
+    margin: 0;
+    padding: 0;
+}
+
+div.plan-display {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+div.plan-display h1,
+div.plan-display h2 {
+    font-family: Times, serif;
+    font-weight: normal;
+    border: none;
+}
+
+div.plan-display h1 {
+    font-size: 1.8em;
+    line-height: 1em;
+    margin: 0 0 1ex 0;
+    padding: 0;
+}
+
+div.plan-display h2 {
+    font-size: 1.4em;
+    line-height: 1em;
+    margin: 0 0 1em 0;
+    padding: 0;
+}
+
+div.plan-display table {
+    font-size: .85em;
+    border-collapse: collapse;
+}
+
+div.plan-display table th,
+div.plan-display table td {
+    border: solid thin #aaa;
+    padding: 2px 4px;
+}
+
+div.plan-display table th {
+    font-weight: normal;
+    text-align: right;
+    white-space: nowrap;
+}
+
+div.plan-display table td {
+    width: 100%;
+}
+
+div.plan-display > table {
+    margin-bottom: 2em;
+}
+
+div.plan-display .section > table {
+    margin-top: -1ex;
+    margin-bottom: 2ex;
+}
+
+div.plan-display .section {
+    margin: 0 0 1em 0.5in;
+}
+
+div.plan-display .section-outer {
+    margin-left: 0;
+}
+
+div.plan-display .section-heading {
+    font-weight: bold;
+}
+
+div.plan-display .section p {
+    margin: 0 0 1em 0;
+}
+
+div.plan-display .section-disclosure {
+    color: #aaa;
+    float: left;
+    margin-left: -1.1em;
+    cursor: pointer;
+}
+
+div.plan-display .section-open {
+    display: inline;
+}
+
+div.plan-display .section-close {
+    display: inline;
+    display: none;
+}
+
+div.plan-display .section-hidden {
+    display: none;
+}
+
+div.plan-display .placeholder {
+    font-style: italic;
+    color: #999;
+}
+
+@media print {
+    div.plan-display .section-hidden {
+        display: block;
+    }
+
+    div.plan-display .section-disclosure {
+        display: none;
+    }
+}
+
+div.plan-display dl {
+    margin-top: -1ex;
+    margin-left: 2em;
+}
+
+div.plan-display dt {
+    font-weight: bold;
+    color: #777;
+}
+
+div.plan-display dd {
+    margin-left: 2em;
+}
+
+div.plan-display .csv-item:after {
+    content: ", ";
+}
+
+div.plan-display .csv-item:last-child:after {
+    content: "";
+}
+
+div.plan-display .found {
+    background-color: yellow;
+}

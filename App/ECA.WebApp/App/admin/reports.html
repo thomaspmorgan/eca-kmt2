@@ -1,0 +1,98 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h1>Consolidated Annual Reports</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            The following reports are sorted by plan status and the last updated date and time.
+        </p>
+        <ul>
+            <li>Imported plans are ICS plans that have been imported but have not otherwise been edited.</li>
+            <li>In-progress plans are plans that are currently being worked but are not published.</li>
+            <li>Published plans are plans that have been approved and published for official use.</li>
+        </ul>
+        <p>
+            <em>Only fiscal years selected in the menu bar are shown.</em>
+            <span class="pull-right">
+                <img src="lib/pdtracker/images/excel.png" alt="Excel application icon" />
+                <a data-bind="attr: { href: exportLink }">Export this report to Excel as a CSV file</a>
+            </span>
+        </p>
+    </div>
+</div>
+
+<div class="row" data-bind="foreach: reports">
+    <div class="col-sm-12">
+        <h2>Fiscal Year <span data-bind="text: fiscalYear"></span></h2>
+        <table class="table table-bordered table-condensed">
+            <tbody>
+                <!-- ko if: importedPlans.length + inProgressPlans.length + publishedPlans.length == 0 -->
+                <tr><td colspan="5">There are no plans to report on for this fiscal year.</td></tr>
+                <!-- /ko -->
+                <!-- ko if: importedPlans.length > 0 -->
+                <tr>
+                    <th colspan="5" class="bg-danger">Imported Plans (<span data-bind="text: importedPlans.length"></span>)</th>
+                </tr>
+                <tr>
+                    <th>Mission Name</th>
+                    <th>Country Name</th>
+                    <th style="padding-left:1em;padding-right:1em;text-align:right;width:1em">Version</th>
+                    <th>Imported By</th>
+                    <th>Imported At</th>
+                </tr>
+                <!-- ko foreach: importedPlans -->
+                <tr>
+                    <td data-bind="text: missionName"></td>
+                    <td data-bind="text: countryName"></td>
+                    <td style="padding-right:1em" align="right" data-bind="text: majorVersion + '.' + minorVersion"></td>
+                    <td data-bind="text: updatedBy"></td>
+                    <td class="nowrap" data-bind="text: updatedAt"></td>
+                </tr>
+                <!-- /ko -->
+                <!-- /ko -->
+                <!-- ko if: inProgressPlans.length > 0 -->
+                <tr class="bg-info"><th colspan="5">In-Progress Plans (<span data-bind="text: inProgressPlans.length"></span>)</th></tr>
+                <tr>
+                    <th>Mission Name</th>
+                    <th>Country Name</th>
+                    <th style="padding-left:1em;padding-right:1em;text-align:right;width:1em">Version</th>
+                    <th>Updated By</th>
+                    <th>Updated At</th>
+                </tr>
+                <!-- ko foreach: inProgressPlans -->
+                <tr>
+                    <td data-bind="text: missionName"></td>
+                    <td data-bind="text: countryName"></td>
+                    <td style="padding-right:1em" align="right" data-bind="text: majorVersion + '.' + minorVersion"></td>
+                    <td data-bind="text: updatedBy"></td>
+                    <td class="nowrap" data-bind="text: updatedAt"></td>
+                </tr>
+                <!-- /ko -->
+                <!-- /ko -->
+                <!-- ko if: publishedPlans.length > 0 -->
+                <tr><th colspan="5" class="bg-success">Published Plans (<span data-bind="text: publishedPlans.length"></span>)</th></tr>
+                <tr>
+                    <th>Mission Name</th>
+                    <th>Country Name</th>
+                    <th style="padding-left:1em;padding-right:1em;text-align:right;width:1em">Version</th>
+                    <th>Published By</th>
+                    <th>Published At</th>
+                </tr>
+                <!-- ko foreach: publishedPlans -->
+                <tr>
+                    <td data-bind="text: missionName"></td>
+                    <td data-bind="text: countryName"></td>
+                    <td style="padding-right:1em" align="right" data-bind="text: majorVersion + '.' + minorVersion"></td>
+                    <td data-bind="text: updatedBy"></td>
+                    <td class="nowrap" data-bind="text: updatedAt"></td>
+                </tr>
+                <!-- /ko -->
+                <!-- /ko -->
+            </tbody>
+        </table>
+    </div>
+</div>
+

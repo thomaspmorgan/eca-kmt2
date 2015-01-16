@@ -1,0 +1,188 @@
+@import "colors.less";
+
+.plan-edit-internal-note {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: solid 1px #ddd;
+    padding: 5px;
+}
+
+.plan-edit-goal {
+    border: solid 2px @blue-2;
+    margin-bottom: 2em;
+}
+
+.plan-edit-goal-text {
+    background-color: @blue-2;
+    border-bottom: solid 2px @blue-2;
+    color: white;
+    padding: 1ex;
+}
+
+.plan-edit-objective {
+    margin: 1em;
+}
+
+.plan-edit-objective-text {
+    background-color: @gray-2;
+    border: solid 2px @gray-2;
+    padding: 1ex;
+}
+
+.plan-edit-objective-heading {
+    cursor: pointer;
+}
+
+.plan-edit-section {
+    margin: 1em 3em;
+}
+
+.plan-edit-section-lead {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.plan-edit-button {
+    font-size: 0.85em;
+    border: solid thin @blue-2;
+    background-color: white;
+    color: @blue-2;
+    text-decoration: none;
+    min-width: 5em;
+}
+
+.plan-edit-button:hover {
+    border: solid thin @blue-2;
+    background-color: @blue-2;
+    color: white;
+    text-decoration: none;
+}
+
+.plan-edit-button-delete {
+    color: @danger-red;
+}
+
+.plan-edit-button-delete,
+.plan-edit-button-delete:hover {
+    border: solid thin @danger-red;
+}
+
+.plan-edit-button-delete:hover {
+    background-color: @danger-red;
+    color: white;
+    text-decoration: none;
+}
+
+.plan-edit-activity-table {
+    border-collapse: collapse;
+    border-color: @gray-1;
+}
+
+.plan-edit-activity-table th,
+.plan-edit-activity-table td {
+    border: solid thin @gray-1;
+    padding: 4px 4px 4px 10px;
+}
+
+.plan-edit-activity-table th {
+    font-weight: normal;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.plan-edit-activity-table td {
+    width: 100%;
+    min-height: 1em;
+}
+
+.plan-edit-activity-table label {
+    margin-bottom: 0;
+}
+
+.plan-edit-header-table {
+    border-collapse: collapse;
+    border-color: @gray-1;
+}
+
+.plan-edit-header-table th,
+.plan-edit-header-table td {
+    border: solid thin @gray-1;
+    padding: 2px 4px;
+}
+
+.plan-edit-header-table th {
+    font-weight: normal;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.plan-edit-header-table td {
+    width: 100%;
+    min-height: 1em;
+}
+
+.plan-edit-inplace-hidden {
+    display: none;
+}
+
+.plan-edit-inplace-visible {
+    cursor: pointer;
+}
+
+div.plan-edit .form-inline label {
+    margin-right: 10px;
+}
+
+div.plan-edit label {
+    font-weight: normal;
+}
+
+.plan-edit .form-inline input[type=checkbox],
+.plan-edit-collaborator-list input[type=checkbox],
+.plan-edit-name-list input[type=checkbox],
+.plan-edit-controls input[type=checkbox] {
+    margin-right: 4px;
+    position: relative;
+    top: 2px;
+}
+
+.plan-edit-collaborator-list {
+    border-top: solid 1px @gray-1;
+}
+
+.plan-edit-collaborator-list,
+.plan-edit-category-list,
+.plan-edit-name-list {
+    list-style-type: none;
+}
+
+.plan-edit-category-list > li > span {
+    font-weight: bold;
+}
+
+.plan-edit-category-list,
+.plan-edit-name-list {
+    width: 1px;
+}
+
+.plan-edit-category-list li,
+.plan-edit-name-list li {
+    white-space: nowrap;
+}
+
+.plan-edit-collaborator-list label,
+.plan-edit-name-list label {
+    font-weight: normal;
+    margin-bottom: 0;
+}
+
+[contenteditable="true"] {
+    cursor: text;
+}
+
+[contenteditable="true"]:focus {
+    color: black;
+    background-color: lightyellow;
+    padding: 2px 4px;
+}

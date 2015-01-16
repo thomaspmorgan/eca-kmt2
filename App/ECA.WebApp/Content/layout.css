@@ -1,0 +1,153 @@
+﻿/*imported colors.less file*/
+/*
+ * Sticky Footer
+ * =============
+ *
+ * URL: http://www.cssstickyfooter.com/using-sticky-footer-code.html
+ *
+ * Page Layout
+ * -----------
+ *
+ * <div id="applicationHost">
+ *     <div class="durandal-wrapper">
+ *         <div id="wrap">
+ *             <div id="header">
+ *                 ...
+ *             </div>
+ *             <div id="main">
+ *                 ...
+ *             </div>
+ *         </div>
+ *         <div id="footer">
+ *             ...
+ *         </div>
+ *     </div>
+ * </div>
+ */
+#applicationHost {
+  overflow-x: hidden;
+}
+/* hide the horizontal scrollbar */
+html {
+  overflow-x: hidden;
+}
+/* make all parent containers 100% height */
+html,
+body,
+.wrapper {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+/* TODO: Remove when we get content here */
+#main {
+  min-height: 600px;
+}
+#wrapper {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+  /* Account for fixed navbar*/
+  padding-top: 50px;
+}
+#wrapper.active {
+  left: 240px;
+}
+#wrap {
+  min-height: 100%;
+}
+#header {
+  height: 48px;
+}
+#footer {
+  position: relative;
+  clear: both;
+}
+/* Opera Fix */
+body:before {
+  content: "";
+  height: 100%;
+  float: left;
+  width: 0;
+  margin-top: -32767px;
+}
+/* Colors and Padding */
+#header {
+  color: #334347;
+  background-color: #e8e6e2;
+  padding: 15px;
+}
+#footerBottom {
+  color: rgba(255, 255, 255, 0.7);
+  background-color: #334347;
+  width: 100%;
+  height: 235px;
+  line-height: 235px;
+  padding-left: 42px;
+}
+#footerTop {
+  color: rgba(255, 255, 255, 0.7);
+  background-color: #415358;
+  height: 86px;
+  line-height: 86px;
+  width: 100%;
+  padding-left: 42px;
+}
+.hidden-header-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #252940;
+  font-size: 1px;
+  cursor: default;
+}
+.hidden-header-link:hover {
+  color: #252940;
+}
+/* Version Number */
+#version-number {
+  position: absolute;
+  right: 25px;
+  bottom: 10px;
+  color: #a6a8ab;
+  font-size: .8em;
+}
+#sidebar {
+  position: fixed;
+  left: -240px;
+  width: 240px;
+  height: 100%;
+  min-height: 400px;
+  background-color: #425358;
+  padding: 0;
+}
+#sidebar.active {
+  left: 0;
+}
+.hover:hover {
+  background: #f7f7f7;
+}
+.list2 .row {
+  border-top: 1px solid #e5eae9;
+  padding: 40px 60px 40px 40px;
+  width: 100%;
+}
+/* Make the menu headers the same size as the
+     bootstrap navbar */
+[data-role='panelbar'] .k-header {
+  min-height: 50px;
+}
+.navbar-toggle {
+  float: left;
+  margin-left: 10px;
+  /* Always show navbar-toggle */
+  display: block;
+}
+.clear {
+  clear: both;
+}
+.nav li {
+  border-bottom: 2px;
+  border-color: #334347;
+}
+/*# sourceMappingURL=layout.css.map */

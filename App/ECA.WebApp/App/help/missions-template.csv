@@ -1,0 +1,31 @@
+MissionCode,MissionName,CountryCode,RegionCode
+AUT,U.S. Mission to Austria,AUT,EUR
+BFA,U.S. Mission to Burkina Faso,BFA,AF
+BRA,U.S. Mission to Brazil,BRA,WHA
+BWA,U.S. Mission to Botswana,BWA,AF
+CHL,U.S. Mission to Chile,CHL,WHA
+CHN,U.S. Mission to China,CHN,EAP
+COG,U.S. Mission to Congo-Brazzaville,COD,AF
+COD,U.S. Mission to Congo-Kinshasa,COD,AF
+COM,U.S. Mission to Comoros,COM,AF
+CYP,U.S. Mission to Cyprus,CYP,EUR
+DEU,U.S. Mission to Germany,DEU,EUR
+ESP,U.S. Mission to Spain,ESP,EUR
+GAB,U.S. Mission to Gabon,GAB,AF
+ISL,U.S. Mission to Iceland,ISL,EUR
+KHM,U.S. Mission to Cambodia,KHM,EAP
+MMR,U.S. Mission to Burma,MMR,EAP
+MYS,U.S. Mission to Malaysia,MYS,EAP
+PER,U.S. Mission to Peru,PER,WHA
+SDN,U.S. Mission to Sudan,SDN,AF
+SLV,U.S. Mission to El Salvador,SLV,WHA
+THA,U.S. Mission to Thailand,THA,EAP
+UNVIE,U.S. Mission to the UN in Vienna,AUT,IO
+USUN,U.S. Mission to the United Nations,USA,WHA
+USUN-GENEVA,U.S. Mission to the UN in Geneva,CHE,IO
+USUN-ICAO,U.S. Mission to the International Civil Aviation Organization (ICAO),CAN,WHA
+USUN-NAIROBI,U.S. Mission to the United Nations in Nairobi,KEN,AF
+USUN-ROME,U.S. Mission to the UN in Rome,ITA,EUR
+USUNESCO,U.S. Mission to UNESCO,FRA,EUR
+VNM,U.S. Mission to Vietnam,VNM,EAP
+ZWE,U.S. Mission to Zimbabwe,ZWE,AF

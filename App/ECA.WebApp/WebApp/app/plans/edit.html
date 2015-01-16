@@ -1,0 +1,224 @@
+<h1>Edit Mission Plan</h1>
+<div class="plan-edit" data-bind="with: plan">
+    <div class="row" style="margin-bottom:1em">
+        <div class="col-md-6">
+            <span class="text-info" data-bind="text: $root.autoSaveNotification"></span>
+        </div>
+        <div class="col-md-6">
+            <span class="pull-right">
+                <button class="btn btn-success" title="Perform an in-progress save of your plan" data-bind="click: $root.doSave">Save</button>
+                <button class="btn btn-warning" title="Save and check in the plan if you are done with all edits" data-bind="click: $root.doSaveAndCheckIn">Save and Check In</button>
+            </span>
+        </div>
+    </div>
+    <table class="table table-bordered table-condensed plan-edit-header-table">
+        <tbody>
+            <tr>
+                <th>Mission:</th>
+                <td data-bind="text: missionName"></td>
+            </tr>
+            <tr>
+                <th>Country:</th>
+                <td data-bind="text: countryName"></td>
+            </tr>
+            <tr>
+                <th>Fiscal Year:</th>
+                <td data-bind="text: fiscalYear"></td>
+            </tr>
+            <tr>
+                <th>Version Number:</th>
+                <td>
+                    <span data-bind="text: majorVersion"></span>.<span data-bind="text: minorVersion"></span>
+                    (<span data-bind="text: currentStatus" /> by <span data-bind="text: updatedBy" /> at <span data-bind="text: updatedAt" />)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="plan-edit-internal-note plan-edit-inplace">
+        <span class="plan-edit-section-lead">Internal Note &ndash;</span>
+        <span class="plan-edit-inplace-visible" data-bind="text: (internalNote() != null && internalNote().length > 0) ? internalNote() : 'None specified', style: { color: (internalNote() != null && internalNote().length > 0) ? 'inherit' : '#777' }"></span>
+        <textarea maxlength="2000" placeholder="2000 characters max" class="plan-edit-inplace-hidden plan-edit-inplace-input" rows="5" data-bind="value: internalNote, valueUpdate: 'afterkeydown'" style="width: 100%"></textarea>
+    </div>
+    <!-- ko foreach: goals -->
+    <div class="plan-edit-goal">
+        <div class="plan-edit-goal-text">
+            <span class="plan-edit-section-lead">Goal:&nbsp;</span>
+            <!-- ko if: $root.user.isGlobalAdministrator -->
+            <span contenteditable="true" data-bind="editableText: text"></span>
+            <!-- /ko -->
+            <!-- ko if: !$root.user.isGlobalAdministrator -->
+            <span data-bind="text: text"></span>
+            <!-- /ko -->
+        </div>
+        <!-- ko foreach: objectives -->
+        <div class="plan-edit-objective">
+            <div class="plan-edit-objective-text">
+                <span class="plan-edit-section-lead plan-edit-objective-heading">Objective:&nbsp;</span>
+                <!-- ko if: $root.user.isGlobalAdministrator -->
+                <span contenteditable="true" data-bind="editableText: text"></span>
+                <!-- /ko -->
+                <!-- ko if: !$root.user.isGlobalAdministrator -->
+                <span data-bind="text: text"></span>
+                <!-- /ko -->
+            </div>
+            <div class="plan-edit-section plan-edit-inplace">
+                <div class="plan-edit-section-lead">Audiences:</div>
+                <ul data-bind="foreach: audienceCategories" class="plan-edit-category-list plan-edit-inplace-visible">
+                    <li>
+                        <span data-bind="text: name"></span>
+                        <!-- ko if: hasSelections() -->
+                        <ul data-bind="foreach: items" class="plan-edit-name-list">
+                            <!-- ko if: selected -->
+                            <li data-bind="text: value"></li>
+                            <!-- /ko -->
+                        </ul>
+                        <!-- /ko -->
+                        <!-- ko if: !hasSelections() -->
+                        <ul class="plan-edit-name-list">
+                            <li style="font-style:italic">None</li>
+                        </ul>
+                        <!-- /ko -->
+                    </li>
+                </ul>
+                <ul data-bind="foreach: audienceCategories" class="plan-edit-category-list plan-edit-inplace-hidden plan-edit-inplace-input">
+                    <li>
+                        <span data-bind="text: name"></span>
+                        <ul data-bind="foreach: items" class="plan-edit-name-list">
+                            <li><label><input type="checkbox" data-bind="checked: selected" /><span data-bind="text: value"></span></label></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- ko foreach: subobjectives -->
+            <div class="plan-edit-section plan-edit-inplace">
+                <span class="plan-edit-section-lead">Subobjective:&nbsp;</span>
+                <span data-bind="css: { 'plan-edit-inplace-visible': $root.user.isStandardUser }, text: (text() != null && text().length > 0) ? text() : 'None specified', style: { color: (text() != null && text().length > 0) ? 'inherit' : '#777' }"></span>
+                <textarea maxlength="2000" placeholder="2000 characters max" class="plan-edit-inplace-hidden plan-edit-inplace-input" rows="5" data-bind="value: text, valueUpdate: 'afterkeydown'" style="width: 100%"></textarea>
+                <button class="plan-edit-inplace-hidden plan-edit-button plan-edit-button-delete" data-bind="click: function(data, event) { $root.deleteSubobjective($parent, data, event) }">- Remove this subobjective</button>
+            </div>
+            <!-- /ko -->
+            <div class="plan-edit-section" data-bind="if: $root.user.isStandardUser">
+                <button class="plan-edit-button" data-bind="click: function(data, event) { $root.addSubobjective($data, event) }">+ Add a new subobjective</button>
+            </div>
+            <div class="plan-edit-section plan-edit-inplace" data-bind="with: program">
+                <span class="plan-edit-section-lead">Initiative:&nbsp;</span>
+                <span class="plan-edit-inplace-visible" data-bind="text: (text() != null && text().length > 0) ? text() : 'None specified', style: { color: (text() != null && text().length > 0) ? 'inherit' : '#777' }"></span>
+                <textarea maxlength="2000" placeholder="2000 characters max" class="plan-edit-inplace-hidden plan-edit-inplace-input" rows="5" data-bind="value: text, valueUpdate: 'afterkeydown'" style="width: 100%"></textarea>
+            </div>
+            <div class="plan-edit-section plan-edit-inplace" data-bind="with: result">
+                <span class="plan-edit-section-lead">Result:&nbsp;</span>
+                <span class="plan-edit-inplace-visible" data-bind="text: (text() != null && text().length > 0) ? text() : 'None specified', style: { color: (text() != null && text().length > 0) ? 'inherit' : '#777' }"></span>
+                <textarea maxlength="2000" placeholder="2000 characters max" class="plan-edit-inplace-hidden plan-edit-inplace-input" rows="5" data-bind="value: text, valueUpdate: 'afterkeydown', valueUpdate: 'afterkeydown'" style="width: 100%"></textarea>
+            </div>
+            <!-- ko foreach: activities -->
+            <div class="plan-edit-section plan-edit-inplace">
+                <span class="plan-edit-section-lead">Activity:&nbsp;</span>
+                <span class="plan-edit-inplace-visible" data-bind="text: (text() != null && text().length > 0) ? text() : 'None specified', style: { color: (text() != null && text().length > 0) ? 'inherit' : '#777' }"></span>
+                <textarea maxlength="2000" placeholder="2000 characters max" rows="5" class="plan-edit-inplace-hidden plan-edit-inplace-input" data-bind="value: text, valueUpdate: 'afterkeydown'" style="width: 100%"></textarea>
+                <button class="plan-edit-inplace-hidden plan-edit-button plan-edit-button-delete" data-bind="click: function(data, event) { $root.deleteActivity($parent, data, event) }">- Remove this activity</button>
+            </div>
+            <div class="plan-edit-section">
+                <table class="plan-edit-activity-table">
+                    <tbody>
+                        <tr>
+                            <th>Fiscal Quarter:</th>
+                            <td colspan="2">
+                                <form class="form-inline">
+                                    <label><input type="checkbox" value="1" data-bind="checked: fiscalQuarters" />Q1</label>
+                                    <label><input type="checkbox" value="2" data-bind="checked: fiscalQuarters" />Q2</label>
+                                    <label><input type="checkbox" value="3" data-bind="checked: fiscalQuarters" />Q3</label>
+                                    <label><input type="checkbox" value="4" data-bind="checked: fiscalQuarters" />Q4</label>
+                                    FY <span data-bind="text: $root.plan.fiscalYear"></span>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr class="plan-edit-inplace">
+                            <th style="vertical-align:top">Mission Collaborators:</th>
+                            <td style="border-right:none" class="plan-edit-inplace-input">
+                                <!-- ko foreach: internalCollaborators -->
+                                <span style="margin-right:10px" data-bind="text: code, attr: {title: name}"></span>
+                                <!-- /ko -->
+                                <span>&nbsp;</span>
+                                <ul data-bind="foreach: $root.internalCollaborators" class="plan-edit-inplace-hidden plan-edit-collaborator-list">
+                                    <li><label><input type="checkbox" data-bind="checkedValue: $data, checked: $parent.internalCollaborators" /><span data-bind="text: code + ' (' + name + ')'"></span></label></li>
+                                </ul>
+                            </td>
+                            <td style="vertical-align:top;border-left:none;width:1px;padding:4px">
+                                <button class="plan-edit-button plan-edit-inplace-visible">+ Show</button>
+                                <button class="plan-edit-button plan-edit-inplace-hidden">- Hide</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>External Collaborators:</th>
+                            <td class="plan-edit-inplace" colspan="2">
+                                <span class="plan-edit-inplace-visible" data-bind="text: (externalCollaborator() != null && externalCollaborator().length > 0) ? externalCollaborator() : 'None specified', style: { color: (externalCollaborator() != null && externalCollaborator().length > 0) ? 'inherit' : '#777' }"></span>
+                                <textarea maxlength="2000" placeholder="2000 characters max" class="plan-edit-inplace-hidden plan-edit-inplace-input" data-bind="value: externalCollaborator, valueUpdate: 'afterkeydown'" style="width: 100%"></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /ko -->
+            <div class="plan-edit-section">
+                <button class="plan-edit-button" data-bind="click: $root.addActivity">+ Add a new activity</button>
+            </div>
+            <div class="plan-edit-section plan-edit-inplace">
+                <div class="plan-edit-section-lead">Themes:</div>
+                <ul data-bind="foreach: themeCategories" class="plan-edit-category-list plan-edit-inplace-visible">
+                    <li>
+                        <span data-bind="text: name"></span>
+                        <!-- ko if: hasSelections() -->
+                        <ul data-bind="foreach: items" class="plan-edit-name-list">
+                            <!-- ko if: selected -->
+                            <li data-bind="text: value"></li>
+                            <!-- /ko -->
+                        </ul>
+                        <!-- /ko -->
+                        <!-- ko if: !hasSelections() -->
+                        <ul class="plan-edit-name-list">
+                            <li style="font-style:italic">None</li>
+                        </ul>
+                        <!-- /ko -->
+                    </li>
+                </ul>
+                <ul data-bind="foreach: themeCategories" class="plan-edit-category-list plan-edit-inplace-hidden plan-edit-inplace-input">
+                    <li>
+                        <span data-bind="text: name"></span>
+                        <ul data-bind="foreach: items" class="plan-edit-name-list">
+                            <li><label><input type="checkbox" data-bind="checked: selected" /><span data-bind="text: value"></span></label></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- ko if: $root.user.isGlobalAdministrator -->
+            <button class="plan-edit-button plan-edit-button-delete" data-bind="click: function(data, event) { $root.deleteObjective($parent, data, event) }">- Delete this objective</button>
+            <!-- /ko -->
+        </div>
+        <!-- /ko -->
+        <!-- ko if: $root.user.isGlobalAdministrator -->
+        <div class="plan-edit-objective">
+            <button class="plan-edit-button" data-bind="click: function(data, event) { $root.addObjective($data, event) }">+ Add a new objective</button>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: $root.user.isGlobalAdministrator -->
+        <button class="plan-edit-button plan-edit-button-delete" data-bind="click: function(data, event) { $root.deleteGoal($parent, data, event) }">- Delete this goal</button>
+        <!-- /ko -->
+    </div>
+    <!-- /ko -->
+    <!-- ko if: $root.user.isGlobalAdministrator -->
+    <div>
+        <button class="plan-edit-button" data-bind="click: function(data, event) { $root.addGoal($data, event) }">+ Add a new goal</button>
+    </div>
+    <!-- /ko -->
+    <div class="row">
+        <div class="col-md-6">
+            <span class="text-info" data-bind="text: $root.autoSaveNotification"></span>
+        </div>
+        <div class="col-md-6">
+            <span class="pull-right">
+                <button class="btn btn-success" title="Perform an in-progress save of your plan" data-bind="click: $root.doSave">Save</button>
+                <button class="btn btn-warning" title="Save and check in the plan if you are done with all edits" data-bind="click: $root.doSaveAndCheckIn">Save and Check In</button>
+            </span>
+        </div>
+    </div>
+</div>

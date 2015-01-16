@@ -1,0 +1,274 @@
+﻿/*imported colors.less file*/
+body {
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  overflow-y: scroll;
+  /* prevent jumps as scroll bar appears */
+}
+#menubar {
+  line-height: 34px;
+  /* header height - (padding top + padding bottom) */
+}
+#menubar .brand {
+  font-size: 1.2em;
+  margin-left: 0.1em;
+  font-weight: bold;
+  color: #0094cb;
+}
+#menubar .menuitem {
+  margin-left: 2em;
+  color: #a6a8ab;
+}
+#menubar a {
+  color: #a6a8ab;
+  text-decoration: none;
+}
+#menubar a:hover {
+  text-decoration: underline;
+  color: #e8e6e2;
+}
+#menubar a.brand:hover {
+  color: #b9d7e1;
+}
+#menubar select {
+  color: #252940;
+  background-color: #e8e6e2;
+  width: 5em;
+  margin-left: 2em;
+}
+#menubar select:focus {
+  outline: 0;
+}
+#myaccount-glyphicon {
+  position: relative;
+  top: 4px;
+  font-size: 20px;
+}
+#myaccount-downarrow {
+  font-size: 12px;
+}
+#myaccount:hover {
+  text-decoration: none !important;
+}
+#myaccount-dropdown {
+  display: none;
+  background-color: #252940;
+  padding: 15px;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  z-index: 999;
+}
+#help-icon-glyphicon {
+  margin-left: 1ex;
+}
+#app-help {
+  color: black;
+}
+h1 {
+  font-size: 1.6em;
+  line-height: 1.6em;
+  border-bottom: solid 1px gray;
+  margin-bottom: 1em;
+}
+h2 {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+.modal {
+  overflow: auto;
+}
+body.modal-open {
+  overflow-y: scroll;
+  margin: 0;
+}
+.modal-header {
+  padding-left: 18px;
+}
+.messageBox > .modal-header {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.modal-footer {
+  margin-top: 0;
+}
+.notshown {
+  display: none;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.form-controls {
+  border-top: solid thin #ccc;
+  padding-top: 15px;
+  text-align: right;
+}
+.form-controls button {
+  margin-left: 1em;
+}
+.navbar {
+  border-radius: 0;
+}
+.fiscal-year {
+  color: #b20000;
+  font-weight: bold;
+}
+span.sep {
+  font-size: 1.2em;
+  color: #999;
+}
+div.buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+div.form-group-groups {
+  margin: 0;
+}
+table.table-compressed {
+  width: auto !important;
+}
+table.table-compressed th,
+table.table-compressed td {
+  white-space: nowrap;
+  width: 1px;
+}
+.found-text {
+  background-color: yellow;
+}
+.found-item {
+  background-color: orange;
+}
+.pdip-button-area {
+  text-align: right;
+  margin-bottom: 15px;
+}
+.pdip-primary-button,
+.pdip-danger-button,
+.pdip-cancel-button {
+  color: white;
+  padding: 0 1em;
+  margin-left: 1em;
+  min-width: 5em;
+}
+.pdip-primary-button {
+  background-color: #252940;
+  border: solid thin #252940;
+  color: white;
+}
+.pdip-primary-button:hover {
+  background-color: #00000d;
+  border: solid thin #00000d;
+  color: white;
+}
+.pdip-primary-button:disabled,
+.pdip-primary-button:hover:disabled {
+  background-color: #585c73;
+  border: solid thin #585c73;
+  color: white;
+}
+.pdip-cancel-button,
+.btn-default {
+  background-color: #678296;
+  border: solid thin #678296;
+  color: white;
+}
+.pdip-cancel-button:hover,
+.btn-default:hover {
+  background-color: #344f63;
+  border: solid thin #344f63;
+  color: white;
+}
+.pdip-danger-button {
+  background-color: #b20000;
+  border: solid thin #b20000;
+  color: white;
+}
+.pdip-danger-button:hover {
+  background-color: #7f0000;
+  border: solid thin #7f0000;
+  color: white;
+}
+.disclose-trigger {
+  cursor: pointer;
+}
+.disclose-hidden {
+  display: none;
+}
+.btn {
+  border: none;
+  border-radius: 0;
+  background-image: none;
+  padding-left: 1em;
+  padding-right: 1em;
+  box-shadow: none;
+  text-shadow: none;
+}
+.btn-primary {
+  background-color: #252940;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #00000d;
+  color: white;
+}
+.btn-primary:disabled,
+.btn-primary:hover:disabled {
+  background-color: #585c73;
+  color: white;
+}
+.plan-list-selected {
+  background-color: #b9d7e1;
+}
+.plan-list-published {
+  font-style: italic;
+}
+.list-group-item {
+  border-color: #678296;
+  color: #678296;
+}
+.list-group-item.active {
+  background-color: #252940;
+  color: white;
+  border-color: #252940;
+}
+.list-group-item.active:hover {
+  background-color: #252940;
+  color: white;
+  border-color: #252940;
+}
+a.list-group-item:hover,
+a.list-group-item:focus {
+  background-color: #678296;
+  color: white;
+  border-color: #678296;
+}
+.footer-text {
+  color: #a6a8ab;
+}
+.footer-text:hover {
+  color: #e8e6e2;
+}
+select[name="fiscalYear"] {
+  width: 10em;
+}
+.required:after {
+  content: "*";
+}
+span.csv-item:after {
+  content: ", ";
+}
+span.csv-item:last-child:after {
+  content: "";
+}
+.unstyled-link,
+.unstyled-link:hover {
+  color: black;
+  text-decoration: none;
+}
+.section-508-checklist li {
+  margin-bottom: 1em;
+}
+.section-508-checklist .response {
+  color: green;
+  font-weight: bold;
+}
+/*# sourceMappingURL=style.css.map */

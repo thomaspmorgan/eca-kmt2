@@ -1,0 +1,27 @@
+{
+    "defaultPassword": "ThisIsAPassword",
+    "defaultGroup": "Standard User",
+    "models": [
+        {
+            "userName": "doejh",
+            "displayName": "John Doe",
+            "missionCodes": "CAN",
+            "jobTitle": "PAO",
+            "alternateEmail": "doejh@state.gov"
+        },
+        {
+            "userName": "smithjh",
+            "displayName": "Jane Smith",
+            "missionCodes": "ZWE",
+            "jobTitle": "",
+            "alternateEmail": "smithjh@state.gov"
+        },
+        {
+            "userName": "joneswb",
+            "displayName": "William Jones",
+            "missionCodes": "",
+            "jobTitle": "PD Desk Officer",
+            "alternateEmail": "joneswb@state.gov"
+        }
+    ]
+}

@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Search Database</h1>
+    </div>
+</div>
+
+<form data-bind="submit: doSearch">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="textQuery">Text Search</label>
+                <input tabindex="1" name="textQuery" placeholder="-- Word, phrase, or regular expression --" type="text" class="form-control" data-bind="value: textQuery" />
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="countryCode">Country</label>
+                <select tabindex="2" name="countryCode" class="form-control" data-bind="options: countries, optionsText: 'countryName', optionsValue: 'countryCode', value: countryCode, optionsCaption: '-- Match any country --'"></select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="audienceId">Audience</label>
+                <select tabindex="3" name="audienceId" class="form-control" data-bind="value: audienceId">
+                    <option value="">-- Match any audience --</option>
+                    <!-- ko foreach: audiencesFilteredByYear -->
+                    <optgroup label="required" data-bind="attr: { label: '(' + fiscalYear + ') ' + category }, foreach: items">
+                        <option data-bind="text: name, value: id"></option>
+                    </optgroup>
+                    <!-- /ko -->
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="themeId">Theme</label>
+                <select tabindex="4" name="themeId" class="form-control" data-bind="value: themeId">
+                    <option value="">-- Match any theme --</option>
+                    <!-- ko foreach: themesFilteredByYear -->
+                    <optgroup label="required" data-bind="attr: { label: '(' + fiscalYear + ') ' + category }, foreach: items">
+                        <option data-bind="text: name, value: id"></option>
+                    </optgroup>
+                    <!-- /ko -->
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p>
+                Please note that audiences and themes are filtered based on the fiscal year selection in the menu bar.
+            </p>
+            <div class="form-controls">
+                <button tabindex="5" type="submit" class="pdip-primary-button">Search</button>
+                <button tabindex="6" type="button" class="pdip-cancel-button" data-bind="click: doClear">Clear</button>
+            </div>
+        </div>
+    </div>
+</form>

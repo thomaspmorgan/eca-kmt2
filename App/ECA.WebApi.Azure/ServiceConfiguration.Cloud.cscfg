@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="ECA.WebApi.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2014-06.2.4">
+  <Role name="ECA.WebApi">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="db.Host" value="slp41b62uu.database.windows.net" />
+      <Setting name="db.Catalog" value="pdip_db_prod" />
+      <Setting name="pdtracker.OpenNetMode" value="False" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="tom" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEFEdZYdTqOOsSeqMvHjFUN8wDQYJKoZIhvcNAQEBBQAEggEAiNgyVLyqp2JhkWmGLaRsGEOA7ZXzSD6MCojZ3p36Ly+7r5WHCFYUhAWzLdAq1Q+cukPyEmLeAHkOxlfqR6uIy6qRrUDC7yWISrXur6ymXBhlvSQvxlsMRRPP+AaQe9zMFVhCi9LRyzg5h92o0eYPRS5Ra9I0eivF5N2zonkjxp/lBuZkWYt84cTaVzi4cCrulp3mDguO7bPTx5slOyLJeQzbWBh7d2yWbG2n3WDccx5oTLz3BiuFz12zojdnSwx5gvooxTWXyKvLYY7u7iuNl6eIsUl4veJMGPCIALLFLc+6FSWmgkl0H8MApTZ7zrw0uKNyGTqsviHSpJOyuz7c0jAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECPhGWSZkpw+2gBCeojVGMp5h2dTWvlt4t1Wr" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2015-12-31T23:59:59.0000000-05:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="ABCDC01075FC65E6FA0B668663209CAA8867818E" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

@@ -1,0 +1,59 @@
+﻿<div id="menubar" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <a href="#home" class="brand">ECA PD Tracker</a>
+            <!-- ko if: user.isStandardUser -->
+            <a href="#list" class="menuitem">Plans</a>
+            <!-- /ko -->
+            <!-- ko if: user.isGlobalAdministrator -->
+            <a href="#import" class="menuitem">Data</a>
+            <!-- /ko -->
+            <!-- ko if: user.isPostAdministrator -->
+            <a href="#users" class="menuitem">Users</a>
+            <!-- /ko -->
+            <!-- ko if: user.isGuest -->
+            <a href="#search" class="menuitem">Search</a>
+            <!-- /ko -->
+            <!-- ko if: user.isGlobalAdministrator -->
+            <a href="#reports" class="menuitem">Reports</a>
+            <!-- /ko -->
+            <!-- ko if: user.isGuest -->
+            <select id="fy-select" name="fiscalYear" data-bind="options: $root.years,
+                optionsText: $data,
+                optionsValue: $data,
+                value: fiscalYear,
+                optionsCaption: 'All'"></select>
+            <!-- /ko -->
+            <!-- ko if: !user.isAnonymous -->
+            <div style="position:relative" class="pull-right">
+                <a href="#" id="myaccount" title="My Account">
+                    <span id="myaccount-glyphicon" class="glyphicon glyphicon-user"></span>
+                    <span id="myaccount-downarrow">&#9660;</span>
+                </a>
+                <div id="myaccount-dropdown" data-bind="with: user">
+                    <table class="table table-bordered" style="margin-bottom:0">
+                        <tr>
+                            <th>User:</th>
+                            <td class="nowrap">
+                                <a href="https://account.activedirectory.windowsazure.com/profile/" data-bind="text: displayName" title="Update profile (change password)" target="_blank"></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Role:</th>
+                            <td class="nowrap" data-bind="text: groupName"></td>
+                        </tr>
+                        <tr>
+                            <th>Missions:</th>
+                            <td class="nowrap" data-bind="text: missionNames, visible: missionNames"></td>
+                            <td class="nowrap" data-bind="visible: !missionNames">(None Assigned)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-center"><a href="#" data-bind="click: $root.doSignOut">Sign out of ECA PD Tracker</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+</div>

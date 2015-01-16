@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1>Manage Data</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3" data-bind="compose: 'admin/sidebar.html'"></div>
+    <div class="col-md-9">
+        <p>
+            This page allows you to update configuration settings.
+            Please note that long values may wrap in the table below.
+            Plural items (such as email addresses) take a comma-delimited list.
+            Unlike other data items, configuration settings can only be updated (edited) and cannot be added or deleted.
+        </p>
+
+        <table id="country-table" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="nowrap">Key</th>
+                    <th class="nowrap">Value</th>
+                    <th class="nowrap">Actions</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: settings">
+                <tr>
+                    <td data-bind="text: key"></td>
+                    <td data-bind="text: value"></td>
+                    <td class="nowrap">
+                        <a href="#" data-bind="click: $parent.doEdit">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="setting-edit-dialog" class="modal modal-lg">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" data-bind="with: selectedItem">
+                        <h3 class="modal-title" data-bind="text: key"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="value">Value</label>
+                            <input name="value" type="text" maxlength="2000" class="form-control" data-bind="value: value, valueUpdate: 'afterkeydown'">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="pdip-primary-button" data-dismiss="modal" data-bind="click: doEditSubmit, enable: countryName().length > 0">Save</button>
+                        <button type="button" class="pdip-cancel-button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<!--
+Sample Plan XML Import Template
+===============================
+
+Notes:
+
+1. The mission code element is REQUIRED and the mission must already exist
+   in the database. Consider importing all missions before importing plans.
+
+2. The country code element is optional. If it is not specified, then the
+   primary country code for the mission is used. In the case of VIENNA,
+   this would most likely be Austria, but it is not always the case.
+   If a mission supports multiple countries, then an alternate country code
+   can be specified.
+
+3. The fiscal year is REQUIRED. There can only be one plan for each
+   mission-country-year combination. This means than an embassy can
+   have multiple plans in a given year, as long as each plan is for
+   a different country.
+
+4. Processing Instructions
+
+4.1 The <?import replace?> processing instruction is useful for testing
+    if you want to reimport the same plan multiple times. It should be
+    removed when creating actual files for production use.
+
+4.2 The <?import ignore?> processing instruction only replaces plans that
+    have an Imported status (i.e., they have not been modified). Any plan
+    in the XML document that matches an edited plan is ignored.
+
+5. Finally, multiple plans can be enclosed in a <Plans> tag at the
+   beginning of the file and a <Plans> closing tag at the end of the
+   file. The <?import replace?> directive need only be specified once
+   before the opening <Plans> tag when testing bulk imports.
+-->
+
+<?import replace?>
+
+<Plan>
+
+    <Mission>
+        <Code>VIENNA</Code>
+    </Mission>
+    <Country>
+        <Code>AUT</Code>
+    </Country>
+    <FiscalYear>2015</FiscalYear>
+
+    <Goal>
+        <Text>Each goal must have exactly one text element.</Text>
+        <Objective>
+            <Text>Each objective must have exactly one text element.</Text>
+            <Subobjective>
+                <Text>Each subobjective must have exactly one text element.</Text>
+            </Subobjective>
+            <Subobjective>
+                <Text>This is the second subobjective for the first objective.</Text>
+            </Subobjective>
+        </Objective>
+        <Objective>
+            <Text>This is the second objective for the first goal.</Text>
+        </Objective>
+    </Goal>
+
+    <Goal>
+        <Text>This is the second goal.</Text>
+        <Objective>
+            <Text>With another objective.</Text>
+        </Objective>
+        <Objective>
+            <Text>And a second objective for the second goal.</Text>
+        </Objective>
+    </Goal>
+
+</Plan>

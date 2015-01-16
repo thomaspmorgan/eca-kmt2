@@ -1,0 +1,47 @@
+<p>
+    Each plan is given a version number that consists of a major and a minor version.<br />
+    The version number is written as <i>major</i>.<i>minor</i> such as version 1.2.
+</p>
+<p>
+    The following describes the concepts and rules associated with plan versioning.
+</p>
+<ul>
+    <li>
+        <p>
+            When a plan is initially imported, it is assigned a version number of 0.1.
+        </p>
+    </li>
+    <li>
+        <p>
+            When a plan is checked out, the plan is copied and the minor version number is incremented.<br />
+            For example, if the current version is 0.1, then the plan is copied to version 0.2 after it is checked out.
+        </p>
+    </li>
+    <li>
+        <p>
+            This new minor version can be deleted using the <i>Delete Version</i> action.
+        </p>
+    </li>
+    <li>
+        <p>
+            Only the latest version of a plan can be checked out or submitted for approval.
+        </p>
+    </li>
+    <li>
+        <p>
+            Once a plan is approved and published, it is promoted to the next major version number.<br />
+            For example, if version 0.2 is approved and published, it is promoted to version 1.0.<br />
+            <b>Every published plan has a minor version number of zero.</b>
+        </p>
+    </li>
+    <li>
+        <p>
+            A previously published plan that has been unpublished, can be republished with the same version number.<br />
+            Essentially, this is to republish a plan that was inadvertently unpublished.
+        </p>
+    </li>
+    <li>
+        Only the highest published version number is shown to guests on the home page.<br />
+        <b>It is therefore not necessary to unpublish a plan before publishing an update.</b>
+    </li>
+</ul>

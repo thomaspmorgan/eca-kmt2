@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1>Manage Data</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3" data-bind="compose: 'admin/sidebar.html'"></div>
+    <div class="col-md-9">
+        <p>
+            This page allows you to import a plan or a set of plans from an XML file.
+            <a href="app/help/plan-template.xml" target="_blank">Download an example</a>.
+            <a href="../Assets/pdip/schemas/plan.xsd" target="_blank">Download the schema</a>.
+        </p>
+        <p>
+            Please note that this is an <i>atomic</i> operation &ndash; it either succeeds or fails.
+            This means that either <i>everything</i> in the uploaded file is processed and added
+            to the database <i>or</i> <u>no</u> action is taken and the database remains unmodified.
+        </p>
+        <form id="pdip-import-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Select an XML file containing plans, goals, and objectives</label>
+                <input type="file" name="pdip-import-file" class="form-control" />
+            </div>
+            <div class="alert alert-success" data-bind="visible: uploadSuccess">
+                <span data-bind="text: uploadSuccess"></span>
+            </div>
+            <div class="alert alert-danger" data-bind="visible: uploadError">
+                <span data-bind="text: uploadError"></span>
+            </div>
+            <p>Import changes the database. Validate just checks the file. Long files can take a while to import or validate.</p>
+            <div class="form-controls">
+                <button type="button" class="pdip-primary-button" data-bind="click: doImport">Import</button>
+                <button type="button" class="pdip-cancel-button" data-bind="click: doValidate">Validate</button>
+            </div>
+        </form>
+    </div>
+</div>

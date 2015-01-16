@@ -1,0 +1,113 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1>Manage Data</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3" data-bind="compose: 'admin/sidebar.html'"></div>
+    <div class="col-md-9">
+        <p>This page allows you to add, delete, and rename audiences. Audiences are grouped by category. Each audience has a sort key for ordering within a category.</p>
+        <form class="well well-sm" data-bind="with: addedItem, submit: $root.doAdd">
+            <div class="form-group">
+                <label for="fiscalYear">Fiscal Year</label>
+                <select name="fiscalYear" class="form-control" data-bind="options: $root.years, value: fiscalYear"></select>
+            </div>
+            <div class="form-group">
+                <label for="category">Theme Category</label>
+                <input type="text" style="width:30em" maxlength="40" class="form-control" placeholder="40 characters max" data-bind="value: category, valueUpdate: 'afterkeydown'" />
+            </div>
+            <div class="form-group">
+                <label for="name">Theme Name</label>
+                <input type="text" style="width:30em" maxlength="200" class="form-control" placeholder="200 characters max" data-bind="value: name, valueUpdate: 'afterkeydown'" />
+            </div>
+            <div class="form-controls">
+                <button type="submit" class="pdip-primary-button" data-bind="enable: name().length > 0">Add</button>
+            </div>
+        </form>
+
+        <table id="theme-table" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="nowrap">Fiscal Year</th>
+                    <th>Category</th>
+                    <th>Name</th>
+                    <th>Sort</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: themes">
+                <!-- ko foreach: categories -->
+                <!-- ko foreach: items -->
+                <tr>
+                    <!-- ko if: $parentContext.$index() == 0 && $index() == 0 -->
+                    <td data-bind="text: $parents[1].fiscalYear, attr: { rowspan: $parents[1].itemCount }"></td>
+                    <!-- /ko -->
+                    <!-- ko if: $index() == 0 -->
+                    <td data-bind="text: category, attr: { rowspan: $parent.items.length }"></td>
+                    <!-- /ko -->
+                    <td data-bind="text: name"></td>
+                    <td data-bind="text: sortKey"></td>
+                    <td class="nowrap">
+                        <a href="#" data-bind="click: $root.doEdit">Edit</a>
+                        |
+                        <a href="#" data-bind="click: $root.doDelete">Delete</a>
+                    </td>
+                </tr>
+                <!-- /ko -->
+                <!-- /ko -->
+            </tbody>
+        </table>
+
+        <div id="theme-delete-confirm" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Delete Theme?</h3>
+                    </div>
+                    <div class="modal-body" data-bind="with: selectedItem">
+                        <p class="fiscal-year" data-bind="text: 'FY ' + fiscalYear()"></p>
+                        <p class="well well-sm" data-bind="text: name"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="pdip-danger-button" data-dismiss="modal" data-bind="click: doDeleteConfirm">Delete</button>
+                        <button type="button" class="pdip-cancel-button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="theme-edit-dialog" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" data-bind="with: selectedItem">
+                        <h3 data-bind="text: name"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <form data-bind="with: modifiedItem">
+                            <div class="form-group">
+                                <label for="fiscalYear">Fiscal Year</label>
+                                <select name="fiscalYear" class="form-control" data-bind="options: $root.years, value: fiscalYear"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Theme Category</label>
+                                <input name="category" type="text" maxlength="40" class="form-control" data-bind="value: category, valueUpdate: 'afterkeydown'">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Theme Name</label>
+                                <input name="name" type="text" maxlength="200" class="form-control" data-bind="value: name, valueUpdate: 'afterkeydown'">
+                            </div>
+                            <div class="form-group">
+                                <label for="sortKey">Sort Key</label>
+                                <input name="sortKey" type="text" maxlength="3" style="width:5em" class="form-control" data-bind="value: sortKey, valueUpdate: 'afterkeydown'">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer" data-bind="with: modifiedItem">
+                        <button type="button" class="pdip-primary-button" data-dismiss="modal" data-bind="click: $root.doSaveChanges, enable: name().length > 0">Save</button>
+                        <button type="button" class="pdip-cancel-button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

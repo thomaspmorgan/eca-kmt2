@@ -1,0 +1,271 @@
+<p>
+    Plans start off as being imported from an external system and end up as
+    published plans that are viewable by all guests. This Manage Plans page
+    is what helps you move a plan through the system.
+</p>
+<p>
+    At a high level, you check out a plan, edit it until it looks good, check
+    it back in, and then submit it for approval. An approver can then publish
+    or reject the plan. The table below is a more detailed description of each
+    status and the actions that can be performed for that status.
+</p>
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>Current&nbsp;Status</th>
+            <th>User&nbsp;Action</th>
+            <th>Updated&nbsp;Status</th>
+            <th>Authorization</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                &ndash;
+            </td>
+            <td>
+                Import Plan
+            </td>
+            <td>
+                Imported
+            </td>
+            <td>
+                Global Admin
+            </td>
+            <td>
+                Initial import of ICS plans.
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="4">
+                Imported
+                <br>Checked In
+                <br>Recalled
+                <br>Rejected
+                <br>Unpublished
+            </td>
+            <td>
+                Check Out
+            </td>
+            <td>
+                Checked Out
+            </td>
+            <td>
+                Any User
+            </td>
+            <td>
+                Creates a new minor version on checkout.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Submit
+            </td>
+            <td>
+                Submitted
+            </td>
+            <td>
+                Any User
+            </td>
+            <td>
+                Only the latest version can be submitted.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Publish
+            </td>
+            <td>
+                Published
+            </td>
+            <td>
+                Approver
+            </td>
+            <td>
+                Approvers can publish plans without first submitting them.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Delete&nbsp;Version
+            </td>
+            <td>
+                &ndash;
+            </td>
+            <td>
+                Post Admin
+            </td>
+            <td>
+                Abandons edits and reverts to the previous version.
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2">
+                Checked Out
+            </td>
+            <td>
+                Edit
+            </td>
+            <td>
+                Modified
+            </td>
+            <td>
+                Owner
+            </td>
+            <td>
+                The person who checked it out is considered the owner.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Check In<sup>(1)</sup>
+            </td>
+            <td>
+                &ndash;
+            </td>
+            <td>
+                Owner or Approver
+            </td>
+            <td>
+                Cancels the checkout and reverts to the previous version.
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="3">
+                Modified
+            </td>
+            <td>
+                Edit
+            </td>
+            <td>
+                Modified
+            </td>
+            <td>
+                Owner
+            </td>
+            <td>
+                Overwrites previous modifications until the plan is checked in.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Check In<sup>(1)</sup>
+            </td>
+            <td>
+                Checked In
+            </td>
+            <td>
+                Owner or Approver
+            </td>
+            <td>
+                The plan can now be submitted or checked out again.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Delete&nbsp;Version
+            </td>
+            <td>
+                &ndash;
+            </td>
+            <td>
+                Owner or Approver
+            </td>
+            <td>
+                Abandons edits and reverts to the previous version.
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="3">
+                Submitted
+            </td>
+            <td>
+                Recall
+            </td>
+            <td>
+                Recalled
+            </td>
+            <td>
+                Owner
+            </td>
+            <td>
+                Recalling a plan is when the submitter changes their mind.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Reject
+            </td>
+            <td>
+                Rejected
+            </td>
+            <td>
+                Approver
+            </td>
+            <td>
+                Rejecting a plan is when the additional edits are requested.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Publish
+            </td>
+            <td>
+                Published
+            </td>
+            <td>
+                Approver
+            </td>
+            <td>
+                Published plans are promoted to the next major version number.
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2">
+                Published
+            </td>
+            <td>
+                Unpublish
+            </td>
+            <td>
+                Unpublished
+            </td>
+            <td>
+                Approver
+            </td>
+            <td>
+                An unpublished plan can be republished at a later time.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Check Out<sup>(2)</sup>
+            </td>
+            <td>
+                Checked Out
+            </td>
+            <td>
+                Any User
+            </td>
+            <td>
+                Creates a new minor version from the published plan.
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Notes:</p>
+
+<ol>
+    <li>
+        After one hour of no modifications, any standard user can check in a plan. The owner's edits are saved. The next user can then check out the plan again under their name.
+    </li>
+    <li>
+        Checking out a published plan simply means that the plan is being updated before publishing a revised version.
+    </li>
+</ol>
+
+<p>
+    Please note that only those buttons representing valid and authorized user actions are shown when viewing a plan.
+</p>

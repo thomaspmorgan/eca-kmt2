@@ -1,0 +1,98 @@
+@import "colors.less";
+@header-height: 64px;
+@footer-height: @header-height * 2;
+
+/*
+ * Sticky Footer
+ * =============
+ *
+ * URL: http://www.cssstickyfooter.com/using-sticky-footer-code.html
+ *
+ * Page Layout
+ * -----------
+ *
+ * <div id="applicationHost">
+ *     <div class="durandal-wrapper">
+ *         <div id="wrap">
+ *             <div id="header">
+ *                 ...
+ *             </div>
+ *             <div id="main">
+ *                 ...
+ *             </div>
+ *         </div>
+ *         <div id="footer">
+ *             ...
+ *         </div>
+ *     </div>
+ * </div>
+ */
+
+/* Durandal Fix */
+#applicationHost, #applicationHost > .durandal-wrapper {
+    height: 100%;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#wrap {
+    min-height: 100%;
+}
+
+#main {
+    overflow: auto;
+    padding-bottom: @footer-height + 56px; /*56px is for content margin*/
+}
+
+#header {
+    height: @header-height;
+}
+
+#footer {
+    position: relative;
+    margin-top: @footer-height * -1;
+    height: @footer-height;
+    clear: both;
+}
+
+/* Opera Fix */
+body:before {
+    content: "";
+    height: 100%;
+    float: left;
+    width: 0;
+    margin-top: -32767px;
+}
+
+/* Colors and Padding */
+#header, #footer {
+    color: @gray-2;
+    background-color: @blue-1;
+    padding: 15px;
+}
+
+.hidden-header-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: @blue-1;
+    font-size: 1px;
+    cursor: default;
+}
+
+.hidden-header-link:hover {
+    color: @blue-1;
+}
+
+/* Version Number */
+#version-number {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    color: @gray-1;
+    font-size: .8em;
+}

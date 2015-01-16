@@ -1,0 +1,184 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1>Manage Data</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3" data-bind="compose: 'admin/sidebar.html'"></div>
+    <div class="col-md-9">
+        <p>
+            This page allows you to create, update, and delete missions.
+            Each mission has a code, a name, and is associated with exactly one country and exactly one region.
+            For missions that support multiple countries, please select the <i>primary</i> country for the mission
+            and then create mission plans for the other associated countries.
+        </p>
+
+        <p class="form-controls">
+            <button type="button" class="pdip-primary-button" data-bind="click: doAdd">Add Mission</button>
+            <button type="button" class="pdip-primary-button" data-bind="click: doImport">Import Missions</button>
+        </p>
+
+        <table id="mission-table" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Mission&nbsp;Code</th>
+                    <th>Mission&nbsp;Name</th>
+                    <th>Country</th>
+                    <th>Region</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: missions">
+                <tr>
+                    <td data-bind="text: missionCode" class="nowrap"></td>
+                    <td data-bind="text: missionName"></td>
+                    <td data-bind="text: countryName"></td>
+                    <td data-bind="text: regionName"></td>
+                    <td data-bind="text: isActiveText"></td>
+                    <td class="nowrap">
+                        <a href="#" data-bind="click: $parent.doEdit">Edit</a>
+                        <span class="sep">|</span>
+                        <a href="#" data-bind="click: $parent.doDelete">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="add-mission-dialog" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Mission</h3>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="missionCode">Mission Code</label>
+                        <input name="missionCode" maxlength="40" style="width:10em" type="text" class="form-control" data-bind="value: newMissionCode, valueUpdate: 'afterkeydown'" />
+                    </div>
+                    <div class="form-group">
+                        <label for="missionName">Mission Name</label>
+                        <input name="missionName" type="text" class="form-control" data-bind="value: newMissionName, valueUpdate: 'afterkeydown'" />
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select name="country" class="form-control" data-bind="options: $root.countries,
+                       optionsText: 'countryName',
+                       optionsValue: 'countryCode',
+                       value: newCountryCode,
+                       optionsCaption: '-- Select Country --'"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="region">Region</label>
+                        <select name="region" class="form-control" data-bind="options: $root.regions,
+                       optionsText: 'regionName',
+                       optionsValue: 'regionCode',
+                       value: newRegionCode,
+                       optionsCaption: '-- Select Region --'"></select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="pdip-primary-button" data-dismiss="modal" data-bind="click: doAddSubmit, enable: newMissionCode().trim().length > 0 && newMissionName().trim().length > 0 && newCountryCode() && newRegionCode()">Add</button>
+                        <button type="button" class="pdip-cancel-button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="import-missions-dialog" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Import Missions</h3>
+            </div>
+            <div class="modal-body">
+                <form id="import-missions-form" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <p>
+                            Select a CSV file containing the missions to import.
+                            The file must be in <em>exactly</em> the same format as
+                            <a href="app/help/missions-template.csv" target="_blank">this example CSV file</a>,
+                            including the first row of column header names.
+                        </p>
+                        <label for="import-missions-file">Missions CSV File</label>
+                        <input type="file" name="import-missions-file" class="form-control" />
+                    </div>
+                    <div class="alert alert-success" data-bind="visible: importSuccess">
+                        <span data-bind="text: importSuccess"></span>
+                    </div>
+                    <div class="alert alert-danger" data-bind="visible: importError">
+                        <span data-bind="text: importError"></span>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <!-- ko if: importSuccess().length == 0 -->
+                    <button type="button" class="pdip-primary-button" data-bind="click: doImportSubmit">Import</button>
+                    <button type="button" class="pdip-cancel-button" data-dismiss="modal">Cancel</button>
+                    <!-- /ko -->
+                    <!-- ko if: importSuccess().length > 0 -->
+                    <button type="button" class="pdip-cancel-button" data-dismiss="modal">Dismiss</button>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit-mission-dialog" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" data-bind="with: selectedItem">
+                <h3 class="modal-title" data-bind="text: missionCode() + ' - ' + missionName()"></h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="missionCode">Mission Code</label>
+                    <input name="missionCode" type="text" class="form-control" data-bind="value: missionCode">
+                </div>
+                <div class="form-group">
+                    <label for="missionName">Mission Name</label>
+                    <input name="missionName" type="text" class="form-control" data-bind="value: missionName, valueUpdate: 'afterkeydown'">
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <select name="country" class="form-control" data-bind="options: $root.countries, optionsText: 'countryName', optionsValue: 'countryCode', value: countryCode"></select>
+                </div>
+                <div class="form-group">
+                    <label for="region">Region</label>
+                    <select name="region" class="form-control" data-bind="options: $root.regions, optionsText: 'regionName', optionsValue: 'regionCode', value: regionCode"></select>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" data-bind="checked: isActive">Active
+                    </label>
+                </div>
+                Clearing the active flag hides the mission from the available mission selections when creating new plans.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="pdip-primary-button" data-dismiss="modal" data-bind="click: doEditSubmit, enable: missionName().length > 0">Save</button>
+                <button type="button" class="pdip-cancel-button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-mission-dialog" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" data-bind="with: selectedItem">
+                <h3 class="modal-title" data-bind="text: missionName"></h3>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this mission?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="pdip-danger-button" data-dismiss="modal" data-bind="click: doDeleteConfirm">Delete</button>
+                <button type="button" class="pdip-cancel-button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

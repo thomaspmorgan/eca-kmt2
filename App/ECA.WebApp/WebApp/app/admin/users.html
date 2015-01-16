@@ -1,0 +1,171 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1>Manage Users</h1>
+        <p class="lead" data-bind="visible: !loaded()">Please wait. Loading users from Active Directory...</p>
+
+        <!-- ko if: (user.isGlobalAdministrator && loaded()) -->
+        <p>
+            You can add and edit Active Directory users.
+            You can also import users from a JSON file.
+            To edit a user, click on their Display Name.
+        </p>
+
+        <p class="form-controls">
+            <button type="button" class="pdip-primary-button" data-bind="click: doAdd">Add User</button>
+            <button type="button" class="pdip-primary-button" data-bind="click: doImport">Import Users</button>
+        </p>
+        <!-- /ko -->
+
+        <table class="table table-bordered table-striped" data-bind="visible: loaded()">
+            <thead>
+                <tr>
+                    <th class="nowrap">Display Name</th>
+                    <th class="nowrap">Security Group</th>
+                    <th class="nowrap">Mission Code(s)</th>
+                    <th class="nowrap">Job Title</th>
+                    <th class="nowrap">Alternate Email</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: users">
+                <tr>
+                    <td class="col-sm-2"><a href="#" data-bind="click: $parent.doEdit, attr: { title: userName }"><span data-bind="text: displayName" /></a></td>
+                    <td class="col-sm-2" data-bind="text: groupName"></td>
+                    <td class="col-sm-2" data-bind="text: missionCodes"></td>
+                    <td class="col-sm-2" data-bind="text: jobTitle"></td>
+                    <td class="col-sm-4" data-bind="text: alternateEmail"></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<div id="add-user-dialog" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add User</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <p>
+                        Please enter the new user's Azure Active Directory email address in the cloud-based statedept.us domain (e.g., GroverHJ@statedept.us).
+                    </p>
+                    <p>
+                        The new user can also use their Microsoft Account email if they have a Microsoft Account (e.g., hank.grover@outlook.com).
+                    </p>
+                    <label for="UserName" class="required">User Name</label>
+                    <input name="UserName" placeholder="GroverHJ@statedept.us" type="text" class="form-control" data-bind="value: newUserName, valueUpdate: 'afterkeydown'" />
+                </div>
+                <div class="form-group">
+                    <label for="DisplayName" class="required">Display Name</label>
+                    <input name="DisplayName" placeholder="Hank Grover" type="text" class="form-control" data-bind="value: newDisplayName, valueUpdate: 'afterkeydown'" />
+                </div>
+                <div class="form-group">
+                    <label for="newGroupName" class="required">Security Role</label>
+                    <select name="newGroupName" class="form-control" data-bind="options: $root.groups,
+                                optionsText: 'groupName',
+                                optionsValue: 'groupName',
+                                value: newGroupName,
+                                optionsCaption: '-- None Selected --'"></select>
+                </div>
+                <div class="form-group">
+                    <label for="missionCodes">Mission Code(s)</label>
+                    <input name="missionCodes" type="text" class="form-control" data-bind="value: newMissionCodes, valueUpdate: 'afterkeydown'" />
+                </div>
+                <div class="form-group">
+                    <label for="JobTitle">Job Title</label>
+                    <input name="JobTitle" type="text" class="form-control" data-bind="value: newJobTitle, valueUpdate: 'afterkeydown'" />
+                </div>
+                <div class="form-group">
+                    <label for="AlternateEmail">Alternate Email</label>
+                    <input name="AlternatEmail" type="text" class="form-control" data-bind="value: newAlternateEmail, valueUpdate: 'afterkeydown'" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="pdip-primary-button" data-dismiss="modal" data-bind="click: $root.doAddSubmit">Add</button>
+                <button type="button" class="pdip-cancel-button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="import-users-dialog" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Import Users</h3>
+            </div>
+            <div class="modal-body">
+                <form id="import-users-form" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <p>
+                            Select a JSON file containing the users to import.
+                            The file must be in <em>exactly</em> the same format as
+                            <a href="app/help/users-template.json" target="_blank">this example JSON file</a>,
+                            including the default group and password.
+                        </p>
+                        <label for="import-users-file">Users JSON File</label>
+                        <input type="file" name="import-users-file" class="form-control" />
+                    </div>
+                    <div class="alert alert-success" data-bind="visible: importSuccess">
+                        <span data-bind="text: importSuccess"></span>
+                    </div>
+                    <div class="alert alert-danger" data-bind="visible: importError">
+                        <span data-bind="text: importError"></span>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <!-- ko if: importSuccess().length == 0 -->
+                    <button type="button" class="pdip-primary-button" data-bind="click: doImportSubmit">Import</button>
+                    <button type="button" class="pdip-cancel-button" data-dismiss="modal">Cancel</button>
+                    <!-- /ko -->
+                    <!-- ko if: importSuccess().length > 0 -->
+                    <button type="button" class="pdip-cancel-button" data-dismiss="modal">Dismiss</button>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit-user-dialog" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content" data-bind="with: selectedItem">
+            <div class="modal-header">
+                <h3 class="modal-title" data-bind="text: displayName"></h3>
+                <h4 class="modal-title" data-bind="text: userName"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="groupName">Security Role</label>
+                    <select name="groupName" class="form-control" data-bind="options: $root.groups,
+                                optionsText: 'groupName',
+                                optionsValue: 'groupName',
+                                value: groupName,
+                                optionsCaption: '-- None Selected --'"></select>
+                </div>
+                <div class="form-group" data-bind="if: !$root.user.isGlobalAdministrator">
+                    <label for="missionCodes">Mission Codes</label>
+                    <input name="missionCodes" type="text" class="form-control" data-bind="value: missionCodes" disabled="disabled">
+                </div>
+                <div class="form-group" data-bind="if: $root.user.isGlobalAdministrator">
+                    <label for="missionCodes">Mission Codes</label>
+                    <input name="missionCodes" type="text" class="form-control" data-bind="value: missionCodes">
+                </div>
+                <div class="form-group">
+                    <label for="jobTitle">Job Title</label>
+                    <input name="jobTitle" type="text" class="form-control" data-bind="value: jobTitle">
+                </div>
+                <div class="form-group">
+                    <label for="alternateEmail">Alternate Email</label>
+                    <input name="alternateEmail" type="text" class="form-control" data-bind="value: alternateEmail">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="pdip-primary-button" data-dismiss="modal" data-bind="click: $root.doEditSubmit">Save Changes</button>
+                    <button type="button" class="pdip-cancel-button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

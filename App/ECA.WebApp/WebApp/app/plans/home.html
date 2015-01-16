@@ -1,0 +1,82 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h1>Published Plans</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <p data-bind="text: loadingMessage, visible: loadingMessage().length > 0"></p>
+        <div data-bind="visible: loadingMessage().length == 0">
+            <table style="border-bottom:solid 1px #ddd" class="table">
+                <caption style="text-align:left">
+                    Published plans for
+                    <span data-bind="visible: !fiscalYear()">all years</span>
+                    <span data-bind="visible: fiscalYear(), text: fiscalYear" />
+                    <span data-bind="visible: criteria.specified">matching your search criteria (<a href="#search">refine search</a>)</span>
+                </caption>
+                <thead>
+                    <tr>
+                        <th class="text-left" scope="col">Country</th>
+                        <th class="text-right" scope="col">Year</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="visible: publishedPlans().length == 0">
+                    <tr>
+                        <td colspan="2" class="text-muted">
+                            There are no published plans
+                            <span data-bind="visible: fiscalYear() > 2000">for <span data-bind="text: fiscalYear" /></span>
+                            <span data-bind="visible: criteria.specified">that match your search</span>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody data-bind="foreach: publishedPlans">
+                    <tr style="cursor:pointer" data-bind="click: $root.selectPlan, css: {'plan-list-selected': $root.selectedPlan() == $data }">
+                        <td class="text-left"><a class="unstyled-link" data-bind="text: countryName, click: $root.selectPlan" href="#"></a></td>
+                        <td class="text-right" data-bind="text: fiscalYear" style="width:1px"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="small"><img src="lib/pdip/images/rss.png" alt="RSS Feed Icon" style="margin-top:-3px" /> <a data-bind="attr: {href: rssFeedLink}">Subscribe to published plans using an RSS feed reader</a></p>
+            <p class="text-muted small">
+                Internet Explorer can read feeds directly without additional software.<br />
+                Chrome users can install the Google <a href="https://chrome.google.com/webstore/detail/rss-subscription-extensio/nlbjncdgjeocebhnmkbbbdekmmmcbfjd?hl=en">RSS subscription extension</a>.
+            </p>
+        </div>
+    </div>
+    <div class="col-md-7" data-bind="visible: planLoaded">
+        <div style="height:2em">
+            <span class="pull-right">
+                <a class="show-all" href="#">Expand all</a>
+                <span class="sep">|</span>
+                <a class="hide-all" href="#">Collapse all</a>
+                <span class="sep">|</span>
+                <a data-bind="attr: { href: viewLink, target: '_blank' }">View this plan as a printable page</a>
+            </span>
+        </div>
+        <div data-bind="html: html"></div>
+        <hr />
+        <span class="pull-right"><a data-bind="click: analyzePlan" href="#">Context Analysis</a></span>
+    </div>
+    <div id="context-analysis-dialog" class="modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Context Analysis</h3>
+                </div>
+                <div class="modal-body">
+                    <p data-bind="with: selectedPlan">Here is a summary of the plan for <span data-bind="text: countryName"></span>:</p>
+                    <!-- ko foreach: analysisResults -->
+                    <div class="well well-sm" data-bind="text: $data"></div>
+                    <!-- /ko -->
+                </div>
+                <div class="modal-footer">
+                    <span class="pull-left small">
+                        Analysis provided by <a href="http://www.intelligenceapi.com/" target="_blank">Cogito&#174;</a>, a product of
+                        <a href="http://www.expertsystem.com" target="_blank"><img src="lib/pdip/images/expertsystem.png" alt="Expert System Logo" width="50" style="" /></a>
+                    </span>
+                    <button type="button" class="pdip-cancel-button" data-dismiss="modal">Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

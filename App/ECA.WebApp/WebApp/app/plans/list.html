@@ -1,0 +1,163 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h1>Mission Plans</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <div style="height:2em" class="text-uppercase text-muted">
+            <!-- ko if: user.missionNames -->
+            <span data-bind="text: user.missionNames, visible: !showAll()"></span>
+            <!-- /ko -->
+            <!-- ko if: !user.missionNames -->
+            <span data-bind="visible: !showAll()">You have no</span>
+            <!-- /ko -->
+            <span data-bind="visible: showAll()">Showing all</span>
+            <span>mission plans for</span>
+            <span data-bind="visible: !fiscalYear()">any year</span>
+            <span data-bind="visible: fiscalYear(), text: fiscalYear" />
+        </div>
+        <table style="border-bottom:solid 1px #ddd" class="table">
+            <caption style="font-size:1.4em;text-align:left" title="Plans with a non-zero minor version">Draft Plans</caption>
+            <thead>
+                <tr>
+                    <th class="text-left">Country</th>
+                    <th class="text-right">Year</th>
+                    <th class="text-right">Version</th>
+                    <th class="text-left">Status</th>
+                </tr>
+            </thead>
+            <tbody data-bind="visible: workingDrafts().length == 0">
+                <tr>
+                    <td colspan="4" class="text-muted">There are no working drafts.</td>
+                </tr>
+            </tbody>
+            <tbody data-bind="foreach: workingDrafts">
+                <tr style="cursor:pointer" data-bind="click: $root.selectPlan, css: {'plan-list-selected': $root.planId() == planId }">
+                    <td class="text-left" data-bind="text: countryName"></td>
+                    <td class="text-right" data-bind="text: fiscalYear" style="width:1px"></td>
+                    <td class="text-right" style="width:1px"><span data-bind="text: majorVersion" />.<span data-bind="text: minorVersion" /></td>
+                    <td class="text-left nowrap" data-bind="text: currentStatus" style="width:7em"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="border-bottom:solid 1px #ddd" class="table">
+            <caption style="font-size:1.4em;text-align:left" title="Plans with a minor version of zero">Completed Plans</caption>
+            <thead>
+                <tr>
+                    <th class="text-left">Country</th>
+                    <th class="text-right">Year</th>
+                    <th class="text-right">Version</th>
+                    <th class="text-left">Status</th>
+                </tr>
+            </thead>
+            <tbody data-bind="visible: completedPlans().length == 0">
+                <tr>
+                    <td colspan="4" class="text-muted">There are no completed plans.</td>
+                </tr>
+            </tbody>
+            <tbody data-bind="foreach: completedPlans">
+                <tr style="cursor:pointer" data-bind="click: $root.selectPlan, css: {'plan-list-selected': $root.planId() == planId }">
+                    <td class="text-left" data-bind="text: countryName"></td>
+                    <td class="text-right" data-bind="text: fiscalYear" style="width:1px"></td>
+                    <td class="text-right" style="width:1px"><span data-bind="text: majorVersion" />.<span data-bind="text: minorVersion" /></td>
+                    <td class="text-left nowrap" data-bind="text: currentStatus" style="width:7em"></td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="#" data-bind="click: function(data, event) { showAll(true); }, visible: userHasMissions && user.isGlobalAdministrator && !showAll()">Show plans for all missions</a>
+        <a href="#" data-bind="click: function(data, event) { showAll(false); }, visible: userHasMissions && user.isGlobalAdministrator && showAll()">Only show plans for your mission or missions</a>
+    </div>
+    <div class="col-md-7" data-bind="visible: html">
+        <div style="height:3em">
+            <div class="pull-left">
+                <a class="show-all" href="#">Expand all</a>
+                <span class="sep">|</span>
+                <a class="hide-all" href="#">Collapse all</a>
+                <!-- ko if: actions().length > 0 -->
+                <span class="sep">|</span>
+                <a href="#" title="Get help on the workflow" data-bind="click: showWorkflowHelp">Help</a>
+                <!-- /ko -->
+            </div>
+            <div class="pull-right" data-bind="foreach: actions">
+                <button data-bind="click: $root.selectAction, text: label, attr: { 'class': name.indexOf('Delete') == 0 ? 'pdip-danger-button' : 'pdip-primary-button' }"></button>
+            </div>
+        </div>
+        <div data-bind="html: html"></div>
+        <div data-bind="visible: history().length > 0">
+            <hr />
+            <p data-bind="with: currentVersion">
+                <a href="#" title="Click to show/hide the complete history of this plan" data-bind="click: $root.toggleHistory">
+                    This is version
+                    <span data-bind="text: majorVersion" />.<span data-bind="text: minorVersion" />,
+                    <span data-bind="text: currentStatus" /> by
+                    <span data-bind="text: updatedBy" /> at
+                    <span data-bind="text: updatedAt" />
+                </a>
+                <span class="pull-right">
+                    <a href="#" title="Get help on versioning" data-bind="click: $root.showVersioningHelp">Help</a>
+                </span>
+            </p>
+            <div data-bind="visible: historyEnabled(), foreach: history">
+                <a href="#" title="Click to show this version of the plan" data-bind="click: $root.selectVersion">Version <span data-bind="text: majorVersion" />.<span data-bind="text: minorVersion" /></a>:
+                <span data-bind="visible: isSelected" title="Indicates the version currently being shown" class="glyphicon glyphicon-hand-left"></span>
+                <ul data-bind="foreach: statusChanges">
+                    <li><span data-bind="text: currentStatus" /> by <span data-bind="text: updatedBy" /> at <span data-bind="text: updatedAt" /></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--PDIP workflow pop up window.-->
+    <div id="workflow-help" class="modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">PDIP Workflow</h3>
+                </div>
+                <div class="modal-body" data-bind="compose: 'help/workflow.html'"></div>
+                <div class="modal-footer">
+                    <button type="button" class="pdip-cancel-button" data-dismiss="modal">Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--PDIP versioning pop up window.-->
+    <div id="versioning-help" class="modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">PDIP Versioning</h3>
+                </div>
+                <div class="modal-body" data-bind="compose: 'help/versioning.html'"></div>
+                <div class="modal-footer">
+                    <button type="button" class="pdip-cancel-button" data-dismiss="modal">Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--PDIP action confirmation dialog.-->
+    <div id="perform-action-confirm" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Confirm Action</h3>
+                </div>
+                <div class="modal-body">
+                    <div data-bind="if: action().name.indexOf('Delete') != 0">
+                        Please confirm that you want to perform this action.
+                    </div>
+                    <div data-bind="if: action().name.indexOf('Delete') == 0">
+                        Deleting a version only means that the most-recent version is deleted.
+                        The other versions are <b>not</b> removed. Typically, this is used for
+                        rolling back changes that you do not want anymore, thereby making the
+                        previous version the current version.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" data-bind="click: performAction, text: action().label, attr: { 'class': action().name.indexOf('Delete') == 0 ? 'pdip-danger-button' : 'pdip-primary-button' }"></button>
+                    <button type="button" class="pdip-cancel-button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
