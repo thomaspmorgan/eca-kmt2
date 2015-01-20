@@ -21,3 +21,7 @@
 /App/ECA.Database/ECA.Database.dbmdl
 /App/ECA.Database/bin/Debug
 /App/ECA.Database/obj/Debug
+/App/ECA.WebApi.Azure/bin/Debug
+/App/ECA.WebApi.Azure/obj/Debug
+/App/ECA.WebApp.Azure/bin/Debug
+/App/ECA.WebApp.Azure/obj/Debug

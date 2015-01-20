@@ -53,11 +53,9 @@
   <ItemGroup>
     <Folder Include="ECA.WebApiContent\" />
     <Folder Include="Profiles" />
-    <Folder Include="WorkerRole1Content\" />
   </ItemGroup>
   <ItemGroup>
     <DiagnosticsConfiguration Include="ECA.WebApiContent\diagnostics.wadcfgx" />
-    <DiagnosticsConfiguration Include="WorkerRole1Content\diagnostics.wadcfgx" />
   </ItemGroup>
   <ItemGroup>
     <PublishProfile Include="Profiles\ECAApi Prod.azurePubxml" />

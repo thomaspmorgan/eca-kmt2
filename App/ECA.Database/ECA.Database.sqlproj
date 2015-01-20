@@ -61,5 +61,23 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Data Migration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Data Migration\Assign Region Code %28Africa).sql" />
+    <Build Include="Data Migration\Assign Region Code %28East Asia Pacific).sql" />
+    <Build Include="Data Migration\Assign Region Code %28Europe and Eurasia).sql" />
+    <Build Include="Data Migration\Assign Region Code %28Near East).sql" />
+    <Build Include="Data Migration\Assign Region Code %28South Central Asia).sql" />
+    <Build Include="Data Migration\Assign Region Code %28Western Hemisphere).sql" />
+    <Build Include="Data Migration\Location - Country Data.sql" />
+    <Build Include="Data Migration\LocationType.sql" />
+    <Build Include="Data Migration\Theme.sql" />
+    <Build Include="Data Migration\ThemeProgram.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data Migration\dbo.Program.data.sql" />
+    <None Include="Data Migration\dbo.OrganizationType.data.sql" />
+    <None Include="Data Migration\dbo.Organization.data.sql" />
   </ItemGroup>
 </Project>
