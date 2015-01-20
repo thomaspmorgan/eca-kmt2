@@ -27,8 +27,8 @@ namespace ECA.Data
         public string City { get; set; }
         public string Division { get; set; }
         public string PostalCode { get; set; }
-        public string CountryName { get; set; }
-        public string CountryIso { get; set; }
+        public string LocationName { get; set; }
+        public string LocationIso { get; set; }
         public virtual Location Region { get; set; }
 
         // Relationships

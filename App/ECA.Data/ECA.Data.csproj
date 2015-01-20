@@ -64,6 +64,10 @@
     <Compile Include="Migrations\201501162224049_LocationLatLongNullable.Designer.cs">
       <DependentUpon>201501162224049_LocationLatLongNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201501201411204_RenameLocationCountryToLocation.cs" />
+    <Compile Include="Migrations\201501201411204_RenameLocationCountryToLocation.Designer.cs">
+      <DependentUpon>201501201411204_RenameLocationCountryToLocation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Contact.cs" />
@@ -116,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201501162224049_LocationLatLongNullable.resx">
       <DependentUpon>201501162224049_LocationLatLongNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201501201411204_RenameLocationCountryToLocation.resx">
+      <DependentUpon>201501201411204_RenameLocationCountryToLocation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

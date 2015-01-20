@@ -25,3 +25,8 @@
 /App/ECA.WebApi.Azure/obj/Debug
 /App/ECA.WebApp.Azure/bin/Debug
 /App/ECA.WebApp.Azure/obj/Debug
+/App/ECA.WebApi/obj/Debug
+/App/ECA.WebApi.Azure/csx/Debug
+/App/ECA.WebApp/obj/Debug
+/App/ECA.WebApp.Azure/csx/Debug
+/App/ECA.WebApi
