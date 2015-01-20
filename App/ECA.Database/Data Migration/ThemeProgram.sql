@@ -1,8 +1,8 @@
 /* creates test Theme+Program cross-reference data for ThemeProgram Table  */
 
 /*--Professional Fellows "On Demand" Programs */
-INSERT INTO themeprogram
-SELECT t.themeid,p.programid 
+INSERT INTO ProgramTheme
+SELECT p.programid,t.themeid 
   FROM theme t
   JOIN program p
     ON 1=1
@@ -21,8 +21,8 @@ GO
 
 
 /* Youth Leadership Programs (YLP) */
-INSERT INTO themeprogram
-SELECT t.themeid,p.programid 
+INSERT INTO ProgramTheme
+SELECT p.programid,t.themeid 
   FROM theme t
   JOIN program p
     ON 1=1
@@ -38,8 +38,8 @@ GO
 
 
 /* J-1 Visa Exchange Visitor Program: Secondary School Student */
-INSERT INTO themeprogram
-SELECT t.themeid,p.programid 
+INSERT INTO ProgramTheme
+SELECT p.programid,t.themeid 
   FROM theme t
   JOIN program p
     ON 1=1
@@ -52,8 +52,8 @@ SELECT t.themeid,p.programid
 GO
 
 /* Partners of the Americas */
-INSERT INTO themeprogram
-SELECT t.themeid,p.programid 
+INSERT INTO ProgramTheme
+SELECT p.programid,t.themeid 
   FROM theme t
   JOIN program p
     ON 1=1
@@ -68,8 +68,8 @@ GO
 
 
 /* Institute For Representative Government */
-INSERT INTO themeprogram
-SELECT t.themeid,p.programid 
+INSERT INTO ProgramTheme
+SELECT p.programid,t.themeid 
   FROM theme t
   JOIN program p
     ON 1=1

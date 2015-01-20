@@ -207,44 +207,44 @@ begin tran t1
 insert into theme
 (ThemeName,History_createdby,history_createdon,history_revisedby,history_revisedon)
 values
-('Civil Society',0,getdate(),0,getdate()),
-('Civilian Security',0,getdate(),0,getdate()),
-('Conflict Prevention, Mitigation, and Response',0,getdate(),0,getdate()),
-('Culture/Sports/American Society',0,getdate(),0,getdate()),
-('CVE/Counterterrorism',0,getdate(),0,getdate()),
-('Democracy/Good Governance/Rule of Law',0,getdate(),0,getdate()),
-('Diversity',0,getdate(),0,getdate()),
-('Economic Statecraft',0,getdate(),0,getdate()),
-('Education',0,getdate(),0,getdate()),
-('Energy Security',0,getdate(),0,getdate()),
-('Entrepreneurship/Job Creation',0,getdate(),0,getdate()),
-('Environment',0,getdate(),0,getdate()),
-('Financial Sector',0,getdate(),0,getdate()),
-('Food Security/Agriculture',0,getdate(),0,getdate()),
-('Global Health',0,getdate(),0,getdate()),
-('Human Rights',0,getdate(),0,getdate()),
-('Humanitarian Assistance, Disaster Mitigation',0,getdate(),0,getdate()),
-('Innovation',0,getdate(),0,getdate()),
-('Intellectual Property Rights (IPR)/Anti-Piracy',0,getdate(),0,getdate()),
-('Markets and Competitiveness',0,getdate(),0,getdate()),
-('Military and Security Cooperation/Reform',0,getdate(),0,getdate()),
-('Muslim Engagement',0,getdate(),0,getdate()),
-('Regional Economic Integration',0,getdate(),0,getdate()),
-('Religious Engagement',0,getdate(),0,getdate()),
-('Science and Technology',0,getdate(),0,getdate()),
-('Smart Sanctions',0,getdate(),0,getdate()),
-('Sustainable Economic Growth & Well-Being',0,getdate(),0,getdate()),
-('Trade & Investment',0,getdate(),0,getdate()),
-('Transitions in Frontline States',0,getdate(),0,getdate()),
-('Transnational Threats - Crime, Narcotics, Trafficking in Person',0,getdate(),0,getdate()),
-('Travel and Tourism',0,getdate(),0,getdate()),
-('Women''s Empowerment',0,getdate(),0,getdate()),
-('Youth Engagement',0,getdate(),0,getdate())
+('Civil Society',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Civilian Security',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Conflict Prevention, Mitigation, and Response',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Culture/Sports/American Society',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('CVE/Counterterrorism',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Democracy/Good Governance/Rule of Law',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Diversity',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Economic Statecraft',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Education',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Energy Security',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Entrepreneurship/Job Creation',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Environment',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Financial Sector',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Food Security/Agriculture',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Global Health',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Human Rights',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Humanitarian Assistance, Disaster Mitigation',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Innovation',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Intellectual Property Rights (IPR)/Anti-Piracy',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Markets and Competitiveness',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Military and Security Cooperation/Reform',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Muslim Engagement',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Regional Economic Integration',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Religious Engagement',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Science and Technology',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Smart Sanctions',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Sustainable Economic Growth & Well-Being',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Trade & Investment',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Transitions in Frontline States',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Transnational Threats - Crime, Narcotics, Trafficking in Person',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Travel and Tourism',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Women''s Empowerment',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+('Youth Engagement',0,sysdatetimeoffset(),0,sysdatetimeoffset())
 
 
 
 
 
 commit tran t1
-
+GO
 

@@ -27,11 +27,11 @@ GO
 begin tran t1
 insert into locationtype
 values 
- ('Region',0,getdate(),0,getdate()),
- ('Country',0,getdate(),0,getdate()),
- ('State',0,getdate(),0,getdate()),
- ('City',0,getdate(),0,getdate()),
- ('Building',0,getdate(),0,getdate())
+ ('Region',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+ ('Country',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+ ('State',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+ ('City',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+ ('Building',0,sysdatetimeoffset(),0,sysdatetimeoffset())
 
 Commit tran t1
 GO
