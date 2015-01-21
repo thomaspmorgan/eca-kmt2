@@ -1,0 +1,25 @@
+{
+  "name": "static",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "~1.2.0",
+    "json3": "~3.3.1",
+    "es5-shim": "~3.1.0",
+    "bootstrap-sass-official": "~3.2.0",
+    "angular-resource": "~1.2.0",
+    "angular-cookies": "~1.2.0",
+    "angular-sanitize": "~1.2.0",
+    "angular-ui-router": "~0.2.13",
+    "angular-bootstrap": "~0.12.0",
+    "isteven-angular-multiselect": "~2.0.2",
+    "angular-xeditable": "~0.1.8",
+    "datamaps": "0.3.4",
+    "bower": "*",
+    "ngSticky": "~1.7.5"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.2.0",
+    "angular-scenario": "~1.2.0"
+  },
+  "appPath": "app"
+}

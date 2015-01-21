@@ -1,0 +1,18 @@
+<div class="row">
+	<div class="jumbotron office">
+  <div class="heading">
+    <h1>ECA Directory</h1>
+  </div>
+	</div>
+</div>
+<div class="list2">
+
+<div class="row3 hover" ng-repeat="office in offices">
+	<div class="col-md-12">
+		<h5>
+			<a ng-href="#/offices/{{office.id}}/overview">{{office.name}} ({{office.abbreviation}})</a>
+		</h5>
+	</div>
+</div>
+
+</div>

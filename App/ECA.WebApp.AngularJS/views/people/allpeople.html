@@ -1,0 +1,37 @@
+<div class="jumbotron person">
+  <div class="heading">
+    <h1>Participants</h1>
+  </div>
+</div>
+
+<!--<div class="row">
+	<div ng-repeat="person in people" class="col-md-12">
+		<a ui-sref="people.overview({personId: person.id})">{{person.name}}</a>
+	</div>
+</div>-->
+
+<div class="container">
+<h4 class="tab-subheader">Participants List</h4>
+<p class="subheader">Showing 156 of 10,023 participants</p>
+<input type="text" ng-model="participantFilter" placeholder="Search Participants" class="search-contextual">
+<i class="glyphicon glyphicon-search contextual"></i>
+<div class="list2">
+	<div class="row hover" ng-repeat="person in people">
+		<div class="col-md-9">
+			<div class="title-label">CURRENT</div>			
+			<h4 class="list-title"><a ui-sref="people.activity({personId: person.id})">{{person.names[0].value}} {{person.names[1].value}}</a></h4>
+			<p class="description">{{person.gender}}</p>
+		</div>
+		<div class="col-md-3 tools3">
+			<div class="right">
+				<img class="icon" src="images/duplicateA.png" alt="">
+				<img class="icon" src="images/editA.png" alt="">
+				<img class="icon" src="images/trash.png" alt="">
+			</div>
+		</div>
+	</div>
+	<div class="divider"></div>	
+	<div id="pagination"><img src="images/pagination.png"></div>
+</div>
+
+</div>

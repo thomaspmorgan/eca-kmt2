@@ -1,0 +1,195 @@
+
+.divider {
+  background: $bordergray;
+  height: 1px;
+  margin-left: -40px;
+  width: 110%;
+}
+
+.list2 {
+
+  input[type="checkbox"] {
+    margin-right: 10px;
+  }
+
+  .row {
+    border-top: 1px solid $bordergray;
+    padding: 40px 60px 40px 40px;
+    width: 100%;
+
+    a {
+      color: $primarytext;
+    }
+
+    a:hover {
+      color: $blue;
+      text-decoration: underline;
+    }  
+  }
+
+  .row2 {
+    border-bottom: 1px solid $bordergray;
+    padding: 20px 10px 40px;
+  }  
+
+  .row3 {
+    border-top: 1px solid $bordergray;
+    margin-left: 0;
+    padding: 40px 60px 60px 40px;
+    width: 110%;
+  }
+
+  .list-title {
+    font-weight: 300;
+  }
+
+  .description {
+    color: $mediumgray; 	
+    margin-top: 15px;
+  }
+
+  .col-md-9,
+  .col-md-10,
+  .col-md-2,
+  .col-md-12 {
+    padding-left: 0;
+  }
+
+  .table {
+    max-width: 90%;  	
+    width: 90%;
+  }
+
+  .col-md-6 {
+    width: 40%;  
+  }
+
+  .tools {
+    padding-top: 50px;
+  }
+  
+  .tools2 {
+    padding: 0;
+  }
+
+  .tools3 {
+    padding-top: 30px;
+  }
+
+  .icon {
+    margin-right: 10px;
+  }
+
+}
+
+.expand {
+  background: $lightgray;
+  padding: 33px; 
+
+  &.dashed {
+    border: 1px dashed #ccd5d4;
+    border-radius: 3px;
+    text-align: center;
+  }
+
+}
+
+.row {
+  &.recess {
+    background: #efefef;
+    height: 60px;
+    line-height: 43px;
+    padding: 40px 80px 80px 40px;
+    width: 100%;
+  }
+}
+
+.hover {
+
+  .icon {
+    display: none;
+  }
+
+  &:hover {
+    background: $lightgray;		
+    
+    .icon {
+      display: inline-block;
+    }
+  }
+}
+
+.title-label {
+  color: #a0a9ab;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .5px;
+  text-transform: uppercase;	
+}
+
+#pagination {
+  height: auto;
+  width: 100%;
+
+  img {
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    width: auto;
+  }
+}
+
+#sort-list {
+  height: auto;
+  width: 100%;
+
+  img {
+    display: inline block;
+    height: auto;
+    margin-left: 8px;
+    width: auto;
+  }
+
+  table {
+    padding-left: 0;
+  }
+
+  td {
+    padding-bottom: 14px;
+    padding-left: 0;    
+  }
+
+  tr {
+    border-bottom: 0;
+    border-top: 0;
+  }
+}
+
+.sort-label {
+  font-size: 12px;
+  text-decoration: underline;
+  text-transform: uppercase;
+}
+
+.alt {
+  border-bottom: 1px solid $bordergray;
+}
+
+#data-list {
+  td {
+    padding-left: 0;
+  }
+}
+
+#list-views {
+  display: inline-block;
+  padding: 0;
+
+  img {
+    display: inline-block;
+    height: auto;  	
+    margin-left: 10px;
+    padding-top: 10px;
+    width: auto;
+  }
+}

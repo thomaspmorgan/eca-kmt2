@@ -1,0 +1,31 @@
+<div class="row">
+	<div id="search-bar" class="col-md-10"><input ng-show="show" type="text" ng-model="text" placeholder="search for something here" class="form-control" ng-change="autocomplete()" submit-required="true"></input></div>
+</div>
+<div class="search-result-wrapper" ng-show="results && show">
+	<div class="search-result-container">
+		<div class="row">
+			<div class="col-md-2 search-label">Top Hit</div>
+			<div class="col-md-10 search-result">
+				<div class="row resultrow">
+					<div class="col-md-1">
+						<div class="resulticon {{tophit.type}}">{{tophit.type[0]}}</div>
+					</div>
+					<div class="col-md-8 resultname">{{tophit.name}}</div>
+					<div class="col-md-3 resultoffice">{{tophit.officeCode}}</div>
+				</div>
+			</div>
+		</div>	
+		<div ng-repeat="(resultType,result) in results" class="row">
+			<div class="col-md-2 search-label">{{resultType}}</div>
+			<div class="col-md-10 search-result">
+				<div ng-repeat="resultitem in result" class="row resultrow">
+					<div class="col-md-1">
+						<div class="resulticon {{resultitem.type}}">{{resultitem.type[0]}}</div>
+					</div>
+					<div class="col-md-8 resultname">{{resultitem.name}}</div>
+					<div class="col-md-3 resultoffice">{{resultitem.officeCode}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
