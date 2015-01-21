@@ -1,0 +1,20 @@
+<h2 class="office-color tab-header">Branches & Programs</h2>
+<input type="text" ng-model="programFilter" placeholder="Search Programs" class="search-contextual">
+<i class="glyphicon glyphicon-search contextual"></i>
+<div class="list2">
+	<div class="row hover" ng-repeat="program in office.programReferences | filter:programFilter">
+		<div class="col-md-9">
+			<div class="title-label">ACTIVE</div>
+			<h4 class="list-title"><a ui-sref="programs.overview({officeId: office.id, programId: program.programId})">{{program.programName}}</a></h4>
+			<p class="description">{{program.programDescription}}</p>
+		</div>
+		<div class="col-md-3 tools">
+			<div class="right">
+				<img class="icon" src="images/duplicateA.png" alt="">
+				<img class="icon" src="images/editA.png" alt="">
+				<img class="icon" src="images/trash.png" alt="">
+			</div>
+		</div>
+	</div>
+	<div class="divider"></div>
+</div>

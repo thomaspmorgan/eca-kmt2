@@ -1,0 +1,17 @@
+<div class="row table">
+	<h4 class="tab-subheader">Details</h4>
+	<div class="col-md-6">
+		<div class="row">
+			<div class="col-md-6 title-label"><ng-pluralize count="person.countriesOfCitizenships.length" when="{'1':'Country of Citizenship','other':'Countries of Citizenship'}"></ng-pluralize></div>
+			<div class="col-md-6"><span ng-repeat="country in person.countriesOfCitizenships">{{country.displayName}} </span></div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 title-label">Language Proficiencies</div>
+			<div class="col-md-6"><div ng-repeat="language in person.languageProficiencies">{{language.language}} ({{language.skill}}) </div></div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 title-label">Emails</div>
+			<div class="col-md-6"><div ng-repeat="email in person.emails">{{email.emailAddr}} (updated {{email.updated | date}})</div></div>
+		</div>
+	</div>
+</div>

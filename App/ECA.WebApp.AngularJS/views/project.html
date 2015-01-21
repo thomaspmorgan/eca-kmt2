@@ -1,0 +1,37 @@
+<div class="breadcrumbs">
+  <p><a ui-sref="offices.overview({officeId: program.owner.organizationId})">{{program.owner.longName}}</a> &bull; <a ui-sref="programs.overview({programId: project.parentProgram.programId})">{{project.parentProgram.displayName}}</a> &bull; {{project.name}}</p>
+</div>
+<div class="jumbotron project">
+  <div class="toolbar" sticky offset="50">
+    <div class="left2">
+      <div class="btn-group" dropdown>
+        <button type="button" class="btn btn-danger">DRAFT</button>
+        <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle>
+          <span class="caret"></span>
+          <span class="sr-only">Split button!</span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">SAVE AS DRAFT</a></li>
+          <li><a href="#">PUBLISH</a></li>
+          <li class="divider"></li>
+          <li><a href="#">DELETE PERMANENTLY</a></li>
+        </ul>
+      </div>
+      <span class="detail">Last Updated 01/01/14</span>
+    </div>
+    <div class="right">
+      <img class="icon star" src="images/star.png" alt="">
+      <img class="icon" src="images/exportA.png" alt="">
+      <img class="icon wide" src="images/collabA.png" alt="">
+      <img class="icon" src="images/toolCommentsA.png" alt="">
+    </div>
+  </div>
+  <div class="heading">
+    <h5>PROJECT</h5>
+    <h1>{{project.name}}</h1>
+    <span class="owner-office">{{program.owner.shortName}}</span>
+  </div>
+</div>
+<tab-bar tabs="tabs" on-add="addTab()" edit></tab-bar>
+<div class="container" ui-view>
+</div>

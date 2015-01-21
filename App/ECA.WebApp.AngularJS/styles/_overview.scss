@@ -1,0 +1,61 @@
+.program-color {
+  color: $program;
+}
+
+.office-color {
+  color: $office;
+}
+
+.project-color {
+  color: $project;
+}
+
+.person-color {
+  color: $person;
+}
+
+.tab-header {
+  margin-bottom: 60px;
+}
+
+.tab-subheader {
+  margin-bottom: 45px;
+}
+
+.subheader {
+  font-size: 14px;
+  font-weight: 300;
+  margin: -40px 0 45px;
+}
+
+.subheader2 {
+  margin-top: -30px;
+}
+
+.branch-list {
+  align-content: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.branch {
+  border: 1px solid #e6e6e6;
+  height: 163px;
+  margin-left: 10px;
+  margin-top: 10px;
+  padding: 20px;
+  width: 200px;
+}
+
+.branch-title {
+  color: rgba(65, 83, 87, .50);
+  display: block;
+  font-size: 12px;
+  line-height: 14px;
+  text-transform: uppercase;
+}
+
+.branch-name {
+  font-size: 18px;
+  font-weight: 200;
+}
