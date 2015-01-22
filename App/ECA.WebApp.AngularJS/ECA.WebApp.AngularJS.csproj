@@ -606,10 +606,6 @@
     <Content Include="styles\main.css.map">
       <DependentUpon>main.css</DependentUpon>
     </Content>
-    <None Include=".bin\bower.cmd" />
-    <None Include=".bin\git.cmd" />
-    <None Include=".bin\node.cmd" />
-    <Content Include="packages.config" />
     <Content Include="bower.json" />
     <Content Include=".bowerrc" />
     <Content Include="bower_components\angular-bootstrap\.bower.json" />
@@ -857,6 +853,10 @@
     <Content Include="bower_components\topojson\bower.json" />
     <Content Include="bower_components\topojson\LICENSE" />
     <Content Include="bower_components\topojson\README.md" />
+    <None Include=".bin\bower.cmd" />
+    <None Include=".bin\git.cmd" />
+    <None Include=".bin\node.cmd" />
+    <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

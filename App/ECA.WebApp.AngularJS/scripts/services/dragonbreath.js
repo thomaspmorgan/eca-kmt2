@@ -8,8 +8,8 @@
  * Factory in the staticApp.
  */
 angular.module('staticApp')
-	.constant('API_PREFIX', '/api/')
-	.constant('API_ENDPOINT', '')
+	.constant('API_PREFIX', 'api/')
+	.constant('API_ENDPOINT', 'http://localhost:5555/')
   .factory('DragonBreath', function ($http, API_ENDPOINT, API_PREFIX) {
 
   	function DragonPath (args, slicePos) {

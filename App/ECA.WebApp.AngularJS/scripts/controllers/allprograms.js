@@ -22,11 +22,11 @@ angular.module('staticApp')
 
 
 
-    DragonBreath.get(filterParams,'programs')
+    DragonBreath.get(filterParams,'programslist')
         .success(function (data) {
             console.log(data);
-            if(angular.isArray(data.results)){
-                $scope.programs = data.results;
+            if(angular.isArray(data)){
+                $scope.programs = data;
                 console.log($scope.program);
             }
             
