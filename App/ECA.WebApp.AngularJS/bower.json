@@ -15,7 +15,8 @@
     "angular-xeditable": "~0.1.8",
     "datamaps": "0.3.4",
     "bower": "*",
-    "ngSticky": "~1.7.5"
+    "ngSticky": "~1.7.5",
+    "adal-angular": "~0.0.6"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",

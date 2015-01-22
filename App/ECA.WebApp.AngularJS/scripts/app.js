@@ -18,87 +18,69 @@ angular
     'ngModal',
     'multi-select',
     'xeditable',
-    'sticky'
+    'sticky',
+    'AdalAngular'
   ])
-  .config(function ($stateProvider, $urlRouterProvider) {
-    var authorizer = ['$q', 'authService', function($q, authService) {
-            /** var userInfo = authService.getUserInfo();
-            if (userInfo) {
-              return $q.when(userInfo);
-            } else {
-              return $q.reject({ authenticated: false });
-            } **/
-            return true;
-          }];
+  .config(function ($stateProvider, $httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider) {
+    
+    adalAuthenticationServiceProvider.init({
+        base: '',
+          tenant: 'statedept.us',
+          clientId: '81ab58d2-1f6f-4b21-9f63-b0fb19c27d6e'
+        }, $httpProvider
+    );
+
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
       .state('home', {
         templateUrl: 'views/home.html',
         controller: 'HomeCtrl',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
      })
 
       .state('home.shortcuts', {
         url: '/',
         templateUrl: 'views/home/shortcuts.html',
-        resolve: {
-          auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('home.notifications', {
         url: '/',
         templateUrl: 'views/home/notifications.html',
-        resolve: {
-          auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('home.news', {
         url: '/',
         templateUrl: 'views/home/news.html',
-        resolve: {
-          auth: authorizer
-        }
+        requireADLogin: true
       })
 
       .state('events', {
         url: '/events',
         templateUrl: 'views/events/eventList.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('eventsCreate', {
         url: '/events/create',
         templateUrl: 'views/events/eventCreate.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('eventsTag', {
         url: '/events/tag',
         templateUrl: 'views/events/eventTag.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('eventsOverview', {
         url: '/events/overview',
         templateUrl: 'views/events/eventOverview.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
 
       .state('about', {
         url: '/about',
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
 
       
@@ -111,9 +93,7 @@ angular
         url: '/secureTest',
         templateUrl: 'views/securetest.html',
         controller: 'SecuretestCtrl',
-        resolve: {
-           auth: authorizer
-         }
+        requireADLogin: true
       })
       .state('login', {
         url: '/login',
@@ -129,138 +109,100 @@ angular
         url: '/formValidation',
         templateUrl: 'views/formvalidation.html',
         controller: 'FormvalidationCtrl',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
 
       .state('reports', {
         url: '/report',
         templateUrl: 'views/reports/archiveList.html',
         controller: 'ReportCtrl',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
 
       .state('reportsCreate', {
         url: '/report/create',
         templateUrl: 'views/reports/create.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsCreated', {
         url: '/report/created',
         templateUrl: 'views/reports/created.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsAddData', {
         url: '/report/addData',
         templateUrl: 'views/reports/addData.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsSearchResults', {
         url: '/report/searchResult',
         templateUrl: 'views/reports/searchResults.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsRefineSearch', {
         url: '/report/refineSearch',
         templateUrl: 'views/reports/refineSearch.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsRefineSearchDeselect', {
         url: '/report/refineSearchDeselect',
         templateUrl: 'views/reports/refineSearchDeselect.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsSearchResultsClearance', {
         url: '/report/searchResultClearance',
         templateUrl: 'views/reports/searchResultsClearance.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsContent', {
         url: '/report/content',
         templateUrl: 'views/reports/content.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsCrunchingData', {
         url: '/report/crunchingData',
         templateUrl: 'views/reports/crunchingData.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsGenerated', {
         url: '/report/reportGenerated',
         templateUrl: 'views/reports/reportGenerated.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsOverviewOpen', {
         url: '/report/overviewOpen',
         templateUrl: 'views/reports/overviewOpen.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsPreview', {
         url: '/report/preview',
         templateUrl: 'views/reports/preview.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsAddCollab', {
         url: '/report/addCollab',
         templateUrl: 'views/reports/addCollab.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsSubmittingClearance', {
         url: '/report/submittingClearance',
         templateUrl: 'views/reports/submittingClearance.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsSubmitClearance', {
         url: '/report/submitClearance',
         templateUrl: 'views/reports/submitClearance.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsClearing', {
         url: '/report/clearing',
         templateUrl: 'views/reports/clearing.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('reportsPublish', {
         url: '/report/publish',
         templateUrl: 'views/reports/publish.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
 
 
@@ -274,25 +216,19 @@ angular
         url: '/settings',
         templateUrl: 'views/settings.html',
         controller: 'SettingsCtrl',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('people', {
         url: '/people/:personId',
         templateUrl: 'views/people.html',
         controller: 'PeopleCtrl',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('people.overview', {
         url: '/overview',
         templateUrl: 'views/people/overview.html',
         controller: 'PeopleCtrl',
-        resolve: {
-          auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('people.activity', {
         url: '/activity',
@@ -319,18 +255,14 @@ angular
         url: '/allprograms/:page',
         templateUrl: 'views/program/allprograms.html',
         controller: 'AllProgramsCtrl',
-        resolve: {
-          auth: authorizer
-        }
+        requireADLogin: true
       })
 
       .state('programs', {
         url: '/offices/:officeId/programs/:programId',
         templateUrl: 'views/programs.html',
         controller: 'ProgramsCtrl',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('programs.overview', {
         url: '/overview',
@@ -357,9 +289,7 @@ angular
         url: '/offices/:officeId/programs/:programId/project/:projectId',
         templateUrl: 'views/project.html',
         controller: 'ProjectCtrl',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('projects.overview', {
         url: '/overview',
@@ -402,9 +332,7 @@ angular
         url: '/offices/:officeId',
         templateUrl: 'views/offices.html',
         controller: 'OfficeCtrl',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('offices.overview', {
         url: '/overview',
@@ -431,41 +359,31 @@ angular
         url: '/alloffices/:page',
         templateUrl: 'views/office/alloffices.html',
         controller: 'AllOfficesCtrl',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
       .state('allparticipants', {
         url: '/allparticipants/:page',
         templateUrl: 'views/people/allpeople.html',
         controller: 'AllPeopleCtrl',
-        resolve: {
-          auth: authorizer
-        }
+        requireADLogin: true
       })
 
       .state('partner', {
         url: '/partner',
         templateUrl: 'views/partner.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
 
       .state('offshoot', {
         url: '/clearance',
         templateUrl: 'views/offshoot.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       })
 
       .state('lastupdated', {
         url: '/lastupdated',
         templateUrl: 'views/lastupdated.html',
-        resolve: {
-           auth: authorizer
-        }
+        requireADLogin: true
       });
   })
   .run(['$rootScope', '$location', '$state', 'editableOptions', function($rootScope, $location, $state, editableOptions, $anchorScroll) {
