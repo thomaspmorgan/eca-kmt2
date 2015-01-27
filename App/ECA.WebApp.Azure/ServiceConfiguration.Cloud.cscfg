@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ServiceConfiguration serviceName="ECA.WebApp.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2014-06.2.4">
-  <Role name="ECA.WebApp">
+  <Role name="ECA.WebApp.AngularJS">
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="tom" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEBrtmENplQWvSiYayPESuEUwDQYJKoZIhvcNAQEBBQAEggEAvbFGH35brgYAbCMqjdv3aPgoXL7XsS/mP2Rjve4HaIxxLvfbBA/6WDqaJWycqWMSELtLRCuKZbfQ9yEBAJFZ7Il8rxzEAHRZzM5PX3kE/1VtLxD0Tj47JGiYpJr+6+Oc5pVL+SdtsXjsAzcmfgeAseWiPTaKfxVqIr2keCDh0RupUBObyaIMFqLEtBa1vt6WFqV/FK31L/fC1lqK2i6QtWi10wGVvvPeUa8RarJVJ5qyJE1j87vElZLCylI9xOrz4ZSFvGZmdWNfRxCVz4elgqPlREAwUG6yZp7DJTGOeIlsq1lg9o0TJebR5pczCgDhH3G1M1liqK8NcejRMm10FTAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECGZxHmjQxk0SgBBwVTnPp/gQlBnDDzdxcqD8" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2015-12-31T23:59:59.0000000-05:00" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="E683742F1B11D8D9B65A548E5B877CC0946CE0E1" thumbprintAlgorithm="sha1" />

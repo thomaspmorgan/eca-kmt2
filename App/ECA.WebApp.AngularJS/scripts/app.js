@@ -26,7 +26,8 @@ angular
     adalAuthenticationServiceProvider.init({
         base: '',
           tenant: 'statedept.us',
-          clientId: '81ab58d2-1f6f-4b21-9f63-b0fb19c27d6e'
+          clientId: 'e0356e55-e124-452c-837d-aeb7504185ff',
+          resource: 'https://ecaserver.state.gov'
         }, $httpProvider
     );
 

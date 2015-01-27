@@ -6,6 +6,7 @@ using System.Web.Http.Cors;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ECA.WebApi.Common;
+using System.Net.Http.Headers;
 
 namespace ECA.WebApi
 {
@@ -26,7 +27,7 @@ namespace ECA.WebApi
             );
 
             // Remove the XML formatter and configure the JSON formatter.
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
             var formatters = GlobalConfiguration.Configuration.Formatters;
             var jsonFormatter = formatters.JsonFormatter;
             var settings = jsonFormatter.SerializerSettings;

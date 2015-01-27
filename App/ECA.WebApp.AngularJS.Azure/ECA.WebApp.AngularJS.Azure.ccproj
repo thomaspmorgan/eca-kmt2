@@ -5,17 +5,13 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>2.5</ProductVersion>
-    <ProjectGuid>f429743a-20e6-428e-9bca-9b8d543b7f95</ProjectGuid>
+    <ProjectGuid>b7aefb6f-c680-44eb-acc6-b88c3eae599c</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ECA.WebApp.Azure</RootNamespace>
-    <AssemblyName>ECA.WebApp.Azure</AssemblyName>
+    <RootNamespace>ECA.WebApp.AngularJS.Azure</RootNamespace>
+    <AssemblyName>ECA.WebApp.AngularJS.Azure</AssemblyName>
     <StartDevelopmentStorage>True</StartDevelopmentStorage>
-    <Name>ECA.WebApp.Azure</Name>
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
+    <Name>ECA.WebApp.AngularJS.Azure</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,17 +37,6 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ECA.WebApp.AngularJSContent\" />
-    <Folder Include="Profiles" />
-  </ItemGroup>
-  <ItemGroup>
-    <DiagnosticsConfiguration Include="ECA.WebApp.AngularJSContent\diagnostics.wadcfgx" />
-  </ItemGroup>
-  <ItemGroup>
-    <PublishProfile Include="Profiles\ECA Web Staging.azurePubxml" />
-    <PublishProfile Include="Profiles\ECA Web Prod.azurePubxml" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ECA.WebApp.AngularJS\ECA.WebApp.AngularJS.csproj">
       <Name>ECA.WebApp.AngularJS</Name>
       <Project>{6634fb37-1b43-40f4-be9e-c0fc316e0cb9}</Project>
@@ -60,6 +45,16 @@
       <RoleName>ECA.WebApp.AngularJS</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ECA.WebApp.AngularJSContent\" />
+    <Folder Include="Profiles" />
+  </ItemGroup>
+  <ItemGroup>
+    <DiagnosticsConfiguration Include="ECA.WebApp.AngularJSContent\diagnostics.wadcfgx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PublishProfile Include="Profiles\ECAProduction.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
