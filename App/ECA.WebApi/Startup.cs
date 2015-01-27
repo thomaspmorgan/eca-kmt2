@@ -6,7 +6,7 @@ using Microsoft.Owin;
 using Owin;
 using System.IdentityModel.Tokens;
 using Microsoft.Owin.Security.ActiveDirectory;
-using ECA.WebApi.Common;
+using ECA.WebApi.Models;
 
 [assembly: OwinStartup(typeof(ECA.WebApi.Startup))]
 
@@ -23,6 +23,8 @@ namespace ECA.WebApi
             }
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            AutoMapperConfig.Configure();
             //FilterConfig.RegisterGlobalFilters();
             //RouteConfig.RegisterRoutes(RouteTable.Routes);
         }

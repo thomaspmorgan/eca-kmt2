@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.Data;
-using ECA.WebApi.Models;
+using Models = ECA.WebApi.Models;
+using AutoMapper;
 
 namespace ECA.WebApi
 {
@@ -26,15 +27,15 @@ namespace ECA.WebApi
 
         // GET: api/ProgramsList
         [Route("api/programslist")]
-        public IEnumerable<ProgramList> GetProgramsList()
+        public IEnumerable<Models.ProgramList> GetProgramsList()
         {
             //create and return a ProgramList object which contains a custom list of elements belonging to programs
-            var list = db.Programs.Select(s => new ProgramList() {ProgramId = s.ProgramId, Name = s.Name, Description = s.Description }).OrderBy(s => s.Name);
+            var list = db.Programs.Select(s => new Models.ProgramList() {ProgramId = s.ProgramId, Name = s.Name, Description = s.Description }).OrderBy(s => s.Name);
             return list;
         }
 
         // GET: api/Programs/5
-        [ResponseType(typeof(Program))]
+        [ResponseType(typeof(Models.Program))]
         public async Task<IHttpActionResult> GetProgram(int id)
         {
             Program program = await db.Programs.FindAsync(id);
@@ -43,9 +44,13 @@ namespace ECA.WebApi
                 return NotFound();
             }
 
-            return Ok(program);
+            return Ok(GetProgramDTO(program));
         }
-
+        private Models.Program GetProgramDTO(Program program)
+        {
+            var programDTO = Mapper.Map<Program, Models.Program>(program);
+            return programDTO;
+        }
         // PUT: api/Programs/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutProgram(int id, Program program)
