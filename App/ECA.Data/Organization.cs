@@ -36,7 +36,7 @@ namespace ECA.Data
 
         public virtual ICollection<MoneyFlow> MoneyFlowSources { get; set; }
         public virtual ICollection<MoneyFlow> MoneyFlowRecipients { get; set; }
-        public virtual ICollection<Program> OwnerPrograms { get; set; }
+        public ICollection<Program> OwnerPrograms { get; set; }
 
         public History History { get; set; }
     }
