@@ -35,7 +35,7 @@ namespace ECA.WebApi
         }
 
         // GET: api/Programs/5
-        [ResponseType(typeof(Models.ProgramDTO))]
+        [ResponseType(typeof(Models.Program))]
         public async Task<IHttpActionResult> GetProgram(int id)
         {
             Program program = await db.Programs.FindAsync(id);
@@ -46,9 +46,9 @@ namespace ECA.WebApi
 
             return Ok(GetProgramDTO(program));
         }
-        private Models.ProgramDTO GetProgramDTO(Program program)
+        private Models.Program GetProgramDTO(Program program)
         {
-            var programDTO = Mapper.Map<Program, Models.ProgramDTO>(program);
+            var programDTO = Mapper.Map<Program, Models.Program>(program);
             return programDTO;
         }
         // PUT: api/Programs/5

@@ -11,13 +11,13 @@ namespace ECA.WebApi.Models
     {
         public static void Configure()
         {
-            Mapper.CreateMap<Data.Program, ProgramDTO>().MaxDepth(2);
-            Mapper.CreateMap<Data.Project, ProjectDTO>().MaxDepth(1);
-            Mapper.CreateMap<Data.Theme, ThemeDTO>();
-            Mapper.CreateMap<Data.Organization, OrganizationDTO>()
+            Mapper.CreateMap<Data.Program, Program>().MaxDepth(2);
+            Mapper.CreateMap<Data.Project, Project>().MaxDepth(1);
+            Mapper.CreateMap<Data.Theme, Theme>();
+            Mapper.CreateMap<Data.Organization, Organization>()
                 .MaxDepth(2)
                 .ForMember(o => o.OwnerPrograms, opts => opts.Ignore());
-            Mapper.CreateMap<Data.OrganizationType, OrganizationTypeDTO>(); 
+            Mapper.CreateMap<Data.OrganizationType, OrganizationType>(); 
         }
     }
 }
