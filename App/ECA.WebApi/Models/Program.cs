@@ -20,5 +20,7 @@ namespace ECA.WebApi.Models
         public ICollection<Program> ChildPrograms { get; set; }
         public ICollection<Theme> Themes { get; set; } 
         //public ICollection<Goal> Goals { get; set; }
+
+        public DateTimeOffset RevisedOn { get; set; }
     }
 }

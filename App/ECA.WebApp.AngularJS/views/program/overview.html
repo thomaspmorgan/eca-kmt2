@@ -1,84 +1,85 @@
 <h2 class="program-color tab-header">Overview</h2>
 <div class="row">
-	<h5 editable-textarea="program.description" e-form="editDescription" e-rows="5" e-cols="150" onaftersave="updateProgram()">
-	{{program.description}}
-	</h5>
+    <h5 editable-textarea="program.description" e-form="editDescription" e-rows="5" e-cols="150" onaftersave="updateProgram()">
+        {{program.description}}
+    </h5>
 </div>
 <div class="row tags" ng-show="program.tags">
-	<span ng-repeat="tag in program.tags" class="tag">#{{tag}}</span>
+    <span ng-repeat="tag in program.tags" class="tag">#{{tag}}</span>
 </div>
 <div class="row table">
-	<h4 class="tab-subheader">Details</h4>
-	<div class="col-md-6">
-		<div class="row" ng-show="program.themes">
-			<div class="col-md-4 title-label">Themes</div>
-			<div class="col-md-8">
-				<ul>
-					<li ng-repeat="theme in program.themes">{{theme}}</li>
-				</ul>
-			</div>
-		</div>
-		<div class="row" ng-show="program.pdGoals">
-			<div class="col-md-4 title-label">Public Diplomacy Goals</div>
-			<div class="col-md-8">
-				<ul>
-					<li ng-repeat="goal in program.pdGoals">{{goal}}</li>
-				</ul>
-			</div>
-		</div>
-		<div class="row" ng-show="program.stratGoals">
-			<div class="col-md-4 title-label">Strategic Goals</div>
-			<div class="col-md-8">
-				<ul>
-					<li ng-repeat="goal in program.stratGoals">{{goal}}</li>
-				</ul>
-			</div>
-		</div>
-		<div class="row" ng-show="program.regions">
-			<div class="col-md-4 title-label">Regions</div>
-			<div class="col-md-8">
-				<ul>
-					<li ng-repeat="region in program.regions">{{region.displayName}}</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="row" ng-show="program.focus">
-			<div class="col-md-4 title-label">Focus</div>
-			<div class="col-md-8">{{program.focus}}</div>
-		</div>
-		<div class="row" ng-show="program.owner">
-			<div class="col-md-4 title-label">Office</div>
-			<div class="col-md-8"><a ui-sref="offices.overview({officeId: program.owner.organizationId})">{{program.owner.longName}}</a></div>
-		</div>
+    <h4 class="tab-subheader">Details</h4>
+    <div class="col-md-6">
+        <div class="row" ng-show="program.themes">
+            <div class="col-md-4 title-label">Themes</div>
+            <div class="col-md-8">
+                <ul>
+                    <li ng-repeat="theme in program.themes">{{theme.themeName}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" ng-show="program.pdGoals">
+            <div class="col-md-4 title-label">Public Diplomacy Goals</div>
+            <div class="col-md-8">
+                <ul>
+                    <li ng-repeat="goal in program.pdGoals">{{goal}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" ng-show="program.stratGoals">
+            <div class="col-md-4 title-label">Strategic Goals</div>
+            <div class="col-md-8">
+                <ul>
+                    <li ng-repeat="goal in program.stratGoals">{{goal}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" ng-show="program.regions">
+            <div class="col-md-4 title-label">Regions</div>
+            <div class="col-md-8">
+                <ul>
+                    <li ng-repeat="region in program.regions">{{region.displayName}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row" ng-show="program.focus">
+            <div class="col-md-4 title-label">Focus</div>
+            <div class="col-md-8">{{program.focus}}</div>
+        </div>
+        <div class="row" ng-show="program.owner">
+            <div class="col-md-4 title-label">Office</div>
+            <div class="col-md-8"><a ui-sref="offices.overview({officeId: program.owner.organizationId})">{{program.owner.description}}</a></div>
+        </div>
 
-		<div class="row" ng-show="program.contactReferences">
-			<div class="col-md-4 title-label"><ng-pluralize count="program.contactReferences.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
-			<div class="col-md-8">
-			<ul>
-				<li ng-repeat="contact in program.contactReferences">{{contact.contactName}}</li>
-			</ul>
-			</div>
-		</div>	
-		<div class="row" ng-show="program.websites">
-			<div class="col-md-4 title-label">Websites</div>
-			<div class="col-md-8">
-			<ul>
-				<li ng-repeat="website in program.websites"><a href="{{website.url}}" target=
-				"_blank">{{website.title}}</a></li>
-			</ul>
-			</div>
-		</div>	
-	</div>
+        <div class="row" ng-show="program.contactReferences">
+            <div class="col-md-4 title-label"><ng-pluralize count="program.contactReferences.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+            <div class="col-md-8">
+                <ul>
+                    <li ng-repeat="contact in program.contactReferences">{{contact.contactName}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" ng-show="program.websites">
+            <div class="col-md-4 title-label">Websites</div>
+            <div class="col-md-8">
+                <ul>
+                    <li ng-repeat="website in program.websites">
+                        <a href="{{website.url}}" target="_blank">{{website.title}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row">
-	<h4 class="tab-subheader">Snapshot</h4>
-	<div class="col-md-4">
-		<p class="stat text-center">{{project.locationReferences.length}}</p>
-<!-- 		<p class="title-label text-center">Locations</p> -->
-	</div>	
-	<div class="col-md-8">
-		<map width="600" height="300" countries="program.locationReferences"></map>
-	</div>
+    <h4 class="tab-subheader">Snapshot</h4>
+    <div class="col-md-4">
+        <p class="stat text-center">{{project.locationReferences.length}}</p>
+        <!-- 		<p class="title-label text-center">Locations</p> -->
+    </div>
+    <div class="col-md-8">
+        <map width="600" height="300" countries="program.locationReferences"></map>
+    </div>
 </div>
