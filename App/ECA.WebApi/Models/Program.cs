@@ -13,8 +13,8 @@ namespace ECA.WebApi.Models
         public int ProgramId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual Organization Owner { get; set; }
-        public virtual Program ParentProgram { get; set; }
+        public Organization Owner { get; set; }
+        public Program ParentProgram { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public ICollection<Project> Projects { get; set; }
         public ICollection<Program> ChildPrograms { get; set; }
