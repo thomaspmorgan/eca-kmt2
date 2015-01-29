@@ -67,12 +67,6 @@ namespace ECA.Data
         EarlyReturn
     }
 
-    public enum Goal
-    {
-        Goal1,
-        Goal2
-    }
-
     public enum ProgramType
     {
         ProgramType1,

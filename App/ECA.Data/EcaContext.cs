@@ -45,6 +45,8 @@ namespace ECA.Data
         public DbSet<SocialMedia> SocialMedias { get; set; }
         public DbSet<Theme> Themes { get; set; }
         public DbSet<Transportation> Transportations { get; set; }
+        public DbSet<Goal> Goals { get; set; }
+        public DbSet<Material> Materials { get; set; }
 
         public System.Data.Entity.DbSet<ECA.Data.SpecialStatus> SpecialStatus { get; set; }
 
@@ -91,6 +93,78 @@ namespace ECA.Data
                     p.MapRightKey("ThemeId");
                     p.ToTable("ProgramTheme");
                 });
+            modelBuilder.Entity<Program>()
+                .HasMany<Goal>(p => p.Goals)
+                .WithMany(t => t.Programs)
+             .Map(p =>
+                {
+                  p.MapLeftKey("ProgramId");
+                  p.MapRightKey("GoalId");
+                  p.ToTable("ProgramGoal");
+                });
+            modelBuilder.Entity<Project>()
+                .HasMany<Goal>(p => p.Goals)
+                .WithMany(t => t.Projects)
+             .Map(p =>
+             {
+                 p.MapLeftKey("ProjectId");
+                 p.MapRightKey("GoalId");
+                 p.ToTable("ProjectGoal");
+             });
+            modelBuilder.Entity<Project>()
+                .HasMany<Location>(p => p.Regions)
+                .WithMany(t => t.RegionProjects)
+             .Map(p =>
+             {
+                 p.MapLeftKey("ProjectId");
+                 p.MapRightKey("LocationId");
+                 p.ToTable("ProjectRegion");
+             });
+            modelBuilder.Entity<Project>()
+                .HasMany<Location>(p => p.Locations)
+                .WithMany(t => t.LocationProjects)
+             .Map(p =>
+             {
+                 p.MapLeftKey("ProjectId");
+                 p.MapRightKey("LocationId");
+                 p.ToTable("ProjectLocation");
+             });
+            modelBuilder.Entity<Project>()
+                .HasMany<Location>(p => p.Targets)
+                .WithMany(t => t.TargetProjects)
+             .Map(p =>
+             {
+                 p.MapLeftKey("ProjectId");
+                 p.MapRightKey("LocationId");
+                 p.ToTable("ProjectTarget");
+             });
+            modelBuilder.Entity<Program>()
+                .HasMany<Location>(p => p.Regions)
+                .WithMany(t => t.RegionPrograms)
+             .Map(p =>
+             {
+                 p.MapLeftKey("ProgramId");
+                 p.MapRightKey("LocationId");
+                 p.ToTable("ProgramRegion");
+             });
+            modelBuilder.Entity<Program>()
+                .HasMany<Location>(p => p.Locations)
+                .WithMany(t => t.LocationPrograms)
+             .Map(p =>
+             {
+                 p.MapLeftKey("ProgramId");
+                 p.MapRightKey("LocationId");
+                 p.ToTable("ProgramLocation");
+             });
+            modelBuilder.Entity<Program>()
+                .HasMany<Location>(p => p.Targets)
+                .WithMany(t => t.TargetPrograms)
+             .Map(p =>
+             {
+                 p.MapLeftKey("ProgramId");
+                 p.MapRightKey("LocationId");
+                 p.ToTable("ProgramTarget");
+             });
         }
     }
 }

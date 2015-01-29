@@ -11,7 +11,7 @@ namespace ECA.Data
     public class Material
     {
         [Key]
-        public int Id { get; set; }
+        public int MaterialId { get; set; }
         public string Name { get; set; }
     }
 }

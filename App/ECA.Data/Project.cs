@@ -29,12 +29,12 @@ namespace ECA.Data
         [Required]
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
-        [InverseProperty("ProjectOfRegion")]
+        [InverseProperty("RegionProjects")]
         public virtual ICollection<Location> Regions { get; set; }
-        [InverseProperty("ProjectOfLocation")]
+        [InverseProperty("LocationProjects")]
         public virtual ICollection<Location> Locations { get; set; }
         public string Language { get; set;}
-        [InverseProperty("ProjectOfTarget")]
+        [InverseProperty("TargetProjects")]
         public virtual ICollection<Location> Targets { get; set; }
         public ICollection<Theme> Themes { get; set; }
         public ICollection<Goal> Goals {get; set;}

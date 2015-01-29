@@ -34,12 +34,12 @@ namespace ECA.Data
         // Relationships
         [ForeignKey("PersonId")]
         public virtual ICollection<Person> BirthPlacePeople { get; set; }
-        public virtual Program ProgramOfRegion { get; set; }
-        public virtual Program ProgramOfLocation { get; set; }
-        public virtual Program ProgramOfTarget { get; set; }
-        public virtual Project ProjectOfRegion { get; set; }
-        public virtual Project ProjectOfLocation { get; set; }
-        public virtual Project ProjectOfTarget { get; set; }
+        public virtual ICollection<Program> RegionPrograms { get; set; }
+        public virtual ICollection<Program> LocationPrograms { get; set; }
+        public virtual ICollection<Program> TargetPrograms { get; set; }
+        public virtual ICollection<Project> RegionProjects { get; set; }
+        public virtual ICollection<Project> LocationProjects { get; set; }
+        public virtual ICollection<Project> TargetProjects { get; set; }
         public virtual ICollection<Person> CitizensOfCountry { get; set; }
 
         public History History { get; set; }

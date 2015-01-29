@@ -56,6 +56,7 @@
     <Compile Include="AddressType.cs" />
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
+    <Compile Include="Goal.cs" />
     <Compile Include="Migrations\201501162219502_IntialCreate.cs" />
     <Compile Include="Migrations\201501162219502_IntialCreate.Designer.cs">
       <DependentUpon>201501162219502_IntialCreate.cs</DependentUpon>
@@ -67,6 +68,10 @@
     <Compile Include="Migrations\201501201411204_RenameLocationCountryToLocation.cs" />
     <Compile Include="Migrations\201501201411204_RenameLocationCountryToLocation.Designer.cs">
       <DependentUpon>201501201411204_RenameLocationCountryToLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201501291629351_UpdateLocationAndGoals.cs" />
+    <Compile Include="Migrations\201501291629351_UpdateLocationAndGoals.Designer.cs">
+      <DependentUpon>201501291629351_UpdateLocationAndGoals.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Theme.cs" />
@@ -123,6 +128,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201501201411204_RenameLocationCountryToLocation.resx">
       <DependentUpon>201501201411204_RenameLocationCountryToLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201501291629351_UpdateLocationAndGoals.resx">
+      <DependentUpon>201501291629351_UpdateLocationAndGoals.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
