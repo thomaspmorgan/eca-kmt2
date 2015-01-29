@@ -173,7 +173,6 @@
     <Compile Include="Common\HttpForm.cs" />
     <Compile Include="Common\SecurityGroups.cs" />
     <Compile Include="Controllers\AuthController.cs" />
-    <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\SpecialStatusController.cs" />
     <Compile Include="Controllers\ProgramsController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
