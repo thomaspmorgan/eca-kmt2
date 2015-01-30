@@ -24,29 +24,29 @@ namespace ECA.Data
         [Required]
         public ProjectStatus Status { get; set; }
         public string FocusArea { get; set; }
-        public ICollection<MoneyFlow> MoneyFlows { get; set; }
-        public Organization NominationSource { get; set; }
+        public virtual ICollection<MoneyFlow> MoneyFlows { get; set; }
+        public virtual Organization NominationSource { get; set; }
         [Required]
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         [InverseProperty("RegionProjects")]
-        public ICollection<Location> Regions { get; set; }
+        public virtual ICollection<Location> Regions { get; set; }
         [InverseProperty("LocationProjects")]
-        public ICollection<Location> Locations { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
         public string Language { get; set;}
         [InverseProperty("TargetProjects")]
-        public ICollection<Location> Targets { get; set; }
+        public virtual ICollection<Location> Targets { get; set; }
         public ICollection<Theme> Themes { get; set; }
         public ICollection<Goal> Goals {get; set;}
-        public virtual Program ParentProgram { get; set; }
+        public Program ParentProgram { get; set; }
         public int AudienceReach { get; set; }
-        public ICollection<Artifact> Artifacts { get; set; }
-        public ICollection<ParticipantStatus> ParticipantsStatus { get; set; }
-        public ICollection<Project> RelatedProjects { get; set; }
-        public ICollection<Project> OtherRelatedProjects { get; set; }
+        public virtual ICollection<Artifact> Artifacts { get; set; }
+        public virtual ICollection<ParticipantStatus> ParticipantsStatus { get; set; }
+        public virtual ICollection<Project> RelatedProjects { get; set; }
+        public virtual ICollection<Project> OtherRelatedProjects { get; set; }
         public ICollection<string> TreatiesAgreementsContracts { get; set; }
-        public ICollection<Impact> Impacts { get; set; }
-        public Event Event { get; set; }
+        public virtual ICollection<Impact> Impacts { get; set; }
+        public virtual Event Event { get; set; }
         public int? EventId { get; set; }
 
         public History History { get; set; }

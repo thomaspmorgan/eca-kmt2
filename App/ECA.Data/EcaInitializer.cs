@@ -8,7 +8,7 @@ using System.Data.Entity;
 
 namespace ECA.Data
 {
-    public class EcaInitializer : CreateDatabaseIfNotExists<EcaContext>
+    public class EcaInitializer : DropCreateDatabaseIfModelChanges<EcaContext>
     {
         protected override void Seed(EcaContext context)
         {

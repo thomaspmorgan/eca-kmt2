@@ -19,8 +19,8 @@ namespace ECA.Data
 
         public History History { get; set; }
 
-        public ICollection<Program> Programs { get; set; }
-        public ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Program> Programs { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
 
     }
 

@@ -14,12 +14,11 @@ namespace ECA.Data
     /// </summary>
     public class Location
     {
-        [Key]
         public int LocationId { get; set; }
         [Required]
         public int LocationTypeId { get; set; }
         [Required]
-        public LocationType LocationType { get; set; }
+        public virtual LocationType LocationType { get; set; }
         public float? Latitude { get; set; }
         public float? Longitude { get; set; }
         public string Street1 { get; set; }
@@ -30,19 +29,18 @@ namespace ECA.Data
         public string PostalCode { get; set; }
         public string LocationName { get; set; }
         public string LocationIso { get; set; }
-        public Location Region { get; set; }
-        public Location Country { get; set; }
+        public virtual Location Region { get; set; }
 
         // Relationships
         [ForeignKey("PersonId")]
-        public ICollection<Person> BirthPlacePeople { get; set; }
-        public ICollection<Program> RegionPrograms { get; set; }
-        public ICollection<Program> LocationPrograms { get; set; }
-        public ICollection<Program> TargetPrograms { get; set; }
-        public ICollection<Project> RegionProjects { get; set; }
-        public ICollection<Project> LocationProjects { get; set; }
-        public ICollection<Project> TargetProjects { get; set; }
-        public ICollection<Person> CitizensOfCountry { get; set; }
+        public virtual ICollection<Person> BirthPlacePeople { get; set; }
+        public virtual ICollection<Program> RegionPrograms { get; set; }
+        public virtual ICollection<Program> LocationPrograms { get; set; }
+        public virtual ICollection<Program> TargetPrograms { get; set; }
+        public virtual ICollection<Project> RegionProjects { get; set; }
+        public virtual ICollection<Project> LocationProjects { get; set; }
+        public virtual ICollection<Project> TargetProjects { get; set; }
+        public virtual ICollection<Person> CitizensOfCountry { get; set; }
 
         public History History { get; set; }
     }

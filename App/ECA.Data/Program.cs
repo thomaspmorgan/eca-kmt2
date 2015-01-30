@@ -22,25 +22,25 @@ namespace ECA.Data
         public string Description { get; set; }
         [Required]
         [InverseProperty("OwnerPrograms")]
-        public Organization Owner { get; set; }
-        public Program ParentProgram { get; set; }
+        public virtual Organization Owner { get; set; }
+        public virtual Program ParentProgram { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
         [Required]
         [InverseProperty("RegionPrograms")]
-        public ICollection<Location> Regions { get; set; }
+        public virtual ICollection<Location> Regions { get; set; }
         [InverseProperty("LocationPrograms")]
-        public ICollection<Location> Locations { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
         [InverseProperty("TargetPrograms")]
-        public ICollection<Location> Targets { get; set; }
-        public ICollection<MoneyFlow> MoneyFlows { get; set; }
-        public ICollection<Project> Projects { get; set; }
-        public ICollection<Program> ChildPrograms { get; set; }
-        public ICollection<Theme> Themes { get; set; }
-        public ICollection<Goal> Goals { get; set; }
-        public ICollection<Artifact> Artifacts { get; set; }
+        public virtual ICollection<Location> Targets { get; set; }
+        public virtual ICollection<MoneyFlow> MoneyFlows { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Program> ChildPrograms { get; set; }
+        public virtual ICollection<Theme> Themes { get; set; }
+        public virtual ICollection<Goal> Goals { get; set; }
+        public virtual ICollection<Artifact> Artifacts { get; set; }
         public ICollection<ProgramType> ProgramType { get; set; }
-        public ICollection<Impact> Impacts { get; set; }
+        public virtual ICollection<Impact> Impacts { get; set; }
 
         public History History { get; set; }
     }

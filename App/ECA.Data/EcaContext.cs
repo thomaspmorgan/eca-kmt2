@@ -165,9 +165,6 @@ namespace ECA.Data
                  p.MapRightKey("LocationId");
                  p.ToTable("ProgramTarget");
              });
-            modelBuilder.Entity<Location>()
-               .HasOptional(p => p.Region)
-               .WithOptionalDependent(p => p.Country);
         }
     }
 }
