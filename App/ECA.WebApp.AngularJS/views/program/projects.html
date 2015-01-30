@@ -36,9 +36,9 @@
 </div>		
 </div>
 <div class="list2">
-	<div class="row hover" ng-repeat="project in program.projectReferences">
+	<div class="row hover" ng-repeat="project in program.projects">
 		<div class="col-md-9">
-			<h5 class="list-title"><a ui-sref="projects.overview({officeId: program.owner.organizationId, programId: program.id, projectId: project.projectId})">{{project.projectName}}</a></h5>
+            <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.owner.organizationId, programId: program.id, projectId: project.projectId})">{{project.name}}</a></h5>
 		</div>
 		<div class="col-md-3 tools2">
 			<div class="right">
