@@ -78,6 +78,18 @@ angular.module('staticApp')
           });
         return defer.promise;
       },
+      getProjectsByProgram: function (id, projectFilter) {
+        var defer = $q.defer();
+        var filterParams = {
+            q: projectFilter
+        };
+        DragonBreath.get(filterParams, 'projectsByProgram', id)
+          .success(function (projects) {
+              defer.resolve(projects);
+          });
+
+        return defer.promise;
+      },
       update: function (project, id) {
         var defer = $q.defer();
         DragonBreath.save(project, 'projects', id)

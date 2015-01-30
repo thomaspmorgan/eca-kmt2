@@ -22,7 +22,9 @@
 
 <h4 class="tab-subheader">Projects List</h4>
 <div class="row">
-		<input type="text" ng-model="projectFilter" placeholder="Search Projects" class="search-contextual">
+    <form ng-submit="search(projectFilter)">
+        <input type="text" ng-model="projectFilter" placeholder="Search Projects" class="search-contextual" autofocus />
+    </form>
 		<i class="glyphicon glyphicon-search contextual"></i>	
 		<button ng-click="modal.createProject = true" class="btn btn-success right col-sd-2">CREATE PROJECT</button>
 <div id="sort-list">

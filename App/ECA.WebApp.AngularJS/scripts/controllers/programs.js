@@ -124,7 +124,14 @@ angular.module('staticApp')
     function saveProgram() {
         ProgramService.update($scope.program, $stateParams.programId)
             .then(function (program) {
-              $scope.program = program;
+                $scope.program = program;
+            });
+    };
+
+    $scope.search = function (projectFilter) {
+        ProjectService.getProjectsByProgram($stateParams.programId, projectFilter)
+            .then(function (projects) {
+                $scope.program.projects = projects;
             });
     }
 

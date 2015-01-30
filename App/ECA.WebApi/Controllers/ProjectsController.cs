@@ -26,9 +26,9 @@ namespace ECA.WebApi.Controllers
         }
         // GET: api/ProjectsByProgram/3
         [Route("api/ProjectsByProgram/{id:int}")]
-        public IEnumerable<ProjectDTO> GetProjectsByProgram(int id)
+        public IEnumerable<ProjectDTO> GetProjectsByProgram(int id, string q = "")
         {
-            var projects = db.Projects.Include("ParentProgram").Where(s => s.ParentProgram.ProgramId == id);
+            var projects = db.Projects.Include("ParentProgram").Where(s => s.ParentProgram.ProgramId == id && s.Name.Contains(q));
             var projectDTOs = Mapper.Map<IEnumerable<Project>, IEnumerable<ProjectDTO>>(projects);
             return projectDTOs;
         }
