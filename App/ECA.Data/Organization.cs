@@ -17,25 +17,25 @@ namespace ECA.Data
         [Key]
         public int OrganizationId { get; set; }
         [Required]
-        public virtual OrganizationType OrganizationType { get; set; }
+        public OrganizationType OrganizationType { get; set; }
         public int OrganizationTypeId { get; set; }
         [Required]
         public string Description { get; set; }
         [Required]
         public string Status { get; set; }
-        public virtual ICollection<Address> Addresses { get; set; }
+        public ICollection<Address> Addresses { get; set; }
         [Required]
-        public virtual ICollection<Contact> Contacts { get; set; }
+        public ICollection<Contact> Contacts { get; set; }
         [Required]
         public string Name { get; set; }
         public string Website { get; set; }
-        public virtual ICollection<SocialMedia> SocialMediaPresence { get; set; }
+        public ICollection<SocialMedia> SocialMediaPresence { get; set; }
         public List<DateTimeOffset> ContactHistory { get; set; }
 
         //relationships
 
-        public virtual ICollection<MoneyFlow> MoneyFlowSources { get; set; }
-        public virtual ICollection<MoneyFlow> MoneyFlowRecipients { get; set; }
+        public ICollection<MoneyFlow> MoneyFlowSources { get; set; }
+        public ICollection<MoneyFlow> MoneyFlowRecipients { get; set; }
         public ICollection<Program> OwnerPrograms { get; set; }
 
         public History History { get; set; }
