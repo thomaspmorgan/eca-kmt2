@@ -29,4 +29,5 @@
 /App/ECA.WebApi.Azure/csx/Debug
 /App/ECA.WebApp/obj/Debug
 /App/ECA.WebApp.Azure/csx/Debug
-/App/ECA.WebApi
+/App/ECA.WebApi/obj/Release
+*.user

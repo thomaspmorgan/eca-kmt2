@@ -184,6 +184,7 @@
     <Compile Include="Models\ProgramDTO.cs" />
     <Compile Include="Models\ProgramList.cs" />
     <Compile Include="Models\ProjectDTO.cs" />
+    <Compile Include="Models\Test.cs" />
     <Compile Include="Models\ThemeDTO.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
