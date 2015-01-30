@@ -20,9 +20,11 @@ namespace ECA.WebApi
         private EcaContext db = new EcaContext();
 
         // GET: api/Programs
-        public IQueryable<Program> GetPrograms()
+        public IEnumerable<ProgramDTO> GetPrograms()
         {
-            return db.Programs;
+            var programs = db.Programs.OrderBy(p => p.Name);
+            var programDTOs = Mapper.Map<IEnumerable<Program>, IEnumerable<ProgramDTO>>(programs);
+            return programDTOs;
         }
 
         // GET: api/ProgramsList

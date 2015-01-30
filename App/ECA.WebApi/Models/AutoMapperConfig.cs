@@ -11,7 +11,7 @@ namespace ECA.WebApi.Models
     {
         public static void Configure()
         {
-            Mapper.CreateMap<Program, ProgramDTO>().ReverseMap().MaxDepth(2);
+            Mapper.CreateMap<Program, ProgramDTO>().ReverseMap().MaxDepth(1);
             Mapper.CreateMap<Project, ProjectDTO>().ReverseMap().MaxDepth(1);
             Mapper.CreateMap<Theme, ThemeDTO>();
             Mapper.CreateMap<Organization, OrganizationDTO>().ReverseMap()
