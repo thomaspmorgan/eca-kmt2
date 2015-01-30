@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Data=ECA.Data;
+using ECA.Data;
 using AutoMapper;
 
 namespace ECA.WebApi.Models
@@ -11,13 +11,14 @@ namespace ECA.WebApi.Models
     {
         public static void Configure()
         {
-            Mapper.CreateMap<Data.Program, Program>().MaxDepth(2);
-            Mapper.CreateMap<Data.Project, Project>().MaxDepth(1);
-            Mapper.CreateMap<Data.Theme, Theme>();
-            Mapper.CreateMap<Data.Organization, Organization>()
+            Mapper.CreateMap<Program, ProgramDTO>().ReverseMap().MaxDepth(2);
+            Mapper.CreateMap<Project, ProjectDTO>().ReverseMap().MaxDepth(1);
+            Mapper.CreateMap<Theme, ThemeDTO>();
+            Mapper.CreateMap<Organization, OrganizationDTO>().ReverseMap()
                 .MaxDepth(2)
                 .ForMember(o => o.OwnerPrograms, opts => opts.Ignore());
-            Mapper.CreateMap<Data.OrganizationType, OrganizationType>(); 
+            Mapper.CreateMap<OrganizationType, OrganizationTypeDTO>();
+            Mapper.CreateMap<Goal, GoalDTO>().ReverseMap();
         }
     }
 }

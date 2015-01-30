@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.Data;
-using Models = ECA.WebApi.Models;
+using ECA.WebApi.Models;
 using AutoMapper;
 
 namespace ECA.WebApi
@@ -35,10 +35,10 @@ namespace ECA.WebApi
         }
 
         // GET: api/Programs/5
-        [ResponseType(typeof(Models.Program))]
+        [ResponseType(typeof(ProgramDTO))]
         public async Task<IHttpActionResult> GetProgram(int id)
         {
-            Program program = await db.Programs.FindAsync(id);
+            Program program = await db.Programs.Include(p => p.Themes).Include(p => p.Owner).Include(p =>p.Regions).SingleOrDefaultAsync(i => i.ProgramId == id);
             if (program == null)
             {
                 return NotFound();
@@ -46,9 +46,9 @@ namespace ECA.WebApi
 
             return Ok(GetProgramDTO(program));
         }
-        private Models.Program GetProgramDTO(Program program)
+        private ProgramDTO GetProgramDTO(Program program)
         {
-            var programDTO = Mapper.Map<Program, Models.Program>(program);
+            var programDTO = Mapper.Map<Program, ProgramDTO>(program);
             return programDTO;
         }
         // PUT: api/Programs/5

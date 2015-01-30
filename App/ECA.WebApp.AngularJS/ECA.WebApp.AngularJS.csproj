@@ -113,6 +113,9 @@
     <Content Include="packages.config" />
     <Content Include="bower.json" />
     <Content Include=".bowerrc" />
+    <Content Include=".bin\bower.cmd" />
+    <Content Include=".bin\git.cmd" />
+    <Content Include=".bin\node.cmd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
