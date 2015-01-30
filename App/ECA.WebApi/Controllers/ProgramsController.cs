@@ -20,20 +20,12 @@ namespace ECA.WebApi
         private EcaContext db = new EcaContext();
 
         // GET: api/Programs
-        public IEnumerable<ProgramDTO> GetPrograms()
+        public IEnumerable<ProgramDTO> GetPrograms(int limit = 200, int offset = 0)
         {
-            var programs = db.Programs.OrderBy(p => p.Name);
+            var programs = db.Programs.OrderBy(p => p.Name).Skip(offset).Take(limit);
+
             var programDTOs = Mapper.Map<IEnumerable<Program>, IEnumerable<ProgramDTO>>(programs);
             return programDTOs;
-        }
-
-        // GET: api/ProgramsList
-        [Route("api/programslist")]
-        public IEnumerable<Models.ProgramList> GetProgramsList()
-        {
-            //create and return a ProgramList object which contains a custom list of elements belonging to programs
-            var list = db.Programs.Select(s => new Models.ProgramList() {ProgramId = s.ProgramId, Name = s.Name, Description = s.Description }).OrderBy(s => s.Name);
-            return list;
         }
 
         // GET: api/Programs/5
@@ -48,11 +40,13 @@ namespace ECA.WebApi
 
             return Ok(GetProgramDTO(program));
         }
+
         private ProgramDTO GetProgramDTO(Program program)
         {
             var programDTO = Mapper.Map<Program, ProgramDTO>(program);
             return programDTO;
         }
+
         // PUT: api/Programs/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutProgram(int id, Program program)

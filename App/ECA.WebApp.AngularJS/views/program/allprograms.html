@@ -1,30 +1,22 @@
 <div class="jumbotron program">
-  <div class="heading">
-	<h1>All Programs</h1>
-	<span class="owner-office">ECA</span>
-  </div>
+    <div class="heading">
+        <h1>All Programs</h1>
+        <span class="owner-office">ECA</span>
+    </div>
 </div>
 
-<!--<div class="row">
-	<div ng-repeat="program in programs" class="col-md-12">
-		<a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a>
-	</div>
-</div>-->
-
-
 <div class="list2">
-	<div class="row hover" ng-repeat="program in programs">
-		<div class="col-md-9">
-			<!--<h4><a ui-sref="programs.overview({programId: program.id, officeId: program.owner.organizationId})">{{program.name}}</a></h4>-->
-			<h4><a ui-sref="programs.overview({programId: program.programId, officeId: 1})">{{program.name}}</a></h4>
-			<p>{{program.description}}</p>
-		</div>
-		<div class="col-md-3 tools">
-			<div class="right">
-				<img class="icon small" src="images/duplicateA.png" alt="">
-				<img class="icon small" src="images/editA.png" alt="">
-				<img class="icon small" src="images/trash.png" alt="">
-			</div>
-		</div>
-	</div>
+    <div class="row hover" ng-repeat="program in programs">
+        <div class="col-md-9">
+            <h4><a ui-sref="programs.overview({programId: program.programId, officeId: 1})">{{program.name}}</a></h4>
+            <p>{{program.description}}</p>
+        </div>
+        <div class="col-md-3 tools">
+            <div class="right">
+                <img class="icon small" src="images/duplicateA.png" alt="">
+                <img class="icon small" src="images/editA.png" alt="">
+                <img class="icon small" src="images/trash.png" alt="">
+            </div>
+        </div>
+    </div>
 </div>

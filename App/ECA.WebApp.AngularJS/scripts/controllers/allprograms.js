@@ -13,7 +13,7 @@ angular.module('staticApp')
 
     $scope.programs = [];
     $scope.currentpage = $stateParams.page || 1;
-    $scope.limit = 200;
+    $scope.limit = 25;
 
     var filterParams = {
         limit: $scope.limit,
@@ -22,7 +22,7 @@ angular.module('staticApp')
 
 
 
-    DragonBreath.get(filterParams,'programslist')
+    DragonBreath.get(filterParams,'programs')
         .success(function (data) {
             console.log(data);
             if(angular.isArray(data)){
