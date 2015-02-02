@@ -1,95 +1,94 @@
 <h2 class="program-color tab-header">Branches &amp; Projects</h2>
 
 <div ng-show="branches.length">
-<h4 class="tab-subheader">Branches</h4>
-	<ul class="branch-list">
-		<li ng-repeat="branch in branches" class="branch">
-			<span class="branch-title">{{branch.programType}}</span>
-			<span class="branch-name"><a ui-sref="programs.overview({programId: branch.programId, officeId: branch.officeId})">{{ branch.displayName }}</a></span>
-		</li>
-	</ul>
+    <h4 class="tab-subheader">Branches</h4>
+    <ul class="branch-list">
+        <li ng-repeat="branch in branches" class="branch">
+            <span class="branch-title">{{branch.programType}}</span>
+            <span class="branch-name"><a ui-sref="programs.overview({programId: branch.programId, officeId: branch.officeId})">{{ branch.displayName }}</a></span>
+        </li>
+    </ul>
 </div>
 
 <div ng-show="subprograms.length">
-<h4 class="tab-subheader">Subprograms</h4>
-	<ul class="branch-list">
-		<li ng-repeat="subprogram in subprograms" class="branch">
-			<span class="branch-title">{{subprogram.programType}}</span>
-			<span class="branch-name"><a ui-sref="programs.overview({programId: subprogram.programId, officeId: subprogram.officeId})">{{ subprogram.displayName }}</a></span>
-		</li>
-	</ul>
+    <h4 class="tab-subheader">Subprograms</h4>
+    <ul class="branch-list">
+        <li ng-repeat="subprogram in subprograms" class="branch">
+            <span class="branch-title">{{subprogram.programType}}</span>
+            <span class="branch-name"><a ui-sref="programs.overview({programId: subprogram.programId, officeId: subprogram.officeId})">{{ subprogram.displayName }}</a></span>
+        </li>
+    </ul>
 </div>
 
 <h4 class="tab-subheader">Projects List</h4>
 <div class="row">
     <form ng-submit="search(projectFilter)">
         <input type="text" ng-model="projectFilter" placeholder="Search Projects" class="search-contextual" autofocus />
+        <i class="glyphicon glyphicon-search contextual"></i>
     </form>
-		<i class="glyphicon glyphicon-search contextual"></i>	
-		<button ng-click="modal.createProject = true" class="btn btn-success right col-sd-2">CREATE PROJECT</button>
-<div id="sort-list">
-	<table class="col-md-12">
-		<td class="col-md-7 sort-label medium">Title <img src="images/swapUp.png"></td>
-		<td class="col-sd-1 sort-label medium">Status <img src="images/caretDown.png"></td>			
-		<td class="col-sd-1 sort-label medium">Year <img src="images/caretDown.png"></td>				
-		<td class="col-sd-1 sort-label medium">Region <img src="images/caretDown.png"></td>
-		<td class="col-sd-2">&nbsp;</td>				
-	</table>
-</div>		
+    <button ng-click="modal.createProject = true" class="btn btn-success right col-sd-2">CREATE PROJECT</button>
+    <div id="sort-list">
+        <table class="col-md-12">
+            <td class="col-md-7 sort-label medium">Title <img src="images/swapUp.png"></td>
+            <td class="col-sd-1 sort-label medium">Status <img src="images/caretDown.png"></td>
+            <td class="col-sd-1 sort-label medium">Year <img src="images/caretDown.png"></td>
+            <td class="col-sd-1 sort-label medium">Region <img src="images/caretDown.png"></td>
+            <td class="col-sd-2">&nbsp;</td>
+        </table>
+    </div>
 </div>
 <div class="list2">
-	<div class="row hover" ng-repeat="project in program.projects">
-		<div class="col-md-9">
+    <div class="row hover" ng-repeat="project in program.projects">
+        <div class="col-md-9">
             <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.owner.organizationId, programId: program.id, projectId: project.projectId})">{{project.name}}</a></h5>
-		</div>
-		<div class="col-md-3 tools2">
-			<div class="right">
-				<img class="icon" src="images/duplicateA.png" alt="">
-				<img class="icon" src="images/editA.png" alt="">
-				<img class="icon" src="images/trash.png" alt="">
-			</div>
-		</div>
-	</div>
-	<div class="divider"></div>
+        </div>
+        <div class="col-md-3 tools2">
+            <div class="right">
+                <img class="icon" src="images/duplicateA.png" alt="">
+                <img class="icon" src="images/editA.png" alt="">
+                <img class="icon" src="images/trash.png" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="divider"></div>
 
-<modal-dialog show="modal.createProject" dialog-title="Create Project" on-close="modalClear()">
-	<div class="tip"><img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
-		<div class="required">* Marks required fields</div>
-	</div>
-	<div id="modal" class="row" in-context-form>
-		<div class="col-md-10">
-			<form name="projectForm" novalidate>
-				<div class="form-group">
-				    <label>Project Title<span class="asterisk"> *</span></label>
-				    <input name="projectTitle" ng-model="newProject.title" form-element guidance="This is the name of your project. (e.g. ETA Fulbright 2015)" type="text" class="form-control" placeholder="Enter project title..." required>
-				    <div ng-show="projectForm.projectTitle.$dirty">
-				      <div class="error" ng-show="projectForm.projectTitle.$error.required">Please enter a project name.</div>
-				    </div>
-			    </div>
-				<div class="form-group">
-				    <label>Project Description<span class="asterisk"> *</span></label>
-				    <textarea name="projectDescription" ng-model="newProject.description" form-element guidance="This briefly summarizes what this project is about." type="text" class="form-control" placeholder="Enter description..." required></textarea>
-				    <span class="error" ng-show="projectForm.projectDescription.$error.required && projectForm.projectDescription.$dirty">Project description is required.</span>
-			    </div>
-			    <div ng-show="branches.length" class="form-group" form-element="click" guidance="Select the branch that this project is in. (If applicable)">
-				    <label>Branch</label>
-				    <multi-select
-					    input-model="branches"
-					    output-model="newProject.branch"
-					    button-label="displayName"         
-					    item-label="displayName" 
-					    tick-property="ticked" 
-					    selection-mode="single"
-					    helper-elements=""
-					>
-					</multi-select>
-				</div>
-			</form>
-		</div>
-		<div class="col-md-2">
-			<guidance></guidance>	
-		</div>
-	</div>
-	<button class="btn btn-default" ng-click="modal.createProject = false">CANCEL</button>
-	<button type="submit" form="projectForm" ng-disabled="projectForm.projectDescription.$error.required" class="btn btn-success right" ng-click="saveProject()">CREATE</button>
-</modal-dialog>
+    <modal-dialog show="modal.createProject" dialog-title="Create Project" on-close="modalClear()">
+        <div class="tip">
+            <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
+            <div class="required">* Marks required fields</div>
+        </div>
+        <div id="modal" class="row" in-context-form>
+            <div class="col-md-10">
+                <form name="projectForm" novalidate>
+                    <div class="form-group">
+                        <label>Project Title<span class="asterisk"> *</span></label>
+                        <input name="projectTitle" ng-model="newProject.title" form-element guidance="This is the name of your project. (e.g. ETA Fulbright 2015)" type="text" class="form-control" placeholder="Enter project title..." required>
+                        <div ng-show="projectForm.projectTitle.$dirty">
+                            <div class="error" ng-show="projectForm.projectTitle.$error.required">Please enter a project name.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Project Description<span class="asterisk"> *</span></label>
+                        <textarea name="projectDescription" ng-model="newProject.description" form-element guidance="This briefly summarizes what this project is about." type="text" class="form-control" placeholder="Enter description..." required></textarea>
+                        <span class="error" ng-show="projectForm.projectDescription.$error.required && projectForm.projectDescription.$dirty">Project description is required.</span>
+                    </div>
+                    <div ng-show="branches.length" class="form-group" form-element="click" guidance="Select the branch that this project is in. (If applicable)">
+                        <label>Branch</label>
+                        <multi-select input-model="branches"
+                                      output-model="newProject.branch"
+                                      button-label="displayName"
+                                      item-label="displayName"
+                                      tick-property="ticked"
+                                      selection-mode="single"
+                                      helper-elements="">
+                        </multi-select>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <guidance></guidance>
+            </div>
+        </div>
+        <button class="btn btn-default" ng-click="modal.createProject = false">CANCEL</button>
+        <button type="submit" form="projectForm" ng-disabled="projectForm.projectDescription.$error.required" class="btn btn-success right" ng-click="saveProject()">CREATE</button>
+    </modal-dialog>
