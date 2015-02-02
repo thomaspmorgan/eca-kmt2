@@ -83,7 +83,8 @@ angular.module('staticApp')
         var filterParams = {
             q: projectFilter
         };
-        DragonBreath.get(filterParams, 'projectsByProgram', id)
+        var path = 'programs/' + id + '/projects'
+        DragonBreath.get(filterParams, path)
           .success(function (projects) {
               defer.resolve(projects);
           });
