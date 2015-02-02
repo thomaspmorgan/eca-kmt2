@@ -19,6 +19,7 @@ namespace ECA.WebApi.Models
                 .ForMember(o => o.OwnerPrograms, opts => opts.Ignore());
             Mapper.CreateMap<OrganizationType, OrganizationTypeDTO>();
             Mapper.CreateMap<Goal, GoalDTO>().ReverseMap();
+            Mapper.CreateMap<Location, RegionDTO>().ReverseMap();
         }
     }
 }
