@@ -24,12 +24,9 @@ angular.module('staticApp')
 
     DragonBreath.get(filterParams,'programs')
         .success(function (data) {
-            console.log(data);
             if(angular.isArray(data)){
                 $scope.programs = data;
-                console.log($scope.program);
             }
-            
         });
 
 

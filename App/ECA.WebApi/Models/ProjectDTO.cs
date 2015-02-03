@@ -23,7 +23,7 @@ namespace ECA.WebApi.Models
         //public virtual ICollection<Location> Targets { get; set; }
         public ICollection<ThemeDTO> Themes { get; set; }
         //public ICollection<Goal> Goals { get; set; }
-        public ProgramDTO ParentProgram { get; set; }
+        //public ProgramDTO ParentProgram { get; set; }
         public int AudienceReach { get; set; }
         //public virtual ICollection<Artifact> Artifacts { get; set; }
         //public virtual ICollection<ParticipantStatus> ParticipantsStatus { get; set; }

@@ -22,48 +22,19 @@
 
 <h4 class="tab-subheader">Projects List</h4>
 <div class="row">
-    <form ng-submit="search(projectFilter)">
-        <input type="text" ng-model="projectFilter" placeholder="Search Projects" class="search-contextual" autofocus />
-        <i class="glyphicon glyphicon-search contextual"></i>
-    </form>
     <button ng-click="modal.createProject = true" class="btn btn-success right col-sd-2">CREATE PROJECT</button>
     <div id="sort-list">
-        <table class="col-md-12">
-            <thead>
-                <tr>
-                    <th class="col-md-7 sort-label medium">Title <img src="images/swapUp.png"></th>
-                    <th class="col-sd-1 sort-label medium">Status <img src="images/caretDown.png"></th>
-                    <th class="col-sd-1 sort-label medium">Year <img src="images/caretDown.png"></th>
-                    <th class="col-sd-1 sort-label medium">Region <img src="images/caretDown.png"></th>
-                    <th class="col-sd-2">&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="project in program.projects">
-                    <td>{{project.name}}</td>
-                    <td>{{project.status}}</td>
-                    <td>{{project.startDate | date: 'yyyy'}}</td>
-                    <td><span ng-repeat="region in project.regions">{{region.locationName + ' '}}</span></td>
-                    <td></td>
-                </tr>
-            </tbody>
+        <table ng-table="tableParams" show-filter="true" class="table">
+            <tr ng-repeat="project in $data">
+                <td data-title="'Title'" sortable="'name'" filter="{ 'name': 'text' }">{{project.name}}</td>
+                <td data-title="'Status'" sortable="'status'">{{project.status}}</td>
+                <td data-title="'Year'" sortable="'startDate'">{{project.startDate | date: 'yyyy'}}</td>
+                <td data-title="'Region'" sortable="'region'">{{project.regions[0].locationName}}</td>
+                <td></td>
+            </tr>
         </table>
     </div>
 </div>
-<!--<div class="list2">
-    <div class="row hover" ng-repeat="project in program.projects">
-        <div class="col-md-9">
-            <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.owner.organizationId, programId: program.id, projectId: project.projectId})">{{project.name}}</a></h5>
-        </div>
-        <div class="col-md-3 tools2">
-            <div class="right">
-                <img class="icon" src="images/duplicateA.png" alt="">
-                <img class="icon" src="images/editA.png" alt="">
-                <img class="icon" src="images/trash.png" alt="">
-            </div>
-        </div>
-    </div>
-</div>-->
 <div class="divider"></div>
 
 <modal-dialog show="modal.createProject" dialog-title="Create Project" on-close="modalClear()">

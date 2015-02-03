@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, ProjectService) {
+  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, $filter, ProgramService, ProjectService, ngTableParams) {
 
     $scope.newProject = {};
 
@@ -128,13 +128,29 @@ angular.module('staticApp')
             });
     };
 
-    $scope.search = function (projectFilter) {
-        ProjectService.getProjectsByProgram($stateParams.programId, projectFilter)
-            .then(function (projects) {
-                $scope.program.projects = projects;
+    $scope.tableParams = new ngTableParams({
+        page: 1,            
+        count: 25,         
+        filter: {
+            name: ''
+        },
+        sorting: {
+            name: 'asc'
+        }
+    }, {
+        getData: function($defer, params) {
+        ProjectService.getProjectsByProgram($stateParams.programId)
+            .then(function (data) {
+                var filteredData = params.filter() ?
+                    $filter('filter')(data, params.filter()) :
+                    data;
+                var orderedData = params.sorting() ?
+                    $filter('orderBy')(filteredData, params.orderBy()) :
+                    data;
+                params.total(orderedData.length);
+                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
             });
-    }
-
-
+        }
+    });
 
   });

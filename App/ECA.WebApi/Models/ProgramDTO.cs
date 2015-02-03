@@ -16,7 +16,7 @@ namespace ECA.WebApi.Models
         public OrganizationDTO Owner { get; set; }
         public ProgramDTO ParentProgram { get; set; }
         public DateTimeOffset StartDate { get; set; }
-        public ICollection<ProjectDTO> Projects { get; set; }
+        //public ICollection<ProjectDTO> Projects { get; set; }
         public ICollection<ProgramDTO> ChildPrograms { get; set; }
         public ICollection<ThemeDTO> Themes { get; set; }
         public ICollection<RegionDTO> Regions { get; set; }

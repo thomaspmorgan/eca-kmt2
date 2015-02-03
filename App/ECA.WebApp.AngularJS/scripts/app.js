@@ -19,7 +19,8 @@ angular
     'multi-select',
     'xeditable',
     'sticky',
-    'AdalAngular'
+    'AdalAngular',
+    'ngTable'
   ])
   .config(function ($stateProvider, $httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider) {
     

@@ -1,54 +1,54 @@
 ﻿<!doctype html>
 <html class="no-js">
 <head>
-  <meta charset="utf-8">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-  <link href='http://fonts.googleapis.com/css?family=Raleway:400,100,300,200,500,600,700,800,900' rel='stylesheet' type='text/css'>
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css(.) styles/vendor.css -->
-  <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/isteven-angular-multiselect/angular-multi-select.css" />
-  <!-- endbower -->
-  <link href="bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
-  <!-- endbuild -->
-  <!-- build:css(.tmp) styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild -->
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,100,300,200,500,600,700,800,900' rel='stylesheet' type='text/css'>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/isteven-angular-multiselect/angular-multi-select.css" />
+    <link href="bower_components/ng-table/dist/ng-table.css" rel="stylesheet" />
+    <!-- endbower -->
+    <link href="bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
 </head>
 <body ng-app="staticApp" class="cbp-spmenu-push">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
-
-      <!-- Add your site or application content here -->
+    <!-- Add your site or application content here -->
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-      <a ng-repeat="state in rootStates" ng-click="closeMenu()" ui-sref="{{state.state}}">{{state.name}}</a>
-      <a class="foot" href=""><img class="icon" src="images/settings.png" height="14" width="14" alt="">Settings</a>
+        <a ng-repeat="state in rootStates" ng-click="closeMenu()" ui-sref="{{state.state}}">{{state.name}}</a>
+        <a class="foot" href=""><img class="icon" src="images/settings.png" height="14" width="14" alt="">Settings</a>
     </nav>
     <nav style="overflow-y: scroll" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
-      <img src="images/placeholders/sidebar.png" height="1110" width="266" alt="">
+        <img src="images/placeholders/sidebar.png" height="1110" width="266" alt="">
     </nav>
-    <modal-dialog class="search-modal" show="spotlightModal" dialog-title="" on-close="modalClear()" main-model="newParticipant"> 
-      <searchbar ng-model="text" show="show"></searchbar>
+    <modal-dialog class="search-modal" show="spotlightModal" dialog-title="" on-close="modalClear()" main-model="newParticipant">
+        <searchbar ng-model="text" show="show"></searchbar>
     </modal-dialog>
     <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="row navbar-header">
-          <button ng-click="pushMenu($event)" type="button" class="navbar-toggle collapsed">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <div style="margin-right: 50px;" class="navbar-right right">
-            <div id="search-bar-icon" class="glyphicon glyphicon-search col-sd-1" ng-click="spotlightModal=!spotlightModal"></div>
-          </div>
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="row navbar-header">
+                <button ng-click="pushMenu($event)" type="button" class="navbar-toggle collapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div style="margin-right: 50px;" class="navbar-right right">
+                    <div id="search-bar-icon" class="glyphicon glyphicon-search col-sd-1" ng-click="spotlightModal=!spotlightModal"></div>
+                </div>
 
-        </div> 
-      </div>
+            </div>
+        </div>
     </div>
 
 
@@ -56,27 +56,27 @@
     <div ng-click="closeMenus()" ui-view id="top" autoscroll="true"></div>
 
     <div class="footer">
-      <div class="top">
-        <p>
-          <a href="">About ECA KMT</a>   |   
-          <a href="">Get Started</a>   |   
-          <a href="">Send Feedback</a>   |   
-          <a href="">FAQs</a>   |   
-          <a href="">Contact</a>   |   
-          <a href="">Terms & Conditions</a>   |   
-          <a href="">Accessibility</a>   |   
-          <a href="">Copyright</a> 
-        </p>
-      </div>
-      <div class="bottom">
-        <img class="flag" src="images/flag.png" height="35" width="66" alt="">  
-        <img class="seal" src="images/state-logo-seal.png" height="60" width="60" alt="">
-        <div class="text-stack">
-         <h5>Bureau of Educational and Cultural Affairs</h5>
-         <p>Promoting Mutual Understanding</p>
-       </div>
-     </div>
-   </div>
+        <div class="top">
+            <p>
+                <a href="">About ECA KMT</a>   |
+                <a href="">Get Started</a>   |
+                <a href="">Send Feedback</a>   |
+                <a href="">FAQs</a>   |
+                <a href="">Contact</a>   |
+                <a href="">Terms & Conditions</a>   |
+                <a href="">Accessibility</a>   |
+                <a href="">Copyright</a>
+            </p>
+        </div>
+        <div class="bottom">
+            <img class="flag" src="images/flag.png" height="35" width="66" alt="">
+            <img class="seal" src="images/state-logo-seal.png" height="60" width="60" alt="">
+            <div class="text-stack">
+                <h5>Bureau of Educational and Cultural Affairs</h5>
+                <p>Promoting Mutual Understanding</p>
+            </div>
+        </div>
+    </div>
 
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
@@ -84,7 +84,6 @@
     <script src="bower_components/json3/lib/json3.js"></script>
     <![endif]-->
     <!-- endbuild -->
-
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -114,14 +113,14 @@
     <script src="bower_components/ngSticky/lib/sticky.js"></script>
     <script src="bower_components/adal-angular/dist/adal.min.js"></script>
     <script src="bower_components/adal-angular/dist/adal-angular.min.js"></script>
+    <script src="bower_components/ng-table/dist/ng-table.js"></script>
     <!-- endbower -->
     <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
     <!-- endbuild -->
-
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/allprograms.js"></script>
-    <script src="scripts/controllers/office.js"></script>    
+    <script src="scripts/controllers/office.js"></script>
     <script src="scripts/controllers/project.js"></script>
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/services/authservice.js"></script>
@@ -155,9 +154,9 @@
     <script src="scripts/controllers/report.js"></script>
     <script src="scripts/services/locationservice.js"></script>
     <!-- endbuild -->
-<!--<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
-<script src="bower_components/datamaps/dist/datamaps.world.min.js"></script>!-->
+    <!--<script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="bower_components/datamaps/dist/datamaps.world.min.js"></script>!-->
 
-  </body>
-  </html>
+</body>
+</html>
