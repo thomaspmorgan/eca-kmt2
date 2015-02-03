@@ -32,7 +32,8 @@ namespace ECA.WebApi
         [ResponseType(typeof(ProgramDTO))]
         public async Task<IHttpActionResult> GetProgram(int id)
         {
-            Program program = await db.Programs.Include(p => p.Themes).Include(p => p.Owner).Include(p =>p.Regions).Include(p => p.Projects).SingleOrDefaultAsync(i => i.ProgramId == id);
+            Program program = await db.Programs.Include(p => p.Themes).Include(p => p.Owner).Include(p =>p.Regions).SingleOrDefaultAsync(i => i.ProgramId == id);
+            program.Projects = db.Projects.Include("Regions").ToList();
             if (program == null)
             {
                 return NotFound();

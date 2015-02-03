@@ -71,7 +71,7 @@ namespace ECA.Data
     public enum ProjectStatus
     {
         Planning,
-        InProgress,
+        Active,
         Complete
     }
 

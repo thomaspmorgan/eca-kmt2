@@ -11,13 +11,13 @@ namespace ECA.WebApi.Models
         public string Name { get; set; }
         public string Description { get; set; }
         //public ProjectType ProjectType { get; set; }
-        //public ProjectStatus Status { get; set; }
+        public string Status { get; set; }
         //public string FocusArea { get; set; }
         //public virtual ICollection<MoneyFlow> MoneyFlows { get; set; }
         //public virtual Organization NominationSource { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
-        //public virtual ICollection<Location> Regions { get; set; }
+        public ICollection<RegionDTO> Regions { get; set; }
         //public virtual ICollection<Location> Locations { get; set; }
         public string Language { get; set; }
         //public virtual ICollection<Location> Targets { get; set; }

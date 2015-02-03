@@ -43,7 +43,7 @@
                     <td>{{project.name}}</td>
                     <td>{{project.status}}</td>
                     <td>{{project.startDate | date: 'yyyy'}}</td>
-                    <td><!-- project.regions will go here --></td>
+                    <td ng-repeat="region in project.regions">{{region.locationName}}</td>
                     <td></td>
                 </tr>
             </tbody>
