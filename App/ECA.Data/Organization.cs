@@ -22,6 +22,7 @@ namespace ECA.Data
         [Required]
         public string Description { get; set; }
         [Required]
+        public Organization ParentOrganization { get; set; }
         public string Status { get; set; }
         public ICollection<Address> Addresses { get; set; }
         [Required]

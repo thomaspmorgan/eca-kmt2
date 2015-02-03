@@ -73,7 +73,13 @@
     <Compile Include="Migrations\201501291629351_UpdateLocationAndGoals.Designer.cs">
       <DependentUpon>201501291629351_UpdateLocationAndGoals.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502031359424_AddMoneyFlowTypeStatusandOrgParent.cs" />
+    <Compile Include="Migrations\201502031359424_AddMoneyFlowTypeStatusandOrgParent.Designer.cs">
+      <DependentUpon>201502031359424_AddMoneyFlowTypeStatusandOrgParent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="MoneyFlowStatus.cs" />
+    <Compile Include="MoneyFlowType.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Course.cs" />
@@ -131,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201501291629351_UpdateLocationAndGoals.resx">
       <DependentUpon>201501291629351_UpdateLocationAndGoals.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502031359424_AddMoneyFlowTypeStatusandOrgParent.resx">
+      <DependentUpon>201502031359424_AddMoneyFlowTypeStatusandOrgParent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

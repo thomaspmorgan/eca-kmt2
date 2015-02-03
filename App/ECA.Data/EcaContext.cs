@@ -47,6 +47,8 @@ namespace ECA.Data
         public DbSet<Transportation> Transportations { get; set; }
         public DbSet<Goal> Goals { get; set; }
         public DbSet<Material> Materials { get; set; }
+        public DbSet<MoneyFlowStatus> MoneyFlowStatuses { get; set; }
+        public DbSet<MoneyFlowType> MoneyFlowTypes { get; set; }
 
         public System.Data.Entity.DbSet<ECA.Data.SpecialStatus> SpecialStatus { get; set; }
 

@@ -40,18 +40,6 @@ namespace ECA.Data
         Weibo
     }
 
-    public enum MoneyFlowType
-    {
-        Inbound,
-        Outbound
-    }
-
-    public enum MoneyFlowStatus
-    {
-        Projected,
-        Actual
-    }
-
     public enum ItineraryStatus
     {
         Planned,
