@@ -9,7 +9,7 @@
  */
 angular.module('staticApp')
 	.constant('API_PREFIX', 'api/')
-	.constant('API_ENDPOINT_CLOUDAPP', 'http://ecaapi.cloudapp.net/')
+	.constant('API_ENDPOINT_CLOUDAPP', 'https://ecaapi-kmt-dev.azurewebsites.net/')
 	.constant('API_ENDPOINT_LOCALHOST', 'http://localhost:5555/')
   .factory('DragonBreath', function ($http, API_ENDPOINT_CLOUDAPP, API_ENDPOINT_LOCALHOST, API_PREFIX) {
 
