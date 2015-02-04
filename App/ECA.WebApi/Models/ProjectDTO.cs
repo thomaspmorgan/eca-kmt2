@@ -17,7 +17,7 @@ namespace ECA.WebApi.Models
         //public virtual Organization NominationSource { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
-        public ICollection<RegionDTO> Regions { get; set; }
+        public string Region { get; set; }
         //public virtual ICollection<Location> Locations { get; set; }
         public string Language { get; set; }
         //public virtual ICollection<Location> Targets { get; set; }
