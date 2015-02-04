@@ -26,11 +26,11 @@
                 </ul>
             </div>
         </div>
-        <div class="row" ng-show="program.stratGoals">
+        <div class="row" ng-show="program.goals">
             <div class="col-md-4 title-label">Strategic Goals</div>
             <div class="col-md-8">
                 <ul>
-                    <li ng-repeat="goal in program.stratGoals">{{goal}}</li>
+                    <li ng-repeat="goal in program.goals">{{goal.goalName}}</li>
                 </ul>
             </div>
         </div>
