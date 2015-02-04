@@ -45,3 +45,13 @@ table {
   letter-spacing: .5px;
   text-transform: uppercase;
 }
+
+.ng-table-rowselected > tbody {
+    > tr {
+        cursor: pointer;
+    }
+
+    > tr:hover {
+        background: $lightgray;
+    }
+}

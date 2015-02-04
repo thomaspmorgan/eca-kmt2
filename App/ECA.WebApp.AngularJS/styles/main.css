@@ -5278,6 +5278,11 @@ table tr {
   letter-spacing: 0.5px;
   text-transform: uppercase; }
 
+.ng-table-rowselected > tbody > tr {
+  cursor: pointer; }
+.ng-table-rowselected > tbody > tr:hover {
+  background: #f7f7f7; }
+
 .program-color {
   color: #3f4d8f; }
 
