@@ -365,7 +365,7 @@
   <PropertyGroup>
     <PostBuildEvent>cd ..
 .bin\bower install
-Copy "$(SolutionDir)bower_components\*" "$(ProjectDir)$(OutDir)bower_components\"</PostBuildEvent>
+xcopy /s /y "$(ProjectDir)bower_components" "$(OutDir)\bower_components"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
