@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, $filter, ProgramService, ProjectService, ngTableParams) {
+  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, $q, $filter, ProgramService, ProjectService, ngTableParams) {
 
     $scope.newProject = {};
 
@@ -139,11 +139,10 @@ angular.module('staticApp')
         }
     }, {
         getData: function($defer, params) {
-        ProjectService.getProjectsByProgram($stateParams.programId)
-            .then(function (data) {
+            getProjects().then(function (data) {
                 var filteredData = params.filter() ?
-                    $filter('filter')(data, params.filter()) :
-                    data;
+                   $filter('filter')(data, params.filter()) :
+                   data;
                 var orderedData = params.sorting() ?
                     $filter('orderBy')(filteredData, params.orderBy()) :
                     data;
@@ -152,6 +151,21 @@ angular.module('staticApp')
             });
         }
     });
+
+    var projects = null;
+    function getProjects() {
+        var defer= $q.defer();
+        if (projects === null) {
+            ProjectService.getProjectsByProgram($stateParams.programId)
+                .then(function (data) {
+                    projects = data;
+                    defer.resolve(projects);
+                })
+        } else {
+            defer.resolve(projects);
+        }
+        return defer.promise;
+    }
 
     $scope.selectProject = function (program, project) {
         $state.go('projects.overview', { officeId: program.owner.organizationId, programId: program.programId, projectId: project.projectId });
