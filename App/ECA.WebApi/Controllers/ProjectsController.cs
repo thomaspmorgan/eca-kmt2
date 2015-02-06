@@ -20,9 +20,11 @@ namespace ECA.WebApi.Controllers
         private EcaContext db = new EcaContext();
 
         // GET: api/Projects
-        public IQueryable<Project> GetProjects()
+        public IEnumerable<ProjectDTO> GetProjects()
         {
-            return db.Projects;
+            var projects = db.Projects;
+            var projectDTOs = Mapper.Map<IEnumerable<Project>, IEnumerable<ProjectDTO>>(projects);
+            return projectDTOs;
         }
         // GET: api/Programs/3/Projects
         [Route("api/Programs/{id:int}/Projects")]
@@ -36,13 +38,13 @@ namespace ECA.WebApi.Controllers
         [ResponseType(typeof(Project))]
         public async Task<IHttpActionResult> GetProject(int id)
         {
-            Project project = await db.Projects.Include(p => p.ParentProgram).Include(p => p.Regions).Include(p => p.Themes).Include(p => p.ParentProgram.Owner).SingleOrDefaultAsync(p => p.ProjectId == id);
+            Project project = await db.Projects.Include(p => p.ParentProgram).Include(p => p.Regions).Include(p => p.Goals).Include(p => p.Themes).Include(p => p.ParentProgram.Owner).SingleOrDefaultAsync(p => p.ProjectId == id);
             if (project == null)
             {
                 return NotFound();
             }
-
-            return Ok(Mapper.Map<Project, ProjectDTO>(project));
+            var projectDTO = Mapper.Map<Project, ProjectDTO>(project);
+            return Ok(projectDTO);
         }
 
         // PUT: api/Projects/5

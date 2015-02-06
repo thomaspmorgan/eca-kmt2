@@ -14,29 +14,35 @@
 	<div class="col-md-6">
 		<div class="row">
 			<div class="col-md-6 title-label">Themes</div>
-			<div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme}} </span></div>
+			<div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.themeName}} </span></div>
 		</div>
-		<div class="row">
+		<!--<div class="row">
 			<div class="col-md-6 title-label">Public Diplomacy Goals</div>
 			<div class="col-md-6"><span ng-repeat="goal in project.pdGoals">{{goal}} </span></div>
-		</div>
+		</div>-->
 		<div class="row">
 			<div class="col-md-6 title-label">Strategic Goals</div>
-			<div class="col-md-6"><span ng-repeat="goal in project.stratGoals">{{goal}} </span></div>
+			<div class="col-md-6">
+				<ul>
+					<li ng-repeat="goal in program.goals">{{goal.goalName}}</li>
+				</ul>
+			</div>
+			<div class="col-md-6"><span ng-repeat="goal in project.goals">{{goal.goalName}} </span></div>
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="row">
 			<div class="col-md-6 title-label">Focus</div>
-			<div class="col-md-6"><span ng-repeat="area in project.focusAreas">{{area}}</span></div>
+			<!--<div class="col-md-6"><span ng-repeat="area in project.focusAreas">{{area}}</span></div>-->
+			<div class="col-md-6">{{project.focusArea}}</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 title-label">Office</div>
-			<div class="col-md-6"><a ui-sref="offices.overview({officeId: program.owner.organizationId})">{{program.owner.longName}}</a></div>
+			<div class="col-md-6"><a ui-sref="offices.overview({officeId: program.owner.organizationId})">{{program.owner.description}}</a></div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 title-label">Program</div>
-			<div class="col-md-6"><a ui-sref="programs.overview({programId: project.parentProgram.programId})">{{project.parentProgram.displayName}}</a></div>
+			<div class="col-md-6"><a ui-sref="programs.overview({programId: project.parentProgram.programId})">{{project.parentProgram.name}}</a></div>
 		</div>
 		<div class="row" ng-show="program.contactReferences">
 			<div class="col-md-6 title-label"><ng-pluralize count="program.contactReferences.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>

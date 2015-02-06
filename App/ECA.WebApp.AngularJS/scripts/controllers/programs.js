@@ -154,7 +154,7 @@ angular.module('staticApp')
     });
 
     $scope.selectProject = function (program, project) {
-        $state.go('projects.overview', { officeId: program.owner.organizationId, programId: program.id, projectId: project.projectId });
+        $state.go('projects.overview', { officeId: program.owner.organizationId, programId: program.programId, projectId: project.projectId });
     };
 
   });
