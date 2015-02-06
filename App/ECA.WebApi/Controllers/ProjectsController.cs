@@ -36,13 +36,13 @@ namespace ECA.WebApi.Controllers
         [ResponseType(typeof(Project))]
         public async Task<IHttpActionResult> GetProject(int id)
         {
-            Project project = await db.Projects.FindAsync(id);
+            Project project = await db.Projects.Include(p => p.ParentProgram).Include(p => p.Regions).Include(p => p.Themes).Include(p => p.ParentProgram.Owner).SingleOrDefaultAsync(p => p.ProjectId == id);
             if (project == null)
             {
                 return NotFound();
             }
 
-            return Ok(project);
+            return Ok(Mapper.Map<Project, ProjectDTO>(project));
         }
 
         // PUT: api/Projects/5
