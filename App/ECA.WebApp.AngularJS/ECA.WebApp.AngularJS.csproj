@@ -363,7 +363,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>..\.bin\bower install
+    <PostBuildEvent>$(ProjectDir).bin\bower install
 xcopy /s /y "$(ProjectDir)bower_components" "$(OutDir)\bower_components"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
