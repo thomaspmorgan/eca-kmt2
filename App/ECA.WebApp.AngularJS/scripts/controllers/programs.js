@@ -171,4 +171,22 @@ angular.module('staticApp')
         $state.go('projects.overview', { officeId: program.owner.organizationId, programId: program.programId, projectId: project.projectId });
     };
 
+    $scope.statuses = function (column) {
+        var defer = $q.defer();
+        var statuses = [];
+        var temp = [];
+        getProjects().then(function (data) {
+            for (var i = 0; i < data.length; i++) {
+                if ($.inArray(data[i].status, temp) === -1) {
+                    temp.push(data[i].status);
+                    statuses.push({
+                        'id': data[i].status,
+                        'title': data[i].status
+                    });
+                }
+            }
+        });
+        defer.resolve(statuses);
+        return defer;
+    };
   });

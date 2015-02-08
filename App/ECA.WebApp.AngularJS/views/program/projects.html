@@ -27,9 +27,9 @@
         <table ng-table="tableParams" show-filter="true" class="table ng-table-rowselected">
             <tr ng-repeat="project in $data" ng-click="selectProject(program, project)">
                 <td data-title="'Title'" sortable="'name'" filter="{ 'name': 'text' }">{{project.name}}</td>
-                <td data-title="'Status'" sortable="'status'">{{project.status}}</td>
-                <td data-title="'Year'" sortable="'startDate'">{{project.startDate | date: 'yyyy'}}</td>
-                <td data-title="'Region'" sortable="'region'">{{project.region}}</td>
+                <td data-title="'Status'" sortable="'status'" filter="{ 'status': 'select'}" filter-data="statuses($column)">{{project.status}}</td>
+                <td data-title="'Year'" sortable="'startDate'" filter="{ 'startDate': 'text' }">{{project.startDate | date: 'yyyy'}}</td>
+                <td data-title="'Region'" sortable="'region'" filter="{ 'region': 'text' }">{{project.region}}</td>
                 <td></td>
             </tr>
         </table>
