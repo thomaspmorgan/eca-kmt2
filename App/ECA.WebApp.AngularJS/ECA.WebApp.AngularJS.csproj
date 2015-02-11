@@ -117,6 +117,7 @@
     <Content Include=".bin\git.cmd" />
     <Content Include=".bin\node.cmd" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
+    <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -365,7 +366,7 @@
   <PropertyGroup>
     <PostBuildEvent>cd ..
 .bin\bower install
-</PostBuildEvent>
+xcopy /e /y $(ProjectDir)bower_components $(ProjectPath)\$(OutDir)bower_components</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
