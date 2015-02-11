@@ -22,8 +22,9 @@ namespace ECA.Data
         public ICollection<PhoneNumber> PhoneNumbers { get; set; }
         public ICollection<EmailAddress> EmailAddresses { get; set; }
         // Relationships
-        public virtual Organization Organization { get; set; }
-        public int OrganizationId { get; set; }
+        public ICollection<Organization> Organizations { get; set; }
+        public ICollection<Program> Program { get; set; }
+        public ICollection<Project> Projects { get; set; }
 
         public History History { get; set; }
 

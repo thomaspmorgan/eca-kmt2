@@ -81,9 +81,18 @@
     <Compile Include="Migrations\201502041444123_DBSync.Designer.cs">
       <DependentUpon>201502041444123_DBSync.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502111610199_AddContactsToProjectProgram.cs" />
+    <Compile Include="Migrations\201502111610199_AddContactsToProjectProgram.Designer.cs">
+      <DependentUpon>201502111610199_AddContactsToProjectProgram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502111853109_AddParticipant.cs" />
+    <Compile Include="Migrations\201502111853109_AddParticipant.Designer.cs">
+      <DependentUpon>201502111853109_AddParticipant.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MoneyFlowStatus.cs" />
     <Compile Include="MoneyFlowType.cs" />
+    <Compile Include="Participant.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Course.cs" />
@@ -147,6 +156,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502041444123_DBSync.resx">
       <DependentUpon>201502041444123_DBSync.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502111610199_AddContactsToProjectProgram.resx">
+      <DependentUpon>201502111610199_AddContactsToProjectProgram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502111853109_AddParticipant.resx">
+      <DependentUpon>201502111853109_AddParticipant.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

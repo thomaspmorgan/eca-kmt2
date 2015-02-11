@@ -41,6 +41,7 @@ namespace ECA.Data
         public ICollection<Artifact> Artifacts { get; set; }
         public ICollection<ProgramType> ProgramType { get; set; }
         public ICollection<Impact> Impacts { get; set; }
+        public ICollection<Contact> Contacts { get; set; }
 
         public History History { get; set; }
     }

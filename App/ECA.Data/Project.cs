@@ -48,6 +48,7 @@ namespace ECA.Data
         public ICollection<Impact> Impacts { get; set; }
         public Event Event { get; set; }
         public int? EventId { get; set; }
+        public ICollection<Contact> Contacts { get; set; }
 
         public History History { get; set; }
     }

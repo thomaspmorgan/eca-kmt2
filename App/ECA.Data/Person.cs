@@ -33,7 +33,6 @@ namespace ECA.Data
         public virtual ICollection<Publication> Publications { get; set; }
         public bool PermissionToContact { get; set; }
         public virtual ICollection<SpecialStatus> SpecialStatuses { get; set; }
-        public virtual ICollection<ParticipantType> ParticipantTypes { get; set; }
         public virtual ICollection<Membership> Memberships { get; set; }
         public virtual ICollection<InterestSpecialization> InterestsAndSpecializations { get; set; }
         public virtual ICollection<ProminentCategory> ProminentCategories { get; set; }

@@ -25,13 +25,13 @@ namespace ECA.Data
         public Organization ParentOrganization { get; set; }
         public string Status { get; set; }
         public ICollection<Address> Addresses { get; set; }
-        [Required]
         public ICollection<Contact> Contacts { get; set; }
         [Required]
         public string Name { get; set; }
         public string Website { get; set; }
         public ICollection<SocialMedia> SocialMediaPresence { get; set; }
-        public List<DateTimeOffset> ContactHistory { get; set; }
+        //public List<DateTimeOffset> ContactHistory { get; set; }
+        //need to add some type of contact history element, most likely off of Contact
 
         //relationships
 
