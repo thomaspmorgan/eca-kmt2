@@ -41,7 +41,7 @@ namespace ECA.Data
         public Program ParentProgram { get; set; }
         public int AudienceReach { get; set; }
         public ICollection<Artifact> Artifacts { get; set; }
-        public ICollection<ParticipantStatus> ParticipantsStatus { get; set; }
+        public ICollection<Participant> Participants { get; set; }
         public ICollection<Project> RelatedProjects { get; set; }
         public ICollection<Project> OtherRelatedProjects { get; set; }
         public ICollection<string> TreatiesAgreementsContracts { get; set; }

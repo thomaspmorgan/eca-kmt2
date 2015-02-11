@@ -16,8 +16,12 @@ namespace ECA.Data
     {
         [Key]
         public int ParticipantStatusId { get; set; }
-        public virtual Person Person { get; set; }
-        public PersonStatus Status { get; set; }
+        [Required]
+        public Participant Participant { get; set; }
+        [Required]
+        public ParticipantStatus Status { get; set; }
+
+        public DateTimeOffset StatusDate { get; set; }
 
         public History History { get; set; }
     }

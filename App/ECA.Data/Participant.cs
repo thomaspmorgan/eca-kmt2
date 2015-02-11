@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace ECA.Data
 {
-    class Participant
+    public class Participant
     {
         [Key]
         public int ParticipantId { get; set; }
@@ -23,6 +23,9 @@ namespace ECA.Data
         [Required]
         [DefaultValue(false)]
         public bool IsRecipient { get; set; }
+
+        //Relationships
+        public ICollection<Project> Projects { get; set; }
 
         public History History { get; set; }
     }

@@ -57,22 +57,15 @@ namespace ECA.Data
 
     public enum ProgramType
     {
-        ProgramType1,
-        ProgramType2,
-        ProgramType3
+        Program,
+        Office,
+        Branch
     }
 
     public enum ProjectType
     {
         ProjectType1,
         ProjectType2
-    }
-
-    public enum ProjectStatus
-    {
-        Planning,
-        Active,
-        Complete
     }
 
     public enum Method

@@ -93,6 +93,7 @@
     <Compile Include="MoneyFlowStatus.cs" />
     <Compile Include="MoneyFlowType.cs" />
     <Compile Include="Participant.cs" />
+    <Compile Include="ProjectStatus.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Course.cs" />
