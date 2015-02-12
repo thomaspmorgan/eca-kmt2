@@ -89,6 +89,10 @@
     <Compile Include="Migrations\201502111853109_AddParticipant.Designer.cs">
       <DependentUpon>201502111853109_AddParticipant.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502121550000_FixProjectStatusIdField.cs" />
+    <Compile Include="Migrations\201502121550000_FixProjectStatusIdField.Designer.cs">
+      <DependentUpon>201502121550000_FixProjectStatusIdField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MoneyFlowStatus.cs" />
     <Compile Include="MoneyFlowType.cs" />
@@ -163,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502111853109_AddParticipant.resx">
       <DependentUpon>201502111853109_AddParticipant.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502121550000_FixProjectStatusIdField.resx">
+      <DependentUpon>201502121550000_FixProjectStatusIdField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -23,6 +23,8 @@ namespace ECA.Data
         public ProjectType ProjectType { get; set; }
         [Required]
         public ProjectStatus Status { get; set; }
+        [Required]
+        public int ProjectStatusId { get; set; }
         public string FocusArea { get; set; }
         public ICollection<MoneyFlow> MoneyFlows { get; set; }
         public Organization NominationSource { get; set; }
