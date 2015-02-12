@@ -18,7 +18,7 @@ namespace ECA.WebApi.Models
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public string Region { get; set; }
-        //public virtual ICollection<Location> Locations { get; set; }
+        //public ICollection<Location> Locations { get; set; }
         public string Language { get; set; }
         //public virtual ICollection<Location> Targets { get; set; }
         public ICollection<ThemeDTO> Themes { get; set; }

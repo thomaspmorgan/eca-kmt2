@@ -13,7 +13,8 @@ namespace ECA.WebApi.Models
         {
             Mapper.CreateMap<Program, ProgramDTO>().ReverseMap().MaxDepth(1);
             Mapper.CreateMap<Project, ProjectDTO>()
-                .ForMember(dest => dest.Region, opt => opt.MapFrom(src => src.Regions.FirstOrDefault().LocationName));
+                .ForMember(dest => dest.Region, opt => opt.MapFrom(src => src.Regions.FirstOrDefault().LocationName))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Status));
             Mapper.CreateMap<Theme, ThemeDTO>();
             Mapper.CreateMap<Organization, OrganizationDTO>().ReverseMap()
                 .MaxDepth(2)
