@@ -5263,12 +5263,12 @@ label {
 
 table tr {
   border-bottom: 1px solid #e6e6e6; }
-  table tr td {
+  table tr th {
     padding-bottom: 24px;
     padding-top: 28px; }
-    table tr td h3 {
+    table tr th h3 {
       margin-top: 0; }
-    table tr td p {
+    table tr th p {
       font-size: 0.79em; }
 
 .title-label {
@@ -5277,11 +5277,6 @@ table tr {
   font-weight: 500;
   letter-spacing: 0.5px;
   text-transform: uppercase; }
-
-.ng-table-rowselected > tbody > tr {
-  cursor: pointer; }
-.ng-table-rowselected > tbody > tr:hover {
-  background: #f7f7f7; }
 
 .program-color {
   color: #3f4d8f; }
@@ -5341,6 +5336,20 @@ table tr {
 
 .list2 input[type="checkbox"] {
   margin-right: 10px; }
+.list2 tr {
+  border-top: 1px solid #e5eae9;
+  border-bottom: 0; }
+.list2 tr:last-child {
+  border-bottom: 1px solid #e5eae9; }
+.list2 td {
+  padding: 40px 0 40px 0; }
+  .list2 td a {
+    color: #415358; }
+  .list2 td a:hover {
+    color: #297cb4;
+    text-decoration: underline; }
+.list2 td:first-child {
+  padding: 40px 0 40px 60px; }
 .list2 .row {
   border-top: 1px solid #e5eae9;
   padding: 40px 60px 40px 40px;
@@ -5427,17 +5436,27 @@ table tr {
     width: auto; }
   #sort-list table {
     padding-left: 0; }
-  #sort-list td {
+  #sort-list th {
     padding-bottom: 14px;
     padding-left: 0; }
-  #sort-list tr {
-    border-bottom: 0;
-    border-top: 0; }
+    #sort-list th tr {
+      border-bottom: 0;
+      border-top: 0; }
 
 .sort-label {
   font-size: 12px;
   text-decoration: underline;
   text-transform: uppercase; }
+  .sort-label:hover {
+    cursor: pointer; }
+
+.st-sort-ascent:after {
+  content: ' \25B2';
+  display: inline-block; }
+
+.st-sort-descent:after {
+  content: ' \25BC';
+  display: inline-block; }
 
 .alt {
   border-bottom: 1px solid #e5eae9; }

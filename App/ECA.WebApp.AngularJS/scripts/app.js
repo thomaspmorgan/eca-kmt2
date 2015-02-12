@@ -20,7 +20,7 @@ angular
     'xeditable',
     'sticky',
     'AdalAngular',
-    'ngTable'
+    'smart-table'
   ])
   .config(function ($stateProvider, $httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider) {
     
