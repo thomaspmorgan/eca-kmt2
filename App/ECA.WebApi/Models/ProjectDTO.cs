@@ -24,6 +24,7 @@ namespace ECA.WebApi.Models
         public ICollection<ThemeDTO> Themes { get; set; }
         public ICollection<GoalDTO> Goals { get; set; }
         public ProgramDTO ParentProgram { get; set; }
+        public int ProgramId { get; set; }
         public int AudienceReach { get; set; }
         //public virtual ICollection<Artifact> Artifacts { get; set; }
         //public virtual ICollection<ParticipantStatus> ParticipantsStatus { get; set; }
@@ -33,5 +34,6 @@ namespace ECA.WebApi.Models
         //public virtual ICollection<Impact> Impacts { get; set; }
         //public virtual Event Event { get; set; }
         //public int? EventId { get; set; }
+        public HistoryDTO History { get; set; }
     }
 }

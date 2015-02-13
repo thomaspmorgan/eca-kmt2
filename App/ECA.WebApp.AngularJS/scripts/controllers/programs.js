@@ -74,6 +74,22 @@ angular.module('staticApp')
 
       $scope.saveProject = function () {
           var project = {
+              name: $scope.newProject.title,
+              description: $scope.newProject.description,
+              projectStatusId: 5,
+              startDate: new Date(Date.now()).toUTCString(),
+              programId: $scope.program.programId
+          }
+          ProjectService.create(project)
+            .then(function (createdProject) {
+                console.log(createdProject);
+                $state.go('projects.overview', { officeId: $scope.program.owner.organizationId,  programId: $scope.program.programId, projectId: createdProject.projectId});
+            });
+      };
+
+      /*
+      $scope.saveProject = function () {
+          var project = {
               id: Date.now().toString(),
               name: $scope.newProject.title,
               description: $scope.newProject.description,
@@ -103,6 +119,7 @@ angular.module('staticApp')
           $scope.program.projectReferences.push({ projectName: project.name, projectId: project.id });
           saveProgram();
       };
+      */
 
       $scope.modalClear = function () {
           angular.forEach($scope.newProject, function (value, key) {

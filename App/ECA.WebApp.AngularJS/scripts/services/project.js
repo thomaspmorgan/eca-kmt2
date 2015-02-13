@@ -82,8 +82,8 @@ angular.module('staticApp')
         var defer = $q.defer();
         var path = 'programs/' + id + '/projects'
         DragonBreath.get(path)
-          .success(function (projects) {
-              defer.resolve(projects);
+          .success(function (data) {
+              defer.resolve(data);
           });
 
         return defer.promise;
@@ -101,8 +101,7 @@ angular.module('staticApp')
         var defer = $q.defer();
         DragonBreath.create(project, 'projects')
           .success(function (data) {
-            getProject(data);
-            defer.resolve(project);
+            defer.resolve(data);
           });
         return defer.promise;
       }

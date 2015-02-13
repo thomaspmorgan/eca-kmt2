@@ -84,13 +84,23 @@ namespace ECA.WebApi.Controllers
 
         // POST: api/Projects
         [ResponseType(typeof(Project))]
-        public async Task<IHttpActionResult> PostProject(Project project)
+        public async Task<IHttpActionResult> PostProject(ProjectDTO projectDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var now = DateTimeOffset.Now;
+
+            var historyDTO = new HistoryDTO();
+            historyDTO.CreatedBy = 0;
+            historyDTO.CreatedOn = now;
+            historyDTO.RevisedBy = 0;
+            historyDTO.RevisedOn = now;
+            projectDTO.History = historyDTO;
+
+            var project = Mapper.Map<ProjectDTO, Project>(projectDTO);
             db.Projects.Add(project);
             await db.SaveChangesAsync();
 

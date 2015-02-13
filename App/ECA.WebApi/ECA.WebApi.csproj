@@ -178,6 +178,7 @@
     <Compile Include="Controllers\ProgramsController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Models\AutoMapperConfig.cs" />
+    <Compile Include="Models\HistoryDTO.cs" />
     <Compile Include="Models\GoalDTO.cs" />
     <Compile Include="Models\OrganizationDTO.cs" />
     <Compile Include="Models\OrganizationTypeDTO.cs" />

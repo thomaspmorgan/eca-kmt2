@@ -36,7 +36,7 @@
             <tbody class="list2">
                 <tr ng-repeat="project in projectsCopy" class="hover">
                     <td>
-                        <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.owner.organizationId, programId: program.id, projectId: project.projectId})">{{project.name}}</a></h5>
+                        <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.owner.organizationId, programId: program.programId, projectId: project.projectId})">{{project.name}}</a></h5>
                     </td>
                     <td>{{project.status}}</td>
                     <td>{{project.startDate | date: 'yyyy'}}</td>
