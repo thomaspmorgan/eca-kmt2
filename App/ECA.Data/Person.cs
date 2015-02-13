@@ -44,7 +44,6 @@ namespace ECA.Data
         public virtual ICollection<ExternalId> ExternalIds { get; set; }
         public virtual ICollection<SocialMedia> SocialMediaIds { get; set; }
         public virtual ICollection<Address> Addresses { get; set; }
-        public virtual ICollection<MoneyFlow> MoneyFlows { get; set; }
         public virtual ICollection<Event> Events { get; set; }
         public string EvaluationRetention { get; set; }
         public virtual ICollection<Person> Family { get; set; }

@@ -33,7 +33,8 @@ namespace ECA.Data
         public ICollection<Location> Locations { get; set; }
         [InverseProperty("TargetPrograms")]
         public ICollection<Location> Targets { get; set; }
-        public ICollection<MoneyFlow> MoneyFlows { get; set; }
+        public ICollection<MoneyFlow> SourceProgramMoneyFlows { get; set; }
+        public ICollection<MoneyFlow> RecipientProgramMoneyFlows { get; set; }
         public ICollection<Project> Projects { get; set; }
         public ICollection<Program> ChildPrograms { get; set; }
         public ICollection<Theme> Themes { get; set; }

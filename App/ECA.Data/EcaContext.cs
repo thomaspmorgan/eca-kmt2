@@ -20,50 +20,49 @@ namespace ECA.Data
         public DbSet<Artifact> Artifacts { get; set; }
         public DbSet<ArtifactType> ArtifactTypes { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Course> Courses { get; set; }
         public DbSet<EmailAddress> EmailAddresses { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<EventType> EventTypes { get; set; }
         public DbSet<ExternalId> ExternalIds { get; set; }
         public DbSet<Impact> Impacts { get; set; }
         public DbSet<ImpactType> ImpactTypes { get; set; }
+        public DbSet<InterestSpecialization> InterestSpecializations { get; set; }
         public DbSet<Itinerary> Itineraries { get; set; }
         public DbSet<ItineraryStop> ItineraryStops { get; set; }
         public DbSet<LanguageProficiency> LanguangeProficiencies { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<LocationType> LocationTypes { get; set; }
+        public DbSet<Membership> Memberships { get; set; }
         public DbSet<MoneyFlow> MoneyFlows { get; set; }
         public DbSet<NamePart> NameParts { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<OrganizationType> OrganizationTypes { get; set; }
+        public DbSet<Participant> Participants { get; set; }
         public DbSet<ParticipantStatus> ParticipantStatuses { get; set; }
+        public DbSet<ParticipantType> ParticipantTypes { get; set; }
         public DbSet<Person> People { get; set; }
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
         public DbSet<ProfessionEducation> ProfessionEducations { get; set; }
         public DbSet<Program> Programs { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectStatus> ProjectStatuses { get; set; }
+        public DbSet<ProminentCategory> ProminentCategories { get; set; }
         public DbSet<Publication> Publications { get; set; }
         public DbSet<SocialMedia> SocialMedias { get; set; }
+        public DbSet<SpecialStatus> SpecialStatuses { get; set; }
         public DbSet<Theme> Themes { get; set; }
         public DbSet<Transportation> Transportations { get; set; }
         public DbSet<Goal> Goals { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<MoneyFlowStatus> MoneyFlowStatuses { get; set; }
         public DbSet<MoneyFlowType> MoneyFlowTypes { get; set; }
-
-        public System.Data.Entity.DbSet<ECA.Data.SpecialStatus> SpecialStatus { get; set; }
+        public DbSet<MoneyFlowSourceRecipientType> MoneyFlowSourceRecipientTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            modelBuilder.Entity<MoneyFlow>()
-                .HasRequired(e => e.Source)
-                .WithMany(e => e.MoneyFlowSources)
-                .WillCascadeOnDelete(false);
-            modelBuilder.Entity<MoneyFlow>()
-                .HasRequired(e => e.Recipient)
-                .WithMany(e => e.MoneyFlowRecipients)
-                .WillCascadeOnDelete(false);
             modelBuilder.Entity<Impact>()
                 .HasOptional(e => e.Program)
                 .WithMany(e => e.Impacts)
@@ -167,6 +166,15 @@ namespace ECA.Data
                  p.MapRightKey("LocationId");
                  p.ToTable("ProgramTarget");
              });
+            modelBuilder.Entity<Organization>()
+                .HasMany<Contact>(p => p.Contacts)
+                .WithMany(t => t.Organizations)
+                .Map(p =>
+                {
+                    p.MapLeftKey("OrganizationId");
+                    p.MapRightKey("ContactId");
+                    p.ToTable("OrganizationContact");
+                });
         }
     }
 }

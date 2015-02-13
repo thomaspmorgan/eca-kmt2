@@ -22,6 +22,7 @@ namespace ECA.Data
         public string RecordLocator { get; set; }
         public ItineraryStop ItineraryStop { get; set; }
         public int? ItineraryStopId { get; set; }
+        public virtual ICollection<MoneyFlow> RecipientTransportationExpenses { get; set; }
 
         public History History { get; set; }
     }

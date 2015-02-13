@@ -23,7 +23,7 @@ namespace ECA.Data
         [Required]
         public DateTimeOffset CheckOut { get; set; }
         public string RecordLocator { get; set; }
-        public virtual ICollection<MoneyFlow> Expenses { get; set; }
+        public virtual ICollection<MoneyFlow> RecipientAccommodationExpenses { get; set; }
 
         // relations
         public virtual ICollection<ItineraryStop> ItineraryStops { get; set; }

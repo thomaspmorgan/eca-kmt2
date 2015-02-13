@@ -20,12 +20,13 @@ namespace ECA.Data
         [Required]
         public int ParticipantTypeId { get; set; }
         public ParticipantType ParticipantType { get; set; }
-        [Required]
-        [DefaultValue(false)]
-        public bool IsRecipient { get; set; }
+
 
         //Relationships
         public ICollection<Project> Projects { get; set; }
+
+        public ICollection<MoneyFlow> SourceParticipantMoneyFlows { get; set; }
+        public ICollection<MoneyFlow> RecipientParticipantMoneyFlows { get; set; }
 
         public History History { get; set; }
     }

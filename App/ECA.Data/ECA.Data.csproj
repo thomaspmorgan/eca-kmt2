@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accomodation.cs" />
+    <Compile Include="Accommodation.cs" />
     <Compile Include="Actor.cs" />
     <Compile Include="Address.cs" />
     <Compile Include="AddressType.cs" />
@@ -101,7 +101,12 @@
     <Compile Include="Migrations\201502131557370_AddProgramIdToProject1.Designer.cs">
       <DependentUpon>201502131557370_AddProgramIdToProject1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502131837543_UpdateMoneyFlow.cs" />
+    <Compile Include="Migrations\201502131837543_UpdateMoneyFlow.Designer.cs">
+      <DependentUpon>201502131837543_UpdateMoneyFlow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="MoneyFlowSourceRecipientType.cs" />
     <Compile Include="MoneyFlowStatus.cs" />
     <Compile Include="MoneyFlowType.cs" />
     <Compile Include="Participant.cs" />
@@ -184,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502131557370_AddProgramIdToProject1.resx">
       <DependentUpon>201502131557370_AddProgramIdToProject1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502131837543_UpdateMoneyFlow.resx">
+      <DependentUpon>201502131837543_UpdateMoneyFlow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

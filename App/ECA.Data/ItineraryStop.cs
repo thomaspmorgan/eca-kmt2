@@ -28,7 +28,8 @@ namespace ECA.Data
         public virtual ICollection<Accommodation> Accommodations { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<Material> Materials { get; set; }
-        public virtual ICollection<MoneyFlow> MoneyFlows { get; set; }
+        public ICollection<MoneyFlow> SourceItineraryStopMoneyFlows { get; set; }
+        public ICollection<MoneyFlow> RecipientItineraryStopMoneyFlows { get; set; }
         public virtual ICollection<ParticipantStatus> ParticipantStatuses { get; set; }
         public virtual ICollection<Artifact> Artifacts { get; set; }
 
