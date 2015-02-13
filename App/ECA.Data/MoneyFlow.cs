@@ -18,40 +18,44 @@ namespace ECA.Data
     {
         [Key]
         public int MoneyFlowId {get; set;}
-        [Required]
+
         public MoneyFlowType MoneyFlowType {get; set;}
-        public MoneyFlow Parent {get; set;}
-        [InverseProperty("MoneyFlowSources")]
-        [ForeignKey("SourceOrganizationId")]
-        public Organization SourceOrganization {get; set;}
-        public int? SourceOrganizationId { get; set; }
-        [InverseProperty("MoneyFlowRecipients")]
-        [ForeignKey("RecipientOrganizationId")]
-        public Organization RecipientOrganization {get; set;}
-        public int? RecipientOrganizationId { get; set; }
+        [Required]
+        public int MoneyFlowTypeId { get; set; }
+
         [Required]
         public float Value {get; set;}
-        [Required]
+       
         public MoneyFlowStatus MoneyFlowStatus { get; set;}
+        [Required]
+        public int MoneyFlowStatusId { get; set; }
+
         [Required]
         public DateTimeOffset TransactionDate { get; set; }
         [Required]
         public int FiscalYear { get; set; }
 
-
-        [Required]
         [InverseProperty("SourceTypes")]
         [ForeignKey("SourceTypeId")]
         public MoneyFlowSourceRecipientType SourceType { get; set; }
         public int SourceTypeId { get; set; }
-
-        [Required]
+                
         [InverseProperty("RecipientTypes")]
         [ForeignKey("RecipientTypeId")]
         public MoneyFlowSourceRecipientType RecipientType { get; set; }
         public int RecipientTypeId { get; set; }
 
         //relations
+
+        public MoneyFlow Parent { get; set; }
+        [InverseProperty("MoneyFlowSources")]
+        [ForeignKey("SourceOrganizationId")]
+        public Organization SourceOrganization { get; set; }
+        public int? SourceOrganizationId { get; set; }
+        [InverseProperty("MoneyFlowRecipients")]
+        [ForeignKey("RecipientOrganizationId")]
+        public Organization RecipientOrganization { get; set; }
+        public int? RecipientOrganizationId { get; set; }
 
         [InverseProperty("SourceProgramMoneyFlows")]
         [ForeignKey("SourceProgramId")]
@@ -98,16 +102,6 @@ namespace ECA.Data
         [ForeignKey("RecipientAccommodationId")]
         public Accommodation RecipientAccommodation { get; set; }
         public int? RecipientAccommodationId { get; set; }
-
-        // old relations that can be deleted eventually
-        public int? ProgramId { get; set; }
-        public ECA.Data.Program Program { get; set; }
-
-        public int? ProjectId { get; set; }
-        public Project Project { get; set; }
-
-        public int? ItineraryStopId { get; set; }
-        public ItineraryStop ItineraryStop { get; set; }
 
         public History History { get; set; }
 

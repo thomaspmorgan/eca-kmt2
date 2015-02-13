@@ -105,6 +105,10 @@
     <Compile Include="Migrations\201502131837543_UpdateMoneyFlow.Designer.cs">
       <DependentUpon>201502131837543_UpdateMoneyFlow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502132124174_UpdateMoneyFlow2.cs" />
+    <Compile Include="Migrations\201502132124174_UpdateMoneyFlow2.Designer.cs">
+      <DependentUpon>201502132124174_UpdateMoneyFlow2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MoneyFlowSourceRecipientType.cs" />
     <Compile Include="MoneyFlowStatus.cs" />
@@ -192,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502131837543_UpdateMoneyFlow.resx">
       <DependentUpon>201502131837543_UpdateMoneyFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502132124174_UpdateMoneyFlow2.resx">
+      <DependentUpon>201502132124174_UpdateMoneyFlow2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
