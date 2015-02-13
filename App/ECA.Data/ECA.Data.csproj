@@ -93,6 +93,14 @@
     <Compile Include="Migrations\201502121550000_FixProjectStatusIdField.Designer.cs">
       <DependentUpon>201502121550000_FixProjectStatusIdField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502131533141_AddProgramIdToProject.cs" />
+    <Compile Include="Migrations\201502131533141_AddProgramIdToProject.Designer.cs">
+      <DependentUpon>201502131533141_AddProgramIdToProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502131557370_AddProgramIdToProject1.cs" />
+    <Compile Include="Migrations\201502131557370_AddProgramIdToProject1.Designer.cs">
+      <DependentUpon>201502131557370_AddProgramIdToProject1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MoneyFlowStatus.cs" />
     <Compile Include="MoneyFlowType.cs" />
@@ -170,6 +178,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502121550000_FixProjectStatusIdField.resx">
       <DependentUpon>201502121550000_FixProjectStatusIdField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502131533141_AddProgramIdToProject.resx">
+      <DependentUpon>201502131533141_AddProgramIdToProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502131557370_AddProgramIdToProject1.resx">
+      <DependentUpon>201502131557370_AddProgramIdToProject1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

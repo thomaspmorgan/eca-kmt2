@@ -21,7 +21,6 @@ namespace ECA.Data
         [Required]
         public string Description { get; set; }
         public ProjectType ProjectType { get; set; }
-        [Required]
         public ProjectStatus Status { get; set; }
         [Required]
         public int ProjectStatusId { get; set; }
@@ -41,6 +40,8 @@ namespace ECA.Data
         public ICollection<Theme> Themes { get; set; }
         public ICollection<Goal> Goals {get; set;}
         public Program ParentProgram { get; set; }
+        [Required]
+        public int ProgramId { get; set; }
         public int AudienceReach { get; set; }
         public ICollection<Artifact> Artifacts { get; set; }
         public ICollection<Participant> Participants { get; set; }
