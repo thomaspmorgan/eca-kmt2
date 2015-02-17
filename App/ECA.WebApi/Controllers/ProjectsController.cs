@@ -83,7 +83,7 @@ namespace ECA.WebApi.Controllers
         }
 
         // POST: api/Projects
-        [ResponseType(typeof(Project))]
+        [ResponseType(typeof(ProjectDTO))]
         public async Task<IHttpActionResult> PostProject(ProjectDTO projectDTO)
         {
             if (!ModelState.IsValid)
@@ -104,8 +104,11 @@ namespace ECA.WebApi.Controllers
             project.ProjectStatusId = (await db.ProjectStatuses.FirstOrDefaultAsync(p => p.Status == "Draft")).ProjectStatusId;
             db.Projects.Add(project);
             await db.SaveChangesAsync();
+            // doesn't work, why? 
+            // projectDTO = Mapper.Map<Project, ProjectDTO>(project);
+            projectDTO.ProjectId = project.ProjectId;
 
-            return CreatedAtRoute("DefaultApi", new { id = project.ProjectId }, project);
+            return CreatedAtRoute("DefaultApi", new { id = projectDTO.ProjectId }, projectDTO);
         }
 
         // DELETE: api/Projects/5
