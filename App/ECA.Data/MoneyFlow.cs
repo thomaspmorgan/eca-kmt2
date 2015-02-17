@@ -45,6 +45,9 @@ namespace ECA.Data
         public MoneyFlowSourceRecipientType RecipientType { get; set; }
         public int RecipientTypeId { get; set; }
 
+        [MaxLength(255)]
+        public string Description { get; set; }
+
         //relations
 
         public MoneyFlow Parent { get; set; }

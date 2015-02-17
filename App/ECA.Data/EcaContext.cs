@@ -175,6 +175,24 @@ namespace ECA.Data
                     p.MapRightKey("ContactId");
                     p.ToTable("OrganizationContact");
                 });
+            modelBuilder.Entity<Program>()
+                .HasMany<Contact>(p => p.Contacts)
+                .WithMany(t => t.Programs)
+                .Map(p =>
+                {
+                    p.MapLeftKey("ProgramId");
+                    p.MapRightKey("ContactId");
+                    p.ToTable("ProgramContact");
+                });
+            modelBuilder.Entity<Project>()
+                .HasMany<Contact>(p => p.Contacts)
+                .WithMany(t => t.Projects)
+                .Map(p =>
+                {
+                    p.MapLeftKey("ProjectId");
+                    p.MapRightKey("ContactId");
+                    p.ToTable("ProjectContact");
+                });
         }
     }
 }
