@@ -24,6 +24,7 @@ namespace ECA.WebApi.Models
             Mapper.CreateMap<Goal, GoalDTO>().ReverseMap();
             Mapper.CreateMap<Location, RegionDTO>().ReverseMap();
             Mapper.CreateMap<History, HistoryDTO>().ReverseMap();
+            Mapper.CreateMap<Contact, ContactDTO>();
         }
     }
 }

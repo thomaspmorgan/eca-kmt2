@@ -53,11 +53,11 @@
             <div class="col-md-8"><a ui-sref="offices.overview({officeId: program.owner.organizationId})">{{program.owner.description}}</a></div>
         </div>
 
-        <div class="row" ng-show="program.contactReferences">
-            <div class="col-md-4 title-label"><ng-pluralize count="program.contactReferences.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+        <div class="row" ng-show="program.contacts">
+            <div class="col-md-4 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
             <div class="col-md-8">
                 <ul>
-                    <li ng-repeat="contact in program.contactReferences">{{contact.contactName}}</li>
+                    <li ng-repeat="contact in program.contacts">{{contact.fullName}}</li>
                 </ul>
             </div>
         </div>

@@ -21,6 +21,7 @@ namespace ECA.WebApi.Models
         public ICollection<ThemeDTO> Themes { get; set; }
         public ICollection<RegionDTO> Regions { get; set; }
         public ICollection<GoalDTO> Goals { get; set; }
+        public ICollection<ContactDTO> Contacts { get; set; }
 
         public DateTimeOffset RevisedOn { get; set; }
     }
