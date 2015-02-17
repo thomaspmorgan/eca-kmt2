@@ -101,6 +101,7 @@ namespace ECA.WebApi.Controllers
             projectDTO.History = historyDTO;
 
             var project = Mapper.Map<ProjectDTO, Project>(projectDTO);
+            project.ProjectStatusId = (await db.ProjectStatuses.FirstOrDefaultAsync(p => p.Status == "Draft")).ProjectStatusId;
             db.Projects.Add(project);
             await db.SaveChangesAsync();
 
