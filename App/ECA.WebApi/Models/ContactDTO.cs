@@ -8,6 +8,6 @@ namespace ECA.WebApi.Models
     public class ContactDTO
     {
         public string FullName { get; set; }
-        public string Postion { get; set; }
+        public string Position { get; set; }
     }
 }

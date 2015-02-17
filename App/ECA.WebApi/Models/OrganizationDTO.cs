@@ -17,8 +17,7 @@ namespace ECA.WebApi.Models
         public string Name { get; set; }
         public string Website { get; set; }
         //public virtual ICollection<SocialMedia> SocialMediaPresence { get; set; }
-        public List<DateTimeOffset> ContactHistory { get; set; }
-
+ 
         //relationships
 
         //public virtual ICollection<MoneyFlow> MoneyFlowSources { get; set; }
