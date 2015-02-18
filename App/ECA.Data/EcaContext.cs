@@ -193,6 +193,15 @@ namespace ECA.Data
                     p.MapRightKey("ContactId");
                     p.ToTable("ProjectContact");
                 });
+            modelBuilder.Entity<Impact>()
+                .HasMany<Person>(p => p.People)
+                .WithMany(t => t.Impacts)
+                .Map(p =>
+                {
+                    p.MapLeftKey("ImpactId");
+                    p.MapRightKey("PersonId");
+                    p.ToTable("ImpactPerson");
+                });
         }
     }
 }

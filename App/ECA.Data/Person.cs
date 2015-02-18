@@ -47,8 +47,7 @@ namespace ECA.Data
         public virtual ICollection<Event> Events { get; set; }
         public string EvaluationRetention { get; set; }
         public virtual ICollection<Person> Family { get; set; }
-        public virtual Impact Impact { get; set; }
-        public int ImpactId { get; set; }
+        public virtual ICollection<Impact> Impacts { get; set; }
 
         public History History { get; set; }
     }
