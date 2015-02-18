@@ -21,7 +21,7 @@ namespace ECA.Data
         public virtual Location Origin { get; set; }
         public virtual Location Destination { get; set; }
         public virtual ICollection<Actor> Actors { get; set; }
-        public virtual ICollection<Person> Participants { get; set; }
+        public virtual ICollection<Participant> Participants { get; set; }
         public DateTimeOffset DateArrive { get; set; }
         public DateTimeOffset DateLeave { get; set; }
         public virtual ICollection<Transportation> Transportations { get; set; }
