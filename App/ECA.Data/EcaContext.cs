@@ -202,6 +202,24 @@ namespace ECA.Data
                     p.MapRightKey("PersonId");
                     p.ToTable("ImpactPerson");
                 });
+            modelBuilder.Entity<Person>()
+                .HasMany(x => x.Family)
+                .WithMany(x => x.OtherFamily)
+                .Map(x =>
+                {
+                    x.ToTable("PersonFamily");
+                    x.MapLeftKey("PersonId");
+                    x.MapRightKey("RelatedPersonId");
+                });
+            modelBuilder.Entity<Person>()
+                .HasMany<Location>(p => p.CountriesOfCitizenship)
+                .WithMany(t => t.BirthPlacePeople)
+                .Map(p =>
+                {
+                    p.MapLeftKey("PersonId");
+                    p.MapRightKey("LocationId");
+                    p.ToTable("CitizenCountry");
+                });
         }
     }
 }

@@ -32,7 +32,6 @@ namespace ECA.Data
         public virtual Location Region { get; set; }
 
         // Relationships
-        [ForeignKey("PersonId")]
         public virtual ICollection<Person> BirthPlacePeople { get; set; }
         public virtual ICollection<Program> RegionPrograms { get; set; }
         public virtual ICollection<Program> LocationPrograms { get; set; }
