@@ -91,7 +91,6 @@ angular.module('staticApp')
 
       $scope.modalClose = function () {
           var close = true;
-          console.log($scope.newProject);
           if (unsavedChanges()) {
               close = confirm('You have unsaved changes!\nAre you sure you want to close?');
           }
