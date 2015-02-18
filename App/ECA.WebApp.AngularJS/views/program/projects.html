@@ -52,7 +52,7 @@
         <div st-pagination="" st-items-by-page="25" st-displayed-pages="10"></div>
     </div>
 </div>
-<modal-dialog show="modal.createProject" dialog-title="Create Project" on-close="modalClear()">
+<modal-dialog show="modal.createProject" dialog-title="Create Project" before-close="modalClose()" on-close="modalClear()">
     <div class="tip">
         <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
         <div class="required">* Marks required fields</div>
@@ -89,6 +89,6 @@
             <guidance></guidance>
         </div>
     </div>
-    <button class="btn btn-default" ng-click="modal.createProject = false">CANCEL</button>
+    <button class="btn btn-default" ng-click="modal.createProject = !modalClose()">CANCEL</button>
     <button type="submit" form="projectForm" ng-disabled="projectForm.projectDescription.$error.required" class="btn btn-success right" ng-click="saveProject()">CREATE</button>
 </modal-dialog>
