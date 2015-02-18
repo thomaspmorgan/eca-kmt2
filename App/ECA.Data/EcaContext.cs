@@ -220,6 +220,15 @@ namespace ECA.Data
                     p.MapRightKey("LocationId");
                     p.ToTable("CitizenCountry");
                 });
+            modelBuilder.Entity<ItineraryStop>()
+                .HasMany<Participant>(p => p.Participants)
+                .WithMany(t => t.ItineraryStops)
+                .Map(p =>
+                {
+                    p.MapLeftKey("ItineraryStopId");
+                    p.MapRightKey("ParticipantId");
+                    p.ToTable("ItineraryStopParticipant");
+                });
         }
     }
 }

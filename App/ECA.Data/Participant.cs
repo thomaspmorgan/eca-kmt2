@@ -24,7 +24,7 @@ namespace ECA.Data
 
         //Relationships
         public ICollection<Project> Projects { get; set; }
-
+        public ICollection<ItineraryStop> ItineraryStops { get; set; }
         public ICollection<MoneyFlow> SourceParticipantMoneyFlows { get; set; }
         public ICollection<MoneyFlow> RecipientParticipantMoneyFlows { get; set; }
 
