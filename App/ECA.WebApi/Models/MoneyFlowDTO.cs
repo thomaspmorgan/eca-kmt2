@@ -38,11 +38,8 @@ namespace ECA.WebApi.Models
         public MoneyFlowDTO Parent { get; set; }
 
         public string SourceName { get; set; }
-        public int? SourceId { get; set; }
 
         public string RecipientName { get; set; }
-        public int? RecipientId { get; set; }
-
 
         public HistoryDTO History { get; set; }
     }
