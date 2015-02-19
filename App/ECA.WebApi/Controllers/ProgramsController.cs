@@ -22,9 +22,21 @@ namespace ECA.WebApi
         // GET: api/Programs
         public IEnumerable<ProgramDTO> GetPrograms(int limit = 200, int offset = 0)
         {
-            var programs = db.Programs.Include(p => p.Owner).OrderBy(p => p.Name).Skip(offset).Take(limit);
+            db.Configuration.LazyLoadingEnabled = false;
+            var programDTOs = (from p in db.Programs
+                               orderby p.Name
+                               select new ProgramDTO
+                                   {
+                                       ProgramId = p.ProgramId,
+                                       Name = p.Name,
+                                       Description = p.Description,
+                                       Owner = new OrganizationDTO
+                                       {
+                                           OrganizationId = p.Owner.OrganizationId
+                                       }
+                                   }); //.Skip(offset).Take(limit);
 
-            var programDTOs = Mapper.Map<IEnumerable<Program>, IEnumerable<ProgramDTO>>(programs);
+            //var programDTOs = Mapper.Map<IEnumerable<Program>, IEnumerable<ProgramDTO>>(programs);
             return programDTOs;
         }
 

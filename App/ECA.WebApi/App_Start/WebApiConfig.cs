@@ -34,6 +34,7 @@ namespace ECA.WebApi
             settings.Formatting = Formatting.Indented;
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            settings.NullValueHandling = NullValueHandling.Ignore;
 
             // Add custom formatters at the beginning.
             //config.Formatters.Insert(0, new PlanCsvFormatter());
