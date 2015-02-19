@@ -46,6 +46,7 @@ namespace ECA.Core.DynamicLinq.Filter
     /// </summary>
     public static class LinqFilterExtensions
     {
+        #region IEnumerable
         /// <summary>
         /// Filters an IEnumerable with the given linq filter.
         /// </summary>
@@ -109,5 +110,73 @@ namespace ECA.Core.DynamicLinq.Filter
             }
             return source;
         }
+        #endregion
+
+        #region IQueryable
+        /// <summary>
+        /// Filters an IQueryable with the given linq filter.
+        /// </summary>
+        /// <typeparam name="T">The type to filter.</typeparam>
+        /// <param name="source">The collection of instances to filter.</param>
+        /// <param name="filter">The linq query filter.</param>
+        /// <returns>The filtered collection.</returns>
+        public static IQueryable<T> Where<T>(this IQueryable<T> source, LinqFilter<T> filter) where T : class
+        {
+            Contract.Requires(source != null, "The source must not be null.");
+            Contract.Requires(filter != null, "The filter must not be null.");
+            return source.Where(filter.ToWhereExpression());
+        }
+
+        /// <summary>
+        /// Filters an IQueryable with the given linq filters.
+        /// </summary>
+        /// <typeparam name="T">The type to filter.</typeparam>
+        /// <param name="source">The collection of instances to filter.</param>
+        /// <param name="filters">The linq query filters.</param>
+        /// <returns>The filtered collection.</returns>
+        public static IQueryable<T> Where<T>(this IQueryable<T> source, IEnumerable<LinqFilter<T>> filters) where T : class
+        {
+            Contract.Requires(source != null, "The source must not be null.");
+            Contract.Requires(filters != null, "The filters must not be null.");
+            foreach (var filter in filters)
+            {
+                source = source.Where(filter);
+            }
+            return source;
+        }
+
+        /// <summary>
+        /// Filters an IQueryable with the given IFilter.
+        /// </summary>
+        /// <typeparam name="T">The type to filter.</typeparam>
+        /// <param name="source">The collection of objects to filter.</param>
+        /// <param name="filter">The filter.</param>
+        /// <returns>The filtered collection.</returns>
+        public static IQueryable<T> Where<T>(this IQueryable<T> source, IFilter filter) where T : class
+        {
+            Contract.Requires(source != null, "The source must not be null.");
+            Contract.Requires(filter != null, "The filter must not be null.");
+            return source.Where(filter.ToLinqFilter<T>());
+        }
+
+        /// <summary>
+        /// Filters an IQueryable with the given IFilters.
+        /// </summary>
+        /// <typeparam name="T">The type to filter.</typeparam>
+        /// <param name="source">The collection of objects to filter.</param>
+        /// <param name="filter">The filters.</param>
+        /// <returns>The filtered collection.</returns>
+        public static IQueryable<T> Where<T>(this IQueryable<T> source, IEnumerable<IFilter> filters) where T : class
+        {
+            Contract.Requires(source != null, "The source must not be null.");
+            Contract.Requires(filters != null, "The filters must not be null.");
+            foreach (var filter in filters)
+            {
+                source = source.Where(filter);
+            }
+            return source;
+        }
+
+        #endregion
     }
 }

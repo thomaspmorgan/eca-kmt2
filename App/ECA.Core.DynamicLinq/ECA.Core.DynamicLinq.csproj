@@ -43,6 +43,7 @@
     <Compile Include="Filter\BinaryFilter.cs" />
     <Compile Include="Filter\EqualFilter.cs" />
     <Compile Include="Filter\EqualityFilter.cs" />
+    <Compile Include="Filter\ExpressionFilter.cs" />
     <Compile Include="Filter\GreaterThanFilter.cs" />
     <Compile Include="Filter\IFilter.cs" />
     <Compile Include="Filter\LessThanFilter.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="PropertyOperator.cs" />
     <Compile Include="QueryableOperator.cs" />
     <Compile Include="SortDirection.cs" />
+    <Compile Include="Sorter\ExpressionSorter.cs" />
     <Compile Include="Sorter\ISorter.cs" />
     <Compile Include="Sorter\LinqSorter.cs" />
     <Compile Include="Sorter\SimpleSorter.cs" />

@@ -71,7 +71,7 @@
     <Build Include="Data Migration\Assign Region Code %28South Central Asia).sql" />
     <Build Include="Data Migration\Assign Region Code %28Western Hemisphere).sql" />
     <Build Include="Data Migration\Location - Country Data.sql" />
-    <Build Include="Data Migration\LocationType.sql" />
+    <None Include="Data Migration\LocationType.sql" />
     <Build Include="Data Migration\Theme.sql" />
     <Build Include="Data Migration\ThemeProgram.sql" />
   </ItemGroup>

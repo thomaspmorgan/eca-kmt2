@@ -50,6 +50,7 @@ namespace ECA.Core.DynamicLinq.Sorter
     /// </summary>
     public static class LinqSorterExtensions
     {
+        #region IQueryable
         /// <summary>
         /// Orders the given IQueryable with the given linq sorter.
         /// </summary>
@@ -148,5 +149,7 @@ namespace ECA.Core.DynamicLinq.Sorter
             var linqSorters = sorters.ToList().Select(x => x.ToLinqSorter<T>()).ToList();
             return OrderBy<T>(source, linqSorters);
         }
+
+        #endregion
     }
 }
