@@ -5442,6 +5442,8 @@ table tr {
     #sort-list th tr {
       border-bottom: 0;
       border-top: 0; }
+  #sort-list tr:nth-child(2) th {
+    padding: 8px; }
 
 .sort-label {
   font-size: 12px;
