@@ -160,6 +160,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Properties\PublishProfiles\ecaapi-kmt-dev.pubxml.user" />
+    <Content Include="Properties\PublishProfiles\ecaapi-kmt-qa.pubxml.user" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
