@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebApp.AngularJS", "ECA
 EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "ECA.WebApp.AngularJS.Azure", "ECA.WebApp.AngularJS.Azure\ECA.WebApp.AngularJS.Azure.ccproj", "{B7AEFB6F-C680-44EB-ACC6-B88C3EAE599C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Core.DynamicLinq", "ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj", "{2FFE2C53-412A-43AE-840D-470901649ED8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{79E3FEAA-10E1-4DF3-9C94-86480D4F5E36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Core.DynamicLinq.Test", "ECA.Core.DynamicLinq.Test\ECA.Core.DynamicLinq.Test.csproj", "{4AFB1D1F-B45C-49AB-997F-D129442424B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,8 +51,19 @@ Global
 		{B7AEFB6F-C680-44EB-ACC6-B88C3EAE599C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7AEFB6F-C680-44EB-ACC6-B88C3EAE599C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7AEFB6F-C680-44EB-ACC6-B88C3EAE599C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AFB1D1F-B45C-49AB-997F-D129442424B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AFB1D1F-B45C-49AB-997F-D129442424B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AFB1D1F-B45C-49AB-997F-D129442424B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AFB1D1F-B45C-49AB-997F-D129442424B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4AFB1D1F-B45C-49AB-997F-D129442424B6} = {79E3FEAA-10E1-4DF3-9C94-86480D4F5E36}
 	EndGlobalSection
 EndGlobal
