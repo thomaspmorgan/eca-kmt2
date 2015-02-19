@@ -56,6 +56,11 @@
     <Compile Include="AddressType.cs" />
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
+    <Compile Include="ECA-KMTStaticDataGenerator.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ECA-KMTStaticDataGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="Goal.cs" />
     <Compile Include="Migrations\201501162219502_IntialCreate.cs" />
     <Compile Include="Migrations\201501162219502_IntialCreate.Designer.cs">
@@ -131,6 +136,11 @@
     <Compile Include="MoneyFlowType.cs" />
     <Compile Include="Participant.cs" />
     <Compile Include="ProjectStatus.cs" />
+    <Compile Include="StaticDataGenerator.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StaticDataGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="Theme.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Course.cs" />
@@ -174,7 +184,15 @@
   <ItemGroup>
     <None Include="App-toAzureDB.config" />
     <None Include="App.config" />
+    <None Include="ECA-KMTStaticDataGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ECA-KMTStaticDataGenerator.generated.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
+    <None Include="StaticDataGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>StaticDataGenerator.generated.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201501162219502_IntialCreate.resx">
@@ -228,6 +246,9 @@
     <EmbeddedResource Include="Migrations\201502181912086_PersonMods2.resx">
       <DependentUpon>201502181912086_PersonMods2.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

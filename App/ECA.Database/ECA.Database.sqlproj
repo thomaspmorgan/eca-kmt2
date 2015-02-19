@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{cbe7e562-de45-4780-88e7-b925e0a1d13f}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureDatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -62,22 +62,95 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Data Migration" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\PostDeploy" />
+    <Folder Include="Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Data Migration\Assign Region Code %28Africa).sql" />
-    <Build Include="Data Migration\Assign Region Code %28East Asia Pacific).sql" />
-    <Build Include="Data Migration\Assign Region Code %28Europe and Eurasia).sql" />
-    <Build Include="Data Migration\Assign Region Code %28Near East).sql" />
-    <Build Include="Data Migration\Assign Region Code %28South Central Asia).sql" />
-    <Build Include="Data Migration\Assign Region Code %28Western Hemisphere).sql" />
-    <Build Include="Data Migration\Location - Country Data.sql" />
+    <None Include="Data Migration\Assign Region Code %28Africa).sql" />
+    <None Include="Data Migration\Assign Region Code %28East Asia Pacific).sql" />
+    <None Include="Data Migration\Assign Region Code %28Europe and Eurasia).sql" />
+    <None Include="Data Migration\Assign Region Code %28Near East).sql" />
+    <None Include="Data Migration\Assign Region Code %28South Central Asia).sql" />
+    <None Include="Data Migration\Assign Region Code %28Western Hemisphere).sql" />
+    <None Include="Data Migration\Location - Country Data.sql" />
     <None Include="Data Migration\LocationType.sql" />
-    <Build Include="Data Migration\Theme.sql" />
-    <Build Include="Data Migration\ThemeProgram.sql" />
+    <None Include="Data Migration\Theme.sql" />
+    <None Include="Data Migration\ThemeProgram.sql" />
+    <None Include="Test.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data Migration\dbo.Program.data.sql" />
     <None Include="Data Migration\dbo.OrganizationType.data.sql" />
     <None Include="Data Migration\dbo.Organization.data.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\PostDeploy\ECA.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Accommodation.sql" />
+    <Build Include="Tables\Actor.sql" />
+    <Build Include="Tables\Address.sql" />
+    <Build Include="Tables\AddressType.sql" />
+    <Build Include="Tables\Artifact.sql" />
+    <Build Include="Tables\ArtifactType.sql" />
+    <Build Include="Tables\Contact.sql" />
+    <Build Include="Tables\Course.sql" />
+    <Build Include="Tables\EmailAddress.sql" />
+    <Build Include="Tables\Event.sql" />
+    <Build Include="Tables\EventPerson.sql" />
+    <Build Include="Tables\EventType.sql" />
+    <Build Include="Tables\ExternalId.sql" />
+    <Build Include="Tables\Goal.sql" />
+    <Build Include="Tables\Impact.sql" />
+    <Build Include="Tables\ImpactPerson.sql" />
+    <Build Include="Tables\ImpactType.sql" />
+    <Build Include="Tables\InterestSpecialization.sql" />
+    <Build Include="Tables\Itinerary.sql" />
+    <Build Include="Tables\ItineraryStop.sql" />
+    <Build Include="Tables\ItineraryStopAccommodation.sql" />
+    <Build Include="Tables\LanguageProficiency.sql" />
+    <Build Include="Tables\LanguageProficiencyPerson.sql" />
+    <Build Include="Tables\Location.sql" />
+    <Build Include="Tables\LocationType.sql" />
+    <Build Include="Tables\Material.sql" />
+    <Build Include="Tables\Membership.sql" />
+    <Build Include="Tables\MoneyFlow.sql" />
+    <Build Include="Tables\MoneyFlowSourceRecipientType.sql" />
+    <Build Include="Tables\MoneyFlowStatus.sql" />
+    <Build Include="Tables\MoneyFlowType.sql" />
+    <Build Include="Tables\NamePart.sql" />
+    <Build Include="Tables\Organization.sql" />
+    <Build Include="Tables\OrganizationContact.sql" />
+    <Build Include="Tables\OrganizationType.sql" />
+    <Build Include="Tables\Participant.sql" />
+    <Build Include="Tables\ParticipantProject.sql" />
+    <Build Include="Tables\ParticipantStatus.sql" />
+    <Build Include="Tables\ParticipantType.sql" />
+    <Build Include="Tables\Person.sql" />
+    <Build Include="Tables\PhoneNumber.sql" />
+    <Build Include="Tables\ProfessionEducation.sql" />
+    <Build Include="Tables\Program.sql" />
+    <Build Include="Tables\ProgramContact.sql" />
+    <Build Include="Tables\ProgramGoal.sql" />
+    <Build Include="Tables\ProgramLocation.sql" />
+    <Build Include="Tables\ProgramRegion.sql" />
+    <Build Include="Tables\ProgramTarget.sql" />
+    <Build Include="Tables\ProgramTheme.sql" />
+    <Build Include="Tables\Project.sql" />
+    <Build Include="Tables\ProjectContact.sql" />
+    <Build Include="Tables\ProjectGoal.sql" />
+    <Build Include="Tables\ProjectLocation.sql" />
+    <Build Include="Tables\ProjectRegion.sql" />
+    <Build Include="Tables\ProjectStatus.sql" />
+    <Build Include="Tables\ProjectTarget.sql" />
+    <Build Include="Tables\ProjectTheme.sql" />
+    <Build Include="Tables\ProminentCategory.sql" />
+    <Build Include="Tables\Publication.sql" />
+    <Build Include="Tables\RelatedProjects.sql" />
+    <Build Include="Tables\SocialMedia.sql" />
+    <Build Include="Tables\SpecialStatus.sql" />
+    <Build Include="Tables\Theme.sql" />
+    <Build Include="Tables\Transportation.sql" />
   </ItemGroup>
 </Project>

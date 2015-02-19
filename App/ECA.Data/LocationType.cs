@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ECA.Data
 {
 
-    public class LocationType
+    public partial class LocationType
     {
         [Key]
         public int LocationTypeId { get; set; }

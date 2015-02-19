@@ -13,6 +13,17 @@ namespace ECA.Data
 
     public class EcaContext : DbContext
     {
+        public EcaContext() : base() 
+        {
+        
+        }
+
+        public EcaContext(string connectionStringOrKey)
+            : base(connectionStringOrKey)
+        {
+
+        }
+
         public DbSet<Accommodation> Accommodations { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Address> Addresses { get; set; }
