@@ -1,0 +1,148 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ output extension=".generated.cs" #>
+
+
+
+<#+
+	public void WriteTypes(List<Tuple<string, string, string, string>> types, string ns, string connectionString)
+	{
+		//tuple is defined as className, tableName, idColumnName, nameColumnName
+		foreach(var t in types)
+		{
+			var className = t.Item1;
+			var tableName = t.Item2;
+			var idColumnName = t.Item3;
+			var nameColumnName = t.Item4;
+
+			WriteType(className, ns, tableName, idColumnName, nameColumnName, connectionString);
+			WriteLine(String.Empty);
+		}
+		WriteStaticLookup(ns);
+	}
+
+	public string GetStaticLookupClassName()
+	{
+		return "StaticLookup";
+	}
+
+	public void WriteStaticLookup(string ns)
+	{
+		var className = GetStaticLookupClassName();
+		WriteLine(String.Format("#region {0}", className));
+		WriteLine(GetNamespace(ns));
+		WriteLine("{");
+		PushIndent("\t");
+		WriteLine(String.Format("public class {0}", className));
+		WriteLine("{");
+		PushIndent("\t");
+
+		WriteLine(String.Format("public {0}(string value, int id)", className));
+		WriteLine("{");
+		PushIndent("\t");
+		WriteLine("this.Value = value;");
+		WriteLine("this.Id = id;");
+		PopIndent();
+		WriteLine("}");
+
+		WriteLine(String.Empty);
+		WriteProperties();
+
+		PopIndent();
+		WriteLine("}");
+
+		PopIndent();
+		WriteLine("}");
+		WriteLine("#endregion");
+	}
+
+
+	public void WriteType(string className, string ns, string tableName, string idColumnName, string nameColumnName, string connectionString)
+	{
+		WriteLine(String.Format("#region {0}", className));
+		WriteLine(GetNamespace(ns));
+		WriteLine("{");
+		PushIndent("\t");
+		WriteClassDeclaration(className);
+		WriteLine("{");
+		PushIndent("\t");
+		
+		WriteStaticProperties(tableName, nameColumnName, idColumnName, connectionString);
+		
+		
+		PopIndent();
+		WriteLine("}");
+
+		PopIndent();
+		WriteLine("}");
+		WriteLine("#endregion");
+	}
+
+	public void WriteClassDeclaration(string className)
+	{
+		WriteLine(GetClassDeclaration(className));
+	}
+
+
+	public void WriteProperties()
+	{
+		WriteLine("public string Value { get; private set; }");
+		WriteLine(String.Empty);
+		WriteLine("public int Id { get; private set; }");
+	}
+
+	public string GetClassDeclaration(string className)
+	{
+		return String.Format("public partial class {0}", className);
+	}
+
+	public void WriteStaticProperties(string tableName, string nameColumn, string idColumnName, string connectionString)
+	{
+		using(var connection = new SqlConnection(connectionString))
+		{
+			var command = new SqlCommand(String.Format("SELECT * FROM {0}", tableName));
+			command.Connection = connection;
+			WriteLine("//" + command.CommandText);
+			connection.Open();
+			var reader = command.ExecuteReader();
+			if(reader.HasRows)
+			{
+				while(reader.Read())
+				{
+					var propertyName = Pascalize(reader[nameColumn]);
+					var value = reader[nameColumn].ToString();
+					var id = Int32.Parse(reader[idColumnName].ToString());
+					WriteLine(GetStaticPropertyDeclaration(propertyName, value, id));
+				}
+			}
+		}
+	}
+
+	public string GetStaticPropertyDeclaration(string propertyName, string friendlyName, int id)
+	{
+		var lookupClassName = GetStaticLookupClassName();
+		//0 is the lookupClassName
+		//1 is the property name
+		//2 is the value
+		//3 is the id
+		return String.Format("public static {0} {1} {{ get {{ return new {0}(\"{2}\", {3}); }} }}", lookupClassName, propertyName, friendlyName, id);
+	}
+
+	public string GetNamespace(string ns)
+	{
+		return String.Format("namespace {0}", ns);
+	}
+
+    private string Pascalize(object value)
+    {
+        Regex rx = new Regex(@"(?:[^a-zA-Z0-9]*)(?<first>[a-zA-Z0-9])(?<reminder>[a-zA-Z0-9]*)(?:[^a-zA-Z0-9]*)");
+        return rx.Replace(value.ToString(), m => m.Groups["first"].ToString().ToUpper() + m.Groups["reminder"].ToString().ToLower());
+    }
+
+#>
