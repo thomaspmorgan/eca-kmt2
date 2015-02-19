@@ -13,8 +13,8 @@ namespace ECA.WebApi.Models
         public static void Configure()
         {
             Mapper.CreateMap<Program, ProgramDTO>()
-                .MaxDepth(2)
-                .ForMember(dest => dest.RevisedOn, opts => opts.MapFrom(p => p.History.RevisedOn));
+                .ForMember(dest => dest.RevisedOn, opts => opts.MapFrom(p => p.History.RevisedOn))
+                .MaxDepth(2);
             Mapper.CreateMap<ProgramDTO, Program>()
                 .IgnoreAllNonExisting();
             Mapper.CreateMap<Project, ProjectDTO>()
