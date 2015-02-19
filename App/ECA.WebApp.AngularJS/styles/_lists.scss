@@ -193,6 +193,10 @@
   }
 
   tr:nth-child(2) {
+      th:first-child {
+          padding-left: 60px;
+      }
+
       th {
           padding: 8px;
       }
