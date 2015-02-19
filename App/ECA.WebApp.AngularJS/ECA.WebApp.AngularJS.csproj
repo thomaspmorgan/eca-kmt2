@@ -86,6 +86,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Properties\PublishProfiles\eca-kmt-dev.pubxml.user" />
+    <Content Include="Properties\PublishProfiles\eca-kmt-qa.pubxml.user" />
     <Content Include="styles\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>
