@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using ECA.WebApi.Models;
 using System.Web.Http.Description;
+using ECA.WebApi.Models.Query;
+using System.Web.Http.ModelBinding;
 
 namespace ECA.WebApi.Controllers
 {
@@ -20,7 +22,7 @@ namespace ECA.WebApi.Controllers
     {
 
         [ResponseType(typeof(PagedQueryResults<SimpleProgramDTO>))]
-        public async Task<HttpResponseMessage> GetProgramsAsync([FromUri] PagingQueryBindingModel queryModel)
+        public async Task<HttpResponseMessage> GetProgramsAsync([ModelBinder(typeof(PagingQueryBindingModelBinder))] PagingQueryBindingModel queryModel)
         {
             if(ModelState.IsValid)
             {
@@ -33,6 +35,9 @@ namespace ECA.WebApi.Controllers
 
                 //filter on id
                 //http://localhost:5555/api/Sample?start=0&limit=10&filter=%5b%7bproperty%3a+'Id'%2c+value%3a+3%2c+comparison%3a+'eq'%7d%5d
+
+                //sort on id
+                //http://localhost:5555/api/Sample?start=0&limit=10&sort=%5b%7bproperty%3a+'Id'%2cdirection%3a+'asc'%7d%5d
                 using (var context = new EcaContext())
                 {
                     //var query = from p in context.Programs
