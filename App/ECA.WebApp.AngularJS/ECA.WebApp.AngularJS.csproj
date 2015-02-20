@@ -88,6 +88,7 @@
   <ItemGroup>
     <Content Include="Properties\PublishProfiles\eca-kmt-dev.pubxml.user" />
     <Content Include="Properties\PublishProfiles\eca-kmt-qa.pubxml.user" />
+    <Content Include="scripts\services\moneyflow.js" />
     <Content Include="styles\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>

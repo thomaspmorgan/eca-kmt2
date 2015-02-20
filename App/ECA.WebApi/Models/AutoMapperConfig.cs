@@ -99,9 +99,9 @@ namespace ECA.WebApi.Models
                 string name = "";
 
                 if (source.SourceProgramId != null)
-                    name = source.RecipientProgram.Name;
+                    name = source.SourceProgram.Name;
                 else if (source.SourceProjectId != null)
-                    name = source.RecipientProject.Name;
+                    name = source.SourceProject.Name;
                 else if (source.SourceItineraryStopId != null)
                     name = source.SourceItineraryStopId.ToString(); // Need a name for the ItineraryStop
                 else if (source.SourceParticipantId != null)

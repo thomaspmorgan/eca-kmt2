@@ -44,12 +44,16 @@ namespace ECA.WebApi.Controllers
         {
             var moneyOutFlows = db.MoneyFlows
                 .Include(m => m.RecipientParticipant)
+                .Include(m => m.RecipientParticipant.Organization)
+                .Include(m => m.RecipientParticipant.Person.Names)
                 .Include(m => m.RecipientAccommodation)
                 .Include(m => m.RecipientTransportation)
+                .Include(m => m.SourceProject)
                 .Where(m => m.SourceProjectId == id);
 
             var moneyInFlows = db.MoneyFlows
                 .Include(m => m.SourceProgram)
+                .Include(m => m.RecipientProject)
                 .Where(m => m.RecipientProjectId == id);
 
             var moneyFlows = moneyInFlows.Union(moneyOutFlows);
