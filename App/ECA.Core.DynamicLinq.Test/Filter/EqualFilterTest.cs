@@ -18,8 +18,6 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         public DateTime? NullableDate { get; set; }
 
         public string S { get; set; }
-
-        
     }
 
     /// <summary>

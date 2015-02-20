@@ -26,12 +26,25 @@ namespace ECA.Core.DynamicLinq
             this.PropertyInfo = GetPropertyInfo(property);
             Contract.Assert(this.PropertyInfo != null, "The property info must not be null.");
             this.IsNullable = IsPropertyNullable();
+            if (this.IsNullable)
+            {
+                this.IsNumeric = IsTypeNumeric(this.GetNullableUnderlyingType());
+            }
+            else
+            {
+                this.IsNumeric = IsTypeNumeric(this.PropertyInfo.PropertyType);
+            }
         }
 
         /// <summary>
         /// Gets whether or not the property operated on is nullable.
         /// </summary>
         public bool IsNullable { get; private set; }
+
+        /// <summary>
+        /// Gets whether or not the property operated on is numeric.
+        /// </summary>
+        public bool IsNumeric { get; private set; }
 
         /// <summary>
         /// Gets the PropertyInfo associated with this property.
@@ -54,6 +67,18 @@ namespace ECA.Core.DynamicLinq
         {
             Debug.Assert(this.PropertyInfo != null, "The property info property must be set.");
             return this.PropertyInfo.PropertyType.GetGenericArguments().Length > 0;
+        }
+
+        /// <summary>
+        /// Returns true if the property type to filter on is numeric.
+        /// </summary>
+        /// <returns>True if the property type to filter on is numeric.</returns>
+        protected bool IsTypeNumeric(Type t)
+        {
+            return t == typeof(int)
+                || t == typeof(double)
+                || t == typeof(float) 
+                || t == typeof(long);
         }
 
         /// <summary>

@@ -19,7 +19,8 @@ namespace ECA.Core.DynamicLinq.Filter
         /// </summary>
         /// <param name="property">The property to filter on.</param>
         /// <param name="value">The value to filter with.</param>
-        public BinaryFilter(string property, object value) : base(property)
+        public BinaryFilter(string property, object value)
+            : base(property)
         {
             Contract.Requires(property != null, "The property must not be null.");
             Contract.Requires(value != null, "The value must not be null.");
@@ -27,22 +28,10 @@ namespace ECA.Core.DynamicLinq.Filter
             {
                 throw new ArgumentNullException("The value is null.");
             }
-            if (this.IsNullable)
+            if (this.IsNumeric != this.IsTypeNumeric(value.GetType()))
             {
-                var underlyingType = GetNullableUnderlyingType();
-                if (underlyingType != value.GetType())
-                {
-                    throw new ArgumentException("The underlying property type and value type are not equal.");
-                }
+                throw new NotSupportedException("The property to filter on and the value are not the same type.");
             }
-            else
-            {
-                if (this.PropertyInfo.PropertyType != value.GetType())
-                {
-                    throw new ArgumentException("The property type and value type are not equal.");
-                }
-            }
-            
             this.Value = value;
         }
 
