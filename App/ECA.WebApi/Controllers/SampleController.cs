@@ -11,13 +11,14 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using ECA.WebApi.Models;
 
 namespace ECA.WebApi.Controllers
 {
     public class SampleController : ApiController
     {
 
-        public async Task<PagedQueryResults<SimpleProgramDTO>> GetProgramsAsync(int start, int limit, string filter = null, string sort = null)
+        public async Task<PagedQueryResults<SimpleProgramDTO>> GetProgramsAsync([FromUri] PagingQueryBindingModel queryModel)//(int start, int limit, string filter = null, string sort = null)
         {
             
             //paging
@@ -44,17 +45,19 @@ namespace ECA.WebApi.Controllers
                     StartDate = p.StartDate
                 });
 
-                var queryableOperator = new QueryableOperator<SimpleProgramDTO>(
-                    start, 
-                    limit, 
-                    new ExpressionSorter<SimpleProgramDTO>(x => x.Id, SortDirection.Ascending),
-                    ParseFilters(filter).ToList<IFilter>(), 
-                    ParserSorters(sort).ToList<ISorter>());
+                //var queryableOperator = new QueryableOperator<SimpleProgramDTO>(
+                //    start, 
+                //    limit, 
+                //    new ExpressionSorter<SimpleProgramDTO>(x => x.Id, SortDirection.Ascending),
+                //    ParseFilters(filter).ToList<IFilter>(), 
+                //    ParserSorters(sort).ToList<ISorter>());
+
+                var queryableOperator = queryModel.ToQueryableOperator<SimpleProgramDTO>(new ExpressionSorter<SimpleProgramDTO>(x => x.Id, SortDirection.Ascending));
                 query = query.Apply(queryableOperator);
                 return new PagedQueryResults<SimpleProgramDTO>
                 {
-                    Results = await query.Skip(queryableOperator.Start).Take(queryableOperator.Limit).ToListAsync(),
-                    Total = await query.CountAsync()
+                    //Results = await query.Skip(queryableOperator.Start).Take(queryableOperator.Limit).ToListAsync(),
+                    //Total = await query.CountAsync()
 
                 };
             }
