@@ -109,17 +109,11 @@
 			<tr ng-repeat="participant in project.participants">
 				<td class="col-md-1"><input type="checkbox"></td>
 				<td class="col-md-5">
-					<h5 class="list-title"><a ui-sref="people.activity({personId: participant.personId})">{{participant.personName}}</a></h5>
+                    <h5 class="list-title"><a ui-sref="people.activity({personId: participant.personId})">{{participant.name}}</a></h5>
 				</td>
-				<td class="col-sd-2">
-					Gender
-				</td>
-				<td class="col-sd-2">
-					Status
-				</td>
-				<td class="col-sd-2">
-					&nbsp;
-				</td>
+				<td class="col-sd-2">{{participant.gender}}</td>
+                <td class="col-sd-2">{{participant.status}}</td>
+				<td class="col-sd-2">&nbsp;</td>
 			</tr>
 		</table>
 		<div id="pagination"><img src="images/pagination.png"></div>

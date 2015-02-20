@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.Data;
+using ECA.WebApi.Models;
+using AutoMapper;
 
 namespace ECA.WebApi.Controllers
 {
@@ -34,6 +36,18 @@ namespace ECA.WebApi.Controllers
             }
 
             return Ok(participant);
+        }
+
+        // GET: api/Projects/5/Participants
+        [Route("api/Projects/{id:int}/Participants")]
+        public IEnumerable<ParticipantDTO> GetParticipantsByProject(int id) 
+        {
+            var participants = db.Participants
+                .Include("Organization")
+                .Include("Person")
+                .Where(participant => participant.Projects.Any(project => project.ProjectId == id));
+            var participantDTOs = Mapper.Map<IEnumerable<Participant>, IEnumerable<ParticipantDTO>>(participants); 
+            return participantDTOs;
         }
 
         // PUT: api/Participants/5

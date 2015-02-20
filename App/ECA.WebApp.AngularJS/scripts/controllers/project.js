@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $stateParams, ProjectService, ProgramService, PersonService, LocationService) {
+  .controller('ProjectCtrl', function ($scope, $stateParams, ProjectService, ProgramService, ParticipantService, LocationService) {
 
     $scope.project = {};
 
@@ -32,7 +32,7 @@ angular.module('staticApp')
         participants: {
             title: 'Participants',
             path: 'participants',
-            active: false,
+            active: true,
             order: 2
         },
         artifacts: {
@@ -79,7 +79,7 @@ angular.module('staticApp')
       .then(function (data) {
         $scope.locations.countries = data.results;
       })
-  
+
     ProjectService.get($stateParams.projectId)
       .then(function (data) {
         $scope.project = data; 
@@ -94,7 +94,12 @@ angular.module('staticApp')
         }
       });
 
-      $scope.params = $stateParams;
+    ParticipantService.getParticipantsByProject($stateParams.projectId)
+      .then(function (data) {
+          $scope.project.participants = data;
+      });
+
+    $scope.params = $stateParams;
 
     ProgramService.get($stateParams.programId)
       .then(function (data) {

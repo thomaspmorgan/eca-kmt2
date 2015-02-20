@@ -187,6 +187,7 @@
     <Compile Include="Models\GoalDTO.cs" />
     <Compile Include="Models\OrganizationDTO.cs" />
     <Compile Include="Models\OrganizationTypeDTO.cs" />
+    <Compile Include="Models\ParticipantDTO.cs" />
     <Compile Include="Models\ProgramDTO.cs" />
     <Compile Include="Models\ProgramList.cs" />
     <Compile Include="Models\MoneyFlowDTO.cs" />

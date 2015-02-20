@@ -4,11 +4,11 @@
  * @ngdoc service
  * @name staticApp.person
  * @description
- * # person
+ * # participant
  * Factory in the staticApp.
  */
 angular.module('staticApp')
-  .factory('PersonService', function ($q, DragonBreath) {
+  .factory('ParticipantService', function ($q, DragonBreath) {
 
     var person;
 
@@ -60,6 +60,15 @@ angular.module('staticApp')
           .success(function (data) {
             getPerson(data);
              defer.resolve(person);
+          });
+        return defer.promise;
+      },
+      getParticipantsByProject: function (id) {
+        var defer = $q.defer();
+        var path = 'projects/' + id + "/participants";
+        DragonBreath.get(path)
+          .success(function (data) {
+              defer.resolve(data);
           });
         return defer.promise;
       },

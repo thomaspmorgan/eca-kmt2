@@ -42,6 +42,10 @@ namespace ECA.WebApi.Models
                 .ForMember(dest => dest.RecipientType, opt => opt.MapFrom(p => p.RecipientType.TypeName))
                 .ForMember(dest => dest.RecipientName, opt => opt.ResolveUsing<RecipientNameResolver>())
                 .ForMember(dest => dest.SourceName, opt => opt.ResolveUsing<SourceNameResolver>());
+            Mapper.CreateMap<Participant, ParticipantDTO>()
+                .ForMember(dest => dest.Name, opts => opts.MapFrom(p => p.PersonId != null ? FullName(p.Person.Names) : p.Organization.Name))
+                .ForMember(dest => dest.Gender, opts => opts.MapFrom(p => p.PersonId != null ? p.Person.Gender.ToString() : "N/A"))
+                .ForMember(dest => dest.Status, opts => opts.MapFrom(p => p.PersonId != null ? "Active" : p.Organization.Status));
             Mapper.AssertConfigurationIsValid();
         }
 

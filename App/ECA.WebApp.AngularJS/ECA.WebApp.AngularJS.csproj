@@ -252,7 +252,7 @@
     <Content Include="scripts\services\authservice.js" />
     <Content Include="scripts\services\dragonbreath.js" />
     <Content Include="scripts\services\locationservice.js" />
-    <Content Include="scripts\services\person.js" />
+    <Content Include="scripts\services\participant.js" />
     <Content Include="scripts\services\program.js" />
     <Content Include="scripts\services\project.js" />
     <Content Include="scripts\services\schema.js" />
