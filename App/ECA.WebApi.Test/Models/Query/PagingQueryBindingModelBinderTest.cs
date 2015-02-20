@@ -113,7 +113,6 @@ namespace ECA.WebApi.Test.Models.Query
             var binder = new PagingQueryBindingModelBinder();
             var testFilters = binder.ParseFilters(json);
             Assert.AreEqual(2, testFilters.Count);
-
         }
 
         #endregion

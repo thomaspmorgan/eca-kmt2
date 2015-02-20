@@ -62,6 +62,7 @@
       <DependentUpon>ECA-KMTStaticDataGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="Goal.cs" />
+    <Compile Include="IHistorical.cs" />
     <Compile Include="Migrations\201501162219502_IntialCreate.cs" />
     <Compile Include="Migrations\201501162219502_IntialCreate.Designer.cs">
       <DependentUpon>201501162219502_IntialCreate.cs</DependentUpon>
