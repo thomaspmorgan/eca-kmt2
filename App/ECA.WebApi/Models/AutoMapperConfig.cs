@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ECA.Data;
+using Enums = ECA.Data.Enums;
 using AutoMapper;
 using System.Text;
 
@@ -118,19 +119,19 @@ namespace ECA.WebApi.Models
         private static string FullName(ICollection<NamePart> Names)
         {
             StringBuilder fullName = new StringBuilder();
-            NamePart namePart = Names.FirstOrDefault(p => p.NameType == NameType.GivenName);
+            NamePart namePart = Names.FirstOrDefault(p => p.NameType.NameTypeId == (int)Enums.NameType.GivenName);
             if (namePart != null)
                 fullName.Append(namePart.Value);
-            namePart = Names.FirstOrDefault(p => p.NameType == NameType.Alias);
+            namePart = Names.FirstOrDefault(p => p.NameType.NameTypeId == (int)Enums.NameType.Alias);
             if (namePart != null)
                 fullName.Append(" '" + namePart.Value + "'");
-            namePart = Names.FirstOrDefault(p => p.NameType == NameType.MiddleName);
+            namePart = Names.FirstOrDefault(p => p.NameType.NameTypeId == (int)Enums.NameType.MiddleName);
             if (namePart != null)
                 fullName.Append(" " + namePart.Value);
-            namePart = Names.FirstOrDefault(p => p.NameType == NameType.FamilyName);
+            namePart = Names.FirstOrDefault(p => p.NameType.NameTypeId == (int)Enums.NameType.FamilyName);
             if (namePart != null)
                 fullName.Append(" " + namePart.Value);
-            namePart = Names.FirstOrDefault(p => p.NameType == NameType.Patronym);
+            namePart = Names.FirstOrDefault(p => p.NameType.NameTypeId == (int)Enums.NameType.Patronym);
             if (namePart != null)
                 fullName.Append(" " + namePart.Value);
             return fullName.ToString();

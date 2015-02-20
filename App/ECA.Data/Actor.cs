@@ -16,8 +16,9 @@ namespace ECA.Data
     {
         [Key]
         public int ActorId { get; set; }
-        [Required]
         public virtual ActorType ActorType { get; set; }
+        [Required]
+        public int ActorTypeId { get; set; }
         [Required]
         public string ActorName { get; set; }
         public string Status { get; set; }

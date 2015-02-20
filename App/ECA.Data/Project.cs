@@ -21,6 +21,7 @@ namespace ECA.Data
         [Required]
         public string Description { get; set; }
         public ProjectType ProjectType { get; set; }
+        public int? ProjectTypeId { get; set; }
         public ProjectStatus Status { get; set; }
         [Required]
         public int ProjectStatusId { get; set; }

@@ -16,8 +16,10 @@ namespace ECA.Data
     {
         [Key]
         public int ItineraryStopId { get; set; }
-        [Required]
+
         public ItineraryStatus ItineraryStatus { get; set; }
+        [Required]
+        public int ItineraryStatusId { get; set; }
         public virtual Location Origin { get; set; }
         public virtual Location Destination { get; set; }
         public virtual ICollection<Actor> Actors { get; set; }

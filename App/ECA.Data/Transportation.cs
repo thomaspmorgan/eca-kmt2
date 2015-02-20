@@ -18,6 +18,7 @@ namespace ECA.Data
         public int TransportationId { get; set; }
         public virtual Organization Carrier { get; set; }
         public Method Method { get; set; }
+        public int MethodId { get; set; }
         public string CarriageId { get; set; }
         public string RecordLocator { get; set; }
         public ItineraryStop ItineraryStop { get; set; }

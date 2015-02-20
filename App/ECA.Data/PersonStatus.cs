@@ -8,13 +8,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
-    public class PhoneNumber
+    public class PersonStatus
     {
         [Key]
-        public int PhoneNumberId { get; set; }
-        [Phone]
-        public string Number { get; set; }
-        public PhoneNumberType PhoneNumberType { get; set; }
-        public int PhoneNumberTypeId { get; set; }
-    } 
+        public int PersonStatusId { get; set; }
+        [Required]
+        [MaxLength(20)]
+        public string PersonStatusName { get; set; }
+        public History History { get; set; }
+    }
 }

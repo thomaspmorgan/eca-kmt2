@@ -18,8 +18,10 @@ namespace ECA.Data
         public int PersonId { get; set; }
         [Required]
         public virtual ICollection<NamePart> Names { get; set; }
-        [Required]
+
         public Gender Gender { get; set; }
+        [Required]
+        public int GenderId { get; set; }
         [Required]
         public DateTimeOffset DateOfBirth { get; set; }
         //public int? PlaceOfBirth_LocationId { get; set; }

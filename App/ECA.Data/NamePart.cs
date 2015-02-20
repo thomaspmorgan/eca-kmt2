@@ -18,8 +18,10 @@ namespace ECA.Data
         public int NamePartId { get; set; }
         [Required]
         public string Value { get; set; }
-        [Required]
+
         public NameType NameType { get; set; }
+        [Required]
+        public int NameTypeId { get; set; }
         //relationship
         public virtual Person Person { get; set; }
         public int PersonId { get; set; }

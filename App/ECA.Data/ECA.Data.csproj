@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Accommodation.cs" />
     <Compile Include="Actor.cs" />
+    <Compile Include="ActorType.cs" />
     <Compile Include="Address.cs" />
     <Compile Include="AddressType.cs" />
     <Compile Include="Artifact.cs" />
@@ -61,8 +62,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ECA-KMTStaticDataGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="IHistorical.cs" />
+    <Compile Include="ItineraryStatus.cs" />
+    <Compile Include="Method.cs" />
     <Compile Include="Migrations\201501162219502_IntialCreate.cs" />
     <Compile Include="Migrations\201501162219502_IntialCreate.Designer.cs">
       <DependentUpon>201501162219502_IntialCreate.cs</DependentUpon>
@@ -135,12 +139,22 @@
     <Compile Include="Migrations\201502201310586_ParticipantProjectFix.Designer.cs">
       <DependentUpon>201502201310586_ParticipantProjectFix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502202242445_AddRemainingLookupTables.cs" />
+    <Compile Include="Migrations\201502202242445_AddRemainingLookupTables.Designer.cs">
+      <DependentUpon>201502202242445_AddRemainingLookupTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MoneyFlowSourceRecipientType.cs" />
     <Compile Include="MoneyFlowStatus.cs" />
     <Compile Include="MoneyFlowType.cs" />
+    <Compile Include="NameType.cs" />
     <Compile Include="Participant.cs" />
+    <Compile Include="PersonStatus.cs" />
+    <Compile Include="PhoneNumberType.cs" />
+    <Compile Include="ProgramType.cs" />
     <Compile Include="ProjectStatus.cs" />
+    <Compile Include="ProjectType.cs" />
+    <Compile Include="SocialMediaType.cs" />
     <Compile Include="StaticDataGenerator.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -193,7 +207,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ECA-KMTStaticDataGenerator.generated.cs</LastGenOutput>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="StaticDataGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StaticDataGenerator.generated.cs</LastGenOutput>
@@ -253,6 +269,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502201310586_ParticipantProjectFix.resx">
       <DependentUpon>201502201310586_ParticipantProjectFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502202242445_AddRemainingLookupTables.resx">
+      <DependentUpon>201502202242445_AddRemainingLookupTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
