@@ -240,6 +240,15 @@ namespace ECA.Data
                     p.MapRightKey("ParticipantId");
                     p.ToTable("ItineraryStopParticipant");
                 });
+            modelBuilder.Entity<Participant>()
+                .HasMany<Project>(p => p.Projects)
+                .WithMany(t => t.Participants)
+                .Map(p =>
+                {
+                    p.MapLeftKey("ParticipantId");
+                    p.MapRightKey("ProjectId");
+                    p.ToTable("ParticipantProject");
+                });
         }
     }
 }

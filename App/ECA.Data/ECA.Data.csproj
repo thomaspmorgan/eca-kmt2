@@ -130,6 +130,10 @@
     <Compile Include="Migrations\201502181912086_PersonMods2.Designer.cs">
       <DependentUpon>201502181912086_PersonMods2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502201310586_ParticipantProjectFix.cs" />
+    <Compile Include="Migrations\201502201310586_ParticipantProjectFix.Designer.cs">
+      <DependentUpon>201502201310586_ParticipantProjectFix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MoneyFlowSourceRecipientType.cs" />
     <Compile Include="MoneyFlowStatus.cs" />
@@ -245,6 +249,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502181912086_PersonMods2.resx">
       <DependentUpon>201502181912086_PersonMods2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502201310586_ParticipantProjectFix.resx">
+      <DependentUpon>201502201310586_ParticipantProjectFix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
