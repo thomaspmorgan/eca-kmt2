@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ComparisonTypeTest.cs" />
+    <Compile Include="Filter\BinaryFilterTest.cs" />
     <Compile Include="Filter\EqualFilterTest.cs" />
     <Compile Include="Filter\ExpressionFilterTest.cs" />
     <Compile Include="Filter\GreaterThanFilterTest.cs" />
