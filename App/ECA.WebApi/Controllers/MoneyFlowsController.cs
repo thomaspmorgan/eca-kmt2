@@ -49,6 +49,8 @@ namespace ECA.WebApi.Controllers
                 .Include(m => m.RecipientAccommodation)
                 .Include(m => m.RecipientTransportation)
                 .Include(m => m.SourceProject)
+                .Include(m => m.SourceType)
+                .Include(m => m.RecipientType)
                 .Where(m => m.SourceProjectId == id);
 
             var moneyInFlows = db.MoneyFlows

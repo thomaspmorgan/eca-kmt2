@@ -41,7 +41,7 @@
             </thead>
             <tbody class="list2">
                 <tr ng-repeat="moneyFlow in moneyFlowCopy" class="hover">
-                    <td>{{moneyFlow.transactionDate}}</td>
+                    <td>{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</td>
                     <td>{{moneyFlow.sourceType}}</td>
                     <td>{{moneyFlow.sourceName}}</td>
                     <td>{{moneyFlow.recipientName}}</td>
