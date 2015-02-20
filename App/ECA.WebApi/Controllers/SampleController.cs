@@ -45,48 +45,15 @@ namespace ECA.WebApi.Controllers
                     StartDate = p.StartDate
                 });
 
-                //var queryableOperator = new QueryableOperator<SimpleProgramDTO>(
-                //    start, 
-                //    limit, 
-                //    new ExpressionSorter<SimpleProgramDTO>(x => x.Id, SortDirection.Ascending),
-                //    ParseFilters(filter).ToList<IFilter>(), 
-                //    ParserSorters(sort).ToList<ISorter>());
-
                 var queryableOperator = queryModel.ToQueryableOperator<SimpleProgramDTO>(new ExpressionSorter<SimpleProgramDTO>(x => x.Id, SortDirection.Ascending));
                 query = query.Apply(queryableOperator);
                 return new PagedQueryResults<SimpleProgramDTO>
                 {
-                    //Results = await query.Skip(queryableOperator.Start).Take(queryableOperator.Limit).ToListAsync(),
-                    //Total = await query.CountAsync()
+                    Results = await query.Skip(queryableOperator.Start).Take(queryableOperator.Limit).ToListAsync(),
+                    Total = await query.CountAsync()
 
                 };
             }
-        }
-
-        private IList<SimpleFilter> ParseFilters(string filter)
-        {
-            if (filter == null)
-            {
-                return new List<SimpleFilter>();
-            }
-            else
-            {
-                return JsonConvert.DeserializeObject<List<SimpleFilter>>(filter);
-            }
-            
-        }
-
-        private List<SimpleSorter> ParserSorters(string sort)
-        {
-            if (sort == null)
-            {
-                return new List<SimpleSorter>();
-            }
-            else
-            {
-                return JsonConvert.DeserializeObject<List<SimpleSorter>>(sort);
-            }
-            
         }
     }
 
