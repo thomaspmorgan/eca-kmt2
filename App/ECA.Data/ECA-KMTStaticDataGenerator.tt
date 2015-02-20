@@ -14,5 +14,6 @@
 	//tuple is defined as className, tableName, idColumnName, nameColumnName
 
 	types.Add(new Tuple<string, string, string, string>("LocationType", "LocationType", "LocationTypeId", "LocationTypeName"));
+	types.Add(new Tuple<string, string, string, string>("ProjectStatus", "ProjectStatus", "ProjectStatusId", "Status"));
 	WriteTypes(types, "ECA.Data", connectionString);
 #>

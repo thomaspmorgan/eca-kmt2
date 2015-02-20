@@ -9,9 +9,17 @@ namespace ECA.Data
 	public partial class LocationType
 	{
 		//SELECT * FROM LocationType
-		public static StaticLookup Home { get { return new StaticLookup("Home", 1); } }
-		public static StaticLookup Away { get { return new StaticLookup("Away", 2); } }
-		public static StaticLookup FarAway { get { return new StaticLookup("Far Away", 3); } }
+	}
+}
+#endregion
+
+#region ProjectStatus
+namespace ECA.Data
+{
+	public partial class ProjectStatus
+	{
+		//SELECT * FROM ProjectStatus
+		public static StaticLookup Draft { get { return new StaticLookup("Draft", 1); } }
 	}
 }
 #endregion
