@@ -1,9 +1,9 @@
 ﻿using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web;
@@ -19,11 +19,13 @@ namespace ECA.WebApi.Models
         /// <summary>
         /// Gets or sets the Start value i.e. the number of records to skip.
         /// </summary>
+        [Range(0, Int32.MaxValue)]
         public int Start { get; set; }
 
         /// <summary>
         /// Gets or sets the Limit value i.e. the number of records to return.
         /// </summary>
+        [Range(1, 300)]
         public int Limit { get; set; }
 
         /// <summary>
@@ -64,7 +66,7 @@ namespace ECA.WebApi.Models
             IList<IFilter> filters = new List<IFilter>();
             if (filter != null)
             {
-                var parsedFilters = JsonConvert.DeserializeObject<List<SimpleFilter>>(filter);
+                var parsedFilters = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SimpleFilter>>(filter);
                 parsedFilters.ForEach(x => filters.Add(x));
             }
             return filters;
@@ -81,7 +83,7 @@ namespace ECA.WebApi.Models
             IList<ISorter> sorters = new List<ISorter>();
             if (sort != null)
             {
-                var parsedSorters = JsonConvert.DeserializeObject<List<SimpleSorter>>(sort);
+                var parsedSorters = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SimpleSorter>>(sort);
                 parsedSorters.ForEach(x => sorters.Add(x));
             }
             return sorters;
