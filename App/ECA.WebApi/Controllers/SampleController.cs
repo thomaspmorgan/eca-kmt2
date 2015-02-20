@@ -19,10 +19,15 @@ namespace ECA.WebApi.Controllers
 
         public async Task<PagedQueryResults<SimpleProgramDTO>> GetProgramsAsync(int start, int limit, string filter = null, string sort = null)
         {
-            //[{property: 'Id', value: 3, comparison: 'equal'}]
-
+            
+            //paging
             //http://localhost:5555/api/Sample?start=0&limit=10
+
+            //filter on like allows foreign secondary
             //http://localhost:5555/api/Sample?start=0&limit=10&filter=%5b%7bproperty%3a+'description'%2c+value%3a+'allows+foreign+secondary'%2c+comparison%3a+'like'%7d%5d
+
+            //filter on id
+            //http://localhost:5555/api/Sample?start=0&limit=10&filter=%5b%7bproperty%3a+'Id'%2c+value%3a+3%2c+comparison%3a+'eq'%7d%5d
             using (var context = new EcaContext())
             {
                 //var query = from p in context.Programs
