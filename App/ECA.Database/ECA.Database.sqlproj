@@ -187,5 +187,6 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.ProjectType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.SocialMediaType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.User.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.ProjectStatus.staticdata.sql" />
   </ItemGroup>
 </Project>
