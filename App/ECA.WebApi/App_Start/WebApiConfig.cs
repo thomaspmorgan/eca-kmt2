@@ -14,6 +14,8 @@ namespace ECA.WebApi
     {
         public static void Register(HttpConfiguration config)
         {
+            UnityConfig.RegisterComponents();     
+
             // Enable cross-origin resource sharing.
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 

@@ -98,6 +98,15 @@
     <Reference Include="Microsoft.Owin.Security.OAuth">
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -192,6 +201,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Unity.WebApi">
+      <HintPath>..\packages\Unity.WebAPI.5.1\lib\net45\Unity.WebApi.dll</HintPath>
+    </Reference>
     <Reference Include="WebActivatorEx">
       <HintPath>..\packages\WebActivatorEx.2.0.6\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
@@ -206,6 +218,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -255,6 +268,7 @@
     <Compile Include="Models\OrganizationDTO.cs" />
     <Compile Include="Models\OrganizationTypeDTO.cs" />
     <Compile Include="Models\ParticipantDTO.cs" />
+    <Compile Include="Models\Projects\DraftProjectBindingModel.cs" />
     <Compile Include="Models\Query\PagingQueryBindingModel.cs" />
     <Compile Include="Models\ProgramDTO.cs" />
     <Compile Include="Models\ProgramList.cs" />
@@ -305,9 +319,21 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ECA.Business.Test\ECA.Business.Test.csproj">
+      <Project>{88c15fd9-1a48-4e34-bc25-a7d31eb92cf3}</Project>
+      <Name>ECA.Business.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
+      <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
+      <Name>ECA.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
       <Project>{2ffe2c53-412a-43ae-840d-470901649ed8}</Project>
       <Name>ECA.Core.DynamicLinq</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
+      <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
+      <Name>ECA.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.Data\ECA.Data.csproj">
       <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>

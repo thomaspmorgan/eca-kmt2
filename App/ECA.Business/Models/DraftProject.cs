@@ -8,16 +8,31 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Models
 {
+    /// <summary>
+    /// A DraftProject is a new project in ECA.
+    /// </summary>
     public class DraftProject
     {
-        public DraftProject(string name, string description, int creatorUserId)
+        /// <summary>
+        /// Creates a new DraftProject with the project's name, description and creator.
+        /// </summary>
+        /// <param name="name">The name of the project.</param>
+        /// <param name="programId">The program id.</param>
+        /// <param name="description">The description of the project.</param>
+        /// <param name="creatorUserId">The creator user id.</param>
+        public DraftProject(string name, string description, int programId, int creatorUserId)
         {
-            Contract.Requires(name != null, "The name must not be null.");
             this.Name = name;
+            this.ProgramId = programId;
             this.StatusId = ProjectStatus.Draft.Id;
             this.Description = description;
             this.History = new NewHistory(creatorUserId);
         }
+
+        /// <summary>
+        /// Gets the program id.
+        /// </summary>
+        public int ProgramId { get; private set; }
 
         /// <summary>
         /// Gets the name of the new project.

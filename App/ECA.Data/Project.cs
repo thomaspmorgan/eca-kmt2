@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// A project is a specific, time-bounded instance of a program, such as a cohort, an event or an exchange.
     /// </summary>
-    public class Project
+    public class Project : IHistorical
     {
         [Key]
         public int ProjectId { get; set; }

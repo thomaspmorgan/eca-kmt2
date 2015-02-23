@@ -18,11 +18,11 @@ namespace ECA.Data
         
         }
 
-        public EcaContext(string connectionStringOrKey)
-            : base(connectionStringOrKey)
-        {
+        //public EcaContext(string connectionStringOrKey)
+        //    : base(connectionStringOrKey)
+        //{
 
-        }
+        //}
 
         public DbSet<Accommodation> Accommodations { get; set; }
         public DbSet<Actor> Actors { get; set; }

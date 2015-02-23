@@ -6,6 +6,7 @@ using ECA.Core.Query;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service
 {
-    public class ProjectService : IProjectService, ISaveable
+    public class ProjectService : IProjectService, IDisposable
     {
         private EcaContext context;
 
@@ -31,19 +32,19 @@ namespace ECA.Business.Service
             return DoCreate(draftProject);
         }
 
-
         private Project DoCreate(DraftProject draftProject)
         {
             var project = new Project
             {
                 Name = draftProject.Name,
                 ProjectStatusId = draftProject.StatusId,
+                ProgramId = draftProject.ProgramId
             };
-            var newHistory = draftProject.History.AsHistory();
-            project.History = newHistory; 
+            draftProject.History.SetHistory(project);
             context.Projects.Add(project);
             return project;
         }
+
         #endregion
 
         #region Query
@@ -67,6 +68,7 @@ namespace ECA.Business.Service
 
         #endregion
 
+
         #region IDispose
 
         public void Dispose()
@@ -86,6 +88,7 @@ namespace ECA.Business.Service
         }
 
         #endregion
+
 
         public int SaveChanges()
         {
