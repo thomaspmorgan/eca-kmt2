@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -64,6 +67,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Controllers\SampleControllerTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelTest.cs" />
     <Compile Include="Models\Query\PagingQueryBindingModelBinderTest.cs" />
     <Compile Include="Models\Query\PagingQueryBindingModelTest.cs" />
@@ -71,9 +75,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
+      <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
+      <Name>ECA.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
       <Project>{2ffe2c53-412a-43ae-840d-470901649ed8}</Project>
       <Name>ECA.Core.DynamicLinq</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
+      <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
+      <Name>ECA.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Data\ECA.Data.csproj">
+      <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>
+      <Name>ECA.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\ECA.WebApi\ECA.WebApi.csproj">
       <Project>{72993aaf-4c9f-4ea3-a3cb-263d20c32de0}</Project>

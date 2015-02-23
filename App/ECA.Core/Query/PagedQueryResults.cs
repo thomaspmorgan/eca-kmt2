@@ -19,12 +19,23 @@ namespace ECA.Core.Query
         private int start;
         private int limit;
 
+        /// <summary>
+        /// Creates a new PagedQueryResults object with the total number of objects T, and the paged list of objects T.
+        /// </summary>
+        /// <param name="total">The total number of objects T.</param>
+        /// <param name="results">The paged list of objects T.</param>
         public PagedQueryResults(int total, List<T> results)
         {
             this.Total = total;
             this.Results = results ?? new List<T>();
         }
 
+        /// <summary>
+        /// Creates a new PagedQueryResults object with the IQueryable of T and the paging values.
+        /// </summary>
+        /// <param name="query">The IQueryable of T."/></param>
+        /// <param name="start">The number of objects to skip.</param>
+        /// <param name="limit">The number of objects to return.</param>
         public PagedQueryResults(IQueryable<T> query, int start, int limit)
         {
             Contract.Requires(query != null, "The query must not be null.");
@@ -43,6 +54,10 @@ namespace ECA.Core.Query
         /// </summary>
         public List<T> Results { get; private set; }
 
+        /// <summary>
+        /// Computes the paged list given the IQueryable of T and the paging values.
+        /// </summary>
+        /// <returns>This object after being computed.</returns>
         public PagedQueryResults<T> Compute()
         {
             if (this.query == null)
@@ -54,6 +69,10 @@ namespace ECA.Core.Query
             return this;
         }
 
+        /// <summary>
+        /// Computes the paged list given the IQueryable of T and the paging values.
+        /// </summary>
+        /// <returns>This object after being computed.</returns>
         public async Task<PagedQueryResults<T>> ComputeAsync()
         {
             if (this.query == null)
@@ -64,7 +83,5 @@ namespace ECA.Core.Query
             this.Results = await this.query.Skip(start).Take(limit).ToListAsync();
             return this;
         }
-
-
     }
 }

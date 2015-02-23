@@ -42,18 +42,16 @@ namespace ECA.WebApi.Controllers
         /// <param name="queryModel">The page, filter and sort information.</param>
         /// <returns>The list of projects by program.</returns>
         [ResponseType(typeof(PagedQueryResults<ProgramProject>))]
-        public async Task<HttpResponseMessage> GetProjectsByProgramIdAsync(int programId, [ModelBinder(typeof(PagingQueryBindingModelBinder))] PagingQueryBindingModel queryModel)
+        public async Task<IHttpActionResult> GetProjectsByProgramIdAsync(int programId, [ModelBinder(typeof(PagingQueryBindingModelBinder))] PagingQueryBindingModel queryModel)
         {
             if (ModelState.IsValid)
             {
                 var results = await this.projectService.GetProjectsByProgramIdAsync(programId, queryModel.ToQueryableOperator<ProgramProject>(DEFAULT_PROGRAM_PROJECT_SORTER));
-                return Request.CreateResponse(results);
+                return Ok(results);
             }
             else
             {
-                //need to do global model filter found here...
-                //http://www.asp.net/web-api/overview/formats-and-model-binding/model-validation-in-aspnet-web-api
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                return BadRequest(ModelState);
             }
         }
 
@@ -63,7 +61,7 @@ namespace ECA.WebApi.Controllers
         /// <param name="model">The draft project.</param>
         /// <returns>The id of the project.</returns>
         [ResponseType(typeof(int))]
-        public async Task<HttpResponseMessage> PostCreateProjectAsync(DraftProjectBindingModel model)
+        public async Task<IHttpActionResult> PostCreateProjectAsync(DraftProjectBindingModel model)
         {
             if (ModelState.IsValid)
             {
@@ -72,11 +70,11 @@ namespace ECA.WebApi.Controllers
                 var project = this.projectService.Create(model.ToDraftProject(userId));
                 await this.projectService.SaveChangesAsync();
                 var projectId = project.ProjectId;
-                return this.Request.CreateResponse(projectId);
+                return Ok(projectId);
             }
             else
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                return BadRequest(ModelState);
             }
         }
 
