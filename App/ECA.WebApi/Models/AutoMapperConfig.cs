@@ -45,7 +45,7 @@ namespace ECA.WebApi.Models
                 .ForMember(dest => dest.SourceName, opt => opt.ResolveUsing<SourceNameResolver>());
             Mapper.CreateMap<Participant, ParticipantDTO>()
                 .ForMember(dest => dest.Name, opts => opts.MapFrom(p => p.PersonId != null ? FullName(p.Person.Names) : p.Organization.Name))
-                .ForMember(dest => dest.Gender, opts => opts.MapFrom(p => p.PersonId != null ? p.Person.Gender.ToString() : "N/A"))
+                .ForMember(dest => dest.Gender, opts => opts.MapFrom(p => p.PersonId != null ? Enum.GetName(typeof(Enums.Gender), p.Person.GenderId) : "N/A"))
                 .ForMember(dest => dest.Status, opts => opts.MapFrom(p => p.PersonId != null ? "Active" : p.Organization.Status));
             Mapper.AssertConfigurationIsValid();
         }
@@ -119,19 +119,19 @@ namespace ECA.WebApi.Models
         private static string FullName(ICollection<NamePart> Names)
         {
             StringBuilder fullName = new StringBuilder();
-            NamePart namePart = Names.FirstOrDefault(p => p.NameType.NameTypeId == (int)Enums.NameType.GivenName);
+            NamePart namePart = Names.FirstOrDefault(p => p.NameTypeId == (int)Enums.NameType.GivenName);
             if (namePart != null)
                 fullName.Append(namePart.Value);
-            namePart = Names.FirstOrDefault(p => p.NameType.NameTypeId == (int)Enums.NameType.Alias);
+            namePart = Names.FirstOrDefault(p => p.NameTypeId == (int)Enums.NameType.Alias);
             if (namePart != null)
                 fullName.Append(" '" + namePart.Value + "'");
-            namePart = Names.FirstOrDefault(p => p.NameType.NameTypeId == (int)Enums.NameType.MiddleName);
+            namePart = Names.FirstOrDefault(p => p.NameTypeId == (int)Enums.NameType.MiddleName);
             if (namePart != null)
                 fullName.Append(" " + namePart.Value);
-            namePart = Names.FirstOrDefault(p => p.NameType.NameTypeId == (int)Enums.NameType.FamilyName);
+            namePart = Names.FirstOrDefault(p => p.NameTypeId == (int)Enums.NameType.FamilyName);
             if (namePart != null)
                 fullName.Append(" " + namePart.Value);
-            namePart = Names.FirstOrDefault(p => p.NameType.NameTypeId == (int)Enums.NameType.Patronym);
+            namePart = Names.FirstOrDefault(p => p.NameTypeId == (int)Enums.NameType.Patronym);
             if (namePart != null)
                 fullName.Append(" " + namePart.Value);
             return fullName.ToString();
