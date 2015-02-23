@@ -44,7 +44,7 @@ namespace ECA.WebApi.Models
                 .ForMember(dest => dest.RecipientName, opt => opt.ResolveUsing<RecipientNameResolver>())
                 .ForMember(dest => dest.SourceName, opt => opt.ResolveUsing<SourceNameResolver>());
             Mapper.CreateMap<Participant, ParticipantDTO>()
-                .ForMember(dest => dest.Name, opts => opts.MapFrom(p => p.PersonId != null ? FullName(p.Person.Names) : p.Organization.Name))
+                .ForMember(dest => dest.Name, opts => opts.MapFrom(p => p.PersonId != null ? p.Person.FullName() : p.Organization.Name))
                 .ForMember(dest => dest.Gender, opts => opts.MapFrom(p => p.PersonId != null ? Enum.GetName(typeof(Enums.Gender), p.Person.GenderId) : "N/A"))
                 .ForMember(dest => dest.Status, opts => opts.MapFrom(p => p.PersonId != null ? "Active" : p.Organization.Status));
             Mapper.AssertConfigurationIsValid();
@@ -82,7 +82,7 @@ namespace ECA.WebApi.Models
                     if (source.RecipientParticipant.OrganizationId != null)
                         name = source.RecipientParticipant.Organization.Name;
                     else if (source.RecipientParticipant.PersonId != null)
-                        name = FullName(source.RecipientParticipant.Person.Names);
+                        name = source.RecipientParticipant.Person.FullName();
                 }
                 else if (source.RecipientTransportationId != null)
                     name = source.RecipientTransportation.Carrier.Name;
@@ -110,32 +110,10 @@ namespace ECA.WebApi.Models
                     if (source.SourceParticipant.OrganizationId != null)
                         name = source.SourceParticipant.Organization.Name;
                     else if (source.SourceParticipant.PersonId != null)
-                        name = FullName(source.SourceParticipant.Person.Names);
+                        name = source.SourceParticipant.Person.FullName();
                 }
                 return name;
             }
         }
-
-        private static string FullName(ICollection<NamePart> Names)
-        {
-            StringBuilder fullName = new StringBuilder();
-            NamePart namePart = Names.FirstOrDefault(p => p.NameTypeId == (int)Enums.NameType.GivenName);
-            if (namePart != null)
-                fullName.Append(namePart.Value);
-            namePart = Names.FirstOrDefault(p => p.NameTypeId == (int)Enums.NameType.Alias);
-            if (namePart != null)
-                fullName.Append(" '" + namePart.Value + "'");
-            namePart = Names.FirstOrDefault(p => p.NameTypeId == (int)Enums.NameType.MiddleName);
-            if (namePart != null)
-                fullName.Append(" " + namePart.Value);
-            namePart = Names.FirstOrDefault(p => p.NameTypeId == (int)Enums.NameType.FamilyName);
-            if (namePart != null)
-                fullName.Append(" " + namePart.Value);
-            namePart = Names.FirstOrDefault(p => p.NameTypeId == (int)Enums.NameType.Patronym);
-            if (namePart != null)
-                fullName.Append(" " + namePart.Value);
-            return fullName.ToString();
-        }
-
     }
 }

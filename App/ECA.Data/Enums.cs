@@ -17,11 +17,15 @@ namespace ECA.Data.Enums
 
     public enum NameType
     {
+        LastName = 1,
+        FirstName, 
+        Prefix, 
+        Suffix,
         GivenName,
         FamilyName,
         MiddleName,
         Patronym,
-        Alias,
+        Alias
     }
 
     public enum Gender
