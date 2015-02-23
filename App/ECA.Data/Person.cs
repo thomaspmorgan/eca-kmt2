@@ -56,6 +56,22 @@ namespace ECA.Data
         public ICollection<Impact> Impacts { get; set; }
 
         public History History { get; set; }
+
+        public string FullName()
+        {
+            StringBuilder fullName = new StringBuilder();
+            NamePart namePart = Names.FirstOrDefault(n => n.NameTypeId == (int)Enums.NameType.FirstName);
+            if (namePart != null)
+            {
+                fullName.Append(namePart.Value);
+            }
+            namePart = Names.FirstOrDefault(n => n.NameTypeId == (int)Enums.NameType.LastName);
+            if (namePart != null)
+            {
+                fullName.Append(" " + namePart.Value);
+            }
+            return fullName.ToString();
+        }
     }
 
 }
