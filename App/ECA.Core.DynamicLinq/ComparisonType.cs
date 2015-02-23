@@ -13,6 +13,8 @@ namespace ECA.Core.DynamicLinq
     /// </summary>
     public class ComparisonType
     {
+        private const string IN = "in";
+
         private const string LIKE = "like";
 
         private const string LESS_THAN = "lt";
@@ -24,6 +26,17 @@ namespace ECA.Core.DynamicLinq
         private const string IS_NULL = "null";
 
         private const string IS_NOT_NULL = "notnull";
+
+        /// <summary>
+        /// Gets the in comparison type.
+        /// </summary>
+        public static ComparisonType In
+        {
+            get
+            {
+                return new ComparisonType(IN);
+            }
+        }
 
         /// <summary>
         /// Gets the like comparison type.
@@ -176,6 +189,7 @@ namespace ECA.Core.DynamicLinq
             dictionary.Add(IS_NULL, ComparisonType.Null);
             dictionary.Add(IS_NOT_NULL, ComparisonType.NotNull);
             dictionary.Add(LIKE, ComparisonType.Like);
+            dictionary.Add(IN, ComparisonType.In);
 
             Contract.Assert(dictionary.ContainsKey(comparisonType), String.Format("The comparison type [{0}] is not recognized.", comparisonType));
             return dictionary[comparisonType];

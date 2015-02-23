@@ -4,21 +4,17 @@ using ECA.Core.DynamicLinq.Filter;
 
 namespace ECA.Core.DynamicLinq.Test.Filter
 {
-    public class SampleBinaryFilter<T> : BinaryFilter<T> where T : class
+    public class SampleEqualityFilter<T> : EqualityFilter<T> where T : class
     {
+        public SampleEqualityFilter(string property, object value) : base(property, value) { }
 
-        public SampleBinaryFilter(string property, object value) : base(property, value)
-        {
-
-        }
-
-        public override System.Linq.Expressions.Expression<Func<T, bool>> ToWhereExpression()
+        protected override System.Linq.Expressions.Expression GetEqualityExpression(System.Linq.Expressions.MemberExpression property)
         {
             throw new NotImplementedException();
         }
     }
 
-    public class BinaryFilterTestClass
+    public class EqualityFilterTestClass
     {
         public long L { get; set; }
 
@@ -27,15 +23,16 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         public string S { get; set; }
     }
 
+
     [TestClass]
-    public class BinaryFilterTest
+    public class EqualityFilterTest
     {
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
         public void TestConstructor_PropertyTypeIsNumeric_ValueIsNotNumeric()
         {
             string value = "hello";
-            var filter = new SampleBinaryFilter<BinaryFilterTestClass>("L", value);
+            var filter = new SampleEqualityFilter<EqualityFilterTestClass>("L", value);
         }
 
         [TestMethod]
@@ -43,23 +40,23 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         public void TestConstructor_PropertyTypeIsNonNumeric_ValueIsNumeric()
         {
             int value = 1;
-            var filter = new SampleBinaryFilter<BinaryFilterTestClass>("S", value);
+            var filter = new SampleEqualityFilter<EqualityFilterTestClass>("S", value);
         }
 
         [TestMethod]
         public void TestConstructor_NonNullableNumericProperty()
         {
             int value = 1;
-            var filter = new SampleBinaryFilter<BinaryFilterTestClass>("L", value);
+            var filter = new SampleEqualityFilter<EqualityFilterTestClass>("L", value);
             Assert.IsInstanceOfType(filter.Value, typeof(long));
-            Assert.AreEqual((long)value, filter.Value);            
+            Assert.AreEqual((long)value, filter.Value);
         }
 
         [TestMethod]
         public void TestConstructor_NullableNumericProperty()
         {
             int value = 1;
-            var filter = new SampleBinaryFilter<BinaryFilterTestClass>("NullableL", value);
+            var filter = new SampleEqualityFilter<EqualityFilterTestClass>("NullableL", value);
             Assert.IsInstanceOfType(filter.Value, typeof(long));
             Assert.AreEqual((long)value, filter.Value);
         }
@@ -68,7 +65,7 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         public void TestConstructor_NonNumericProperty()
         {
             string value = "hello";
-            var filter = new SampleBinaryFilter<BinaryFilterTestClass>("S", value);
+            var filter = new SampleEqualityFilter<EqualityFilterTestClass>("S", value);
             Assert.IsInstanceOfType(filter.Value, typeof(string));
             Assert.AreEqual((string)value, filter.Value);
         }

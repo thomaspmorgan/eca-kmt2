@@ -51,10 +51,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ComparisonTypeTest.cs" />
-    <Compile Include="Filter\BinaryFilterTest.cs" />
     <Compile Include="Filter\EqualFilterTest.cs" />
+    <Compile Include="Filter\EqualityFilterTest.cs" />
     <Compile Include="Filter\ExpressionFilterTest.cs" />
     <Compile Include="Filter\GreaterThanFilterTest.cs" />
+    <Compile Include="Filter\InFilterTest.cs" />
     <Compile Include="Filter\LessThanFilterTest.cs" />
     <Compile Include="Filter\LikeFilterTest.cs" />
     <Compile Include="Filter\LinqFilterTest.cs" />

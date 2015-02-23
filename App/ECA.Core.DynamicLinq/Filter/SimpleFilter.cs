@@ -61,6 +61,10 @@ namespace ECA.Core.DynamicLinq.Filter
             {
                 return new LikeFilter<T>(this.Property, this.Value);
             }
+            if (comparisonType == ComparisonType.In)
+            {
+                return new InFilter<T>(this.Property, this.Value);
+            }
             throw new NotSupportedException("The client filter is not supported.");
         }
     }

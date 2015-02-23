@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Core.DynamicLinq.Filter;
 
 namespace ECA.Core.DynamicLinq.Test.Filter
-{
+{   
     public class EqualFilterTestClass
     {
         public int Int { get; set; }
@@ -26,6 +26,22 @@ namespace ECA.Core.DynamicLinq.Test.Filter
     [TestClass]
     public class EqualFilterTest
     {
+        [TestMethod]
+        public void TestToWhereExpression_DifferentNumericTypes()
+        {
+            var instance = new EqualFilterTestClass
+            {
+                Int = 1
+            };
+            var list = new List<EqualFilterTestClass>();
+            list.Add(instance);
+
+            var filter = new EqualFilter<EqualFilterTestClass>("Int", 1L);
+            var where = filter.ToWhereExpression();
+            var results = list.Where(where.Compile()).ToList();
+            Assert.AreEqual(1, results.Count);
+        }
+
         #region String
 
         [TestMethod]

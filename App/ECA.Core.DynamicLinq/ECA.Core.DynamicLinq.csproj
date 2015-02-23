@@ -46,6 +46,7 @@
     <Compile Include="Filter\ExpressionFilter.cs" />
     <Compile Include="Filter\GreaterThanFilter.cs" />
     <Compile Include="Filter\IFilter.cs" />
+    <Compile Include="Filter\InFilter.cs" />
     <Compile Include="Filter\LessThanFilter.cs" />
     <Compile Include="Filter\LikeFilter.cs" />
     <Compile Include="Filter\LinqFilter.cs" />

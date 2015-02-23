@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
@@ -31,6 +32,7 @@ namespace ECA.Core.DynamicLinq.Filter
             {
                 throw new ArgumentNullException("The value is null.");
             }
+            this.Value = value;
         }
 
         /// <summary>

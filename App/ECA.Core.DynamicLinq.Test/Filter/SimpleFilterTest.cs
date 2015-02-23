@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Core.DynamicLinq.Filter;
+using System.Collections.Generic;
 
 namespace ECA.Core.DynamicLinq.Test.Filter
 {
@@ -82,6 +83,24 @@ namespace ECA.Core.DynamicLinq.Test.Filter
             Assert.IsInstanceOfType(linqFilter, typeof(LikeFilter<SimpleFilterTestClass>));
 
             var typedLinqFilter = (LikeFilter<SimpleFilterTestClass>)linqFilter;
+            Assert.AreEqual(filter.Value, typedLinqFilter.Value);
+            Assert.AreEqual(filter.Property, typedLinqFilter.PropertyInfo.Name);
+        }
+
+        [TestMethod]
+        public void TestToClientFilter_InComparison()
+        {
+            var filter = new SimpleFilter
+            {
+                Comparison = ComparisonType.In.Value,
+                Property = "I",
+                Value = new List<int> { 1}
+            };
+
+            var linqFilter = filter.ToLinqFilter<SimpleFilterTestClass>();
+            Assert.IsInstanceOfType(linqFilter, typeof(InFilter<SimpleFilterTestClass>));
+
+            var typedLinqFilter = (InFilter<SimpleFilterTestClass>)linqFilter;
             Assert.AreEqual(filter.Value, typedLinqFilter.Value);
             Assert.AreEqual(filter.Property, typedLinqFilter.PropertyInfo.Name);
         }

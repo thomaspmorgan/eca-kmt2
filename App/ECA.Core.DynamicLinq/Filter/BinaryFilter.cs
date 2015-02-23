@@ -24,28 +24,12 @@ namespace ECA.Core.DynamicLinq.Filter
         {
             Contract.Requires(property != null, "The property must not be null.");
             Contract.Requires(value != null, "The value must not be null.");
-            if (this.IsNumeric != this.IsTypeNumeric(value.GetType()))
-            {
-                throw new NotSupportedException("The property to filter on and the value are not the same type.");
-            }
-            if (this.IsNumeric)
-            {
-                Type typeToConvertTo = this.PropertyInfo.PropertyType;
-                if (this.IsNullable)
-                {
-                    typeToConvertTo = GetNullableUnderlyingType();
-                }
-                this.Value = Convert.ChangeType(value, typeToConvertTo);
-            }
-            else
-            {
-                this.Value = value;
-            }
         }
 
         /// <summary>
         /// Gets the value to filter with.
         /// </summary>
-        public object Value { get; private set; }
+        public object Value { get; protected set; }
+
     }
 }

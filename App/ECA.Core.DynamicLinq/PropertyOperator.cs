@@ -82,6 +82,17 @@ namespace ECA.Core.DynamicLinq
         }
 
         /// <summary>
+        /// Returns true if the given type is a collection.
+        /// </summary>
+        /// <param name="t">The type to test.</param>
+        /// <returns>True, if the given type is a collection.</returns>
+        protected bool IsTypeCollection(Type t)
+        {
+            var x = typeof(ICollection<>).IsAssignableFrom(t);
+            return x;
+        }
+
+        /// <summary>
         /// Returns the underlying type of this properties nullable property.
         /// </summary>
         /// <returns>The property type of this class's underlying nullable property.</returns>
