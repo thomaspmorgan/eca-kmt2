@@ -147,6 +147,21 @@
   }
 }
 
+.hover-dark {
+
+  .icon {
+    display: none;
+  }
+
+  &:hover {
+    background: darken($lightgray, 5%);		
+    
+    .icon {
+      display: inline-block;
+    }
+  }
+}
+
 .title-label {
   color: #a0a9ab;
   font-size: 12px;
