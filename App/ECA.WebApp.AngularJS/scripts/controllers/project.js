@@ -101,6 +101,8 @@ angular.module('staticApp')
             $scope.project.participants = data;
         });
 
+      $scope.participantsCopy = [].concat($scope.project.participants);
+
       $scope.params = $stateParams;
 
       ProgramService.get($stateParams.programId)

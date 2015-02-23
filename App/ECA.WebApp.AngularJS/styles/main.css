@@ -5410,6 +5410,13 @@ table tr {
   .hover:hover .icon {
     display: inline-block; }
 
+.hover-dark .icon {
+  display: none; }
+.hover-dark:hover {
+  background: #eaeaea; }
+  .hover-dark:hover .icon {
+    display: inline-block; }
+
 .title-label {
   color: #a0a9ab;
   font-size: 12px;
