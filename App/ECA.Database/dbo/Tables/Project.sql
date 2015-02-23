@@ -2,7 +2,7 @@
     [ProjectId]                       INT                IDENTITY (1, 1) NOT NULL,
     [Name]                            NVARCHAR (MAX)     NOT NULL,
     [Description]                     NVARCHAR (MAX)     NOT NULL,
-    [ProjectType]                     INT                NOT NULL,
+    [ProjectTypeId]                   INT                NOT NULL,
     [FocusArea]                       NVARCHAR (MAX)     NULL,
     [StartDate]                       DATETIMEOFFSET (7) NOT NULL,
     [EndDate]                         DATETIMEOFFSET (7) NULL,
@@ -19,7 +19,7 @@
     CONSTRAINT [PK_dbo.Project] PRIMARY KEY CLUSTERED ([ProjectId] ASC),
     CONSTRAINT [FK_dbo.Project_dbo.Event_EventId] FOREIGN KEY ([EventId]) REFERENCES [dbo].[Event] ([EventId]),
     CONSTRAINT [FK_dbo.Project_dbo.Organization_NominationSource_OrganizationId] FOREIGN KEY ([NominationSource_OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
-    CONSTRAINT [FK_dbo.Project_dbo.Program_ProgramId] FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Program] ([ProgramId])
+    CONSTRAINT [FK_dbo.Project_dbo.ProgramId] FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Program] ([ProgramId])
 );
 
 
@@ -41,4 +41,9 @@ CREATE NONCLUSTERED INDEX [IX_ProgramId]
 GO
 CREATE NONCLUSTERED INDEX [IX_ProjectStatusId]
     ON [dbo].[Project]([ProjectStatusId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_ProjectTypeId]
+    ON [dbo].[Project]([ProjectTypeId] ASC);
 

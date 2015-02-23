@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[PhoneNumber] (
     [PhoneNumberId]     INT            IDENTITY (1, 1) NOT NULL,
     [Number]            NVARCHAR (MAX) NULL,
-    [PhoneNumberType]   INT            NOT NULL,
+    [PhoneNumberTypeId] INT            NOT NULL,
     [Contact_ContactId] INT            NULL,
     [Person_PersonId]   INT            NULL,
     CONSTRAINT [PK_dbo.PhoneNumber] PRIMARY KEY CLUSTERED ([PhoneNumberId] ASC),
@@ -18,4 +18,9 @@ CREATE NONCLUSTERED INDEX [IX_Contact_ContactId]
 GO
 CREATE NONCLUSTERED INDEX [IX_Person_PersonId]
     ON [dbo].[PhoneNumber]([Person_PersonId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_PhoneNumberTypeId]
+    ON [dbo].[PhoneNumber]([PhoneNumberTypeId] ASC);
 

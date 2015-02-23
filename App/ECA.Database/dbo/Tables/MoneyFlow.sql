@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[MoneyFlow] (
     [MoneyFlowId]               INT                IDENTITY (1, 1) NOT NULL,
     [Value]                     REAL               NOT NULL,
-    [RecipientAccommodationId]  INT                NOT NULL,
+    [RecipientAccommodationId]  INT                NULL,
     [History_CreatedBy]         INT                NOT NULL,
     [History_CreatedOn]         DATETIMEOFFSET (7) NOT NULL,
     [History_RevisedBy]         INT                NOT NULL,
@@ -11,6 +11,8 @@
     [SourceOrganizationId]      INT                NULL,
     [MoneyFlowStatusId]         INT                DEFAULT ((0)) NOT NULL,
     [MoneyFlowTypeId]           INT                DEFAULT ((0)) NOT NULL,
+    [TransactionDate]           DATETIMEOFFSET (7) NOT NULL,
+    [FiscalYear]                INT                NOT NULL,
     [SourceTypeId]              INT                DEFAULT ((0)) NOT NULL,
     [RecipientTypeId]           INT                DEFAULT ((0)) NOT NULL,
     [SourceProgramId]           INT                NULL,
@@ -45,6 +47,11 @@
 
 
 GO
+CREATE NONCLUSTERED INDEX [IX_RecipientAccommodationId]
+    ON [dbo].[MoneyFlow]([RecipientAccommodationId] ASC);
+
+
+GO
 CREATE NONCLUSTERED INDEX [IX_SourceOrganizationId]
     ON [dbo].[MoneyFlow]([SourceOrganizationId] ASC);
 
@@ -62,11 +69,6 @@ CREATE NONCLUSTERED INDEX [IX_SourceTypeId]
 GO
 CREATE NONCLUSTERED INDEX [IX_RecipientTypeId]
     ON [dbo].[MoneyFlow]([RecipientTypeId] ASC);
-
-
-GO
-CREATE NONCLUSTERED INDEX [IX_RecipientAccommodationId]
-    ON [dbo].[MoneyFlow]([RecipientAccommodationId] ASC);
 
 
 GO

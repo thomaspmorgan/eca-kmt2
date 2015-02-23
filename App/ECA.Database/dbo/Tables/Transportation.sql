@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Transportation] (
     [TransportationId]       INT                IDENTITY (1, 1) NOT NULL,
-    [Method]                 INT                NOT NULL,
+    [MethodId]               INT                NOT NULL,
     [CarriageId]             NVARCHAR (MAX)     NULL,
     [RecordLocator]          NVARCHAR (MAX)     NULL,
     [ItineraryStopId]        INT                NULL,
@@ -11,6 +11,7 @@
     [Carrier_OrganizationId] INT                NULL,
     CONSTRAINT [PK_dbo.Transportation] PRIMARY KEY CLUSTERED ([TransportationId] ASC),
     CONSTRAINT [FK_dbo.Transportation_dbo.ItineraryStop_ItineraryStopId] FOREIGN KEY ([ItineraryStopId]) REFERENCES [dbo].[ItineraryStop] ([ItineraryStopId]),
+    CONSTRAINT [FK_dbo.Transportation_dbo.Method_MethodId] FOREIGN KEY ([MethodId]) REFERENCES [dbo].[Method] ([MethodId]) ON DELETE CASCADE,
     CONSTRAINT [FK_dbo.Transportation_dbo.Organization_Carrier_OrganizationId] FOREIGN KEY ([Carrier_OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId])
 );
 
@@ -23,4 +24,9 @@ CREATE NONCLUSTERED INDEX [IX_ItineraryStopId]
 GO
 CREATE NONCLUSTERED INDEX [IX_Carrier_OrganizationId]
     ON [dbo].[Transportation]([Carrier_OrganizationId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_MethodId]
+    ON [dbo].[Transportation]([MethodId] ASC);
 

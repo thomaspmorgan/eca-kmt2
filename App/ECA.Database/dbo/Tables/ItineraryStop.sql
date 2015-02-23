@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[ItineraryStop] (
     [ItineraryStopId]        INT                IDENTITY (1, 1) NOT NULL,
-    [ItineraryStatus]        INT                NOT NULL,
+    [ItineraryStatusId]      INT                NOT NULL,
     [DateArrive]             DATETIMEOFFSET (7) NOT NULL,
     [DateLeave]              DATETIMEOFFSET (7) NOT NULL,
     [ItineraryId]            INT                NOT NULL,
@@ -30,4 +30,9 @@ CREATE NONCLUSTERED INDEX [IX_Destination_LocationId]
 GO
 CREATE NONCLUSTERED INDEX [IX_Origin_LocationId]
     ON [dbo].[ItineraryStop]([Origin_LocationId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_ItineraryStatusId]
+    ON [dbo].[ItineraryStop]([ItineraryStatusId] ASC);
 
