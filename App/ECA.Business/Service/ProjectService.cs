@@ -51,19 +51,12 @@ namespace ECA.Business.Service
 
         public PagedQueryResults<ProgramProject> GetProjectsByProgramId(int programId, QueryableOperator<ProgramProject> queryOperator)
         {
-            return GetProgramProjectsPagedQueryResults(programId, queryOperator).Compute();
+            return ProjectQueries.CreateGetProjectsByProgramQuery(context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
         }
 
         public Task<PagedQueryResults<ProgramProject>> GetProjectsByProgramIdAsync(int programId, QueryableOperator<ProgramProject> queryOperator)
         {
-            return GetProgramProjectsPagedQueryResults(programId, queryOperator).ComputeAsync();
-        }
-
-        private PagedQueryResults<ProgramProject> GetProgramProjectsPagedQueryResults(int programId, QueryableOperator<ProgramProject> queryOperator)
-        {
-            var query = ProjectQueries.CreateGetProjectsByProgramQuery(this.context, programId, queryOperator);
-            var results = new PagedQueryResults<ProgramProject>(query, queryOperator.Start, queryOperator.Limit);
-            return results;
+            return ProjectQueries.CreateGetProjectsByProgramQuery(context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
 
         #endregion

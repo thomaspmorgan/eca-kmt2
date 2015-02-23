@@ -6,6 +6,7 @@ using ECA.Core.Data;
 using ECA.Data;
 using ECA.Business.Models;
 using ECA.Business.Service;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Test.Service
 {
@@ -57,6 +58,13 @@ namespace ECA.Business.Test.Service
         }
         #endregion
 
+        #region GetProgramProjects
+        [TestMethod]
+        public async Task TestGetProgramProjectsById()
+        {
+
+        }
+        #endregion
 
     }
 }

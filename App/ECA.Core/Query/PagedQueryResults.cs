@@ -31,20 +31,6 @@ namespace ECA.Core.Query
         }
 
         /// <summary>
-        /// Creates a new PagedQueryResults object with the IQueryable of T and the paging values.
-        /// </summary>
-        /// <param name="query">The IQueryable of T."/></param>
-        /// <param name="start">The number of objects to skip.</param>
-        /// <param name="limit">The number of objects to return.</param>
-        public PagedQueryResults(IQueryable<T> query, int start, int limit)
-        {
-            Contract.Requires(query != null, "The query must not be null.");
-            this.query = query;
-            this.start = start;
-            this.limit = limit;
-        }
-
-        /// <summary>
         /// Gets the total count of objects T.
         /// </summary>
         public int Total { get; private set; }
@@ -53,35 +39,41 @@ namespace ECA.Core.Query
         /// Gets the paged results of type T.
         /// </summary>
         public List<T> Results { get; private set; }
+    }
 
+    /// <summary>
+    /// The PagedQueryResultsExtensions provide additional functional to an IQueryable to return a PagedQueryResults object.
+    /// </summary>
+    public static class PagedQueryResultsExtensions
+    {
         /// <summary>
-        /// Computes the paged list given the IQueryable of T and the paging values.
+        /// Returns a PagedQueryResults objects given the IQueryable and start and limit values.
         /// </summary>
-        /// <returns>This object after being computed.</returns>
-        public PagedQueryResults<T> Compute()
+        /// <typeparam name="T">The type of objects in the query.</typeparam>
+        /// <param name="query">The query to page.</param>
+        /// <param name="start">The number of records to skip.</param>
+        /// <param name="limit">The number of records to take.</param>
+        /// <returns>A PagedQueryResults object containing the total number of records and the paged records.</returns>
+        public static PagedQueryResults<T> ToPagedQueryResults<T>(this IQueryable<T> query, int start, int limit) where T : class
         {
-            if (this.query == null)
-            {
-                throw new NotSupportedException("The query is null.  Use the compute operations if you are constructing this object from an IQueryable.");
-            }
-            this.Total = this.query.Count();
-            this.Results = this.query.Skip(start).Take(limit).ToList();
-            return this;
+            var results = query.Skip(start).Take(limit).ToList();
+            var total = query.Count();
+            return new PagedQueryResults<T>(total, results);
         }
 
         /// <summary>
-        /// Computes the paged list given the IQueryable of T and the paging values.
+        /// Returns a PagedQueryResults objects given the IQueryable and start and limit values.
         /// </summary>
-        /// <returns>This object after being computed.</returns>
-        public async Task<PagedQueryResults<T>> ComputeAsync()
+        /// <typeparam name="T">The type of objects in the query.</typeparam>
+        /// <param name="query">The query to page.</param>
+        /// <param name="start">The number of records to skip.</param>
+        /// <param name="limit">The number of records to take.</param>
+        /// <returns>A PagedQueryResults object containing the total number of records and the paged records.</returns>
+        public static async Task<PagedQueryResults<T>> ToPagedQueryResultsAsync<T>(this IQueryable<T> query, int start, int limit) where T : class
         {
-            if (this.query == null)
-            {
-                throw new NotSupportedException("The query is null.  Use the compute operations if you are constructing this object from an IQueryable.");
-            }
-            this.Total = await this.query.CountAsync();
-            this.Results = await this.query.Skip(start).Take(limit).ToListAsync();
-            return this;
+            var results = await query.Skip(start).Take(limit).ToListAsync();
+            var total = await query.CountAsync();
+            return new PagedQueryResults<T>(total, results);
         }
     }
 }
