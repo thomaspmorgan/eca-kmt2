@@ -1,19 +1,15 @@
 <h2 class="project-color tab-header">Money Flow</h2>
 <h4 class="tab-subheader">Money Flow List</h4>
 <div st-table="moneyFlowCopy" st-safe-src="project.moneyFlows" class="row">
-    <!--
-    <input st-search type="search" placeholder="Search Projects" class="search-contextual" />
-    <i class="glyphicon glyphicon-search contextual"></i>
-    -->
-    <button ng-click="modal.createMoneyFlow = true" class="btn btn-success right col-sd-2">Create Money Flow</button>
+    <!--<button ng-click="modal.createMoneyFlow = true" class="btn btn-success right col-sd-2">Create Money Flow</button> -->
+    <button class="btn btn-success right col-sd-2">Create Money Flow</button>
     <div id="sort-list">
         <table class="col-md-12">
             <thead>
                 <tr>
                     <th st-sort="'transactionDate'" st-sort-default="true" class="col-md-1 sort-label medium">Transaction Date</th>
                     <th st-sort="'type'" class="col-md-1 sort-label medium">Type</th>
-                    <th st-sort="'source'" class="col-md-1 sort-label medium">From (Source)</th>
-                    <th st-sort="'recipient'" class="col-md-1 sort-label medium">To (Recipient)</th>
+                    <th st-sort="'source'" class="col-md-3 sort-label medium">From/To</th>
                     <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
                     <th st-sort="'description'" class="col-md-1 sort-label medium">Description</th>
                     <th class="col-md-2">&nbsp;</th>
@@ -26,10 +22,7 @@
                         <input st-search="'type'" placeholder="" type="search" class="input-lg form-control" />
                     </th>
                     <th>
-                        <input st-search="'source'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        <input st-search="'recipient'" placeholder="" type="search" class="input-lg form-control" />
+                        <input st-search="'sourceRecipient'" placeholder="" type="search" class="input-lg form-control" />
                     </th>
                     <th>
                         <input st-search="'amount'" placeholder="" type="search" class="input-lg form-control" />
@@ -37,15 +30,15 @@
                     <th>
                         <input st-search="'description'" placeholder="" type="search" class="input-lg form-control" />
                     </th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody class="list2">
                 <tr ng-repeat="moneyFlow in moneyFlowCopy" class="hover">
                     <td>{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</td>
-                    <td>{{moneyFlow.sourceType}}</td>
-                    <td>{{moneyFlow.sourceName}}</td>
-                    <td>{{moneyFlow.recipientName}}</td>
-                    <td>{{moneyFlow.value | currency}}</td>
+                    <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientType : "Funding" }}</td>
+                    <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientName : moneyFlow.sourceName}}</td>
+                    <td><span class="{{moneyFlow.sourceType === 'Project' ? 'text-danger' : ''}}">{{moneyFlow.sourceType === "Project" ? ((1-moneyFlow.value) | currency) : (moneyFlow.value | currency)}}</span></td>
                     <td>{{moneyFlow.description}}</td>
                     <td>
                         <img class="icon" src="images/duplicateA.png" alt="">
