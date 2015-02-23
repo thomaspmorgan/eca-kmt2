@@ -13,7 +13,6 @@ namespace ECA.Business.Test.Service
     [TestClass]
     public class ProjectServiceTest
     {
-
         private TestEcaContext context;
         private ProjectService service;
 
@@ -55,14 +54,6 @@ namespace ECA.Business.Test.Service
             Assert.AreEqual(userId, savedProject.History.RevisedBy);
             savedProject.History.CreatedOn.Should().BeCloseTo(utcNow, DbContextHelper.DATE_PRECISION);
             savedProject.History.RevisedOn.Should().BeCloseTo(utcNow, DbContextHelper.DATE_PRECISION);
-        }
-        #endregion
-
-        #region GetProgramProjects
-        [TestMethod]
-        public async Task TestGetProgramProjectsById()
-        {
-
         }
         #endregion
 
