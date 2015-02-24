@@ -38,7 +38,7 @@
                     <td>{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</td>
                     <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientType : "Funding" }}</td>
                     <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientName : moneyFlow.sourceName}}</td>
-                    <td><span class="{{moneyFlow.sourceType === 'Project' ? 'text-danger' : ''}}">{{moneyFlow.sourceType === "Project" ? ((1-moneyFlow.value) | currency) : (moneyFlow.value | currency)}}</span></td>
+                    <td><span class="{{moneyFlow.sourceType === 'Project' ? 'text-danger' : ''}}">{{moneyFlow.sourceType === "Project" ? ((0-moneyFlow.value) | currency) : (moneyFlow.value | currency)}}</span></td>
                     <td>{{moneyFlow.description}}</td>
                     <td>
                         <img class="icon" src="images/duplicateA.png" alt="">
