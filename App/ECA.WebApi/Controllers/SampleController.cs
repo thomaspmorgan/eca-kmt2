@@ -42,7 +42,7 @@ namespace ECA.WebApi.Controllers
         /// <param name="queryModel">The page, filter and sort information.</param>
         /// <returns>The list of projects by program.</returns>
         [ResponseType(typeof(PagedQueryResults<ProgramProject>))]
-        public async Task<IHttpActionResult> GetProjectsByProgramIdAsync(int programId, [ModelBinder(typeof(PagingQueryBindingModelBinder))] PagingQueryBindingModel queryModel)
+        public async Task<IHttpActionResult> GetProjectsByProgramIdAsync(int programId, PagingQueryBindingModel queryModel)
         {
             //paging
             //http://localhost:5555/api/Sample?start=0&limit=10&programId=10
