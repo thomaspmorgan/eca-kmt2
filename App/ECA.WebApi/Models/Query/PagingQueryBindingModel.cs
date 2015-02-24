@@ -11,6 +11,8 @@ using System.Web;
 using System.Web.Http.ValueProviders;
 using System.Net.Http;
 using System.Web.Http.ModelBinding;
+using Newtonsoft.Json.Linq;
+using System.Collections;
 
 namespace ECA.WebApi.Models.Query
 {
@@ -33,7 +35,7 @@ namespace ECA.WebApi.Models.Query
         /// <summary>
         /// Gets the maximum number of results a paged request can have.
         /// </summary>
-        public const int MAX_LIMIT = 300;       
+        public const int MAX_LIMIT = 300;
 
         /// <summary>
         /// Gets or sets the Start value i.e. the number of records to skip.
@@ -80,14 +82,25 @@ namespace ECA.WebApi.Models.Query
     /// </summary>
     public class PagingQueryBindingModelBinder : System.Web.Http.ModelBinding.IModelBinder
     {
+        /// <summary>
+        /// The filter model key.
+        /// </summary>
+        public const string FILTER_QUERY_KEY = "filter";
 
-        private const string FILTER_QUERY_KEY = "filter";
+        /// <summary>
+        /// The sort model key.
+        /// </summary>
+        public const string SORTER_QUERY_KEY = "sort";
 
-        private const string SORTER_QUERY_KEY = "sort";
+        /// <summary>
+        /// The paging start model key.
+        /// </summary>
+        public const string START_QUERY_KEY = "start";
 
-        private const string START_QUERY_KEY = "start";
-
-        private const string LIMIT_QUERY_KEY = "limit";
+        /// <summary>
+        /// the paging limit model key.
+        /// </summary>
+        public const string LIMIT_QUERY_KEY = "limit";
 
         /// <summary>
         /// 
@@ -102,13 +115,13 @@ namespace ECA.WebApi.Models.Query
                 return false;
             }
             var model = new PagingQueryBindingModel();
-            var queryNameValuePairs = actionContext.Request.GetQueryNameValuePairs().ToDictionary(x => x.Key, x => x.Value);
-            if (queryNameValuePairs.ContainsKey(FILTER_QUERY_KEY))
+            var valueProvider = bindingContext.ValueProvider;
+            var filterValue = valueProvider.GetValue(FILTER_QUERY_KEY);
+            if(filterValue != null)
             {
-                var filterValue = queryNameValuePairs[FILTER_QUERY_KEY];
                 try
                 {
-                    var filters = ParseFilters(filterValue);
+                    var filters = ParseFilters(filterValue.AttemptedValue);
                     model.Filter = filters;
                 }
                 catch (Exception)
@@ -118,12 +131,12 @@ namespace ECA.WebApi.Models.Query
                 }
             }
 
-            if (queryNameValuePairs.ContainsKey(SORTER_QUERY_KEY))
+            var sorterValue = valueProvider.GetValue(SORTER_QUERY_KEY);
+            if (sorterValue != null)
             {
-                var sorterValue = queryNameValuePairs[SORTER_QUERY_KEY];
                 try
                 {
-                    var sorters = ParseSorters(sorterValue);
+                    var sorters = ParseSorters(sorterValue.AttemptedValue);
                     model.Sort = sorters;
                 }
                 catch (Exception)
@@ -132,28 +145,31 @@ namespace ECA.WebApi.Models.Query
                     return false;
                 }
             }
-            if (!queryNameValuePairs.ContainsKey(START_QUERY_KEY))
+
+            var startValue = valueProvider.GetValue(START_QUERY_KEY);
+            if (startValue == null)
             {
                 bindingContext.ModelState.AddModelError(bindingContext.ModelName, "The start parameter was not given.  It must be a numeric value.");
                 return false;
             }
             else
             {
-                var success = DoStartValueParse(queryNameValuePairs[START_QUERY_KEY], bindingContext, model);
+                var success = DoStartValueParse(startValue.AttemptedValue, bindingContext, model);
                 if (!success)
                 {
                     return false;
                 }
             }
 
-            if (!queryNameValuePairs.ContainsKey(LIMIT_QUERY_KEY))
+            var limitValue = valueProvider.GetValue(LIMIT_QUERY_KEY);
+            if (limitValue == null)
             {
                 bindingContext.ModelState.AddModelError(bindingContext.ModelName, "The limit parameter was not given.  It must be a numeric value.");
                 return false;
             }
             else
             {
-                var success = DoLimitValueParse(queryNameValuePairs[LIMIT_QUERY_KEY], bindingContext, model);
+                var success = DoLimitValueParse(limitValue.AttemptedValue, bindingContext, model);
                 if (!success)
                 {
                     return false;
@@ -217,9 +233,54 @@ namespace ECA.WebApi.Models.Query
             if (filter != null)
             {
                 var parsedFilters = Newtonsoft.Json.JsonConvert.DeserializeObject<List<FilterBindingModel>>(filter);
-                filters.AddRange(parsedFilters);
+                foreach (var parsedFilter in parsedFilters)
+                {
+                    var newFilter = new FilterBindingModel();
+                    newFilter.Comparison = parsedFilter.Comparison;
+                    newFilter.Property = parsedFilter.Property;
+
+                    if (parsedFilter.Value is JArray)
+                    {
+                        newFilter.Value = ToList(parsedFilter.Value as JArray);
+                    }
+                    else
+                    {
+                        newFilter.Value = parsedFilter.Value;
+                    }
+                    filters.Add(newFilter);
+                }
+
             }
             return filters;
+        }
+
+        /// <summary>
+        /// Returns an IList of objects based on the JTokenType in the array.  If the array of tokens are not all the same type
+        /// an exception will be thrown.  If the token type is not supported an exception will be thrown.
+        /// </summary>
+        /// <param name="jArray">The JArray.</param>
+        /// <returns>The list of objects to filter with.</returns>
+        public IList ToList(JArray jArray)
+        {
+            Contract.Requires(jArray != null, "The jArray must not be null.");
+            var tokenTypes = jArray.Select(x => x.Type).Distinct().ToList();
+            if (tokenTypes.Count != 1)
+            {
+                throw new NotSupportedException("The filter token types must all be the same.");
+            }
+            var listDictionary = new Dictionary<JTokenType, Func<IList>>();
+            listDictionary.Add(JTokenType.Boolean, () => jArray.ToObject<List<bool>>());
+            listDictionary.Add(JTokenType.Date, () => jArray.ToObject<List<DateTime>>());
+            listDictionary.Add(JTokenType.Float, () => jArray.ToObject<List<double>>());
+            listDictionary.Add(JTokenType.Integer, () => jArray.ToObject<List<long>>());
+            listDictionary.Add(JTokenType.String, () => jArray.ToObject<List<string>>());
+
+            var tokenType = tokenTypes.First();
+            if (!listDictionary.ContainsKey(tokenTypes.First()))
+            {
+                throw new NotSupportedException(String.Format("The json token type [{0}] is not a supported filter type.", tokenType));
+            }
+            return (IList)listDictionary[tokenType]();
         }
 
         /// <summary>

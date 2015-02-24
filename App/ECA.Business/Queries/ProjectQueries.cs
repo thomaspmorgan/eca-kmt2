@@ -26,7 +26,11 @@ namespace ECA.Business.Queries
                             LastRevisedOn = project.History.RevisedOn,
                             ProgramId = parentProgram.ProgramId,
                             ProjectId = project.ProjectId,
-                            OwnerOrganizationId = owner.OrganizationId
+                            ProjectName = project.Name,
+                            ProgramName = parentProgram.Name,
+                            OwnerOrganizationId = owner.OrganizationId,
+                            ProjectStatusName = status.Status,
+                            ProjectStatusId = status.ProjectStatusId,
                         };
             query = query.Apply(queryOperator);
             return query;

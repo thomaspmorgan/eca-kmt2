@@ -12,6 +12,10 @@ namespace ECA.Business.Queries.Models
 
         public int ProgramId { get; set; }
 
+        public string ProjectName { get; set; }
+
+        public string ProgramName { get; set; }
+
         public DateTimeOffset LastRevisedOn { get; set; }
 
         public string LastRevisedBy { get; set; }
@@ -20,9 +24,9 @@ namespace ECA.Business.Queries.Models
 
         public int RegionId { get; set; }
 
-        public int StatusId { get; set; }
+        public int ProjectStatusId { get; set; }
 
-        public int StatusName { get; set; }
+        public string ProjectStatusName { get; set; }
 
         public int OwnerOrganizationId { get; set; }
 

@@ -44,6 +44,38 @@ namespace ECA.WebApi.Controllers
         [ResponseType(typeof(PagedQueryResults<ProgramProject>))]
         public async Task<IHttpActionResult> GetProjectsByProgramIdAsync(int programId, [ModelBinder(typeof(PagingQueryBindingModelBinder))] PagingQueryBindingModel queryModel)
         {
+            //paging
+            //http://localhost:5555/api/Sample?start=0&limit=10&programId=10
+
+
+//            [
+//{
+//property: 'programName',
+//value: 'dance',
+//comparison: 'like'
+//}
+
+//]
+
+            //filter on proram name like dance
+            //http://localhost:5555/api/Sample?programId=10&start=0&limit=10&filter=%5B%0D%0A%7B%0D%0Aproperty%3A+%27programName%27%2C%0D%0Avalue%3A+%27dance%27%2C%0D%0Acomparison%3A+%27like%27%0D%0A%7D%0D%0A%0D%0A%5D
+
+
+//[
+//{
+//property: 'projectstatusid',
+//value: [3,5,7],
+//comparison: 'in'
+//}
+//]
+
+
+            //filter on project status ids 3,5,7
+            //http://localhost:5555/api/Sample?programid=10&start=0&limit=10&filter=%5B%0D%0A%7B%0D%0Aproperty%3A+%27projectstatusid%27%2C%0D%0Avalue%3A+%5B3%2C5%2C7%5D%2C%0D%0Acomparison%3A+%27in%27%0D%0A%7D%0D%0A%5D
+
+            //sort on id
+            //http://localhost:5555/api/Sample?start=0&limit=10&sort=%5b%7bproperty%3a+'Id'%2cdirection%3a+'asc'%7d%5d
+
             if (ModelState.IsValid)
             {
                 var results = await this.projectService.GetProjectsByProgramIdAsync(programId, queryModel.ToQueryableOperator<ProgramProject>(DEFAULT_PROGRAM_PROJECT_SORTER));
