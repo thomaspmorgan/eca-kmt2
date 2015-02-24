@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
-    public class SocialMediaType
+    public partial class SocialMediaType
     {
         [Key]
         public int SocialMediaTypeId { get; set; }

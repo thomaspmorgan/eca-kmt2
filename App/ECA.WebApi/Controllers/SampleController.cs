@@ -109,56 +109,5 @@ namespace ECA.WebApi.Controllers
                 return BadRequest(ModelState);
             }
         }
-
-        //[ResponseType(typeof(PagedQueryResults<SimpleProgramDTO>))]
-        //public async Task<HttpResponseMessage> GetProgramsAsync([ModelBinder(typeof(PagingQueryBindingModelBinder))] PagingQueryBindingModel queryModel)
-        //{
-        //    if(ModelState.IsValid)
-        //    {
-
-        //        //paging
-        //        //http://localhost:5555/api/Sample?start=0&limit=10
-
-        //        //filter on like allows foreign secondary
-        //        //http://localhost:5555/api/Sample?start=0&limit=10&filter=%5b%7bproperty%3a+'description'%2c+value%3a+'allows+foreign+secondary'%2c+comparison%3a+'like'%7d%5d
-
-        //        //filter on id
-        //        //http://localhost:5555/api/Sample?start=0&limit=10&filter=%5b%7bproperty%3a+'Id'%2c+value%3a+3%2c+comparison%3a+'eq'%7d%5d
-
-        //        //sort on id
-        //        //http://localhost:5555/api/Sample?start=0&limit=10&sort=%5b%7bproperty%3a+'Id'%2cdirection%3a+'asc'%7d%5d
-        //        using (var context = new EcaContext())
-        //        {
-        //            //var query = from p in context.Programs
-        //            //            select new SimpleProgramDTO
-        //            //            {
-        //            //                Description = p.Description,
-        //            //                Id = p.ProgramId,
-        //            //                StartDate = p.StartDate
-        //            //            };
-        //            var query = context.Programs.Select(p => new SimpleProgramDTO
-        //            {
-        //                Description = p.Description,
-        //                Id = p.ProgramId,
-        //                StartDate = p.StartDate
-        //            });
-
-        //            var queryableOperator = queryModel.ToQueryableOperator<SimpleProgramDTO>(new ExpressionSorter<SimpleProgramDTO>(x => x.Id, SortDirection.Ascending));
-        //            query = query.Apply(queryableOperator);
-
-        //            return Request.CreateResponse(new PagedQueryResults<SimpleProgramDTO>
-        //            {
-        //                Results = await query.Skip(queryableOperator.Start).Take(queryableOperator.Limit).ToListAsync(),
-        //                Total = await query.CountAsync()
-        //            });
-        //        }
-        //    }
-        //    else
-        //    {
-        //        //need to do global model filter found here...
-        //        //http://www.asp.net/web-api/overview/formats-and-model-binding/model-validation-in-aspnet-web-api
-        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-        //    }
-        //}
     }
 }

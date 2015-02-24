@@ -155,11 +155,6 @@
     <Compile Include="ProjectStatus.cs" />
     <Compile Include="ProjectType.cs" />
     <Compile Include="SocialMediaType.cs" />
-    <Compile Include="StaticDataGenerator.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StaticDataGenerator.tt</DependentUpon>
-    </Compile>
     <Compile Include="Theme.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Course.cs" />
@@ -209,10 +204,6 @@
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="StaticDataGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StaticDataGenerator.generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -276,6 +267,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
+      <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
+      <Name>ECA.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

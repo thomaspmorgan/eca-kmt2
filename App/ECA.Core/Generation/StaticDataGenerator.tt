@@ -9,22 +9,14 @@
 <#@ output extension=".generated.cs" #>
 
 
-
 <#+
-	public void WriteTypes(List<Tuple<string, string, string, string>> types, string ns, string connectionString)
+	public void WriteTypes(List<StaticLookupConfig> types, string connectionString)
 	{
-		//tuple is defined as className, tableName, idColumnName, nameColumnName
 		foreach(var t in types)
 		{
-			var className = t.Item1;
-			var tableName = t.Item2;
-			var idColumnName = t.Item3;
-			var nameColumnName = t.Item4;
-
-			WriteType(className, ns, tableName, idColumnName, nameColumnName, connectionString);
+			WriteType(t, connectionString);
 			WriteLine(String.Empty);
 		}
-		WriteStaticLookup(ns);
 	}
 
 	public string GetStaticLookupClassName()
@@ -32,48 +24,20 @@
 		return "StaticLookup";
 	}
 
-	public void WriteStaticLookup(string ns)
+
+	public void WriteType(StaticLookupConfig config, string connectionString)
 	{
-		var className = GetStaticLookupClassName();
-		WriteLine(String.Format("#region {0}", className));
-		WriteLine(GetNamespace(ns));
-		WriteLine("{");
-		PushIndent("\t");
-		WriteLine(String.Format("public class {0}", className));
+		WriteLine(String.Format("#region {0}", config.ClassName));
+		WriteLine(GetNamespace(config.Namespace));
 		WriteLine("{");
 		PushIndent("\t");
 
-		WriteLine(String.Format("public {0}(string value, int id)", className));
-		WriteLine("{");
-		PushIndent("\t");
-		WriteLine("this.Value = value;");
-		WriteLine("this.Id = id;");
-		PopIndent();
-		WriteLine("}");
-
-		WriteLine(String.Empty);
-		WriteProperties();
-
-		PopIndent();
-		WriteLine("}");
-
-		PopIndent();
-		WriteLine("}");
-		WriteLine("#endregion");
-	}
-
-
-	public void WriteType(string className, string ns, string tableName, string idColumnName, string nameColumnName, string connectionString)
-	{
-		WriteLine(String.Format("#region {0}", className));
-		WriteLine(GetNamespace(ns));
-		WriteLine("{");
-		PushIndent("\t");
-		WriteClassDeclaration(className);
+		WriteLine("using ECA.Core.Generation;");
+		WriteClassDeclaration(config.ClassName);
 		WriteLine("{");
 		PushIndent("\t");
 		
-		WriteStaticProperties(tableName, nameColumnName, idColumnName, connectionString);
+		WriteStaticProperties(config, connectionString);
 		
 		
 		PopIndent();
@@ -102,22 +66,25 @@
 		return String.Format("public partial class {0}", className);
 	}
 
-	public void WriteStaticProperties(string tableName, string nameColumn, string idColumnName, string connectionString)
+	public void WriteStaticProperties(StaticLookupConfig config, string connectionString)
 	{
 		using(var connection = new SqlConnection(connectionString))
 		{
-			var command = new SqlCommand(String.Format("SELECT * FROM {0}", tableName));
+			var command = new SqlCommand(String.Format("SELECT * FROM {0}", config.TableName));
 			command.Connection = connection;
-			WriteLine("//" + command.CommandText);
 			connection.Open();
 			var reader = command.ExecuteReader();
 			if(reader.HasRows)
 			{
 				while(reader.Read())
 				{
-					var propertyName = Pascalize(reader[nameColumn]);
-					var value = reader[nameColumn].ToString();
-					var id = Int32.Parse(reader[idColumnName].ToString());
+					var propertyName = Pascalize(reader[config.ValueColumnName]);
+					var value = reader[config.ValueColumnName].ToString();
+					var id = Int32.Parse(reader[config.IdColumnName].ToString());
+
+					WriteLine("///<summary>");
+					WriteLine(String.Format("/// Returns the {0} lookup with id {1}.", value, id));
+					WriteLine("///</summary>");
 					WriteLine(GetStaticPropertyDeclaration(propertyName, value, id));
 				}
 			}

@@ -3,18 +3,42 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ include file="StaticDataGenerator.tt" #>
+<#@ import namespace="ECA.Core.Generation" #>
+
+<#@ include file="../ECA.Core/Generation/StaticDataGenerator.tt" #>
+<#@ assembly name="$(SolutionDir)ECA.Core/bin/Debug/ECA.Core.dll" #>
 <#@ output extension=".generated.cs" #>
 
 <#
 	
+	var nameSpace = "ECA.Data";
 	var connectionString = @"Data Source=(LocalDb)\v11.0;Initial Catalog=Demo;Integrated Security=True";
-	var types = new List<Tuple<string, string, string, string>>();
 
-	//tuple is defined as className, tableName, idColumnName, nameColumnName
+	var types = new List<StaticLookupConfig>();
+	types.Add(new StaticLookupConfig{
+		TableName = "ProjectStatus",
+		ClassName = "ProjectStatus",
+		IdColumnName = "ProjectStatusId",
+		ValueColumnName = "Status",
+		Namespace = nameSpace
+	});
 
-	types.Add(new Tuple<string, string, string, string>("LocationType", "LocationType", "LocationTypeId", "LocationTypeName"));
-	types.Add(new Tuple<string, string, string, string>("ProjectStatus", "ProjectStatus", "ProjectStatusId", "Status"));
-	types.Add(new Tuple<string, string, string, string>("ProgramType", "ProgramType", "ProgramTypeId", "ProgramTypeName"));
-	WriteTypes(types, "ECA.Data", connectionString);
+	types.Add(new StaticLookupConfig{
+		TableName = "SocialMediaType",
+		ClassName = "SocialMediaType",
+		IdColumnName = "SocialMediaTypeId",
+		ValueColumnName = "SocialMediaTypeName",
+		Namespace = nameSpace
+	});
+
+	types.Add(new StaticLookupConfig{
+		TableName = "ProgramType",
+		ClassName = "ProgramType",
+		IdColumnName = "ProgramTypeId",
+		ValueColumnName = "ProgramTypeName",
+		Namespace = nameSpace
+	});
+
+
+	WriteTypes(types, connectionString);
 #>
