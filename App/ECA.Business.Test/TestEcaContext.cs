@@ -11,6 +11,8 @@ namespace ECA.Business.Test
     {
         public int SaveChangesCalledCount { get; set; }
 
+        public bool IsDisposed { get; set; }
+
         public override int SaveChanges()
         {
             this.SaveChangesCalledCount++;
@@ -21,6 +23,12 @@ namespace ECA.Business.Test
         {
             this.SaveChangesCalledCount++;
             return Task.FromResult<int>(this.SaveChangesCalledCount);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            IsDisposed = true;
         }
     }
 }

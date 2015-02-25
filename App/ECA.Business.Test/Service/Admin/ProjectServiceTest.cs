@@ -1,19 +1,18 @@
-﻿using System;
-using FluentAssertions;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Core.Data;
-using ECA.Data;
-using ECA.Business.Models;
-using ECA.Business.Service;
-using System.Threading.Tasks;
+﻿using ECA.Business.Models.Admin;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
-using ECA.Business.Queries.Models;
 using ECA.Core.DynamicLinq;
-using ECA.Core.DynamicLinq.Sorter;
-using System.Collections.Generic;
-using ECA.Core.Query;
 using ECA.Core.DynamicLinq.Filter;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Query;
+using ECA.Data;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Test.Service.Admin
 {
@@ -35,6 +34,26 @@ namespace ECA.Business.Test.Service.Admin
         {
 
         }
+
+        #region Dispose
+        [TestMethod]
+        public void TestDispose_Context()
+        {
+            var testContext = DbContextHelper.GetInMemoryContext();
+            var testService = new ProjectService(testContext);
+
+            var contextField = typeof(ProjectService).GetField("context", BindingFlags.Instance | BindingFlags.NonPublic);
+            var contextValue = contextField.GetValue(testService);
+            Assert.IsNotNull(contextField);
+            Assert.IsNotNull(contextValue);
+
+            testService.Dispose();
+            contextValue = contextField.GetValue(testService);
+            Assert.IsNull(contextValue);
+            Assert.IsTrue(testContext.IsDisposed);
+
+        }
+        #endregion
 
         #region Create Draft Project
         [TestMethod]

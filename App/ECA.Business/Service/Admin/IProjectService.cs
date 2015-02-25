@@ -1,9 +1,8 @@
-﻿using ECA.Business.Models;
-using ECA.Business.Queries.Models;
+﻿using ECA.Business.Models.Admin;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
-using System;
 using System.Threading.Tasks;
 namespace ECA.Business.Service.Admin
 {

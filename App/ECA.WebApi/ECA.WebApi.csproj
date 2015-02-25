@@ -263,7 +263,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\MoneyFlowsController.cs" />
     <Compile Include="Controllers\ParticipantsController.cs" />
-    <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\Admin\ProjectsController.cs" />
     <Compile Include="Controllers\ProgramsController.cs" />
     <Compile Include="Controllers\SampleController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
@@ -279,7 +279,7 @@
     <Compile Include="Models\ProgramDTO.cs" />
     <Compile Include="Models\ProgramList.cs" />
     <Compile Include="Models\MoneyFlowDTO.cs" />
-    <Compile Include="Models\ProjectDTO.cs" />
+    <None Include="Models\ProjectDTO.csold" />
     <Compile Include="Models\Query\FilterBindingModel.cs" />
     <Compile Include="Models\Query\SorterBindingModel.cs" />
     <Compile Include="Models\RegionDTO.cs" />

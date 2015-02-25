@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Models;
+using ECA.Business.Models.Admin;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Test.Models
+namespace ECA.Business.Test.Models.Admin
 {
     [TestClass]
     public class DraftProjectTest

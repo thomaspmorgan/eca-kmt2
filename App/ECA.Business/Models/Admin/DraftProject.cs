@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Models
+namespace ECA.Business.Models.Admin
 {
     /// <summary>
     /// A DraftProject is a new project in ECA.

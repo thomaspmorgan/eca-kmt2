@@ -67,6 +67,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Controllers\Admin\ProjectsControllerTest.cs" />
     <Compile Include="Controllers\SampleControllerTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelTest.cs" />
     <Compile Include="Models\Query\PagingQueryBindingModelBinderTest.cs" />

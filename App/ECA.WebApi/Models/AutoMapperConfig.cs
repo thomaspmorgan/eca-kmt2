@@ -18,12 +18,12 @@ namespace ECA.WebApi.Models
                 .MaxDepth(2);
             Mapper.CreateMap<ProgramDTO, Program>()
                 .IgnoreAllNonExisting();
-            Mapper.CreateMap<Project, ProjectDTO>()
-                .ForMember(dest => dest.Region, opt => opt.MapFrom(src => src.Regions.FirstOrDefault().LocationName))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Status));
-            Mapper.CreateMap<ProjectDTO, Project>()
-                .ForMember(dest => dest.Status, opt => opt.Ignore())
-                .IgnoreAllNonExisting();
+            //Mapper.CreateMap<Project, ProjectDTO>()
+            //    .ForMember(dest => dest.Region, opt => opt.MapFrom(src => src.Regions.FirstOrDefault().LocationName))
+            //    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Status));
+            //Mapper.CreateMap<ProjectDTO, Project>()
+            //    .ForMember(dest => dest.Status, opt => opt.Ignore())
+            //    .IgnoreAllNonExisting();
             Mapper.CreateMap<Organization, OrganizationDTO>()
                 .MaxDepth(2);
             Mapper.CreateMap<OrganizationDTO, Organization>()

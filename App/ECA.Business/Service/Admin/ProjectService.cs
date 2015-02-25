@@ -1,15 +1,11 @@
-﻿using ECA.Business.Models;
-using ECA.Business.Queries;
-using ECA.Business.Queries.Models;
+﻿using ECA.Business.Models.Admin;
+using ECA.Business.Queries.Admin;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Data;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin

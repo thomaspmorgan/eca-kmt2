@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Models;
+using ECA.Business.Models.Admin;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
