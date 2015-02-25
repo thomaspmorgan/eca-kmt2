@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ECA.Core.Generation
+﻿namespace ECA.Core.Generation
 {
     /// <summary>
     /// A StaticLookup is a class that is used to contain lookup values of an entity.
@@ -31,8 +25,7 @@ namespace ECA.Core.Generation
         /// Gets the Id of the lookup value.
         /// </summary>
         public int Id { get; private set; }
-
-
+        
         /// <summary>
         /// Returns true if the given object equals this object.
         /// </summary>
@@ -50,7 +43,6 @@ namespace ECA.Core.Generation
                 return false;
             }
             return this.Value == otherType.Value;
-
         }
 
         /// <summary>

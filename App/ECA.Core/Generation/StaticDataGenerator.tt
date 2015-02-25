@@ -39,7 +39,6 @@
 		
 		WriteStaticProperties(config, connectionString);
 		
-		
 		PopIndent();
 		WriteLine("}");
 
