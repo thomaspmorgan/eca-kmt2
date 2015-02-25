@@ -11,8 +11,20 @@ namespace ECA.Business.Service.Admin
     {
         ECA.Data.Project Create(DraftProject project);
 
+        /// <summary>
+        /// Returns the sorted, filtered, and paged projects in the program with the given program id.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted projects.</returns>
         PagedQueryResults<SimpleProjectDTO> GetProjectsByProgramId(int programId, QueryableOperator<SimpleProjectDTO> queryOperator);
 
+        /// <summary>
+        /// Returns the sorted, filtered, and paged projects in the program with the given program id.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, filtered, and sorted projects.</returns>
         Task<PagedQueryResults<SimpleProjectDTO>> GetProjectsByProgramIdAsync(int programId, QueryableOperator<SimpleProjectDTO> queryOperator);
     }
 }

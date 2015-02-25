@@ -20,13 +20,19 @@ namespace ECA.Business.Queries
             var query = from project in context.Projects
                         let parentProgram = project.ParentProgram
                         let locations = project.Locations
+                        let status = project.Status
+                        let startDate = project.StartDate
                         where project.ProgramId == programId
                         select new SimpleProjectDTO
                         {
                             ProgramId = parentProgram.ProgramId,
                             ProjectId = project.ProjectId,
                             ProjectName = project.Name,
-                            LocationNames = locations.Select(x => x.LocationName)
+                            LocationNames = locations.Select(x => x.LocationName),
+                            ProjectStatusId = status.ProjectStatusId,
+                            ProjectStatusName = status.Status,
+                            StartDate = startDate,
+                            StartYear = startDate.Year
                         };
 
             query = query.Apply(queryOperator);

@@ -19,6 +19,14 @@ namespace ECA.Business.Queries.Models
 
         public string ProjectName { get; set; }
 
+        public int ProjectStatusId { get; set; }
+
+        public string ProjectStatusName { get; set; }
+
+        public DateTimeOffset StartDate { get; set; }
+
+        public int StartYear { get; set; }
+
         public IEnumerable<string> LocationNames { get; set; }
     }
 }
