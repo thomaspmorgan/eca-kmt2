@@ -9,6 +9,14 @@ namespace ECA.Data
 	using ECA.Core.Generation;
 	public partial class ActorType
 	{
+		///<summary>
+		/// Returns the Person lookup with id 1.
+		///</summary>
+		public static StaticLookup Person { get { return new StaticLookup("Person", 1); } }
+		///<summary>
+		/// Returns the Organization lookup with id 2.
+		///</summary>
+		public static StaticLookup Organization { get { return new StaticLookup("Organization", 2); } }
 	}
 }
 #endregion
@@ -19,18 +27,6 @@ namespace ECA.Data
 	using ECA.Core.Generation;
 	public partial class ItineraryStatus
 	{
-		///<summary>
-		/// Returns the Planned lookup with id 1.
-		///</summary>
-		public static StaticLookup Planned { get { return new StaticLookup("Planned", 1); } }
-		///<summary>
-		/// Returns the InProgress lookup with id 2.
-		///</summary>
-		public static StaticLookup Inprogress { get { return new StaticLookup("InProgress", 2); } }
-		///<summary>
-		/// Returns the Completed lookup with id 3.
-		///</summary>
-		public static StaticLookup Completed { get { return new StaticLookup("Completed", 3); } }
 	}
 }
 #endregion
@@ -79,38 +75,6 @@ namespace ECA.Data
 	using ECA.Core.Generation;
 	public partial class MoneyFlowSourceRecipientType
 	{
-		///<summary>
-		/// Returns the Organization lookup with id 1.
-		///</summary>
-		public static StaticLookup Organization { get { return new StaticLookup("Organization", 1); } }
-		///<summary>
-		/// Returns the Program lookup with id 2.
-		///</summary>
-		public static StaticLookup Program { get { return new StaticLookup("Program", 2); } }
-		///<summary>
-		/// Returns the Project lookup with id 3.
-		///</summary>
-		public static StaticLookup Project { get { return new StaticLookup("Project", 3); } }
-		///<summary>
-		/// Returns the Participant lookup with id 4.
-		///</summary>
-		public static StaticLookup Participant { get { return new StaticLookup("Participant", 4); } }
-		///<summary>
-		/// Returns the ItineraryStop lookup with id 5.
-		///</summary>
-		public static StaticLookup Itinerarystop { get { return new StaticLookup("ItineraryStop", 5); } }
-		///<summary>
-		/// Returns the Accomodation lookup with id 6.
-		///</summary>
-		public static StaticLookup Accomodation { get { return new StaticLookup("Accomodation", 6); } }
-		///<summary>
-		/// Returns the Transportation lookup with id 7.
-		///</summary>
-		public static StaticLookup Transportation { get { return new StaticLookup("Transportation", 7); } }
-		///<summary>
-		/// Returns the Expense lookup with id 8.
-		///</summary>
-		public static StaticLookup Expense { get { return new StaticLookup("Expense", 8); } }
 	}
 }
 #endregion
@@ -121,18 +85,6 @@ namespace ECA.Data
 	using ECA.Core.Generation;
 	public partial class MoneyFlowType
 	{
-		///<summary>
-		/// Returns the Incoming lookup with id 1.
-		///</summary>
-		public static StaticLookup Incoming { get { return new StaticLookup("Incoming", 1); } }
-		///<summary>
-		/// Returns the Outgoing lookup with id 2.
-		///</summary>
-		public static StaticLookup Outgoing { get { return new StaticLookup("Outgoing", 2); } }
-		///<summary>
-		/// Returns the Internal lookup with id 3.
-		///</summary>
-		public static StaticLookup Internal { get { return new StaticLookup("Internal", 3); } }
 	}
 }
 #endregion
@@ -221,6 +173,10 @@ namespace ECA.Data
 		/// Returns the Other lookup with id 8.
 		///</summary>
 		public static StaticLookup Other { get { return new StaticLookup("Other", 8); } }
+		///<summary>
+		/// Returns the Marc lookup with id 9.
+		///</summary>
+		public static StaticLookup Marc { get { return new StaticLookup("Marc", 9); } }
 	}
 }
 #endregion
@@ -325,6 +281,10 @@ namespace ECA.Data
 		/// Returns the Weibo lookup with id 4.
 		///</summary>
 		public static StaticLookup Weibo { get { return new StaticLookup("Weibo", 4); } }
+		///<summary>
+		/// Returns the brian lookup with id 5.
+		///</summary>
+		public static StaticLookup Brian { get { return new StaticLookup("brian", 5); } }
 	}
 }
 #endregion

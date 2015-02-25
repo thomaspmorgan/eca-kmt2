@@ -83,6 +83,7 @@
     <None Include="Data Migration\ThemeProgram.sql" />
     <None Include="ECA_Local.publish.xml" />
     <None Include="ECA_Dev.publish.xml" />
+    <None Include="ECA_QA.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data Migration\dbo.Program.data.sql" />

@@ -121,10 +121,11 @@ namespace ECA.Core.DynamicLinq
         public static SortDirection ToSortDirection(string direction)
         {
             var dictionary = new Dictionary<string, SortDirection>();
-            dictionary.Add(ASC, SortDirection.Ascending);
-            dictionary.Add(DESC, SortDirection.Descending);
-            Contract.Assert(dictionary.ContainsKey(direction), String.Format("The sort type [{0}] is not recognized.", direction));
-            return dictionary[direction];
+            dictionary.Add(ASC.ToUpper(), SortDirection.Ascending);
+            dictionary.Add(DESC.ToUpper(), SortDirection.Descending);
+            var dir = direction.ToUpper().Trim();
+            Contract.Assert(dictionary.ContainsKey(dir), String.Format("The sort type [{0}] is not recognized.", direction));
+            return dictionary[dir];
         }
     }
 }

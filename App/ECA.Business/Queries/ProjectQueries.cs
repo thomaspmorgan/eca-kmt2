@@ -3,6 +3,7 @@ using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.SqlServer;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -12,26 +13,22 @@ namespace ECA.Business.Queries
 {
     public static class ProjectQueries
     {
-        public static IQueryable<ProgramProject> CreateGetProjectsByProgramQuery(EcaContext context, int programId, QueryableOperator<ProgramProject> queryOperator)
+        public static IQueryable<SimpleProjectDTO> CreateGetProjectsByProgramQuery(EcaContext context, int programId, QueryableOperator<SimpleProjectDTO> queryOperator)
         {
             Contract.Requires(context != null, "The context must not be null.");
+
             var query = from project in context.Projects
                         let parentProgram = project.ParentProgram
-                        //let regions = project.Regions //not sure why we need to join to region here if we just get first??
-                        let status = project.Status
-                        let owner = parentProgram.Owner
-                        select new ProgramProject
+                        let locations = parentProgram.Locations
+                        where project.ProgramId == programId
+                        select new SimpleProjectDTO
                         {
-                            LastRevisedBy = "Some User",
-                            LastRevisedOn = project.History.RevisedOn,
                             ProgramId = parentProgram.ProgramId,
                             ProjectId = project.ProjectId,
                             ProjectName = project.Name,
-                            ProgramName = parentProgram.Name,
-                            OwnerOrganizationId = owner.OrganizationId,
-                            ProjectStatusName = status.Status,
-                            ProjectStatusId = status.ProjectStatusId,
+                            LocationNames = locations.Select(x => x.LocationName)
                         };
+
             query = query.Apply(queryOperator);
             return query;
         }

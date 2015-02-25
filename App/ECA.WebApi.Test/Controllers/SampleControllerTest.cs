@@ -15,6 +15,7 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using System.Collections.Generic;
 using ECA.WebApi.Models.Query;
+using ECA.Business.Service.Admin;
 
 namespace ECA.WebApi.Test.Controllers
 {
@@ -33,12 +34,12 @@ namespace ECA.WebApi.Test.Controllers
         [TestMethod]
         public async Task TestGetProjectsByProgramIcAsync()
         {
-            serviceMock.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<ProgramProject>>()))
-                .Returns(Task.FromResult<PagedQueryResults<ProgramProject>>(new PagedQueryResults<ProgramProject>(1, new List<ProgramProject>())));
+            serviceMock.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
+                .Returns(Task.FromResult<PagedQueryResults<SimpleProjectDTO>>(new PagedQueryResults<SimpleProjectDTO>(1, new List<SimpleProjectDTO>())));
 
             var controller = GetController(serviceMock.Object);
             var response = await controller.GetProjectsByProgramIdAsync(1, new PagingQueryBindingModel());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ProgramProject>>));
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProjectDTO>>));
         }
 
         [TestMethod]

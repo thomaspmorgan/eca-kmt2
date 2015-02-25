@@ -83,5 +83,29 @@ namespace ECA.Core.DynamicLinq.Test
             var otherD = SortDirection.Ascending;
             Assert.IsFalse(d != otherD);
         }
+
+        [TestMethod]
+        public void TestToSortDirection_Ascending()
+        {
+            var key = SortDirection.Ascending.Value;
+            var testDirection = SortDirection.ToSortDirection(key);
+            Assert.AreEqual(SortDirection.Ascending, testDirection);
+
+        }
+
+        [TestMethod]
+        public void TestToSortDirection_Descending()
+        {
+            var key = SortDirection.Descending.Value;
+            var testDirection = SortDirection.ToSortDirection(key);
+            Assert.AreEqual(SortDirection.Descending, testDirection);
+        }
+
+        [TestMethod]
+        public void TestToSortDirection_CaseInsensitiveTest()
+        {
+            var key = "AsC";
+            Assert.AreEqual(SortDirection.Ascending, SortDirection.ToSortDirection(key));
+        }
     }
 }

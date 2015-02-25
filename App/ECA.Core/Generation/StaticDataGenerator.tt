@@ -3,6 +3,7 @@
 <#@ assembly name="System.Data" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
+<#@ import namespace="ECA.Core.Generation" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Text.RegularExpressions" #>
 <#@ import namespace="System.Data.SqlClient" #>
@@ -10,7 +11,7 @@
 
 
 <#+
-	public void WriteTypes(List<StaticLookupConfig> types, string connectionString)
+	public void WriteTypes(List<ECA.Core.Generation.StaticLookupConfig> types, string connectionString)
 	{
 		foreach(var t in types.OrderBy(x => x.ClassName).ToList())
 		{

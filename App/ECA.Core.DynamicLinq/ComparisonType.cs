@@ -183,16 +183,17 @@ namespace ECA.Core.DynamicLinq
         public static ComparisonType ToComparisonType(string comparisonType)
         {
             var dictionary = new Dictionary<string, ComparisonType>();
-            dictionary.Add(LESS_THAN, ComparisonType.LessThan);
-            dictionary.Add(GREATER_THAN, ComparisonType.GreaterThan);
-            dictionary.Add(EQUAL, ComparisonType.Equal);
-            dictionary.Add(IS_NULL, ComparisonType.Null);
-            dictionary.Add(IS_NOT_NULL, ComparisonType.NotNull);
-            dictionary.Add(LIKE, ComparisonType.Like);
-            dictionary.Add(IN, ComparisonType.In);
+            dictionary.Add(LESS_THAN.ToUpper(), ComparisonType.LessThan);
+            dictionary.Add(GREATER_THAN.ToUpper(), ComparisonType.GreaterThan);
+            dictionary.Add(EQUAL.ToUpper(), ComparisonType.Equal);
+            dictionary.Add(IS_NULL.ToUpper(), ComparisonType.Null);
+            dictionary.Add(IS_NOT_NULL.ToUpper(), ComparisonType.NotNull);
+            dictionary.Add(LIKE.ToUpper(), ComparisonType.Like);
+            dictionary.Add(IN.ToUpper(), ComparisonType.In);
 
-            Contract.Assert(dictionary.ContainsKey(comparisonType), String.Format("The comparison type [{0}] is not recognized.", comparisonType));
-            return dictionary[comparisonType];
+            var cType = comparisonType.ToUpper().Trim();
+            Contract.Assert(dictionary.ContainsKey(cType), String.Format("The comparison type [{0}] is not recognized.", comparisonType));
+            return dictionary[cType];
         }
     }
 }

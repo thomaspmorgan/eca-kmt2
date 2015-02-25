@@ -20,12 +20,13 @@ using System.Diagnostics;
 using ECA.Business.Queries.Models;
 using ECA.WebApi.Models.Projects;
 using ECA.Core.Query;
+using ECA.Business.Service.Admin;
 
 namespace ECA.WebApi.Controllers
 {
     public class SampleController : ApiController
     {
-        private static ExpressionSorter<ProgramProject> DEFAULT_PROGRAM_PROJECT_SORTER = new ExpressionSorter<ProgramProject>(x => x.ProjectId, SortDirection.Ascending);
+        private static ExpressionSorter<SimpleProjectDTO> DEFAULT_PROGRAM_PROJECT_SORTER = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
 
         private IProjectService projectService;
 
@@ -41,7 +42,7 @@ namespace ECA.WebApi.Controllers
         /// <param name="programId">The program id.</param>
         /// <param name="queryModel">The page, filter and sort information.</param>
         /// <returns>The list of projects by program.</returns>
-        [ResponseType(typeof(PagedQueryResults<ProgramProject>))]
+        [ResponseType(typeof(PagedQueryResults<SimpleProjectDTO>))]
         public async Task<IHttpActionResult> GetProjectsByProgramIdAsync(int programId, PagingQueryBindingModel queryModel)
         {
             //paging
@@ -58,7 +59,7 @@ namespace ECA.WebApi.Controllers
 //]
 
             //filter on proram name like dance
-            //http://localhost:5555/api/Sample?programId=10&start=0&limit=10&filter=%5B%0D%0A%7B%0D%0Aproperty%3A+%27programName%27%2C%0D%0Avalue%3A+%27dance%27%2C%0D%0Acomparison%3A+%27like%27%0D%0A%7D%0D%0A%0D%0A%5D
+            //http://localhost:5555/api/Sample?programId=10&start=0&limit=10&filter=%5B%7B%0D%0Aproperty%3A+%27programName%27%2C%0D%0Avalue%3A+%27dance%27%2C%0D%0Acomparison%3A+%27like%27%0D%0A%7D%5D
 
 
 //[
@@ -78,7 +79,7 @@ namespace ECA.WebApi.Controllers
 
             if (ModelState.IsValid)
             {
-                var results = await this.projectService.GetProjectsByProgramIdAsync(programId, queryModel.ToQueryableOperator<ProgramProject>(DEFAULT_PROGRAM_PROJECT_SORTER));
+                var results = await this.projectService.GetProjectsByProgramIdAsync(programId, queryModel.ToQueryableOperator<SimpleProjectDTO>(DEFAULT_PROGRAM_PROJECT_SORTER));
                 return Ok(results);
             }
             else

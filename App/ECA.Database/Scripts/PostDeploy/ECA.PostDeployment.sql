@@ -19,6 +19,7 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.ParticipantType.staticdata.sql
 :r .\StaticData\dbo.PhoneNumberType.staticdata.sql
 :r .\StaticData\dbo.ProgramType.staticdata.sql
+:r .\StaticData\dbo.ProjectStatus.staticdata.sql
 :r .\StaticData\dbo.ProjectType.staticdata.sql
 :r .\StaticData\dbo.SocialMediaType.staticdata.sql
 

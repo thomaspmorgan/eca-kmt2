@@ -12,10 +12,61 @@ using System.Web.Http.Description;
 using ECA.Data;
 using ECA.WebApi.Models;
 using AutoMapper;
+using ECA.Business.Service.Admin;
+using ECA.Core.DynamicLinq.Sorter;
+using System.Diagnostics;
+using ECA.Business.Queries.Models;
+using ECA.WebApi.Models.Query;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
 
 namespace ECA.WebApi.Controllers
 {
+    /// <summary>
+    /// The ProjectsController is used for managing projects in the ECA system.
+    /// </summary>
+    [RoutePrefix("api")]
     public class ProjectsController : ApiController
+    {
+        private static ExpressionSorter<SimpleProjectDTO> DEFAULT_PROGRAM_PROJECT_SORTER = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
+
+        private IProjectService projectService;
+
+        /// <summary>
+        /// Creates a new ProjectsController with the given project service.
+        /// </summary>
+        /// <param name="projectService">The project service.</param>
+        public ProjectsController(IProjectService projectService)
+        {
+            Debug.Assert(projectService != null, "The project service must not be null.");
+            this.projectService = projectService;
+        }
+
+        /// <summary>
+        /// Returns a listing of the projects by program.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <param name="queryModel">The page, filter and sort information.</param>
+        /// <returns>The list of projects by program.</returns>
+        [ResponseType(typeof(PagedQueryResults<SimpleProjectDTO>))]
+        [Route("Programs/{programId:int}/Projects")]
+        public async Task<IHttpActionResult> GetProjectsByProgramAsync(int programId, PagingQueryBindingModel queryModel)
+        {
+            //this could be moved but then the ProgramController has to know about the project service.
+            if (ModelState.IsValid)
+            {
+                var results = await this.projectService.GetProjectsByProgramIdAsync(programId, queryModel.ToQueryableOperator<SimpleProjectDTO>(DEFAULT_PROGRAM_PROJECT_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+    }
+
+
+    /*public class ProjectsController : ApiController
     {
         private EcaContext db = new EcaContext();
 
@@ -140,5 +191,5 @@ namespace ECA.WebApi.Controllers
         {
             return db.Projects.Count(e => e.ProjectId == id) > 0;
         }
-    }
+    }*/
 }

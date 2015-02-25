@@ -83,5 +83,24 @@ namespace ECA.Core.DynamicLinq.Test
             var otherC = ComparisonType.Equal;
             Assert.IsFalse(c != otherC);
         }
+
+        [TestMethod]
+        public void TestToComparisonType()
+        {
+            Assert.AreEqual(ComparisonType.Equal, ComparisonType.ToComparisonType(ComparisonType.Equal.Value));
+            Assert.AreEqual(ComparisonType.GreaterThan, ComparisonType.ToComparisonType(ComparisonType.GreaterThan.Value));
+            Assert.AreEqual(ComparisonType.In, ComparisonType.ToComparisonType(ComparisonType.In.Value));
+            Assert.AreEqual(ComparisonType.LessThan, ComparisonType.ToComparisonType(ComparisonType.LessThan.Value));
+            Assert.AreEqual(ComparisonType.Like, ComparisonType.ToComparisonType(ComparisonType.Like.Value));
+            Assert.AreEqual(ComparisonType.NotNull, ComparisonType.ToComparisonType(ComparisonType.NotNull.Value));
+            Assert.AreEqual(ComparisonType.Null, ComparisonType.ToComparisonType(ComparisonType.Null.Value));
+        }
+
+        [TestMethod]
+        public void TestToComparisonType_CaseInsensitive()
+        {
+            var key = "eQ";
+            Assert.AreEqual(ComparisonType.Equal, ComparisonType.ToComparisonType(key));
+        }
     }
 }

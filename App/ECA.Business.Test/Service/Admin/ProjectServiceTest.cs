@@ -7,8 +7,13 @@ using ECA.Data;
 using ECA.Business.Models;
 using ECA.Business.Service;
 using System.Threading.Tasks;
+using ECA.Business.Service.Admin;
+using ECA.Business.Queries.Models;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Sorter;
+using System.Collections.Generic;
 
-namespace ECA.Business.Test.Service
+namespace ECA.Business.Test.Service.Admin
 {
     [TestClass]
     public class ProjectServiceTest
@@ -54,6 +59,52 @@ namespace ECA.Business.Test.Service
             Assert.AreEqual(userId, savedProject.History.RevisedBy);
             savedProject.History.CreatedOn.Should().BeCloseTo(utcNow, DbContextHelper.DATE_PRECISION);
             savedProject.History.RevisedOn.Should().BeCloseTo(utcNow, DbContextHelper.DATE_PRECISION);
+        }
+        #endregion
+
+        #region Get Projects By Program Id
+        [TestMethod]
+        public async Task TestGetProjectsByProgramId_DefaultSorterOnly()
+        {
+            var location1 = new Location
+            {
+                LocationId = 1,
+                LocationName = "location1"
+            };
+            var location2 = new Location
+            {
+                LocationId = 2,
+                LocationName = "location2"
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+            var project = new Project
+            {
+                ProgramId = program.ProgramId,
+                ParentProgram = program,
+            };
+            project.Locations = new List<Location>();
+            project.Locations.Add(location1);
+            project.Locations.Add(location2);
+
+            context.Projects.Add(project);
+            context.Locations.Add(location1);
+            context.Locations.Add(location2);
+            context.Programs.Add(program);
+
+            var defaultSorter = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectId, SortDirection.Ascending);
+            var start = 0;
+            var limit = 10;
+            var queryOperator = new QueryableOperator<SimpleProjectDTO>(start, limit, defaultSorter);
+
+            Action<List<SimpleProjectDTO>> tester = (list) =>
+            {
+                Assert.AreEqual(1, list.Count);
+                var firstResult = list.First();
+                //Assert.AreEqual
+            };
         }
         #endregion
 

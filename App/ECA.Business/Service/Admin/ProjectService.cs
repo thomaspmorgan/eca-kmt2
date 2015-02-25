@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Service
+namespace ECA.Business.Service.Admin
 {
     public class ProjectService : IProjectService, IDisposable
     {
@@ -49,12 +49,12 @@ namespace ECA.Business.Service
 
         #region Query
 
-        public PagedQueryResults<ProgramProject> GetProjectsByProgramId(int programId, QueryableOperator<ProgramProject> queryOperator)
+        public PagedQueryResults<SimpleProjectDTO> GetProjectsByProgramId(int programId, QueryableOperator<SimpleProjectDTO> queryOperator)
         {
             return ProjectQueries.CreateGetProjectsByProgramQuery(context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
         }
 
-        public Task<PagedQueryResults<ProgramProject>> GetProjectsByProgramIdAsync(int programId, QueryableOperator<ProgramProject> queryOperator)
+        public Task<PagedQueryResults<SimpleProjectDTO>> GetProjectsByProgramIdAsync(int programId, QueryableOperator<SimpleProjectDTO> queryOperator)
         {
             return ProjectQueries.CreateGetProjectsByProgramQuery(context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }

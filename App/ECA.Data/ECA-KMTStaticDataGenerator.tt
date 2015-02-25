@@ -12,7 +12,7 @@
 <#
 	
 	var nameSpace = "ECA.Data";
-	var connectionString = @"Data Source=(LocalDb)\v11.0;Initial Catalog=Demo;Integrated Security=True";
+	var connectionString = @"Data Source=(LocalDb)\v11.0;Initial Catalog=ECA_Local;Integrated Security=True";
 	var types = new List<StaticLookupConfig>();
 	types.Add(new StaticLookupConfig
 	{
