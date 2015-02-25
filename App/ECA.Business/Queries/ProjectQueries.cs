@@ -19,7 +19,7 @@ namespace ECA.Business.Queries
 
             var query = from project in context.Projects
                         let parentProgram = project.ParentProgram
-                        let locations = parentProgram.Locations
+                        let locations = project.Locations
                         where project.ProgramId == programId
                         select new SimpleProjectDTO
                         {

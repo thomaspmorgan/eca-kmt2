@@ -12,6 +12,7 @@ using ECA.Business.Queries.Models;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using System.Collections.Generic;
+using ECA.Core.Query;
 
 namespace ECA.Business.Test.Service.Admin
 {
@@ -83,6 +84,7 @@ namespace ECA.Business.Test.Service.Admin
             var project = new Project
             {
                 ProgramId = program.ProgramId,
+                Name = "project",
                 ParentProgram = program,
             };
             project.Locations = new List<Location>();
@@ -99,15 +101,28 @@ namespace ECA.Business.Test.Service.Admin
             var limit = 10;
             var queryOperator = new QueryableOperator<SimpleProjectDTO>(start, limit, defaultSorter);
 
-            Action<List<SimpleProjectDTO>> tester = (list) =>
+            Action<PagedQueryResults<SimpleProjectDTO>> tester = (queryResults) =>
             {
-                Assert.AreEqual(1, list.Count);
-                var firstResult = list.First();
-                //Assert.AreEqual
+                Assert.AreEqual(1, queryResults.Total);
+                var results = queryResults.Results;
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+
+                Assert.AreEqual(program.ProgramId, firstResult.ProgramId);
+                Assert.AreEqual(project.Name, firstResult.ProjectName);
+                Assert.IsTrue(firstResult.LocationNames.Contains(location1.LocationName));
+                Assert.IsTrue(firstResult.LocationNames.Contains(location2.LocationName));
             };
+
+            var serviceResults = service.GetProjectsByProgramId(program.ProgramId, queryOperator);
+            var serviceResultsAsync = await service.GetProjectsByProgramIdAsync(program.ProgramId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
         }
         #endregion
 
     }
 }
+
+
 
