@@ -64,11 +64,11 @@
     <Folder Include="Data Migration" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\PostDeploy" />
+    <Folder Include="Scripts\PostDeploy\StaticData" />
     <Folder Include="dbo" />
+    <Folder Include="dbo\Stored Procedures" />
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Views" />
-    <Folder Include="dbo\Stored Procedures" />
-    <Folder Include="Scripts\PostDeploy\StaticData" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data Migration\Assign Region Code %28Africa).sql" />
@@ -81,7 +81,8 @@
     <None Include="Data Migration\LocationType.sql" />
     <None Include="Data Migration\Theme.sql" />
     <None Include="Data Migration\ThemeProgram.sql" />
-    <None Include="Test.publish.xml" />
+    <None Include="ECA_Local.publish.xml" />
+    <None Include="ECA_Dev.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data Migration\dbo.Program.data.sql" />
@@ -92,8 +93,7 @@
     <PostDeploy Include="Scripts\PostDeploy\ECA.PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Stored Procedures\sp_GetCurrentOrganizationIdentity.sql" />
-    <Build Include="dbo\Stored Procedures\sp_GetCurrentPersonIdentity.sql" />
+    <Build Include="dbo\Views\CombinedNameVw.sql" />
     <Build Include="dbo\Tables\Accommodation.sql" />
     <Build Include="dbo\Tables\Actor.sql" />
     <Build Include="dbo\Tables\ActorType.sql" />
@@ -170,7 +170,9 @@
     <Build Include="dbo\Tables\SpecialStatus.sql" />
     <Build Include="dbo\Tables\Theme.sql" />
     <Build Include="dbo\Tables\Transportation.sql" />
-    <Build Include="dbo\Views\CombinedNameVw.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetCurrentOrganizationIdentity.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetCurrentPersonIdentity.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.ActorType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.AddressType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ArtifactType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.Country.staticdata.sql" />
@@ -184,9 +186,8 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.ParticipantType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.PhoneNumberType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ProgramType.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.ProjectStatus.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ProjectType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.SocialMediaType.staticdata.sql" />
-    <None Include="Scripts\PostDeploy\StaticData\dbo.User.staticdata.sql" />
-    <None Include="Scripts\PostDeploy\StaticData\dbo.ProjectStatus.staticdata.sql" />
   </ItemGroup>
 </Project>

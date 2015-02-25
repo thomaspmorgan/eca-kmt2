@@ -3,6 +3,272 @@
 
 
 
+#region ActorType
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class ActorType
+	{
+	}
+}
+#endregion
+
+#region ItineraryStatus
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class ItineraryStatus
+	{
+		///<summary>
+		/// Returns the Planned lookup with id 1.
+		///</summary>
+		public static StaticLookup Planned { get { return new StaticLookup("Planned", 1); } }
+		///<summary>
+		/// Returns the InProgress lookup with id 2.
+		///</summary>
+		public static StaticLookup Inprogress { get { return new StaticLookup("InProgress", 2); } }
+		///<summary>
+		/// Returns the Completed lookup with id 3.
+		///</summary>
+		public static StaticLookup Completed { get { return new StaticLookup("Completed", 3); } }
+	}
+}
+#endregion
+
+#region LocationType
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class LocationType
+	{
+		///<summary>
+		/// Returns the Region lookup with id 2.
+		///</summary>
+		public static StaticLookup Region { get { return new StaticLookup("Region", 2); } }
+		///<summary>
+		/// Returns the Country lookup with id 3.
+		///</summary>
+		public static StaticLookup Country { get { return new StaticLookup("Country", 3); } }
+		///<summary>
+		/// Returns the State lookup with id 4.
+		///</summary>
+		public static StaticLookup State { get { return new StaticLookup("State", 4); } }
+		///<summary>
+		/// Returns the City lookup with id 5.
+		///</summary>
+		public static StaticLookup City { get { return new StaticLookup("City", 5); } }
+		///<summary>
+		/// Returns the Building lookup with id 6.
+		///</summary>
+		public static StaticLookup Building { get { return new StaticLookup("Building", 6); } }
+		///<summary>
+		/// Returns the Post lookup with id 7.
+		///</summary>
+		public static StaticLookup Post { get { return new StaticLookup("Post", 7); } }
+		///<summary>
+		/// Returns the Place lookup with id 8.
+		///</summary>
+		public static StaticLookup Place { get { return new StaticLookup("Place", 8); } }
+	}
+}
+#endregion
+
+#region MoneyFlowSourceRecipientType
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class MoneyFlowSourceRecipientType
+	{
+		///<summary>
+		/// Returns the Organization lookup with id 1.
+		///</summary>
+		public static StaticLookup Organization { get { return new StaticLookup("Organization", 1); } }
+		///<summary>
+		/// Returns the Program lookup with id 2.
+		///</summary>
+		public static StaticLookup Program { get { return new StaticLookup("Program", 2); } }
+		///<summary>
+		/// Returns the Project lookup with id 3.
+		///</summary>
+		public static StaticLookup Project { get { return new StaticLookup("Project", 3); } }
+		///<summary>
+		/// Returns the Participant lookup with id 4.
+		///</summary>
+		public static StaticLookup Participant { get { return new StaticLookup("Participant", 4); } }
+		///<summary>
+		/// Returns the ItineraryStop lookup with id 5.
+		///</summary>
+		public static StaticLookup Itinerarystop { get { return new StaticLookup("ItineraryStop", 5); } }
+		///<summary>
+		/// Returns the Accomodation lookup with id 6.
+		///</summary>
+		public static StaticLookup Accomodation { get { return new StaticLookup("Accomodation", 6); } }
+		///<summary>
+		/// Returns the Transportation lookup with id 7.
+		///</summary>
+		public static StaticLookup Transportation { get { return new StaticLookup("Transportation", 7); } }
+		///<summary>
+		/// Returns the Expense lookup with id 8.
+		///</summary>
+		public static StaticLookup Expense { get { return new StaticLookup("Expense", 8); } }
+	}
+}
+#endregion
+
+#region MoneyFlowType
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class MoneyFlowType
+	{
+		///<summary>
+		/// Returns the Incoming lookup with id 1.
+		///</summary>
+		public static StaticLookup Incoming { get { return new StaticLookup("Incoming", 1); } }
+		///<summary>
+		/// Returns the Outgoing lookup with id 2.
+		///</summary>
+		public static StaticLookup Outgoing { get { return new StaticLookup("Outgoing", 2); } }
+		///<summary>
+		/// Returns the Internal lookup with id 3.
+		///</summary>
+		public static StaticLookup Internal { get { return new StaticLookup("Internal", 3); } }
+	}
+}
+#endregion
+
+#region NameType
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class NameType
+	{
+		///<summary>
+		/// Returns the LastName lookup with id 1.
+		///</summary>
+		public static StaticLookup Lastname { get { return new StaticLookup("LastName", 1); } }
+		///<summary>
+		/// Returns the FirstName lookup with id 2.
+		///</summary>
+		public static StaticLookup Firstname { get { return new StaticLookup("FirstName", 2); } }
+		///<summary>
+		/// Returns the Prefix lookup with id 3.
+		///</summary>
+		public static StaticLookup Prefix { get { return new StaticLookup("Prefix", 3); } }
+		///<summary>
+		/// Returns the Suffix lookup with id 4.
+		///</summary>
+		public static StaticLookup Suffix { get { return new StaticLookup("Suffix", 4); } }
+		///<summary>
+		/// Returns the GivenName lookup with id 5.
+		///</summary>
+		public static StaticLookup Givenname { get { return new StaticLookup("GivenName", 5); } }
+		///<summary>
+		/// Returns the FamilyName lookup with id 6.
+		///</summary>
+		public static StaticLookup Familyname { get { return new StaticLookup("FamilyName", 6); } }
+		///<summary>
+		/// Returns the MiddleName lookup with id 7.
+		///</summary>
+		public static StaticLookup Middlename { get { return new StaticLookup("MiddleName", 7); } }
+		///<summary>
+		/// Returns the Patronym lookup with id 8.
+		///</summary>
+		public static StaticLookup Patronym { get { return new StaticLookup("Patronym", 8); } }
+		///<summary>
+		/// Returns the Alias lookup with id 9.
+		///</summary>
+		public static StaticLookup Alias { get { return new StaticLookup("Alias", 9); } }
+	}
+}
+#endregion
+
+#region ParticipantType
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class ParticipantType
+	{
+		///<summary>
+		/// Returns the Foreign Educational Institution lookup with id 1.
+		///</summary>
+		public static StaticLookup ForeignEducationalInstitution { get { return new StaticLookup("Foreign Educational Institution", 1); } }
+		///<summary>
+		/// Returns the Foreign Government lookup with id 2.
+		///</summary>
+		public static StaticLookup ForeignGovernment { get { return new StaticLookup("Foreign Government", 2); } }
+		///<summary>
+		/// Returns the U.S. Educational Institution lookup with id 3.
+		///</summary>
+		public static StaticLookup USEducationalInstitution { get { return new StaticLookup("U.S. Educational Institution", 3); } }
+		///<summary>
+		/// Returns the Public International Organization (PIO) lookup with id 4.
+		///</summary>
+		public static StaticLookup PublicInternationalOrganizationPio { get { return new StaticLookup("Public International Organization (PIO)", 4); } }
+		///<summary>
+		/// Returns the U.S. Non-Profit Organization (501(c)(3)) lookup with id 5.
+		///</summary>
+		public static StaticLookup USNonProfitOrganization501C3 { get { return new StaticLookup("U.S. Non-Profit Organization (501(c)(3))", 5); } }
+		///<summary>
+		/// Returns the Individual lookup with id 6.
+		///</summary>
+		public static StaticLookup Individual { get { return new StaticLookup("Individual", 6); } }
+		///<summary>
+		/// Returns the Foreign NGO/PVO lookup with id 7.
+		///</summary>
+		public static StaticLookup ForeignNgoPvo { get { return new StaticLookup("Foreign NGO/PVO", 7); } }
+		///<summary>
+		/// Returns the Other lookup with id 8.
+		///</summary>
+		public static StaticLookup Other { get { return new StaticLookup("Other", 8); } }
+	}
+}
+#endregion
+
+#region PhoneNumberType
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class PhoneNumberType
+	{
+		///<summary>
+		/// Returns the Home lookup with id 1.
+		///</summary>
+		public static StaticLookup Home { get { return new StaticLookup("Home", 1); } }
+		///<summary>
+		/// Returns the Work lookup with id 2.
+		///</summary>
+		public static StaticLookup Work { get { return new StaticLookup("Work", 2); } }
+		///<summary>
+		/// Returns the Cell lookup with id 3.
+		///</summary>
+		public static StaticLookup Cell { get { return new StaticLookup("Cell", 3); } }
+	}
+}
+#endregion
+
+#region ProgramType
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class ProgramType
+	{
+		///<summary>
+		/// Returns the Program lookup with id 1.
+		///</summary>
+		public static StaticLookup Program { get { return new StaticLookup("Program", 1); } }
+		///<summary>
+		/// Returns the Office lookup with id 2.
+		///</summary>
+		public static StaticLookup Office { get { return new StaticLookup("Office", 2); } }
+		///<summary>
+		/// Returns the Branch lookup with id 3.
+		///</summary>
+		public static StaticLookup Branch { get { return new StaticLookup("Branch", 3); } }
+	}
+}
+#endregion
+
 #region ProjectStatus
 namespace ECA.Data
 {
@@ -59,28 +325,6 @@ namespace ECA.Data
 		/// Returns the Weibo lookup with id 4.
 		///</summary>
 		public static StaticLookup Weibo { get { return new StaticLookup("Weibo", 4); } }
-	}
-}
-#endregion
-
-#region ProgramType
-namespace ECA.Data
-{
-	using ECA.Core.Generation;
-	public partial class ProgramType
-	{
-		///<summary>
-		/// Returns the Program lookup with id 1.
-		///</summary>
-		public static StaticLookup Program { get { return new StaticLookup("Program", 1); } }
-		///<summary>
-		/// Returns the Office lookup with id 2.
-		///</summary>
-		public static StaticLookup Office { get { return new StaticLookup("Office", 2); } }
-		///<summary>
-		/// Returns the Branch lookup with id 3.
-		///</summary>
-		public static StaticLookup Branch { get { return new StaticLookup("Branch", 3); } }
 	}
 }
 #endregion

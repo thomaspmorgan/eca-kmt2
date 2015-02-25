@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
-    public class ActorType
+    public partial class ActorType
     {
         [Key]
         public int ActorTypeId { get; set; }

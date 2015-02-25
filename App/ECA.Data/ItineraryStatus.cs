@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
-    public class ItineraryStatus
+    public partial class ItineraryStatus
     {
         [Key]
         public int ItineraryStatusId { get; set; }

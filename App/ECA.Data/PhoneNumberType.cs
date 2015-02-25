@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
-    public class PhoneNumberType
+    public partial class PhoneNumberType
     {
         [Key]
         public int PhoneNumberTypeId { get; set; }

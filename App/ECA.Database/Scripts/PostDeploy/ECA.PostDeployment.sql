@@ -9,18 +9,16 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+:r .\StaticData\dbo.ActorType.staticdata.sql
 :r .\StaticData\dbo.AddressType.staticdata.sql
 :r .\StaticData\dbo.ArtifactType.staticdata.sql
 :r .\StaticData\dbo.EventType.staticdata.sql
 :r .\StaticData\dbo.ImpactType.staticdata.sql
-:r .\StaticData\dbo.ItineraryStatus.staticdata.sql
 :r .\StaticData\dbo.LocationType.staticdata.sql
-:r .\StaticData\dbo.MoneyFlowSourceRecipientType.staticdata.sql
-:r .\StaticData\dbo.MoneyFlowType.staticdata.sql
 :r .\StaticData\dbo.NameType.staticdata.sql
 :r .\StaticData\dbo.ParticipantType.staticdata.sql
 :r .\StaticData\dbo.PhoneNumberType.staticdata.sql
-:r .\StaticData\dbo.ProjectStatus.staticdata.sql
 :r .\StaticData\dbo.ProgramType.staticdata.sql
 :r .\StaticData\dbo.ProjectType.staticdata.sql
 :r .\StaticData\dbo.SocialMediaType.staticdata.sql
+

@@ -45,6 +45,7 @@ INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [TypeName], [Histor
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [TypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Accomodation', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [TypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'Transportation', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [TypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('8', 'Expense', '0', '2/17/2015 12:00:00 AM -05:00', '0', '2/17/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([MoneyFlowSourceRecipientTypeId], [TypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('9', 'Post', '0', '2/22/2015 12:00:00 AM -05:00', '0', '2/22/2015 12:00:00 AM -05:00')
 
 
 -- 3: Insert any new items into the table from the table variable

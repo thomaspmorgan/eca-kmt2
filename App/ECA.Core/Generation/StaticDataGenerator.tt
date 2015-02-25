@@ -12,7 +12,7 @@
 <#+
 	public void WriteTypes(List<StaticLookupConfig> types, string connectionString)
 	{
-		foreach(var t in types)
+		foreach(var t in types.OrderBy(x => x.ClassName).ToList())
 		{
 			WriteType(t, connectionString);
 			WriteLine(String.Empty);

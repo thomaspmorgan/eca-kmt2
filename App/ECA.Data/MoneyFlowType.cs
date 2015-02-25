@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
-    public class MoneyFlowType
+    public partial class MoneyFlowType
     {
         [Key]
         public int MoneyFlowTypeId { get; set; }

@@ -13,25 +13,81 @@
 	
 	var nameSpace = "ECA.Data";
 	var connectionString = @"Data Source=(LocalDb)\v11.0;Initial Catalog=Demo;Integrated Security=True";
-
 	var types = new List<StaticLookupConfig>();
-	types.Add(new StaticLookupConfig{
-		TableName = "ProjectStatus",
-		ClassName = "ProjectStatus",
-		IdColumnName = "ProjectStatusId",
-		ValueColumnName = "Status",
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "ActorType",
+		ClassName = "ActorType",
+		IdColumnName = "ActorTypeId",
+		ValueColumnName = "ActorName",
 		Namespace = nameSpace
 	});
 
-	types.Add(new StaticLookupConfig{
-		TableName = "SocialMediaType",
-		ClassName = "SocialMediaType",
-		IdColumnName = "SocialMediaTypeId",
-		ValueColumnName = "SocialMediaTypeName",
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "ItineraryStatus",
+		ClassName = "ItineraryStatus",
+		IdColumnName = "ItineraryStatusId",
+		ValueColumnName = "ItineraryStatusName",
 		Namespace = nameSpace
 	});
 
-	types.Add(new StaticLookupConfig{
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "LocationType",
+		ClassName = "LocationType",
+		IdColumnName = "LocationTypeId",
+		ValueColumnName = "LocationTypeName",
+		Namespace = nameSpace
+	});
+
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "MoneyFlowSourceRecipientType",
+		ClassName = "MoneyFlowSourceRecipientType",
+		IdColumnName = "MoneyFlowSourceRecipientTypeId",
+		ValueColumnName = "TypeName",
+		Namespace = nameSpace
+	});
+
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "MoneyFlowType",
+		ClassName = "MoneyFlowType",
+		IdColumnName = "MoneyFlowTypeId",
+		ValueColumnName = "MoneyFlowTypeName",
+		Namespace = nameSpace
+	});
+
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "NameType",
+		ClassName = "NameType",
+		IdColumnName = "NameTypeId",
+		ValueColumnName = "NameTypeName",
+		Namespace = nameSpace
+	});
+
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "ParticipantType",
+		ClassName = "ParticipantType",
+		IdColumnName = "ParticipantTypeId",
+		ValueColumnName = "Name",
+		Namespace = nameSpace
+	});
+
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "PhoneNumberType",
+		ClassName = "PhoneNumberType",
+		IdColumnName = "PhoneNumberTypeId",
+		ValueColumnName = "PhoneNumberTypeName",
+		Namespace = nameSpace
+	});
+
+	types.Add(new StaticLookupConfig
+	{
 		TableName = "ProgramType",
 		ClassName = "ProgramType",
 		IdColumnName = "ProgramTypeId",
@@ -39,6 +95,23 @@
 		Namespace = nameSpace
 	});
 
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "ProjectStatus",
+		ClassName = "ProjectStatus",
+		IdColumnName = "ProjectStatusId",
+		ValueColumnName = "Status",
+		Namespace = nameSpace
+	});
+
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "SocialMediaType",
+		ClassName = "SocialMediaType",
+		IdColumnName = "SocialMediaTypeId",
+		ValueColumnName = "SocialMediaTypeName",
+		Namespace = nameSpace
+	});
 
 	WriteTypes(types, connectionString);
 #>

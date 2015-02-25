@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
-    public class NameType
+    public partial class NameType
     {
         [Key]
         public int NameTypeId {get; set;}
