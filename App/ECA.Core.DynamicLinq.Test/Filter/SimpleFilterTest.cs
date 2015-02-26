@@ -140,5 +140,17 @@ namespace ECA.Core.DynamicLinq.Test.Filter
             Assert.IsTrue(typedLinqFilter.IsNotNull);
             Assert.AreEqual(filter.Property, typedLinqFilter.PropertyInfo.Name);
         }
+
+        [TestMethod]
+        public void TestToString()
+        {
+            var simpleFilter = new SimpleFilter
+            {
+                Comparison = ComparisonType.Equal.Value,
+                Property = "Hello",
+                Value = "World"
+            };
+            Assert.IsNotNull(simpleFilter.ToString());
+        }
     }
 }

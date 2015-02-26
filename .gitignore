@@ -31,3 +31,4 @@
 /App/ECA.WebApp.Azure/csx/Debug
 /App/ECA.WebApi/obj/Release
 *.user
+*.ncrunchproject

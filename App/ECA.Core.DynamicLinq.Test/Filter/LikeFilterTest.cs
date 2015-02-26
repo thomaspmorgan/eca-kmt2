@@ -81,5 +81,13 @@ namespace ECA.Core.DynamicLinq.Test.Filter
             Assert.AreEqual(1, results.Count);
             Assert.AreEqual(instance.S, results.First().S);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestConstructor_ValueNotAString()
+        {
+            var filer = new LikeFilter<LikeFilterTestClass>("S", 1);
+        }
+
     }
 }

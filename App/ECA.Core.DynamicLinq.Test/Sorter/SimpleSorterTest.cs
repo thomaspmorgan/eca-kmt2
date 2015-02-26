@@ -24,7 +24,6 @@ namespace ECA.Core.DynamicLinq.Test.Sorter
             var linqSorter = simpleSorter.ToLinqSorter<SimpleSorterTestClass>();
             Assert.AreEqual(SortDirection.Ascending, linqSorter.Direction);
             Assert.AreEqual(simpleSorter.Property, linqSorter.PropertyInfo.Name);
-
         }
 
         [TestMethod]
@@ -39,7 +38,17 @@ namespace ECA.Core.DynamicLinq.Test.Sorter
             var linqSorter = simpleSorter.ToLinqSorter<SimpleSorterTestClass>();
             Assert.AreEqual(SortDirection.Descending, linqSorter.Direction);
             Assert.AreEqual(simpleSorter.Property, linqSorter.PropertyInfo.Name);
+        }
 
+        [TestMethod]
+        public void TestToLinqSorter_ToString()
+        {
+            var simpleSorter = new SimpleSorter
+            {
+                Direction = SortDirection.Descending.Value,
+                Property = "Id"
+            };
+            Assert.IsNotNull(simpleSorter.ToString());
         }
     }
 }

@@ -102,5 +102,11 @@ namespace ECA.Core.DynamicLinq.Test
             var key = "eQ";
             Assert.AreEqual(ComparisonType.Equal, ComparisonType.ToComparisonType(key));
         }
+
+        [TestMethod]
+        public void TestToString()
+        {
+            Assert.IsNotNull(ComparisonType.Equal.ToString());
+        }
     }
 }

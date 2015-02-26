@@ -32,11 +32,15 @@ namespace ECA.Core.DynamicLinq.Filter
             }
 
             this.CollectionType = valueType.GetGenericArguments()[0];
-            if (IsNumeric && !this.IsTypeNumeric(this.CollectionType))
+            var collectionTypeIsNumeric = this.IsTypeNumeric(this.CollectionType);
+            if (IsNumeric && !collectionTypeIsNumeric)
             {
                 throw new NotSupportedException("The property type to filter is numeric and the collection of values is not.");
             }
-            
+            if (!IsNumeric && collectionTypeIsNumeric)
+            {
+                throw new NotSupportedException("The property type to filter is not numeric and the collection of values is numeric.");
+            }
             this.Value = value;
         }
 
