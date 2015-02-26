@@ -78,10 +78,10 @@ angular.module('staticApp')
           });
         return defer.promise;
       },
-      getProjectsByProgram: function (id) {
+      getProjectsByProgram: function (id, params) {
         var defer = $q.defer();
         var path = 'programs/' + id + '/projects'
-        DragonBreath.get(path)
+        DragonBreath.get(params, path)
           .success(function (data) {
               defer.resolve(data);
           });
