@@ -34,10 +34,10 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
-        /// Returns a listing of the projects by program.
+        /// Returns a listing of the goals.
         /// </summary>
         /// <param name="queryModel">The page, filter and sort information.</param>
-        /// <returns>The list of projects by program.</returns>
+        /// <returns>The list of goals.</returns>
         [ResponseType(typeof(PagedQueryResults<GoalDTO>))]
         public async Task<IHttpActionResult> GetLocationsAsync(PagingQueryBindingModel queryModel)
         {

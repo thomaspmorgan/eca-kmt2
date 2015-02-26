@@ -16,6 +16,9 @@ using System.Web.Http.Description;
 
 namespace ECA.WebApi.Controllers.Admin
 {
+    /// <summary>
+    /// The LocationsController is capable of performing crud operations on locations.
+    /// </summary>
     public class LocationsController : ApiController
     {
         /// <summary>
@@ -36,10 +39,10 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
-        /// Returns a listing of the projects by program.
+        /// Returns a listing of the locations.
         /// </summary>
         /// <param name="queryModel">The page, filter and sort information.</param>
-        /// <returns>The list of projects by program.</returns>
+        /// <returns>The list of locations.</returns>
         [ResponseType(typeof(PagedQueryResults<LocationDTO>))]
         public async Task<IHttpActionResult> GetLocationsAsync(PagingQueryBindingModel queryModel)
         {

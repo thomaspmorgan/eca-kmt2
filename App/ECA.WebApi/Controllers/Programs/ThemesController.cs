@@ -39,10 +39,10 @@ namespace ECA.WebApi.Controllers.Programs
         }
 
         /// <summary>
-        /// Retrieves a listing of the paged, sorted, and filtered list of programs.
+        /// Retrieves a listing of the paged, sorted, and filtered list of themes.
         /// </summary>
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
-        /// <returns>The list of programs.</returns>
+        /// <returns>The list of themes.</returns>
         [ResponseType(typeof(PagedQueryResults<ThemeDTO>))]
         public async Task<IHttpActionResult> GetThemesAsync(PagingQueryBindingModel queryModel)
         {
