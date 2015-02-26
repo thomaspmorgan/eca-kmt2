@@ -273,7 +273,7 @@
     <Compile Include="Models\AutoMapperConfig.cs" />
     <Compile Include="Models\ContactDTO.cs" />
     <Compile Include="Models\HistoryDTO.cs" />
-    <Compile Include="Models\GoalDTO.cs" />
+    <None Include="Models\GoalDTO.csold" />
     <None Include="Models\OrganizationDTO.csold" />
     <Compile Include="Models\OrganizationTypeDTO.cs" />
     <Compile Include="Models\ParticipantDTO.cs" />
