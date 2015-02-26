@@ -42,7 +42,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns>The list of projects by program.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleProjectDTO>))]
         [Route("Programs/{programId:int}/Projects")]
-        public async Task<IHttpActionResult> GetProjectsByProgramAsync(int programId, PagingQueryBindingModel queryModel)
+        public async Task<IHttpActionResult> GetProjectsByProgramAsync(int programId, [FromUri]PagingQueryBindingModel queryModel)
         {
             if (ModelState.IsValid)
             {

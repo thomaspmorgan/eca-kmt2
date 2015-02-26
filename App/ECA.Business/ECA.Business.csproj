@@ -68,6 +68,7 @@
     <Compile Include="Service\Admin\IGoalService.cs" />
     <Compile Include="Service\Admin\ILocationService.cs" />
     <Compile Include="Service\Admin\LocationService.cs" />
+    <Compile Include="Service\Persons\PersonService.cs" />
     <Compile Include="Service\Programs\IProgramService.cs" />
     <Compile Include="Service\Admin\IProjectService.cs" />
     <Compile Include="Service\Programs\IThemeService.cs" />
