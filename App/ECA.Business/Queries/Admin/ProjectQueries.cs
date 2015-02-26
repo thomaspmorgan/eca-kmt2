@@ -35,7 +35,8 @@ namespace ECA.Business.Queries.Admin
                             ProjectStatusId = status.ProjectStatusId,
                             ProjectStatusName = status.Status,
                             StartDate = startDate,
-                            StartYear = startDate.Year
+                            StartYear = startDate.Year,
+                            StartYearAsString = startDate.Year.ToString()
                         };
 
             query = query.Apply(queryOperator);

@@ -55,6 +55,11 @@ namespace ECA.Business.Queries.Models.Admin
         public int StartYear { get; set; }
 
         /// <summary>
+        /// Gets or sets the start year.
+        /// </summary>
+        public string StartYearAsString { get; set; }
+
+        /// <summary>
         /// Gets or sets the location names.
         /// </summary>
         public IEnumerable<string> LocationNames { get; set; }

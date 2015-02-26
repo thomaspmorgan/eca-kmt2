@@ -163,6 +163,7 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(project.ProjectId, firstResult.ProjectId);
                 Assert.AreEqual(project.StartDate, firstResult.StartDate);
                 Assert.AreEqual(project.StartDate.Year, firstResult.StartYear);
+                Assert.AreEqual(project.StartDate.Year.ToString(), firstResult.StartYearAsString);
                 Assert.AreEqual(status.Status, firstResult.ProjectStatusName);
                 Assert.AreEqual(status.ProjectStatusId, firstResult.ProjectStatusId);
 

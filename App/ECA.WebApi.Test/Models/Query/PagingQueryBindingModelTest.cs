@@ -54,11 +54,13 @@ namespace ECA.WebApi.Test.Models.Query
                 Property = filter.Property,
                 Value = filter.Value
             }};
+            var jsonStrings = new List<string>();
+            jsonStrings.AddRange(filters.Select(x => JsonConvert.SerializeObject(x)).ToList());
             var model = new PagingQueryBindingModel
             {
                 Start = start,
                 Limit = limit,
-                Filter = filters
+                Filter = jsonStrings
             };
             var queryOperator = model.ToQueryableOperator<PagingQueryBindingModelTestClass>(defaultSorter);
             Assert.AreEqual(start, queryOperator.Start);
@@ -86,11 +88,13 @@ namespace ECA.WebApi.Test.Models.Query
                 Property = sorter.Property,
                 Direction = sorter.Direction
             }};
+            var jsonStrings = new List<string>();
+            jsonStrings.AddRange(sorters.Select(x => JsonConvert.SerializeObject(x)).ToList());
             var model = new PagingQueryBindingModel
             {
                 Start = start,
                 Limit = limit,
-                Sort = sorters
+                Sort = jsonStrings
             };
             var queryOperator = model.ToQueryableOperator<PagingQueryBindingModelTestClass>(defaultSorter);
             Assert.AreEqual(start, queryOperator.Start);

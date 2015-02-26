@@ -73,8 +73,8 @@
     <Compile Include="Controllers\Programs\ProgramsControllerTest.cs" />
     <Compile Include="Controllers\Admin\ProjectsControllerTest.cs" />
     <Compile Include="Controllers\ControllerHelper.cs" />
+    <Compile Include="Models\Query\FilterBindingModelConvertTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelTest.cs" />
-    <Compile Include="Models\Query\PagingQueryBindingModelBinderTest.cs" />
     <Compile Include="Models\Query\PagingQueryBindingModelTest.cs" />
     <Compile Include="Models\Query\SorterBindingModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
