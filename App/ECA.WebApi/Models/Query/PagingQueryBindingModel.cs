@@ -125,7 +125,7 @@ namespace ECA.WebApi.Models.Query
                     var filters = ParseFilters(filterValue.AttemptedValue);
                     model.Filter = filters;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     bindingContext.ModelState.AddModelError(bindingContext.ModelName, "Unable to parse filters.  The filter must be a valid json string.");
                     return false;
@@ -140,7 +140,7 @@ namespace ECA.WebApi.Models.Query
                     var sorters = ParseSorters(sorterValue.AttemptedValue);
                     model.Sort = sorters;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     bindingContext.ModelState.AddModelError(bindingContext.ModelName, "Unable to parse sorters.  The sort must be a valid json string.");
                     return false;

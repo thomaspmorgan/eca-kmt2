@@ -2,6 +2,7 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Service.Programs;
 using ECA.Data;
 using Microsoft.Practices.Unity;
+using System.Diagnostics;
 using System.Web.Http;
 using Unity.WebApi;
 
@@ -32,11 +33,14 @@ namespace ECA.WebApi
 
         public static void RegisterAdminDependencies(IUnityContainer container)
         {
+            Debug.Assert(container.IsRegistered<EcaContext>(), "The EcaContext is a dependency.  It should be registered.");
             container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ILocationService, LocationService>(new HierarchicalLifetimeManager());
         }
 
         public static void RegisterProgramDependencies(IUnityContainer container)
         {
+            Debug.Assert(container.IsRegistered<EcaContext>(), "The EcaContext is a dependency.  It should be registered.");
             container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
         }

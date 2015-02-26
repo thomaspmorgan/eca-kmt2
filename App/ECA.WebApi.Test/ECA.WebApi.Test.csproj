@@ -67,6 +67,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Controllers\Admin\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Programs\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Programs\ProgramsControllerTest.cs" />
     <Compile Include="Controllers\Admin\ProjectsControllerTest.cs" />
