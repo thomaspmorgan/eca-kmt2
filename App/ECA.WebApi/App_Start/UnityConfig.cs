@@ -36,6 +36,7 @@ namespace ECA.WebApi
             Debug.Assert(container.IsRegistered<EcaContext>(), "The EcaContext is a dependency.  It should be registered.");
             container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILocationService, LocationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IGoalService, GoalService>(new HierarchicalLifetimeManager());
         }
 
         public static void RegisterProgramDependencies(IUnityContainer container)

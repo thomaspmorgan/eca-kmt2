@@ -4,32 +4,30 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Query;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
 namespace ECA.WebApi.Controllers.Admin
 {
-    public class LocationsController : ApiController
+    /// <summary>
+    /// The goals controller is capable of performing operations on goals in the ECA system.
+    /// </summary>
+    public class GoalsController : ApiController
     {
         /// <summary>
-        /// The default sorter for a list of locations.
+        /// The default sorter for a list of goals.
         /// </summary>
-        private static readonly ExpressionSorter<LocationDTO> DEFAULT_LOCATION_DTO_SORTER = new ExpressionSorter<LocationDTO>(x => x.Name, SortDirection.Ascending);
+        private static readonly ExpressionSorter<GoalDTO> DEFAULT_GOAL_DTO_SORTER = new ExpressionSorter<GoalDTO>(x => x.Name, SortDirection.Ascending);
 
-        private ILocationService service;
+        private IGoalService service;
 
         /// <summary>
-        /// Creates a new ProjectsController with the given location service.
+        /// Creates a new GoalsController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public LocationsController(ILocationService service)
+        public GoalsController(IGoalService service)
         {
             Debug.Assert(service != null, "The project service must not be null.");
             this.service = service;
@@ -40,12 +38,12 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="queryModel">The page, filter and sort information.</param>
         /// <returns>The list of projects by program.</returns>
-        [ResponseType(typeof(PagedQueryResults<LocationDTO>))]
+        [ResponseType(typeof(PagedQueryResults<GoalDTO>))]
         public async Task<IHttpActionResult> GetLocationsAsync(PagingQueryBindingModel queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetLocationsAsync(queryModel.ToQueryableOperator<LocationDTO>(DEFAULT_LOCATION_DTO_SORTER));
+                var results = await this.service.GetGoalsAsync(queryModel.ToQueryableOperator<GoalDTO>(DEFAULT_GOAL_DTO_SORTER));
                 return Ok(results);
             }
             else

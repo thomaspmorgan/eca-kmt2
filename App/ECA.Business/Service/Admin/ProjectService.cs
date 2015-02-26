@@ -70,15 +70,19 @@ namespace ECA.Business.Service.Admin
         #endregion
 
 
-        #region IDispose
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        // Protected implementation of Dispose pattern. 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -87,8 +91,6 @@ namespace ECA.Business.Service.Admin
                 this.context = null;
             }
         }
-
-        #endregion
 
 
         public int SaveChanges()
