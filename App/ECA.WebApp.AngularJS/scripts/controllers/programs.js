@@ -68,12 +68,23 @@ angular.module('staticApp')
 
           });
 
-      ProjectService.getProjectsByProgram($stateParams.programId)
-         .then(function (projects) {
-             $scope.projects = projects;
-         });
+      $scope.getProjects = function (tableState) {
 
-      $scope.projectsCopy = [].concat($scope.projects);
+          var pagination = tableState.pagination;
+          var start = pagination.start || 0;
+          var limit = pagination.number || 25;
+
+          var params = {
+              start: start,
+              limit: limit
+          };
+
+        ProjectService.getProjectsByProgram($stateParams.programId, params)
+         .then(function (data) {
+             $scope.projects = data.results;
+             pagination.numberOfPages = Math.floor(data.total/limit);
+         });
+      }
 
       $scope.saveProject = function () {
           var project = {

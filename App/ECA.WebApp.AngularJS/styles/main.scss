@@ -238,3 +238,13 @@ ul {
   font-weight: 400;
   padding: 0 0 0 12px;
 }
+
+.st-sort-ascent:after {
+  content: ' \25B2';
+  display: inline-block;
+}
+
+.st-sort-descent:after {
+  content: ' \25BC';
+  display: inline-block;
+}

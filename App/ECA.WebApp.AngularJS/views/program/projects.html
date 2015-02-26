@@ -18,13 +18,13 @@
     </ul>
 </div>
 <h4 class="tab-subheader">Projects List</h4>
-<div st-table="projectsCopy" st-safe-src="projects" class="row">
+<div class="row">
     <!--
     <input st-search type="search" placeholder="Search Projects" class="search-contextual" />
     <i class="glyphicon glyphicon-search contextual"></i>
     -->
     <button ng-click="modal.createProject = true" class="btn btn-success right col-sd-2">CREATE PROJECT</button>
-    <div id="sort-list">
+    <div st-pipe="getProjects" st-table="projects" id="sort-list">
         <table class="col-md-12">
             <thead>
                 <tr>
@@ -50,13 +50,13 @@
                 </tr>
             </thead>
             <tbody class="list2">
-                <tr ng-repeat="project in projectsCopy" class="hover">
+                <tr ng-repeat="project in projects" class="hover">
                     <td>
-                        <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.owner.organizationId, programId: program.programId, projectId: project.projectId})">{{project.name}}</a></h5>
+                        <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.owner.organizationId, programId: program.programId, projectId: project.projectId})">{{project.projectName}}</a></h5>
                     </td>
-                    <td>{{project.status}}</td>
-                    <td>{{project.startDate | date: 'yyyy'}}</td>
-                    <td>{{project.region}}</td>
+                    <td>{{project.projectStatusName}}</td>
+                    <td>{{project.startYear}}</td>
+                    <td>{{project.locationNames[0]}}</td>
                     <td>
                         <img class="icon" src="images/duplicateA.png" alt="">
                         <img class="icon" src="images/editA.png" alt="">

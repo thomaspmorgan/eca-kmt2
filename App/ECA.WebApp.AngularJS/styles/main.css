@@ -5461,14 +5461,6 @@ table tr {
   .sort-label:hover {
     cursor: pointer; }
 
-.st-sort-ascent:after {
-  content: ' \25B2';
-  display: inline-block; }
-
-.st-sort-descent:after {
-  content: ' \25BC';
-  display: inline-block; }
-
 .alt {
   border-bottom: 1px solid #e5eae9; }
 
@@ -5760,5 +5752,13 @@ ul {
   font-size: 12px;
   font-weight: 400;
   padding: 0 0 0 12px; }
+
+.st-sort-ascent:after {
+  content: ' \25B2';
+  display: inline-block; }
+
+.st-sort-descent:after {
+  content: ' \25BC';
+  display: inline-block; }
 
 /*# sourceMappingURL=main.css.map */
