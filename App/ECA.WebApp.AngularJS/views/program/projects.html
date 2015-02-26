@@ -28,21 +28,21 @@
         <table class="col-md-12">
             <thead>
                 <tr>
-                    <th st-sort="'name'" st-sort-default="true" class="col-md-7 sort-label medium">Title</th>
-                    <th st-sort="'status'" class="col-md-1 sort-label medium">Status</th>
-                    <th st-sort="'startDate'" class="col-md-1 sort-label medium">Year</th>
-                    <th st-sort="'region'" class="col-md-1 sort-label medium">Region</th>
+                    <th st-sort="'projectName'" st-sort-default="true" class="col-md-7 sort-label medium">Title</th>
+                    <th st-sort="'projectStatusName'" class="col-md-1 sort-label medium">Status</th>
+                    <th st-sort="'startYearAsString'" class="col-md-1 sort-label medium">Year</th>
+                    <th  class="col-md-1 sort-label medium">Region</th>
                     <th class="col-md-2">&nbsp;</th>
                 </tr>
                 <tr>
                     <th>
-                        <input st-search="'name'" placeholder="" type="search" class="input-lg form-control" />
+                        <input st-search="'projectName'" placeholder="" type="search" class="input-lg form-control" />
                     </th>
                     <th>
-                        <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
+                        <input st-search="'projectStatusName'" placeholder="" type="search" class="input-lg form-control" />
                     </th>
                     <th>
-                        <input st-search="'startDate'" placeholder="" type="search" class="input-lg form-control" />
+                        <input st-search="'startYearAsString'" placeholder="" type="search" class="input-lg form-control" />
                     </th>
                     <th>
                         <input st-search="'region'" placeholder="" type="search" class="input-lg form-control" />
@@ -55,7 +55,7 @@
                         <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.owner.organizationId, programId: program.programId, projectId: project.projectId})">{{project.projectName}}</a></h5>
                     </td>
                     <td>{{project.projectStatusName}}</td>
-                    <td>{{project.startYear}}</td>
+                    <td>{{project.startYearAsString}}</td>
                     <td>{{project.locationNames[0]}}</td>
                     <td>
                         <img class="icon" src="images/duplicateA.png" alt="">

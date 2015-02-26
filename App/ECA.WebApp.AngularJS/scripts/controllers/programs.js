@@ -74,16 +74,50 @@ angular.module('staticApp')
           var start = pagination.start || 0;
           var limit = pagination.number || 25;
 
+          var sort = getSort(tableState);
+          var filter = getFilter(tableState);
+
           var params = {
               start: start,
-              limit: limit
+              limit: limit,
+              sort: sort,
+              filter: filter
+
           };
 
-        ProjectService.getProjectsByProgram($stateParams.programId, params)
-         .then(function (data) {
-             $scope.projects = data.results;
-             pagination.numberOfPages = Math.floor(data.total/limit);
-         });
+          ProjectService.getProjectsByProgram($stateParams.programId, params)
+            .then(function (data) {
+                $scope.projects = data.results;
+                pagination.numberOfPages = Math.floor(data.total/limit);
+            });
+      }
+
+      function getSort(tableState) {
+          var sort = [];
+          var predicate = tableState.sort.predicate;
+          var reverse = tableState.sort.reverse;
+          if (predicate !== null && reverse !== undefined) {
+              sort.push({
+                  property: predicate.replace(/'/g, ""),
+                  direction: reverse === false ? "asc" : "desc"
+              })
+          }
+          return sort;
+      }
+
+      function getFilter(tableState) {
+          var filter = [];
+          var predicateObject = tableState.search.predicateObject;
+          if (predicateObject !== undefined) {
+              for (var key in predicateObject) {
+                  filter.push({
+                      property: key,
+                      value: predicateObject[key],
+                      comparison: 'like'
+                  });
+              }
+          }
+          return filter;
       }
 
       $scope.saveProject = function () {
