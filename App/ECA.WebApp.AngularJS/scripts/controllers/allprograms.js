@@ -9,28 +9,17 @@
  */
 angular.module('staticApp')
   .controller('AllProgramsCtrl', function ($scope, DragonBreath, $stateParams) {
-    
 
     $scope.programs = [];
-    $scope.currentpage = $stateParams.page || 1;
-    $scope.limit = 25;
 
-    var filterParams = {
-        limit: $scope.limit,
-        offset: (($scope.currentpage - 1) * 20)
+    var params = {
+        limit: 25
     };
 
-
-
-    DragonBreath.get(filterParams,'programs')
+    DragonBreath.get(params, 'programs')
         .success(function (data) {
-            if(angular.isArray(data)){
-                $scope.programs = data;
-            }
+            $scope.programs = data.results;
         });
-
-
-
 
     $scope.branches = [
     	{

@@ -52,7 +52,11 @@ angular.module('staticApp')
       $scope.subprograms = [];
       $scope.projects = [];
 
-      ProgramService.get($stateParams.programId)
+      var params = {
+          limit: 1
+      };
+
+      ProgramService.get($stateParams.programId, params)
           .then(function (program) {
               $scope.program = program;
               if (angular.isArray(program.childPrograms)) {

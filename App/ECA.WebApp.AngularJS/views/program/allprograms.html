@@ -8,7 +8,7 @@
 <div class="list2">
     <div class="row hover" ng-repeat="program in programs">
         <div class="col-md-9">
-            <h4><a ui-sref="programs.overview({programId: program.programId, officeId: {{program.owner.organizationId}}})">{{program.name}}</a></h4>
+            <h4><a ui-sref="programs.overview({programId: program.programId, officeId: {{program.ownerId}}})">{{program.name}}</a></h4>
             <p>{{program.description}}</p>
         </div>
         <div class="col-md-3 tools">
