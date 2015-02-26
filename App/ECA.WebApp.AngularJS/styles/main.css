@@ -5339,7 +5339,7 @@ table tr {
 .list2 tr {
   border-top: 1px solid #e5eae9;
   border-bottom: 0; }
-.list2 tr:last-child {
+.list2 tr:last-child, .list2 tr:nth-last-child(2) {
   border-bottom: 1px solid #e5eae9; }
 .list2 td {
   padding: 40px 0 40px 0; }
