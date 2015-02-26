@@ -72,7 +72,11 @@ angular.module('staticApp')
 
           });
 
+      $scope.projectsLoading = false;
+
       $scope.getProjects = function (tableState) {
+
+          $scope.projectsLoading = true;
 
           var pagination = tableState.pagination;
           var start = pagination.start || 0;
@@ -93,6 +97,7 @@ angular.module('staticApp')
             .then(function (data) {
                 $scope.projects = data.results;
                 pagination.numberOfPages = Math.floor(data.total/limit);
+                $scope.projectsLoading = false;
             });
       }
 

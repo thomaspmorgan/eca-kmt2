@@ -47,10 +47,13 @@
                     <th>
                         <input st-search="'region'" placeholder="" type="search" class="input-lg form-control" />
                     </th>
+                    <th>
+                        &nbsp;
+                    </th>
                 </tr>
             </thead>
             <tbody class="list2">
-                <tr ng-repeat="project in projects" class="hover">
+                <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading">
                     <td>
                         <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.owner.organizationId, programId: program.programId, projectId: project.projectId})">{{project.projectName}}</a></h5>
                     </td>
@@ -63,9 +66,18 @@
                         <img class="icon" src="images/trash.png" alt="">
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="5" ng-show="projectsLoading">
+                        <div class="spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
-        <div st-pagination="" st-items-by-page="25" st-displayed-pages="10"></div>
+        <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
     </div>
 </div>
 <modal-dialog show="modal.createProject" dialog-title="Create Project" before-close="modalClose()" on-close="modalClear()">
