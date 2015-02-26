@@ -11,6 +11,8 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         public int Id { get; set; }
 
         public int? NullableId { get; set; }
+
+        public string S { get; set; }
     }
 
     [TestClass]
@@ -99,5 +101,20 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         {
             var filter = new InFilter<InFilterTestClass>("Id", 1);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void TestConstructor_PropertyTypeIsNumeric_CollectionIsNot()
+        {
+            var filter = new InFilter<InFilterTestClass>("Id", new List<string>());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void TestConstructor_PropertyTypeIsNotNumeric_CollectionIsNumeric()
+        {
+            var filter = new InFilter<InFilterTestClass>("S", new List<int>());
+        }
+        
     }
 }

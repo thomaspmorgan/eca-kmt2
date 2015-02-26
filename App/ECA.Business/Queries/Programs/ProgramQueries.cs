@@ -1,14 +1,10 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Queries.Models.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ECA.Business.Queries.Admin
+namespace ECA.Business.Queries.Programs
 {
     public static class ProgramQueries
     {

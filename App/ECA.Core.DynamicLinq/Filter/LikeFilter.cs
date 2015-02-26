@@ -28,10 +28,6 @@ namespace ECA.Core.DynamicLinq.Filter
             {
                 throw new ArgumentException("The value to filter on must be a string.");
             }
-            if (value == null)
-            {
-                throw new ArgumentNullException("The value is null.");
-            }
             this.Value = value;
         }
 

@@ -1,22 +1,19 @@
-﻿using ECA.Business.Queries.Admin;
-using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Models.Programs;
+using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Queries.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Data;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Service.Admin
+namespace ECA.Business.Service.Programs
 {
     /// <summary>
     /// A ProgramService is capable of performing crud operations on a program using entity framework.
     /// </summary>
-    public class ProgramService : IDisposable, ECA.Business.Service.Admin.IProgramService
+    public class ProgramService : IDisposable, IProgramService
     {
         private EcaContext context;
 
@@ -51,6 +48,15 @@ namespace ECA.Business.Service.Admin
         {
             return ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
+        #endregion
+
+        #region Create
+
+        public void Create(DraftProgram program)
+        {
+
+        }
+
         #endregion
 
         #region IDispose

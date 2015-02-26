@@ -68,6 +68,14 @@ namespace ECA.Core.DynamicLinq.Test.Filter
             Assert.IsTrue(filter.IsNullable);
         }
 
+        [TestMethod]
+        public void TestToString()
+        {
+            var propertyName = "S";
+            var filter = new LikeFilter<LinqFilterTestClass>(propertyName, "hello");
+            Assert.IsNotNull(filter.ToString());
+        }
+
         #region IEnumerable Extension Tests
 
         [TestMethod]

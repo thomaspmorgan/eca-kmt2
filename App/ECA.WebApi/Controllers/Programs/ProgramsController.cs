@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Service.Programs;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Query;
+using ECA.WebApi.Models.Query;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using ECA.Data;
-using ECA.WebApi.Models;
-using AutoMapper;
-using ECA.Business.Service.Admin;
-using System.Diagnostics;
-using ECA.Core.DynamicLinq.Sorter;
-using ECA.Business.Queries.Models.Admin;
-using ECA.Core.DynamicLinq;
-using ECA.WebApi.Models.Query;
-using ECA.Core.Query;
 
-namespace ECA.WebApi.Controllers.Admin
+namespace ECA.WebApi.Controllers.Programs
 {
     /// <summary>
     /// The ProgramsController is capable of handling program requests from a client.

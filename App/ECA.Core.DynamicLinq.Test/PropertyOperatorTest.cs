@@ -22,6 +22,13 @@ namespace ECA.Core.DynamicLinq.Test
         public int? NullableId { get; set; }
         public float? NullableF { get; set; }
         public double? NullableD { get; set; }
+
+        public object O { get; set; }
+
+        public string MethodName()
+        {
+            return null;
+        }
     }
 
 
@@ -64,6 +71,13 @@ namespace ECA.Core.DynamicLinq.Test
 
             Assert.IsFalse(new PropertyOperator<PropertyOperatorTestClass>("S").IsNumeric);
 
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestGetPropertyName_ComplexObject()
+        {
+            var propertyName = PropertyOperator<PropertyOperatorTestClass>.GetPropertyName(x => x.MethodName());
         }
     }
 }
