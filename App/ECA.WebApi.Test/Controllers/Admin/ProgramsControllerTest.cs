@@ -6,25 +6,26 @@ using ECA.WebApi.Controllers.Admin;
 using ECA.WebApi.Models.Query;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Collections.Generic;
-using System.Net.Http;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
 using System.Web.Http.Results;
 
 namespace ECA.WebApi.Test.Controllers.Admin
 {
     [TestClass]
-    public class ProjectsControllerTest
+    public class ProgramsControllerTest
     {
-        private Mock<IProjectService> serviceMock;
-        private ProjectsController controller;
+        private Mock<IProgramService> serviceMock;
+        private ProgramsController controller;
 
         [TestInitialize]
         public void TestInit()
         {
-            serviceMock = new Mock<IProjectService>();
-            controller = new ProjectsController(serviceMock.Object);
+            serviceMock = new Mock<IProgramService>();
+            controller = new ProgramsController(serviceMock.Object);
             ControllerHelper.InitializeController(controller);
         }
 
@@ -32,18 +33,18 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestGetProjectsByProgramIcAsync()
         {
-            serviceMock.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
-                .Returns(Task.FromResult<PagedQueryResults<SimpleProjectDTO>>(new PagedQueryResults<SimpleProjectDTO>(1, new List<SimpleProjectDTO>())));
+            serviceMock.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<SimpleProgramDTO>>()))
+                .Returns(Task.FromResult<PagedQueryResults<SimpleProgramDTO>>(new PagedQueryResults<SimpleProgramDTO>(1, new List<SimpleProgramDTO>())));
 
-            var response = await controller.GetProjectsByProgramAsync(1, new PagingQueryBindingModel());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProjectDTO>>));
+            var response = await controller.GetProgramsAsync(new PagingQueryBindingModel());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProgramDTO>>));
         }
 
         [TestMethod]
         public async Task TestGetProjectsByProgramIcAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetProjectsByProgramAsync(1, new PagingQueryBindingModel());
+            var response = await controller.GetProgramsAsync(new PagingQueryBindingModel());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion

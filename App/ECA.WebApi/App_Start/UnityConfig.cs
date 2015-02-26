@@ -28,6 +28,7 @@ namespace ECA.WebApi
             //}));
 
             container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }

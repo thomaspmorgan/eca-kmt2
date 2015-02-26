@@ -6,6 +6,9 @@ using ECA.Core.Service;
 using System.Threading.Tasks;
 namespace ECA.Business.Service.Admin
 {
+    /// <summary>
+    /// A ProjectService is a service capable of performing crud on projects.
+    /// </summary>
     public interface IProjectService : ISaveable
     {
         ECA.Data.Project Create(DraftProject project);

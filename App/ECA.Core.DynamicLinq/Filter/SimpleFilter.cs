@@ -67,5 +67,14 @@ namespace ECA.Core.DynamicLinq.Filter
             }
             throw new NotSupportedException("The client filter is not supported.");
         }
+
+        /// <summary>
+        /// Returns a string of this simple filter.
+        /// </summary>
+        /// <returns>A string of this simple filter.</returns>
+        public override string ToString()
+        {
+            return String.Format("{0} {1} {2}", this.Property, ComparisonType.ToComparisonType(this.Comparison), this.Value.ToString());
+        }
     }
 }

@@ -14,18 +14,25 @@ namespace ECA.Core.DynamicLinq
     public class ComparisonType
     {
         private const string IN = "in";
+        private const string IN_DISPLAY = "In";
 
         private const string LIKE = "like";
+        private const string LIKE_DISPLAY = "Like";
 
         private const string LESS_THAN = "lt";
+        private const string LESS_THAN_DISPLAY = "<";
 
         private const string GREATER_THAN = "gt";
+        private const string GREATER_THAN_DISPLAY = ">";
 
         private const string EQUAL = "eq";
+        private const string EQUAL_DISPLAY = "==";
 
         private const string IS_NULL = "null";
+        private const string IS_NULL_DISPLAY = "Null";
 
         private const string IS_NOT_NULL = "notnull";
+        private const string IS_NOT_NULL_DISPLAY = "Not Null";
 
         /// <summary>
         /// Gets the in comparison type.
@@ -34,7 +41,7 @@ namespace ECA.Core.DynamicLinq
         {
             get
             {
-                return new ComparisonType(IN);
+                return new ComparisonType(IN, IN_DISPLAY);
             }
         }
 
@@ -45,7 +52,7 @@ namespace ECA.Core.DynamicLinq
         {
             get
             {
-                return new ComparisonType(LIKE);
+                return new ComparisonType(LIKE, LIKE_DISPLAY);
             }
         }
 
@@ -56,7 +63,7 @@ namespace ECA.Core.DynamicLinq
         {
             get
             {
-                return new ComparisonType(LESS_THAN);
+                return new ComparisonType(LESS_THAN, LESS_THAN_DISPLAY);
             }
         }
 
@@ -67,7 +74,7 @@ namespace ECA.Core.DynamicLinq
         {
             get
             {
-                return new ComparisonType(GREATER_THAN);
+                return new ComparisonType(GREATER_THAN, GREATER_THAN_DISPLAY);
             }
         }
 
@@ -78,7 +85,7 @@ namespace ECA.Core.DynamicLinq
         {
             get
             {
-                return new ComparisonType(EQUAL);
+                return new ComparisonType(EQUAL, EQUAL_DISPLAY);
             }
         }
 
@@ -89,7 +96,7 @@ namespace ECA.Core.DynamicLinq
         {
             get
             {
-                return new ComparisonType(IS_NULL);
+                return new ComparisonType(IS_NULL, IS_NULL_DISPLAY);
             }
         }
 
@@ -100,20 +107,36 @@ namespace ECA.Core.DynamicLinq
         {
             get
             {
-                return new ComparisonType(IS_NOT_NULL);
+                return new ComparisonType(IS_NOT_NULL, IS_NOT_NULL_DISPLAY);
             }
         }
 
-        private ComparisonType(string value)
+        private ComparisonType(string value, string displayName)
         {
             Debug.Assert(value != null, "The comparison type must not be null.");
+            Debug.Assert(displayName != null, "The displayName must not be null.");
             this.Value = value;
+            this.Display = displayName;
         }
 
         /// <summary>
         /// Gets the string value of the comaprison.
         /// </summary>
         public string Value { get; private set; }
+
+        /// <summary>
+        /// Gets the display name of the comaprison.
+        /// </summary>
+        private string Display { get; set; }
+
+        /// <summary>
+        /// Returns a string of this comparison type.
+        /// </summary>
+        /// <returns>A string of this comparison type.</returns>
+        public override string ToString()
+        {
+            return this.Display;
+        }
 
         /// <summary>
         /// Returns true if the given object equals this object.

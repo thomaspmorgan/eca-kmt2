@@ -17,7 +17,10 @@ namespace ECA.WebApi.Controllers.Admin
     [RoutePrefix("api")]
     public class ProjectsController : ApiController
     {
-        private static ExpressionSorter<SimpleProjectDTO> DEFAULT_PROGRAM_PROJECT_SORTER = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectName, SortDirection.Ascending);
+        /// <summary>
+        /// The default sorter for a list of projects.
+        /// </summary>
+        private static readonly ExpressionSorter<SimpleProjectDTO> DEFAULT_SIMPLE_PROJECT_DTO_SORTER = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectName, SortDirection.Ascending);
 
         private IProjectService projectService;
 
@@ -43,7 +46,7 @@ namespace ECA.WebApi.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var results = await this.projectService.GetProjectsByProgramIdAsync(programId, queryModel.ToQueryableOperator<SimpleProjectDTO>(DEFAULT_PROGRAM_PROJECT_SORTER));
+                var results = await this.projectService.GetProjectsByProgramIdAsync(programId, queryModel.ToQueryableOperator<SimpleProjectDTO>(DEFAULT_SIMPLE_PROJECT_DTO_SORTER));
                 return Ok(results);
             }
             else

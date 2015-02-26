@@ -22,7 +22,16 @@ namespace ECA.Business.Queries.Admin
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            return null;
+            var query = context.Programs.Select(x => new SimpleProgramDTO
+            {
+                Description = x.Description,
+                Name = x.Name,
+                OwnerId = x.Owner.OrganizationId,
+                ProgramId = x.ProgramId
+            });
+            query = query.Apply(queryOperator);
+            return query;
+            
         }
     }
 }

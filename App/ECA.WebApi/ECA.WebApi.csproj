@@ -264,7 +264,7 @@
     <Compile Include="Controllers\MoneyFlowsController.cs" />
     <Compile Include="Controllers\ParticipantsController.cs" />
     <Compile Include="Controllers\Admin\ProjectsController.cs" />
-    <Compile Include="Controllers\ProgramsController.cs" />
+    <Compile Include="Controllers\Admin\ProgramsController.cs" />
     <Compile Include="Controllers\SampleController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Models\AutoMapperConfig.cs" />
