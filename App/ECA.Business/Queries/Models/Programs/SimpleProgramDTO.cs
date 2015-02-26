@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Queries.Models.Admin
+namespace ECA.Business.Queries.Models.Programs
 {
     public class SimpleProgramDTO
     {

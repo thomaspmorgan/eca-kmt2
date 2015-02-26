@@ -47,18 +47,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Programs\DraftProgram.cs" />
     <Compile Include="Models\Admin\DraftProject.cs" />
+    <Compile Include="Models\Lookups\ILookup.cs" />
+    <Compile Include="Models\Lookups\LookupDTO.cs" />
     <Compile Include="Models\NewHistory.cs" />
     <Compile Include="Models\RevisedHistory.cs" />
-    <Compile Include="Queries\Admin\ProgramQueries.cs" />
-    <Compile Include="Queries\Models\Admin\SimpleProgramDTO.cs" />
+    <Compile Include="Queries\Models\Programs\ThemeDTO.cs" />
+    <Compile Include="Queries\Programs\ProgramQueries.cs" />
+    <Compile Include="Queries\Models\Programs\SimpleProgramDTO.cs" />
     <Compile Include="Queries\Models\Admin\SimpleProjectDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\Admin\ProjectQueries.cs" />
-    <Compile Include="Service\Admin\IProgramService.cs" />
+    <Compile Include="Queries\Programs\ThemeQueries.cs" />
+    <Compile Include="Service\Programs\IProgramService.cs" />
     <Compile Include="Service\Admin\IProjectService.cs" />
-    <Compile Include="Service\Admin\ProgramService.cs" />
+    <Compile Include="Service\Programs\IThemeService.cs" />
+    <Compile Include="Service\Programs\ProgramService.cs" />
     <Compile Include="Service\Admin\ProjectService.cs" />
+    <Compile Include="Service\Lookup\LookupService.cs" />
+    <Compile Include="Service\Programs\ThemeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

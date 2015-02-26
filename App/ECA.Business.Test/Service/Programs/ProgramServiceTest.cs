@@ -1,17 +1,17 @@
-﻿using System;
-using System.Linq;
+﻿using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Service.Programs;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Filter;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Query;
+using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Service.Admin;
+using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using ECA.Data;
-using ECA.Core.Query;
-using ECA.Business.Queries.Models.Admin;
-using ECA.Core.DynamicLinq;
-using ECA.Core.DynamicLinq.Sorter;
-using ECA.Core.DynamicLinq.Filter;
 
-namespace ECA.Business.Test.Service.Admin
+namespace ECA.Business.Test.Service.Programs
 {
     [TestClass]
     public class ProgramServiceTest
@@ -91,7 +91,7 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         [TestMethod]
-        public async Task TestGetPrograms_Filtered()
+        public async Task TestGetPrograms_Filter()
         {
             var org = new Organization
             {
@@ -252,9 +252,6 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(2, queryResults.Total);
                 var results = queryResults.Results;
                 Assert.AreEqual(1, results.Count);
-                var firstResult = results.First();
-                Assert.AreEqual(org.OrganizationId, firstResult.OwnerId);
-                Assert.AreEqual(program2.ProgramId, firstResult.ProgramId);
             };
 
             var queryOperator = new QueryableOperator<SimpleProgramDTO>(0, 1, new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Descending));

@@ -1,19 +1,16 @@
-﻿using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Service.Admin;
+﻿using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
-using ECA.WebApi.Controllers.Admin;
+using ECA.WebApi.Controllers.Programs;
 using ECA.WebApi.Models.Query;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 
-namespace ECA.WebApi.Test.Controllers.Admin
+namespace ECA.WebApi.Test.Controllers.Programs
 {
     [TestClass]
     public class ProgramsControllerTest
@@ -31,7 +28,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
 
         #region Get
         [TestMethod]
-        public async Task TestGetProjectsByProgramIcAsync()
+        public async Task TestGetProjectsByProgramIdAsync()
         {
             serviceMock.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<SimpleProgramDTO>>()))
                 .Returns(Task.FromResult<PagedQueryResults<SimpleProgramDTO>>(new PagedQueryResults<SimpleProgramDTO>(1, new List<SimpleProgramDTO>())));
@@ -41,7 +38,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         }
 
         [TestMethod]
-        public async Task TestGetProjectsByProgramIcAsync_InvalidModel()
+        public async Task TestGetProjectsByProgramIdAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetProgramsAsync(new PagingQueryBindingModel());
