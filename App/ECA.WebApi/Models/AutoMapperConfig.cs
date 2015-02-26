@@ -29,7 +29,7 @@ namespace ECA.WebApi.Models
             //Mapper.CreateMap<OrganizationDTO, Organization>()
             //    .IgnoreAllNonExisting();
             Mapper.CreateMap<OrganizationType, OrganizationTypeDTO>().ReverseMap();
-            Mapper.CreateMap<Goal, GoalDTO>().ReverseMap();
+            //Mapper.CreateMap<Goal, GoalDTO>().ReverseMap();
             Mapper.CreateMap<Location, RegionDTO>();
             Mapper.CreateMap<RegionDTO, Location>()
                 .IgnoreAllNonExisting();
