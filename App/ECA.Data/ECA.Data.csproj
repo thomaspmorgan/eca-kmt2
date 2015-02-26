@@ -35,11 +35,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -68,83 +70,6 @@
     <Compile Include="IHistorical.cs" />
     <Compile Include="ItineraryStatus.cs" />
     <Compile Include="Method.cs" />
-    <Compile Include="Migrations\201501162219502_IntialCreate.cs" />
-    <Compile Include="Migrations\201501162219502_IntialCreate.Designer.cs">
-      <DependentUpon>201501162219502_IntialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201501162224049_LocationLatLongNullable.cs" />
-    <Compile Include="Migrations\201501162224049_LocationLatLongNullable.Designer.cs">
-      <DependentUpon>201501162224049_LocationLatLongNullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201501201411204_RenameLocationCountryToLocation.cs" />
-    <Compile Include="Migrations\201501201411204_RenameLocationCountryToLocation.Designer.cs">
-      <DependentUpon>201501201411204_RenameLocationCountryToLocation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201501291629351_UpdateLocationAndGoals.cs" />
-    <Compile Include="Migrations\201501291629351_UpdateLocationAndGoals.Designer.cs">
-      <DependentUpon>201501291629351_UpdateLocationAndGoals.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502031359424_AddMoneyFlowTypeStatusandOrgParent.cs" />
-    <Compile Include="Migrations\201502031359424_AddMoneyFlowTypeStatusandOrgParent.Designer.cs">
-      <DependentUpon>201502031359424_AddMoneyFlowTypeStatusandOrgParent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502041444123_DBSync.cs" />
-    <Compile Include="Migrations\201502041444123_DBSync.Designer.cs">
-      <DependentUpon>201502041444123_DBSync.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502111610199_AddContactsToProjectProgram.cs" />
-    <Compile Include="Migrations\201502111610199_AddContactsToProjectProgram.Designer.cs">
-      <DependentUpon>201502111610199_AddContactsToProjectProgram.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502111853109_AddParticipant.cs" />
-    <Compile Include="Migrations\201502111853109_AddParticipant.Designer.cs">
-      <DependentUpon>201502111853109_AddParticipant.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502121550000_FixProjectStatusIdField.cs" />
-    <Compile Include="Migrations\201502121550000_FixProjectStatusIdField.Designer.cs">
-      <DependentUpon>201502121550000_FixProjectStatusIdField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502131533141_AddProgramIdToProject.cs" />
-    <Compile Include="Migrations\201502131533141_AddProgramIdToProject.Designer.cs">
-      <DependentUpon>201502131533141_AddProgramIdToProject.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502131557370_AddProgramIdToProject1.cs" />
-    <Compile Include="Migrations\201502131557370_AddProgramIdToProject1.Designer.cs">
-      <DependentUpon>201502131557370_AddProgramIdToProject1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502131837543_UpdateMoneyFlow.cs" />
-    <Compile Include="Migrations\201502131837543_UpdateMoneyFlow.Designer.cs">
-      <DependentUpon>201502131837543_UpdateMoneyFlow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502132124174_UpdateMoneyFlow2.cs" />
-    <Compile Include="Migrations\201502132124174_UpdateMoneyFlow2.Designer.cs">
-      <DependentUpon>201502132124174_UpdateMoneyFlow2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502171523290_UpdateProgramContact.cs" />
-    <Compile Include="Migrations\201502171523290_UpdateProgramContact.Designer.cs">
-      <DependentUpon>201502171523290_UpdateProgramContact.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502181412106_ParticipantImpact.cs" />
-    <Compile Include="Migrations\201502181412106_ParticipantImpact.Designer.cs">
-      <DependentUpon>201502181412106_ParticipantImpact.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502181516296_PersonMods.cs" />
-    <Compile Include="Migrations\201502181516296_PersonMods.Designer.cs">
-      <DependentUpon>201502181516296_PersonMods.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502181912086_PersonMods2.cs" />
-    <Compile Include="Migrations\201502181912086_PersonMods2.Designer.cs">
-      <DependentUpon>201502181912086_PersonMods2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502201310586_ParticipantProjectFix.cs" />
-    <Compile Include="Migrations\201502201310586_ParticipantProjectFix.Designer.cs">
-      <DependentUpon>201502201310586_ParticipantProjectFix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502202242445_AddRemainingLookupTables.cs" />
-    <Compile Include="Migrations\201502202242445_AddRemainingLookupTables.Designer.cs">
-      <DependentUpon>201502202242445_AddRemainingLookupTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MoneyFlowSourceRecipientType.cs" />
     <Compile Include="MoneyFlowStatus.cs" />
     <Compile Include="MoneyFlowType.cs" />
@@ -203,68 +128,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ECA-KMTStaticDataGenerator.generated.cs</LastGenOutput>
     </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201501162219502_IntialCreate.resx">
-      <DependentUpon>201501162219502_IntialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201501162224049_LocationLatLongNullable.resx">
-      <DependentUpon>201501162224049_LocationLatLongNullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201501201411204_RenameLocationCountryToLocation.resx">
-      <DependentUpon>201501201411204_RenameLocationCountryToLocation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201501291629351_UpdateLocationAndGoals.resx">
-      <DependentUpon>201501291629351_UpdateLocationAndGoals.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502031359424_AddMoneyFlowTypeStatusandOrgParent.resx">
-      <DependentUpon>201502031359424_AddMoneyFlowTypeStatusandOrgParent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502041444123_DBSync.resx">
-      <DependentUpon>201502041444123_DBSync.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502111610199_AddContactsToProjectProgram.resx">
-      <DependentUpon>201502111610199_AddContactsToProjectProgram.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502111853109_AddParticipant.resx">
-      <DependentUpon>201502111853109_AddParticipant.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502121550000_FixProjectStatusIdField.resx">
-      <DependentUpon>201502121550000_FixProjectStatusIdField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502131533141_AddProgramIdToProject.resx">
-      <DependentUpon>201502131533141_AddProgramIdToProject.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502131557370_AddProgramIdToProject1.resx">
-      <DependentUpon>201502131557370_AddProgramIdToProject1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502131837543_UpdateMoneyFlow.resx">
-      <DependentUpon>201502131837543_UpdateMoneyFlow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502132124174_UpdateMoneyFlow2.resx">
-      <DependentUpon>201502132124174_UpdateMoneyFlow2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502171523290_UpdateProgramContact.resx">
-      <DependentUpon>201502171523290_UpdateProgramContact.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502181412106_ParticipantImpact.resx">
-      <DependentUpon>201502181412106_ParticipantImpact.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502181516296_PersonMods.resx">
-      <DependentUpon>201502181516296_PersonMods.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502181912086_PersonMods2.resx">
-      <DependentUpon>201502181912086_PersonMods2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502201310586_ParticipantProjectFix.resx">
-      <DependentUpon>201502201310586_ParticipantProjectFix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502202242445_AddRemainingLookupTables.resx">
-      <DependentUpon>201502202242445_AddRemainingLookupTables.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
