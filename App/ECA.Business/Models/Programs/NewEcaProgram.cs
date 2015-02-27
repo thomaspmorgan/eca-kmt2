@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Models.Programs
 {
-    public class DraftProgram
+    public class NewEcaProgram
     {
+        public NewEcaProgram() { }
     }
 }

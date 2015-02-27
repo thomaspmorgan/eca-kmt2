@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Programs\DraftProgram.cs" />
+    <Compile Include="Models\Programs\NewEcaProgram.cs" />
     <Compile Include="Models\Admin\DraftProject.cs" />
     <Compile Include="Models\Lookups\ILookup.cs" />
     <Compile Include="Models\Lookups\LookupDTO.cs" />

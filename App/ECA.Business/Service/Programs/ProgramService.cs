@@ -66,7 +66,7 @@ namespace ECA.Business.Service.Programs
 
         #region Create
 
-        public void Create(DraftProgram program)
+        public void Create(NewEcaProgram program)
         {
 
         }
