@@ -21,6 +21,32 @@ namespace ECA.Data
 }
 #endregion
 
+#region Gender
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class Gender
+	{
+		///<summary>
+		/// Returns the Male lookup with id 1.
+		///</summary>
+		public static StaticLookup Male { get { return new StaticLookup("Male", 1); } }
+		///<summary>
+		/// Returns the Female lookup with id 2.
+		///</summary>
+		public static StaticLookup Female { get { return new StaticLookup("Female", 2); } }
+		///<summary>
+		/// Returns the Other lookup with id 3.
+		///</summary>
+		public static StaticLookup Other { get { return new StaticLookup("Other", 3); } }
+		///<summary>
+		/// Returns the NotSpecified lookup with id 4.
+		///</summary>
+		public static StaticLookup Notspecified { get { return new StaticLookup("NotSpecified", 4); } }
+	}
+}
+#endregion
+
 #region ItineraryStatus
 namespace ECA.Data
 {

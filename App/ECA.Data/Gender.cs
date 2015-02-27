@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECA.Data
 {
-    public class Gender
+    public partial class Gender
     {
         [Key]
         public int GenderId { get; set; }

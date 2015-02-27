@@ -59,8 +59,10 @@
     <Compile Include="Queries\Models\Admin\GoalDTO.cs" />
     <Compile Include="Queries\Models\Admin\LocationDTO.cs" />
     <Compile Include="Queries\Models\Persons\ContactDTO.cs" />
+    <Compile Include="Queries\Models\Persons\SimpleParticipantDTO.cs" />
     <Compile Include="Queries\Models\Programs\ThemeDTO.cs" />
     <Compile Include="Queries\Persons\ContactQueries.cs" />
+    <Compile Include="Queries\Persons\ParticipantQueries.cs" />
     <Compile Include="Queries\Programs\ProgramQueries.cs" />
     <Compile Include="Queries\Models\Programs\SimpleProgramDTO.cs" />
     <Compile Include="Queries\Models\Admin\SimpleProjectDTO.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="Service\Admin\LocationService.cs" />
     <Compile Include="Service\Persons\ContactService.cs" />
     <Compile Include="Service\Persons\IContactService.cs" />
+    <Compile Include="Service\Persons\ParticipantService.cs" />
     <Compile Include="Service\Programs\IProgramService.cs" />
     <Compile Include="Service\Admin\IProjectService.cs" />
     <Compile Include="Service\Programs\IThemeService.cs" />
