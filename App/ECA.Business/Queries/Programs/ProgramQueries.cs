@@ -31,17 +31,22 @@ namespace ECA.Business.Queries.Programs
         }
 
         /// <summary>
-        /// Returns a query to locate programs
+        /// Returns a query to locate a program by id.
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="programId"></param>
-        /// <returns></returns>
+        /// <param name="context">The context to query.</param>
+        /// <param name="programId">The program id.</param>
+        /// <returns>The program.</returns>
         public static IQueryable<EcaProgram> CreateGetPublishedProgramByIdQuery(EcaContext context, int programId)
         {
             Contract.Requires(context != null, "The context must not be null.");
             return CreateGetPublishedProgramsQuery(context).Where(x => x.Id == programId);
         }
 
+        /// <summary>
+        /// Returns an EcaProgram query.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The EcaProgram query.</returns>
         private static IQueryable<EcaProgram> CreateGetPublishedProgramsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");

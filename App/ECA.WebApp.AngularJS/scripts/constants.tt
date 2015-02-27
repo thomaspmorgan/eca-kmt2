@@ -1,0 +1,80 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="$(SolutionDir)ECA.Core/bin/Debug/ECA.Core.dll" #>
+<#@ assembly name="$(SolutionDir)ECA.Data/bin/Debug/ECA.Data.dll" #>
+<#@ import namespace="ECA.Core" #>
+<#@ import namespace="ECA.Data" #>
+<#@ import namespace="ECA.Core.Generation" #>
+<#@ output extension=".js" #>
+<#
+	var types = new List<Type>();
+	types.Add(typeof(LocationType));
+	types.Add(typeof(ProjectStatus));
+
+	types = types.OrderBy(x => x.Name).ToList();
+	WriteTypes(types);
+#>
+
+<#+
+
+public void WriteTypes(List<Type> types)
+{
+	WriteLine("var constants = {");
+	PushIndent("\t");
+	for(var typeCounter = 0; typeCounter < types.Count; typeCounter++)
+	{
+		var type = types[typeCounter];
+		var staticLookups = GetStaticLookups(type);
+		WriteLine(String.Format("{0}: {{", CamelCase(type.Name)));
+		PushIndent("\t");
+
+		for(var staticLookupCounter = 0; staticLookupCounter < staticLookups.Count; staticLookupCounter++)
+		{
+			var staticLookup = staticLookups[staticLookupCounter];
+			WriteStaticLookup(staticLookup);
+			if(staticLookupCounter != staticLookups.Count - 1)
+			{
+				Write(",");
+			}
+			WriteLine(String.Empty);
+		}
+		
+		PopIndent();
+		Write("}");
+		if(typeCounter != types.Count - 1)
+		{
+			Write(",");
+		}
+		WriteLine(String.Empty);		
+	}
+
+	PopIndent();
+	WriteLine("};");
+}
+
+public string CamelCase(string s)
+{
+	var firstCharacterString = s.Substring(0, 1).ToLower().ToString();
+	var camelCased = firstCharacterString + s.Substring(1);
+	return camelCased;
+
+}
+
+public void WriteStaticLookup(StaticLookup lookup)
+{
+	Write(String.Format("{0}: {1}", CamelCase(lookup.Value), lookup.Id));
+}
+
+public List<StaticLookup> GetStaticLookups(Type t)
+{
+    var staticProperties = t.GetProperties(BindingFlags.Static | BindingFlags.Public).Where(x => x.PropertyType == typeof(StaticLookup)).ToList();
+    var staticLookups = staticProperties.Select(x => x.GetValue(null) as StaticLookup).OrderBy(x => x.Id).ToList();
+	return staticLookups;
+}
+
+
+#>
