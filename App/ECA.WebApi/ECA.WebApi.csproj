@@ -266,6 +266,7 @@
     <Compile Include="Controllers\MoneyFlowsController.cs" />
     <Compile Include="Controllers\ParticipantsController.cs" />
     <Compile Include="Controllers\Admin\ProjectsController.cs" />
+    <Compile Include="Controllers\Persons\ContactsController.cs" />
     <Compile Include="Controllers\Programs\ProgramsController.cs" />
     <Compile Include="Controllers\Programs\ThemesController.cs" />
     <Compile Include="Controllers\SampleController.cs" />

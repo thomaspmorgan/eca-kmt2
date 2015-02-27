@@ -1,4 +1,5 @@
 using ECA.Business.Service.Admin;
+using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
 using ECA.Data;
 using Microsoft.Practices.Unity;
@@ -44,6 +45,7 @@ namespace ECA.WebApi
             Debug.Assert(container.IsRegistered<EcaContext>(), "The EcaContext is a dependency.  It should be registered.");
             container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IContactService, ContactService>(new HierarchicalLifetimeManager());
         }
     }
 }
