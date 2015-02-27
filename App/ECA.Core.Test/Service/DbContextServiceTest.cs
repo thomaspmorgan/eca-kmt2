@@ -4,6 +4,7 @@ using ECA.Core.Service;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace ECA.Core.Test.Service
 {
@@ -46,6 +47,8 @@ namespace ECA.Core.Test.Service
 
     public class SampleDbContext : DbContext
     {
+        public bool IsDisposed { get; set; }
+
         public bool SaveChangesCalled { get; set; }
 
         public bool SaveChangesAsyncCalled { get; set; }
@@ -62,6 +65,16 @@ namespace ECA.Core.Test.Service
             return Task.FromResult<int>(1);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            this.IsDisposed = true;
+        }
+
+    }
+
+    public class SampleService : DbContextService<SampleDbContext>
+    {
+        public SampleService(SampleDbContext context) : base(context) { }
     }
 
     [TestClass]
@@ -133,5 +146,25 @@ namespace ECA.Core.Test.Service
             Assert.IsFalse(context.SaveChangesCalled);
             Assert.IsTrue(context.SaveChangesAsyncCalled);
         }
+
+        #region Dispose
+        [TestMethod]
+        public void TestDispose_Context()
+        {
+            var testContext = new SampleDbContext();
+            var testService = new SampleService(testContext);
+
+            var contextField = typeof(SampleService).GetProperty("Context", BindingFlags.Instance | BindingFlags.NonPublic);
+            var contextValue = contextField.GetValue(testService);
+            Assert.IsNotNull(contextField);
+            Assert.IsNotNull(contextValue);
+
+            testService.Dispose();
+            contextValue = contextField.GetValue(testService);
+            Assert.IsNull(contextValue);
+            Assert.IsTrue(testContext.IsDisposed);
+
+        }
+        #endregion
     }
 }

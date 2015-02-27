@@ -2,6 +2,7 @@
 using ECA.Business.Queries.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Core.Service;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -15,18 +16,15 @@ namespace ECA.Business.Service.Programs
     /// <summary>
     /// The ThemeService is capable of performing crud operations on Themes with the system using entity framework.
     /// </summary>
-    public class ThemeService : IDisposable, ECA.Business.Service.Programs.IThemeService
+    public class ThemeService : DbContextService<EcaContext>, ECA.Business.Service.Programs.IThemeService
     {
-        private EcaContext context;
-
         /// <summary>
         /// Creates a new ThemeService.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public ThemeService(EcaContext context)
+        public ThemeService(EcaContext context) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            this.context = context;
         }
 
         #region Get
@@ -38,7 +36,7 @@ namespace ECA.Business.Service.Programs
         /// <returns>The themes in the system.</returns>
         public PagedQueryResults<ThemeDTO> GetThemes(QueryableOperator<ThemeDTO> queryOperator)
         {
-            return ThemeQueries.CreateGetThemesQuery(this.context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            return ThemeQueries.CreateGetThemesQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
         }
 
         /// <summary>
@@ -48,33 +46,7 @@ namespace ECA.Business.Service.Programs
         /// <returns>The themes in the system.</returns>
         public Task<PagedQueryResults<ThemeDTO>> GetThemesAsync(QueryableOperator<ThemeDTO> queryOperator)
         {
-            return ThemeQueries.CreateGetThemesQuery(this.context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-        }
-
-        #endregion
-
-        #region IDispose
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.context.Dispose();
-                this.context = null;
-            }
+            return ThemeQueries.CreateGetThemesQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
 
         #endregion

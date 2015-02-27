@@ -9,24 +9,23 @@ using ECA.Data;
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using ECA.Core.Service;
 
 namespace ECA.Business.Service.Programs
 {
     /// <summary>
     /// A ProgramService is capable of performing crud operations on a program using entity framework.
     /// </summary>
-    public class ProgramService : IDisposable, IProgramService
+    public class ProgramService : DbContextService<EcaContext>, IProgramService
     {
-        private EcaContext context;
 
         /// <summary>
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
         /// <param name="context">The context to operate on.</param>
-        public ProgramService(EcaContext context)
+        public ProgramService(EcaContext context) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            this.context = context;
         }
 
         #region Get
@@ -38,7 +37,7 @@ namespace ECA.Business.Service.Programs
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
         public PagedQueryResults<SimpleProgramDTO> GetPrograms(QueryableOperator<SimpleProgramDTO> queryOperator)
         {
-            return ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            return ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
         }
 
         /// <summary>
@@ -48,7 +47,7 @@ namespace ECA.Business.Service.Programs
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
         public Task<PagedQueryResults<SimpleProgramDTO>> GetProgramsAsync(QueryableOperator<SimpleProgramDTO> queryOperator)
         {
-            return ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            return ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace ECA.Business.Service.Programs
         /// <returns>The program, or null if it doesn't exist.</returns>
         public ProgramDTO GetProgramById(int programId)
         {
-            return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.context, programId).FirstOrDefault();
+            return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefault();
         }
 
         /// <summary>
@@ -68,7 +67,7 @@ namespace ECA.Business.Service.Programs
         /// <returns>The program, or null if it doesn't exist.</returns>
         public Task<ProgramDTO> GetProgramByIdAsync(int programId)
         {
-            return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.context, programId).FirstOrDefaultAsync();
+            return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefaultAsync();
         }
 
         #endregion
@@ -78,32 +77,6 @@ namespace ECA.Business.Service.Programs
         public void Create(NewEcaProgram program)
         {
 
-        }
-
-        #endregion
-
-        #region IDispose
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.context.Dispose();
-                this.context = null;
-            }
         }
 
         #endregion
