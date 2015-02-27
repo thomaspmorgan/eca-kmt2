@@ -52,12 +52,12 @@ namespace ECA.Business.Service.Programs
         }
 
 
-        public EcaProgram GetProgramById(int programId)
+        public ProgramDTO GetProgramById(int programId)
         {
             return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.context, programId).FirstOrDefault();
         }
 
-        public Task<EcaProgram> GetProgramByIdAsync(int programId)
+        public Task<ProgramDTO> GetProgramByIdAsync(int programId)
         {
             return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.context, programId).FirstOrDefaultAsync();
         }

@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Models.Programs;
+using ECA.Business.Queries.Models.Programs;
 using ECA.Core.Query;
 using System;
 using System.Threading.Tasks;
@@ -23,8 +24,8 @@ namespace ECA.Business.Service.Programs
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
         Task<PagedQueryResults<ECA.Business.Queries.Models.Programs.SimpleProgramDTO>> GetProgramsAsync(ECA.Core.DynamicLinq.QueryableOperator<ECA.Business.Queries.Models.Programs.SimpleProgramDTO> queryOperator);
 
-        Task<EcaProgram> GetProgramByIdAsync(int programId);
+        Task<ProgramDTO> GetProgramByIdAsync(int programId);
 
-        EcaProgram GetProgramById(int programId);
+        ProgramDTO GetProgramById(int programId);
     }
 }

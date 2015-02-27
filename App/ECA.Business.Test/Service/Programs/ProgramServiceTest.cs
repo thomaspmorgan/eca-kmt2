@@ -96,7 +96,12 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program
             {
                 ProgramId = 10,
-                
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 30,
+                Description = "owner desc",
+                Name = "owner"
             };
             var program = new Program
             {
@@ -111,7 +116,8 @@ namespace ECA.Business.Test.Service.Programs
                     CreatedOn = yesterday,
                     RevisedBy = revisorId,
                     RevisedOn = now
-                }
+                },
+                Owner = owner
             };
 
             program.Contacts = new HashSet<Contact>();
@@ -120,8 +126,9 @@ namespace ECA.Business.Test.Service.Programs
             program.Regions = new HashSet<Location>();
             program.Contacts.Add(contact);
             program.Goals.Add(goal);
-            program.Regions.Add(region);            
+            program.Regions.Add(region);
 
+            context.Organizations.Add(owner);
             context.Programs.Add(program);
             context.Contacts.Add(contact);
             context.Themes.Add(theme);
@@ -130,7 +137,7 @@ namespace ECA.Business.Test.Service.Programs
             context.Programs.Add(parentProgram);
             context.Locations.Add(region);
 
-            Action<EcaProgram> tester = (publishedProgram) =>
+            Action<ProgramDTO> tester = (publishedProgram) =>
             {
                 CollectionAssert.AreEqual(program.Contacts.Select(x => x.ContactId).ToList(), publishedProgram.ContactIds.ToList());
                 CollectionAssert.AreEqual(
@@ -149,6 +156,9 @@ namespace ECA.Business.Test.Service.Programs
 
                 Assert.AreEqual(now, publishedProgram.RevisedOn);
                 Assert.AreEqual(program.StartDate, publishedProgram.StartDate);
+                Assert.AreEqual(owner.Name, publishedProgram.OwnerName);
+                Assert.AreEqual(owner.Description, publishedProgram.OwnerDescription);
+                Assert.AreEqual(owner.OrganizationId, publishedProgram.OwnerOrganizationId);
                 
             };
             var result = service.GetProgramById(program.ProgramId);
@@ -171,6 +181,10 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "description",
                 ParentProgram = null,
                 StartDate = DateTimeOffset.UtcNow,
+                Owner = new Organization
+                {
+                    OrganizationId = 1,
+                },
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -186,7 +200,7 @@ namespace ECA.Business.Test.Service.Programs
             program.Regions = new HashSet<Location>();
 
             context.Programs.Add(program);
-            Action<EcaProgram> tester = (publishedProgram) =>
+            Action<ProgramDTO> tester = (publishedProgram) =>
             {
                 Assert.IsFalse(publishedProgram.ParentProgramId.HasValue);
             };

@@ -60,6 +60,7 @@
     <Compile Include="Queries\Models\Admin\LocationDTO.cs" />
     <Compile Include="Queries\Models\Persons\ContactDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Programs\ProgramDTO.cs" />
     <Compile Include="Queries\Models\Programs\ThemeDTO.cs" />
     <Compile Include="Queries\Persons\ContactQueries.cs" />
     <Compile Include="Queries\Persons\ParticipantQueries.cs" />

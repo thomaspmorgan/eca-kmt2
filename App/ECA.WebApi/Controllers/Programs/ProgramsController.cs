@@ -57,7 +57,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// Returns the program with the given id.
         /// </summary>
         /// <returns>The program with the given id.</returns>
-        [ResponseType(typeof(EcaProgram))]
+        [ResponseType(typeof(ProgramDTO))]
         public async Task<IHttpActionResult> GetProgramByIdAsync(int id)
         {
             var program = await this.programService.GetProgramByIdAsync(id);

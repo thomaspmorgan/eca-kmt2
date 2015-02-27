@@ -36,7 +36,7 @@ namespace ECA.Business.Queries.Programs
         /// <param name="context">The context to query.</param>
         /// <param name="programId">The program id.</param>
         /// <returns>The program.</returns>
-        public static IQueryable<EcaProgram> CreateGetPublishedProgramByIdQuery(EcaContext context, int programId)
+        public static IQueryable<ProgramDTO> CreateGetPublishedProgramByIdQuery(EcaContext context, int programId)
         {
             Contract.Requires(context != null, "The context must not be null.");
             return CreateGetPublishedProgramsQuery(context).Where(x => x.Id == programId);
@@ -47,7 +47,7 @@ namespace ECA.Business.Queries.Programs
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <returns>The EcaProgram query.</returns>
-        private static IQueryable<EcaProgram> CreateGetPublishedProgramsQuery(EcaContext context)
+        private static IQueryable<ProgramDTO> CreateGetPublishedProgramsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
 
@@ -56,6 +56,7 @@ namespace ECA.Business.Queries.Programs
                                select country;
 
             var query = from program in context.Programs
+                        let owner = program.Owner
                         let themes = program.Themes
                         let regions = program.Regions                        
                         let parentProgram = program.ParentProgram
@@ -63,7 +64,7 @@ namespace ECA.Business.Queries.Programs
                         let contacts = program.Contacts
                         let countries = countryQuery.Where(x => regions.Select(y => y.LocationId).Contains(x.Region.LocationId))
 
-                        select new EcaProgram
+                        select new ProgramDTO
                         {
                             ContactIds = contacts.Select(x => x.ContactId),
                             CountryIsos = countries.Select(x => x.LocationIso),
@@ -72,6 +73,9 @@ namespace ECA.Business.Queries.Programs
                             GoalIds = goals.Select(x => x.GoalId),
                             Id = program.ProgramId,
                             Name = program.Name,
+                            OwnerDescription = owner.Description,
+                            OwnerName = owner.Name,
+                            OwnerOrganizationId = owner.OrganizationId,
                             ParentProgramId = parentProgram == null ? default(int?) : parentProgram.ProgramId,
                             RevisedOn = program.History.RevisedOn,
                             StartDate = program.StartDate,

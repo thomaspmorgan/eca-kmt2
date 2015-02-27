@@ -50,9 +50,9 @@ namespace ECA.WebApi.Test.Controllers.Programs
         public async Task TestGetProgramByIdAsync()
         {
             serviceMock.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>()))
-                .ReturnsAsync(new EcaProgram());
+                .ReturnsAsync(new ProgramDTO());
             var response = await controller.GetProgramByIdAsync(1);
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<EcaProgram>));
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProgramDTO>));
         }
 
         [TestMethod]
