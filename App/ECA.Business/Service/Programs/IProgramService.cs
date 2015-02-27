@@ -1,7 +1,6 @@
-﻿using ECA.Business.Models.Programs;
-using ECA.Business.Queries.Models.Programs;
+﻿using ECA.Business.Queries.Models.Programs;
+using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
-using System;
 using System.Threading.Tasks;
 namespace ECA.Business.Service.Programs
 {
@@ -15,17 +14,27 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
-        ECA.Core.Query.PagedQueryResults<ECA.Business.Queries.Models.Programs.SimpleProgramDTO> GetPrograms(ECA.Core.DynamicLinq.QueryableOperator<ECA.Business.Queries.Models.Programs.SimpleProgramDTO> queryOperator);
+        PagedQueryResults<SimpleProgramDTO> GetPrograms(QueryableOperator<SimpleProgramDTO> queryOperator);
 
         /// <summary>
         /// Returns a paged, filtered, and sorted list of programs in the system.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
-        Task<PagedQueryResults<ECA.Business.Queries.Models.Programs.SimpleProgramDTO>> GetProgramsAsync(ECA.Core.DynamicLinq.QueryableOperator<ECA.Business.Queries.Models.Programs.SimpleProgramDTO> queryOperator);
+        Task<PagedQueryResults<SimpleProgramDTO>> GetProgramsAsync(QueryableOperator<SimpleProgramDTO> queryOperator);
 
+        /// <summary>
+        /// Returns the program with the given id, or null if it does not exist.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <returns>The program, or null if it doesn't exist.</returns>
         Task<ProgramDTO> GetProgramByIdAsync(int programId);
 
+        /// <summary>
+        /// Returns the program with the given id, or null if it does not exist.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <returns>The program, or null if it doesn't exist.</returns>
         ProgramDTO GetProgramById(int programId);
     }
 }

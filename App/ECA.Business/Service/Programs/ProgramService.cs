@@ -51,12 +51,21 @@ namespace ECA.Business.Service.Programs
             return ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
 
-
+        /// <summary>
+        /// Returns the program with the given id, or null if it does not exist.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <returns>The program, or null if it doesn't exist.</returns>
         public ProgramDTO GetProgramById(int programId)
         {
             return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.context, programId).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Returns the program with the given id, or null if it does not exist.
+        /// </summary>
+        /// <param name="programId">The program id.</param>
+        /// <returns>The program, or null if it doesn't exist.</returns>
         public Task<ProgramDTO> GetProgramByIdAsync(int programId)
         {
             return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.context, programId).FirstOrDefaultAsync();
