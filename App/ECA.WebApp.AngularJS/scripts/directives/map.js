@@ -43,7 +43,7 @@ angular.module('staticApp')
       	var populateCountries = function(countrylist) {
       		var countries = {};
 	      	var builder = function(ele){
-	      		countries[ele.abbreviation] = {fillKey: 'active'};
+	      		countries[ele.value] = {fillKey: 'active'};
 	      	};
       		countrylist.forEach(builder);
 
