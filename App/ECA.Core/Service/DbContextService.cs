@@ -21,42 +21,40 @@ namespace ECA.Core.Service
         /// </summary>
         protected T Context { get; private set; }
 
-        public int SaveChanges()
+        public int SaveChanges(IList<ISaveAction> saveActions = null)
         {
-            BeforeSaveChanges();
+            var list = GetSaveActions(saveActions);
+            list.ForEach(x => x.BeforeSaveChanges());
             var i = this.Context.SaveChanges();
-            AfterSaveChanges();
+            list.ForEach(x => x.AfterSaveChanges());
             return i;
         }
 
-        public async Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync(IList<ISaveAction> saveActions = null)
         {
-            await BeforeSaveChangesAsync();
+            var list = GetSaveActions(saveActions);
+            foreach(var saveAction in saveActions)
+            {
+                await saveAction.BeforeSaveChangesAsync();
+            }
             var i = await this.Context.SaveChangesAsync();
-            await AfterSaveChangesAsync();
+            foreach (var saveAction in saveActions)
+            {
+                await saveAction.AfterSaveChangesAsync();
+            }
             return i;
         }
 
-        protected virtual void BeforeSaveChanges()
+        private List<ISaveAction> GetSaveActions(IList<ISaveAction> actions)
         {
-
+            if (actions != null)
+            {
+                return actions.ToList();
+            }
+            else
+            {
+                return new List<ISaveAction>();
+            }
         }
-
-        protected virtual Task BeforeSaveChangesAsync()
-        {
-            return Task.FromResult<object>(null);
-        }
-
-        protected virtual void AfterSaveChanges()
-        {
-
-        }
-
-        protected virtual Task AfterSaveChangesAsync()
-        {
-            return Task.FromResult<object>(null);
-        }
-
-        
     }
 }

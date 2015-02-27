@@ -60,6 +60,7 @@
     <Compile Include="Generation\StaticLookupTest.cs" />
     <Compile Include="Query\PagedQueryResultsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\DbContextServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

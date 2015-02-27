@@ -60,6 +60,7 @@
     <Compile Include="Query\PagedQueryResults.cs" />
     <Compile Include="Service\DbContextService.cs" />
     <Compile Include="Service\ISaveable.cs" />
+    <Compile Include="Service\ISaveAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

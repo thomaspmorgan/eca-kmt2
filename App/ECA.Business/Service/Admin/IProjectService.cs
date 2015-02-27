@@ -9,7 +9,7 @@ namespace ECA.Business.Service.Admin
     /// <summary>
     /// A ProjectService is a service capable of performing crud on projects.
     /// </summary>
-    public interface IProjectService : ISaveable
+    public interface IProjectService
     {
         ECA.Data.Project Create(DraftProject project);
 

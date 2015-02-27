@@ -1,4 +1,5 @@
-﻿using ECA.Business.Models.Programs;
+﻿using ECA.Business.Models.Lookups;
+using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
@@ -66,11 +67,10 @@ namespace ECA.Business.Queries.Programs
 
                         select new ProgramDTO
                         {
-                            ContactIds = contacts.Select(x => x.ContactId),
-                            CountryIsos = countries.Select(x => x.LocationIso),
-                            CountryIds = countries.Select(x => x.LocationId),
+                            Contacts = contacts.Select(x => new SimpleLookupDTO{Id = x.ContactId, Value = x.FullName}),
+                            CountryIsos = countries.Select(x => new SimpleLookupDTO{Id = x.LocationId, Value = x.LocationIso}),
                             Description = program.Description,
-                            GoalIds = goals.Select(x => x.GoalId),
+                            Goals = goals.Select(x => new SimpleLookupDTO{Id = x.GoalId, Value = x.GoalName}),
                             Id = program.ProgramId,
                             Name = program.Name,
                             OwnerDescription = owner.Description,
@@ -79,7 +79,7 @@ namespace ECA.Business.Queries.Programs
                             ParentProgramId = parentProgram == null ? default(int?) : parentProgram.ProgramId,
                             RevisedOn = program.History.RevisedOn,
                             StartDate = program.StartDate,
-                            ThemeIds = themes.Select(x => x.ThemeId)
+                            Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName})
                         };
             return query;
         }

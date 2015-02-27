@@ -50,7 +50,7 @@
     <Compile Include="Models\Programs\NewEcaProgram.cs" />
     <Compile Include="Models\Admin\DraftProject.cs" />
     <Compile Include="Models\Lookups\ILookup.cs" />
-    <Compile Include="Models\Lookups\LookupDTO.cs" />
+    <Compile Include="Models\Lookups\SimpleLookupDTO.cs" />
     <Compile Include="Models\NewHistory.cs" />
     <Compile Include="Models\Programs\EcaProgram.cs" />
     <Compile Include="Models\RevisedHistory.cs" />

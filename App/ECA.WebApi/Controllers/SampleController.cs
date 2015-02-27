@@ -82,22 +82,22 @@ namespace ECA.WebApi.Controllers
         /// </summary>
         /// <param name="model">The draft project.</param>
         /// <returns>The id of the project.</returns>
-        [ResponseType(typeof(int))]
-        public async Task<IHttpActionResult> PostCreateProjectAsync(DraftProjectBindingModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                //var userId = this.User.Identity.Name;
-                var userId = 1;
-                var project = this.projectService.Create(model.ToDraftProject(userId));
-                await this.projectService.SaveChangesAsync();
-                var projectId = project.ProjectId;
-                return Ok(projectId);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
+        //[ResponseType(typeof(int))]
+        //public async Task<IHttpActionResult> PostCreateProjectAsync(DraftProjectBindingModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        //var userId = this.User.Identity.Name;
+        //        var userId = 1;
+        //        var project = this.projectService.Create(model.ToDraftProject(userId));
+        //        //await this.projectService.SaveChangesAsync();
+        //        var projectId = project.ProjectId;
+        //        return Ok(projectId);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //}
     }
 }

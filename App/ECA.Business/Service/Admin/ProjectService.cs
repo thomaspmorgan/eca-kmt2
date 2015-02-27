@@ -91,16 +91,5 @@ namespace ECA.Business.Service.Admin
                 this.context = null;
             }
         }
-
-
-        public int SaveChanges()
-        {
-            return context.SaveChanges();
-        }
-
-        public Task<int> SaveChangesAsync()
-        {
-            return context.SaveChangesAsync();
-        }
     }
 }

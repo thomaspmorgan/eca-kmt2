@@ -35,24 +35,6 @@ namespace ECA.Business.Test.Service.Admin
 
         }
 
-        #region Save Changes
-        [TestMethod]
-        public void TestSaveChanges()
-        {
-            Assert.AreEqual(0, context.SaveChangesCalledCount);
-            service.SaveChanges();
-            Assert.AreEqual(1, context.SaveChangesCalledCount);
-        }
-
-        [TestMethod]
-        public async Task TestSaveChangesAsync()
-        {
-            Assert.AreEqual(0, context.SaveChangesCalledCount);
-            await service.SaveChangesAsync();
-            Assert.AreEqual(1, context.SaveChangesCalledCount);
-        }
-        #endregion
-
         #region Dispose
         [TestMethod]
         public void TestDispose_Context()

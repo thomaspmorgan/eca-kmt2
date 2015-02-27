@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECA.Business.Models.Lookups;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +14,10 @@ namespace ECA.Business.Queries.Models.Programs
         /// </summary>
         public ProgramDTO()
         {
-            this.ContactIds = new List<int>();
-            this.CountryIds = new List<int>();
-            this.CountryIsos = new List<string>();
-            this.GoalIds = new List<int>();
-            this.ThemeIds = new List<int>();
+            this.Contacts = new List<SimpleLookupDTO>();
+            this.CountryIsos = new List<SimpleLookupDTO>();
+            this.Goals = new List<SimpleLookupDTO>();
+            this.Themes = new List<SimpleLookupDTO>();
         }
 
         /// <summary>
@@ -53,27 +53,22 @@ namespace ECA.Business.Queries.Models.Programs
         /// <summary>
         /// Gets or sets the Theme Ids.
         /// </summary>
-        public IEnumerable<int> ThemeIds { get; set; }
+        public IEnumerable<SimpleLookupDTO> Themes { get; set; }
 
         /// <summary>
         /// Gets or sets the Country Ids.
         /// </summary>
-        public IEnumerable<int> CountryIds { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Country ISOs.
-        /// </summary>
-        public IEnumerable<string> CountryIsos { get; set; }
+        public IEnumerable<SimpleLookupDTO> CountryIsos { get; set; }
 
         /// <summary>
         /// Gets or sets the Goal Ids.
         /// </summary>
-        public IEnumerable<int> GoalIds { get; set; }
+        public IEnumerable<SimpleLookupDTO> Goals { get; set; }
 
         /// <summary>
         /// Gets or sets the Contact Ids.
         /// </summary>
-        public IEnumerable<int> ContactIds { get; set; }
+        public IEnumerable<SimpleLookupDTO> Contacts { get; set; }
 
         /// <summary>
         /// Gets or sets the Owner Name.

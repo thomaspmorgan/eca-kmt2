@@ -139,17 +139,21 @@ namespace ECA.Business.Test.Service.Programs
 
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
-                CollectionAssert.AreEqual(program.Contacts.Select(x => x.ContactId).ToList(), publishedProgram.ContactIds.ToList());
-                CollectionAssert.AreEqual(
-                    context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationId).ToList(), 
-                    publishedProgram.CountryIds.ToList());
+                CollectionAssert.AreEqual(program.Contacts.Select(x => x.ContactId).ToList(), publishedProgram.Contacts.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(program.Contacts.Select(x => x.FullName).ToList(), publishedProgram.Contacts.Select(x => x.Value).ToList());
 
+                CollectionAssert.AreEqual(
+                    context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationId).ToList(),
+                    publishedProgram.CountryIsos.Select(x => x.Id).ToList());
                 CollectionAssert.AreEqual(
                     context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(), 
-                    publishedProgram.CountryIsos.ToList());
+                    publishedProgram.CountryIsos.Select(x => x.Value).ToList());
+
+                CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(), publishedProgram.Goals.Select(x => x.Value).ToList());
+                CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalId).ToList(), publishedProgram.Goals.Select(x => x.Id).ToList());
 
                 Assert.AreEqual(program.Description, publishedProgram.Description);
-                CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalId).ToList(), publishedProgram.GoalIds.ToList());
+                
                 Assert.AreEqual(program.ProgramId, publishedProgram.Id);
                 Assert.AreEqual(program.Name, publishedProgram.Name);
                 Assert.AreEqual(parentProgram.ProgramId, publishedProgram.ParentProgramId);

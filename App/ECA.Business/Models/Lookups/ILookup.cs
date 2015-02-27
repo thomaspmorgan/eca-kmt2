@@ -11,7 +11,5 @@ namespace ECA.Business.Models.Lookups
         int Id { get; set; }
 
         string Value { get; set; }
-
-        string LookupType { get; set; }
     }
 }
