@@ -24,6 +24,8 @@ namespace ECA.WebApi.Test.Controllers.Admin
         public void TestInit()
         {
             serviceMock = new Mock<IProjectService>();
+            serviceMock.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<SimpleProjectDTO>(1, new List<SimpleProjectDTO>()));
             controller = new ProjectsController(serviceMock.Object);
             ControllerHelper.InitializeController(controller);
         }
@@ -32,9 +34,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestGetProjectsByProgramIcAsync()
         {
-            serviceMock.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
-                .Returns(Task.FromResult<PagedQueryResults<SimpleProjectDTO>>(new PagedQueryResults<SimpleProjectDTO>(1, new List<SimpleProjectDTO>())));
-
             var response = await controller.GetProjectsByProgramAsync(1, new PagingQueryBindingModel());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProjectDTO>>));
         }

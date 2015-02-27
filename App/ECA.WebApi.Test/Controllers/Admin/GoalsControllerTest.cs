@@ -25,6 +25,8 @@ namespace ECA.WebApi.Test.Controllers.Admin
         public void TestInit()
         {
             serviceMock = new Mock<IGoalService>();
+            serviceMock.Setup(x => x.GetGoalsAsync(It.IsAny<QueryableOperator<GoalDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<GoalDTO>(1, new List<GoalDTO>()));
             controller = new GoalsController(serviceMock.Object);
             ControllerHelper.InitializeController(controller);
         }
@@ -33,9 +35,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestGetThemesAsync()
         {
-            serviceMock.Setup(x => x.GetGoalsAsync(It.IsAny<QueryableOperator<GoalDTO>>()))
-                .Returns(Task.FromResult<PagedQueryResults<GoalDTO>>(new PagedQueryResults<GoalDTO>(1, new List<GoalDTO>())));
-
             var response = await controller.GetLocationsAsync(new PagingQueryBindingModel());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<GoalDTO>>));
         }

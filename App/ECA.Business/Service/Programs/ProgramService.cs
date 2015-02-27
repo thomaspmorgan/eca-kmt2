@@ -1,4 +1,6 @@
-﻿using ECA.Business.Models.Programs;
+﻿using System.Linq;
+using System.Data.Entity;
+using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Queries.Programs;
 using ECA.Core.DynamicLinq;
@@ -48,6 +50,18 @@ namespace ECA.Business.Service.Programs
         {
             return ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
+
+
+        public EcaProgram GetProgramById(int programId)
+        {
+            return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.context, programId).FirstOrDefault();
+        }
+
+        public Task<EcaProgram> GetProgramByIdAsync(int programId)
+        {
+            return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.context, programId).FirstOrDefaultAsync();
+        }
+
         #endregion
 
         #region Create

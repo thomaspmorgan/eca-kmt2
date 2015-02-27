@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Programs;
+﻿using ECA.Business.Models.Programs;
+using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
@@ -50,6 +51,25 @@ namespace ECA.WebApi.Controllers.Programs
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Returns the program with the given id.
+        /// </summary>
+        /// <returns>The program with the given id.</returns>
+        [ResponseType(typeof(EcaProgram))]
+        public async Task<IHttpActionResult> GetProgramByIdAsync(int id)
+        {
+            var program = await this.programService.GetProgramByIdAsync(id);
+            if (program != null)
+            {
+                return Ok(program);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
 
         //private EcaContext db = new EcaContext();

@@ -19,12 +19,14 @@ namespace ECA.WebApi.Test.Controllers.Admin
     public class LocationsControllerTest
     {
         private Mock<ILocationService> serviceMock;
-        private LocationsController controller;
+        private LocationsController controller;        
 
         [TestInitialize]
         public void TestInit()
         {
             serviceMock = new Mock<ILocationService>();
+            serviceMock.Setup(x => x.GetLocationsAsync(It.IsAny<QueryableOperator<LocationDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<LocationDTO>(1, new List<LocationDTO>()));
             controller = new LocationsController(serviceMock.Object);
             ControllerHelper.InitializeController(controller);
         }
@@ -33,9 +35,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestGetThemesAsync()
         {
-            serviceMock.Setup(x => x.GetLocationsAsync(It.IsAny<QueryableOperator<LocationDTO>>()))
-                .Returns(Task.FromResult<PagedQueryResults<LocationDTO>>(new PagedQueryResults<LocationDTO>(1, new List<LocationDTO>())));
-
             var response = await controller.GetLocationsAsync(new PagingQueryBindingModel());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<LocationDTO>>));
         }

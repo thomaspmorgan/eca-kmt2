@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Programs;
+﻿using ECA.Business.Models.Programs;
+using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -22,27 +23,44 @@ namespace ECA.WebApi.Test.Controllers.Programs
         public void TestInit()
         {
             serviceMock = new Mock<IProgramService>();
+            serviceMock.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<SimpleProgramDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<SimpleProgramDTO>(1, new List<SimpleProgramDTO>()));
+
             controller = new ProgramsController(serviceMock.Object);
             ControllerHelper.InitializeController(controller);
         }
 
         #region Get
         [TestMethod]
-        public async Task TestGetProjectsByProgramIdAsync()
+        public async Task TestGetProgramsAsync()
         {
-            serviceMock.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<SimpleProgramDTO>>()))
-                .Returns(Task.FromResult<PagedQueryResults<SimpleProgramDTO>>(new PagedQueryResults<SimpleProgramDTO>(1, new List<SimpleProgramDTO>())));
-
             var response = await controller.GetProgramsAsync(new PagingQueryBindingModel());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProgramDTO>>));
         }
 
         [TestMethod]
-        public async Task TestGetProjectsByProgramIdAsync_InvalidModel()
+        public async Task TestGetProgramsAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetProgramsAsync(new PagingQueryBindingModel());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetProgramByIdAsync()
+        {
+            serviceMock.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(new EcaProgram());
+            var response = await controller.GetProgramByIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<EcaProgram>));
+        }
+
+        [TestMethod]
+        public async Task TestGetProgramByIdAsync_ProgramDoesNotExist()
+        {
+            serviceMock.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>())).ReturnsAsync(null);
+            var response = await controller.GetProgramByIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
         #endregion
     }

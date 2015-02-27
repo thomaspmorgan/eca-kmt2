@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Programs;
+﻿using ECA.Business.Models.Programs;
+using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
@@ -7,6 +8,7 @@ using ECA.Core.Query;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -53,6 +55,154 @@ namespace ECA.Business.Test.Service.Programs
         #endregion
 
         #region Get
+        [TestMethod]
+        public async Task TestGetProgramById_CheckProperties_HasParentProgram()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+
+            var contact = new Contact
+            {
+                ContactId = 100
+            };
+            var theme = new Theme
+            {
+                ThemeId = 2,
+                ThemeName = "theme"
+            };
+            var goal = new Goal
+            {
+                GoalId = 4,
+            };
+            
+            var country = new Location
+            {
+                LocationId = 500,
+                LocationName = "country",
+                LocationIso = "countryIso",
+                LocationTypeId = LocationType.Country.Id,
+            };
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 3,
+                LocationIso = "locationIso",
+                LocationTypeId = LocationType.Region.Id
+            };
+            country.Region = region;
+
+            var parentProgram = new Program
+            {
+                ProgramId = 10,
+                
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "name",
+                Description = "description",
+                ParentProgram = parentProgram,
+                StartDate = DateTimeOffset.UtcNow,
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = revisorId,
+                    RevisedOn = now
+                }
+            };
+
+            program.Contacts = new HashSet<Contact>();
+            program.Goals = new HashSet<Goal>();
+            program.Themes = new HashSet<Theme>();
+            program.Regions = new HashSet<Location>();
+            program.Contacts.Add(contact);
+            program.Goals.Add(goal);
+            program.Regions.Add(region);            
+
+            context.Programs.Add(program);
+            context.Contacts.Add(contact);
+            context.Themes.Add(theme);
+            context.Goals.Add(goal);
+            context.Locations.Add(country);
+            context.Programs.Add(parentProgram);
+            context.Locations.Add(region);
+
+            Action<EcaProgram> tester = (publishedProgram) =>
+            {
+                CollectionAssert.AreEqual(program.Contacts.Select(x => x.ContactId).ToList(), publishedProgram.ContactIds.ToList());
+                CollectionAssert.AreEqual(
+                    context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationId).ToList(), 
+                    publishedProgram.CountryIds.ToList());
+
+                CollectionAssert.AreEqual(
+                    context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(), 
+                    publishedProgram.CountryIsos.ToList());
+
+                Assert.AreEqual(program.Description, publishedProgram.Description);
+                CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalId).ToList(), publishedProgram.GoalIds.ToList());
+                Assert.AreEqual(program.ProgramId, publishedProgram.Id);
+                Assert.AreEqual(program.Name, publishedProgram.Name);
+                Assert.AreEqual(parentProgram.ProgramId, publishedProgram.ParentProgramId);
+
+                Assert.AreEqual(now, publishedProgram.RevisedOn);
+                Assert.AreEqual(program.StartDate, publishedProgram.StartDate);
+                
+            };
+            var result = service.GetProgramById(program.ProgramId);
+            var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProgramById_DoesNotHaveParentProgram()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "name",
+                Description = "description",
+                ParentProgram = null,
+                StartDate = DateTimeOffset.UtcNow,
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = revisorId,
+                    RevisedOn = now
+                }
+            };
+
+            program.Contacts = new HashSet<Contact>();
+            program.Goals = new HashSet<Goal>();
+            program.Themes = new HashSet<Theme>();
+            program.Regions = new HashSet<Location>();
+
+            context.Programs.Add(program);
+            Action<EcaProgram> tester = (publishedProgram) =>
+            {
+                Assert.IsFalse(publishedProgram.ParentProgramId.HasValue);
+            };
+            var result = service.GetProgramById(program.ProgramId);
+            var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProgramById_ProgramDoesNotExist()
+        {
+            Assert.IsNull(service.GetProgramById(-1));
+            Assert.IsNull(await service.GetProgramByIdAsync(-1));
+        }
+
         [TestMethod]
         public async Task TestGetPrograms_CheckProperties()
         {

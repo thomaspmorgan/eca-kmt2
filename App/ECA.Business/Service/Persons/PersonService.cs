@@ -11,6 +11,7 @@ namespace ECA.Business.Service.Persons
     public class PersonService
     {
         private EcaContext context;
+
         public PersonService(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");

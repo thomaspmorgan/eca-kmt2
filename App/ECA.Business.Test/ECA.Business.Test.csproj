@@ -68,6 +68,7 @@
     <Compile Include="DbContextHelper.cs" />
     <Compile Include="Models\Admin\DraftProjectTest.cs" />
     <Compile Include="Models\NewHistoryTest.cs" />
+    <Compile Include="Models\Programs\EcaProgramTest.cs" />
     <Compile Include="Models\RevisedHistoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Admin\GoalServiceTest.cs" />

@@ -52,6 +52,7 @@
     <Compile Include="Models\Lookups\ILookup.cs" />
     <Compile Include="Models\Lookups\LookupDTO.cs" />
     <Compile Include="Models\NewHistory.cs" />
+    <Compile Include="Models\Programs\EcaProgram.cs" />
     <Compile Include="Models\RevisedHistory.cs" />
     <Compile Include="Queries\Admin\GoalQueries.cs" />
     <Compile Include="Queries\Admin\LocationQueries.cs" />

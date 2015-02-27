@@ -22,6 +22,9 @@ namespace ECA.WebApi.Test.Controllers.Programs
         public void TestInit()
         {
             serviceMock = new Mock<IThemeService>();
+            serviceMock.Setup(x => x.GetThemesAsync(It.IsAny<QueryableOperator<ThemeDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<ThemeDTO>(1, new List<ThemeDTO>()));
+
             controller = new ThemesController(serviceMock.Object);
             ControllerHelper.InitializeController(controller);
         }
@@ -30,9 +33,6 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestGetThemesAsync()
         {
-            serviceMock.Setup(x => x.GetThemesAsync(It.IsAny<QueryableOperator<ThemeDTO>>()))
-                .Returns(Task.FromResult<PagedQueryResults<ThemeDTO>>(new PagedQueryResults<ThemeDTO>(1, new List<ThemeDTO>())));
-
             var response = await controller.GetThemesAsync(new PagingQueryBindingModel());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ThemeDTO>>));
         }
