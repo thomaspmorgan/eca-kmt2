@@ -78,6 +78,7 @@ namespace ECA.Business.Queries.Programs
                             OwnerOrganizationId = owner.OrganizationId,
                             ParentProgramId = parentProgram == null ? default(int?) : parentProgram.ProgramId,
                             RevisedOn = program.History.RevisedOn,
+                            RegionIsos = regions.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
                             StartDate = program.StartDate,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName})
                         };

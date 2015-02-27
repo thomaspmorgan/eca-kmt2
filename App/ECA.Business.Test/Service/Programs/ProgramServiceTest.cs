@@ -142,12 +142,22 @@ namespace ECA.Business.Test.Service.Programs
                 CollectionAssert.AreEqual(program.Contacts.Select(x => x.ContactId).ToList(), publishedProgram.Contacts.Select(x => x.Id).ToList());
                 CollectionAssert.AreEqual(program.Contacts.Select(x => x.FullName).ToList(), publishedProgram.Contacts.Select(x => x.Value).ToList());
 
+
                 CollectionAssert.AreEqual(
                     context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationId).ToList(),
                     publishedProgram.CountryIsos.Select(x => x.Id).ToList());
                 CollectionAssert.AreEqual(
                     context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(), 
                     publishedProgram.CountryIsos.Select(x => x.Value).ToList());
+
+
+                CollectionAssert.AreEqual(
+                    context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationId).ToList(),
+                    publishedProgram.RegionIsos.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(
+                    context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationIso).ToList(),
+                    publishedProgram.RegionIsos.Select(x => x.Value).ToList());
+
 
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(), publishedProgram.Goals.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalId).ToList(), publishedProgram.Goals.Select(x => x.Id).ToList());

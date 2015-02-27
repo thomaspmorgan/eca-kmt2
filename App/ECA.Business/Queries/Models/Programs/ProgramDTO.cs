@@ -16,6 +16,7 @@ namespace ECA.Business.Queries.Models.Programs
         {
             this.Contacts = new List<SimpleLookupDTO>();
             this.CountryIsos = new List<SimpleLookupDTO>();
+            this.RegionIsos = new List<SimpleLookupDTO>();
             this.Goals = new List<SimpleLookupDTO>();
             this.Themes = new List<SimpleLookupDTO>();
         }
@@ -59,6 +60,11 @@ namespace ECA.Business.Queries.Models.Programs
         /// Gets or sets the Country Ids.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> CountryIsos { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Country Ids.
+        /// </summary>
+        public IEnumerable<SimpleLookupDTO> RegionIsos { get; set; }
 
         /// <summary>
         /// Gets or sets the Goal Ids.
