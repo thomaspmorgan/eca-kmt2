@@ -8,7 +8,7 @@
 <div st-pipe="getPrograms" st-table="programs" id="sort-list">
     <table class="col-md-12">
         <tbody class="list2">
-            <tr class="row hover" ng-repeat="program in programs">
+            <tr class="row hover" ng-repeat="program in programs" ng-show="!programsLoading">
                 <td class="col-md-9">
                     <h4><a ui-sref="programs.overview({programId: program.programId, officeId: {{program.ownerId}}})">{{program.name}}</a></h4>
                     <p>{{program.description}}</p>
@@ -18,6 +18,15 @@
                         <img class="icon small" src="images/duplicateA.png" alt="">
                         <img class="icon small" src="images/editA.png" alt="">
                         <img class="icon small" src="images/trash.png" alt="">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" ng-show="programsLoading">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
                     </div>
                 </td>
             </tr>
