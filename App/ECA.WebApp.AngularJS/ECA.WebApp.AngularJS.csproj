@@ -130,6 +130,7 @@
       <DependentUpon>constants.tt</DependentUpon>
     </Content>
     <Content Include="scripts\services\moneyflow.js" />
+    <Content Include="scripts\services\tableservice.js" />
     <Content Include="styles\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>
