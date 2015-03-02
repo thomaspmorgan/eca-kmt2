@@ -16,6 +16,9 @@ using System.Web.Http.Description;
 
 namespace ECA.WebApi.Controllers.Persons
 {
+    /// <summary>
+    /// The Participants controller handles crud operations on ECA participants.
+    /// </summary>
     [RoutePrefix("api")]
     public class ParticipantsController : ApiController
     {
@@ -27,7 +30,7 @@ namespace ECA.WebApi.Controllers.Persons
         private IParticipantService service;
 
         /// <summary>
-        /// Creates a new ContactsController with the given service.
+        /// Creates a new ParticipantsController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
         public ParticipantsController(IParticipantService service)
@@ -37,10 +40,10 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
-        /// Retrieves a listing of the paged, sorted, and filtered list of contacts.
+        /// Retrieves a listing of the paged, sorted, and filtered list of participants.
         /// </summary>
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
-        /// <returns>The list of contacts.</returns>
+        /// <returns>The list of participants.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleParticipantDTO>))]
         public async Task<IHttpActionResult> GetParticipantsAsync([FromUri]PagingQueryBindingModel queryModel)
         {
@@ -57,13 +60,14 @@ namespace ECA.WebApi.Controllers.Persons
 
 
         /// <summary>
-        /// Retrieves a listing of the paged, sorted, and filtered list of contacts.
+        /// Retrieves a listing of the paged, sorted, and filtered list of participants by project id.
         /// </summary>
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
-        /// <returns>The list of contacts.</returns>
+        /// <param name="projectId">The id of the project to get participants for.</param>
+        /// <returns>The list of participants.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleParticipantDTO>))]
         [Route("Projects/{projectId:int}/Participants")]
-        public async Task<IHttpActionResult> GetParticipantsAsync(int projectId, [FromUri]PagingQueryBindingModel queryModel)
+        public async Task<IHttpActionResult> GetParticipantsByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel queryModel)
         {
             if (ModelState.IsValid)
             {

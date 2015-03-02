@@ -28,7 +28,7 @@ namespace ECA.WebApi.Models
             //    .MaxDepth(2);
             //Mapper.CreateMap<OrganizationDTO, Organization>()
             //    .IgnoreAllNonExisting();
-            Mapper.CreateMap<OrganizationType, OrganizationTypeDTO>().ReverseMap();
+            //Mapper.CreateMap<OrganizationType, OrganizationTypeDTO>().ReverseMap();
             //Mapper.CreateMap<Goal, GoalDTO>().ReverseMap();
             Mapper.CreateMap<Location, RegionDTO>();
             Mapper.CreateMap<RegionDTO, Location>()
@@ -43,10 +43,10 @@ namespace ECA.WebApi.Models
                 .ForMember(dest => dest.RecipientType, opt => opt.MapFrom(p => p.RecipientType.TypeName))
                 .ForMember(dest => dest.RecipientName, opt => opt.ResolveUsing<RecipientNameResolver>())
                 .ForMember(dest => dest.SourceName, opt => opt.ResolveUsing<SourceNameResolver>());
-            Mapper.CreateMap<Participant, ParticipantDTO>()
-                .ForMember(dest => dest.Name, opts => opts.MapFrom(p => p.PersonId != null ? p.Person.FullName() : p.Organization.Name))
-                .ForMember(dest => dest.Gender, opts => opts.MapFrom(p => p.PersonId != null ? Enum.GetName(typeof(Enums.Gender), p.Person.GenderId) : "N/A"))
-                .ForMember(dest => dest.Status, opts => opts.MapFrom(p => p.PersonId != null ? "Active" : p.Organization.Status));
+            //Mapper.CreateMap<Participant, ParticipantDTO>()
+            //    .ForMember(dest => dest.Name, opts => opts.MapFrom(p => p.PersonId != null ? p.Person.FullName() : p.Organization.Name))
+            //    .ForMember(dest => dest.Gender, opts => opts.MapFrom(p => p.PersonId != null ? Enum.GetName(typeof(Enums.Gender), p.Person.GenderId) : "N/A"))
+            //    .ForMember(dest => dest.Status, opts => opts.MapFrom(p => p.PersonId != null ? "Active" : p.Organization.Status));
             Mapper.AssertConfigurationIsValid();
         }
 
