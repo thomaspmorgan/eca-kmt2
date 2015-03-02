@@ -52,24 +52,10 @@ angular.module('staticApp')
       $scope.subprograms = [];
       $scope.projects = [];
 
-      var params = {
-          limit: 1
-      };
-
-      ProgramService.get($stateParams.programId, params)
+      ProgramService.get($stateParams.programId)
           .then(function (program) {
               $scope.program = program;
-              if (angular.isArray(program.childPrograms)) {
-                  var addBranches = function (element) {
-                      if (element.programType === 'branch') {
-                          $scope.branches.push(element);
-                      } else {
-                          $scope.subprograms.push(element);
-                      }
-                  };
-                  program.childPrograms.forEach(addBranches);
-              }
-
+              console.log(program.countryIsos);
           });
 
       $scope.projectsLoading = false;

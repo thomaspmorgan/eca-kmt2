@@ -55,9 +55,9 @@ angular.module('staticApp')
     }
 
     return {
-      get: function (id, params) {
+      get: function (id) {
         var defer = $q.defer();
-        DragonBreath.get(params, 'programs', id)
+        DragonBreath.get('programs', id)
           .success(function (data) {
             getProgram(data);
             defer.resolve(program);
