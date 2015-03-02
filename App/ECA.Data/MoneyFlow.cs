@@ -18,37 +18,93 @@ namespace ECA.Data
     {
         [Key]
         public int MoneyFlowId {get; set;}
-        [Required]
+
         public MoneyFlowType MoneyFlowType {get; set;}
-        public MoneyFlow Parent {get; set;}
-        [InverseProperty("MoneyFlowSources")]
-        public Organization Source {get; set;}
-        [InverseProperty("MoneyFlowRecipients")]
-        public Organization Recipient {get; set;}
+        [Required]
+        public int MoneyFlowTypeId { get; set; }
+
         [Required]
         public float Value {get; set;}
-        [Required]
+       
         public MoneyFlowStatus MoneyFlowStatus { get; set;}
+        [Required]
+        public int MoneyFlowStatusId { get; set; }
+
         [Required]
         public DateTimeOffset TransactionDate { get; set; }
         [Required]
         public int FiscalYear { get; set; }
 
+        [InverseProperty("SourceTypes")]
+        [ForeignKey("SourceTypeId")]
+        public MoneyFlowSourceRecipientType SourceType { get; set; }
+        public int SourceTypeId { get; set; }
+                
+        [InverseProperty("RecipientTypes")]
+        [ForeignKey("RecipientTypeId")]
+        public MoneyFlowSourceRecipientType RecipientType { get; set; }
+        public int RecipientTypeId { get; set; }
+
+        [MaxLength(255)]
+        public string Description { get; set; }
+
         //relations
-        public int? ProgramId { get; set; }
-        public ECA.Data.Program Program { get; set; }
 
-        public int? ProjectId { get; set; }
-        public Project Project { get; set; }
+        public MoneyFlow Parent { get; set; }
+        [InverseProperty("MoneyFlowSources")]
+        [ForeignKey("SourceOrganizationId")]
+        public Organization SourceOrganization { get; set; }
+        public int? SourceOrganizationId { get; set; }
+        [InverseProperty("MoneyFlowRecipients")]
+        [ForeignKey("RecipientOrganizationId")]
+        public Organization RecipientOrganization { get; set; }
+        public int? RecipientOrganizationId { get; set; }
 
-        public int? PersonId { get; set; }
-        public Person Person {get; set;}
+        [InverseProperty("SourceProgramMoneyFlows")]
+        [ForeignKey("SourceProgramId")]
+        public Program SourceProgram { get; set; }
+        public int? SourceProgramId { get; set; }
+        [InverseProperty("RecipientProgramMoneyFlows")]
+        [ForeignKey("RecipientProgramId")]
+        public Program RecipientProgram { get; set; }
+        public int? RecipientProgramId { get; set; }
 
-        public int? ItineraryStopId { get; set; }
-        public ItineraryStop ItineraryStop { get; set; }
+        [InverseProperty("SourceProjectMoneyFlows")]
+        [ForeignKey("SourceProjectId")]
+        public Project SourceProject { get; set; }
+        public int? SourceProjectId { get; set; }
+        [InverseProperty("RecipientProjectMoneyFlows")]
+        [ForeignKey("RecipientProjectId")]
+        public Project RecipientProject { get; set; }
+        public int? RecipientProjectId { get; set; }
 
-        public int? AccommodationId { get; set; }
-        public Accommodation Accommodation { get; set; }
+        [InverseProperty("SourceParticipantMoneyFlows")]
+        [ForeignKey("SourceParticipantId")]
+        public Participant SourceParticipant { get; set; }
+        public int? SourceParticipantId { get; set; }
+        [InverseProperty("RecipientParticipantMoneyFlows")]
+        [ForeignKey("RecipientParticipantId")]
+        public Participant RecipientParticipant { get; set; }
+        public int? RecipientParticipantId { get; set; }
+
+        [InverseProperty("SourceItineraryStopMoneyFlows")]
+        [ForeignKey("SourceItineraryStopId")]
+        public ItineraryStop SourceItineraryStop { get; set; }
+        public int? SourceItineraryStopId { get; set; }
+        [InverseProperty("RecipientItineraryStopMoneyFlows")]
+        [ForeignKey("RecipientItineraryStopId")]
+        public ItineraryStop RecipientItineraryStop { get; set; }
+        public int? RecipientItineraryStopId { get; set; }
+
+        [InverseProperty("RecipientTransportationExpenses")]
+        [ForeignKey("RecipientTransportationId")]
+        public Transportation RecipientTransportation { get; set; }
+        public int? RecipientTransportationId { get; set; }
+
+        [InverseProperty("RecipientAccommodationExpenses")]
+        [ForeignKey("RecipientAccommodationId")]
+        public Accommodation RecipientAccommodation { get; set; }
+        public int? RecipientAccommodationId { get; set; }
 
         public History History { get; set; }
 

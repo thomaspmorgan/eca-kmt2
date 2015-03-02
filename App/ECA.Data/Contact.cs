@@ -23,7 +23,7 @@ namespace ECA.Data
         public ICollection<EmailAddress> EmailAddresses { get; set; }
         // Relationships
         public ICollection<Organization> Organizations { get; set; }
-        public ICollection<Program> Program { get; set; }
+        public ICollection<Program> Programs { get; set; }
         public ICollection<Project> Projects { get; set; }
 
         public History History { get; set; }

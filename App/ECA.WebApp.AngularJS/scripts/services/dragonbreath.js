@@ -19,7 +19,7 @@ angular.module('staticApp')
 		  {
 			  this.path = API_ENDPOINT_LOCALHOST + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
 		  }
-		  else if (location.hostname.indexOf('api'))
+		  else if (location.hostname.indexOf('qa') != -1)
 		  {
 			  this.path = API_ENDPOINT_CLOUDAPP_QA + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
 		  }

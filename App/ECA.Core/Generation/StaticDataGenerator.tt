@@ -1,0 +1,115 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="ECA.Core.Generation" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ output extension=".generated.cs" #>
+
+
+<#+
+	public void WriteTypes(List<ECA.Core.Generation.StaticLookupConfig> types, string connectionString)
+	{
+		foreach(var t in types.OrderBy(x => x.ClassName).ToList())
+		{
+			WriteType(t, connectionString);
+			WriteLine(String.Empty);
+		}
+	}
+
+	public string GetStaticLookupClassName()
+	{
+		return "StaticLookup";
+	}
+
+
+	public void WriteType(StaticLookupConfig config, string connectionString)
+	{
+		WriteLine(String.Format("#region {0}", config.ClassName));
+		WriteLine(GetNamespace(config.Namespace));
+		WriteLine("{");
+		PushIndent("\t");
+
+		WriteLine("using ECA.Core.Generation;");
+		WriteClassDeclaration(config.ClassName);
+		WriteLine("{");
+		PushIndent("\t");
+		
+		WriteStaticProperties(config, connectionString);
+		
+		PopIndent();
+		WriteLine("}");
+
+		PopIndent();
+		WriteLine("}");
+		WriteLine("#endregion");
+	}
+
+	public void WriteClassDeclaration(string className)
+	{
+		WriteLine(GetClassDeclaration(className));
+	}
+
+
+	public void WriteProperties()
+	{
+		WriteLine("public string Value { get; private set; }");
+		WriteLine(String.Empty);
+		WriteLine("public int Id { get; private set; }");
+	}
+
+	public string GetClassDeclaration(string className)
+	{
+		return String.Format("public partial class {0}", className);
+	}
+
+	public void WriteStaticProperties(StaticLookupConfig config, string connectionString)
+	{
+		using(var connection = new SqlConnection(connectionString))
+		{
+			var command = new SqlCommand(String.Format("SELECT * FROM {0}", config.TableName));
+			command.Connection = connection;
+			connection.Open();
+			var reader = command.ExecuteReader();
+			if(reader.HasRows)
+			{
+				while(reader.Read())
+				{
+					var propertyName = Pascalize(reader[config.ValueColumnName]);
+					var value = reader[config.ValueColumnName].ToString();
+					var id = Int32.Parse(reader[config.IdColumnName].ToString());
+
+					WriteLine("///<summary>");
+					WriteLine(String.Format("/// Returns the {0} lookup with id {1}.", value, id));
+					WriteLine("///</summary>");
+					WriteLine(GetStaticPropertyDeclaration(propertyName, value, id));
+				}
+			}
+		}
+	}
+
+	public string GetStaticPropertyDeclaration(string propertyName, string friendlyName, int id)
+	{
+		var lookupClassName = GetStaticLookupClassName();
+		//0 is the lookupClassName
+		//1 is the property name
+		//2 is the value
+		//3 is the id
+		return String.Format("public static {0} {1} {{ get {{ return new {0}(\"{2}\", {3}); }} }}", lookupClassName, propertyName, friendlyName, id);
+	}
+
+	public string GetNamespace(string ns)
+	{
+		return String.Format("namespace {0}", ns);
+	}
+
+    private string Pascalize(object value)
+    {
+        Regex rx = new Regex(@"(?:[^a-zA-Z0-9]*)(?<first>[a-zA-Z0-9])(?<reminder>[a-zA-Z0-9]*)(?:[^a-zA-Z0-9]*)");
+        return rx.Replace(value.ToString(), m => m.Groups["first"].ToString().ToUpper() + m.Groups["reminder"].ToString().ToLower());
+    }
+
+#>

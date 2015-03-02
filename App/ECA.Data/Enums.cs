@@ -7,7 +7,7 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ECA.Data
+namespace ECA.Data.Enums
 {
     public enum ActorType
     {
@@ -17,11 +17,15 @@ namespace ECA.Data
 
     public enum NameType
     {
+        LastName = 1,
+        FirstName, 
+        Prefix, 
+        Suffix,
         GivenName,
         FamilyName,
         MiddleName,
         Patronym,
-        Alias,
+        Alias
     }
 
     public enum Gender

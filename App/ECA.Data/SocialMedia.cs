@@ -17,8 +17,10 @@ namespace ECA.Data
         /// </summary>
         [Key]
         public int SocialMediaId { get; set; }
-        [Required]
+
         public SocialMediaType SocialMediaType { get; set; }
+        [Required]
+        public int SocialMediaTypeId { get; set; }
         public string SocialMediaValue { get; set; }
         public virtual Organization Organization { get; set; }
         public int? OrganizationId { get; set; }

@@ -8,9 +8,12 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, ProjectService) {
+  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, ProjectService, TableService) {
 
-      $scope.newProject = {};
+      $scope.newProject = {
+          title: '',
+          description: ''
+      };
 
       $scope.tabs = {
           overview: {
@@ -52,66 +55,68 @@ angular.module('staticApp')
       ProgramService.get($stateParams.programId)
           .then(function (program) {
               $scope.program = program;
-              if (angular.isArray(program.childPrograms)) {
-                  var addBranches = function (element) {
-                      if (element.programType === 'branch') {
-                          $scope.branches.push(element);
-                      } else {
-                          $scope.subprograms.push(element);
-                      }
-                  };
-                  program.childPrograms.forEach(addBranches);
-              }
-
           });
 
-      ProjectService.getProjectsByProgram($stateParams.programId)
-         .then(function (projects) {
-             $scope.projects = projects;
-         });
+      $scope.projectsLoading = false;
 
-      $scope.projectsCopy = [].concat($scope.projects);
+      $scope.getProjects = function (tableState) {
+
+          $scope.projectsLoading = true;
+
+          TableService.setTableState(tableState);
+
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: TableService.getFilter()
+
+          };
+
+          ProjectService.getProjectsByProgram($stateParams.programId, params)
+            .then(function (data) {
+                $scope.projects = data.results;
+                var limit = TableService.getLimit();
+                tableState.pagination.numberOfPages = Math.floor(data.total / limit);
+                $scope.projectsLoading = false;
+            });
+      }
 
       $scope.saveProject = function () {
           var project = {
-              id: Date.now().toString(),
               name: $scope.newProject.title,
               description: $scope.newProject.description,
-              parentProgram: {
-                  displayName: $scope.program.name,
-                  programId: $scope.program.id
-              },
-              owner: {
-                  displayName: $scope.program.owner.longName,
-                  organizationId: $scope.program.owner.organizationId
-              }
-          };
-          console.log(project);
-
-          if ($scope.newProject.branch[0]) {
-              project.branch = $scope.newProject.branch[0].name;
+              projectStatusId: 5,
+              startDate: new Date(Date.now()).toUTCString(),
+              programId: $scope.program.programId
           }
-
           ProjectService.create(project)
-              .then(function (project) {
-                  $state.go('projects.overview', { officeId: $scope.program.owner.organizationId, projectId: project.id, programId: $scope.program.id });
-              });
-
-          if (!$scope.program.projectReferences) {
-              $scope.program.projectReferences = [];
-          }
-          $scope.program.projectReferences.push({ projectName: project.name, projectId: project.id });
-          saveProgram();
+            .then(function (createdProject) {
+                $state.go('projects.overview', { officeId: $scope.program.owner.organizationId,  programId: $scope.program.programId, projectId: createdProject.projectId});
+            });
       };
+
+      $scope.modalClose = function () {
+          var close = true;
+          if (unsavedChanges()) {
+              close = confirm('You have unsaved changes!\nAre you sure you want to close?');
+          }
+          return close;
+      };
+
+      function unsavedChanges() {
+          var unsavedChanges = false;
+          if ($scope.newProject.title.length > 0 || $scope.newProject.description.length > 0) {
+              unsavedChanges = true;
+          }
+          return unsavedChanges;
+      }
 
       $scope.modalClear = function () {
           angular.forEach($scope.newProject, function (value, key) {
               $scope.newProject[key] = '';
           });
       };
-
-
-
 
       $scope.updateProgram = function () {
           saveProgram();
@@ -133,7 +138,4 @@ angular.module('staticApp')
                   $scope.program = program;
               });
       }
-
-
-
   });

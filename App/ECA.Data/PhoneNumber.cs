@@ -15,5 +15,6 @@ namespace ECA.Data
         [Phone]
         public string Number { get; set; }
         public PhoneNumberType PhoneNumberType { get; set; }
+        public int PhoneNumberTypeId { get; set; }
     } 
 }

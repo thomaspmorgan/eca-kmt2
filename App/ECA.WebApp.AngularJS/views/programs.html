@@ -1,5 +1,5 @@
 <div class="breadcrumbs">
-    <p><a ui-sref="offices.overview({officeId: program.owner.organizationId})">{{program.owner.description}}</a> &bull; {{program.name}}</p>
+    <p><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerDescription}}</a> &bull; {{program.name}}</p>
 </div>
 <div class="jumbotron program">
     <div class="toolbar" sticky offset="50">
@@ -16,7 +16,7 @@
     <div class="heading">
         <h5>PROGRAM</h5>
         <h1>{{program.name}}</h1>
-        <span class="owner-office">{{program.owner.name}}</span>
+        <span class="owner-office">{{program.ownerName}}</span>
         <div class="permalink">Permalink: url goes here</div>
     </div>
 </div>

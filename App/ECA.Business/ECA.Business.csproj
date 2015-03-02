@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0A7B54E3-736D-47B5-92FD-31D3BB416D8D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ECA.Business</RootNamespace>
+    <AssemblyName>ECA.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ECA.Business.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Programs\NewEcaProgram.cs" />
+    <Compile Include="Models\Admin\DraftProject.cs" />
+    <Compile Include="Models\Lookups\ILookup.cs" />
+    <Compile Include="Models\Lookups\SimpleLookupDTO.cs" />
+    <Compile Include="Models\NewHistory.cs" />
+    <Compile Include="Models\Programs\EcaProgram.cs" />
+    <Compile Include="Models\RevisedHistory.cs" />
+    <Compile Include="Queries\Admin\GoalQueries.cs" />
+    <Compile Include="Queries\Admin\LocationQueries.cs" />
+    <Compile Include="Queries\Models\Admin\GoalDTO.cs" />
+    <Compile Include="Queries\Models\Admin\LocationDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ContactDTO.cs" />
+    <Compile Include="Queries\Models\Persons\SimpleParticipantDTO.cs" />
+    <Compile Include="Queries\Models\Programs\ProgramDTO.cs" />
+    <Compile Include="Queries\Models\Programs\ThemeDTO.cs" />
+    <Compile Include="Queries\Persons\ContactQueries.cs" />
+    <Compile Include="Queries\Persons\ParticipantQueries.cs" />
+    <Compile Include="Queries\Programs\ProgramQueries.cs" />
+    <Compile Include="Queries\Models\Programs\SimpleProgramDTO.cs" />
+    <Compile Include="Queries\Models\Admin\SimpleProjectDTO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\Admin\ProjectQueries.cs" />
+    <Compile Include="Queries\Programs\ThemeQueries.cs" />
+    <Compile Include="Service\Admin\GoalService.cs" />
+    <Compile Include="Service\Admin\IGoalService.cs" />
+    <Compile Include="Service\Admin\ILocationService.cs" />
+    <Compile Include="Service\Admin\LocationService.cs" />
+    <Compile Include="Service\Persons\ContactService.cs" />
+    <Compile Include="Service\Persons\IContactService.cs" />
+    <Compile Include="Service\Persons\IParticipantService.cs" />
+    <Compile Include="Service\Persons\ParticipantService.cs" />
+    <Compile Include="Service\Programs\IProgramService.cs" />
+    <Compile Include="Service\Admin\IProjectService.cs" />
+    <Compile Include="Service\Programs\IThemeService.cs" />
+    <Compile Include="Service\Programs\ProgramService.cs" />
+    <Compile Include="Service\Admin\ProjectService.cs" />
+    <Compile Include="Service\Lookup\LookupService.cs" />
+    <Compile Include="Service\Programs\ThemeService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
+      <Project>{2ffe2c53-412a-43ae-840d-470901649ed8}</Project>
+      <Name>ECA.Core.DynamicLinq</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
+      <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
+      <Name>ECA.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECA.Data\ECA.Data.csproj">
+      <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>
+      <Name>ECA.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

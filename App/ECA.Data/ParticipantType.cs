@@ -12,7 +12,7 @@ namespace ECA.Data
     /// The types of programs the participant has participated in 
     /// Example: Virtual, Local, Outbound 
     /// </summary>
-    public class ParticipantType
+    public partial class ParticipantType
     {
         [Key]
         public int ParticipantTypeId { get; set; }

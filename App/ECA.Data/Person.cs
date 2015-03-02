@@ -18,40 +18,60 @@ namespace ECA.Data
         public int PersonId { get; set; }
         [Required]
         public virtual ICollection<NamePart> Names { get; set; }
-        [Required]
+
         public Gender Gender { get; set; }
         [Required]
-        public DateTimeOffset DateOfBirth { get; set; }
-        [InverseProperty("BirthPlacePeople")]
-        public virtual Location PlaceOfBirth { get; set; }
-        public string[] MedicalConditions { get; set; }
-        public virtual Location ParticipantOrigination { get; set; }
+        public int GenderId { get; set; }
         [Required]
-        public virtual ICollection<Location> CountriesOfCitizenship { get; set; }
+        public DateTimeOffset DateOfBirth { get; set; }
+        //public int? PlaceOfBirth_LocationId { get; set; }
+        //[InverseProperty("BirthPlacePeople")]
+        //[ForeignKey("PlaceOfBirth_LocationId")]
+        //public Location PlaceOfBirth { get; set; }
+       
+        public string MedicalConditions { get; set; }
+        
+        [InverseProperty("CitizensOfCountry")]
+        public ICollection<Location> CountriesOfCitizenship { get; set; }
         public string Ethnicity { get; set; }
-        public string[] Awards { get; set; }
-        public virtual ICollection<Publication> Publications { get; set; }
+        public string Awards { get; set; }
+        public ICollection<Publication> Publications { get; set; }
         public bool PermissionToContact { get; set; }
-        public virtual ICollection<SpecialStatus> SpecialStatuses { get; set; }
-        public virtual ICollection<Membership> Memberships { get; set; }
-        public virtual ICollection<InterestSpecialization> InterestsAndSpecializations { get; set; }
-        public virtual ICollection<ProminentCategory> ProminentCategories { get; set; }
-        public virtual ICollection<ProfessionEducation> ProfessionalHistory { get; set; }
-        public virtual ICollection<ProfessionEducation> EducationalHistory { get; set; }
-        public virtual ICollection<LanguageProficiency> LanguageProficiencies { get; set; }
-        public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
-        public virtual ICollection<EmailAddress> Emails { get; set; }
-        public virtual ICollection<ExternalId> ExternalIds { get; set; }
-        public virtual ICollection<SocialMedia> SocialMediaIds { get; set; }
-        public virtual ICollection<Address> Addresses { get; set; }
-        public virtual ICollection<MoneyFlow> MoneyFlows { get; set; }
-        public virtual ICollection<Event> Events { get; set; }
+        public ICollection<SpecialStatus> SpecialStatuses { get; set; }
+        public ICollection<Membership> Memberships { get; set; }
+        public ICollection<InterestSpecialization> InterestsAndSpecializations { get; set; }
+        public ICollection<ProminentCategory> ProminentCategories { get; set; }
+        public ICollection<ProfessionEducation> ProfessionalHistory { get; set; }
+        public ICollection<ProfessionEducation> EducationalHistory { get; set; }
+        public ICollection<LanguageProficiency> LanguageProficiencies { get; set; }
+        public ICollection<PhoneNumber> PhoneNumbers { get; set; }
+        public ICollection<EmailAddress> Emails { get; set; }
+        public ICollection<ExternalId> ExternalIds { get; set; }
+        public ICollection<SocialMedia> SocialMediaIds { get; set; }
+        public ICollection<Address> Addresses { get; set; }
+        public ICollection<Event> Events { get; set; }
         public string EvaluationRetention { get; set; }
-        public virtual ICollection<Person> Family { get; set; }
-        public virtual Impact Impact { get; set; }
-        public int ImpactId { get; set; }
+        public ICollection<Person> Family { get; set; }
+        public ICollection<Person> OtherFamily { get; set; }
+        public ICollection<Impact> Impacts { get; set; }
 
         public History History { get; set; }
+
+        public string FullName()
+        {
+            StringBuilder fullName = new StringBuilder();
+            NamePart namePart = Names.FirstOrDefault(n => n.NameTypeId == (int)Enums.NameType.FirstName);
+            if (namePart != null)
+            {
+                fullName.Append(namePart.Value);
+            }
+            namePart = Names.FirstOrDefault(n => n.NameTypeId == (int)Enums.NameType.LastName);
+            if (namePart != null)
+            {
+                fullName.Append(" " + namePart.Value);
+            }
+            return fullName.ToString();
+        }
     }
 
 }

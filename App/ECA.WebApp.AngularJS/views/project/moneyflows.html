@@ -1,2 +1,92 @@
 <h2 class="project-color tab-header">Money Flow</h2>
-<img class="placehold" src="images/placeholders/moneyflows.png" alt="">
+<h4 class="tab-subheader">Money Flow List</h4>
+<div st-table="moneyFlowCopy" st-safe-src="project.moneyFlows" class="row">
+    <!--<button ng-click="modal.createMoneyFlow = true" class="btn btn-success right col-sd-2">Create Money Flow</button> -->
+    <button class="btn btn-success right col-sd-2">Create Money Flow</button>
+    <div id="sort-list">
+        <table class="col-md-12">
+            <thead>
+                <tr>
+                    <th st-sort="'transactionDate'" st-sort-default="true" class="col-md-2 sort-label medium">Transaction Date</th>
+                    <th st-sort="'type'" class="col-md-1 sort-label medium">Type</th>
+                    <th st-sort="'source'" class="col-md-3 sort-label medium">From/To</th>
+                    <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
+                    <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
+                    <th class="col-md-2">&nbsp;</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input st-search="'transactionDate'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'type'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'sourceRecipient'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'amount'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'description'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody class="list2">
+                <tr ng-repeat="moneyFlow in moneyFlowCopy" class="hover">
+                    <td>{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</td>
+                    <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientType : "Funding" }}</td>
+                    <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientName : moneyFlow.sourceName}}</td>
+                    <td><span class="{{moneyFlow.sourceType === 'Project' ? 'text-danger' : ''}}">{{moneyFlow.sourceType === "Project" ? ((0-moneyFlow.value) | currency) : (moneyFlow.value | currency)}}</span></td>
+                    <td>{{moneyFlow.description}}</td>
+                    <td>
+                        <img class="icon" src="images/duplicateA.png" alt="">
+                        <img class="icon" src="images/editA.png" alt="">
+                        <img class="icon" src="images/trash.png" alt="">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div st-pagination="" st-items-by-page="25" st-displayed-pages="10"></div>
+    </div>
+</div>
+<modal-dialog show="modal.createMoneyFlow" dialog-title="Create Money Flow" before-close="modalClose()" on-close="modalClear()">
+    <div class="tip">
+        <div class="required">* Marks required fields</div>
+    </div>
+    <div id="modal" class="row" in-context-form>
+        <div class="col-md-10">
+            <form name="moneyFlowForm" novalidate>
+                <div class="form-group">
+                    <label>Project Title<span class="asterisk"> *</span></label>
+                    <input name="projectTitle" ng-model="newProject.title" form-element guidance="This is the name of your project. (e.g. ETA Fulbright 2015)" type="text" class="form-control" placeholder="Enter project title..." required>
+                    <div ng-show="projectForm.projectTitle.$dirty">
+                        <div class="error" ng-show="projectForm.projectTitle.$error.required">Please enter a project name.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Project Description<span class="asterisk"> *</span></label>
+                    <textarea name="projectDescription" ng-model="newProject.description" form-element guidance="This briefly summarizes what this project is about." type="text" class="form-control" placeholder="Enter description..." required></textarea>
+                    <span class="error" ng-show="projectForm.projectDescription.$error.required && projectForm.projectDescription.$dirty">Project description is required.</span>
+                </div>
+                <div ng-show="branches.length" class="form-group" form-element="click" guidance="Select the branch that this project is in. (If applicable)">
+                    <label>Branch</label>
+                    <multi-select input-model="branches"
+                                  output-model="newProject.branch"
+                                  button-label="displayName"
+                                  item-label="displayName"
+                                  tick-property="ticked"
+                                  selection-mode="single"
+                                  helper-elements="">
+                    </multi-select>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <guidance></guidance>
+        </div>
+    </div>
+    <button class="btn btn-default" ng-click="modal.createMoneyFlow = !modalClose()">CANCEL</button>
+    <button type="submit" form="projectForm" ng-disabled="moneyFlowForm.projectDescription.$error.required" class="btn btn-success right" ng-click="saveMoneyFlow()">CREATE</button>
+</modal-dialog>

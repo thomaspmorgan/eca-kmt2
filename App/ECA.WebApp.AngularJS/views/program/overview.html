@@ -14,7 +14,7 @@
             <div class="col-md-4 title-label">Themes</div>
             <div class="col-md-8">
                 <ul>
-                    <li ng-repeat="theme in program.themes">{{theme.themeName}}</li>
+                    <li ng-repeat="theme in program.themes">{{theme.value}}</li>
                 </ul>
             </div>
         </div>
@@ -30,15 +30,15 @@
             <div class="col-md-4 title-label">Strategic Goals</div>
             <div class="col-md-8">
                 <ul>
-                    <li ng-repeat="goal in program.goals">{{goal.goalName}}</li>
+                    <li ng-repeat="goal in program.goals">{{goal.value}}</li>
                 </ul>
             </div>
         </div>
-        <div class="row" ng-show="program.regions">
+        <div class="row" ng-show="program.regionIsos">
             <div class="col-md-4 title-label">Regions</div>
             <div class="col-md-8">
                 <ul>
-                    <li ng-repeat="region in program.regions">{{region.locationName}}</li>
+                    <li ng-repeat="region in program.regionIsos">{{region.value}}</li>
                 </ul>
             </div>
         </div>
@@ -48,16 +48,16 @@
             <div class="col-md-4 title-label">Focus</div>
             <div class="col-md-8">{{program.focus}}</div>
         </div>
-        <div class="row" ng-show="program.owner">
+        <div class="row" ng-show="program.ownerOrganizationId && program.ownerDescription">
             <div class="col-md-4 title-label">Office</div>
-            <div class="col-md-8"><a ui-sref="offices.overview({officeId: program.owner.organizationId})">{{program.owner.description}}</a></div>
+            <div class="col-md-8"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerDescription}}</a></div>
         </div>
 
-        <div class="row" ng-show="program.contactReferences">
-            <div class="col-md-4 title-label"><ng-pluralize count="program.contactReferences.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+        <div class="row" ng-show="program.contacts">
+            <div class="col-md-4 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
             <div class="col-md-8">
                 <ul>
-                    <li ng-repeat="contact in program.contactReferences">{{contact.contactName}}</li>
+                    <li ng-repeat="contact in program.contacts">{{contact.value}}</li>
                 </ul>
             </div>
         </div>
@@ -76,10 +76,10 @@
 <div class="row">
     <h4 class="tab-subheader">Snapshot</h4>
     <div class="col-md-4">
-        <p class="stat text-center">{{project.locationReferences.length}}</p>
+        <p class="stat text-center">{{project.countryIsos.length}}</p>
         <!-- 		<p class="title-label text-center">Locations</p> -->
     </div>
     <div class="col-md-8">
-        <map width="600" height="300" countries="program.locationReferences"></map>
+        <map width="600" height="300" countries="program.countryIsos"></map>
     </div>
 </div>

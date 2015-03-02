@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ECA.Data.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,11 +35,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -50,54 +53,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accomodation.cs" />
+    <Compile Include="Accommodation.cs" />
     <Compile Include="Actor.cs" />
+    <Compile Include="ActorType.cs" />
     <Compile Include="Address.cs" />
     <Compile Include="AddressType.cs" />
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
+    <Compile Include="ECA-KMTStaticDataGenerator.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ECA-KMTStaticDataGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
-    <Compile Include="Migrations\201501162219502_IntialCreate.cs" />
-    <Compile Include="Migrations\201501162219502_IntialCreate.Designer.cs">
-      <DependentUpon>201501162219502_IntialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201501162224049_LocationLatLongNullable.cs" />
-    <Compile Include="Migrations\201501162224049_LocationLatLongNullable.Designer.cs">
-      <DependentUpon>201501162224049_LocationLatLongNullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201501201411204_RenameLocationCountryToLocation.cs" />
-    <Compile Include="Migrations\201501201411204_RenameLocationCountryToLocation.Designer.cs">
-      <DependentUpon>201501201411204_RenameLocationCountryToLocation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201501291629351_UpdateLocationAndGoals.cs" />
-    <Compile Include="Migrations\201501291629351_UpdateLocationAndGoals.Designer.cs">
-      <DependentUpon>201501291629351_UpdateLocationAndGoals.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502031359424_AddMoneyFlowTypeStatusandOrgParent.cs" />
-    <Compile Include="Migrations\201502031359424_AddMoneyFlowTypeStatusandOrgParent.Designer.cs">
-      <DependentUpon>201502031359424_AddMoneyFlowTypeStatusandOrgParent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502041444123_DBSync.cs" />
-    <Compile Include="Migrations\201502041444123_DBSync.Designer.cs">
-      <DependentUpon>201502041444123_DBSync.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502111610199_AddContactsToProjectProgram.cs" />
-    <Compile Include="Migrations\201502111610199_AddContactsToProjectProgram.Designer.cs">
-      <DependentUpon>201502111610199_AddContactsToProjectProgram.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502111853109_AddParticipant.cs" />
-    <Compile Include="Migrations\201502111853109_AddParticipant.Designer.cs">
-      <DependentUpon>201502111853109_AddParticipant.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502121550000_FixProjectStatusIdField.cs" />
-    <Compile Include="Migrations\201502121550000_FixProjectStatusIdField.Designer.cs">
-      <DependentUpon>201502121550000_FixProjectStatusIdField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="IHistorical.cs" />
+    <Compile Include="ItineraryStatus.cs" />
+    <Compile Include="Method.cs" />
+    <Compile Include="MoneyFlowSourceRecipientType.cs" />
     <Compile Include="MoneyFlowStatus.cs" />
     <Compile Include="MoneyFlowType.cs" />
+    <Compile Include="NameType.cs" />
     <Compile Include="Participant.cs" />
+    <Compile Include="PersonStatus.cs" />
+    <Compile Include="PhoneNumberType.cs" />
+    <Compile Include="ProgramType.cs" />
     <Compile Include="ProjectStatus.cs" />
+    <Compile Include="ProjectType.cs" />
+    <Compile Include="SocialMediaType.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Course.cs" />
@@ -141,36 +124,20 @@
   <ItemGroup>
     <None Include="App-toAzureDB.config" />
     <None Include="App.config" />
+    <None Include="ECA-KMTStaticDataGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ECA-KMTStaticDataGenerator.generated.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201501162219502_IntialCreate.resx">
-      <DependentUpon>201501162219502_IntialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201501162224049_LocationLatLongNullable.resx">
-      <DependentUpon>201501162224049_LocationLatLongNullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201501201411204_RenameLocationCountryToLocation.resx">
-      <DependentUpon>201501201411204_RenameLocationCountryToLocation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201501291629351_UpdateLocationAndGoals.resx">
-      <DependentUpon>201501291629351_UpdateLocationAndGoals.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502031359424_AddMoneyFlowTypeStatusandOrgParent.resx">
-      <DependentUpon>201502031359424_AddMoneyFlowTypeStatusandOrgParent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502041444123_DBSync.resx">
-      <DependentUpon>201502041444123_DBSync.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502111610199_AddContactsToProjectProgram.resx">
-      <DependentUpon>201502111610199_AddContactsToProjectProgram.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502111853109_AddParticipant.resx">
-      <DependentUpon>201502111853109_AddParticipant.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502121550000_FixProjectStatusIdField.resx">
-      <DependentUpon>201502121550000_FixProjectStatusIdField.cs</DependentUpon>
-    </EmbeddedResource>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
+      <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
+      <Name>ECA.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

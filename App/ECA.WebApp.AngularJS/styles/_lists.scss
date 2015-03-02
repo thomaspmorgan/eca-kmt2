@@ -17,7 +17,7 @@
       border-bottom: 0;
   }
 
-  tr:last-child {
+  tr:last-child, tr:nth-last-child(2) {
       border-bottom: 1px solid #e5eae9;
   }
 
@@ -147,6 +147,21 @@
   }
 }
 
+.hover-dark {
+
+  .icon {
+    display: none;
+  }
+
+  &:hover {
+    background: darken($lightgray, 5%);		
+    
+    .icon {
+      display: inline-block;
+    }
+  }
+}
+
 .title-label {
   color: #a0a9ab;
   font-size: 12px;
@@ -192,6 +207,16 @@
       }
   }
 
+  tr:nth-child(2) {
+      th:first-child {
+          padding-left: 60px;
+      }
+
+      th {
+          padding-right: 8px;
+      }
+  }
+
 }
 
 .sort-label {
@@ -203,16 +228,6 @@
       cursor: pointer;
   }
 
-}
-
-.st-sort-ascent:after {
-  content: ' \25B2';
-  display: inline-block;
-}
-
-.st-sort-descent:after {
-  content: ' \25BC';
-  display: inline-block;
 }
 
 .alt {

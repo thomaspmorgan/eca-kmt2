@@ -23,6 +23,7 @@ namespace ECA.Data
         [Required]
         public virtual ICollection<ImpactType> ImpactTypes { get; set; }
         public virtual ICollection<Artifact> Artifacts { get; set; }
+        public virtual ICollection<Person> People { get; set; }
 
         public History History { get; set; }
     }

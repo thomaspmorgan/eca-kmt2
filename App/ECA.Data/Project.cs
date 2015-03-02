@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// A project is a specific, time-bounded instance of a program, such as a cohort, an event or an exchange.
     /// </summary>
-    public class Project
+    public class Project : IHistorical
     {
         [Key]
         public int ProjectId { get; set; }
@@ -21,12 +21,13 @@ namespace ECA.Data
         [Required]
         public string Description { get; set; }
         public ProjectType ProjectType { get; set; }
-        [Required]
+        public int? ProjectTypeId { get; set; }
         public ProjectStatus Status { get; set; }
         [Required]
         public int ProjectStatusId { get; set; }
         public string FocusArea { get; set; }
-        public ICollection<MoneyFlow> MoneyFlows { get; set; }
+        public ICollection<MoneyFlow> SourceProjectMoneyFlows { get; set; }
+        public ICollection<MoneyFlow> RecipientProjectMoneyFlows { get; set; }
         public Organization NominationSource { get; set; }
         [Required]
         public DateTimeOffset StartDate { get; set; }
@@ -41,6 +42,8 @@ namespace ECA.Data
         public ICollection<Theme> Themes { get; set; }
         public ICollection<Goal> Goals {get; set;}
         public Program ParentProgram { get; set; }
+        [Required]
+        public int ProgramId { get; set; }
         public int AudienceReach { get; set; }
         public ICollection<Artifact> Artifacts { get; set; }
         public ICollection<Participant> Participants { get; set; }

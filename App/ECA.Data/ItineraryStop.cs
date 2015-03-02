@@ -16,19 +16,22 @@ namespace ECA.Data
     {
         [Key]
         public int ItineraryStopId { get; set; }
-        [Required]
+
         public ItineraryStatus ItineraryStatus { get; set; }
+        [Required]
+        public int ItineraryStatusId { get; set; }
         public virtual Location Origin { get; set; }
         public virtual Location Destination { get; set; }
         public virtual ICollection<Actor> Actors { get; set; }
-        public virtual ICollection<Person> Participants { get; set; }
+        public virtual ICollection<Participant> Participants { get; set; }
         public DateTimeOffset DateArrive { get; set; }
         public DateTimeOffset DateLeave { get; set; }
         public virtual ICollection<Transportation> Transportations { get; set; }
         public virtual ICollection<Accommodation> Accommodations { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<Material> Materials { get; set; }
-        public virtual ICollection<MoneyFlow> MoneyFlows { get; set; }
+        public ICollection<MoneyFlow> SourceItineraryStopMoneyFlows { get; set; }
+        public ICollection<MoneyFlow> RecipientItineraryStopMoneyFlows { get; set; }
         public virtual ICollection<ParticipantStatus> ParticipantStatuses { get; set; }
         public virtual ICollection<Artifact> Artifacts { get; set; }
 
