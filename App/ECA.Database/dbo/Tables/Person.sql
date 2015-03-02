@@ -1,4 +1,15 @@
 ﻿CREATE TABLE [dbo].[Person] (
+	[PersonId]            INT                IDENTITY (1, 1) NOT NULL,
+	[FirstName]           NVARCHAR (50)     NULL,
+	[LastName]           NVARCHAR (50)     NULL,
+	[SecondLastName]           NVARCHAR (50)     NULL,
+	[NamePrefix]           NVARCHAR (10)     NULL,
+	[NameSuffix]           NVARCHAR (10)     NULL,
+	[GivenName]           NVARCHAR (50)     NULL,
+	[FamilyName]           NVARCHAR (50)     NULL,
+	[MiddleName]           NVARCHAR (50)     NULL,
+	[Patronym]           NVARCHAR (50)     NULL,
+	[Alias]           NVARCHAR (50)     NULL,
     [GenderId]            INT                NOT NULL,
     [DateOfBirth]         DATETIMEOFFSET (7) NOT NULL,
     [Ethnicity]           NVARCHAR (MAX)     NULL,
@@ -11,9 +22,10 @@
     [Location_LocationId] INT                NULL,
     [MedicalConditions]   NVARCHAR (MAX)     NULL,
     [Awards]              NVARCHAR (MAX)     NULL,
-    [PersonId]            INT                IDENTITY (1, 1) NOT NULL,
+    
     CONSTRAINT [PK_dbo.Person] PRIMARY KEY CLUSTERED ([PersonId] ASC),
-    CONSTRAINT [FK_dbo.Person_dbo.Location_Location_LocationId] FOREIGN KEY ([Location_LocationId]) REFERENCES [dbo].[Location] ([LocationId])
+    CONSTRAINT [FK_dbo.Person_dbo.Location_Location_LocationId] FOREIGN KEY ([Location_LocationId]) REFERENCES [dbo].[Location] ([LocationId]), 
+    CONSTRAINT [FK_Person_ToGender] FOREIGN KEY ([GenderId]) REFERENCES [Gender]([GenderId])
 );
 
 

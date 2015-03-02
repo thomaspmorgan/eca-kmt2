@@ -14,16 +14,115 @@ namespace ECA.Data
     /// </summary>
     public class Person
     {
+        /// <summary>
+        /// Gets the max length of the first name.
+        /// </summary>
+        public const int FIRST_NAME_MAX_LENGTH = 50;
+
+        /// <summary>
+        /// Gets the max length of a person's last name.
+        /// </summary>
+        public const int LAST_NAME_MAX_LENGTH = 50;
+
+        /// <summary>
+        /// Gets the max length of the name prefix.
+        /// </summary>
+        public const int NAME_PREFIX_MAX_LENGTH = 10;
+
+        /// <summary>
+        /// Gets max length of the name suffix.
+        /// </summary>
+        public const int NAME_SUFFIX_MAX_LENGTH = 10;
+
+        /// <summary>
+        /// Gets the max length of the given name.
+        /// </summary>
+        public const int GIVEN_NAME_MAX_LENGTH = 50;
+
+        /// <summary>
+        /// Gets the max length of the family name.
+        /// </summary>
+        public const int FAMILY_NAME_MAX_LENGTH = 50;
+
+        /// <summary>
+        /// Gets the max length of the middle name.
+        /// </summary>
+        public const int MIDDLE_NAME_MAX_LENGTH = 50;
+
+        /// <summary>
+        /// Gets the max length of the patronym.
+        /// </summary>
+        public const int PATRONYM_NAME_MAX_LENGTH = 50;
+
+        /// <summary>
+        /// Gets the max length of the name alias.
+        /// </summary>
+        public const int ALIAS_NAME_MAX_LENGTH = 50;
+
+
         [Key]
         public int PersonId { get; set; }
-        [Required]
-        public virtual ICollection<NamePart> Names { get; set; }
-
+        
         public Gender Gender { get; set; }
         [Required]
         public int GenderId { get; set; }
         [Required]
         public DateTimeOffset DateOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets or sets FirstName.
+        /// </summary>
+        [MaxLength(FIRST_NAME_MAX_LENGTH)]
+        public string FirstName { get; set; }
+
+        /// <summary>
+        /// Gets or sets last name.
+        /// </summary>
+        [MaxLength(LAST_NAME_MAX_LENGTH)]
+        public string LastName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name prefix.
+        /// </summary>
+        [MaxLength(NAME_PREFIX_MAX_LENGTH)]
+        public string NamePrefix { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name suffix.
+        /// </summary>
+        [MaxLength(NAME_SUFFIX_MAX_LENGTH)]
+        public string NameSuffix { get; set; }
+
+        /// <summary>
+        /// Gets or sets the given name.
+        /// </summary>
+        [MaxLength(GIVEN_NAME_MAX_LENGTH)]
+        public string GivenName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the family name.
+        /// </summary>
+        [MaxLength(FAMILY_NAME_MAX_LENGTH)]
+        public string FamilyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the middle name.
+        /// </summary>
+        [MaxLength(MIDDLE_NAME_MAX_LENGTH)]
+        public string MiddleName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the patronym.
+        /// </summary>
+        [MaxLength(PATRONYM_NAME_MAX_LENGTH)]
+        public string Patronym { get; set; }
+
+        /// <summary>
+        /// Gets or sets the alias.
+        /// </summary>
+        [MaxLength(ALIAS_NAME_MAX_LENGTH)]
+        public string Alias { get; set; }
+
         //public int? PlaceOfBirth_LocationId { get; set; }
         //[InverseProperty("BirthPlacePeople")]
         //[ForeignKey("PlaceOfBirth_LocationId")]
@@ -57,21 +156,6 @@ namespace ECA.Data
 
         public History History { get; set; }
 
-        public string FullName()
-        {
-            StringBuilder fullName = new StringBuilder();
-            NamePart namePart = Names.FirstOrDefault(n => n.NameTypeId == (int)Enums.NameType.FirstName);
-            if (namePart != null)
-            {
-                fullName.Append(namePart.Value);
-            }
-            namePart = Names.FirstOrDefault(n => n.NameTypeId == (int)Enums.NameType.LastName);
-            if (namePart != null)
-            {
-                fullName.Append(" " + namePart.Value);
-            }
-            return fullName.ToString();
-        }
     }
 
 }

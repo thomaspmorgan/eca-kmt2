@@ -45,7 +45,7 @@ namespace ECA.WebApi.Controllers
             var moneyOutFlows = db.MoneyFlows
                 .Include(m => m.RecipientParticipant)
                 .Include(m => m.RecipientParticipant.Organization)
-                .Include(m => m.RecipientParticipant.Person.Names)
+                //.Include(m => m.RecipientParticipant.Person.Names)
                 .Include(m => m.RecipientAccommodation)
                 .Include(m => m.RecipientTransportation)
                 .Include(m => m.SourceProject)

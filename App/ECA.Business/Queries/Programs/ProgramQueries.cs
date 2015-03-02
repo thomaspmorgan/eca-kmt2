@@ -59,7 +59,7 @@ namespace ECA.Business.Queries.Programs
             var query = from program in context.Programs
                         let owner = program.Owner
                         let themes = program.Themes
-                        let regions = program.Regions                        
+                        let regions = program.Regions
                         let parentProgram = program.ParentProgram
                         let goals = program.Goals
                         let contacts = program.Contacts
@@ -67,10 +67,10 @@ namespace ECA.Business.Queries.Programs
 
                         select new ProgramDTO
                         {
-                            Contacts = contacts.Select(x => new SimpleLookupDTO{Id = x.ContactId, Value = x.FullName}),
-                            CountryIsos = countries.Select(x => new SimpleLookupDTO{Id = x.LocationId, Value = x.LocationIso}),
+                            Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
+                            CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
                             Description = program.Description,
-                            Goals = goals.Select(x => new SimpleLookupDTO{Id = x.GoalId, Value = x.GoalName}),
+                            Goals = goals.Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
                             Id = program.ProgramId,
                             Name = program.Name,
                             OwnerDescription = owner.Description,
@@ -80,7 +80,7 @@ namespace ECA.Business.Queries.Programs
                             RevisedOn = program.History.RevisedOn,
                             RegionIsos = regions.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
                             StartDate = program.StartDate,
-                            Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName})
+                            Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName })
                         };
             return query;
         }

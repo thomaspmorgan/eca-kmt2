@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [dbo].[Program] (
     [ProgramId]               INT                IDENTITY (1, 1) NOT NULL,
+	[ProgramStatusId]	INT NOT NULL DEFAULT 1,
     [Name]                    NVARCHAR (MAX)     NOT NULL,
     [Description]             NVARCHAR (MAX)     NOT NULL,
     [StartDate]               DATETIMEOFFSET (7) NOT NULL,
@@ -12,7 +13,8 @@
     [Owner_OrganizationId]    INT                NOT NULL,
     CONSTRAINT [PK_dbo.Program] PRIMARY KEY CLUSTERED ([ProgramId] ASC),
     CONSTRAINT [FK_dbo.Program_dbo.Organization_Owner_OrganizationId] FOREIGN KEY ([Owner_OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
-    CONSTRAINT [FK_dbo.Program_dbo.Program_ParentProgram_ProgramId] FOREIGN KEY ([ParentProgram_ProgramId]) REFERENCES [dbo].[Program] ([ProgramId])
+    CONSTRAINT [FK_dbo.Program_dbo.Program_ParentProgram_ProgramId] FOREIGN KEY ([ParentProgram_ProgramId]) REFERENCES [dbo].[Program] ([ProgramId]), 
+    CONSTRAINT [FK_Program_ToProgramStatus] FOREIGN KEY ([ProgramStatusId]) REFERENCES [ProgramStatus]([ProgramStatusId])
 );
 
 

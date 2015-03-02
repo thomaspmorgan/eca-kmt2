@@ -18,7 +18,6 @@ namespace ECA.Business.Service.Programs
     /// </summary>
     public class ProgramService : DbContextService<EcaContext>, IProgramService
     {
-
         /// <summary>
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
@@ -77,6 +76,25 @@ namespace ECA.Business.Service.Programs
         public void Create(NewEcaProgram program)
         {
 
+        }
+
+        private void DoCreate(NewEcaProgram newEcaProgram)
+        {
+            //var programType = new ProgramType
+            //{
+            //    ProgramTypeId = newEcaProgram.ProgramTypeId
+            //};
+            //this.Context.ProgramTypes.Attach(programType);
+
+            //ignore program type...
+            var program = new Program
+            {
+                Description = newEcaProgram.Description,
+                EndDate = newEcaProgram.EndDate,
+                Name = newEcaProgram.Name,
+                //ProgramType = programType,
+                
+            };
         }
 
         #endregion

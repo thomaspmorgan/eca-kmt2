@@ -82,7 +82,7 @@ namespace ECA.WebApi.Models
                     if (source.RecipientParticipant.OrganizationId != null)
                         name = source.RecipientParticipant.Organization.Name;
                     else if (source.RecipientParticipant.PersonId != null)
-                        name = source.RecipientParticipant.Person.FullName();
+                        name = "FullName";// source.RecipientParticipant.Person.FullName();
                 }
                 else if (source.RecipientTransportationId != null)
                     name = source.RecipientTransportation.Carrier.Name;
@@ -110,7 +110,7 @@ namespace ECA.WebApi.Models
                     if (source.SourceParticipant.OrganizationId != null)
                         name = source.SourceParticipant.Organization.Name;
                     else if (source.SourceParticipant.PersonId != null)
-                        name = source.SourceParticipant.Person.FullName();
+                        name = "FullName";//source.SourceParticipant.Person.FullName();
                 }
                 return name;
             }

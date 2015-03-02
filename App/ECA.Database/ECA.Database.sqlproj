@@ -68,7 +68,6 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="dbo\Tables" />
-    <Folder Include="dbo\Views" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data Migration\Assign Region Code %28Africa).sql" />
@@ -94,7 +93,6 @@
     <PostDeploy Include="Scripts\PostDeploy\ECA.PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Views\CombinedNameVw.sql" />
     <Build Include="dbo\Tables\Accommodation.sql" />
     <Build Include="dbo\Tables\Actor.sql" />
     <Build Include="dbo\Tables\ActorType.sql" />
@@ -132,8 +130,6 @@
     <Build Include="dbo\Tables\MoneyFlowSourceRecipientType.sql" />
     <Build Include="dbo\Tables\MoneyFlowStatus.sql" />
     <Build Include="dbo\Tables\MoneyFlowType.sql" />
-    <Build Include="dbo\Tables\NamePart.sql" />
-    <Build Include="dbo\Tables\NameType.sql" />
     <Build Include="dbo\Tables\Organization.sql" />
     <Build Include="dbo\Tables\OrganizationContact.sql" />
     <Build Include="dbo\Tables\OrganizationType.sql" />
@@ -191,5 +187,7 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.ProjectType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.SocialMediaType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.Gender.staticdata.sql" />
+    <Build Include="dbo\Tables\ProgramStatus.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.ProgramStatus.staticdata.sql" />
   </ItemGroup>
 </Project>

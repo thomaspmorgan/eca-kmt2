@@ -20,12 +20,26 @@ namespace ECA.Data
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
+
+        
+
         [Required]
         [InverseProperty("OwnerPrograms")]
         public Organization Owner { get; set; }
         public Program ParentProgram { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ProgramStatus.
+        /// </summary>
+        public virtual ProgramStatus ProgramStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the program status id.
+        /// </summary>
+        public int ProgramStatusId { get; set; }
+
         [Required]
         [InverseProperty("RegionPrograms")]
         public ICollection<Location> Regions { get; set; }
