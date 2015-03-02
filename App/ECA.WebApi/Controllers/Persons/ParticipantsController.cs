@@ -16,6 +16,7 @@ using System.Web.Http.Description;
 
 namespace ECA.WebApi.Controllers.Persons
 {
+    [RoutePrefix("api")]
     public class ParticipantsController : ApiController
     {
         /// <summary>
@@ -46,6 +47,27 @@ namespace ECA.WebApi.Controllers.Persons
             if (ModelState.IsValid)
             {
                 var results = await this.service.GetParticipantsAsync(queryModel.ToQueryableOperator<SimpleParticipantDTO>(DEFAULT_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        /// <summary>
+        /// Retrieves a listing of the paged, sorted, and filtered list of contacts.
+        /// </summary>
+        /// <param name="queryModel">The paging, filtering, and sorting model.</param>
+        /// <returns>The list of contacts.</returns>
+        [ResponseType(typeof(PagedQueryResults<SimpleParticipantDTO>))]
+        [Route("Projects/{projectId:int}/Participants")]
+        public async Task<IHttpActionResult> GetParticipantsAsync(int projectId, [FromUri]PagingQueryBindingModel queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await this.service.GetParticipantsByProjectIdAsync(projectId, queryModel.ToQueryableOperator<SimpleParticipantDTO>(DEFAULT_SORTER));
                 return Ok(results);
             }
             else

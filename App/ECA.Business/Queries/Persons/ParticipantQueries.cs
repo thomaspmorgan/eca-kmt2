@@ -12,22 +12,16 @@ namespace ECA.Business.Queries.Persons
 {
     public static class ParticipantQueries
     {
-        public static IQueryable<SimpleParticipantDTO> CreateGetSimpleParticipantsDTOQuery(EcaContext context, QueryableOperator<SimpleParticipantDTO> queryOperator)
+
+        private static IQueryable<SimpleParticipantDTO> CreateGetPersonParticipantsQuery(EcaContext context)
         {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
             var query = from participant in context.Participants
 
                         join participantType in context.ParticipantTypes
                         on participant.ParticipantType equals participantType
 
-                        join organization in context.Organizations
-                        on participant.Organization equals organization into tempOrgs
-                        from org in tempOrgs.DefaultIfEmpty()
-
-                        join person in context.People
-                        on participant.Person equals person into tempPerson
-                        from tp in tempPerson.DefaultIfEmpty()
+                        let person = participant.Person
+                        where person != null
 
                         //if this get re-enabled remember that gender doesn't work unless you do new Person() in the DefaultIfEmpty person join because of
                         //the linq to objects not supporting it.
@@ -39,23 +33,73 @@ namespace ECA.Business.Queries.Persons
                         {
                             //Gender = tg != null ? tg.GenderName : null,
                             //GenderId = tg != null ? tg.GenderId : default(int?),
-                            Name = tp != null ? "Person Name Here" 
-                                : org != null ? org.Name : "UNKNOWN PARTICIPANT NAME",
-                            OrganizationId = org != null ? org.OrganizationId : default(int?),
+                            //Name = tp != null ? "Person Name Here" : "INVALID PERSON NAME",
+                            Name = "person name",
+                            OrganizationId = default(int?),
                             ParticipantId = participant.ParticipantId,
                             ParticipantType = participantType.Name,
                             ParticipantTypeId = participantType.ParticipantTypeId,
-                            PersonId = tp != null ? tp.PersonId : default(int?)
+                            //PersonId = tp != null ? tp.PersonId : default(int?)
+                            PersonId = person.PersonId
 
                         };
+            return query;
+        }
+
+        private static IQueryable<SimpleParticipantDTO> CreateGetOrganizationParticipantsQuery(EcaContext context)
+        {
+            var query = from participant in context.Participants
+
+                        join participantType in context.ParticipantTypes
+                        on participant.ParticipantType equals participantType
+
+                        let org = participant.Organization
+                        where org != null
+
+                        select new SimpleParticipantDTO
+                        {
+                            Name = org.Name,
+                            OrganizationId = org.OrganizationId,
+                            ParticipantId = participant.ParticipantId,
+                            ParticipantType = participantType.Name,
+                            ParticipantTypeId = participantType.ParticipantTypeId,
+                            PersonId = default(int?)
+
+                        };
+            return query;
+        }
+
+        private static IQueryable<SimpleParticipantDTO> CreateGetUnionedSimpleParticipantsDTOQuery(EcaContext context)
+        {
+            return CreateGetOrganizationParticipantsQuery(context).Union(CreateGetPersonParticipantsQuery(context));
+        }
+
+
+        public static IQueryable<SimpleParticipantDTO> CreateGetSimpleParticipantsDTOQuery(EcaContext context, QueryableOperator<SimpleParticipantDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            var query = CreateGetUnionedSimpleParticipantsDTOQuery(context);
             query = query.Apply(queryOperator);
             return query;
 
         }
 
-        public static IQueryable<SimpleParticipantDTO> CreateGetSimpleParticipantsDTOByProjectIdQuery(EcaContext context, QueryableOperator<SimpleParticipantDTO> queryOperator)
+        public static IQueryable<SimpleParticipantDTO> CreateGetSimpleParticipantsDTOByProjectIdQuery(EcaContext context, int projectId, QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
-            throw new NotImplementedException();
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            var query = CreateGetUnionedSimpleParticipantsDTOQuery(context);
+            
+
+            query = from participant in context.Participants
+                                      join q in query
+                                      on participant.ParticipantId equals q.ParticipantId
+
+                                      where participant.Projects.Select(x => x.ProjectId).Contains(projectId)
+                                      select q;
+            query = query.Apply(queryOperator);
+            return query;
         }
     }
 }
