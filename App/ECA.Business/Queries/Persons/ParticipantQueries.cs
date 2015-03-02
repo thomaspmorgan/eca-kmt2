@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Persons
 {
+    /// <summary>
+    /// The ParticipantQueries are used to query a DbContext for Participant information.
+    /// </summary>
     public static class ParticipantQueries
     {
-
         private static IQueryable<SimpleParticipantDTO> CreateGetPersonParticipantsQuery(EcaContext context)
         {
             var query = from participant in context.Participants
@@ -74,7 +76,12 @@ namespace ECA.Business.Queries.Persons
             return CreateGetOrganizationParticipantsQuery(context).Union(CreateGetPersonParticipantsQuery(context));
         }
 
-
+        /// <summary>
+        /// Creates a query to return all participants in the context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The filtered and sorted query to retrieve participants.</returns>
         public static IQueryable<SimpleParticipantDTO> CreateGetSimpleParticipantsDTOQuery(EcaContext context, QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -85,12 +92,19 @@ namespace ECA.Business.Queries.Persons
 
         }
 
+
+        /// <summary>
+        /// Creates a query to return all participants for the project with the given id in the context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <param name="projectId">The project id.</param>
+        /// <returns>The filtered and sorted query to retrieve participants.</returns>
         public static IQueryable<SimpleParticipantDTO> CreateGetSimpleParticipantsDTOByProjectIdQuery(EcaContext context, int projectId, QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
             var query = CreateGetUnionedSimpleParticipantsDTOQuery(context);
-            
 
             query = from participant in context.Participants
                                       join q in query
