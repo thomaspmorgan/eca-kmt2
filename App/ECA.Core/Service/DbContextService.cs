@@ -13,7 +13,7 @@ namespace ECA.Core.Service
     /// around saving changes.
     /// </summary>
     /// <typeparam name="T">The DbContext type.</typeparam>
-    public class DbContextService<T> : ISaveable<T> where T : DbContext
+    public class DbContextService<T> : IDisposable, ISaveable<T> where T : DbContext
     {
         /// <summary>
         /// Creates a new DbContextService with the given DbContext instance.
@@ -75,5 +75,31 @@ namespace ECA.Core.Service
                 return new List<ISaveAction<T>>();
             }
         }
+
+        #region IDispose
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.Context.Dispose();
+                this.Context = null;
+            }
+        }
+
+        #endregion
     }
 }

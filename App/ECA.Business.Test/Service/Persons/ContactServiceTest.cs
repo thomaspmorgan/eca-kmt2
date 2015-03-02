@@ -178,25 +178,5 @@ namespace ECA.Business.Test.Service.Persons
             tester(serviceResultsAsync);
         }
         #endregion
-
-        #region Dispose
-        [TestMethod]
-        public void TestDispose_Context()
-        {
-            var testContext = DbContextHelper.GetInMemoryContext();
-            var testService = new ContactService(testContext);
-
-            var contextField = typeof(ContactService).GetField("context", BindingFlags.Instance | BindingFlags.NonPublic);
-            var contextValue = contextField.GetValue(testService);
-            Assert.IsNotNull(contextField);
-            Assert.IsNotNull(contextValue);
-
-            testService.Dispose();
-            contextValue = contextField.GetValue(testService);
-            Assert.IsNull(contextValue);
-            Assert.IsTrue(testContext.IsDisposed);
-
-        }
-        #endregion
     }
 }

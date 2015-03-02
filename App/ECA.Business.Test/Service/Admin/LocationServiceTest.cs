@@ -241,24 +241,5 @@ namespace ECA.Business.Test.Service.Programs
         }
         #endregion
 
-        #region Dispose
-        [TestMethod]
-        public void TestDispose_Context()
-        {
-            var testContext = DbContextHelper.GetInMemoryContext();
-            var testService = new LocationService(testContext);
-
-            var contextField = typeof(LocationService).GetField("context", BindingFlags.Instance | BindingFlags.NonPublic);
-            var contextValue = contextField.GetValue(testService);
-            Assert.IsNotNull(contextField);
-            Assert.IsNotNull(contextValue);
-
-            testService.Dispose();
-            contextValue = contextField.GetValue(testService);
-            Assert.IsNull(contextValue);
-            Assert.IsTrue(testContext.IsDisposed);
-
-        }
-        #endregion
     }
 }

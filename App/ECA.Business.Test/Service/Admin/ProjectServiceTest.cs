@@ -35,26 +35,6 @@ namespace ECA.Business.Test.Service.Admin
 
         }
 
-        #region Dispose
-        [TestMethod]
-        public void TestDispose_Context()
-        {
-            var testContext = DbContextHelper.GetInMemoryContext();
-            var testService = new ProjectService(testContext);
-
-            var contextField = typeof(ProjectService).GetField("context", BindingFlags.Instance | BindingFlags.NonPublic);
-            var contextValue = contextField.GetValue(testService);
-            Assert.IsNotNull(contextField);
-            Assert.IsNotNull(contextValue);
-
-            testService.Dispose();
-            contextValue = contextField.GetValue(testService);
-            Assert.IsNull(contextValue);
-            Assert.IsTrue(testContext.IsDisposed);
-
-        }
-        #endregion
-
         #region Create Draft Project
         [TestMethod]
         public void TestCreate()

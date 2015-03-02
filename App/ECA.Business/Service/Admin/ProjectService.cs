@@ -3,6 +3,7 @@ using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Core.Service;
 using ECA.Data;
 using System;
 using System.Diagnostics.Contracts;
@@ -10,14 +11,11 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
-    public class ProjectService : IProjectService, IDisposable
+    public class ProjectService : DbContextService<EcaContext>, IProjectService
     {
-        private EcaContext context;
-
-        public ProjectService(EcaContext context)
+        public ProjectService(EcaContext context) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            this.context = context;
         }
 
         #region Create
@@ -37,7 +35,7 @@ namespace ECA.Business.Service.Admin
                 ProgramId = draftProject.ProgramId
             };
             draftProject.History.SetHistory(project);
-            context.Projects.Add(project);
+            this.Context.Projects.Add(project);
             return project;
         }
 
@@ -53,7 +51,7 @@ namespace ECA.Business.Service.Admin
         /// <returns>The paged, filtered, and sorted projects.</returns>
         public PagedQueryResults<SimpleProjectDTO> GetProjectsByProgramId(int programId, QueryableOperator<SimpleProjectDTO> queryOperator)
         {
-            return ProjectQueries.CreateGetProjectsByProgramQuery(context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            return ProjectQueries.CreateGetProjectsByProgramQuery(this.Context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
         }
 
         /// <summary>
@@ -64,32 +62,9 @@ namespace ECA.Business.Service.Admin
         /// <returns>The paged, filtered, and sorted projects.</returns>
         public Task<PagedQueryResults<SimpleProjectDTO>> GetProjectsByProgramIdAsync(int programId, QueryableOperator<SimpleProjectDTO> queryOperator)
         {
-            return ProjectQueries.CreateGetProjectsByProgramQuery(context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            return ProjectQueries.CreateGetProjectsByProgramQuery(this.Context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
 
         #endregion
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.context.Dispose();
-                this.context = null;
-            }
-        }
     }
 }

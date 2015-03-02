@@ -2,6 +2,7 @@
 using ECA.Business.Queries.Persons;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Core.Service;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
@@ -15,18 +16,16 @@ namespace ECA.Business.Service.Persons
     /// <summary>
     /// The ContactService is capable of performing operations on contacts against a DbContext.
     /// </summary>
-    public class ContactService : IDisposable, IContactService
+    public class ContactService : DbContextService<EcaContext>, IContactService
     {
-        private EcaContext context;
 
         /// <summary>
         /// Creates a new ContactService with the given context to operate against.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public ContactService(EcaContext context)
+        public ContactService(EcaContext context) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            this.context = context;
         }
 
         #region Get
@@ -38,7 +37,7 @@ namespace ECA.Business.Service.Persons
         /// <returns>The sorted, filtered, and paged contacts.</returns>
         public PagedQueryResults<ContactDTO> GetContacts(QueryableOperator<ContactDTO> queryOperator)
         {
-            return ContactQueries.CreateContactDTOQuery(this.context, queryOperator).ToPagedQueryResults<ContactDTO>(queryOperator.Start, queryOperator.Limit);
+            return ContactQueries.CreateContactDTOQuery(this.Context, queryOperator).ToPagedQueryResults<ContactDTO>(queryOperator.Start, queryOperator.Limit);
         }
 
         /// <summary>
@@ -48,35 +47,9 @@ namespace ECA.Business.Service.Persons
         /// <returns>The sorted, filtered, and paged contacts.</returns>
         public Task<PagedQueryResults<ContactDTO>> GetContactsAsync(QueryableOperator<ContactDTO> queryOperator)
         {
-            return ContactQueries.CreateContactDTOQuery(this.context, queryOperator).ToPagedQueryResultsAsync<ContactDTO>(queryOperator.Start, queryOperator.Limit);
+            return ContactQueries.CreateContactDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync<ContactDTO>(queryOperator.Start, queryOperator.Limit);
         }
         #endregion
 
-
-        #region IDispose
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.context.Dispose();
-                this.context = null;
-            }
-        }
-
-        #endregion
     }
 }
