@@ -39,7 +39,9 @@
 		PushIndent("\t");
 		
 		WriteStaticProperties(config, connectionString);
-		
+
+		WriteLine(String.Empty);
+		WriteGetStaticPropertyByIdMethod(config, connectionString);
 		PopIndent();
 		WriteLine("}");
 
@@ -89,6 +91,44 @@
 				}
 			}
 		}
+	}
+
+	public void WriteGetStaticPropertyByIdMethod(StaticLookupConfig config, string connectionString)
+	{
+		WriteLine("///<summary>");
+		WriteLine("/// Returns the lookup value of this entity with the given id, or null if it does not exist.");
+		WriteLine("///<param name=\"id\">The lookup id.</param>");
+		WriteLine("/// <returns>The lookup with the given id, or null if it does not exist.</returns>");
+		WriteLine("///</summary>");
+		WriteLine(GetGetStaticPropertyByIdMethodDeclaration());
+		WriteLine("{");
+		PushIndent("\t");
+		using(var connection = new SqlConnection(connectionString))
+		{
+			var command = new SqlCommand(String.Format("SELECT * FROM {0}", config.TableName));
+			command.Connection = connection;
+			connection.Open();
+			var reader = command.ExecuteReader();
+			if(reader.HasRows)
+			{
+				
+				while(reader.Read())
+				{
+					var propertyName = Pascalize(reader[config.ValueColumnName]);
+					var id = Int32.Parse(reader[config.IdColumnName].ToString());
+					WriteLine(String.Format("if({0} == id) return {1}.{2};", id, config.ClassName,  propertyName));
+
+				}
+			}
+		}
+		WriteLine("return null;");
+		PopIndent();
+		WriteLine("}");
+	}
+
+	public string GetGetStaticPropertyByIdMethodDeclaration()
+	{
+		return String.Format("public static StaticLookup GetStaticLookup(int id)");
 	}
 
 	public string GetStaticPropertyDeclaration(string propertyName, string friendlyName, int id)

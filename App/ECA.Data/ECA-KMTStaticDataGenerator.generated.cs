@@ -17,6 +17,18 @@ namespace ECA.Data
 		/// Returns the Organization lookup with id 2.
 		///</summary>
 		public static StaticLookup Organization { get { return new StaticLookup("Organization", 2); } }
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if(1 == id) return ActorType.Person;
+			if(2 == id) return ActorType.Organization;
+			return null;
+		}
 	}
 }
 #endregion
@@ -43,6 +55,20 @@ namespace ECA.Data
 		/// Returns the NotSpecified lookup with id 4.
 		///</summary>
 		public static StaticLookup Notspecified { get { return new StaticLookup("NotSpecified", 4); } }
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if(1 == id) return Gender.Male;
+			if(2 == id) return Gender.Female;
+			if(3 == id) return Gender.Other;
+			if(4 == id) return Gender.Notspecified;
+			return null;
+		}
 	}
 }
 #endregion
@@ -53,6 +79,16 @@ namespace ECA.Data
 	using ECA.Core.Generation;
 	public partial class ItineraryStatus
 	{
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			return null;
+		}
 	}
 }
 #endregion
@@ -91,6 +127,23 @@ namespace ECA.Data
 		/// Returns the Place lookup with id 8.
 		///</summary>
 		public static StaticLookup Place { get { return new StaticLookup("Place", 8); } }
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if(2 == id) return LocationType.Region;
+			if(3 == id) return LocationType.Country;
+			if(4 == id) return LocationType.State;
+			if(5 == id) return LocationType.City;
+			if(6 == id) return LocationType.Building;
+			if(7 == id) return LocationType.Post;
+			if(8 == id) return LocationType.Place;
+			return null;
+		}
 	}
 }
 #endregion
@@ -101,6 +154,16 @@ namespace ECA.Data
 	using ECA.Core.Generation;
 	public partial class MoneyFlowSourceRecipientType
 	{
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			return null;
+		}
 	}
 }
 #endregion
@@ -111,6 +174,16 @@ namespace ECA.Data
 	using ECA.Core.Generation;
 	public partial class MoneyFlowType
 	{
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			return null;
+		}
 	}
 }
 #endregion
@@ -157,6 +230,25 @@ namespace ECA.Data
 		/// Returns the Alias lookup with id 9.
 		///</summary>
 		public static StaticLookup Alias { get { return new StaticLookup("Alias", 9); } }
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if(1 == id) return NameType.Lastname;
+			if(2 == id) return NameType.Firstname;
+			if(3 == id) return NameType.Prefix;
+			if(4 == id) return NameType.Suffix;
+			if(5 == id) return NameType.Givenname;
+			if(6 == id) return NameType.Familyname;
+			if(7 == id) return NameType.Middlename;
+			if(8 == id) return NameType.Patronym;
+			if(9 == id) return NameType.Alias;
+			return null;
+		}
 	}
 }
 #endregion
@@ -203,6 +295,25 @@ namespace ECA.Data
 		/// Returns the Marc lookup with id 9.
 		///</summary>
 		public static StaticLookup Marc { get { return new StaticLookup("Marc", 9); } }
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if(1 == id) return ParticipantType.ForeignEducationalInstitution;
+			if(2 == id) return ParticipantType.ForeignGovernment;
+			if(3 == id) return ParticipantType.USEducationalInstitution;
+			if(4 == id) return ParticipantType.PublicInternationalOrganizationPio;
+			if(5 == id) return ParticipantType.USNonProfitOrganization501C3;
+			if(6 == id) return ParticipantType.Individual;
+			if(7 == id) return ParticipantType.ForeignNgoPvo;
+			if(8 == id) return ParticipantType.Other;
+			if(9 == id) return ParticipantType.Marc;
+			return null;
+		}
 	}
 }
 #endregion
@@ -225,6 +336,19 @@ namespace ECA.Data
 		/// Returns the Cell lookup with id 3.
 		///</summary>
 		public static StaticLookup Cell { get { return new StaticLookup("Cell", 3); } }
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if(1 == id) return PhoneNumberType.Home;
+			if(2 == id) return PhoneNumberType.Work;
+			if(3 == id) return PhoneNumberType.Cell;
+			return null;
+		}
 	}
 }
 #endregion
@@ -259,6 +383,22 @@ namespace ECA.Data
 		/// Returns the Other lookup with id 6.
 		///</summary>
 		public static StaticLookup Other { get { return new StaticLookup("Other", 6); } }
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if(1 == id) return ProgramStatus.Active;
+			if(2 == id) return ProgramStatus.Pending;
+			if(3 == id) return ProgramStatus.Completed;
+			if(4 == id) return ProgramStatus.Draft;
+			if(5 == id) return ProgramStatus.Canceled;
+			if(6 == id) return ProgramStatus.Other;
+			return null;
+		}
 	}
 }
 #endregion
@@ -281,6 +421,19 @@ namespace ECA.Data
 		/// Returns the Branch lookup with id 3.
 		///</summary>
 		public static StaticLookup Branch { get { return new StaticLookup("Branch", 3); } }
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if(1 == id) return ProgramType.Program;
+			if(2 == id) return ProgramType.Office;
+			if(3 == id) return ProgramType.Branch;
+			return null;
+		}
 	}
 }
 #endregion
@@ -315,6 +468,22 @@ namespace ECA.Data
 		/// Returns the Other lookup with id 7.
 		///</summary>
 		public static StaticLookup Other { get { return new StaticLookup("Other", 7); } }
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if(1 == id) return ProjectStatus.Active;
+			if(2 == id) return ProjectStatus.Pending;
+			if(4 == id) return ProjectStatus.Completed;
+			if(5 == id) return ProjectStatus.Draft;
+			if(6 == id) return ProjectStatus.Canceled;
+			if(7 == id) return ProjectStatus.Other;
+			return null;
+		}
 	}
 }
 #endregion
@@ -345,6 +514,21 @@ namespace ECA.Data
 		/// Returns the brian lookup with id 5.
 		///</summary>
 		public static StaticLookup Brian { get { return new StaticLookup("brian", 5); } }
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if(1 == id) return SocialMediaType.Facebook;
+			if(2 == id) return SocialMediaType.Linkedin;
+			if(3 == id) return SocialMediaType.Twitter;
+			if(4 == id) return SocialMediaType.Weibo;
+			if(5 == id) return SocialMediaType.Brian;
+			return null;
+		}
 	}
 }
 #endregion
