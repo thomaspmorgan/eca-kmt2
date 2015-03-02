@@ -64,6 +64,14 @@ angular.module('staticApp')
           });
         return defer.promise;
       },
+      getAllPrograms: function (params) {
+          var defer = $q.defer();
+          DragonBreath.get(params, 'programs')
+            .success(function (data) {
+                defer.resolve(data);
+            });
+          return defer.promise;
+      },
       update: function (program, id) {
         var defer = $q.defer();
         DragonBreath.save(program, 'programs', id)

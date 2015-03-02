@@ -5800,4 +5800,7 @@ ul {
     transform: scale(1);
     -webkit-transform: scale(1); } }
 
+.program-pagination {
+  padding-left: 60px; }
+
 /*# sourceMappingURL=main.css.map */
