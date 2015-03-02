@@ -264,8 +264,9 @@
     <Compile Include="Controllers\Admin\LocationsController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\MoneyFlowsController.cs" />
-    <Compile Include="Controllers\ParticipantsController.cs" />
+    <None Include="Controllers\ParticipantsController.csold" />
     <Compile Include="Controllers\Admin\ProjectsController.cs" />
+    <Compile Include="Controllers\Persons\ParticipantsController.cs" />
     <Compile Include="Controllers\Persons\ContactsController.cs" />
     <Compile Include="Controllers\Programs\ProgramsController.cs" />
     <Compile Include="Controllers\Programs\ThemesController.cs" />

@@ -76,6 +76,7 @@
     <Compile Include="Service\Admin\LocationService.cs" />
     <Compile Include="Service\Persons\ContactService.cs" />
     <Compile Include="Service\Persons\IContactService.cs" />
+    <Compile Include="Service\Persons\IParticipantService.cs" />
     <Compile Include="Service\Persons\ParticipantService.cs" />
     <Compile Include="Service\Programs\IProgramService.cs" />
     <Compile Include="Service\Admin\IProjectService.cs" />

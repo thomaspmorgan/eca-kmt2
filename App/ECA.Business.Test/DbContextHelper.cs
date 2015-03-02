@@ -28,6 +28,7 @@ namespace ECA.Business.Test
                 Events = new TestDbSet<Event>(),
                 EventTypes = new TestDbSet<EventType>(),
                 ExternalIds = new TestDbSet<ExternalId>(),
+                Genders = new TestDbSet<Gender>(),
                 Goals = new TestDbSet<Goal>(),
                 Impacts = new TestDbSet<Impact>(),
                 ImpactTypes = new TestDbSet<ImpactType>(),
