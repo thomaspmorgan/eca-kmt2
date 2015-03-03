@@ -12,12 +12,17 @@ namespace ECA.Business.Models.Programs
     {
         public EcaProgram(
             User updatedBy,
-            string name, 
-            string description, 
+            string name,
+            string description,
             DateTimeOffset startDate,
             DateTimeOffset endDate,
             int ownerOrganizationId,
-            int programStatusId) 
+            int programStatusId,
+            string focus,
+            string website,
+            List<int> goalIds,
+            List<int> pointOfContactIds,
+            List<int> themeIds)
         {
             this.Name = name;
             this.Description = description;
@@ -25,9 +30,14 @@ namespace ECA.Business.Models.Programs
             this.EndDate = endDate;
             this.OwnerOrganizationId = ownerOrganizationId;
             this.History = new RevisedHistory(updatedBy);
+            this.Focus = focus;
+            this.Website = website;
+            this.GoalIds = goalIds ?? new List<int>();
+            this.PointOfContactIds = pointOfContactIds ?? new List<int>();
+            this.ThemeIds = themeIds ?? new List<int>();
 
             var programStatus = ProgramStatus.GetStaticLookup(this.ProgramStatusId);
-            if(programStatus == null)
+            if (programStatus == null)
             {
                 throw new Exception("The program status is not supported.");
             }
@@ -43,13 +53,24 @@ namespace ECA.Business.Models.Programs
 
         public string Description { get; private set; }
 
-        public DateTimeOffset StartDate { get; set; }
+        public string Website { get; private set; }
 
-        public DateTimeOffset EndDate { get; set; }
+        public string Focus { get; private set; }
 
-        public int OwnerOrganizationId { get; set; }
+        public DateTimeOffset StartDate { get; private set; }
 
-        public RevisedHistory History { get; set; }
+        public DateTimeOffset EndDate { get; private set; }
+
+        public int OwnerOrganizationId { get; private set; }
+
+        public RevisedHistory History { get; private set; }
+
+        public List<int> GoalIds { get; private set; }
+
+        public List<int> ThemeIds { get; private set; }
+
+        public List<int> PointOfContactIds { get; private set; }
+
 
     }
 

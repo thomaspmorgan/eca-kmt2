@@ -74,6 +74,16 @@ namespace ECA.Data
         /// </summary>
         public int ProgramStatusId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Focus.
+        /// </summary>
+        public string Focus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Website.
+        /// </summary>
+        public string Website { get; set; }
+
         [Required]
         [InverseProperty("RegionPrograms")]
         public ICollection<Location> Regions { get; set; }

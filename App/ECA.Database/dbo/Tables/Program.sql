@@ -3,6 +3,8 @@
 	[ProgramStatusId]	INT NOT NULL DEFAULT 1,
     [Name]                    NVARCHAR (MAX)     NOT NULL,
     [Description]             NVARCHAR (MAX)     NOT NULL,
+	[Focus]             NVARCHAR (MAX)     NULL,
+	[Website]             NVARCHAR (MAX)     NULL,
     [StartDate]               DATETIMEOFFSET (7) NOT NULL,
     [EndDate]                 DATETIMEOFFSET (7) NOT NULL,
     [History_CreatedBy]       INT                NOT NULL,
