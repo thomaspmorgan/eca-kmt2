@@ -14,6 +14,16 @@ namespace ECA.Data
     /// </summary>
     public class Contact
     {
+        public Contact()
+        {
+            this.EmailAddresses = new HashSet<EmailAddress>();
+            this.PhoneNumbers = new HashSet<PhoneNumber>();
+            this.Organizations = new HashSet<Organization>();
+            this.Programs = new HashSet<Program>();
+            this.Projects = new HashSet<Project>();
+
+        }
+
         [Key]
         public int ContactId { get; set; }
         [Required]

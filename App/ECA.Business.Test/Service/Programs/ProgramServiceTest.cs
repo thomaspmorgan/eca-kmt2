@@ -1,5 +1,7 @@
 ﻿using ECA.Business.Models.Programs;
+using FluentAssertions;
 using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Service;
 using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
@@ -417,6 +419,77 @@ namespace ECA.Business.Test.Service.Programs
             var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
             tester(serviceResults);
             tester(serviceResultsAsync);
+        }
+        #endregion
+
+        #region Create
+        [TestMethod]
+        public void TestCreate()
+        {
+            var contact = new Contact
+            {
+                ContactId = 1,
+                FullName = "contact name"
+            };
+            var theme = new Theme
+            {
+                ThemeId = 2,
+                ThemeName = "theme"
+            };
+            var goal = new Goal
+            {
+                GoalId = 3,
+                GoalName = "goal"
+            };
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var focus = "focus";
+            var website = "http://www.google.com";
+            var pointOfContactIds = new List<int> { contact.ContactId };
+            var themeIds = new List<int> { theme.ThemeId };
+            var goalIds = new List<int> { goal.GoalId };
+
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerOrganizationId,
+               parentProgramId: parentProgramId,
+               focus: focus,
+               website: website,
+               goalIds: goalIds,
+               pointOfContactIds: pointOfContactIds,
+               themeIds: themeIds
+               );
+
+            var program = service.Create(draftProgram);
+            Assert.IsNotNull(program);
+            Assert.AreEqual(user.Id, program.History.CreatedBy);
+            Assert.AreEqual(user.Id, program.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(program.History.RevisedOn, DbContextHelper.DATE_PRECISION);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(program.History.CreatedOn, DbContextHelper.DATE_PRECISION);
+
+            Assert.AreEqual(name, program.Name);
+            Assert.AreEqual(description, program.Description);
+            Assert.AreEqual(startDate, program.StartDate);
+            Assert.AreEqual(endDate, program.EndDate);
+            Assert.AreEqual(ownerOrganizationId, program.OwnerId);
+            Assert.AreEqual(parentProgramId, program.ParentProgramId);
+            Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
+            Assert.AreEqual(focus, program.Focus);
+            Assert.AreEqual(website, program.Website);
+
+
+
+
         }
         #endregion
     }

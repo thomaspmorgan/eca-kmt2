@@ -16,7 +16,7 @@ namespace ECA.Business.Service
         /// <summary>
         /// Initializes a NewHistory instance with the given user id and the current utc time.
         /// </summary>
-        /// <param name="creatorUserId">The user creating the history.</param>
+        /// <param name="user">The user creating the history.</param>
         public CreatedHistory(User user)
         {
             this.CreatedAndRevisedOn = DateTimeOffset.UtcNow;

@@ -12,6 +12,12 @@ namespace ECA.Data
 
     public class Theme
     {
+        public Theme()
+        {
+            this.Programs = new HashSet<Program>();
+            this.Projects = new HashSet<Project>();
+        }
+
         [Key]
         public int ThemeId { get; set; }
         [Required]

@@ -22,7 +22,7 @@ namespace ECA.Business.Test.Service
             var user = new User(userId);
             var newHistory = new CreatedHistory(user);
             Assert.IsTrue(user == newHistory.CreatedBy);
-            Assert.AreEqual(1, newHistory.CreatedBy.Id);
+            Assert.AreEqual(userId, newHistory.CreatedBy.Id);
             newHistory.CreatedAndRevisedOn.Should().BeCloseTo(now, DbContextHelper.DATE_PRECISION);
         }
 

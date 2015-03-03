@@ -10,6 +10,12 @@ namespace ECA.Data
 {
     public class Goal
     {
+        public Goal()
+        {
+            this.Programs = new HashSet<Program>();
+            this.Projects = new HashSet<Project>();
+        }
+
         [Key]
         public int GoalId { get; set; }
         [Required]

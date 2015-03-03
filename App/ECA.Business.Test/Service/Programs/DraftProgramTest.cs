@@ -9,7 +9,7 @@ using ECA.Business.Service;
 namespace ECA.Business.Test.Service.Programs
 {
     [TestClass]
-    public class EcaProgramTest
+    public class DraftProgramTest
     {
         [TestMethod]
         public void TestConstructor()
@@ -21,7 +21,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var programStatusId = ProgramStatus.Active.Id;
             var focus = "focus";
             var website = "http://www.google.com";
             var goalIds = new List<int> { 10 };
@@ -29,15 +28,14 @@ namespace ECA.Business.Test.Service.Programs
             var pointOfContactIds = new List<int> { 30 };
 
             var user = new User(userId);
-            var program = new EcaProgram(
-                updatedBy: user,
+            var program = new DraftProgram(
+                createdBy: user,
                 name: name,
                 description: description,
                 startDate: startDate,
                 endDate: endDate,
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
-                programStatusId: programStatusId,
                 focus: focus,
                 website: website,
                 goalIds: goalIds,
@@ -51,9 +49,9 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(description, program.Description);
             Assert.AreEqual(startDate, program.StartDate);
             Assert.AreEqual(endDate, program.EndDate);
-            Assert.AreEqual(parentProgramId, program.ParentProgramId);
             Assert.AreEqual(ownerOrganizationId, program.OwnerOrganizationId);
-            Assert.AreEqual(programStatusId, program.ProgramStatusId);
+            Assert.AreEqual(parentProgramId, program.ParentProgramId);
+            Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
             Assert.AreEqual(focus, program.Focus);
             Assert.AreEqual(website, program.Website);
 
@@ -77,15 +75,14 @@ namespace ECA.Business.Test.Service.Programs
             var website = "http://www.google.com";
 
             var user = new User(userId);
-            var program = new EcaProgram(
-                updatedBy: user,
+            var program = new DraftProgram(
+                createdBy: user,
                 name: name,
                 description: description,
                 startDate: startDate,
                 endDate: endDate,
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
-                programStatusId: programStatusId,
                 focus: focus,
                 website: website,
                 goalIds: null,

@@ -16,7 +16,7 @@ namespace ECA.Business.Service
         /// <summary>
         /// Initializes a new RevisedHistory object with the given user id.
         /// </summary>
-        /// <param name="userId">The user id revising an entity.</param>
+        /// <param name="user">The user revising an entity.</param>
         public RevisedHistory(User user)
         {
             this.RevisedBy = user;

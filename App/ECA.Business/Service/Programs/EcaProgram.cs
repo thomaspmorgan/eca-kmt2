@@ -17,6 +17,7 @@ namespace ECA.Business.Models.Programs
             DateTimeOffset startDate,
             DateTimeOffset endDate,
             int ownerOrganizationId,
+            int? parentProgramId,
             int programStatusId,
             string focus,
             string website,
@@ -29,14 +30,16 @@ namespace ECA.Business.Models.Programs
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.OwnerOrganizationId = ownerOrganizationId;
+            this.ParentProgramId = parentProgramId;
             this.History = new RevisedHistory(updatedBy);
             this.Focus = focus;
             this.Website = website;
             this.GoalIds = goalIds ?? new List<int>();
             this.PointOfContactIds = pointOfContactIds ?? new List<int>();
             this.ThemeIds = themeIds ?? new List<int>();
+            this.History = new RevisedHistory(updatedBy);
 
-            var programStatus = ProgramStatus.GetStaticLookup(this.ProgramStatusId);
+            var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
             if (programStatus == null)
             {
                 throw new Exception("The program status is not supported.");
@@ -62,6 +65,8 @@ namespace ECA.Business.Models.Programs
         public DateTimeOffset EndDate { get; private set; }
 
         public int OwnerOrganizationId { get; private set; }
+
+        public int? ParentProgramId { get; private set; }
 
         public RevisedHistory History { get; private set; }
 

@@ -14,6 +14,23 @@ namespace ECA.Data
     /// </summary>
     public class Program : IHistorical
     {
+        public Program()
+        {
+            this.Regions = new HashSet<Location>();
+            this.Locations = new HashSet<Location>();
+            this.Targets = new HashSet<Location>();
+            this.SourceProgramMoneyFlows = new HashSet<MoneyFlow>();
+            this.RecipientProgramMoneyFlows = new HashSet<MoneyFlow>();
+            this.Projects = new HashSet<Project>();
+            this.ChildPrograms = new HashSet<Program>();
+            this.Themes = new HashSet<Theme>();
+            this.Goals = new HashSet<Goal>();
+            this.Artifacts = new HashSet<Artifact>();
+            this.ProgramType = new HashSet<ProgramType>();
+            this.Impacts = new HashSet<Impact>();
+            this.Contacts = new HashSet<Contact>();
+        }
+
         /// <summary>
         /// Gets or sets the Program Id.
         /// </summary>
