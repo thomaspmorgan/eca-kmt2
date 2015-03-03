@@ -1,12 +1,16 @@
-﻿using ECA.Business.Queries.Models.Programs;
+﻿using ECA.Business.Models.Programs;
+using ECA.Business.Queries.Models.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Data;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 namespace ECA.Business.Service.Programs
 {
     /// <summary>
     /// A ProgramService is capable of performing crud operations on a program.
     /// </summary>
+    [ContractClass(typeof(IProgramService))]
     public interface IProgramService
     {
         /// <summary>
@@ -36,5 +40,75 @@ namespace ECA.Business.Service.Programs
         /// <param name="programId">The program id.</param>
         /// <returns>The program, or null if it doesn't exist.</returns>
         ProgramDTO GetProgramById(int programId);
+
+        /// <summary>
+        /// Creates a new program in the ECA system with a status of draft.
+        /// </summary>
+        /// <param name="draftProgram">The draft program.</param>
+        /// <returns>The saved program.</returns>
+        Program Create(DraftProgram draftProgram);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [ContractClassFor(typeof(IProgramService))]
+    public abstract class ProgramServiceContarct : IProgramService
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public PagedQueryResults<SimpleProgramDTO> GetPrograms(QueryableOperator<SimpleProgramDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            Contract.Ensures(Contract.Result<PagedQueryResults<SimpleProgramDTO>>() != null, "The value returned must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public Task<PagedQueryResults<SimpleProgramDTO>> GetProgramsAsync(QueryableOperator<SimpleProgramDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            Contract.Ensures(Contract.Result<PagedQueryResults<SimpleProgramDTO>>() != null, "The value returned must not be null.");
+            return Task.FromResult<PagedQueryResults<SimpleProgramDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public Task<ProgramDTO> GetProgramByIdAsync(int programId)
+        {
+            return Task.FromResult<ProgramDTO>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="programId"></param>
+        /// <returns></returns>
+        public ProgramDTO GetProgramById(int programId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="draftProgram"></param>
+        /// <returns></returns>
+        public Program Create(DraftProgram draftProgram)
+        {
+            Contract.Requires(draftProgram != null, "The draft program must not be null.");
+            Contract.Ensures(Contract.Result<Program>() != null, "The returned program must not be null.");
+            return null;
+        }
     }
 }

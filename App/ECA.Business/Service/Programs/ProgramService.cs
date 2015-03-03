@@ -74,6 +74,11 @@ namespace ECA.Business.Service.Programs
 
         #region Create
 
+        /// <summary>
+        /// Creates a new program in the ECA system with a status of draft.
+        /// </summary>
+        /// <param name="draftProgram">The draft program.</param>
+        /// <returns>The saved program.</returns>
         public Program Create(DraftProgram draftProgram)
         {
             return DoCreate(draftProgram);
@@ -81,7 +86,6 @@ namespace ECA.Business.Service.Programs
 
         private Program DoCreate(DraftProgram draftProgram)
         {
-            //ignore program type...
             var program = new Program
             {
                 Description = draftProgram.Description,
@@ -96,19 +100,24 @@ namespace ECA.Business.Service.Programs
                 Website = draftProgram.Website
             };
             draftProgram.NewHistory.SetHistory(program);
-            SetGoals(draftProgram, program);
-            SetPointOfContacts(draftProgram, program);
-            SetThemes(draftProgram, program);
+            SetGoals(draftProgram.GoalIds, program);
+            SetPointOfContacts(draftProgram.PointOfContactIds, program);
+            SetThemes(draftProgram.ThemeIds, program);
             return program;
         }
         #endregion
 
-
-        public void SetGoals(EcaProgram program, Program programEntity)
+        /// <summary>
+        /// Updates the goals on the given program to the goals with the given ids.
+        /// </summary>
+        /// <param name="goalIds">The goal ids.</param>
+        /// <param name="programEntity">The program.</param>
+        public void SetGoals(List<int> goalIds, Program programEntity)
         {
-            Contract.Requires(program != null, "The program must not be null.");
+            Contract.Requires(goalIds != null, "The goal ids must not be null.");
             Contract.Requires(programEntity != null, "The program entity must not be null.");
-            program.PointOfContactIds.ForEach(x =>
+            programEntity.Goals.Clear();
+            goalIds.ForEach(x =>
             {
                 var goal = new Goal { GoalId = x };
                 this.Context.Goals.Attach(goal);
@@ -117,11 +126,17 @@ namespace ECA.Business.Service.Programs
             });
         }
 
-        public void SetPointOfContacts(EcaProgram program, Program programEntity)
+        /// <summary>
+        /// Updates the points of contacts on the given program to the pocs with the given ids.
+        /// </summary>
+        /// <param name="pointOfContactIds">The points of contacts by id.</param>
+        /// <param name="programEntity">The program to update.</param>
+        public void SetPointOfContacts(List<int> pointOfContactIds, Program programEntity)
         {
-            Contract.Requires(program != null, "The program must not be null.");
+            Contract.Requires(pointOfContactIds != null, "The list of poc ids must not be null.");
             Contract.Requires(programEntity != null, "The program entity must not be null.");
-            program.PointOfContactIds.ForEach(x =>
+            programEntity.Contacts.Clear();
+            pointOfContactIds.ForEach(x =>
             {
                 var contact = new Contact { ContactId = x };
                 this.Context.Contacts.Attach(contact);
@@ -130,11 +145,17 @@ namespace ECA.Business.Service.Programs
             });
         }
 
-        public void SetThemes(EcaProgram program, Program programEntity)
+        /// <summary>
+        /// Updates the themes on the given program to the themes with the given ids.
+        /// </summary>
+        /// <param name="themeIds">The themes by id.</param>
+        /// <param name="programEntity">The program to update.</param>
+        public void SetThemes(List<int> themeIds, Program programEntity)
         {
-            Contract.Requires(program != null, "The program must not be null.");
+            Contract.Requires(themeIds != null, "The theme ids must not be null.");
             Contract.Requires(programEntity != null, "The program entity must not be null.");
-            program.PointOfContactIds.ForEach(x =>
+            programEntity.Themes.Clear();
+            themeIds.ForEach(x =>
             {
                 var theme = new Theme { ThemeId = x };
                 this.Context.Themes.Attach(theme);

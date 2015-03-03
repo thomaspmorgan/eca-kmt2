@@ -423,24 +423,58 @@ namespace ECA.Business.Test.Service.Programs
         #endregion
 
         #region Create
+
         [TestMethod]
-        public void TestCreate()
+        public void TestSetGoals()
         {
-            var contact = new Contact
-            {
-                ContactId = 1,
-                FullName = "contact name"
-            };
-            var theme = new Theme
-            {
-                ThemeId = 2,
-                ThemeName = "theme"
-            };
-            var goal = new Goal
-            {
-                GoalId = 3,
-                GoalName = "goal"
-            };
+            var original = new Goal { GoalId = 1 };
+            
+            var program = new Program();
+            program.Goals.Add(original);
+
+            var newGoal = new Goal { GoalId = 2 };
+            var newGoalIds = new List<int> { newGoal.GoalId };
+            service.SetGoals(newGoalIds, program);
+            Assert.AreEqual(1, program.Goals.Count);
+            Assert.AreEqual(newGoal.GoalId, program.Goals.First().GoalId);
+
+        }
+
+        [TestMethod]
+        public void TestSetThemes()
+        {
+            var original = new Theme { ThemeId = 1 };
+
+            var program = new Program();
+            program.Themes.Add(original);
+
+            var newTheme = new Theme { ThemeId = 2 };
+            var newThemeIds = new List<int> { newTheme.ThemeId };
+            service.SetThemes(newThemeIds, program);
+            Assert.AreEqual(1, program.Themes.Count);
+            Assert.AreEqual(newTheme.ThemeId, program.Themes.First().ThemeId);
+
+        }
+
+        [TestMethod]
+        public void TestSetPointsOfContact()
+        {
+            var original = new Contact { ContactId = 1 };
+
+            var program = new Program();
+            program.Contacts.Add(original);
+
+            var newContact = new Contact { ContactId = 2 };
+            var newContactIds = new List<int> { newContact.ContactId };
+            service.SetPointOfContacts(newContactIds, program);
+            Assert.AreEqual(1, program.Contacts.Count);
+            Assert.AreEqual(newContact.ContactId, program.Contacts.First().ContactId);
+
+        }
+
+        [TestMethod]
+        public void TestCreate_CheckProperties()
+        {
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -451,9 +485,9 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgramId = 3;
             var focus = "focus";
             var website = "http://www.google.com";
-            var pointOfContactIds = new List<int> { contact.ContactId };
-            var themeIds = new List<int> { theme.ThemeId };
-            var goalIds = new List<int> { goal.GoalId };
+            var pointOfContactIds = new List<int>();
+            var themeIds = new List<int>();
+            var goalIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -472,6 +506,10 @@ namespace ECA.Business.Test.Service.Programs
 
             var program = service.Create(draftProgram);
             Assert.IsNotNull(program);
+            Assert.AreEqual(0, program.Contacts.Count);
+            Assert.AreEqual(0, program.Themes.Count);
+            Assert.AreEqual(0, program.Goals.Count);
+
             Assert.AreEqual(user.Id, program.History.CreatedBy);
             Assert.AreEqual(user.Id, program.History.RevisedBy);
             DateTimeOffset.UtcNow.Should().BeCloseTo(program.History.RevisedOn, DbContextHelper.DATE_PRECISION);
@@ -486,10 +524,141 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
             Assert.AreEqual(focus, program.Focus);
             Assert.AreEqual(website, program.Website);
+        }
 
+        [TestMethod]
+        public void TestCreate_CheckContacts()
+        {
+            var contact = new Contact
+            {
+                ContactId = 1,
+                FullName = "contact name"
+            };
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var focus = "focus";
+            var website = "http://www.google.com";
+            var pointOfContactIds = new List<int> { contact.ContactId };
+            var themeIds = new List<int>();
+            var goalIds = new List<int>();
 
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerOrganizationId,
+               parentProgramId: parentProgramId,
+               focus: focus,
+               website: website,
+               goalIds: goalIds,
+               pointOfContactIds: pointOfContactIds,
+               themeIds: themeIds
+               );
 
+            var program = service.Create(draftProgram);
+            Assert.IsNotNull(program);
+            Assert.AreEqual(1, program.Contacts.Count);
+            Assert.AreEqual(0, program.Themes.Count);
+            Assert.AreEqual(0, program.Goals.Count);
+            Assert.AreEqual(contact.ContactId, program.Contacts.First().ContactId);
+        }
 
+        [TestMethod]
+        public void TestCreate_CheckGoals()
+        {
+            var goal = new Goal
+            {
+                GoalId = 1,
+                GoalName = "contact name"
+            };
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var focus = "focus";
+            var website = "http://www.google.com";
+            var goalIds = new List<int> { goal.GoalId };
+            var themeIds = new List<int>();
+            var contactIds = new List<int>();
+
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerOrganizationId,
+               parentProgramId: parentProgramId,
+               focus: focus,
+               website: website,
+               goalIds: goalIds,
+               pointOfContactIds: contactIds,
+               themeIds: themeIds
+               );
+
+            var program = service.Create(draftProgram);
+            Assert.IsNotNull(program);
+            Assert.AreEqual(0, program.Contacts.Count);
+            Assert.AreEqual(0, program.Themes.Count);
+            Assert.AreEqual(1, program.Goals.Count);
+            Assert.AreEqual(goal.GoalId, program.Goals.First().GoalId);
+        }
+
+        [TestMethod]
+        public void TestCreate_CheckThemes()
+        {
+            var theme = new Theme
+            {
+                ThemeId = 1,
+                ThemeName = "contact name"
+            };
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var focus = "focus";
+            var website = "http://www.google.com";
+            var goalIds = new List<int>();
+            var themeIds = new List<int> { theme.ThemeId };
+            var contactIds = new List<int>();
+
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerOrganizationId,
+               parentProgramId: parentProgramId,
+               focus: focus,
+               website: website,
+               goalIds: goalIds,
+               pointOfContactIds: contactIds,
+               themeIds: themeIds
+               );
+
+            var program = service.Create(draftProgram);
+            Assert.IsNotNull(program);
+            Assert.AreEqual(0, program.Contacts.Count);
+            Assert.AreEqual(1, program.Themes.Count);
+            Assert.AreEqual(0, program.Goals.Count);
+            Assert.AreEqual(theme.ThemeId, program.Themes.First().ThemeId);
         }
         #endregion
     }
