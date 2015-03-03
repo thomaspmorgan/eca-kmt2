@@ -15,6 +15,7 @@ namespace ECA.Business.Queries.Persons
     /// </summary>
     public static class ParticipantQueries
     {
+
         private static IQueryable<SimpleParticipantDTO> CreateGetPersonParticipantsQuery(EcaContext context)
         {
             var query = from participant in context.Participants
@@ -23,20 +24,12 @@ namespace ECA.Business.Queries.Persons
                         on participant.ParticipantType equals participantType
 
                         let person = participant.Person
-                        where person != null
-
-                        //if this get re-enabled remember that gender doesn't work unless you do new Person() in the DefaultIfEmpty person join because of
-                        //the linq to objects not supporting it.
-                        //join gender in context.Genders
-                        //on tp.Gender equals gender into tempGender
-                        //from tg in tempGender.DefaultIfEmpty()
+                        where person != null                       
 
                         select new SimpleParticipantDTO
                         {
-                            //Gender = tg != null ? tg.GenderName : null,
-                            //GenderId = tg != null ? tg.GenderId : default(int?),
-                            //Name = tp != null ? "Person Name Here" : "INVALID PERSON NAME",
-                            Name = "person name",
+                            Name = (person.FirstName != null ? person.FirstName : String.Empty)
+                                + (person.LastName != null ? " " + person.LastName : String.Empty),
                             OrganizationId = default(int?),
                             ParticipantId = participant.ParticipantId,
                             ParticipantType = participantType.Name,

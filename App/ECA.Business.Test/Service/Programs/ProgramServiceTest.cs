@@ -537,7 +537,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
-            var parentProgramId = 3;
             var focus = "focus";
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
