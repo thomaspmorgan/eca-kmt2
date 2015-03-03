@@ -15,7 +15,6 @@ namespace ECA.Business.Queries.Persons
     /// </summary>
     public static class ParticipantQueries
     {
-
         private static IQueryable<SimpleParticipantDTO> CreateGetPersonParticipantsQuery(EcaContext context)
         {
             var query = from participant in context.Participants
@@ -34,7 +33,6 @@ namespace ECA.Business.Queries.Persons
                             ParticipantId = participant.ParticipantId,
                             ParticipantType = participantType.Name,
                             ParticipantTypeId = participantType.ParticipantTypeId,
-                            //PersonId = tp != null ? tp.PersonId : default(int?)
                             PersonId = person.PersonId
 
                         };
@@ -82,9 +80,7 @@ namespace ECA.Business.Queries.Persons
             var query = CreateGetUnionedSimpleParticipantsDTOQuery(context);
             query = query.Apply(queryOperator);
             return query;
-
         }
-
 
         /// <summary>
         /// Creates a query to return all participants for the project with the given id in the context.
