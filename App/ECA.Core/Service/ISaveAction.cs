@@ -10,27 +10,26 @@ namespace ECA.Core.Service
     /// <summary>
     /// An ISaveAction is an action that be executed before and/or after a save changes are called on a service.
     /// </summary>
-    /// <typeparam name="T">The DbContext type.</typeparam>
-    public interface ISaveAction<T> where T : DbContext
+    public interface ISaveAction
     {
         /// <summary>
         /// Executed before save changes is called.
         /// </summary>
-        void BeforeSaveChanges(T context);
+        void BeforeSaveChanges(DbContext context);
 
         /// <summary>
         /// Executed before save changes async is called.
         /// </summary>
-        Task BeforeSaveChangesAsync(T context);
+        Task BeforeSaveChangesAsync(DbContext context);
 
         /// <summary>
         /// Executed after save changes is called.
         /// </summary>
-        void AfterSaveChanges(T context);
+        void AfterSaveChanges(DbContext context);
 
         /// <summary>
         /// Executed after save changes async is called.
         /// </summary>
-        Task AfterSaveChangesAsync(T context);
+        Task AfterSaveChangesAsync(DbContext context);
     }
 }

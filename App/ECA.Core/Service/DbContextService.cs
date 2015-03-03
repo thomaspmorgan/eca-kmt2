@@ -13,7 +13,7 @@ namespace ECA.Core.Service
     /// around saving changes.
     /// </summary>
     /// <typeparam name="T">The DbContext type.</typeparam>
-    public class DbContextService<T> : IDisposable, ISaveable<T> where T : DbContext
+    public class DbContextService<T> : IDisposable, ISaveable where T : DbContext
     {
         /// <summary>
         /// Creates a new DbContextService with the given DbContext instance.
@@ -35,10 +35,11 @@ namespace ECA.Core.Service
         /// </summary>
         /// <param name="saveActions">The optional list of save actions.</param>
         /// <returns>The DbContext's save changes result.</returns>
-        public int SaveChanges(IList<ISaveAction<T>> saveActions = null)
+        public int SaveChanges(IList<ISaveAction> saveActions = null)
         {
             var list = GetSaveActions(saveActions);
             list.ForEach(x => x.BeforeSaveChanges(this.Context));
+            var errors = this.Context.GetValidationErrors();
             var i = this.Context.SaveChanges();
             list.ForEach(x => x.AfterSaveChanges(this.Context));
             return i;
@@ -49,13 +50,14 @@ namespace ECA.Core.Service
         /// </summary>
         /// <param name="saveActions">The optional list of save actions.</param>
         /// <returns>The DbContext's save changes result.</returns>
-        public async Task<int> SaveChangesAsync(IList<ISaveAction<T>> saveActions = null)
+        public async Task<int> SaveChangesAsync(IList<ISaveAction> saveActions = null)
         {
             var list = GetSaveActions(saveActions);
             foreach(var saveAction in list)
             {
                 await saveAction.BeforeSaveChangesAsync(this.Context);
             }
+            var errors = this.Context.GetValidationErrors();
             var i = await this.Context.SaveChangesAsync();
             foreach (var saveAction in list)
             {
@@ -64,7 +66,7 @@ namespace ECA.Core.Service
             return i;
         }
 
-        private List<ISaveAction<T>> GetSaveActions(IList<ISaveAction<T>> actions)
+        private List<ISaveAction> GetSaveActions(IList<ISaveAction> actions)
         {
             if (actions != null)
             {
@@ -72,7 +74,7 @@ namespace ECA.Core.Service
             }
             else
             {
-                return new List<ISaveAction<T>>();
+                return new List<ISaveAction>();
             }
         }
 

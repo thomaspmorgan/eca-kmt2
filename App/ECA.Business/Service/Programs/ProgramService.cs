@@ -86,6 +86,13 @@ namespace ECA.Business.Service.Programs
 
         private Program DoCreate(DraftProgram draftProgram)
         {
+            var owner = new Organization { OrganizationId = draftProgram.OwnerOrganizationId, History = new History() };
+            Program parentProgram = null;
+            if (draftProgram.ParentProgramId.HasValue)
+            {
+                parentProgram = new Program { ProgramId = draftProgram.ParentProgramId.Value };
+            }
+            this.Context.Organizations.Attach(owner);
             var program = new Program
             {
                 Description = draftProgram.Description,
@@ -95,14 +102,16 @@ namespace ECA.Business.Service.Programs
                 ProgramType = null,
                 ProgramStatusId = draftProgram.ProgramStatusId,
                 StartDate = draftProgram.StartDate,
-                OwnerId = draftProgram.OwnerOrganizationId,
-                ParentProgramId = draftProgram.ParentProgramId,
+                OwnerId = owner.OrganizationId,
+                Owner = owner,
+                ParentProgram = parentProgram,
                 Website = draftProgram.Website
             };
             draftProgram.NewHistory.SetHistory(program);
             SetGoals(draftProgram.GoalIds, program);
             SetPointOfContacts(draftProgram.PointOfContactIds, program);
             SetThemes(draftProgram.ThemeIds, program);
+            this.Context.Programs.Add(program);
             return program;
         }
         #endregion

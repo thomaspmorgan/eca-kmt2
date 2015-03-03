@@ -64,12 +64,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the Parent Program.
         /// </summary>
-        public Program ParentProgram { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Parent Program Id.
-        /// </summary>
-        public int? ParentProgramId { get; set; }
+        public virtual Program ParentProgram { get; set; }
 
         /// <summary>
         /// Gets or sets the Start Date.

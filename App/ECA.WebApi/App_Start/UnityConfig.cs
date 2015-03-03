@@ -24,7 +24,8 @@ namespace ECA.WebApi
         public static void RegisterContexts(IUnityContainer container)
         {
             //var localDbConnectionString = @"Data Source=(LocalDb)\v11.0;Initial Catalog=Test;Integrated Security=True";
-            container.RegisterType<EcaContext>(new HierarchicalLifetimeManager());
+            var connectionString = "EcaContext";
+            container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             //container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(localDbConnectionString));
             //container.RegisterType<EcaContext>(new InjectionFactory((c) =>
             //{

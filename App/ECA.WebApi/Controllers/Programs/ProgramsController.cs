@@ -4,6 +4,7 @@ using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.WebApi.Models.Programs;
 using ECA.WebApi.Models.Query;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -71,132 +72,26 @@ namespace ECA.WebApi.Controllers.Programs
             }            
         }
 
-        //private EcaContext db = new EcaContext();
+        /// <summary>
+        /// Creates a new draft program and returns the saved program.
+        /// </summary>
+        /// <param name="model">The new draft program.</param>
+        /// <returns>The saved program.</returns>
+        public async Task<IHttpActionResult> PostProgramAsync(DraftProgramBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = 0;
+                var program = programService.Create(model.ToDraftProgram(userId));
+                await programService.SaveChangesAsync();
+                var dto = await programService.GetProgramByIdAsync(program.ProgramId);
+                return Ok(dto);
 
-        //// GET: api/Programs
-        //public IEnumerable<ProgramDTO> GetPrograms(int limit = 200, int offset = 0)
-        //{
-        //    db.Configuration.LazyLoadingEnabled = false;
-        //    var programDTOs = (from p in db.Programs
-        //                       orderby p.Name
-        //                       select new ProgramDTO
-        //                           {
-        //                               ProgramId = p.ProgramId,
-        //                               Name = p.Name,
-        //                               Description = p.Description,
-        //                               Owner = new OrganizationDTO
-        //                               {
-        //                                   OrganizationId = p.Owner.OrganizationId
-        //                               }
-        //                           }); //.Skip(offset).Take(limit);
-
-        //    //var programDTOs = Mapper.Map<IEnumerable<Program>, IEnumerable<ProgramDTO>>(programs);
-        //    return programDTOs;
-        //}
-
-        //// GET: api/Programs/5
-        //[ResponseType(typeof(ProgramDTO))]
-        //public async Task<IHttpActionResult> GetProgram(int id)
-        //{
-        //    Program program = await db.Programs
-        //        .Include(p => p.Themes)
-        //        .Include(p => p.Owner)
-        //        .Include(p =>p.Regions)
-        //        .Include(p => p.Goals)
-        //        .Include(p => p.Contacts)
-        //            .SingleOrDefaultAsync(i => i.ProgramId == id);
-        //    if (program == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(GetProgramDTO(program));
-        //}
-
-        //private ProgramDTO GetProgramDTO(Program program)
-        //{
-        //    var programDTO = Mapper.Map<Program, ProgramDTO>(program);
-        //    return programDTO;
-        //}
-
-        //// PUT: api/Programs/5
-        //[ResponseType(typeof(void))]
-        //public async Task<IHttpActionResult> PutProgram(int id, Program program)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != program.ProgramId)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(program).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await db.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ProgramExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
-        //// POST: api/Programs
-        //[ResponseType(typeof(Program))]
-        //public async Task<IHttpActionResult> PostProgram(Program program)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    db.Programs.Add(program);
-        //    await db.SaveChangesAsync();
-
-        //    return CreatedAtRoute("DefaultApi", new { id = program.ProgramId }, program);
-        //}
-
-        //// DELETE: api/Programs/5
-        //[ResponseType(typeof(Program))]
-        //public async Task<IHttpActionResult> DeleteProgram(int id)
-        //{
-        //    Program program = await db.Programs.FindAsync(id);
-        //    if (program == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.Programs.Remove(program);
-        //    await db.SaveChangesAsync();
-
-        //    return Ok(program);
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-        //private bool ProgramExists(int id)
-        //{
-        //    return db.Programs.Count(e => e.ProgramId == id) > 0;
-        //}
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
     }
 }

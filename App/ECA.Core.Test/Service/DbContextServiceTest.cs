@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace ECA.Core.Test.Service
 {
-    public class SampleSaveAction : ISaveAction<SampleDbContext>
+    public class SampleSaveAction : ISaveAction
     {
 
         public int BeforeSaveChangesCount { get; set; }
@@ -16,28 +16,28 @@ namespace ECA.Core.Test.Service
         public int BeforeSaveChangesCountAsync { get; set; }
         public int AfterSaveChangesCountAsync { get; set; }
 
-        public SampleDbContext GivenContext { get; set; }
+        public DbContext GivenContext { get; set; }
 
-        public void BeforeSaveChanges(SampleDbContext context)
+        public void BeforeSaveChanges(DbContext context)
         {
             this.BeforeSaveChangesCount++;
             this.GivenContext = context;
         }
 
-        public System.Threading.Tasks.Task BeforeSaveChangesAsync(SampleDbContext context)
+        public System.Threading.Tasks.Task BeforeSaveChangesAsync(DbContext context)
         {
             this.BeforeSaveChangesCountAsync++;
             this.GivenContext = context;
             return Task.FromResult<object>(null);
         }
 
-        public void AfterSaveChanges(SampleDbContext context)
+        public void AfterSaveChanges(DbContext context)
         {
             this.AfterSaveChangesCount++;
             this.GivenContext = context; ;
         }
 
-        public System.Threading.Tasks.Task AfterSaveChangesAsync(SampleDbContext context)
+        public System.Threading.Tasks.Task AfterSaveChangesAsync(DbContext context)
         {
             this.AfterSaveChangesCountAsync++;
             this.GivenContext = context;
@@ -80,9 +80,15 @@ namespace ECA.Core.Test.Service
     [TestClass]
     public class DbContextServiceTest
     {
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Database.SetInitializer<SampleDbContext>(null);
+        }
+
         [TestMethod]
         public void TestSaveChanges()
-        {
+        {   
             var context = new SampleDbContext();
             var service = new DbContextService<SampleDbContext>(context);
             var saveAction = new SampleSaveAction();
@@ -93,7 +99,7 @@ namespace ECA.Core.Test.Service
             Assert.IsFalse(context.SaveChangesCalled);
             Assert.IsFalse(context.SaveChangesAsyncCalled);
 
-            service.SaveChanges(new List<ISaveAction<SampleDbContext>> { saveAction });
+            service.SaveChanges(new List<ISaveAction> { saveAction });
             Assert.AreEqual(1, saveAction.BeforeSaveChangesCount);
             Assert.AreEqual(1, saveAction.AfterSaveChangesCount);
             Assert.AreEqual(0, saveAction.BeforeSaveChangesCountAsync);
@@ -116,7 +122,7 @@ namespace ECA.Core.Test.Service
             Assert.IsFalse(context.SaveChangesCalled);
             Assert.IsFalse(context.SaveChangesAsyncCalled);
 
-            await service.SaveChangesAsync(new List<ISaveAction<SampleDbContext>> { saveAction });
+            await service.SaveChangesAsync(new List<ISaveAction> { saveAction });
             Assert.AreEqual(0, saveAction.BeforeSaveChangesCount);
             Assert.AreEqual(0, saveAction.AfterSaveChangesCount);
             Assert.AreEqual(1, saveAction.BeforeSaveChangesCountAsync);

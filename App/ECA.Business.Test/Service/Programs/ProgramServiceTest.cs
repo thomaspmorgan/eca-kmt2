@@ -506,6 +506,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var program = service.Create(draftProgram);
             Assert.IsNotNull(program);
+            Assert.IsNotNull(program.ParentProgram);
             Assert.AreEqual(0, program.Contacts.Count);
             Assert.AreEqual(0, program.Themes.Count);
             Assert.AreEqual(0, program.Goals.Count);
@@ -520,10 +521,48 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(startDate, program.StartDate);
             Assert.AreEqual(endDate, program.EndDate);
             Assert.AreEqual(ownerOrganizationId, program.OwnerId);
-            Assert.AreEqual(parentProgramId, program.ParentProgramId);
+            Assert.AreEqual(parentProgramId, program.ParentProgram.ProgramId);
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
             Assert.AreEqual(focus, program.Focus);
             Assert.AreEqual(website, program.Website);
+        }
+
+        [TestMethod]
+        public void TestCreate_DoesNotHaveParentProgram()
+        {
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var focus = "focus";
+            var website = "http://www.google.com";
+            var pointOfContactIds = new List<int>();
+            var themeIds = new List<int>();
+            var goalIds = new List<int>();
+
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerOrganizationId,
+               parentProgramId: null,
+               focus: focus,
+               website: website,
+               goalIds: goalIds,
+               pointOfContactIds: pointOfContactIds,
+               themeIds: themeIds
+               );
+
+            var program = service.Create(draftProgram);
+            Assert.IsNotNull(program);
+            Assert.IsNull(program.ParentProgram);
+            
         }
 
         [TestMethod]

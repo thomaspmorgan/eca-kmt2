@@ -2,6 +2,7 @@
 using ECA.Business.Queries.Models.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Core.Service;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace ECA.Business.Service.Programs
     /// A ProgramService is capable of performing crud operations on a program.
     /// </summary>
     [ContractClass(typeof(IProgramService))]
-    public interface IProgramService
+    public interface IProgramService : ISaveable
     {
         /// <summary>
         /// Returns a paged, filtered, and sorted list of programs in the system.
@@ -53,7 +54,7 @@ namespace ECA.Business.Service.Programs
     /// 
     /// </summary>
     [ContractClassFor(typeof(IProgramService))]
-    public abstract class ProgramServiceContarct : IProgramService
+    public abstract class ProgramServiceContract : IProgramService
     {
         /// <summary>
         /// 
@@ -109,6 +110,26 @@ namespace ECA.Business.Service.Programs
             Contract.Requires(draftProgram != null, "The draft program must not be null.");
             Contract.Ensures(Contract.Result<Program>() != null, "The returned program must not be null.");
             return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="saveActions"></param>
+        /// <returns></returns>
+        public int SaveChanges(System.Collections.Generic.IList<ISaveAction> saveActions = null)
+        {
+            return 1;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="saveActions"></param>
+        /// <returns></returns>
+        public Task<int> SaveChangesAsync(System.Collections.Generic.IList<ISaveAction> saveActions = null)
+        {
+            return Task.FromResult<int>(1);
         }
     }
 }
