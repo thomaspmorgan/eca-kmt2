@@ -9,11 +9,13 @@
  */
 angular.module('staticApp')
   .controller('AllProgramsCtrl', function ($scope, $stateParams, ProgramService, TableService) {
-
+      
       $scope.today = function () {
           $scope.startDate = new Date();
       };
       $scope.today();
+
+      $scope.alerts = [];
 
       // temporary until we load themes from db
       $scope.themes = [
@@ -93,15 +95,16 @@ angular.module('staticApp')
 
       // initialize new Program record
       $scope.newProgram = {
-          title: '',
+          name: '',
           description: '',
+          parentProgram: '',
           startDate: new Date(),
           themes: [],
           goals: [],
           regions: [],
           focus: '',
-          pointOfContacts: [],
-          website: ''
+          pointsOfContact: [],
+          website: 'http://'
       };
 
     $scope.programs = [];
@@ -129,20 +132,18 @@ angular.module('staticApp')
             tableState.pagination.numberOfPages = Math.floor(data.total / limit);
             $scope.programsLoading = false;
         });
-    }
+    };
 
       // modal form
     $scope.modalClose = function () {
-        var close = true;
         if (unsavedChanges()) {
-            close = confirm('You have unsaved changes!\nAre you sure you want to close?');
+           $scope.modal.confirmClose = true;
         }
-        return close;
     };
-
+      // Need to have more added to function
     function unsavedChanges() {
         var unsavedChanges = false;
-        if ($scope.newProgram.title.length > 0 || $scope.newProgram.description.length > 0) {
+        if ($scope.newProgram.name.length > 0 || $scope.newProgram.description.length > 0) {
             unsavedChanges = true;
         }
         return unsavedChanges;
@@ -150,9 +151,9 @@ angular.module('staticApp')
 
     $scope.modalClear = function () {
         angular.forEach($scope.newProgram, function (value, key) {
-            $scope.newProgram[key] = '';
+            $scope.newProgram[key] = ''
         });
-        $scope.calClear();
+        $scope.calClear()
     };
 
     $scope.updateProgram = function () {
@@ -172,10 +173,8 @@ angular.module('staticApp')
         $event.preventDefault();
         $event.stopPropagation();
 
-        $scope.opened = true;
-        setTimeout(function () {
-            $scope.opened = false;
-        }, 10);
+        $scope.calOpened = true;
+
     };
 
     $scope.calClear = function () {
@@ -185,10 +184,25 @@ angular.module('staticApp')
     $scope.toggleMin = function () {
         $scope.minDate = $scope.minDate ? null : new Date();
     };
+    $scope.toggleMin();
 
-    $scope.maxDate = function () {
-        var maxDate = $scope.startDate;
-        maxDate.setFullYear(maxDate.getFullYear() + 1);
-        return maxDate;
+    $scope.toggleMax = function () {
+        var curDate = new Date();
+        curDate = curDate.setFullYear(curDate.getFullYear() + 1);
+        $scope.maxDate = curDate;
     }
+    $scope.toggleMax();
+
+    $scope.confirmCloseYes = function ()
+    {
+        $scope.modal.confirmClose = false;
+        $scope.modal.createProgram = false;
+    }
+
+    $scope.confirmCloseNo = function ()
+    {
+        $scope.modal.createProgram = true;
+        $scope.modal.confirmClose = false;
+    }
+
   });
