@@ -25,6 +25,7 @@ namespace ECA.Business.Models.Programs
             List<int> themeIds)
             : base(
                 updatedBy: createdBy,
+                programId: 0,
                 name: name,
                 description: description,
                 startDate: startDate,
@@ -39,10 +40,9 @@ namespace ECA.Business.Models.Programs
                 themeIds: themeIds
                 )
         {
-            this.NewHistory = new CreatedHistory(createdBy);
+            this.Audit = new Create(createdBy);
         }
 
-        public CreatedHistory NewHistory { get; private set; }
 
     }
 }

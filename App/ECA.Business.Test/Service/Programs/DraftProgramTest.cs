@@ -42,8 +42,8 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: pointOfContactIds,
                 themeIds: themeIds
                 );
-            Assert.AreEqual(user, program.History.RevisedBy);
-            DateTimeOffset.UtcNow.Should().BeCloseTo(program.History.RevisedOn, DbContextHelper.DATE_PRECISION);
+            Assert.AreEqual(user, program.Audit.User);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(program.Audit.Date, DbContextHelper.DATE_PRECISION);
 
             Assert.AreEqual(name, program.Name);
             Assert.AreEqual(description, program.Description);

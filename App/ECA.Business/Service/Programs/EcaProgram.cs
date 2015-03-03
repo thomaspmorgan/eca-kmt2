@@ -8,10 +8,11 @@ namespace ECA.Business.Models.Programs
     /// <summary>
     /// A EcaProgram is a program is a non-draft program in the ECA system.
     /// </summary>
-    public class EcaProgram
+    public class EcaProgram : IAuditable
     {
         public EcaProgram(
             User updatedBy,
+            int programId,
             string name,
             string description,
             DateTimeOffset startDate,
@@ -25,19 +26,18 @@ namespace ECA.Business.Models.Programs
             List<int> pointOfContactIds,
             List<int> themeIds)
         {
+            this.ProgramId = programId;
             this.Name = name;
             this.Description = description;
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.OwnerOrganizationId = ownerOrganizationId;
             this.ParentProgramId = parentProgramId;
-            this.History = new RevisedHistory(updatedBy);
             this.Focus = focus;
             this.Website = website;
             this.GoalIds = goalIds ?? new List<int>();
             this.PointOfContactIds = pointOfContactIds ?? new List<int>();
             this.ThemeIds = themeIds ?? new List<int>();
-            this.History = new RevisedHistory(updatedBy);
 
             var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
             if (programStatus == null)
@@ -48,9 +48,12 @@ namespace ECA.Business.Models.Programs
             {
                 this.ProgramStatusId = programStatus.Id;
             }
+            this.Audit = new Update(updatedBy);
         }
 
-        public int ProgramStatusId { get; set; }
+        public int ProgramId { get; private set; }
+
+        public int ProgramStatusId { get; private set; }
 
         public string Name { get; private set; }
 
@@ -68,15 +71,13 @@ namespace ECA.Business.Models.Programs
 
         public int? ParentProgramId { get; private set; }
 
-        public RevisedHistory History { get; private set; }
-
         public List<int> GoalIds { get; private set; }
 
         public List<int> ThemeIds { get; private set; }
 
         public List<int> PointOfContactIds { get; private set; }
 
-
+        public Audit Audit { get; protected set; }
     }
 
 }

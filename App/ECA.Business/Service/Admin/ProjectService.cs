@@ -33,7 +33,7 @@ namespace ECA.Business.Service.Admin
                 ProjectStatusId = draftProject.StatusId,
                 ProgramId = draftProject.ProgramId
             };
-            draftProject.History.SetHistory(project);
+            //draftProject.History.SetHistory(project);
             this.Context.Projects.Add(project);
             return project;
         }

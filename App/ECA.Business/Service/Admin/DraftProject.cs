@@ -22,11 +22,13 @@ namespace ECA.Business.Service.Admin
         /// <param name="createdBy">The user who created the draft project.</param>
         public DraftProject(User createdBy, string name, string description, int programId)
         {
-            this.Name = name;
-            this.ProgramId = programId;
-            this.StatusId = ProjectStatus.Draft.Id;
-            this.Description = description;
-            this.History = new CreatedHistory(createdBy);
+            // remember to fix the unit test for this constructor too
+            throw new NotImplementedException();
+            //this.Name = name;
+            //this.ProgramId = programId;
+            //this.StatusId = ProjectStatus.Draft.Id;
+            //this.Description = description;
+            //this.History = new CreatedHistory(createdBy);
         }
 
         /// <summary>
@@ -52,6 +54,6 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Gets the history of the draft project.
         /// </summary>
-        public CreatedHistory History { get; private set; }        
+        //public CreatedHistory History { get; private set; }        
     }
 }

@@ -1,16 +1,18 @@
-﻿using System.Linq;
-using System.Data.Entity;
+﻿using ECA.Business.Exceptions;
 using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Queries.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Core.Service;
 using ECA.Data;
 using System;
-using System.Diagnostics.Contracts;
-using System.Threading.Tasks;
-using ECA.Core.Service;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Programs
 {
@@ -23,7 +25,8 @@ namespace ECA.Business.Service.Programs
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
         /// <param name="context">The context to operate on.</param>
-        public ProgramService(EcaContext context) : base(context)
+        public ProgramService(EcaContext context)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }
@@ -86,35 +89,101 @@ namespace ECA.Business.Service.Programs
 
         private Program DoCreate(DraftProgram draftProgram)
         {
-            var owner = new Organization { OrganizationId = draftProgram.OwnerOrganizationId, History = new History() };
-            Program parentProgram = null;
-            if (draftProgram.ParentProgramId.HasValue)
-            {
-                parentProgram = new Program { ProgramId = draftProgram.ParentProgramId.Value };
-            }
-            this.Context.Organizations.Attach(owner);
+            Debug.Assert(draftProgram != null, "The draft program must not be null.");
+            var owner = AttachOrganization(draftProgram.OwnerOrganizationId);
             var program = new Program
             {
                 Description = draftProgram.Description,
                 EndDate = draftProgram.EndDate,
                 Focus = draftProgram.Focus,
                 Name = draftProgram.Name,
+                ParentProgram = draftProgram.ParentProgramId.HasValue ? AttachProgram(draftProgram.ParentProgramId.Value) : null,
                 ProgramType = null,
                 ProgramStatusId = draftProgram.ProgramStatusId,
                 StartDate = draftProgram.StartDate,
                 OwnerId = owner.OrganizationId,
                 Owner = owner,
-                ParentProgram = parentProgram,
-                Website = draftProgram.Website
+                Website = draftProgram.Website,
             };
-            draftProgram.NewHistory.SetHistory(program);
             SetGoals(draftProgram.GoalIds, program);
             SetPointOfContacts(draftProgram.PointOfContactIds, program);
             SetThemes(draftProgram.ThemeIds, program);
+            Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
+            draftProgram.Audit.SetHistory(program);
             this.Context.Programs.Add(program);
             return program;
         }
+
         #endregion
+
+        #region Update
+        private IQueryable<Program> CreateGetProgramByIdQuery(int programId)
+        {
+            return this.Context.Programs.Where(x => x.ProgramId == programId);
+        }
+
+        public void Update(EcaProgram updatedProgram)
+        {
+            var programToUpdate = CreateGetProgramByIdQuery(updatedProgram.ProgramId).FirstOrDefault();
+            if (programToUpdate != null)
+            {
+                DoUpdate(programToUpdate, updatedProgram);
+            }
+            else
+            {
+                throw new ModelNotFoundException(String.Format("The program with the given Id [{0}] was not found.", updatedProgram.ProgramId));
+            }
+        }
+
+        public async Task UpdateAsync(EcaProgram updatedProgram)
+        {
+            var programToUpdate = await CreateGetProgramByIdQuery(updatedProgram.ProgramId).FirstOrDefaultAsync();
+            if (programToUpdate != null)
+            {
+                DoUpdate(programToUpdate, updatedProgram);
+            }
+            else
+            {
+                throw new ModelNotFoundException(String.Format("The program with the given Id [{0}] was not found.", updatedProgram.ProgramId));
+            }
+        }
+
+        private void DoUpdate(Program programToUpdate, EcaProgram updatedProgram)
+        {
+            Debug.Assert(updatedProgram != null, "The updated program must not be null.");
+            Debug.Assert(updatedProgram.Audit != null, "The audit must not be null.");
+
+            var owner = AttachOrganization(updatedProgram.OwnerOrganizationId);
+            programToUpdate.Description = updatedProgram.Description;
+            programToUpdate.EndDate = updatedProgram.EndDate;
+            programToUpdate.Focus = updatedProgram.Focus;
+            programToUpdate.Name = updatedProgram.Name;
+            programToUpdate.Owner = owner;
+            programToUpdate.OwnerId = owner.OrganizationId;
+            programToUpdate.ParentProgram = updatedProgram.ParentProgramId.HasValue ? AttachProgram(updatedProgram.ParentProgramId.Value) : null;
+            programToUpdate.ProgramStatusId = updatedProgram.ProgramStatusId;
+            programToUpdate.StartDate = updatedProgram.StartDate;
+            programToUpdate.Website = updatedProgram.Website;
+            
+            SetGoals(updatedProgram.GoalIds, programToUpdate);
+            SetPointOfContacts(updatedProgram.PointOfContactIds, programToUpdate);
+            SetThemes(updatedProgram.ThemeIds, programToUpdate);            
+        }
+        #endregion
+
+        private Organization AttachOrganization(int organization)
+        {
+            var org = new Organization { OrganizationId = organization };
+            this.Context.Organizations.Attach(org);
+            return org;
+        }
+
+        private Program AttachProgram(int programId)
+        {
+            var program = new Program { ProgramId = programId };
+            this.Context.Programs.Attach(program);
+            return program;
+        }
 
         /// <summary>
         /// Updates the goals on the given program to the goals with the given ids.

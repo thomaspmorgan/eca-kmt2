@@ -47,13 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ModelNotFoundException.cs" />
+    <Compile Include="Service\Audit.cs" />
+    <Compile Include="Service\Create.cs" />
+    <Compile Include="Service\IAuditable.cs" />
     <Compile Include="Service\Programs\DraftProgram.cs" />
     <Compile Include="Service\Admin\DraftProject.cs" />
     <Compile Include="Service\Lookup\ILookup.cs" />
     <Compile Include="Service\Lookup\SimpleLookupDTO.cs" />
-    <Compile Include="Service\CreatedHistory.cs" />
     <Compile Include="Service\Programs\EcaProgram.cs" />
-    <Compile Include="Service\RevisedHistory.cs" />
     <Compile Include="Queries\Admin\GoalQueries.cs" />
     <Compile Include="Queries\Admin\LocationQueries.cs" />
     <Compile Include="Queries\Models\Admin\GoalDTO.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Service\Admin\ProjectService.cs" />
     <Compile Include="Service\Lookup\LookupService.cs" />
     <Compile Include="Service\Lookup\ThemeService.cs" />
+    <Compile Include="Service\Update.cs" />
     <Compile Include="Service\User.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,7 +110,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Exceptions\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
