@@ -58,6 +58,7 @@
     <Compile Include="Queries\Admin\LocationQueries.cs" />
     <Compile Include="Queries\Models\Admin\GoalDTO.cs" />
     <Compile Include="Queries\Models\Admin\LocationDTO.cs" />
+    <Compile Include="Queries\Models\Admin\ProjectDTO.cs" />
     <Compile Include="Queries\Models\Persons\ContactDTO.cs" />
     <Compile Include="Queries\Models\Persons\SimpleParticipantDTO.cs" />
     <Compile Include="Queries\Models\Programs\ProgramDTO.cs" />

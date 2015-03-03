@@ -1,36 +1,36 @@
 <div class="breadcrumbs">
-  <p><a ui-sref="offices.overview({officeId: program.owner.organizationId})">{{program.owner.description}}</a> &bull; <a ui-sref="programs.overview({programId: program.programId})">{{program.name}}</a> &bull; {{project.name}}</p>
+    <p><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerDescription}}</a> &bull; <a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a> &bull; {{project.projectName}}</p>
 </div>
 <div class="jumbotron project">
-  <div class="toolbar" sticky offset="50">
-    <div class="left2">
-      <div class="btn-group" dropdown>
-        <button type="button" class="btn btn-danger">DRAFT</button>
-        <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle>
-          <span class="caret"></span>
-          <span class="sr-only">Split button!</span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-          <li><a href="#">SAVE AS DRAFT</a></li>
-          <li><a href="#">PUBLISH</a></li>
-          <li class="divider"></li>
-          <li><a href="#">DELETE PERMANENTLY</a></li>
-        </ul>
-      </div>
-      <span class="detail">Last Updated 01/01/14</span>
+    <div class="toolbar" sticky offset="50">
+        <div class="left2">
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-danger">DRAFT</button>
+                <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle>
+                    <span class="caret"></span>
+                    <span class="sr-only">Split button!</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">SAVE AS DRAFT</a></li>
+                    <li><a href="#">PUBLISH</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">DELETE PERMANENTLY</a></li>
+                </ul>
+            </div>
+            <span class="detail">Last Updated 01/01/14</span>
+        </div>
+        <div class="right">
+            <img class="icon star" src="images/star.png" alt="">
+            <img class="icon" src="images/exportA.png" alt="">
+            <img class="icon wide" src="images/collabA.png" alt="">
+            <img class="icon" src="images/toolCommentsA.png" alt="">
+        </div>
     </div>
-    <div class="right">
-      <img class="icon star" src="images/star.png" alt="">
-      <img class="icon" src="images/exportA.png" alt="">
-      <img class="icon wide" src="images/collabA.png" alt="">
-      <img class="icon" src="images/toolCommentsA.png" alt="">
+    <div class="heading">
+        <h5>PROJECT</h5>
+        <h1>{{project.name}}</h1>
+        <span class="owner-office">{{program.ownerName}}</span>
     </div>
-  </div>
-  <div class="heading">
-    <h5>PROJECT</h5>
-    <h1>{{project.name}}</h1>
-    <span class="owner-office">{{program.owner.name}}</span>
-  </div>
 </div>
 <tab-bar tabs="tabs" on-add="addTab()" edit></tab-bar>
 <div class="container" ui-view>

@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Models.Lookups;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System.Diagnostics.Contracts;
@@ -40,6 +41,21 @@ namespace ECA.Business.Queries.Admin
                         };
 
             query = query.Apply(queryOperator);
+            return query;
+        }
+
+        public static IQueryable<ProjectDTO> CreateGetProjectByIdQuery(EcaContext context, int projectId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+
+            var query = from project in context.Projects
+                        let themes = project.Themes
+                        where project.ProjectId == projectId
+                        select new ProjectDTO
+                        {
+                            Name = project.Name,
+                            Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName })
+                        };
             return query;
         }
     }
