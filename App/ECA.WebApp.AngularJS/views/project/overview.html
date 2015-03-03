@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-md-6 title-label">Focus</div>
             <!--<div class="col-md-6"><span ng-repeat="area in project.focusAreas">{{area}}</span></div>-->
-            <div class="col-md-6">{{project.focusArea}}</div>
+            <div class="col-md-6">{{project.focus}}</div>
         </div>
         <div class="row">
             <div class="col-md-6 title-label">Office</div>
@@ -45,7 +45,7 @@
             <div class="col-md-6"><a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a></div>
         </div>
         <div class="row" ng-show="program.contacts">
-            <div class="col-md-6 title-label"><ng-pluralize count="program.contactReferences.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+            <div class="col-md-6 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
             <div class="col-md-6">
                 <ul>
                     <li ng-repeat="contact in program.contacts">{{contact.value}}</li>
@@ -57,11 +57,11 @@
 <div class="row">
     <h4 class="tab-subheader">Snapshot</h4>
     <div class="col-md-4">
-        <p class="stat text-center">{{project.locationReferences.length}}</p>
+        <p class="stat text-center">{{project.countryIsos.length}}</p>
         <p class="title-label text-center">Locations</p>
     </div>
     <div class="col-md-8">
-        <map width="600" height="300" activecolor="5cb9dd" countries="project.locationReferences"></map>
+        <map width="600" height="300" activecolor="5cb9dd" countries="project.countryIsos"></map>
     </div>
 </div>
 <!--<div class="row">

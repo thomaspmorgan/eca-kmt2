@@ -13,11 +13,13 @@ namespace ECA.Business.Queries.Models.Admin
         public ProjectDTO()
         {
             this.Themes = new List<SimpleLookupDTO>();
+            this.CountryIsos = new List<SimpleLookupDTO>();
         }
 
 
-        public int Id { get; set; }
         public string Name { get; set; }
+        public string Focus { get; set; }
         public IEnumerable<SimpleLookupDTO> Themes { get; set; }
+        public IEnumerable<SimpleLookupDTO> CountryIsos { get; set; }
     }
 }

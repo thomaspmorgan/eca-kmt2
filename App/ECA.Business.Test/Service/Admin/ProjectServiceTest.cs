@@ -474,6 +474,127 @@ namespace ECA.Business.Test.Service.Admin
         }
         #endregion
 
+        #region Get Project By Id
+        [TestMethod]
+        public async Task TestGetProjectById_CheckProperties()
+        {
+            var theme = new Theme
+            {
+                ThemeId = 1,
+                ThemeName = "theme"
+            };
+
+            var location = new Location
+            {
+                LocationId = 1,
+                LocationName = "country",
+                LocationIso = "countryIso",
+                LocationTypeId = LocationType.Country.Id
+            };
+
+            var region = new Location
+            {
+                LocationName = "region",
+                LocationId = 3,
+                LocationIso = "locationIso",
+                LocationTypeId = LocationType.Region.Id
+            };
+            location.Region = region;
+
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                FocusArea = "focus",
+                Themes = new HashSet<Theme>(),
+                Locations = new HashSet<Location>(),
+                Regions = new HashSet<Location>()
+            };
+
+            project.Themes.Add(theme);
+            project.Locations.Add(location);
+            project.Regions.Add(region);
+
+            context.Themes.Add(theme);
+            context.Locations.Add(location);
+            context.Projects.Add(project);
+            context.Locations.Add(region);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.AreEqual(project.Name, serviceResult.Name);
+                Assert.AreEqual(project.FocusArea, serviceResult.Focus);
+                CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),
+                    serviceResult.Themes.Select(x => x.Value).ToList());
+                CollectionAssert.AreEqual(context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
+                    serviceResult.CountryIsos.Select(x => x.Value).ToList());
+
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+            
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectById_EmptyCollections()
+        {
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                FocusArea = "focus",
+                Themes = new HashSet<Theme>(),
+                Regions = new HashSet<Location>()
+            };
+
+            context.Projects.Add(project);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.AreEqual(project.Name, serviceResult.Name);
+                Assert.AreEqual(project.FocusArea, serviceResult.Focus);
+                CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),
+                    serviceResult.Themes.Select(x => x.Value).ToList());
+                CollectionAssert.AreEqual(context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
+                    serviceResult.CountryIsos.Select(x => x.Value).ToList());
+            };
+
+            var result = service.GetProjectById(project.ProjectId);
+            var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
+
+            tester(result);
+            tester(resultAsync);
+        } 
+
+        [TestMethod]
+        public async Task TestGetProjectById_WrongId()
+        {
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                FocusArea = "focus",
+                Themes = new HashSet<Theme>(),
+                Regions = new HashSet<Location>()
+            };
+
+            context.Projects.Add(project);
+
+            Action<ProjectDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNull(serviceResult);
+            };
+
+            var result = service.GetProjectById(2);
+            var resultAsync = await service.GetProjectByIdAsync(2);
+
+            tester(result);
+            tester(resultAsync);
+        }
+        #endregion
     }
 }
 

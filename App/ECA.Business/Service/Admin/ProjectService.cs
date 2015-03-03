@@ -1,4 +1,6 @@
-﻿using ECA.Business.Queries.Admin;
+﻿using System.Linq;
+using System.Data.Entity;
+using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -62,6 +64,16 @@ namespace ECA.Business.Service.Admin
         public Task<PagedQueryResults<SimpleProjectDTO>> GetProjectsByProgramIdAsync(int programId, QueryableOperator<SimpleProjectDTO> queryOperator)
         {
             return ProjectQueries.CreateGetProjectsByProgramQuery(this.Context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+        }
+
+        public Task<ProjectDTO> GetProjectByIdAsync(int projectId)
+        {
+            return ProjectQueries.CreateGetProjectByIdQuery(this.Context, projectId).FirstOrDefaultAsync();
+        }
+
+        public ProjectDTO GetProjectById(int projectId)
+        {
+            return ProjectQueries.CreateGetProjectByIdQuery(this.Context, projectId).FirstOrDefault();
         }
 
         #endregion

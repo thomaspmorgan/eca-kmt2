@@ -54,5 +54,20 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
+
+        [ResponseType(typeof(ProjectDTO))]
+        public async Task<IHttpActionResult> GetProjectByIdAsync(int id)
+        {
+            var project = await this.projectService.GetProjectByIdAsync(id);
+            if (project != null)
+            {
+                return Ok(project);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
     }
 }
