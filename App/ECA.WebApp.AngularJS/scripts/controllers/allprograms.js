@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllProgramsCtrl', function ($scope, $stateParams, ProgramService, TableService) {
+  .controller('AllProgramsCtrl', function ($scope, $stateParams, ProgramService, LookupService, TableService) {
       
       $scope.today = function () {
           $scope.startDate = new Date();
@@ -17,32 +17,9 @@ angular.module('staticApp')
 
       $scope.alerts = [];
 
-      // temporary until we load themes from db
-      $scope.themes = [
-          {
-              themeId: 1,
-              themeName: 'English Teaching'
-          },
-          {
-              themeId: 2,
-              themeName: 'Promoting Exchange Programs'
-          }
-      ];
+      $scope.themes = [];
 
-      $scope.goals = [
-          {
-              goalId: 1,
-              goalName: 'Importance'
-          },
-          {
-              goalId: 2,
-              goalName: 'National Interest'
-          },
-          {
-              goalId: 3,
-              goalName: 'Secular Purpose'
-          }
-      ];
+      $scope.goals = [];
 
       $scope.regions = [
           {
@@ -110,6 +87,26 @@ angular.module('staticApp')
     $scope.programs = [];
 
     $scope.programsLoading = false;
+
+    $scope.lookupParams = {
+        start: null,
+        limit: 100,
+        sort: null,
+        filter: null
+    };
+
+    LookupService.getAllThemes($scope.lookupParams)
+        .then(function (data) {
+            $scope.themes = data.results;
+        });
+
+    LookupService.getAllGoals($scope.lookupParams)
+      .then(function (data) {
+          $scope.goals = data.results;
+      })
+      // don't know why, but I need to access the scope variable for the data to load correctly
+    var x = $scope.themes[1];
+    x = $scope.goals[1];
 
     $scope.getPrograms = function (tableState) {
 

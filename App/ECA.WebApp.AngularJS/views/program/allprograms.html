@@ -90,22 +90,24 @@
                     <label>Themes<span class="asterisk"> *</span></label>
                     <multi-select input-model="themes"
                                   output-model="newProgram.themes"
-                                  button-label="themeName"
-                                  item-label="themeName"
+                                  button-label="name"
+                                  item-label="name"
                                   tick-property="ticked"
                                   selection-mode="multiple"
-                                  helper-elements="">
+                                  helper-elements="filter"
+                                  max-height="250px">
                     </multi-select>
                 </div>
                 <div class="form-group">
                     <label>Goals<span class="asterisk"> *</span></label>
                     <multi-select input-model="goals"
                                   output-model="newProgram.goals"
-                                  button-label="goalName"
-                                  item-label="goalName"
+                                  button-label="name"
+                                  item-label="name"
                                   tick-property="ticked"
                                   selection-mode="multiple"
-                                  helper-elements="">
+                                  helper-elements=""
+                                  max-height="250px">
                     </multi-select>
                 </div>
                 <div class="form-group">
@@ -116,7 +118,8 @@
                                   item-label="focusName"
                                   tick-property="ticked"
                                   selection-mode="single"
-                                  helper-elements="">
+                                  helper-elements=""
+                                  max-height="250px">
                     </multi-select>
                 </div>
                 <div class="form-group">
@@ -127,12 +130,13 @@
                                   item-label="contactName"
                                   tick-property="ticked"
                                   selection-mode="multiple"
-                                  helper-elements="">
+                                  helper-elements="filter"
+                                  max-height="250px">
                     </multi-select>
                 </div>
                 <div class="form-group">
                     <label>External Website</label>
-                    <input type="url" name="programWebsite" ng-model="newProgram.website" form-element guidance="This is the website of your program. (e.g. http://mysite.state.gov)" class="form-control" placeholder="Enter website address (e.g. http://somesite.com)...">
+                    <input type="url" name="programWebsite" ng-model="newProgram.website" ng-required="false" class="form-control" placeholder="Enter website address (e.g. http://somesite.com)...">
                     <div ng-show="programForm.programWebsite.$dirty">
                          <span class="error" ng-show="programForm.programWebsite.$error.url">Not a valid website address.</span>
                     </div>
@@ -141,11 +145,12 @@
         </div>
     </div>
     <button class="btn btn-default" ng-click="modal.createProgram = !modalClose()">CANCEL</button>
-    <button type="submit" form="programForm" ng-disabled="programForm.programDescription.$error.required" class="btn btn-success right" ng-click="saveProgram()">CREATE</button>
+    <button type="submit" form="programForm" ng-disabled="programForm.$invalid" class="btn btn-success right" ng-click="saveProgram()">CREATE</button>
 </modal-dialog>
 <modal-dialog show="modal.confirmClose" dialog-title="Confirm Close">
     <p class="strong">There is unsaved data.  Are you sure you want to close?</p>
-    <button class="btn btn-success right" ng-click="confirmCloseYes()">YES</button>
-    <button class="btn btn-default right" ng-click="confirmCloseNo()">NO</button>
+    <button class="btn btn-default right" ng-click="confirmCloseYes()">YES</button>
+    &nbsp;
+    <button class="btn btn-success right" ng-click="confirmCloseNo()">NO</button>
 </modal-dialog>
 

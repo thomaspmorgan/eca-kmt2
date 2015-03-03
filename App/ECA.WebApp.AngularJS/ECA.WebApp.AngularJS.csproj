@@ -131,6 +131,7 @@
     </Content>
     <Content Include="scripts\services\moneyflow.js" />
     <Content Include="scripts\services\tableservice.js" />
+    <Content Include="scripts\services\lookupservice.js" />
     <Content Include="styles\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>
