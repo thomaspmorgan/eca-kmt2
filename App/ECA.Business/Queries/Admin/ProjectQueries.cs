@@ -1,5 +1,5 @@
-﻿using ECA.Business.Models.Lookups;
-using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System.Diagnostics.Contracts;

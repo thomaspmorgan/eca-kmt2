@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ECA.Business.Service.Lookup;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ECA.Business.Models.Lookups;
 
 
 namespace ECA.Business.Queries.Models.Admin
