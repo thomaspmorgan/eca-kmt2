@@ -74,7 +74,6 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(participantType.Name, participantResult.ParticipantType);
                 Assert.AreEqual(person.PersonId, participantResult.PersonId);
                 Assert.AreEqual(String.Format("{0} {1}", person.FirstName, person.LastName), participantResult.Name);
-
             };
 
             var defaultSorter = new ExpressionSorter<SimpleParticipantDTO>(x => x.Name, SortDirection.Ascending);
@@ -126,7 +125,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(1, results.Results.Count);
                 var participantResult = results.Results.First();
 
-                Assert.AreEqual(String.Format("{0} {1}", null, person.LastName), participantResult.Name);
+                Assert.AreEqual(person.LastName, participantResult.Name);
 
             };
 

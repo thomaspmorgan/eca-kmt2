@@ -28,7 +28,8 @@ namespace ECA.Business.Queries.Persons
                         select new SimpleParticipantDTO
                         {
                             Name = (person.FirstName != null ? person.FirstName : String.Empty)
-                                + (person.LastName != null ? " " + person.LastName : String.Empty),
+                                + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
+                                + (person.LastName != null ? person.LastName : String.Empty),
                             OrganizationId = default(int?),
                             ParticipantId = participant.ParticipantId,
                             ParticipantType = participantType.Name,
