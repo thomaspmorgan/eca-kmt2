@@ -55,7 +55,7 @@
             <tbody class="list2">
                 <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading">
                     <td>
-                        <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.owner.organizationId, programId: program.programId, projectId: project.projectId})">{{project.projectName}}</a></h5>
+                        <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.ownerOrganizationId, programId: program.id, projectId: project.projectId})">{{project.projectName}}</a></h5>
                     </td>
                     <td>{{project.projectStatusName}}</td>
                     <td>{{project.startYearAsString}}</td>
