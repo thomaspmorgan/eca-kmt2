@@ -73,12 +73,12 @@ namespace ECA.Business.Service.Programs
 
         #region Create
 
-        public void Create(NewEcaProgram program)
+        public void Create(DraftProgram draftProgram)
         {
-
+            
         }
 
-        private void DoCreate(NewEcaProgram newEcaProgram)
+        private void DoCreate(DraftProgram draftProgram)
         {
             //var programType = new ProgramType
             //{
@@ -89,12 +89,17 @@ namespace ECA.Business.Service.Programs
             //ignore program type...
             var program = new Program
             {
-                Description = newEcaProgram.Description,
-                EndDate = newEcaProgram.EndDate,
-                Name = newEcaProgram.Name,
-                //ProgramType = programType,
-                
+                Description = draftProgram.Description,
+                EndDate = draftProgram.EndDate,
+                Name = draftProgram.Name,
+                ProgramType = null,
+                ProgramStatusId = draftProgram.ProgramStatusId,
+                StartDate = draftProgram.StartDate,
+                OwnerId = draftProgram.OwnerOrganizationId,
             };
+            draftProgram.NewHistory.SetHistory(program);
+
+            
         }
 
         #endregion

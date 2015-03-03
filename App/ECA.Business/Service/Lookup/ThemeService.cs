@@ -11,12 +11,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Service.Programs
+namespace ECA.Business.Service.Lookup
 {
     /// <summary>
     /// The ThemeService is capable of performing crud operations on Themes with the system using entity framework.
     /// </summary>
-    public class ThemeService : DbContextService<EcaContext>, ECA.Business.Service.Programs.IThemeService
+    public class ThemeService : DbContextService<EcaContext>, ECA.Business.Service.Lookup.IThemeService
     {
         /// <summary>
         /// Creates a new ThemeService.

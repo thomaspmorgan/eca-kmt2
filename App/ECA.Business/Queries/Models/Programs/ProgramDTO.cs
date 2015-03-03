@@ -1,4 +1,4 @@
-﻿using ECA.Business.Models.Lookups;
+﻿using ECA.Business.Service.Lookup;
 using System;
 using System.Collections.Generic;
 using System.Linq;

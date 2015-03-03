@@ -12,22 +12,56 @@ namespace ECA.Data
     /// <summary>
     /// A program is an umbrella for a set of projects and sub-programs.
     /// </summary>
-    public class Program
+    public class Program : IHistorical
     {
+        /// <summary>
+        /// Gets or sets the Program Id.
+        /// </summary>
         [Key]
         public int ProgramId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Name.
+        /// </summary>
         [Required]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
         [Required]
         public string Description { get; set; }
 
-        
-
+        /// <summary>
+        /// Gets or sets the Owner.
+        /// </summary>
         [Required]
         [InverseProperty("OwnerPrograms")]
         public Organization Owner { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Owner Id.
+        /// </summary>
+        public int OwnerId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Parent Program.
+        /// </summary>
         public Program ParentProgram { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Parent Program Id.
+        /// </summary>
+        public int? ParentProgramId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Start Date.
+        /// </summary>
         public DateTimeOffset StartDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the End date.
+        /// </summary>
         public DateTimeOffset EndDate { get; set; }
 
         /// <summary>

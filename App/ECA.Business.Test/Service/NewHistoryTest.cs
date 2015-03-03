@@ -1,10 +1,10 @@
-﻿using FluentAssertions;
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Models;
+﻿using ECA.Business.Service;
 using ECA.Data;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
-namespace ECA.Business.Test.Models
+namespace ECA.Business.Test.Service
 {
     public class NewHistoricalTestClass : IHistorical
     {
@@ -19,8 +19,10 @@ namespace ECA.Business.Test.Models
         {
             var now = DateTimeOffset.UtcNow;
             var userId = 1;
-            var newHistory = new NewHistory(userId);
-            Assert.AreEqual(1, newHistory.CreatorUserId);
+            var user = new User(userId);
+            var newHistory = new CreatedHistory(user);
+            Assert.IsTrue(user == newHistory.CreatedBy);
+            Assert.AreEqual(1, newHistory.CreatedBy.Id);
             newHistory.CreatedAndRevisedOn.Should().BeCloseTo(now, DbContextHelper.DATE_PRECISION);
         }
 
@@ -30,8 +32,9 @@ namespace ECA.Business.Test.Models
             var instance = new NewHistoricalTestClass();
             Assert.IsNull(instance.History);
             var userId = 1;
+            var user = new User(userId);
             var now = DateTimeOffset.UtcNow;
-            var newHistory = new NewHistory(userId);
+            var newHistory = new CreatedHistory(user);
 
             newHistory.SetHistory(instance);
             Assert.IsNotNull(instance.History);
@@ -47,8 +50,9 @@ namespace ECA.Business.Test.Models
             var instance = new NewHistoricalTestClass();
             instance.History = new History();
             var userId = 1;
+            var user = new User(userId);
             var now = DateTimeOffset.UtcNow;
-            var newHistory = new NewHistory(userId);
+            var newHistory = new CreatedHistory(user);
 
             newHistory.SetHistory(instance);
             Assert.IsNotNull(instance.History);

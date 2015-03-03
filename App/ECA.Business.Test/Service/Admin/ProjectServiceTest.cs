@@ -1,5 +1,5 @@
-﻿using ECA.Business.Models.Admin;
-using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
@@ -43,9 +43,10 @@ namespace ECA.Business.Test.Service.Admin
             var utcNow = DateTimeOffset.UtcNow;
             var projectName = "project";
             var userId = 1;
+            var user = new User(userId);
             var description = "description";
             var programId = 2;
-            var draft = new DraftProject(projectName, description, programId, userId);
+            var draft = new DraftProject(user, projectName, description, programId);
             var project = service.Create(draft);
 
             Assert.AreEqual(1, context.Projects.Count());

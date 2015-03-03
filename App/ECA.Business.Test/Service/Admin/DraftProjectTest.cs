@@ -1,14 +1,10 @@
-﻿using ECA.Business.Models;
-using ECA.Business.Models.Admin;
+﻿using ECA.Business.Service;
+using ECA.Business.Service.Admin;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ECA.Business.Test.Models.Admin
+namespace ECA.Business.Test.Service.Admin
 {
     [TestClass]
     public class DraftProjectTest
@@ -19,16 +15,17 @@ namespace ECA.Business.Test.Models.Admin
             var name = "name";
             var description = "description";
             var userId = 1;
+            var user = new User(userId);
             var programId = 2;
             var now = DateTimeOffset.UtcNow;
 
-            var model = new DraftProject(name, description, programId, userId);
+            var model = new DraftProject(user, name, description, programId);
             Assert.AreEqual(name, model.Name);
             Assert.AreEqual(description, model.Description);
             Assert.AreEqual(programId, model.ProgramId);
 
             Assert.IsNotNull(model.History);
-            Assert.AreEqual(userId, model.History.CreatorUserId);
+            Assert.AreEqual(userId, model.History.CreatedBy.Id);
             model.History.CreatedAndRevisedOn.Should().BeCloseTo(now, DbContextHelper.DATE_PRECISION);
         }
     }

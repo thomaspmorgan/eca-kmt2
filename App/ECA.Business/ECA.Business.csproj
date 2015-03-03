@@ -47,13 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Programs\NewEcaProgram.cs" />
-    <Compile Include="Models\Admin\DraftProject.cs" />
-    <Compile Include="Models\Lookups\ILookup.cs" />
-    <Compile Include="Models\Lookups\SimpleLookupDTO.cs" />
-    <Compile Include="Models\NewHistory.cs" />
-    <Compile Include="Models\Programs\EcaProgram.cs" />
-    <Compile Include="Models\RevisedHistory.cs" />
+    <Compile Include="Service\Programs\DraftProgram.cs" />
+    <Compile Include="Service\Admin\DraftProject.cs" />
+    <Compile Include="Service\Lookup\ILookup.cs" />
+    <Compile Include="Service\Lookup\SimpleLookupDTO.cs" />
+    <Compile Include="Service\CreatedHistory.cs" />
+    <Compile Include="Service\Programs\EcaProgram.cs" />
+    <Compile Include="Service\RevisedHistory.cs" />
     <Compile Include="Queries\Admin\GoalQueries.cs" />
     <Compile Include="Queries\Admin\LocationQueries.cs" />
     <Compile Include="Queries\Models\Admin\GoalDTO.cs" />
@@ -80,11 +80,12 @@
     <Compile Include="Service\Persons\ParticipantService.cs" />
     <Compile Include="Service\Programs\IProgramService.cs" />
     <Compile Include="Service\Admin\IProjectService.cs" />
-    <Compile Include="Service\Programs\IThemeService.cs" />
+    <Compile Include="Service\Lookup\IThemeService.cs" />
     <Compile Include="Service\Programs\ProgramService.cs" />
     <Compile Include="Service\Admin\ProjectService.cs" />
     <Compile Include="Service\Lookup\LookupService.cs" />
-    <Compile Include="Service\Programs\ThemeService.cs" />
+    <Compile Include="Service\Lookup\ThemeService.cs" />
+    <Compile Include="Service\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -104,7 +105,10 @@
       <Name>ECA.Data</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

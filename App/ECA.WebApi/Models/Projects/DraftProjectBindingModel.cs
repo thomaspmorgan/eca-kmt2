@@ -1,5 +1,5 @@
 ﻿using ECA.Business.Models;
-using ECA.Business.Models.Admin;
+using ECA.Business.Service.Admin;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -35,9 +35,9 @@ namespace ECA.WebApi.Models.Projects
         /// Returns a DraftProject instance to be used by the ProjectService.
         /// </summary>
         /// <param name="creatorId">The id of the user creating the project.</param>
-        public DraftProject ToDraftProject(int creatorId)
+        public DraftProject ToDraftProject(ECA.Business.Service.User user)
         {
-            return new DraftProject(this.Name, this.Description, this.ProgramId, creatorId);
+            return new DraftProject(user, this.Name, this.Description, this.ProgramId);
         }
     }
 }

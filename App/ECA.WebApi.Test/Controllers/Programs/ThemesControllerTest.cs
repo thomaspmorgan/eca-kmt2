@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;

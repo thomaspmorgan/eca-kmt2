@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Models.Admin
+namespace ECA.Business.Service.Admin
 {
     /// <summary>
     /// A DraftProject is a new project in ECA.
@@ -19,14 +19,14 @@ namespace ECA.Business.Models.Admin
         /// <param name="name">The name of the project.</param>
         /// <param name="programId">The program id.</param>
         /// <param name="description">The description of the project.</param>
-        /// <param name="creatorUserId">The creator user id.</param>
-        public DraftProject(string name, string description, int programId, int creatorUserId)
+        /// <param name="createdBy">The user who created the draft project.</param>
+        public DraftProject(User createdBy, string name, string description, int programId)
         {
             this.Name = name;
             this.ProgramId = programId;
             this.StatusId = ProjectStatus.Draft.Id;
             this.Description = description;
-            this.History = new NewHistory(creatorUserId);
+            this.History = new CreatedHistory(createdBy);
         }
 
         /// <summary>
@@ -52,6 +52,6 @@ namespace ECA.Business.Models.Admin
         /// <summary>
         /// Gets the history of the draft project.
         /// </summary>
-        public NewHistory History { get; private set; }        
+        public CreatedHistory History { get; private set; }        
     }
 }

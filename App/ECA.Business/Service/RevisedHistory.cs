@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Models
+namespace ECA.Business.Service
 {
     /// <summary>
     /// A RevisedHistory object is an object to track a revision to an entity.
@@ -17,16 +17,16 @@ namespace ECA.Business.Models
         /// Initializes a new RevisedHistory object with the given user id.
         /// </summary>
         /// <param name="userId">The user id revising an entity.</param>
-        public RevisedHistory(int userId)
+        public RevisedHistory(User user)
         {
-            this.RevisedByUserId = userId;
+            this.RevisedBy = user;
             this.RevisedOn = DateTimeOffset.UtcNow;
         }
 
         /// <summary>
         /// Gets the user id of the user doing a revision.
         /// </summary>
-        public int RevisedByUserId { get; private set; }
+        public User RevisedBy { get; private set; }
 
         /// <summary>
         /// Gets the date the revision is occuring on.
@@ -41,7 +41,7 @@ namespace ECA.Business.Models
         {
             Contract.Requires(historicalEntity != null, "The historical entity must not be null.");
             Contract.Requires(historicalEntity.History != null, "The history entity must already have a history item associated with it.");
-            historicalEntity.History.RevisedBy = this.RevisedByUserId;
+            historicalEntity.History.RevisedBy = this.RevisedBy.Id;
             historicalEntity.History.RevisedOn = this.RevisedOn;
         }
     }

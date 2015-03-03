@@ -6,27 +6,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Models
+namespace ECA.Business.Service
 {
     /// <summary>
     /// A NewHistory model is a model used when a historical entity is being created for the first time.
     /// </summary>
-    public class NewHistory
+    public class CreatedHistory
     {
         /// <summary>
         /// Initializes a NewHistory instance with the given user id and the current utc time.
         /// </summary>
         /// <param name="creatorUserId">The user creating the history.</param>
-        public NewHistory(int creatorUserId)
+        public CreatedHistory(User user)
         {
             this.CreatedAndRevisedOn = DateTimeOffset.UtcNow;
-            this.CreatorUserId = creatorUserId;
+            this.CreatedBy = user;
         }
 
         /// <summary>
         /// Gets the creating user id.
         /// </summary>
-        public int CreatorUserId { get; private set; }
+        public User CreatedBy { get; private set; }
 
         /// <summary>
         /// Gets the date the history item is created on.
@@ -44,8 +44,8 @@ namespace ECA.Business.Models
             {
                 historicalEntity.History = new History();
             }
-            historicalEntity.History.CreatedBy = this.CreatorUserId;
-            historicalEntity.History.RevisedBy = this.CreatorUserId;
+            historicalEntity.History.CreatedBy = this.CreatedBy.Id;
+            historicalEntity.History.RevisedBy = this.CreatedBy.Id;
             historicalEntity.History.CreatedOn = this.CreatedAndRevisedOn;
             historicalEntity.History.RevisedOn = this.CreatedAndRevisedOn;
         }

@@ -1,4 +1,4 @@
-﻿namespace ECA.Business.Models.Lookups
+﻿namespace ECA.Business.Service.Lookup
 {
     /// <summary>
     /// A SimpleLookupDTO is a class that holds a value and an id.

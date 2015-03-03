@@ -1,17 +1,16 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Business.Service.Programs;
-using System.Reflection;
-using System.Threading.Tasks;
-using ECA.Data;
-using ECA.Core.Query;
-using ECA.Business.Queries.Models.Programs;
+﻿using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
-using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.DynamicLinq.Filter;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Query;
+using ECA.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ECA.Business.Test.Service.Programs
+namespace ECA.Business.Test.Service.Lookup
 {
     [TestClass]
     public class ThemeServiceTest

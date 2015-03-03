@@ -1,5 +1,5 @@
 ﻿
-namespace ECA.Business.Models.Lookups
+namespace ECA.Business.Service.Lookup
 {
     /// <summary>
     /// An ILookup is a simple lookup with an Id and a Value.

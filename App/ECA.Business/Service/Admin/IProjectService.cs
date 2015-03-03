@@ -1,5 +1,4 @@
-﻿using ECA.Business.Models.Admin;
-using ECA.Business.Queries.Models.Admin;
+﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;

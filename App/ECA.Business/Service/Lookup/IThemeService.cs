@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ECA.Business.Service.Programs
+namespace ECA.Business.Service.Lookup
 {
     /// <summary>
     /// An IThemeService is capable of performing crud operations on themes.
