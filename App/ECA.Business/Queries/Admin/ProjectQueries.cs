@@ -53,19 +53,22 @@ namespace ECA.Business.Queries.Admin
                                select country;
 
             var query = from project in context.Projects
+                        let status = project.Status
                         let themes = project.Themes
                         let regions = project.Regions
                         let countries = countryQuery.Where(x => regions.Select(y => y.LocationId).Contains(x.Region.LocationId))
+                        let goals = project.Goals
                         where project.ProjectId == projectId
                         select new ProjectDTO
                         {
                             Id = project.ProjectId,
                             Name = project.Name,
                             Description = project.Description,
+                            Status = status.Status,
                             Focus = project.FocusArea,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
-                            CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso })
-
+                            CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
+                            Goals = goals.Select(x => new SimpleLookupDTO {Id = x.GoalId, Value = x.GoalName})
                         };
             return query;
         }
