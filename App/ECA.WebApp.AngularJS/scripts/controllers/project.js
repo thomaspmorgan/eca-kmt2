@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $stateParams, ProjectService, ProgramService, ParticipantService, LocationService, MoneyFlowService) {
+  .controller('ProjectCtrl', function ($scope, $stateParams, ProjectService, ProgramService, ParticipantService, LocationService, MoneyFlowService, TableService) {
 
       $scope.project = {};
 
@@ -83,12 +83,31 @@ angular.module('staticApp')
             }
         });
 
-      ParticipantService.getParticipantsByProject($stateParams.projectId)
-        .then(function (data) {
-            $scope.project.participants = data;
-        });
+      $scope.participantsLoading = false;
 
-      $scope.participantsCopy = [].concat($scope.project.participants);
+      $scope.getParticipants = function (tableState) {
+
+          $scope.participantsLoading = true;
+
+          TableService.setTableState(tableState);
+
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: TableService.getFilter()
+
+          }
+
+          ParticipantService.getParticipantsByProject($stateParams.projectId, params)
+            .then(function (data) {
+                $scope.project.participants = data.results;
+                var limit = TableService.getLimit();
+                tableState.pagination.numberOfPages = Math.floor(data.total / limit);
+                $scope.participantsLoading = false;
+            });
+      }
+
 
       $scope.params = $stateParams;
 
