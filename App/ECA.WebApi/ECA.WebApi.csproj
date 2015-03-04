@@ -216,8 +216,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="Properties\PublishProfiles\ecaapi-kmt-dev.pubxml.user" />
-    <Content Include="Properties\PublishProfiles\ecaapi-kmt-qa.pubxml.user" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
