@@ -45,7 +45,5 @@ namespace ECA.WebApi.Models.Programs
                 themeIds: this.Themes
                 );
         }
-
-
     }
 }

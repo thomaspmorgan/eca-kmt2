@@ -1,8 +1,8 @@
-﻿using ECA.Business.Exceptions;
-using ECA.Business.Models.Programs;
+﻿using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Queries.Programs;
 using ECA.Core.DynamicLinq;
+using ECA.Core.Exceptions;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
@@ -122,6 +122,10 @@ namespace ECA.Business.Service.Programs
             return this.Context.Programs.Where(x => x.ProgramId == programId);
         }
 
+        /// <summary>
+        /// Updates the system's program with the given updated program.
+        /// </summary>
+        /// <param name="updatedProgram">The updated program.</param>
         public void Update(EcaProgram updatedProgram)
         {
             var programToUpdate = CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefault();
@@ -135,6 +139,10 @@ namespace ECA.Business.Service.Programs
             }
         }
 
+        /// <summary>
+        /// Updates the system's program with the given updated program.
+        /// </summary>
+        /// <param name="updatedProgram">The updated program.</param>
         public async Task UpdateAsync(EcaProgram updatedProgram)
         {
             var programToUpdate = await CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefaultAsync();

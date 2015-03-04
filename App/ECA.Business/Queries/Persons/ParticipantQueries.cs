@@ -97,11 +97,13 @@ namespace ECA.Business.Queries.Persons
             var query = CreateGetUnionedSimpleParticipantsDTOQuery(context);
 
             query = from participant in context.Participants
-                                      join q in query
-                                      on participant.ParticipantId equals q.ParticipantId
+                    join q in query
+                    on participant.ParticipantId equals q.ParticipantId
 
-                                      where participant.Projects.Select(x => x.ProjectId).Contains(projectId)
-                                      select q;
+                    from project in context.Projects
+                    where project.ProjectId == projectId && participant.Projects.Contains(project)
+                    select q;
+
             query = query.Apply(queryOperator);
             return query;
         }

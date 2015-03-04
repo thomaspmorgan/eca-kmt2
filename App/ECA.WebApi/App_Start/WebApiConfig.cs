@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ECA.WebApi.Common;
 using System.Net.Http.Headers;
+using ECA.WebApi.Custom.Filters;
 
 namespace ECA.WebApi
 {
@@ -45,6 +46,7 @@ namespace ECA.WebApi
             //config.Formatters.Insert(0, new PlanXmlFormatter());
 
             config.Filters.Add(new WebApiErrorHandler());
+            config.Filters.Add(new ModelNotFoundExceptionFilter());
         }
     }
 }

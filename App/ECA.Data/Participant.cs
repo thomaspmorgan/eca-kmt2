@@ -11,6 +11,14 @@ namespace ECA.Data
 {
     public class Participant
     {
+        public Participant()
+        {
+            this.Projects = new HashSet<Project>();
+            this.ItineraryStops = new HashSet<ItineraryStop>();
+            this.SourceParticipantMoneyFlows = new HashSet<MoneyFlow>();
+            this.RecipientParticipantMoneyFlows = new HashSet<MoneyFlow>();
+        }
+
         [Key]
         public int ParticipantId { get; set; }
         public int? OrganizationId { get; set; }

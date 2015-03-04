@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Service;
+using ECA.Core.Exceptions;
 using ECA.Core.Generation;
 using ECA.Data;
 using System;
@@ -60,7 +61,7 @@ namespace ECA.Business.Models.Programs
             var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
             if (programStatus == null)
             {
-                throw new Exception("The program status is not supported.");
+                throw new UnknownStaticLookupException(String.Format("The program status [{0}] is not supported.", programStatusId));
             }
             else
             {
@@ -69,33 +70,74 @@ namespace ECA.Business.Models.Programs
             this.Audit = new Update(updatedBy);
         }
 
+        /// <summary>
+        /// Gets the Id of the program.
+        /// </summary>
         public int Id { get; private set; }
 
+        /// <summary>
+        /// Gets the program status id.
+        /// </summary>
         public int ProgramStatusId { get; private set; }
 
+        /// <summary>
+        /// Gets the name of the program.
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Gets the program description.
+        /// </summary>
         public string Description { get; private set; }
 
+        /// <summary>
+        /// gets the program website.
+        /// </summary>
         public string Website { get; private set; }
 
+        /// <summary>
+        /// Gets the program focus.
+        /// </summary>
         public string Focus { get; private set; }
 
+        /// <summary>
+        /// Gets the program state date.
+        /// </summary>
         public DateTimeOffset StartDate { get; private set; }
 
+        /// <summary>
+        /// Gets the program end date.
+        /// </summary>
         public DateTimeOffset EndDate { get; private set; }
 
+        /// <summary>
+        /// Gets the program's owning organization id.
+        /// </summary>
         public int OwnerOrganizationId { get; private set; }
 
+        /// <summary>
+        /// Gets the program's parent program id.
+        /// </summary>
         public int? ParentProgramId { get; private set; }
 
+        /// <summary>
+        /// Gets the program goals by id.
+        /// </summary>
         public List<int> GoalIds { get; private set; }
 
+        /// <summary>
+        /// Gets the program themes by id.
+        /// </summary>
         public List<int> ThemeIds { get; private set; }
 
+        /// <summary>
+        /// Gets the program contacts by id.
+        /// </summary>
         public List<int> ContactIds { get; private set; }
 
+        /// <summary>
+        /// Gets the program audit.
+        /// </summary>
         public Audit Audit { get; protected set; }
     }
-
 }

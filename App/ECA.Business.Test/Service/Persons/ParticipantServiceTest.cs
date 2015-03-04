@@ -611,12 +611,13 @@ namespace ECA.Business.Test.Service.Persons
                 OrganizationId = organization.OrganizationId,
                 ParticipantType = participantType,
                 ParticipantTypeId = participantType.ParticipantTypeId,
-                Projects = new HashSet<Project> { project }
             };
-            project.Participants = new HashSet<Participant> { participant };
+            participant.Projects.Add(project);
+            project.Participants.Add(participant);
             context.ParticipantTypes.Add(participantType);
             context.Organizations.Add(organization);
             context.Participants.Add(participant);
+            context.Projects.Add(project);
 
             Action<PagedQueryResults<SimpleParticipantDTO>> tester = (results) =>
             {
@@ -624,11 +625,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(1, results.Results.Count);
                 var participantResult = results.Results.First();
 
-                //Assert all org properties are null
                 Assert.IsFalse(participantResult.PersonId.HasValue);
-                //Assert.IsFalse(participantResult.GenderId.HasValue);
-                //Assert.IsNull(participantResult.Gender);
-
                 Assert.AreEqual(participantType.ParticipantTypeId, participantResult.ParticipantTypeId);
                 Assert.AreEqual(participantType.Name, participantResult.ParticipantType);
                 Assert.AreEqual(organization.Name, participantResult.Name);
@@ -879,6 +876,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Participants.Add(participant1);
             context.Organizations.Add(organization2);
             context.Participants.Add(participant2);
+            context.Projects.Add(project);
 
             Action<PagedQueryResults<SimpleParticipantDTO>> tester = (results) =>
             {

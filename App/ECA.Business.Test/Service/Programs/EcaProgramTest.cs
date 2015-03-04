@@ -5,6 +5,7 @@ using ECA.Business.Models.Programs;
 using ECA.Data;
 using System.Collections.Generic;
 using ECA.Business.Service;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Programs
 {
@@ -101,5 +102,41 @@ namespace ECA.Business.Test.Service.Programs
             Assert.IsNotNull(program.ThemeIds);
             Assert.IsNotNull(program.ContactIds);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnknownStaticLookupException))]
+        public void TestConstructor_InvalidProgramStatusId() 
+        {
+            var userId = 1;
+            var programId = 10;
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var programStatusId = -1;
+            var focus = "focus";
+            var website = "http://www.google.com";
+
+            var user = new User(userId);
+            var program = new EcaProgram(
+                updatedBy: user,
+                id: programId,
+                name: name,
+                description: description,
+                startDate: startDate,
+                endDate: endDate,
+                ownerOrganizationId: ownerOrganizationId,
+                parentProgramId: parentProgramId,
+                programStatusId: programStatusId,
+                focus: focus,
+                website: website,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: null
+                );
+        }
+
     }
 }

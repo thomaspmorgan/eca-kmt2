@@ -1,11 +1,11 @@
-﻿using ECA.Business.Exceptions;
-using ECA.Business.Models.Programs;
+﻿using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Service;
 using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Exceptions;
 using ECA.Core.Query;
 using ECA.Data;
 using FluentAssertions;

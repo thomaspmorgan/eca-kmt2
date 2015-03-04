@@ -2,6 +2,7 @@
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ assembly name="$(SolutionDir)ECA.Core/bin/Debug/ECA.Core.dll" #>
@@ -14,6 +15,7 @@
 	var types = new List<Type>();
 	types.Add(typeof(LocationType));
 	types.Add(typeof(ProjectStatus));
+	types.Add(typeof(ParticipantType));
 
 	types = types.OrderBy(x => x.Name).ToList();
 	WriteTypes(types);
@@ -66,7 +68,7 @@ public string CamelCase(string s)
 
 public void WriteStaticLookup(StaticLookup lookup)
 {
-	Write(String.Format("{0}: {1}", CamelCase(lookup.Value), lookup.Id));
+	Write(String.Format("{0}: {1}", CamelCase(Pascalize(lookup.Value)), lookup.Id));
 }
 
 public List<StaticLookup> GetStaticLookups(Type t)
@@ -76,5 +78,10 @@ public List<StaticLookup> GetStaticLookups(Type t)
 	return staticLookups;
 }
 
+public string Pascalize(object value)
+{
+    Regex rx = new Regex(@"(?:[^a-zA-Z0-9]*)(?<first>[a-zA-Z0-9])(?<reminder>[a-zA-Z0-9]*)(?:[^a-zA-Z0-9]*)");
+    return rx.Replace(value.ToString(), m => m.Groups["first"].ToString().ToUpper() + m.Groups["reminder"].ToString().ToLower());
+}
 
 #>

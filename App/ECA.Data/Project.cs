@@ -14,6 +14,28 @@ namespace ECA.Data
     /// </summary>
     public class Project : IHistorical
     {
+        /// <summary>
+        /// Creates a new Project and initializes the collections.
+        /// </summary>
+        public Project()
+        {
+            this.SourceProjectMoneyFlows = new HashSet<MoneyFlow>();
+            this.RecipientProjectMoneyFlows = new HashSet<MoneyFlow>();
+            this.Regions = new HashSet<Location>();
+            this.Locations = new HashSet<Location>();
+            this.Targets = new HashSet<Location>();
+            this.Themes = new HashSet<Theme>();
+            this.Goals = new HashSet<Goal>();
+            this.Artifacts = new HashSet<Artifact>();
+            this.Participants = new HashSet<Participant>();
+            this.RelatedProjects = new HashSet<Project>();
+            this.OtherRelatedProjects = new HashSet<Project>();
+            this.TreatiesAgreementsContracts = new HashSet<string>();
+            this.Impacts = new HashSet<Impact>();
+            this.Contacts = new HashSet<Contact>();
+            this.History = new History();
+        }
+
         [Key]
         public int ProjectId { get; set; }
         [Required]
