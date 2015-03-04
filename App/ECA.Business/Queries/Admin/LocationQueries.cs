@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -30,6 +31,21 @@ namespace ECA.Business.Queries.Admin
             });
             query = query.Apply(queryOperator);
             return query;
+        }
+
+        /// <summary>
+        /// Returns a query to get all location types given the location ids.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="locationIds">The location ids to get types for.</param>
+        /// <returns>The query to get the distinct list of location types.</returns>
+        public static IQueryable<int> CreateGetLocationTypeIdsQuery(EcaContext context, List<int> locationIds)
+        {
+            return context.Locations
+                .Where(x => locationIds.Contains(x.LocationId))
+                .Select(x => x.LocationTypeId)
+                .OrderBy(x => x)
+                .Distinct();
         }
     }
 }

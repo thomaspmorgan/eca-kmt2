@@ -1,6 +1,8 @@
 ﻿using ECA.Business.Models.Programs;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Queries.Programs;
+using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
 using ECA.Core.Query;
@@ -21,14 +23,18 @@ namespace ECA.Business.Service.Programs
     /// </summary>
     public class ProgramService : DbContextService<EcaContext>, IProgramService
     {
+        private ILocationService locationService;
+
         /// <summary>
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
         /// <param name="context">The context to operate on.</param>
-        public ProgramService(EcaContext context)
+        public ProgramService(EcaContext context, ILocationService locationService)
             : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(locationService != null, "The location service must not be null.");
+            this.locationService = locationService;
         }
 
         #region Get
@@ -84,12 +90,25 @@ namespace ECA.Business.Service.Programs
         /// <returns>The saved program.</returns>
         public Program Create(DraftProgram draftProgram)
         {
-            return DoCreate(draftProgram);
+            var regionTypeIds = GetLocationTypeIds(draftProgram.RegionIds);
+            return DoCreate(regionTypeIds, draftProgram);
         }
 
-        private Program DoCreate(DraftProgram draftProgram)
+        /// <summary>
+        /// Creates a new program in the ECA system with a status of draft.
+        /// </summary>
+        /// <param name="draftProgram">The draft program.</param>
+        /// <returns>The saved program.</returns>
+        public async Task<Program> CreateAsync(DraftProgram draftProgram)
+        {
+            var regionTypeIds = await GetLocationTypeIdsAsync(draftProgram.RegionIds);
+            return DoCreate(regionTypeIds, draftProgram);
+        }
+
+        private Program DoCreate(List<int> regionTypeIds, DraftProgram draftProgram)
         {
             Debug.Assert(draftProgram != null, "The draft program must not be null.");
+            ValidateAllLocationsAreRegions(regionTypeIds);
             var owner = AttachOrganization(draftProgram.OwnerOrganizationId);
             var program = new Program
             {
@@ -108,6 +127,7 @@ namespace ECA.Business.Service.Programs
             SetGoals(draftProgram.GoalIds, program);
             SetPointOfContacts(draftProgram.ContactIds, program);
             SetThemes(draftProgram.ThemeIds, program);
+            SetRegions(draftProgram.RegionIds, program);
             Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
             draftProgram.Audit.SetHistory(program);
             this.Context.Programs.Add(program);
@@ -129,9 +149,10 @@ namespace ECA.Business.Service.Programs
         public void Update(EcaProgram updatedProgram)
         {
             var programToUpdate = CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefault();
+            var regionLocationTypeIds = GetLocationTypeIds(updatedProgram.RegionIds);
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram);
+                DoUpdate(programToUpdate, updatedProgram, regionLocationTypeIds);
             }
             else
             {
@@ -146,9 +167,10 @@ namespace ECA.Business.Service.Programs
         public async Task UpdateAsync(EcaProgram updatedProgram)
         {
             var programToUpdate = await CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefaultAsync();
+            var regionLocationTypeIds = await GetLocationTypeIdsAsync(updatedProgram.RegionIds);
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram);
+                DoUpdate(programToUpdate, updatedProgram, regionLocationTypeIds);
             }
             else
             {
@@ -156,10 +178,11 @@ namespace ECA.Business.Service.Programs
             }
         }
 
-        private void DoUpdate(Program programToUpdate, EcaProgram updatedProgram)
+        private void DoUpdate(Program programToUpdate, EcaProgram updatedProgram, List<int> locationTypeIds)
         {
             Debug.Assert(updatedProgram != null, "The updated program must not be null.");
             Debug.Assert(updatedProgram.Audit != null, "The audit must not be null.");
+            ValidateAllLocationsAreRegions(locationTypeIds);
 
             var owner = AttachOrganization(updatedProgram.OwnerOrganizationId);
             programToUpdate.Description = updatedProgram.Description;
@@ -177,7 +200,8 @@ namespace ECA.Business.Service.Programs
 
             SetGoals(updatedProgram.GoalIds, programToUpdate);
             SetPointOfContacts(updatedProgram.ContactIds, programToUpdate);
-            SetThemes(updatedProgram.ThemeIds, programToUpdate);            
+            SetThemes(updatedProgram.ThemeIds, programToUpdate);
+            SetRegions(updatedProgram.RegionIds, programToUpdate);
         }
         #endregion
 
@@ -252,6 +276,64 @@ namespace ECA.Business.Service.Programs
             });
         }
 
+        /// <summary>
+        /// Updates the regions on the given program to the regions with the given ids.
+        /// </summary>
+        /// <param name="regionIds">The regions by id.</param>
+        /// <param name="programEntity">The program to update.</param>
+        public void SetRegions(List<int> regionIds, Program programEntity)
+        {
+            Contract.Requires(regionIds != null, "The theme ids must not be null.");
+            Contract.Requires(programEntity != null, "The program entity must not be null.");            
+            programEntity.Regions.Clear();
+            regionIds.ForEach(x =>
+            {
+                var location = new Location { LocationId = x };
+                this.Context.Locations.Attach(location);
+                programEntity.Regions.Add(location);
+            });
+        }
+
+        /// <summary>
+        /// Validates the given location types are all regions.
+        /// </summary>
+        /// <param name="locationTypeIds">The list of location types by id.</param>
+        public void ValidateAllLocationsAreRegions(List<int> locationTypeIds)
+        {
+            List<int> typeIds;
+            if (locationTypeIds == null)
+            {
+                typeIds = new List<int>();
+            }
+            else
+            {
+                typeIds = locationTypeIds.Distinct().ToList();
+            }
+            if (typeIds.Count != 1 || typeIds.First() != LocationType.Region.Id)
+            {
+                throw new ValidationException("The given locations are not all regions.");
+            }
+        }
+
+        /// <summary>
+        /// Returns the location types for the given location ids.
+        /// </summary>
+        /// <param name="locationIds">The list of location ids.</param>
+        /// <returns>The list of location type ids.</returns>
+        public List<int> GetLocationTypeIds(List<int> locationIds)
+        {
+            return this.locationService.GetLocationTypeIds(locationIds);
+        }
+
+        /// <summary>
+        /// Returns the location types for the given location ids.
+        /// </summary>
+        /// <param name="locationIds">The list of location ids.</param>
+        /// <returns>The list of location type ids.</returns>
+        public async Task<List<int>> GetLocationTypeIdsAsync(List<int> locationIds)
+        {
+            return await this.locationService.GetLocationTypeIdsAsync(locationIds);
+        }
 
     }
 }

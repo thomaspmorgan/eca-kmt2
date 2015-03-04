@@ -20,7 +20,6 @@ namespace ECA.WebApi.Models.Query
     /// A PagingQueryBindingModel is used to take in paging, filtering, and sorting parameters in an action
     /// and use those parameters to return a QueryableOperator.
     /// </summary>
-    //[ModelBinder(typeof(PagingQueryBindingModelBinder))]
     public class PagingQueryBindingModel
     {
         /// <summary>

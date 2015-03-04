@@ -73,6 +73,11 @@ namespace ECA.WebApi.Models.Programs
         public List<int> Contacts { get; set; }
 
         /// <summary>
+        /// The regions by id.
+        /// </summary>
+        public List<int> Regions { get; set; }
+
+        /// <summary>
         /// Returns a DraftProgram business entity from this binding model.
         /// </summary>
         /// <param name="userId">The id of the user making the change.</param>
@@ -91,7 +96,8 @@ namespace ECA.WebApi.Models.Programs
                 website: this.Website,
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,
-                themeIds: this.Themes
+                themeIds: this.Themes,
+                regionIds: this.Regions
                 );
         }
     }

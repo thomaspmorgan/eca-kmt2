@@ -45,8 +45,9 @@ namespace ECA.WebApi
             //config.Formatters.Insert(0, new PlanHtmlFormatter());
             //config.Formatters.Insert(0, new PlanXmlFormatter());
 
-            config.Filters.Add(new WebApiErrorHandler());
             config.Filters.Add(new ModelNotFoundExceptionFilter());
+            config.Filters.Add(new UnknownStaticLookupExceptionFilter());
+            config.Filters.Add(new ValidationExceptionFilter());
         }
     }
 }

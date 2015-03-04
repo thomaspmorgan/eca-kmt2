@@ -25,6 +25,7 @@ namespace ECA.WebApi.Test.Models.Programs
             model.Contacts = new List<int> { 2 };
             model.StartDate = DateTimeOffset.UtcNow;
             model.Themes = new List<int> { 3 };
+            model.Regions = new List<int> { 4 };
             model.Website = "website";
             var userId = 1;
 
@@ -43,6 +44,7 @@ namespace ECA.WebApi.Test.Models.Programs
             CollectionAssert.AreEqual(model.Goals, ecaProgram.GoalIds);
             CollectionAssert.AreEqual(model.Contacts, ecaProgram.ContactIds);
             CollectionAssert.AreEqual(model.Themes, ecaProgram.ThemeIds);
+            CollectionAssert.AreEqual(model.Regions, ecaProgram.RegionIds);
             Assert.AreEqual(userId, ecaProgram.Audit.User.Id);
 
         }
