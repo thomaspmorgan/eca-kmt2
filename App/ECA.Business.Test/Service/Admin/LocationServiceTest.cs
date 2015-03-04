@@ -25,7 +25,7 @@ namespace ECA.Business.Test.Service.Programs
         [TestInitialize]
         public void TestInit()
         {
-            context = DbContextHelper.GetInMemoryContext();
+            context = new TestEcaContext();
             service = new LocationService(context);
         }
 

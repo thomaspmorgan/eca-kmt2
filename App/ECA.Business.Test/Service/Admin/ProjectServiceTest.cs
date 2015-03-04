@@ -25,7 +25,7 @@ namespace ECA.Business.Test.Service.Admin
         [TestInitialize]
         public void TestInit()
         {
-            context = DbContextHelper.GetInMemoryContext();
+            context = new TestEcaContext();
             service = new ProjectService(context);
         }
 

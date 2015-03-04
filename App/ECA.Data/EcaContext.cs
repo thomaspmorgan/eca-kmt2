@@ -38,6 +38,7 @@ namespace ECA.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<EventType> EventTypes { get; set; }
         public DbSet<ExternalId> ExternalIds { get; set; }
+        public DbSet<Focus> Foci { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Impact> Impacts { get; set; }
         public DbSet<ImpactType> ImpactTypes { get; set; }

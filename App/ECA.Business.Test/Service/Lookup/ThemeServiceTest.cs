@@ -21,7 +21,7 @@ namespace ECA.Business.Test.Service.Lookup
         [TestInitialize]
         public void TestInit()
         {
-            context = DbContextHelper.GetInMemoryContext();
+            context = new TestEcaContext();
             service = new ThemeService(context);
         }
 

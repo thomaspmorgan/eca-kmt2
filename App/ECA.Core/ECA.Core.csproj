@@ -48,6 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\InMemoryDbContext.cs" />
+    <Compile Include="Data\InMemoryDbContextGenerator.generated.cs">
+      <DependentUpon>InMemoryDbContextGenerator.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Data\TestDbSet.cs" />
     <Compile Include="Exceptions\ModelNotFoundException.cs" />
     <Compile Include="Exceptions\UnknownStaticLookupException.cs" />
@@ -67,6 +72,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Data\InMemoryDbContextGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InMemoryDbContextGenerator.generated.cs</LastGenOutput>
+    </None>
     <None Include="Generation\StaticDataGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StaticDataGenerator.generated.cs</LastGenOutput>

@@ -60,6 +60,7 @@
     <Compile Include="AddressType.cs" />
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
+    <Compile Include="Configuration\FocusConfiguration.cs" />
     <Compile Include="Configuration\ImpactConfiguration.cs" />
     <Compile Include="Configuration\ItineraryStop.cs" />
     <Compile Include="Configuration\OrganizationConfiguration.cs" />
@@ -71,6 +72,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ECA-KMTStaticDataGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="Focus.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
     <Compile Include="IHistorical.cs" />

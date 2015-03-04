@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Test
 {
-    public class TestEcaContext : EcaContext
+    public class TestEcaContext : InMemoryEcaContext
     {
         public int SaveChangesCalledCount { get; set; }
 
