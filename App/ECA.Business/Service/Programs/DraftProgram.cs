@@ -22,7 +22,8 @@ namespace ECA.Business.Models.Programs
             string website,
             List<int> goalIds,
             List<int> pointOfContactIds,
-            List<int> themeIds)
+            List<int> themeIds,
+            List<int> regionIds)
             : base(
                 updatedBy: createdBy,
                 id: 0,
@@ -37,7 +38,8 @@ namespace ECA.Business.Models.Programs
                 website: website,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
-                themeIds: themeIds
+                themeIds: themeIds,
+                regionIds: regionIds
                 )
         {
             this.Audit = new Create(createdBy);

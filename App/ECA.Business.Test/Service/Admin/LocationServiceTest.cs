@@ -12,6 +12,7 @@ using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Business.Service.Admin;
 using ECA.Business.Queries.Models.Admin;
+using System.Collections.Generic;
 
 namespace ECA.Business.Test.Service.Programs
 {
@@ -236,6 +237,57 @@ namespace ECA.Business.Test.Service.Programs
 
             var serviceResults = service.GetLocations(queryOperator);
             var serviceResultsAsync = await service.GetLocationsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
+
+        #region Validation
+        [TestMethod]
+        public async Task TestGetLocationTypeIds()
+        {
+            var region1 = new Location
+            {
+                LocationTypeId = LocationType.Region.Id,
+                LocationId = 10
+            };
+            var region2 = new Location
+            {
+                LocationTypeId = LocationType.Region.Id,
+                LocationId = 20
+            };
+            var city = new Location
+            {
+                LocationTypeId = LocationType.City.Id,
+                LocationId = 30
+            };
+            context.Locations.Add(region1);
+            context.Locations.Add(region2);
+            context.Locations.Add(city);
+
+            Action<List<int>> tester = (results) =>
+            {
+                Assert.AreEqual(2, results.Count);
+                Assert.IsTrue(results.Contains(region1.LocationTypeId));
+                Assert.IsTrue(results.Contains(city.LocationTypeId));
+            };
+
+            var serviceResults = service.GetLocationTypeIds(context.Locations.Select(x => x.LocationId).ToList());
+            var serviceResultsAsync = await service.GetLocationTypeIdsAsync(context.Locations.Select(x => x.LocationId).ToList());
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetLocationTypeIds_NoIdes()
+        {
+            Action<List<int>> tester = (results) =>
+            {
+                Assert.AreEqual(0, results.Count);
+            };
+
+            var serviceResults = service.GetLocationTypeIds(new List<int>());
+            var serviceResultsAsync = await service.GetLocationTypeIdsAsync(new List<int>());
             tester(serviceResults);
             tester(serviceResultsAsync);
         }

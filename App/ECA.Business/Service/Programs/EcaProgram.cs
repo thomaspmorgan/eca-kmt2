@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Service;
+using ECA.Core.Data;
 using ECA.Core.Exceptions;
 using ECA.Core.Generation;
 using ECA.Data;
@@ -28,6 +29,7 @@ namespace ECA.Business.Models.Programs
         /// <param name="website">The website.</param>
         /// <param name="goalIds">The goals of the program by id.</param>
         /// <param name="pointOfContactIds">The points of contact by id.</param>
+        /// <param name="regionIds">The program's regions by id.</param>
         /// <param name="themeIds">The themes by id.</param>
         public EcaProgram(
             User updatedBy,
@@ -43,7 +45,8 @@ namespace ECA.Business.Models.Programs
             string website,
             List<int> goalIds,
             List<int> pointOfContactIds,
-            List<int> themeIds)
+            List<int> themeIds,
+            List<int> regionIds)
         {
             this.Id = id;
             this.Name = name;
@@ -57,6 +60,7 @@ namespace ECA.Business.Models.Programs
             this.GoalIds = goalIds ?? new List<int>();
             this.ContactIds = pointOfContactIds ?? new List<int>();
             this.ThemeIds = themeIds ?? new List<int>();
+            this.RegionIds = regionIds ?? new List<int>();
 
             var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
             if (programStatus == null)
@@ -136,8 +140,14 @@ namespace ECA.Business.Models.Programs
         public List<int> ContactIds { get; private set; }
 
         /// <summary>
+        /// Gets the program regions by id.
+        /// </summary>
+        public List<int> RegionIds { get; private set; }
+
+        /// <summary>
         /// Gets the program audit.
         /// </summary>
         public Audit Audit { get; protected set; }
+
     }
 }

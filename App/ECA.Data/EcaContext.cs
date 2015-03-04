@@ -13,6 +13,8 @@ namespace ECA.Data
 
     public class EcaContext : DbContext
     {
+        public const string VALIDATABLE_CONTEXT_KEY = "Context";
+
         public EcaContext() : base() 
         {
         
@@ -78,181 +80,12 @@ namespace ECA.Data
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Configurations.AddFromAssembly(typeof(EcaContext).Assembly);
-            //modelBuilder.Entity<Impact>()
-            //    .HasOptional(e => e.Program)
-            //    .WithMany(e => e.Impacts)
-            //    .WillCascadeOnDelete(false);
-            //modelBuilder.Entity<Impact>()
-            //   .HasOptional(e => e.Project)
-            //   .WithMany(e => e.Impacts)
-            //   .WillCascadeOnDelete(false);
-            //modelBuilder.Entity<Program>()
-            //   .HasRequired(e => e.Owner)
-            //    .WithMany(e => e.OwnerPrograms)
-            //    .WillCascadeOnDelete(false);
-            //modelBuilder.Configurations.Add(new ProjectConfiguration());
-            //modelBuilder.Entity<Project>()
-            //    .HasMany<Theme>(p => p.Themes)
-            //    .WithMany(t => t.Projects)
-            //    .Map(p =>
-            //    {
-            //        p.MapLeftKey("ProjectId");
-            //        p.MapRightKey("ThemeId");
-            //        p.ToTable("ProjectTheme");
-            //    });
-            //modelBuilder.Entity<Program>()
-            //    .HasMany<Theme>(p => p.Themes)
-            //    .WithMany(t => t.Programs)
-            //    .Map(p =>
-            //    {
-            //        p.MapLeftKey("ProgramId");
-            //        p.MapRightKey("ThemeId");
-            //        p.ToTable("ProgramTheme");
-            //    });
-            //modelBuilder.Entity<Program>()
-            //    .HasMany<Goal>(p => p.Goals)
-            //    .WithMany(t => t.Programs)
-            // .Map(p =>
-            //    {
-            //      p.MapLeftKey("ProgramId");
-            //      p.MapRightKey("GoalId");
-            //      p.ToTable("ProgramGoal");
-            //    });
-            //modelBuilder.Entity<Project>()
-            //    .HasMany<Goal>(p => p.Goals)
-            //    .WithMany(t => t.Projects)
-            // .Map(p =>
-            // {
-            //     p.MapLeftKey("ProjectId");
-            //     p.MapRightKey("GoalId");
-            //     p.ToTable("ProjectGoal");
-            // });
-            //modelBuilder.Entity<Project>()
-            //    .HasMany<Location>(p => p.Regions)
-            //    .WithMany(t => t.RegionProjects)
-            // .Map(p =>
-            // {
-            //     p.MapLeftKey("ProjectId");
-            //     p.MapRightKey("LocationId");
-            //     p.ToTable("ProjectRegion");
-            // });
-            //modelBuilder.Entity<Project>()
-            //    .HasMany<Location>(p => p.Locations)
-            //    .WithMany(t => t.LocationProjects)
-            // .Map(p =>
-            // {
-            //     p.MapLeftKey("ProjectId");
-            //     p.MapRightKey("LocationId");
-            //     p.ToTable("ProjectLocation");
-            // });
-            //modelBuilder.Entity<Project>()
-            //    .HasMany<Location>(p => p.Targets)
-            //    .WithMany(t => t.TargetProjects)
-            // .Map(p =>
-            // {
-            //     p.MapLeftKey("ProjectId");
-            //     p.MapRightKey("LocationId");
-            //     p.ToTable("ProjectTarget");
-            // });
-            //modelBuilder.Entity<Program>()
-            //    .HasMany<Location>(p => p.Regions)
-            //    .WithMany(t => t.RegionPrograms)
-            // .Map(p =>
-            // {
-            //     p.MapLeftKey("ProgramId");
-            //     p.MapRightKey("LocationId");
-            //     p.ToTable("ProgramRegion");
-            // });
-            //modelBuilder.Entity<Program>()
-            //    .HasMany<Location>(p => p.Locations)
-            //    .WithMany(t => t.LocationPrograms)
-            // .Map(p =>
-            // {
-            //     p.MapLeftKey("ProgramId");
-            //     p.MapRightKey("LocationId");
-            //     p.ToTable("ProgramLocation");
-            // });
-            //modelBuilder.Entity<Program>()
-            //    .HasMany<Location>(p => p.Targets)
-            //    .WithMany(t => t.TargetPrograms)
-            // .Map(p =>
-            // {
-            //     p.MapLeftKey("ProgramId");
-            //     p.MapRightKey("LocationId");
-            //     p.ToTable("ProgramTarget");
-            // });
-            //modelBuilder.Entity<Organization>()
-            //    .HasMany<Contact>(p => p.Contacts)
-            //    .WithMany(t => t.Organizations)
-            //    .Map(p =>
-            //    {
-            //        p.MapLeftKey("OrganizationId");
-            //        p.MapRightKey("ContactId");
-            //        p.ToTable("OrganizationContact");
-            //    });
-            //modelBuilder.Entity<Program>()
-            //    .HasMany<Contact>(p => p.Contacts)
-            //    .WithMany(t => t.Programs)
-            //    .Map(p =>
-            //    {
-            //        p.MapLeftKey("ProgramId");
-            //        p.MapRightKey("ContactId");
-            //        p.ToTable("ProgramContact");
-            //    });
-            //modelBuilder.Entity<Project>()
-            //    .HasMany<Contact>(p => p.Contacts)
-            //    .WithMany(t => t.Projects)
-            //    .Map(p =>
-            //    {
-            //        p.MapLeftKey("ProjectId");
-            //        p.MapRightKey("ContactId");
-            //        p.ToTable("ProjectContact");
-            //    });
-            //modelBuilder.Entity<Impact>()
-            //    .HasMany<Person>(p => p.People)
-            //    .WithMany(t => t.Impacts)
-            //    .Map(p =>
-            //    {
-            //        p.MapLeftKey("ImpactId");
-            //        p.MapRightKey("PersonId");
-            //        p.ToTable("ImpactPerson");
-            //    });
-            //modelBuilder.Entity<Person>()
-            //    .HasMany(x => x.Family)
-            //    .WithMany(x => x.OtherFamily)
-            //    .Map(x =>
-            //    {
-            //        x.ToTable("PersonFamily");
-            //        x.MapLeftKey("PersonId");
-            //        x.MapRightKey("RelatedPersonId");
-            //    });
-            //modelBuilder.Entity<Person>()
-            //    .HasMany<Location>(p => p.CountriesOfCitizenship)
-            //    .WithMany(t => t.BirthPlacePeople)
-            //    .Map(p =>
-            //    {
-            //        p.MapLeftKey("PersonId");
-            //        p.MapRightKey("LocationId");
-            //        p.ToTable("CitizenCountry");
-            //    });
-            //modelBuilder.Entity<ItineraryStop>()
-            //    .HasMany<Participant>(p => p.Participants)
-            //    .WithMany(t => t.ItineraryStops)
-            //    .Map(p =>
-            //    {
-            //        p.MapLeftKey("ItineraryStopId");
-            //        p.MapRightKey("ParticipantId");
-            //        p.ToTable("ItineraryStopParticipant");
-            //    });
-            //modelBuilder.Entity<Participant>()
-            //    .HasMany<Project>(p => p.Projects)
-            //    .WithMany(t => t.Participants)
-            //    .Map(p =>
-            //    {
-            //        p.MapLeftKey("ParticipantId");
-            //        p.MapRightKey("ProjectId");
-            //        p.ToTable("ParticipantProject");
-            //    });
+        }
+
+        protected override System.Data.Entity.Validation.DbEntityValidationResult ValidateEntity(System.Data.Entity.Infrastructure.DbEntityEntry entityEntry, IDictionary<object, object> items)
+        {
+            items.Add(VALIDATABLE_CONTEXT_KEY, this);
+            return base.ValidateEntity(entityEntry, items);
         }
     }
 }

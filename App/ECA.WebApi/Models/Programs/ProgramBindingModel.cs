@@ -42,7 +42,8 @@ namespace ECA.WebApi.Models.Programs
                 website: this.Website,
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,
-                themeIds: this.Themes
+                themeIds: this.Themes,
+                regionIds: this.Regions
                 );
         }
     }

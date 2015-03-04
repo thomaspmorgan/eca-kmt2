@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
 
 namespace ECA.Data
 {
     /// <summary>
     /// A program is an umbrella for a set of projects and sub-programs.
     /// </summary>
-    public class Program : IHistorical
+    public class Program : IHistorical, IValidatableObject
     {
         public Program()
         {
@@ -117,6 +118,23 @@ namespace ECA.Data
         public ICollection<Contact> Contacts { get; set; }
 
         public History History { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            Contract.Requires(validationContext != null, "The validation context must not be null.");
+            Contract.Requires(validationContext.Items.ContainsKey(EcaContext.VALIDATABLE_CONTEXT_KEY), "The validation context must have a context to query.");
+            Contract.Requires(validationContext.Items[EcaContext.VALIDATABLE_CONTEXT_KEY].GetType() == typeof(EcaContext), "The context must be an EcaContext.");
+            var context = validationContext.Items[EcaContext.VALIDATABLE_CONTEXT_KEY] as EcaContext;
+
+            var invalidRegions = context.Locations.Where(x => 
+                this.Locations.Select(l => l.LocationId).Contains(x.LocationId) 
+                && x.LocationTypeId != LocationType.Region.Id).Select(x => x.LocationId).ToList();
+            if (invalidRegions.Count != 0)
+            {
+                yield return new ValidationResult(String.Format("The program's regions are not all regions.  The given locations by id [{0]] are not regions.", String.Join(", ", invalidRegions.ToList())));
+            }
+
+        }
     }
 }
 

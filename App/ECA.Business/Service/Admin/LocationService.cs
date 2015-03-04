@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Admin;
+﻿using System.Data.Entity;
+using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -40,6 +41,29 @@ namespace ECA.Business.Service.Admin
         public Task<PagedQueryResults<LocationDTO>> GetLocationsAsync(QueryableOperator<LocationDTO> queryOperator)
         {
             return LocationQueries.CreateGetLocationsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+        }
+        #endregion
+
+        #region Validation
+
+        /// <summary>
+        /// Returns the distinct list of location types for the given locations by id.
+        /// </summary>
+        /// <param name="locationIds">The locations by id.</param>
+        /// <returns>The list of location type ids.</returns>
+        public List<int> GetLocationTypeIds(List<int> locationIds)
+        {
+            return LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, locationIds).ToList();
+        }
+
+        /// <summary>
+        /// Returns the distinct list of location types for the given locations by id.
+        /// </summary>
+        /// <param name="locationIds">The locations by id.</param>
+        /// <returns>The list of location type ids.</returns>
+        public Task<List<int>> GetLocationTypeIdsAsync(List<int> locationIds)
+        {   
+            return LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, locationIds).ToListAsync();
         }
         #endregion
 

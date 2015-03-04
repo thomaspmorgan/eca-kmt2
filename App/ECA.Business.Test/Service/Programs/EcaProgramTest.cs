@@ -29,6 +29,7 @@ namespace ECA.Business.Test.Service.Programs
             var goalIds = new List<int> { 10 };
             var themeIds = new List<int> { 20 };
             var pointOfContactIds = new List<int> { 30 };
+            var regionIds = new List<int> { 40 };
 
             var user = new User(userId);
             var program = new EcaProgram(
@@ -45,7 +46,8 @@ namespace ECA.Business.Test.Service.Programs
                 website: website,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
-                themeIds: themeIds
+                themeIds: themeIds,
+                regionIds: regionIds
                 );
             Assert.AreEqual(user, program.Audit.User);
             DateTimeOffset.UtcNow.Should().BeCloseTo(program.Audit.Date, DbContextHelper.DATE_PRECISION);
@@ -64,6 +66,7 @@ namespace ECA.Business.Test.Service.Programs
             CollectionAssert.AreEqual(goalIds, program.GoalIds);
             CollectionAssert.AreEqual(themeIds, program.ThemeIds);
             CollectionAssert.AreEqual(pointOfContactIds, program.ContactIds);
+            CollectionAssert.AreEqual(regionIds, program.RegionIds);
         }
 
         [TestMethod]
@@ -96,11 +99,13 @@ namespace ECA.Business.Test.Service.Programs
                 website: website,
                 goalIds: null,
                 pointOfContactIds: null,
-                themeIds: null
+                themeIds: null,
+                regionIds: null
                 );
             Assert.IsNotNull(program.GoalIds);
             Assert.IsNotNull(program.ThemeIds);
             Assert.IsNotNull(program.ContactIds);
+            Assert.IsNotNull(program.RegionIds);
         }
 
         [TestMethod]
@@ -134,7 +139,8 @@ namespace ECA.Business.Test.Service.Programs
                 website: website,
                 goalIds: null,
                 pointOfContactIds: null,
-                themeIds: null
+                themeIds: null,
+                regionIds: null
                 );
         }
 
