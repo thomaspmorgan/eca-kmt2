@@ -501,6 +501,19 @@ namespace ECA.Business.Test.Service.Admin
             };
             location.Region = region;
 
+            var goal = new Goal
+            {
+                GoalId = 1,
+                GoalName = "goal"
+            };
+
+            var status = new ProjectStatus
+            {
+                ProjectStatusId = 1,
+                Status = "status" 
+            };
+
+
             var project = new Project
             {
                 ProjectId = 1,
@@ -509,17 +522,22 @@ namespace ECA.Business.Test.Service.Admin
                 FocusArea = "focus",
                 Themes = new HashSet<Theme>(),
                 Locations = new HashSet<Location>(),
-                Regions = new HashSet<Location>()
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = status 
             };
 
             project.Themes.Add(theme);
             project.Locations.Add(location);
             project.Regions.Add(region);
+            project.Goals.Add(goal);
 
             context.Themes.Add(theme);
             context.Locations.Add(location);
             context.Projects.Add(project);
             context.Locations.Add(region);
+            context.Goals.Add(goal);
+            context.ProjectStatuses.Add(status);
 
             Action<ProjectDTO> tester = (serviceResult) =>
             {
@@ -530,7 +548,9 @@ namespace ECA.Business.Test.Service.Admin
                     serviceResult.Themes.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
                     serviceResult.CountryIsos.Select(x => x.Value).ToList());
-
+                CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(),
+                    serviceResult.Goals.Select(x => x.Value).ToList());
+                Assert.AreEqual(context.ProjectStatuses.Select(x => x.Status).FirstOrDefault(), serviceResult.Status);                 
             };
 
             var result = service.GetProjectById(project.ProjectId);
@@ -550,7 +570,9 @@ namespace ECA.Business.Test.Service.Admin
                 Description = "description",
                 FocusArea = "focus",
                 Themes = new HashSet<Theme>(),
-                Regions = new HashSet<Location>()
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>(),
+                Status = new ProjectStatus()
             };
 
             context.Projects.Add(project);
@@ -564,6 +586,8 @@ namespace ECA.Business.Test.Service.Admin
                     serviceResult.Themes.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
                     serviceResult.CountryIsos.Select(x => x.Value).ToList());
+                CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(),
+                    serviceResult.Goals.Select(x => x.Value).ToList());
             };
 
             var result = service.GetProjectById(project.ProjectId);
@@ -583,7 +607,8 @@ namespace ECA.Business.Test.Service.Admin
                 Description = "description",
                 FocusArea = "focus",
                 Themes = new HashSet<Theme>(),
-                Regions = new HashSet<Location>()
+                Regions = new HashSet<Location>(),
+                Goals = new HashSet<Goal>()
             };
 
             context.Projects.Add(project);
