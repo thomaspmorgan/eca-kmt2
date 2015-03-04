@@ -505,6 +505,7 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProjectId = 1,
                 Name = "name",
+                Description = "description",
                 FocusArea = "focus",
                 Themes = new HashSet<Theme>(),
                 Locations = new HashSet<Location>(),
@@ -523,6 +524,7 @@ namespace ECA.Business.Test.Service.Admin
             Action<ProjectDTO> tester = (serviceResult) =>
             {
                 Assert.AreEqual(project.Name, serviceResult.Name);
+                Assert.AreEqual(project.Description, serviceResult.Description);
                 Assert.AreEqual(project.FocusArea, serviceResult.Focus);
                 CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),
                     serviceResult.Themes.Select(x => x.Value).ToList());
@@ -545,6 +547,7 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProjectId = 1,
                 Name = "name",
+                Description = "description",
                 FocusArea = "focus",
                 Themes = new HashSet<Theme>(),
                 Regions = new HashSet<Location>()
@@ -555,6 +558,7 @@ namespace ECA.Business.Test.Service.Admin
             Action<ProjectDTO> tester = (serviceResult) =>
             {
                 Assert.AreEqual(project.Name, serviceResult.Name);
+                Assert.AreEqual(project.Description, serviceResult.Description);
                 Assert.AreEqual(project.FocusArea, serviceResult.Focus);
                 CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),
                     serviceResult.Themes.Select(x => x.Value).ToList());
@@ -576,6 +580,7 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProjectId = 1,
                 Name = "name",
+                Description = "description",
                 FocusArea = "focus",
                 Themes = new HashSet<Theme>(),
                 Regions = new HashSet<Location>()
