@@ -57,7 +57,7 @@ namespace ECA.Business.Test.Service.Programs
 
             CollectionAssert.AreEqual(goalIds, program.GoalIds);
             CollectionAssert.AreEqual(themeIds, program.ThemeIds);
-            CollectionAssert.AreEqual(pointOfContactIds, program.PointOfContactIds);
+            CollectionAssert.AreEqual(pointOfContactIds, program.ContactIds);
         }
 
         [TestMethod]
@@ -91,7 +91,7 @@ namespace ECA.Business.Test.Service.Programs
                 );
             Assert.IsNotNull(program.GoalIds);
             Assert.IsNotNull(program.ThemeIds);
-            Assert.IsNotNull(program.PointOfContactIds);
+            Assert.IsNotNull(program.ContactIds);
         }
     }
 }

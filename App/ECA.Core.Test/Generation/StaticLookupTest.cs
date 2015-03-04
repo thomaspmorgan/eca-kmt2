@@ -8,6 +8,17 @@ namespace ECA.Core.Test.Generation
     public class StaticLookupTest
     {
         [TestMethod]
+        public void TestToString()
+        {
+            var value = "A";
+            var id = 1;
+            var lookup1 = new StaticLookup(value, id);
+            Assert.IsNotNull(lookup1.ToString());
+            Assert.IsTrue(lookup1.ToString().Contains(value));
+            Assert.IsTrue(lookup1.ToString().Contains(id.ToString()));
+        }
+
+        [TestMethod]
         public void TestEquals_TwoObjectsAreEqual()
         {
             var value = "A";

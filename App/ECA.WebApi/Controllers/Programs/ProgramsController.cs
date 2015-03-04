@@ -77,6 +77,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// </summary>
         /// <param name="model">The new draft program.</param>
         /// <returns>The saved program.</returns>
+        [ResponseType(typeof(ProgramDTO))]
         public async Task<IHttpActionResult> PostProgramAsync(DraftProgramBindingModel model)
         {
             if (ModelState.IsValid)
@@ -92,6 +93,29 @@ namespace ECA.WebApi.Controllers.Programs
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Updates the system's program with the given program details.
+        /// </summary>
+        /// <param name="model">The updated program.</param>
+        /// <returns>The system's updated program.</returns>
+        [ResponseType(typeof(ProgramDTO))]
+        public async Task<IHttpActionResult> PutProgramAsync(ProgramBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = 0;
+                await programService.UpdateAsync(model.ToEcaProgram(userId));
+                await programService.SaveChangesAsync();
+                var dto = await programService.GetProgramByIdAsync(model.Id);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+
         }
     }
 }

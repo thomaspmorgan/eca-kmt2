@@ -84,5 +84,14 @@
         {
             return !(a == b);
         }
+
+        /// <summary>
+        /// Returns a nicely formatted debug string of this lookup.
+        /// </summary>
+        /// <returns>A nicely formatted debug string of this lookup.</returns>
+        public override string ToString()
+        {
+            return string.Format("{0}:  {1}", this.Id, this.Value);
+        }
     }
 }

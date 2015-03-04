@@ -718,8 +718,8 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     CreatedBy = creatorId,
                     CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
+                    RevisedBy = creatorId,
+                    RevisedOn = yesterday
                 },
             };
             context.Programs.Add(program);
@@ -738,7 +738,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(revisorId),
-                programId: program.ProgramId,
+                id: program.ProgramId,
                 name: newName,
                 description: newDescription,
                 startDate: newStartDate,
@@ -765,6 +765,13 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
             Assert.AreEqual(newStartDate, updatedProgram.StartDate);
             Assert.AreEqual(newWebsite, updatedProgram.Website);
+
+            Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
+            Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
+
+            Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn);
+            
         }
 
         [TestMethod]
@@ -794,8 +801,8 @@ namespace ECA.Business.Test.Service.Programs
                 {
                     CreatedBy = creatorId,
                     CreatedOn = yesterday,
-                    RevisedBy = revisorId,
-                    RevisedOn = now
+                    RevisedBy = creatorId,
+                    RevisedOn = yesterday
                 },
             };
             context.Programs.Add(program);
@@ -814,7 +821,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(revisorId),
-                programId: program.ProgramId,
+                id: program.ProgramId,
                 name: newName,
                 description: newDescription,
                 startDate: newStartDate,
@@ -841,6 +848,12 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
             Assert.AreEqual(newStartDate, updatedProgram.StartDate);
             Assert.AreEqual(newWebsite, updatedProgram.Website);
+
+            Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
+            Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
+
+            Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn);
         }
 
         [TestMethod]
@@ -890,7 +903,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(revisorId),
-                programId: program.ProgramId,
+                id: program.ProgramId,
                 name: newName,
                 description: newDescription,
                 startDate: newStartDate,
@@ -958,7 +971,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(revisorId),
-                programId: program.ProgramId,
+                id: program.ProgramId,
                 name: newName,
                 description: newDescription,
                 startDate: newStartDate,
@@ -1026,7 +1039,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(revisorId),
-                programId: program.ProgramId,
+                id: program.ProgramId,
                 name: newName,
                 description: newDescription,
                 startDate: newStartDate,
@@ -1094,7 +1107,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(revisorId),
-                programId: program.ProgramId,
+                id: program.ProgramId,
                 name: newName,
                 description: newDescription,
                 startDate: newStartDate,
@@ -1162,7 +1175,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(revisorId),
-                programId: program.ProgramId,
+                id: program.ProgramId,
                 name: newName,
                 description: newDescription,
                 startDate: newStartDate,
@@ -1180,7 +1193,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedProgram = context.Programs.First();
             Assert.AreEqual(1, updatedProgram.Contacts.Count);
-            Assert.AreEqual(updatedEcaProgram.PointOfContactIds.First(), updatedProgram.Contacts.First().ContactId);
+            Assert.AreEqual(updatedEcaProgram.ContactIds.First(), updatedProgram.Contacts.First().ContactId);
         }
 
         [TestMethod]
@@ -1230,7 +1243,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(revisorId),
-                programId: program.ProgramId,
+                id: program.ProgramId,
                 name: newName,
                 description: newDescription,
                 startDate: newStartDate,
@@ -1248,7 +1261,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedProgram = context.Programs.First();
             Assert.AreEqual(1, updatedProgram.Contacts.Count);
-            Assert.AreEqual(updatedEcaProgram.PointOfContactIds.First(), updatedProgram.Contacts.First().ContactId);
+            Assert.AreEqual(updatedEcaProgram.ContactIds.First(), updatedProgram.Contacts.First().ContactId);
         }
 
         [TestMethod]
@@ -1267,7 +1280,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(1),
-                programId: 1,
+                id: 1,
                 name: newName,
                 description: newDescription,
                 startDate: newStartDate,
@@ -1300,7 +1313,7 @@ namespace ECA.Business.Test.Service.Programs
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(1),
-                programId: 1,
+                id: 1,
                 name: newName,
                 description: newDescription,
                 startDate: newStartDate,
@@ -1319,3 +1332,4 @@ namespace ECA.Business.Test.Service.Programs
         #endregion
     }
 }
+

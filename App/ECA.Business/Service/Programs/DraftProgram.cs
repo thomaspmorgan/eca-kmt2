@@ -25,7 +25,7 @@ namespace ECA.Business.Models.Programs
             List<int> themeIds)
             : base(
                 updatedBy: createdBy,
-                programId: 0,
+                id: 0,
                 name: name,
                 description: description,
                 startDate: startDate,

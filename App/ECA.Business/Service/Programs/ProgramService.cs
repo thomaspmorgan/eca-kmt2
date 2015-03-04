@@ -106,7 +106,7 @@ namespace ECA.Business.Service.Programs
                 Website = draftProgram.Website,
             };
             SetGoals(draftProgram.GoalIds, program);
-            SetPointOfContacts(draftProgram.PointOfContactIds, program);
+            SetPointOfContacts(draftProgram.ContactIds, program);
             SetThemes(draftProgram.ThemeIds, program);
             Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
             draftProgram.Audit.SetHistory(program);
@@ -124,27 +124,27 @@ namespace ECA.Business.Service.Programs
 
         public void Update(EcaProgram updatedProgram)
         {
-            var programToUpdate = CreateGetProgramByIdQuery(updatedProgram.ProgramId).FirstOrDefault();
+            var programToUpdate = CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefault();
             if (programToUpdate != null)
             {
                 DoUpdate(programToUpdate, updatedProgram);
             }
             else
             {
-                throw new ModelNotFoundException(String.Format("The program with the given Id [{0}] was not found.", updatedProgram.ProgramId));
+                throw new ModelNotFoundException(String.Format("The program with the given Id [{0}] was not found.", updatedProgram.Id));
             }
         }
 
         public async Task UpdateAsync(EcaProgram updatedProgram)
         {
-            var programToUpdate = await CreateGetProgramByIdQuery(updatedProgram.ProgramId).FirstOrDefaultAsync();
+            var programToUpdate = await CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefaultAsync();
             if (programToUpdate != null)
             {
                 DoUpdate(programToUpdate, updatedProgram);
             }
             else
             {
-                throw new ModelNotFoundException(String.Format("The program with the given Id [{0}] was not found.", updatedProgram.ProgramId));
+                throw new ModelNotFoundException(String.Format("The program with the given Id [{0}] was not found.", updatedProgram.Id));
             }
         }
 
@@ -164,9 +164,11 @@ namespace ECA.Business.Service.Programs
             programToUpdate.ProgramStatusId = updatedProgram.ProgramStatusId;
             programToUpdate.StartDate = updatedProgram.StartDate;
             programToUpdate.Website = updatedProgram.Website;
-            
+
+            updatedProgram.Audit.SetHistory(programToUpdate);
+
             SetGoals(updatedProgram.GoalIds, programToUpdate);
-            SetPointOfContacts(updatedProgram.PointOfContactIds, programToUpdate);
+            SetPointOfContacts(updatedProgram.ContactIds, programToUpdate);
             SetThemes(updatedProgram.ThemeIds, programToUpdate);            
         }
         #endregion
