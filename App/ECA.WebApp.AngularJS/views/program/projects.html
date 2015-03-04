@@ -24,61 +24,61 @@
     <i class="glyphicon glyphicon-search contextual"></i>
     -->
     <button ng-click="modal.createProject = true" class="btn btn-success right col-sd-2">CREATE PROJECT</button>
-    <div st-pipe="getProjects" st-table="projects" id="sort-list">
-        <table class="col-md-12">
-            <thead>
-                <tr>
-                    <th st-sort="'projectName'" st-sort-default="true" class="col-md-7 sort-label medium">Title</th>
-                    <th st-sort="'projectStatusName'" class="col-md-1 sort-label medium">Status</th>
-                    <th st-sort="'startYearAsString'" class="col-md-1 sort-label medium">Year</th>
-                    <th  class="col-md-1 sort-label medium">Region</th>
-                    <th class="col-md-2">&nbsp;</th>
-                </tr>
-                <tr>
-                    <th>
-                        <input st-search="'projectName'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        <input st-search="'projectStatusName'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        <input st-search="'startYearAsString'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        <input st-search="'region'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        &nbsp;
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="list2">
-                <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading">
-                    <td>
-                        <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.ownerOrganizationId, programId: program.id, projectId: project.projectId})">{{project.projectName}}</a></h5>
-                    </td>
-                    <td>{{project.projectStatusName}}</td>
-                    <td>{{project.startYearAsString}}</td>
-                    <td>{{project.locationNames[0]}}</td>
-                    <td>
-                        <img class="icon" src="images/duplicateA.png" alt="">
-                        <img class="icon" src="images/editA.png" alt="">
-                        <img class="icon" src="images/trash.png" alt="">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5" ng-show="projectsLoading">
-                        <div class="spinner">
-                            <div class="bounce1"></div>
-                            <div class="bounce2"></div>
-                            <div class="bounce3"></div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
-    </div>
+</div>
+<div st-pipe="getProjects" st-table="projects" id="sort-list">
+    <table class="col-md-12">
+        <thead>
+            <tr>
+                <th st-sort="'projectName'" st-sort-default="true" class="col-md-7 sort-label medium">Title</th>
+                <th st-sort="'projectStatusName'" class="col-md-1 sort-label medium">Status</th>
+                <th st-sort="'startYearAsString'" class="col-md-1 sort-label medium">Year</th>
+                <th class="col-md-1 sort-label medium">Region</th>
+                <th class="col-md-2">&nbsp;</th>
+            </tr>
+            <tr>
+                <th>
+                    <input st-search="'projectName'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'projectStatusName'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'startYearAsString'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'region'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    &nbsp;
+                </th>
+            </tr>
+        </thead>
+        <tbody class="list2">
+            <tr ng-repeat="project in projects" class="hover" ng-show="!projectsLoading">
+                <td>
+                    <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.ownerOrganizationId, programId: program.id, projectId: project.projectId})">{{project.projectName}}</a></h5>
+                </td>
+                <td>{{project.projectStatusName}}</td>
+                <td>{{project.startYearAsString}}</td>
+                <td>{{project.locationNames[0]}}</td>
+                <td>
+                    <img class="icon" src="images/duplicateA.png" alt="">
+                    <img class="icon" src="images/editA.png" alt="">
+                    <img class="icon" src="images/trash.png" alt="">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" ng-show="projectsLoading">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
 </div>
 <modal-dialog show="modal.createProject" dialog-title="Create Project" before-close="modalClose()" on-close="modalClear()">
     <div class="tip">

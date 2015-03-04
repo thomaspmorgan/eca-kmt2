@@ -36,32 +36,32 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         #region Create Draft Project
-        [TestMethod]
-        public void TestCreate()
-        {
-            Assert.AreEqual(0, context.Programs.Count());
-            var utcNow = DateTimeOffset.UtcNow;
-            var projectName = "project";
-            var userId = 1;
-            var user = new User(userId);
-            var description = "description";
-            var programId = 2;
-            var draft = new DraftProject(user, projectName, description, programId);
-            var project = service.Create(draft);
+        //[TestMethod]
+        //public void TestCreate()
+        //{
+        //    Assert.AreEqual(0, context.Programs.Count());
+        //    var utcNow = DateTimeOffset.UtcNow;
+        //    var projectName = "project";
+        //    var userId = 1;
+        //    var user = new User(userId);
+        //    var description = "description";
+        //    var programId = 2;
+        //    var draft = new DraftProject(user, projectName, description, programId);
+        //    var project = service.Create(draft);
 
-            Assert.AreEqual(1, context.Projects.Count());
-            var savedProject = context.Projects.First();
-            Assert.IsNotNull(savedProject);
-            Assert.AreEqual(project.Name, savedProject.Name);
-            Assert.AreEqual(project.Description, savedProject.Description);
-            Assert.AreEqual(project.ProgramId, savedProject.ProgramId);
+        //    Assert.AreEqual(1, context.Projects.Count());
+        //    var savedProject = context.Projects.First();
+        //    Assert.IsNotNull(savedProject);
+        //    Assert.AreEqual(project.Name, savedProject.Name);
+        //    Assert.AreEqual(project.Description, savedProject.Description);
+        //    Assert.AreEqual(project.ProgramId, savedProject.ProgramId);
 
-            Assert.IsNotNull(savedProject.History);
-            Assert.AreEqual(userId, savedProject.History.CreatedBy);
-            Assert.AreEqual(userId, savedProject.History.RevisedBy);
-            savedProject.History.CreatedOn.Should().BeCloseTo(utcNow, DbContextHelper.DATE_PRECISION);
-            savedProject.History.RevisedOn.Should().BeCloseTo(utcNow, DbContextHelper.DATE_PRECISION);
-        }
+        //    Assert.IsNotNull(savedProject.History);
+        //    Assert.AreEqual(userId, savedProject.History.CreatedBy);
+        //    Assert.AreEqual(userId, savedProject.History.RevisedBy);
+        //    savedProject.History.CreatedOn.Should().BeCloseTo(utcNow, DbContextHelper.DATE_PRECISION);
+        //    savedProject.History.RevisedOn.Should().BeCloseTo(utcNow, DbContextHelper.DATE_PRECISION);
+        //}
         #endregion
 
         #region Get Projects By Program Id

@@ -29,6 +29,8 @@ namespace ECA.Data
             this.ProgramType = new HashSet<ProgramType>();
             this.Impacts = new HashSet<Impact>();
             this.Contacts = new HashSet<Contact>();
+
+            this.History = new History();
         }
 
         /// <summary>

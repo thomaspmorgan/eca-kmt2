@@ -13,7 +13,7 @@ namespace ECA.Business.Test.Service
     }
 
     [TestClass]
-    public class RevisedHistoryTest
+    public class UpdateTest
     {
         [TestMethod]
         public void TestConstructor()
@@ -21,9 +21,10 @@ namespace ECA.Business.Test.Service
             var now = DateTimeOffset.UtcNow;
             var userId = 1;
             var user = new User(userId);
-            var model = new RevisedHistory(user);
-            Assert.AreEqual(userId, model.RevisedBy.Id);
-            model.RevisedOn.Should().BeCloseTo(now, DbContextHelper.DATE_PRECISION);
+            var update = new Update(user);
+            Assert.IsTrue(user == update.User);
+            Assert.AreEqual(userId, update.User.Id);
+            update.Date.Should().BeCloseTo(now, DbContextHelper.DATE_PRECISION);
         }
 
         [TestMethod]
@@ -42,9 +43,9 @@ namespace ECA.Business.Test.Service
                 CreatedBy = createdByUserId
             };
 
-            var revisedHistory = new RevisedHistory(user);
+            var update = new Update(user);
 
-            revisedHistory.SetHistory(instance);
+            update.SetHistory(instance);
             Assert.IsNotNull(instance.History);
             Assert.AreEqual(createdByUserId, instance.History.CreatedBy);
             Assert.AreEqual(updatedByuser, instance.History.RevisedBy);

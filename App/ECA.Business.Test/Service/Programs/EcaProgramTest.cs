@@ -15,6 +15,7 @@ namespace ECA.Business.Test.Service.Programs
         public void TestConstructor()
         {
             var userId = 1;
+            var programId = 10;
             var name = "name";
             var description = "description";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
@@ -31,6 +32,7 @@ namespace ECA.Business.Test.Service.Programs
             var user = new User(userId);
             var program = new EcaProgram(
                 updatedBy: user,
+                id: programId,
                 name: name,
                 description: description,
                 startDate: startDate,
@@ -44,9 +46,10 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: pointOfContactIds,
                 themeIds: themeIds
                 );
-            Assert.AreEqual(user, program.History.RevisedBy);
-            DateTimeOffset.UtcNow.Should().BeCloseTo(program.History.RevisedOn, DbContextHelper.DATE_PRECISION);
+            Assert.AreEqual(user, program.Audit.User);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(program.Audit.Date, DbContextHelper.DATE_PRECISION);
 
+            Assert.AreEqual(programId, program.Id);
             Assert.AreEqual(name, program.Name);
             Assert.AreEqual(description, program.Description);
             Assert.AreEqual(startDate, program.StartDate);
@@ -59,13 +62,14 @@ namespace ECA.Business.Test.Service.Programs
 
             CollectionAssert.AreEqual(goalIds, program.GoalIds);
             CollectionAssert.AreEqual(themeIds, program.ThemeIds);
-            CollectionAssert.AreEqual(pointOfContactIds, program.PointOfContactIds);
+            CollectionAssert.AreEqual(pointOfContactIds, program.ContactIds);
         }
 
         [TestMethod]
         public void TestConstructor_NullListsOfIds()
         {
             var userId = 1;
+            var programId = 10;
             var name = "name";
             var description = "description";
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
@@ -79,6 +83,7 @@ namespace ECA.Business.Test.Service.Programs
             var user = new User(userId);
             var program = new EcaProgram(
                 updatedBy: user,
+                id: programId,
                 name: name,
                 description: description,
                 startDate: startDate,
@@ -94,7 +99,7 @@ namespace ECA.Business.Test.Service.Programs
                 );
             Assert.IsNotNull(program.GoalIds);
             Assert.IsNotNull(program.ThemeIds);
-            Assert.IsNotNull(program.PointOfContactIds);
+            Assert.IsNotNull(program.ContactIds);
         }
     }
 }

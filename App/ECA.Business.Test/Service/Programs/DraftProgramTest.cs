@@ -42,8 +42,8 @@ namespace ECA.Business.Test.Service.Programs
                 pointOfContactIds: pointOfContactIds,
                 themeIds: themeIds
                 );
-            Assert.AreEqual(user, program.History.RevisedBy);
-            DateTimeOffset.UtcNow.Should().BeCloseTo(program.History.RevisedOn, DbContextHelper.DATE_PRECISION);
+            Assert.AreEqual(user, program.Audit.User);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(program.Audit.Date, DbContextHelper.DATE_PRECISION);
 
             Assert.AreEqual(name, program.Name);
             Assert.AreEqual(description, program.Description);
@@ -57,7 +57,7 @@ namespace ECA.Business.Test.Service.Programs
 
             CollectionAssert.AreEqual(goalIds, program.GoalIds);
             CollectionAssert.AreEqual(themeIds, program.ThemeIds);
-            CollectionAssert.AreEqual(pointOfContactIds, program.PointOfContactIds);
+            CollectionAssert.AreEqual(pointOfContactIds, program.ContactIds);
         }
 
         [TestMethod]
@@ -91,7 +91,7 @@ namespace ECA.Business.Test.Service.Programs
                 );
             Assert.IsNotNull(program.GoalIds);
             Assert.IsNotNull(program.ThemeIds);
-            Assert.IsNotNull(program.PointOfContactIds);
+            Assert.IsNotNull(program.ContactIds);
         }
     }
 }

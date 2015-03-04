@@ -48,6 +48,18 @@ namespace ECA.Business.Service.Programs
         /// <param name="draftProgram">The draft program.</param>
         /// <returns>The saved program.</returns>
         Program Create(DraftProgram draftProgram);
+
+        /// <summary>
+        /// Updates the system's program with the given updated program.
+        /// </summary>
+        /// <param name="updatedProgram">The updated program.</param>
+        void Update(EcaProgram updatedProgram);
+
+        /// <summary>
+        /// Updates the system's program with the given updated program.
+        /// </summary>
+        /// <param name="updatedProgram">The updated program.</param>
+        Task UpdateAsync(EcaProgram updatedProgram);
     }
 
     /// <summary>
@@ -130,6 +142,26 @@ namespace ECA.Business.Service.Programs
         public Task<int> SaveChangesAsync(System.Collections.Generic.IList<ISaveAction> saveActions = null)
         {
             return Task.FromResult<int>(1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updatedProgram"></param>
+        public void Update(EcaProgram updatedProgram)
+        {
+            Contract.Requires(updatedProgram != null, "The updated program must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updatedProgram"></param>
+        /// <returns></returns>
+        public Task UpdateAsync(EcaProgram updatedProgram)
+        {
+            Contract.Requires(updatedProgram != null, "The updated program must not be null.");
+            return Task.FromResult<object>(null);
         }
     }
 }

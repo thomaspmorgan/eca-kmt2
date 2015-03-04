@@ -1,5 +1,5 @@
-﻿using ECA.Business.Models.Programs;
-using FluentAssertions;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Service;
 using ECA.Business.Service.Programs;
@@ -8,11 +8,11 @@ using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.Data;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Test.Service.Programs
@@ -101,11 +101,6 @@ namespace ECA.Business.Test.Service.Programs
                 },
                 Owner = owner
             };
-
-            program.Contacts = new HashSet<Contact>();
-            program.Goals = new HashSet<Goal>();
-            program.Themes = new HashSet<Theme>();
-            program.Regions = new HashSet<Location>();
             program.Contacts.Add(contact);
             program.Goals.Add(goal);
             program.Regions.Add(region);
@@ -189,11 +184,6 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = now
                 }
             };
-
-            program.Contacts = new HashSet<Contact>();
-            program.Goals = new HashSet<Goal>();
-            program.Themes = new HashSet<Theme>();
-            program.Regions = new HashSet<Location>();
 
             context.Programs.Add(program);
             Action<ProgramDTO> tester = (publishedProgram) =>
@@ -699,5 +689,647 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(theme.ThemeId, program.Themes.First().ThemeId);
         }
         #endregion
+
+        #region Update
+        [TestMethod]
+        public void TestUpdate_CheckProperties()
+        {
+            Assert.AreEqual(0, context.Programs.Count());
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+            var parentProgram = new Program
+            {
+                ProgramId = 2
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "old name",
+                Description = "old description",
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                Focus = "focus",
+                ProgramStatusId = ProgramStatus.Draft.Id,
+                ParentProgram = null,
+                Website = "old website",
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = creatorId,
+                    RevisedOn = yesterday
+                },
+            };
+            context.Programs.Add(program);
+            context.Programs.Add(parentProgram);
+            Assert.AreEqual(2, context.Programs.Count());
+
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newFocus = "new focus";
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = parentProgram.ProgramId;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(revisorId),
+                id: program.ProgramId,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focus: newFocus,
+                website: newWebsite,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: null
+                );
+            service.Update(updatedEcaProgram);
+            
+            var updatedProgram = context.Programs.First();
+            Assert.AreEqual(newDescription, updatedProgram.Description);
+            Assert.AreEqual(newEndDate, updatedProgram.EndDate);
+            Assert.AreEqual(newFocus, updatedProgram.Focus);
+            Assert.AreEqual(newName, updatedProgram.Name);
+            Assert.AreEqual(newOwnerId, updatedProgram.OwnerId);
+            Assert.AreEqual(newOwnerId, updatedProgram.Owner.OrganizationId);
+            Assert.AreEqual(program.ProgramId, updatedProgram.ProgramId);
+            Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
+            Assert.AreEqual(newStartDate, updatedProgram.StartDate);
+            Assert.AreEqual(newWebsite, updatedProgram.Website);
+
+            Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
+            Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
+
+            Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn);
+            
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckProperties()
+        {
+            Assert.AreEqual(0, context.Programs.Count());
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+            var parentProgram = new Program
+            {
+                ProgramId = 2
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "old name",
+                Description = "old description",
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                Focus = "focus",
+                ProgramStatusId = ProgramStatus.Draft.Id,
+                ParentProgram = null,
+                Website = "old website",
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = creatorId,
+                    RevisedOn = yesterday
+                },
+            };
+            context.Programs.Add(program);
+            context.Programs.Add(parentProgram);
+            Assert.AreEqual(2, context.Programs.Count());
+
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newFocus = "new focus";
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = parentProgram.ProgramId;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(revisorId),
+                id: program.ProgramId,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focus: newFocus,
+                website: newWebsite,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: null
+                );
+            await service.UpdateAsync(updatedEcaProgram);
+
+            var updatedProgram = context.Programs.First();
+            Assert.AreEqual(newDescription, updatedProgram.Description);
+            Assert.AreEqual(newEndDate, updatedProgram.EndDate);
+            Assert.AreEqual(newFocus, updatedProgram.Focus);
+            Assert.AreEqual(newName, updatedProgram.Name);
+            Assert.AreEqual(newOwnerId, updatedProgram.OwnerId);
+            Assert.AreEqual(newOwnerId, updatedProgram.Owner.OrganizationId);
+            Assert.AreEqual(program.ProgramId, updatedProgram.ProgramId);
+            Assert.AreEqual(newProgramStatusId, updatedProgram.ProgramStatusId);
+            Assert.AreEqual(newStartDate, updatedProgram.StartDate);
+            Assert.AreEqual(newWebsite, updatedProgram.Website);
+
+            Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
+            Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
+
+            Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn);
+        }
+
+        [TestMethod]
+        public void TestUpdate_CheckGoals()
+        {
+            Assert.AreEqual(0, context.Programs.Count());
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+            var parentProgram = new Program
+            {
+                ProgramId = 2
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "old name",
+                Description = "old description",
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                Focus = "focus",
+                ProgramStatusId = ProgramStatus.Draft.Id,
+                ParentProgram = null,
+                Website = "old website",
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = revisorId,
+                    RevisedOn = now
+                },
+            };
+            context.Programs.Add(program);
+            context.Programs.Add(parentProgram);
+            Assert.AreEqual(2, context.Programs.Count());
+
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newFocus = "new focus";
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = parentProgram.ProgramId;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(revisorId),
+                id: program.ProgramId,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focus: newFocus,
+                website: newWebsite,
+                goalIds: new List<int> {1},
+                pointOfContactIds: null,
+                themeIds: null
+                );
+            service.Update(updatedEcaProgram);
+
+            var updatedProgram = context.Programs.First();
+            Assert.AreEqual(1, updatedProgram.Goals.Count);
+            Assert.AreEqual(updatedEcaProgram.GoalIds.First(), updatedProgram.Goals.First().GoalId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckGoals()
+        {
+            Assert.AreEqual(0, context.Programs.Count());
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+            var parentProgram = new Program
+            {
+                ProgramId = 2
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "old name",
+                Description = "old description",
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                Focus = "focus",
+                ProgramStatusId = ProgramStatus.Draft.Id,
+                ParentProgram = null,
+                Website = "old website",
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = revisorId,
+                    RevisedOn = now
+                },
+            };
+            context.Programs.Add(program);
+            context.Programs.Add(parentProgram);
+            Assert.AreEqual(2, context.Programs.Count());
+
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newFocus = "new focus";
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = parentProgram.ProgramId;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(revisorId),
+                id: program.ProgramId,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focus: newFocus,
+                website: newWebsite,
+                goalIds: new List<int> { 1 },
+                pointOfContactIds: null,
+                themeIds: null
+                );
+            await service.UpdateAsync(updatedEcaProgram);
+
+            var updatedProgram = context.Programs.First();
+            Assert.AreEqual(1, updatedProgram.Goals.Count);
+            Assert.AreEqual(updatedEcaProgram.GoalIds.First(), updatedProgram.Goals.First().GoalId);
+        }
+
+        [TestMethod]
+        public void TestUpdate_CheckThemes()
+        {
+            Assert.AreEqual(0, context.Programs.Count());
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+            var parentProgram = new Program
+            {
+                ProgramId = 2
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "old name",
+                Description = "old description",
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                Focus = "focus",
+                ProgramStatusId = ProgramStatus.Draft.Id,
+                ParentProgram = null,
+                Website = "old website",
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = revisorId,
+                    RevisedOn = now
+                },
+            };
+            context.Programs.Add(program);
+            context.Programs.Add(parentProgram);
+            Assert.AreEqual(2, context.Programs.Count());
+
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newFocus = "new focus";
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = parentProgram.ProgramId;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(revisorId),
+                id: program.ProgramId,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focus: newFocus,
+                website: newWebsite,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: new List<int> { 1 }
+                );
+            service.Update(updatedEcaProgram);
+
+            var updatedProgram = context.Programs.First();
+            Assert.AreEqual(1, updatedProgram.Themes.Count);
+            Assert.AreEqual(updatedEcaProgram.ThemeIds.First(), updatedProgram.Themes.First().ThemeId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckThemes()
+        {
+            Assert.AreEqual(0, context.Programs.Count());
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+            var parentProgram = new Program
+            {
+                ProgramId = 2
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "old name",
+                Description = "old description",
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                Focus = "focus",
+                ProgramStatusId = ProgramStatus.Draft.Id,
+                ParentProgram = null,
+                Website = "old website",
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = revisorId,
+                    RevisedOn = now
+                },
+            };
+            context.Programs.Add(program);
+            context.Programs.Add(parentProgram);
+            Assert.AreEqual(2, context.Programs.Count());
+
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newFocus = "new focus";
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = parentProgram.ProgramId;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(revisorId),
+                id: program.ProgramId,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focus: newFocus,
+                website: newWebsite,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: new List<int> { 1 }
+                );
+            await service.UpdateAsync(updatedEcaProgram);
+
+            var updatedProgram = context.Programs.First();
+            Assert.AreEqual(1, updatedProgram.Themes.Count);
+            Assert.AreEqual(updatedEcaProgram.ThemeIds.First(), updatedProgram.Themes.First().ThemeId);
+        }
+
+        [TestMethod]
+        public void TestUpdate_CheckPointOfContacts()
+        {
+            Assert.AreEqual(0, context.Programs.Count());
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+            var parentProgram = new Program
+            {
+                ProgramId = 2
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "old name",
+                Description = "old description",
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                Focus = "focus",
+                ProgramStatusId = ProgramStatus.Draft.Id,
+                ParentProgram = null,
+                Website = "old website",
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = revisorId,
+                    RevisedOn = now
+                },
+            };
+            context.Programs.Add(program);
+            context.Programs.Add(parentProgram);
+            Assert.AreEqual(2, context.Programs.Count());
+
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newFocus = "new focus";
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = parentProgram.ProgramId;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(revisorId),
+                id: program.ProgramId,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focus: newFocus,
+                website: newWebsite,
+                goalIds: null,
+                pointOfContactIds: new List<int> { 1 },
+                themeIds: null
+                );
+            service.Update(updatedEcaProgram);
+
+            var updatedProgram = context.Programs.First();
+            Assert.AreEqual(1, updatedProgram.Contacts.Count);
+            Assert.AreEqual(updatedEcaProgram.ContactIds.First(), updatedProgram.Contacts.First().ContactId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckPointOfContacts()
+        {
+            Assert.AreEqual(0, context.Programs.Count());
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+            var parentProgram = new Program
+            {
+                ProgramId = 2
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "old name",
+                Description = "old description",
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                Focus = "focus",
+                ProgramStatusId = ProgramStatus.Draft.Id,
+                ParentProgram = null,
+                Website = "old website",
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = revisorId,
+                    RevisedOn = now
+                },
+            };
+            context.Programs.Add(program);
+            context.Programs.Add(parentProgram);
+            Assert.AreEqual(2, context.Programs.Count());
+
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newFocus = "new focus";
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = parentProgram.ProgramId;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(revisorId),
+                id: program.ProgramId,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focus: newFocus,
+                website: newWebsite,
+                goalIds: null,
+                pointOfContactIds: new List<int> { 1 },
+                themeIds: null
+                );
+            await service.UpdateAsync(updatedEcaProgram);
+
+            var updatedProgram = context.Programs.First();
+            Assert.AreEqual(1, updatedProgram.Contacts.Count);
+            Assert.AreEqual(updatedEcaProgram.ContactIds.First(), updatedProgram.Contacts.First().ContactId);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ModelNotFoundException))]
+        public void TestUpdate_ModelNotFoundException()
+        {
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newFocus = "new focus";
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = 12;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(1),
+                id: 1,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focus: newFocus,
+                website: newWebsite,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: null
+                );
+            service.Update(updatedEcaProgram);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ModelNotFoundException))]
+        public async Task TestUpdateAsync_ModelNotFoundException()
+        {
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newFocus = "new focus";
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = 12;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(1),
+                id: 1,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focus: newFocus,
+                website: newWebsite,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: null
+                );
+            await service.UpdateAsync(updatedEcaProgram);
+        }
+        #endregion
     }
 }
+

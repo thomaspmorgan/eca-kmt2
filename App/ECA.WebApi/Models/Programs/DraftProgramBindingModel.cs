@@ -70,7 +70,7 @@ namespace ECA.WebApi.Models.Programs
         /// <summary>
         /// The points of contact by id.
         /// </summary>
-        public List<int> PointOfContacts { get; set; }
+        public List<int> Contacts { get; set; }
 
         /// <summary>
         /// Returns a DraftProgram business entity from this binding model.
@@ -90,7 +90,7 @@ namespace ECA.WebApi.Models.Programs
                 focus: this.Focus,
                 website: this.Website,
                 goalIds: this.Goals,
-                pointOfContactIds: this.PointOfContacts,
+                pointOfContactIds: this.Contacts,
                 themeIds: this.Themes
                 );
         }

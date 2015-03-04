@@ -277,6 +277,7 @@
     <None Include="Models\OrganizationTypeDTO.csold" />
     <None Include="Models\ParticipantDTO.csold" />
     <Compile Include="Models\Programs\DraftProgramBindingModel.cs" />
+    <Compile Include="Models\Programs\ProgramBindingModel.cs" />
     <Compile Include="Models\Projects\DraftProjectBindingModel.cs" />
     <Compile Include="Models\Query\FilterBindingModelConverter.cs" />
     <Compile Include="Models\Query\PagingQueryBindingModel.cs" />
