@@ -73,7 +73,12 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestPostProgramAsync()
         {
-            var model = new DraftProgramBindingModel();
+            var model = new ProgramBindingModel
+            {
+                Name = "name",
+                Description = "desc",
+                ProgramStatusId = ProgramStatus.Active.Id
+            };
             var response = await controller.PostProgramAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProgramDTO>));
         }
@@ -93,7 +98,12 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestPutProgramAsync()
         {
-            var model = new ProgramBindingModel();
+            var model = new ProgramBindingModel
+            {
+                Name = "name",
+                Description = "desc",
+                ProgramStatusId = ProgramStatus.Active.Id
+            };
             model.ProgramStatusId = ProgramStatus.Active.Id;
             var response = await controller.PutProgramAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProgramDTO>));

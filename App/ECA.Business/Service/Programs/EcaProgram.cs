@@ -48,6 +48,24 @@ namespace ECA.Business.Models.Programs
             List<int> themeIds,
             List<int> regionIds)
         {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw new ValidationException("The name of the program is invalid.");
+            }
+            if (String.IsNullOrWhiteSpace(description))
+            {
+                throw new ValidationException("The description of the program is invalid.");
+            }
+            if (updatedBy == null)
+            {
+                throw new ValidationException("The user must be known to create a program.");
+            }
+            var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
+            if (programStatus == null)
+            {
+                throw new UnknownStaticLookupException(String.Format("The program status [{0}] is not supported.", programStatusId));
+            }
+
             this.Id = id;
             this.Name = name;
             this.Description = description;
@@ -61,16 +79,7 @@ namespace ECA.Business.Models.Programs
             this.ContactIds = pointOfContactIds ?? new List<int>();
             this.ThemeIds = themeIds ?? new List<int>();
             this.RegionIds = regionIds ?? new List<int>();
-
-            var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
-            if (programStatus == null)
-            {
-                throw new UnknownStaticLookupException(String.Format("The program status [{0}] is not supported.", programStatusId));
-            }
-            else
-            {
-                this.ProgramStatusId = programStatus.Id;
-            }
+            this.ProgramStatusId = programStatusId;
             this.Audit = new Update(updatedBy);
         }
 

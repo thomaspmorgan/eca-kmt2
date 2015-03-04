@@ -144,5 +144,274 @@ namespace ECA.Business.Test.Service.Programs
                 );
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void TestNameRequired_EmptyName()
+        {
+            var userId = 1;
+            var programId = 10;
+            var name = String.Empty;
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var programStatusId = 1;
+            var focus = "focus";
+            var website = "http://www.google.com";
+
+            var user = new User(userId);
+            var program = new EcaProgram(
+                updatedBy: user,
+                id: programId,
+                name: name,
+                description: description,
+                startDate: startDate,
+                endDate: endDate,
+                ownerOrganizationId: ownerOrganizationId,
+                parentProgramId: parentProgramId,
+                programStatusId: programStatusId,
+                focus: focus,
+                website: website,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: null,
+                regionIds: null
+                );
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void TestNameRequired_NullName()
+        {
+            var userId = 1;
+            var programId = 10;
+            string name = null;
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var programStatusId = 1;
+            var focus = "focus";
+            var website = "http://www.google.com";
+
+            var user = new User(userId);
+            var program = new EcaProgram(
+                updatedBy: user,
+                id: programId,
+                name: name,
+                description: description,
+                startDate: startDate,
+                endDate: endDate,
+                ownerOrganizationId: ownerOrganizationId,
+                parentProgramId: parentProgramId,
+                programStatusId: programStatusId,
+                focus: focus,
+                website: website,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: null,
+                regionIds: null
+                );
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void TestNameRequired_WhitespaceName()
+        {
+            var userId = 1;
+            var programId = 10;
+            string name = " ";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var programStatusId = 1;
+            var focus = "focus";
+            var website = "http://www.google.com";
+
+            var user = new User(userId);
+            var program = new EcaProgram(
+                updatedBy: user,
+                id: programId,
+                name: name,
+                description: description,
+                startDate: startDate,
+                endDate: endDate,
+                ownerOrganizationId: ownerOrganizationId,
+                parentProgramId: parentProgramId,
+                programStatusId: programStatusId,
+                focus: focus,
+                website: website,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: null,
+                regionIds: null
+                );
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void TestConstructor_DescriptionNull()
+        {
+            var userId = 1;
+            var programId = 10;
+            var name = "name";
+            string description = null;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var programStatusId = ProgramStatus.Active.Id;
+            var focus = "focus";
+            var website = "http://www.google.com";
+            var goalIds = new List<int> { 10 };
+            var themeIds = new List<int> { 20 };
+            var pointOfContactIds = new List<int> { 30 };
+            var regionIds = new List<int> { 40 };
+
+            var user = new User(userId);
+            var program = new EcaProgram(
+                updatedBy: user,
+                id: programId,
+                name: name,
+                description: description,
+                startDate: startDate,
+                endDate: endDate,
+                ownerOrganizationId: ownerOrganizationId,
+                parentProgramId: parentProgramId,
+                programStatusId: programStatusId,
+                focus: focus,
+                website: website,
+                goalIds: goalIds,
+                pointOfContactIds: pointOfContactIds,
+                themeIds: themeIds,
+                regionIds: regionIds
+                );
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void TestConstructor_EmptyDescription()
+        {
+            var userId = 1;
+            var programId = 10;
+            var name = "name";
+            string description = String.Empty;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var programStatusId = ProgramStatus.Active.Id;
+            var focus = "focus";
+            var website = "http://www.google.com";
+            var goalIds = new List<int> { 10 };
+            var themeIds = new List<int> { 20 };
+            var pointOfContactIds = new List<int> { 30 };
+            var regionIds = new List<int> { 40 };
+
+            var user = new User(userId);
+            var program = new EcaProgram(
+                updatedBy: user,
+                id: programId,
+                name: name,
+                description: description,
+                startDate: startDate,
+                endDate: endDate,
+                ownerOrganizationId: ownerOrganizationId,
+                parentProgramId: parentProgramId,
+                programStatusId: programStatusId,
+                focus: focus,
+                website: website,
+                goalIds: goalIds,
+                pointOfContactIds: pointOfContactIds,
+                themeIds: themeIds,
+                regionIds: regionIds
+                );
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void TestConstructor_WhitespaceDescription()
+        {
+            var userId = 1;
+            var programId = 10;
+            var name = "name";
+            string description = " ";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var programStatusId = ProgramStatus.Active.Id;
+            var focus = "focus";
+            var website = "http://www.google.com";
+            var goalIds = new List<int> { 10 };
+            var themeIds = new List<int> { 20 };
+            var pointOfContactIds = new List<int> { 30 };
+            var regionIds = new List<int> { 40 };
+
+            var user = new User(userId);
+            var program = new EcaProgram(
+                updatedBy: user,
+                id: programId,
+                name: name,
+                description: description,
+                startDate: startDate,
+                endDate: endDate,
+                ownerOrganizationId: ownerOrganizationId,
+                parentProgramId: parentProgramId,
+                programStatusId: programStatusId,
+                focus: focus,
+                website: website,
+                goalIds: goalIds,
+                pointOfContactIds: pointOfContactIds,
+                themeIds: themeIds,
+                regionIds: regionIds
+                );
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void TestConstructor_NullUpdatedByUser()
+        {
+            var programId = 10;
+            var name = "name";
+            string description = "desc";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var programStatusId = ProgramStatus.Active.Id;
+            var focus = "focus";
+            var website = "http://www.google.com";
+            var goalIds = new List<int> { 10 };
+            var themeIds = new List<int> { 20 };
+            var pointOfContactIds = new List<int> { 30 };
+            var regionIds = new List<int> { 40 };
+
+            var program = new EcaProgram(
+                updatedBy: null,
+                id: programId,
+                name: name,
+                description: description,
+                startDate: startDate,
+                endDate: endDate,
+                ownerOrganizationId: ownerOrganizationId,
+                parentProgramId: parentProgramId,
+                programStatusId: programStatusId,
+                focus: focus,
+                website: website,
+                goalIds: goalIds,
+                pointOfContactIds: pointOfContactIds,
+                themeIds: themeIds,
+                regionIds: regionIds
+                );
+        }
+
     }
 }

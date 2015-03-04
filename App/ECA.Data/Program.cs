@@ -126,14 +126,12 @@ namespace ECA.Data
             Contract.Requires(validationContext.Items[EcaContext.VALIDATABLE_CONTEXT_KEY].GetType() == typeof(EcaContext), "The context must be an EcaContext.");
             var context = validationContext.Items[EcaContext.VALIDATABLE_CONTEXT_KEY] as EcaContext;
 
-            var invalidRegions = context.Locations.Where(x => 
-                this.Locations.Select(l => l.LocationId).Contains(x.LocationId) 
-                && x.LocationTypeId != LocationType.Region.Id).Select(x => x.LocationId).ToList();
-            if (invalidRegions.Count != 0)
+            var existingProgramsByName = context.Programs.Where(x => x.Name.ToLower().Trim() == this.Name.ToLower().Trim()
+                && x.ProgramId != this.ProgramId).FirstOrDefault();
+            if (existingProgramsByName != null)
             {
-                yield return new ValidationResult(String.Format("The program's regions are not all regions.  The given locations by id [{0]] are not regions.", String.Join(", ", invalidRegions.ToList())));
+                yield return new ValidationResult(String.Format("The program with the name [{0}] already exists.", this.Name), new List<string> { "Name" });
             }
-
         }
     }
 }
