@@ -159,10 +159,7 @@
     <Content Include="packages.config" />
     <Content Include="bower.json" />
     <Content Include=".bowerrc" />
-    <Content Include=".bin\git.cmd" />
-    <Content Include=".bin\node.cmd" />
     <Content Include="ApplicationInsights.config" />
-    <None Include=".bin\bower.cmd" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
     <Content Include="scripts\constants.tt">
