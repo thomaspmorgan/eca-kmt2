@@ -15,7 +15,7 @@ namespace ECA.Data.Test
         [TestInitialize]
         public void TestInit()
         {
-            context = DbContextHelper.GetInMemoryContext();
+            context = new TestEcaContext();
         }
 
         [TestMethod]

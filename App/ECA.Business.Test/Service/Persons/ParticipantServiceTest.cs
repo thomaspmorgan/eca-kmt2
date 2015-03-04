@@ -22,7 +22,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestInitialize]
         public void TestInit()
         {
-            context = DbContextHelper.GetInMemoryContext();
+            context = new TestEcaContext();
             service = new ParticipantService(context);
         }
 

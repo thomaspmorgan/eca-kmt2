@@ -126,8 +126,9 @@ namespace ECA.Data
             Contract.Requires(validationContext.Items[EcaContext.VALIDATABLE_CONTEXT_KEY].GetType() == typeof(EcaContext), "The context must be an EcaContext.");
             var context = validationContext.Items[EcaContext.VALIDATABLE_CONTEXT_KEY] as EcaContext;
 
-            var existingProgramsByName = context.Programs.Where(x => x.Name.ToLower().Trim() == this.Name.ToLower().Trim()
-                && x.ProgramId != this.ProgramId).FirstOrDefault();
+            var existingProgramsByName = context.Programs
+                .Where(x => x.Name.ToLower().Trim() == this.Name.ToLower().Trim() && x.ProgramId != this.ProgramId)
+                .FirstOrDefault();
             if (existingProgramsByName != null)
             {
                 yield return new ValidationResult(String.Format("The program with the name [{0}] already exists.", this.Name), new List<string> { "Name" });

@@ -69,6 +69,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DbContextHelper.cs" />
+    <Compile Include="InMemoryEcaDbContextGenerator.generated.cs">
+      <DependentUpon>InMemoryEcaDbContextGenerator.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Service\Admin\DraftProjectTest.cs" />
     <Compile Include="Service\CreateTest.cs" />
     <Compile Include="Service\Programs\DraftProgramTest.cs" />
@@ -87,6 +92,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="coverage.bat" />
+    <None Include="InMemoryEcaDbContextGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InMemoryEcaDbContextGenerator.generated.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +115,9 @@
       <Project>{8cef11e6-50e8-4b54-a1a7-a75583ccb6ef}</Project>
       <Name>ECA.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

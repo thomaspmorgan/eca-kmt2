@@ -29,6 +29,7 @@ namespace ECA.Business.Service.Programs
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
         /// <param name="context">The context to operate on.</param>
+        /// <param name="locationService">The location service.</param>
         public ProgramService(EcaContext context, ILocationService locationService)
             : base(context)
         {

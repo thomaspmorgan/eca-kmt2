@@ -1,0 +1,66 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Data.Entity" #>
+<#@ output extension=".generated.cs" #>
+
+<#@ assembly name="$(SolutionDir)packages/EntityFramework.6.1.2/lib/net45/EntityFramework.dll" #>
+
+
+<#+
+
+
+	public void WriteType<T>(string nameSpace)
+	{
+		var type = typeof(T);
+		WriteLine(String.Format("namespace {0}", nameSpace));
+		WriteLine("{");
+		PushIndent("\t");		
+		WriteLine(String.Format("#region {0}", type.Name));
+
+		WriteLine(GetClassDeclaration(type));
+		WriteLine("{");
+		PushIndent("\t");	
+
+		WriteConstructor(type);
+		
+		PopIndent();
+		WriteLine("}");
+
+		WriteLine("#endregion");
+		PopIndent();
+		WriteLine("}");
+		
+	}
+
+	public string GetClassName(Type parentContextType)
+	{
+		return String.Format("InMemory{0}", parentContextType.Name);
+	}
+
+	public string GetClassDeclaration(Type parentContextType)
+	{
+		return String.Format("public class {0} : {1}", GetClassName(parentContextType), parentContextType.FullName);
+	}
+
+	public void WriteConstructor(Type parentContextType)
+	{
+        var dbSetProperties = parentContextType.GetProperties().Where(x => x.PropertyType.IsGenericType && x.PropertyType.GetGenericArguments().Length == 1).OrderBy(x => x.Name).ToList();
+		WriteLine(String.Format("public {0}()", GetClassName(parentContextType)));
+		WriteLine("{");
+		PushIndent("\t");	
+        foreach (var dbSetProperty in dbSetProperties)
+        {
+			var setType = dbSetProperty.PropertyType.GetGenericArguments()[0];
+			WriteLine(String.Format("this.{0} = new ECA.Core.Data.TestDbSet<{1}>();", dbSetProperty.Name, setType.FullName));
+            
+        }
+		PopIndent();
+		WriteLine("}");
+	}
+#>

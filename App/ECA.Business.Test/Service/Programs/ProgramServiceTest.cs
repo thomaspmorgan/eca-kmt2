@@ -31,7 +31,7 @@ namespace ECA.Business.Test.Service.Programs
         public void TestInit()
         {
             locationTypeIds = new List<int>();
-            context = DbContextHelper.GetInMemoryContext();
+            context = new TestEcaContext();
             locationServiceMock = new Mock<ILocationService>();
             locationServiceMock.Setup(x => x.GetLocationTypeIds(It.IsAny<List<int>>())).Returns(locationTypeIds);
             locationServiceMock.Setup(x => x.GetLocationTypeIdsAsync(It.IsAny<List<int>>())).ReturnsAsync(locationTypeIds);

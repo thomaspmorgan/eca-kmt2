@@ -1,0 +1,14 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="$(SolutionDir)ECA.Data/bin/Debug/ECA.Data.dll" #>
+<#@ import namespace="ECA.Data" #>
+
+<#@ include file="$(SolutionDir)ECA.Core/Data/InMemoryDbContextGenerator.tt" #>
+<#@ output extension=".generated.cs" #>
+
+<#
+	WriteType<EcaContext>("ECA.Data.Test");
+#>
