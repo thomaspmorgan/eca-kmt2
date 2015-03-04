@@ -47,6 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Queries\Admin\FocusQueries.cs" />
+    <Compile Include="Queries\Models\Admin\FocusDTO.cs" />
+    <Compile Include="Service\Admin\FocusService.cs" />
+    <Compile Include="Service\Admin\IFocusService.cs" />
     <Compile Include="Service\Audit.cs" />
     <Compile Include="Service\Create.cs" />
     <Compile Include="Service\IAuditable.cs" />

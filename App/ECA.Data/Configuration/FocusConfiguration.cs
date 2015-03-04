@@ -14,7 +14,7 @@ namespace ECA.Data.Configuration
             ToTable("Focus");
             HasKey(a => a.FocusId);
             Property(a => a.FocusId).HasColumnName("FocusId");
-            Property(a => a.Name).IsRequired().HasMaxLength(Focus.NAME_MAX_LENGTH);
+            Property(a => a.FocusName).IsRequired().HasMaxLength(Focus.NAME_MAX_LENGTH);
         }
     }
 }

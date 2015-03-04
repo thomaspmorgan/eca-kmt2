@@ -31,7 +31,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="service">The service.</param>
         public ContactsController(IContactService service)
         {
-            Debug.Assert(service != null, "The program service must not be null.");
+            Debug.Assert(service != null, "The contact service must not be null.");
             this.service = service;
         }
 

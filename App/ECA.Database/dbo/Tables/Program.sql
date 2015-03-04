@@ -3,7 +3,7 @@
 	[ProgramStatusId]	INT NOT NULL DEFAULT 1,
     [Name]                    NVARCHAR (MAX)     NOT NULL,
     [Description]             NVARCHAR (MAX)     NOT NULL,
-	[Focus]             NVARCHAR (MAX)     NULL,
+	[FocusId]             INT     NOT NULL DEFAULT 0,
 	[Website]             NVARCHAR (MAX)     NULL,
     [StartDate]               DATETIMEOFFSET (7) NOT NULL,
     [EndDate]                 DATETIMEOFFSET (7) NOT NULL,
@@ -16,7 +16,8 @@
     CONSTRAINT [PK_dbo.Program] PRIMARY KEY CLUSTERED ([ProgramId] ASC),
     CONSTRAINT [FK_dbo.Program_dbo.Organization_Owner_OrganizationId] FOREIGN KEY ([Owner_OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
     CONSTRAINT [FK_dbo.Program_dbo.Program_ParentProgram_ProgramId] FOREIGN KEY ([ParentProgram_ProgramId]) REFERENCES [dbo].[Program] ([ProgramId]), 
-    CONSTRAINT [FK_Program_ToProgramStatus] FOREIGN KEY ([ProgramStatusId]) REFERENCES [ProgramStatus]([ProgramStatusId])
+    CONSTRAINT [FK_Program_ToProgramStatus] FOREIGN KEY ([ProgramStatusId]) REFERENCES [ProgramStatus]([ProgramStatusId]), 
+    CONSTRAINT [FK_Program_ToFocus] FOREIGN KEY ([FocusId]) REFERENCES [Focus]([FocusId])
 );
 
 

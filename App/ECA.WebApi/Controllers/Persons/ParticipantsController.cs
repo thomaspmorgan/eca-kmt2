@@ -35,7 +35,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="service">The service.</param>
         public ParticipantsController(IParticipantService service)
         {
-            Debug.Assert(service != null, "The program service must not be null.");
+            Debug.Assert(service != null, "The participant service must not be null.");
             this.service = service;
         }
 

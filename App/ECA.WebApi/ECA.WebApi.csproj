@@ -271,6 +271,7 @@
     <Compile Include="Common\CurrentUser.cs" />
     <Compile Include="Common\HttpForm.cs" />
     <Compile Include="Common\SecurityGroups.cs" />
+    <Compile Include="Controllers\Admin\FocusController.cs" />
     <Compile Include="Controllers\Admin\GoalsController.cs" />
     <Compile Include="Controllers\Admin\LocationsController.cs" />
     <Compile Include="Controllers\AuthController.cs" />

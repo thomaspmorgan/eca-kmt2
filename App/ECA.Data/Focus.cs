@@ -14,7 +14,7 @@ namespace ECA.Data
         /// <summary>
         /// The max length of the focus.
         /// </summary>
-        public const int NAME_MAX_LENGTH = 1000;
+        public const int NAME_MAX_LENGTH = 4000;
 
         /// <summary>
         /// Creates a new Focus.
@@ -32,7 +32,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or sets the Name.
         /// </summary>
-        public string Name { get; set; }
+        public string FocusName { get; set; }
 
         /// <summary>
         /// Gets or sets the history.
