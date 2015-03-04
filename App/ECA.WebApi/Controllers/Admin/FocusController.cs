@@ -16,39 +16,36 @@ using System.Web.Http.Description;
 
 namespace ECA.WebApi.Controllers.Admin
 {
-    /// <summary>
-    /// The LocationsController is capable of performing crud operations on locations.
-    /// </summary>
-    public class LocationsController : ApiController
+    public class FocusController : ApiController
     {
         /// <summary>
-        /// The default sorter for a list of locations.
+        /// The default sorter for a list of foci.
         /// </summary>
-        private static readonly ExpressionSorter<LocationDTO> DEFAULT_LOCATION_DTO_SORTER = new ExpressionSorter<LocationDTO>(x => x.Name, SortDirection.Ascending);
+        private static readonly ExpressionSorter<FocusDTO> DEFAULT_FOCUS_DTO_SORTER = new ExpressionSorter<FocusDTO>(x => x.Name, SortDirection.Ascending);
 
-        private ILocationService service;
+        private IFocusService service;
 
         /// <summary>
-        /// Creates a new ProjectsController with the given location service.
+        /// Creates a new FocusController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public LocationsController(ILocationService service)
+        public FocusController(IFocusService service)
         {
-            Debug.Assert(service != null, "The location service must not be null.");
+            Debug.Assert(service != null, "The focus service must not be null.");
             this.service = service;
         }
 
         /// <summary>
-        /// Returns a listing of the locations.
+        /// Returns a listing of the foci..
         /// </summary>
         /// <param name="queryModel">The page, filter and sort information.</param>
-        /// <returns>The list of locations.</returns>
-        [ResponseType(typeof(PagedQueryResults<LocationDTO>))]
+        /// <returns>The list of foci.</returns>
+        [ResponseType(typeof(PagedQueryResults<FocusDTO>))]
         public async Task<IHttpActionResult> GetLocationsAsync([FromUri]PagingQueryBindingModel queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetLocationsAsync(queryModel.ToQueryableOperator<LocationDTO>(DEFAULT_LOCATION_DTO_SORTER));
+                var results = await this.service.GetFociAsync(queryModel.ToQueryableOperator<FocusDTO>(DEFAULT_FOCUS_DTO_SORTER));
                 return Ok(results);
             }
             else

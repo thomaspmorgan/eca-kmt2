@@ -189,5 +189,7 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.Gender.staticdata.sql" />
     <Build Include="dbo\Tables\ProgramStatus.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ProgramStatus.staticdata.sql" />
+    <Build Include="dbo\Tables\Focus.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.Focus.staticdata.sql" />
   </ItemGroup>
 </Project>

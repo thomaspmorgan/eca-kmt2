@@ -29,7 +29,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="service">The service.</param>
         public GoalsController(IGoalService service)
         {
-            Debug.Assert(service != null, "The project service must not be null.");
+            Debug.Assert(service != null, "The goal service must not be null.");
             this.service = service;
         }
 

@@ -29,7 +29,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// <param name="service">The service.</param>
         public ThemesController(IThemeService service)
         {
-            Debug.Assert(service != null, "The program service must not be null.");
+            Debug.Assert(service != null, "The theme service must not be null.");
             this.service = service;
         }
 
