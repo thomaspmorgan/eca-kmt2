@@ -14,6 +14,11 @@ namespace ECA.Data
     /// </summary>
     public class Organization
     {
+        public Organization()
+        {
+            this.History = new History();
+        }
+
         [Key]
         public int OrganizationId { get; set; }
         [Required]

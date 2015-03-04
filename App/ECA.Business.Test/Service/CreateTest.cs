@@ -12,7 +12,7 @@ namespace ECA.Business.Test.Service
     }
 
     [TestClass]
-    public class NewHistoryTest
+    public class CreateTest
     {
         [TestMethod]
         public void TestConstructor()
@@ -20,10 +20,10 @@ namespace ECA.Business.Test.Service
             var now = DateTimeOffset.UtcNow;
             var userId = 1;
             var user = new User(userId);
-            var newHistory = new CreatedHistory(user);
-            Assert.IsTrue(user == newHistory.CreatedBy);
-            Assert.AreEqual(userId, newHistory.CreatedBy.Id);
-            newHistory.CreatedAndRevisedOn.Should().BeCloseTo(now, DbContextHelper.DATE_PRECISION);
+            var create = new Create(user);
+            Assert.IsTrue(user == create.User);
+            Assert.AreEqual(userId, create.User.Id);
+            create.Date.Should().BeCloseTo(now, DbContextHelper.DATE_PRECISION);
         }
 
         [TestMethod]
@@ -34,9 +34,9 @@ namespace ECA.Business.Test.Service
             var userId = 1;
             var user = new User(userId);
             var now = DateTimeOffset.UtcNow;
-            var newHistory = new CreatedHistory(user);
+            var create = new Create(user);
 
-            newHistory.SetHistory(instance);
+            create.SetHistory(instance);
             Assert.IsNotNull(instance.History);
             Assert.AreEqual(userId, instance.History.CreatedBy);
             Assert.AreEqual(userId, instance.History.RevisedBy);
@@ -52,9 +52,9 @@ namespace ECA.Business.Test.Service
             var userId = 1;
             var user = new User(userId);
             var now = DateTimeOffset.UtcNow;
-            var newHistory = new CreatedHistory(user);
+            var create = new Create(user);
 
-            newHistory.SetHistory(instance);
+            create.SetHistory(instance);
             Assert.IsNotNull(instance.History);
             Assert.AreEqual(userId, instance.History.CreatedBy);
             Assert.AreEqual(userId, instance.History.RevisedBy);
