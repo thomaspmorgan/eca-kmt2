@@ -59,7 +59,9 @@ namespace ECA.Business.Queries.Admin
                         where project.ProjectId == projectId
                         select new ProjectDTO
                         {
+                            Id = project.ProjectId,
                             Name = project.Name,
+                            Description = project.Description,
                             Focus = project.FocusArea,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso })
