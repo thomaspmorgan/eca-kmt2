@@ -99,12 +99,12 @@
         <div class="dashed col-md-12" ng-show="project.participants.length === 0">
             <h4>No participants yet.<span class="light"> Drop files here, <a>upload</a> or <a ng-click="modal.addParticipant = true">add manually</a>.</span></h4>
         </div>
-        <div id="sort-list" st-table="participantsCopy" st-safe-src="project.participants">
+        <div st-pipe="getParticipants" st-table="project.participants" id="sort-list">
             <table class="col-md-12 alt">
                 <thead>
                     <tr>
                         <th st-sort="'name'" st-sort-default="true" class="col-md-5 sort-label medium">Name</th>
-                        <th st-sort="'gender'" class="col-md-3 sort-label medium">Gender</th>
+                        <th st-sort="'participantType'" class="col-md-3 sort-label medium">Type</th>
                         <th st-sort="'status'" class="col-md-2 sort-label medium">Status</th>
                         <th class="col-md-2">&nbsp;</th>
                     </tr>
@@ -113,7 +113,7 @@
                             <input st-search="'name'" placeholder="" type="search" class="input-lg form-control" />
                         </th>
                         <th>
-                            <input st-search="'gender'" placeholder="" type="search" class="input-lg form-control" />
+                            <input st-search="'participantType'" placeholder="" type="search" class="input-lg form-control" />
                         </th>
                         <th>
                             <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
@@ -124,11 +124,11 @@
                     </tr>
                 </thead>
                 <tbody class="list2">
-                    <tr class="hover-dark" ng-repeat="participant in participantsCopy">
+                    <tr class="hover-dark" ng-repeat="participant in project.participants" ng-show="!participantsLoading">
                         <td>
                             <h5 class="list-title"><a ui-sref="people.activity({personId: participant.personId})">{{participant.name}}</a></h5>
                         </td>
-                        <td>{{participant.gender}}</td>
+                        <td>{{participant.participantType}}</td>
                         <td>{{participant.status}}</td>
                         <td>
                             <img class="icon" src="images/duplicateA.png" alt="">
@@ -136,9 +136,18 @@
                             <img class="icon" src="images/trash.png" alt="">
                         </td>
                     </tr>
+                    <tr ng-show="participantsLoading">
+                        <td colspan="5">
+                            <div class="spinner">
+                                <div class="bounce1"></div>
+                                <div class="bounce2"></div>
+                                <div class="bounce3"></div>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-            <div st-pagination="" st-items-by-page="25" st-displayed-pages="10"></div>
+            <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="project.participants > 0"></div>
         </div>
         <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" on-close="modalClear()" main-model="newParticipant">
             <h5>Fill out the required information below for each participant.</h5>
