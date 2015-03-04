@@ -311,7 +311,7 @@ namespace ECA.Business.Service.Programs
             }
             if (typeIds.Count != 1 || typeIds.First() != LocationType.Region.Id)
             {
-                throw new ValidationException("The locations are not all regions.");
+                throw new ValidationException("The given locations are not all regions.");
             }
         }
 

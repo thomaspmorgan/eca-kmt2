@@ -268,7 +268,6 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Common\AdGraph.cs" />
     <Compile Include="Common\TicketMaster.cs" />
-    <Compile Include="Common\WebApiErrorHandler.cs" />
     <Compile Include="Common\CurrentUser.cs" />
     <Compile Include="Common\HttpForm.cs" />
     <Compile Include="Common\SecurityGroups.cs" />
@@ -283,6 +282,8 @@
     <Compile Include="Controllers\Programs\ThemesController.cs" />
     <Compile Include="Controllers\SampleController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
+    <Compile Include="Custom\Filters\ValidationExceptionFilter.cs" />
+    <Compile Include="Custom\Filters\UnknownStaticLookupExceptionFilter.cs" />
     <Compile Include="Custom\Filters\ModelNotFoundExceptionFilter.cs" />
     <Compile Include="Models\AutoMapperConfig.cs" />
     <Compile Include="Models\ContactDTO.cs" />
