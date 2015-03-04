@@ -69,19 +69,6 @@ angular.module('staticApp')
           }
       };
 
-      $scope.locations = {};
-
-      LocationService.get('city')
-        .then(function (data) {
-            $scope.locations.cities = data.results;
-        });
-
-
-      LocationService.get('country')
-        .then(function (data) {
-            $scope.locations.countries = data.results;
-        })
-
       ProjectService.get($stateParams.projectId)
         .then(function (data) {
             $scope.project = data;

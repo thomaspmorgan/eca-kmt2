@@ -27,5 +27,9 @@ namespace ECA.Business.Service.Admin
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted projects.</returns>
         Task<PagedQueryResults<SimpleProjectDTO>> GetProjectsByProgramIdAsync(int programId, QueryableOperator<SimpleProjectDTO> queryOperator);
+
+        Task<ProjectDTO> GetProjectByIdAsync(int projectId);
+
+        ProjectDTO GetProjectById(int projectId);
     }
 }

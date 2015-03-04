@@ -48,13 +48,22 @@ namespace ECA.Business.Queries.Admin
         {
             Contract.Requires(context != null, "The context must not be null.");
 
+            var countryQuery = from country in context.Locations
+                               where country.LocationTypeId == LocationType.Country.Id
+                               select country;
+
             var query = from project in context.Projects
                         let themes = project.Themes
+                        let regions = project.Regions
+                        let countries = countryQuery.Where(x => regions.Select(y => y.LocationId).Contains(x.Region.LocationId))
                         where project.ProjectId == projectId
                         select new ProjectDTO
                         {
                             Name = project.Name,
-                            Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName })
+                            Focus = project.FocusArea,
+                            Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
+                            CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso })
+
                         };
             return query;
         }

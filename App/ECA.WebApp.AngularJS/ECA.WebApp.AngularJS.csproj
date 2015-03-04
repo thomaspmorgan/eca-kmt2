@@ -131,6 +131,7 @@
     </Content>
     <Content Include="scripts\services\moneyflow.js" />
     <Content Include="scripts\services\tableservice.js" />
+    <Content Include="scripts\services\lookupservice.js" />
     <Content Include="styles\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>
@@ -158,9 +159,6 @@
     <Content Include="packages.config" />
     <Content Include="bower.json" />
     <Content Include=".bowerrc" />
-    <Content Include=".bin\bower.cmd" />
-    <Content Include=".bin\git.cmd" />
-    <Content Include=".bin\node.cmd" />
     <Content Include="ApplicationInsights.config" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
