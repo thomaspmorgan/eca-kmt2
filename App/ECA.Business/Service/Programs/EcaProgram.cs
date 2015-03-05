@@ -7,6 +7,7 @@ using ECA.Core.Generation;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace ECA.Business.Models.Programs
 {
@@ -50,18 +51,7 @@ namespace ECA.Business.Models.Programs
             List<int> themeIds,
             List<int> regionIds)
         {
-            if (String.IsNullOrWhiteSpace(name))
-            {
-                throw new ValidationException("Validation Error", new BusinessValidationResult<EcaProgram>(x => x.Name, "The name of the program is invalid."));
-            }
-            if (String.IsNullOrWhiteSpace(description))
-            {
-                throw new ValidationException("Validation Error", new BusinessValidationResult<EcaProgram>(x => x.Name, "The description of the program is invalid."));
-            }
-            if (updatedBy == null)
-            {
-                throw new ValidationException("Validation Error", new BusinessValidationResult("The user perform the operation is unknown."));
-            }
+            Contract.Requires(updatedBy != null, "The updated by user must not be null.");
             var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
             if (programStatus == null)
             {
