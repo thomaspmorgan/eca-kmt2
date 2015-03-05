@@ -48,6 +48,7 @@ namespace ECA.WebApi
             config.Filters.Add(new ModelNotFoundExceptionFilter());
             config.Filters.Add(new UnknownStaticLookupExceptionFilter());
             config.Filters.Add(new ValidationExceptionFilter());
+            config.Filters.Add(new DbEntityValidationExceptionFilter());
         }
     }
 }
