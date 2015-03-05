@@ -106,7 +106,7 @@ namespace ECA.Business.Service.Programs
             var owner = GetOrganizationById(draftProgram.OwnerOrganizationId);
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? GetParentProgramById(draftProgram.ParentProgramId.Value) : null;
-            return DoCreate(draftProgram, new ProgramServiceValidationEntity(regionTypeIds, focus, owner, parentProgramId, parentProgram));
+            return DoCreate(draftProgram, new ProgramServiceValidationEntity(draftProgram.Name, draftProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace ECA.Business.Service.Programs
             var owner = await GetOrganizationByIdAsync(draftProgram.OwnerOrganizationId);
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetParentProgramByIdAsync(draftProgram.ParentProgramId.Value) : null;
-            return DoCreate(draftProgram, new ProgramServiceValidationEntity(regionTypeIds, focus, owner, parentProgramId, parentProgram));
+            return DoCreate(draftProgram, new ProgramServiceValidationEntity(draftProgram.Name, draftProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
         }
 
         private Program DoCreate(DraftProgram draftProgram, ProgramServiceValidationEntity validationEntity)
@@ -176,7 +176,7 @@ namespace ECA.Business.Service.Programs
             Program parentProgram = parentProgramId.HasValue ? GetParentProgramById(updatedProgram.ParentProgramId.Value) : null;
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, new ProgramServiceValidationEntity(regionTypeIds, focus, owner, parentProgramId, parentProgram));
+                DoUpdate(programToUpdate, updatedProgram, new ProgramServiceValidationEntity(updatedProgram.Name, updatedProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
             }
             else
             {
@@ -199,7 +199,7 @@ namespace ECA.Business.Service.Programs
             
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, new ProgramServiceValidationEntity(regionTypeIds, focus, owner, parentProgramId, parentProgram));
+                DoUpdate(programToUpdate, updatedProgram, new ProgramServiceValidationEntity(updatedProgram.Name, updatedProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
             }
             else
             {
