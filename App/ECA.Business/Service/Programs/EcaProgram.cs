@@ -1,4 +1,6 @@
-﻿using ECA.Business.Service;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Service;
+using ECA.Business.Validation;
 using ECA.Core.Data;
 using ECA.Core.Exceptions;
 using ECA.Core.Generation;
@@ -50,15 +52,15 @@ namespace ECA.Business.Models.Programs
         {
             if (String.IsNullOrWhiteSpace(name))
             {
-                throw new ValidationException("The name of the program is invalid.");
+                throw new ValidationException("Validation Error", new BusinessValidationResult<EcaProgram>(x => x.Name, "The name of the program is invalid."));
             }
             if (String.IsNullOrWhiteSpace(description))
             {
-                throw new ValidationException("The description of the program is invalid.");
+                throw new ValidationException("Validation Error", new BusinessValidationResult<EcaProgram>(x => x.Name, "The description of the program is invalid."));
             }
             if (updatedBy == null)
             {
-                throw new ValidationException("The user must be known to create a program.");
+                throw new ValidationException("Validation Error", new BusinessValidationResult("The user perform the operation is unknown."));
             }
             var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
             if (programStatus == null)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECA.Business.Validation;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Core.Exceptions
+namespace ECA.Business.Exceptions
 {
     /// <summary>
     /// A ValidationException is thrown when business logic entity validation fails.
@@ -32,11 +33,22 @@ namespace ECA.Core.Exceptions
         /// Creates a new ValidationException.
         /// </summary>
         /// <param name="message">The exception message.</param>
-        /// <param name="property">The name of the property.</param>
-        public ValidationException(string message, string property)
+        /// <param name="validationResults">The validation results.</param>
+        public ValidationException(string message, params BusinessValidationResult[] validationResults)
+            : base(message)
+        {
+            this.ValidationResults = validationResults;
+        }
+
+        /// <summary>
+        /// Creates a new ValidationException.
+        /// </summary>
+        /// <param name="message">The exception message.</param>
+        /// <param name="validationResults">The validation results.</param>
+        public ValidationException(string message, IEnumerable<BusinessValidationResult> validationResults)
             : base(message) 
         {
-            this.Property = property;
+            this.ValidationResults = validationResults;
         }
 
         /// <summary>
@@ -73,33 +85,8 @@ namespace ECA.Core.Exceptions
             : base(info, context) { }
 
         /// <summary>
-        /// Gets the name of the property that is invalid.
+        /// Gets the validation results.
         /// </summary>
-        public string Property { get; private set; }
-
-        /// <summary>
-        /// Returns the name of the property given the expression of the property.
-        /// </summary>
-        /// <typeparam name="TSource">The object to get the property of.</typeparam>
-        /// <param name="propertySelector">The expression to get the property.</param>
-        /// <returns>The name of the property.</returns>
-        public static string GetPropertyName<TSource>(Expression<Func<TSource, object>> propertySelector)
-        {
-            Contract.Requires(propertySelector != null, "The field must not be null.");
-            MemberExpression expression = null;
-            if (propertySelector.Body is MemberExpression)
-            {
-                expression = (MemberExpression)propertySelector.Body;
-            }
-            else if (propertySelector.Body is UnaryExpression)
-            {
-                expression = (MemberExpression)((UnaryExpression)propertySelector.Body).Operand;
-            }
-            else
-            {
-                throw new ArgumentException("The property is not supported.");
-            }
-            return expression.Member.Name;
-        }
+        public IEnumerable<BusinessValidationResult> ValidationResults { get; private set; }
     }
 }

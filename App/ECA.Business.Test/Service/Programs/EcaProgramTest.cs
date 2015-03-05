@@ -1,11 +1,12 @@
-﻿using System;
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using ECA.Business.Exceptions;
 using ECA.Business.Models.Programs;
-using ECA.Data;
-using System.Collections.Generic;
 using ECA.Business.Service;
 using ECA.Core.Exceptions;
+using ECA.Data;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
 namespace ECA.Business.Test.Service.Programs
 {

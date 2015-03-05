@@ -2,6 +2,7 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
+using ECA.Business.Validation;
 using ECA.Core.Logging;
 using ECA.Data;
 using Microsoft.Practices.Unity;
@@ -20,6 +21,7 @@ namespace ECA.WebApi
             RegisterContexts(container);
             RegisterAdminDependencies(container);
             RegisterProgramDependencies(container);
+            RegisterValidations(container);
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
 
@@ -56,6 +58,11 @@ namespace ECA.WebApi
             container.RegisterType<IContactService, ContactService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantService, ParticipantService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusService, FocusService>(new HierarchicalLifetimeManager());
+        }
+
+        public static void RegisterValidations(IUnityContainer container)
+        {
+            container.RegisterType<IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>, ProgramServiceValidator>();
         }
     }
 }

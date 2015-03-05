@@ -1,6 +1,10 @@
-﻿using ECA.Core.Exceptions;
+﻿using ECA.Business.Exceptions;
+using ECA.Business.Validation;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Http.Filters;
 
 namespace ECA.WebApi.Custom.Filters
@@ -18,11 +22,13 @@ namespace ECA.WebApi.Custom.Filters
         {
             if (context.Exception is ValidationException)
             {
+                var validationException = context.Exception as ValidationException;
+                var validationResults = validationException.ValidationResults.ToList();
                 context.Response = new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
-                    Content = new StringContent(context.Exception.Message),
-                    ReasonPhrase = "Business validation failed."
-                
+                    Content = new ObjectContent<List<BusinessValidationResult>>(validationResults, new JsonMediaTypeFormatter()),
+                    ReasonPhrase = "Entity validation failed."
+
                 };
             }
         }
