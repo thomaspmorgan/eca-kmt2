@@ -16,7 +16,7 @@ angular
     'ui.router',
     'ui.bootstrap',
     'ngModal',
-    'multi-select',
+    'isteven-multi-select',
     'xeditable',
     'sticky',
     'AdalAngular',

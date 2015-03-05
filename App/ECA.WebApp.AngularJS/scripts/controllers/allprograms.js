@@ -48,27 +48,7 @@ angular.module('staticApp')
           }
       ];
 
-      $scope.foci = [
-          {
-              focusId: 1,
-              focusName: 'Focus One'
-          },
-          {
-              focusId: 2,
-              focusName: 'Focus Two'
-          }
-      ];
-
-      $scope.pointsOfContact = [
-	        {
-	            contactId: 1,
-	            contactName: 'Jack P Diddly'
-	        },
-	        {
-	            contactId: 2,
-	            contactName: 'Steven Cobert'
-	        }
-      ];
+      $scope.pointsOfContact = [];
 
       // initialize new Program record
       $scope.newProgram = {
@@ -83,6 +63,11 @@ angular.module('staticApp')
           pointsOfContact: [],
           website: 'http://'
       };
+
+      $scope.outThemes = [];
+      $scope.outRegions = [];
+      $scope.outGoals = [];
+      $scope.outContacts = [];
 
     $scope.programs = [];
 
@@ -103,10 +88,21 @@ angular.module('staticApp')
     LookupService.getAllGoals($scope.lookupParams)
       .then(function (data) {
           $scope.goals = data.results;
-      })
+      });
+
+    LookupService.getAllContacts($scope.lookupParams)
+        .then(function (data) {
+            $scope.pointsOfContact = data.results;
+        });
+
+  //  LookupService.getAllRegions($scope.lookupParams)
+  //.then(function (data) {
+  //    $scope.regions = data.results;
+  //});
       // don't know why, but I need to access the scope variable for the data to load correctly
     var x = $scope.themes[1];
     x = $scope.goals[1];
+    x = $scope.pointsOfContact[1];
 
     $scope.getPrograms = function (tableState) {
 
@@ -134,13 +130,17 @@ angular.module('staticApp')
       // modal form
     $scope.modalClose = function () {
         if (unsavedChanges()) {
-           $scope.modal.confirmClose = true;
+            $scope.modal.confirmClose = true;
+        }
+        else {
+            $scope.modal.createProgram = false;
+            return true;
         }
     };
       // Need to have more added to function
     function unsavedChanges() {
         var unsavedChanges = false;
-        if ($scope.newProgram.name.length > 0 || $scope.newProgram.description.length > 0) {
+        if ($scope.newProgram.$dirty) {
             unsavedChanges = true;
         }
         return unsavedChanges;

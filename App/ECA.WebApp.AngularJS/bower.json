@@ -11,7 +11,7 @@
     "angular-sanitize": "~1.2.0",
     "angular-ui-router": "~0.2.13",
     "angular-bootstrap": "~0.12.0",
-    "isteven-angular-multiselect": "~2.0.2",
+    "isteven-angular-multiselect": "~3.0.0",
     "angular-xeditable": "~0.1.8",
     "datamaps": "0.3.4",
     "bower": "*",
