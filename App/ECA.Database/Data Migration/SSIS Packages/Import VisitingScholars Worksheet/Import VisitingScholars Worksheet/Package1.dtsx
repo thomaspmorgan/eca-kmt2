@@ -1,0 +1,1411 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/26/2015 8:53:40 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{48E1D8C3-97E4-4387-BDBA-C4A6E41A8813}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="14"
+  DTS:VersionGUID="{526D0DD5-4E76-468F-BE99-ACA430D0F298}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.VisitingScholar.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{0EAA8FE0-84F3-4301-AE68-72D2F2513312}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.VisitingScholar.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=VisitingScholar;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACqUPlxD5Aj4lpcRKEUDO5HBm21xSSoY2SdG56D7+FMKgAAAAAOgAAAAAIAACAAAABL+lb4MHqhSwqB+gbZf43osuXVIGYRCtYZpUO1a0uzISAAAACLQBNn1kM7E/ip4B6amO4pcg/zoO/MZmD6gpTsnGMhDUAAAACA12AUWHoLaYKM7PKarUXzgBDp2gSKJNFM+TrRHzwysWbgEcjALxknH6J2H2LEhGvrKr1j5FkxeFq56O5tz43k</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B258AC80-FCFC-41B4-AC48-956EC2B7C7A8}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABf2OjGYM0Noeku4FLrgtpT3wUh7WcY0wn5QQm0kQuFTwAAAAAOgAAAAAIAACAAAADhW8TQElqydiSoMsAG+APzF8h4HYwnMGrPite4shVcvCAAAAAX9p+LQHsHVe80GYfeg1HDonkafhgRZKVuGcBMjJylikAAAACvJUPgXCCh4stnpKt6jn22enOLmh6pMAD0luUsCTqBYd3th1xrTV84XHjJqKBYFKowlrBo2LnkxMw3+94rnWzw</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{898F646D-4838-41EB-B4AD-1889232E33C0}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Add Required Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Required Columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Add Required Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Data Flow Task\Add Required Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectTypeId]"
+                      name="ProjectTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[AudienceReach]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[AudienceReach]"
+                      name="AudienceReach"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[EventId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[EventId]"
+                      name="EventId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_I4)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_I4)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectStatusId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectStatusId]"
+                      name="ProjectStatusId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[ProgramName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="34"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[ProgramName]"
+                      name="ProgramName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Fulbright Visiting Scholar Program"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Fulbright Visiting Scholar Program"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[Parent_ProgramId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[Parent_ProgramId]"
+                      name="Parent_ProgramId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">54</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">54</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Data Flow Task\Add Required Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Create Description from Name"
+              componentClassID="Microsoft.CopyMap"
+              contactInfo="Copy Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Copies input columns to new columns in the transformation output. For example, create a copy of the 'address' column so that it can be cleaned by subsequent transformations and leave the original column in place for auditing."
+              name="Create Description from Name">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Create Description from Name.Inputs[Copy Column Input]"
+                  name="Copy Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Create Description from Name.Inputs[Copy Column Input].Columns[Program Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Program Description"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].Columns[Program Description]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Create Description from Name.Outputs[Copy Column Output]"
+                  name="Copy Column Output"
+                  synchronousInputId="Package\Data Flow Task\Create Description from Name.Inputs[Copy Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Create Description from Name.Outputs[Copy Column Output].Columns[Description]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Create Description from Name.Outputs[Copy Column Output].Columns[Description]"
+                      name="Description">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the column to copy."
+                          name="copyColumnId">#{Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].Columns[Program Description]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Get Data from VisitingScholars Database"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Get Data from VisitingScholars Database"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[VisitingScholarData]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.VisitingScholar.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.VisitingScholar.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].Columns[Grant Start Date]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Grant Start Date]"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].Columns[Grant Start Date]"
+                      name="Grant Start Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].Columns[Grant End Date]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Grant End Date]"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].Columns[Grant End Date]"
+                      name="Grant End Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].Columns[Program Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Program Description]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].Columns[Program Description]"
+                      name="Program Description"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Coop Agency]"
+                      dataType="wstr"
+                      length="255"
+                      name="Coop Agency" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Category]"
+                      dataType="wstr"
+                      length="255"
+                      name="Category" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Subcategory]"
+                      dataType="wstr"
+                      length="255"
+                      name="Subcategory" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Fiscal Year]"
+                      dataType="r8"
+                      name="Fiscal Year" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Prefix]"
+                      dataType="wstr"
+                      length="255"
+                      name="Prefix" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Last Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Last Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[First Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="First Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Second Last Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Second Last Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Middle Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Middle Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Suffix]"
+                      dataType="wstr"
+                      length="255"
+                      name="Suffix" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="255"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Position or Occupation Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Position or Occupation Type" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Ambassador]"
+                      dataType="wstr"
+                      length="255"
+                      name="Ambassador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Disability]"
+                      dataType="dbTimeStamp"
+                      name="Disability" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Emergency Email Address]"
+                      dataType="dbTimeStamp"
+                      name="Home Emergency Email Address" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Emergency Phone]"
+                      dataType="r8"
+                      name="Home Emergency Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Emergency Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Emergency Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Emergency Email Address]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Emergency Email Address" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Emergency Phone]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Emergency Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Emergency Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Emergency Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Gender ]"
+                      dataType="wstr"
+                      length="255"
+                      name="Gender " />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Date of Birth]"
+                      dataType="dbTimeStamp"
+                      name="Date of Birth" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Birth City]"
+                      dataType="wstr"
+                      length="255"
+                      name="Birth City" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Birth Country Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Birth Country Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Citizenship Country Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Citizenship Country Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Date of Naturalization]"
+                      dataType="wstr"
+                      length="255"
+                      name="Date of Naturalization" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Marital Status]"
+                      dataType="wstr"
+                      length="255"
+                      name="Marital Status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Dual Citizenship Country Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Dual Citizenship Country Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Address 1]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Address 1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Address 2]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Address 2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Address 3]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Address 3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Address 4]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Address 4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home City]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home City" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home State or Province]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home State or Province" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Zip or Postal Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Zip or Postal Code" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Country Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Country Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Congressional District]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Congressional District" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Email]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Email" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Phone]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Fax]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Fax" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Address 1]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Address 1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Address 2]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Address 2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Address 3]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Address 3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Address 4]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Address 4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host City]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host City" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host State or Province]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host State or Province" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Zip or Postal Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Zip or Postal Code" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Country Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Country Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Congressional District]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Congressional District" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Email]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Email" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Phone]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Fax]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Fax" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Institution Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Institution Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Institution City]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Institution City" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Institution State or Province]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Institution State or Province" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Institution Zip or Postal Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Institution Zip or Postal Code" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Home Institution Country Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Home Institution Country Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Discipline]"
+                      dataType="wstr"
+                      length="255"
+                      name="Discipline" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Area of Specialization]"
+                      dataType="wstr"
+                      length="255"
+                      name="Area of Specialization" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Activity Type Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Activity Type Code" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Activity Amendment Renewal]"
+                      dataType="wstr"
+                      length="255"
+                      name="Activity Amendment Renewal" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Activity Amendment Funded]"
+                      dataType="wstr"
+                      length="255"
+                      name="Activity Amendment Funded" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Activity Amendment Extension]"
+                      dataType="wstr"
+                      length="255"
+                      name="Activity Amendment Extension" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Funding Source Type]"
+                      dataType="r8"
+                      name="Funding Source Type" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Institution Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Institution Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Institution City]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Institution City" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Institution State or Province]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Institution State or Province" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Institution Zip or Postal Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Institution Zip or Postal Code" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Host Institution Country Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Host Institution Country Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Institute Seminar Title]"
+                      dataType="wstr"
+                      length="255"
+                      name="Institute Seminar Title" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Institute Program Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Institute Program Type" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Grant Start Date]"
+                      dataType="dbTimeStamp"
+                      name="Grant Start Date" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Grant End Date]"
+                      dataType="dbTimeStamp"
+                      name="Grant End Date" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Total Grant Amount]"
+                      dataType="r8"
+                      name="Total Grant Amount" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Program Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Program Type" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Program Description]"
+                      dataType="wstr"
+                      length="255"
+                      name="Program Description" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Degree Objective]"
+                      dataType="wstr"
+                      length="255"
+                      name="Degree Objective" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Spouse Citizenship Country Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Spouse Citizenship Country Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Accompanying Dependent Num]"
+                      dataType="r8"
+                      name="Accompanying Dependent Num" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Ethnicity]"
+                      dataType="wstr"
+                      length="255"
+                      name="Ethnicity" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Race]"
+                      dataType="wstr"
+                      length="255"
+                      name="Race" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[SEVIS-ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEVIS-ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Exchange Visitor Category]"
+                      dataType="wstr"
+                      length="255"
+                      name="Exchange Visitor Category" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Deceased]"
+                      dataType="wstr"
+                      length="255"
+                      name="Deceased" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Project Number]"
+                      dataType="wstr"
+                      length="255"
+                      name="Project Number" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Is Lecture]"
+                      dataType="wstr"
+                      length="255"
+                      name="Is Lecture" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Is Seminar]"
+                      dataType="wstr"
+                      length="255"
+                      name="Is Seminar" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Needs Assessment]"
+                      dataType="wstr"
+                      length="255"
+                      name="Needs Assessment" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Is Conference]"
+                      dataType="wstr"
+                      length="255"
+                      name="Is Conference" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Is Administrator Faculty Consult]"
+                      dataType="wstr"
+                      length="255"
+                      name="Is Administrator Faculty Consult" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Is Curriculum Development]"
+                      dataType="wstr"
+                      length="255"
+                      name="Is Curriculum Development" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Is Teacher Training]"
+                      dataType="wstr"
+                      length="255"
+                      name="Is Teacher Training" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Is Other]"
+                      dataType="wstr"
+                      length="255"
+                      name="Is Other" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Explanation]"
+                      dataType="wstr"
+                      length="255"
+                      name="Explanation" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].ExternalColumns[Record Is Valid]"
+                      dataType="bool"
+                      name="Record Is Valid" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Error Output].Columns[Grant Start Date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Error Output].Columns[Grant Start Date]"
+                      name="Grant Start Date" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Error Output].Columns[Grant End Date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Error Output].Columns[Grant End Date]"
+                      name="Grant End Date" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Error Output].Columns[Program Description]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Error Output].Columns[Program Description]"
+                      name="Program Description" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Load Data to Project"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Data to Project"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Project]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\Load Data to Project.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[AudienceReach]"
+                      cachedDataType="i4"
+                      cachedName="AudienceReach"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[AudienceReach]"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[AudienceReach]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[EventId]"
+                      cachedDataType="i4"
+                      cachedName="EventId"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[EventId]"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[EventId]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[ProjectStatusId]"
+                      cachedDataType="i4"
+                      cachedName="ProjectStatusId"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectStatusId]"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectStatusId]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[Program Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Program Description"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].Columns[Program Description]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[Grant Start Date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Grant Start Date"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].Columns[Grant Start Date]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[Grant End Date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Grant End Date"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                      lineageId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output].Columns[Grant End Date]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Data Flow Task\Create Description from Name.Outputs[Copy Column Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[Parent_ProgramId]"
+                      cachedDataType="i4"
+                      cachedName="Parent_ProgramId"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[ProgramId]"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[Parent_ProgramId]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[ProjectTypeId]"
+                      cachedDataType="i4"
+                      cachedName="ProjectTypeId"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectTypeId]"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectTypeId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectId]"
+                      dataType="i4"
+                      name="ProjectId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="nText"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="nText"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[FocusArea]"
+                      dataType="nText"
+                      name="FocusArea" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      dataType="dbTimeStampOffset"
+                      name="StartDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                      dataType="dbTimeStampOffset"
+                      name="EndDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      dataType="nText"
+                      name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[AudienceReach]"
+                      dataType="i4"
+                      name="AudienceReach" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[EventId]"
+                      dataType="i4"
+                      name="EventId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[NominationSource_OrganizationId]"
+                      dataType="i4"
+                      name="NominationSource_OrganizationId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[ProgramId]"
+                      dataType="i4"
+                      name="ProgramId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectStatusId]"
+                      dataType="i4"
+                      name="ProjectStatusId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectTypeId]"
+                      dataType="i4"
+                      name="ProjectTypeId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Load Data to Project.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Load Data to Project.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Load Data to Project.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[Copy Column Output]"
+              endId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input]"
+              name="Copy Column Output"
+              startId="Package\Data Flow Task\Create Description from Name.Outputs[Copy Column Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Derived Column Output]"
+              endId="Package\Data Flow Task\Create Description from Name.Inputs[Copy Column Input]"
+              name="Derived Column Output"
+              startId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\Add Required Columns.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\Get Data from VisitingScholars Database.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Data Flow Task"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="270,42"
+          Id="Package\Data Flow Task\Get Data from VisitingScholars Database"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="176,42"
+          Id="Package\Data Flow Task\Load Data to Project"
+          TopLeft="719.5,155.5" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Data Flow Task\Add Required Columns"
+          TopLeft="285.5,55.5" />
+        <NodeLayout
+          Size="221,42"
+          Id="Package\Data Flow Task\Create Description from Name"
+          TopLeft="480.5,108.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Copy Column Output]"
+          TopLeft="701.5,129.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="106,26"
+              Start="0,0"
+              End="106,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="102,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="102,0"
+                    Point2="106,0"
+                    Point3="106,4" />
+                  <mssgle:LineSegment
+                    End="106,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="275.5,26.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="103,29"
+              Start="0,0"
+              End="103,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="99,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="99,0"
+                    Point2="103,0"
+                    Point3="103,4" />
+                  <mssgle:LineSegment
+                    End="103,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Derived Column Output]"
+          TopLeft="471.5,76.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="119.5,32"
+              Start="0,0"
+              End="119.5,24.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="115.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="115.5,0"
+                    Point2="119.5,0"
+                    Point3="119.5,4" />
+                  <mssgle:LineSegment
+                    End="119.5,24.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\Get Data from VisitingScholars Database">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\Load Data to Project">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

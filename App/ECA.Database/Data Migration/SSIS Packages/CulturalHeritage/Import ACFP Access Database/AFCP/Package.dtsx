@@ -1,0 +1,1402 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/28/2015 3:18:40 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{62B1A20D-FB6D-477F-9708-7DACA544F5D6}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2430.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{4453EE5A-9714-43B4-B6EB-8A61301CF20E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.AFCP.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{99A4FDA5-937E-47F2-9AD8-DDD153B9D75D}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.AFCP.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=AFCP;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD49SwC0LgA/TMHdacbWNcP0dYoDgjjIvOaIdtXAPBHYQAAAAAOgAAAAAIAACAAAADgn5F1XZ89sI/DQLnMaZZvYXy4mg1CwoZdB+ETOBU/XCAAAADSHMKvHqOdXQi57EshmyG4HoZNqGM8dTXP7HnhnQwu4UAAAABJxV3NJz1ddr9LJ7Omq7rKUJH8RAm8QkgTWgVJ0TNGBthncxCFx/NHw5EFOhqli2BQxRdhBoSqCzSFwHzDuWQQ</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{95D07F0D-0772-46F0-8AE9-32DBC3FE862C}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\AFCP Database Table Data\AFCP.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{D647A956-ECF1-4FFB-B15A-CF85DAC9F887}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Excel Source - AFCP"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source - AFCP"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">AFCP$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\Excel Source - AFCP.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[AFCP_Contribution]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[AFCP_Contribution]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[AFCP_Contribution]"
+                      name="AFCP_Contribution"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[TitleOLD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[TitleOLD]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[TitleOLD]"
+                      name="TitleOLD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Funds Obligated]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Funds Obligated]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Funds Obligated]"
+                      name="Funds Obligated"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Interim]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Interim]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Interim]"
+                      name="Interim"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Expires]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Expires]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Expires]"
+                      name="Expires"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Status]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Status]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Status]"
+                      name="Status"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Final]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Final]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Final]"
+                      name="Final"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Notes]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Notes]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Notes]"
+                      name="Notes"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Summary]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Summary]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Summary]"
+                      name="Summary"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[ProposalID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[ProposalID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[ProposalID]"
+                      name="ProposalID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Cancelled]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Cancelled]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Cancelled]"
+                      name="Cancelled"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Recipient]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Recipient]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Recipient]"
+                      name="Recipient"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[IDold]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[IDold]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[IDold]"
+                      name="IDold"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Recipient Type]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Recipient Type]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Recipient Type]"
+                      name="Recipient Type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Location]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Location]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Location]"
+                      name="Location"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Degrees N]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Degrees N]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Degrees N]"
+                      name="Degrees N"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Degrees E]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Degrees E]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Degrees E]"
+                      name="Degrees E"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Degrees Datum]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Degrees Datum]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Degrees Datum]"
+                      name="Degrees Datum"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Title]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Title]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Title]"
+                      name="Title"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[FMPID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[FMPID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[FMPID]"
+                      name="FMPID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[RecipientLocation]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[RecipientLocation]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[RecipientLocation]"
+                      name="RecipientLocation"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[US Participation]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[US Participation]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[US Participation]"
+                      name="US Participation"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Obligated]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Obligated]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Obligated]"
+                      name="Obligated"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[InstrumentNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[InstrumentNumber]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[InstrumentNumber]"
+                      name="InstrumentNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Post_Contribution]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Post_Contribution]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Post_Contribution]"
+                      name="Post_Contribution"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Award]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Award]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Award]"
+                      name="Award"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[ID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[ID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[ID]"
+                      name="ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[CountryID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[CountryID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[CountryID]"
+                      name="CountryID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[CategoryID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[CategoryID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[CategoryID]"
+                      name="CategoryID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[FocusAreaID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[FocusAreaID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[FocusAreaID]"
+                      name="FocusAreaID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[YearID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[YearID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[YearID]"
+                      name="YearID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[ProgramID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[ProgramID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[ProgramID]"
+                      name="ProgramID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[WHSID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[WHSID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[WHSID]"
+                      name="WHSID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[PlacesID]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[PlacesID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[PlacesID]"
+                      name="PlacesID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Reportname]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Reportname]"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Reportname]"
+                      name="Reportname"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[AFCP_Contribution]"
+                      dataType="cy"
+                      name="AFCP_Contribution" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[TitleOLD]"
+                      dataType="wstr"
+                      length="255"
+                      name="TitleOLD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Funds Obligated]"
+                      dataType="bool"
+                      name="Funds Obligated" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Interim]"
+                      dataType="bool"
+                      name="Interim" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Expires]"
+                      dataType="date"
+                      name="Expires" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Status]"
+                      dataType="bool"
+                      name="Status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Final]"
+                      dataType="bool"
+                      name="Final" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Notes]"
+                      dataType="wstr"
+                      length="255"
+                      name="Notes" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Summary]"
+                      dataType="nText"
+                      name="Summary" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[ProposalID]"
+                      dataType="r8"
+                      name="ProposalID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Cancelled]"
+                      dataType="bool"
+                      name="Cancelled" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Recipient]"
+                      dataType="wstr"
+                      length="255"
+                      name="Recipient" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[IDold]"
+                      dataType="r8"
+                      name="IDold" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Recipient Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Recipient Type" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Location]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Degrees N]"
+                      dataType="wstr"
+                      length="255"
+                      name="Degrees N" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Degrees E]"
+                      dataType="wstr"
+                      length="255"
+                      name="Degrees E" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Degrees Datum]"
+                      dataType="wstr"
+                      length="255"
+                      name="Degrees Datum" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="255"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[FMPID]"
+                      dataType="r8"
+                      name="FMPID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[RecipientLocation]"
+                      dataType="wstr"
+                      length="255"
+                      name="RecipientLocation" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[US Participation]"
+                      dataType="wstr"
+                      length="255"
+                      name="US Participation" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Obligated]"
+                      dataType="wstr"
+                      length="255"
+                      name="Obligated" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[InstrumentNumber]"
+                      dataType="wstr"
+                      length="255"
+                      name="InstrumentNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Post_Contribution]"
+                      dataType="cy"
+                      name="Post_Contribution" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Award]"
+                      dataType="cy"
+                      name="Award" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[ID]"
+                      dataType="r8"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[CountryID]"
+                      dataType="r8"
+                      name="CountryID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[CategoryID]"
+                      dataType="r8"
+                      name="CategoryID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[FocusAreaID]"
+                      dataType="r8"
+                      name="FocusAreaID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[YearID]"
+                      dataType="r8"
+                      name="YearID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[ProgramID]"
+                      dataType="r8"
+                      name="ProgramID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[WHSID]"
+                      dataType="r8"
+                      name="WHSID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[PlacesID]"
+                      dataType="r8"
+                      name="PlacesID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].ExternalColumns[Reportname]"
+                      dataType="wstr"
+                      length="255"
+                      name="Reportname" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[AFCP_Contribution]"
+                      dataType="cy"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[AFCP_Contribution]"
+                      name="AFCP_Contribution" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[TitleOLD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[TitleOLD]"
+                      name="TitleOLD" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Funds Obligated]"
+                      dataType="bool"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Funds Obligated]"
+                      name="Funds Obligated" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Interim]"
+                      dataType="bool"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Interim]"
+                      name="Interim" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Expires]"
+                      dataType="date"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Expires]"
+                      name="Expires" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Status]"
+                      dataType="bool"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Status]"
+                      name="Status" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Final]"
+                      dataType="bool"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Final]"
+                      name="Final" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Notes]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Notes]"
+                      name="Notes" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Summary]"
+                      dataType="nText"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Summary]"
+                      name="Summary" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[ProposalID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[ProposalID]"
+                      name="ProposalID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Cancelled]"
+                      dataType="bool"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Cancelled]"
+                      name="Cancelled" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Recipient]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Recipient]"
+                      name="Recipient" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[IDold]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[IDold]"
+                      name="IDold" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Recipient Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Recipient Type]"
+                      name="Recipient Type" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Location]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Location]"
+                      name="Location" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Degrees N]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Degrees N]"
+                      name="Degrees N" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Degrees E]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Degrees E]"
+                      name="Degrees E" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Degrees Datum]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Degrees Datum]"
+                      name="Degrees Datum" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Title]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Title]"
+                      name="Title" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[FMPID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[FMPID]"
+                      name="FMPID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[RecipientLocation]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[RecipientLocation]"
+                      name="RecipientLocation" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[US Participation]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[US Participation]"
+                      name="US Participation" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Obligated]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Obligated]"
+                      name="Obligated" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[InstrumentNumber]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[InstrumentNumber]"
+                      name="InstrumentNumber" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Post_Contribution]"
+                      dataType="cy"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Post_Contribution]"
+                      name="Post_Contribution" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Award]"
+                      dataType="cy"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Award]"
+                      name="Award" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[ID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[ID]"
+                      name="ID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[CountryID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[CountryID]"
+                      name="CountryID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[CategoryID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[CategoryID]"
+                      name="CategoryID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[FocusAreaID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[FocusAreaID]"
+                      name="FocusAreaID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[YearID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[YearID]"
+                      name="YearID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[ProgramID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[ProgramID]"
+                      name="ProgramID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[WHSID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[WHSID]"
+                      name="WHSID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[PlacesID]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[PlacesID]"
+                      name="PlacesID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Reportname]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[Reportname]"
+                      name="Reportname" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\SQL Server - AFCP"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SQL Server - AFCP"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[AFCP]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\SQL Server - AFCP.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.AFCP.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.AFCP.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[AFCP_Contribution]"
+                      cachedDataType="cy"
+                      cachedName="AFCP_Contribution"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[AFCP_Contribution]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[AFCP_Contribution]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[TitleOLD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="TitleOLD"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[TitleOLD]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[TitleOLD]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Funds Obligated]"
+                      cachedDataType="bool"
+                      cachedName="Funds Obligated"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Funds Obligated]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Funds Obligated]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Interim]"
+                      cachedDataType="bool"
+                      cachedName="Interim"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Interim]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Interim]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Expires]"
+                      cachedDataType="date"
+                      cachedName="Expires"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Expires]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Expires]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Status]"
+                      cachedDataType="bool"
+                      cachedName="Status"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Status]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Status]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Final]"
+                      cachedDataType="bool"
+                      cachedName="Final"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Final]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Final]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Notes]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Notes"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Notes]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Notes]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Summary]"
+                      cachedDataType="nText"
+                      cachedName="Summary"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Summary]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Summary]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[ProposalID]"
+                      cachedDataType="r8"
+                      cachedName="ProposalID"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[ProposalID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[ProposalID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Cancelled]"
+                      cachedDataType="bool"
+                      cachedName="Cancelled"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Cancelled]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Cancelled]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Recipient]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Recipient"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Recipient]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Recipient]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[IDold]"
+                      cachedDataType="r8"
+                      cachedName="IDold"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[IDold]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[IDold]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Recipient Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Recipient Type"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Recipient Type]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Recipient Type]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Location]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Location"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Location]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Location]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Degrees N]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Degrees N"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Degrees N]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Degrees N]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Degrees E]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Degrees E"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Degrees E]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Degrees E]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Degrees Datum]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Degrees Datum"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Degrees Datum]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Degrees Datum]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Title]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Title"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Title]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Title]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[FMPID]"
+                      cachedDataType="r8"
+                      cachedName="FMPID"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[FMPID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[FMPID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[RecipientLocation]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="RecipientLocation"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[RecipientLocation]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[RecipientLocation]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[US Participation]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US Participation"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[US Participation]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[US Participation]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Obligated]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Obligated"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Obligated]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Obligated]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[InstrumentNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="InstrumentNumber"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[InstrumentNumber]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[InstrumentNumber]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Post_Contribution]"
+                      cachedDataType="cy"
+                      cachedName="Post_Contribution"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Post_Contribution]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Post_Contribution]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Award]"
+                      cachedDataType="cy"
+                      cachedName="Award"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Award]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Award]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[ID]"
+                      cachedDataType="r8"
+                      cachedName="ID"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[ID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[CountryID]"
+                      cachedDataType="r8"
+                      cachedName="CountryID"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[CountryID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[CountryID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[CategoryID]"
+                      cachedDataType="r8"
+                      cachedName="CategoryID"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[CategoryID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[CategoryID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[FocusAreaID]"
+                      cachedDataType="r8"
+                      cachedName="FocusAreaID"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[FocusAreaID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[FocusAreaID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[YearID]"
+                      cachedDataType="r8"
+                      cachedName="YearID"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[YearID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[YearID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[ProgramID]"
+                      cachedDataType="r8"
+                      cachedName="ProgramID"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[ProgramID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[ProgramID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[WHSID]"
+                      cachedDataType="r8"
+                      cachedName="WHSID"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[WHSID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[WHSID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[PlacesID]"
+                      cachedDataType="r8"
+                      cachedName="PlacesID"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[PlacesID]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[PlacesID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].Columns[Reportname]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Reportname"
+                      externalMetadataColumnId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Reportname]"
+                      lineageId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output].Columns[Reportname]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[AFCP_Contribution]"
+                      dataType="cy"
+                      name="AFCP_Contribution" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[TitleOLD]"
+                      dataType="wstr"
+                      length="255"
+                      name="TitleOLD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Funds Obligated]"
+                      dataType="bool"
+                      name="Funds Obligated" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Interim]"
+                      dataType="bool"
+                      name="Interim" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Expires]"
+                      dataType="dbTimeStamp"
+                      name="Expires" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Status]"
+                      dataType="bool"
+                      name="Status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Final]"
+                      dataType="bool"
+                      name="Final" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Notes]"
+                      dataType="wstr"
+                      length="255"
+                      name="Notes" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Summary]"
+                      dataType="nText"
+                      name="Summary" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[ProposalID]"
+                      dataType="r8"
+                      name="ProposalID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Cancelled]"
+                      dataType="bool"
+                      name="Cancelled" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Recipient]"
+                      dataType="wstr"
+                      length="255"
+                      name="Recipient" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[IDold]"
+                      dataType="r8"
+                      name="IDold" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Recipient Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Recipient Type" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Location]"
+                      dataType="wstr"
+                      length="255"
+                      name="Location" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Degrees N]"
+                      dataType="wstr"
+                      length="255"
+                      name="Degrees N" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Degrees E]"
+                      dataType="wstr"
+                      length="255"
+                      name="Degrees E" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Degrees Datum]"
+                      dataType="wstr"
+                      length="255"
+                      name="Degrees Datum" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="255"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[FMPID]"
+                      dataType="r8"
+                      name="FMPID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[RecipientLocation]"
+                      dataType="wstr"
+                      length="255"
+                      name="RecipientLocation" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[US Participation]"
+                      dataType="wstr"
+                      length="255"
+                      name="US Participation" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Obligated]"
+                      dataType="wstr"
+                      length="255"
+                      name="Obligated" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[InstrumentNumber]"
+                      dataType="wstr"
+                      length="255"
+                      name="InstrumentNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Post_Contribution]"
+                      dataType="cy"
+                      name="Post_Contribution" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Award]"
+                      dataType="cy"
+                      name="Award" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                      dataType="r8"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[CountryID]"
+                      dataType="r8"
+                      name="CountryID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[CategoryID]"
+                      dataType="r8"
+                      name="CategoryID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[FocusAreaID]"
+                      dataType="r8"
+                      name="FocusAreaID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[YearID]"
+                      dataType="r8"
+                      name="YearID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[ProgramID]"
+                      dataType="r8"
+                      name="ProgramID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[WHSID]"
+                      dataType="r8"
+                      name="WHSID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[PlacesID]"
+                      dataType="r8"
+                      name="PlacesID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input].ExternalColumns[Reportname]"
+                      dataType="wstr"
+                      length="255"
+                      name="Reportname" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\SQL Server - AFCP.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\SQL Server - AFCP.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\SQL Server - AFCP.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\SQL Server - AFCP.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[Excel Source Output]"
+              endId="Package\Data Flow Task\SQL Server - AFCP.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Data Flow Task\Excel Source - AFCP.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Data Flow Task"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Data Flow Task\Excel Source - AFCP"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Data Flow Task\SQL Server - AFCP"
+          TopLeft="49.5,121.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Excel Source Output]"
+          TopLeft="92,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="40.5,74"
+              Start="0,0"
+              End="40.5,66.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,33"
+                    Point2="0,37"
+                    Point3="4,37" />
+                  <mssgle:LineSegment
+                    End="36.5,37" />
+                  <mssgle:CubicBezierSegment
+                    Point1="36.5,37"
+                    Point2="40.5,37"
+                    Point3="40.5,41" />
+                  <mssgle:LineSegment
+                    End="40.5,66.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\Excel Source - AFCP">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\SQL Server - AFCP">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
