@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Queries.Programs;
 using ECA.Core.DynamicLinq;
+using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
@@ -22,9 +23,10 @@ namespace ECA.Business.Service.Lookup
         /// Creates a new ThemeService.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public ThemeService(EcaContext context) : base(context)
+        public ThemeService(EcaContext context, ILogger logger) : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(logger != null, "The logger must not be null.");
         }
 
         #region Get

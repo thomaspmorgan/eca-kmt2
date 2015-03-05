@@ -25,7 +25,7 @@ namespace ECA.Business.Models.Programs
         /// <param name="ownerOrganizationId">The owner organization id.</param>
         /// <param name="parentProgramId">The parent program id.</param>
         /// <param name="programStatusId">The program status id.</param>
-        /// <param name="focus">The focus.</param>
+        /// <param name="focusId">The focus by id.</param>
         /// <param name="website">The website.</param>
         /// <param name="goalIds">The goals of the program by id.</param>
         /// <param name="pointOfContactIds">The points of contact by id.</param>
@@ -41,7 +41,7 @@ namespace ECA.Business.Models.Programs
             int ownerOrganizationId,
             int? parentProgramId,
             int programStatusId,
-            string focus,
+            int focusId,
             string website,
             List<int> goalIds,
             List<int> pointOfContactIds,
@@ -73,7 +73,7 @@ namespace ECA.Business.Models.Programs
             this.EndDate = endDate;
             this.OwnerOrganizationId = ownerOrganizationId;
             this.ParentProgramId = parentProgramId;
-            this.Focus = focus;
+            this.FocusId = focusId;
             this.Website = website;
             this.GoalIds = goalIds ?? new List<int>();
             this.ContactIds = pointOfContactIds ?? new List<int>();
@@ -109,9 +109,9 @@ namespace ECA.Business.Models.Programs
         public string Website { get; private set; }
 
         /// <summary>
-        /// Gets the program focus.
+        /// Gets the program focus by id.
         /// </summary>
-        public string Focus { get; private set; }
+        public int FocusId { get; private set; }
 
         /// <summary>
         /// Gets the program state date.

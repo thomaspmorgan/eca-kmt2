@@ -11,15 +11,17 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Core.Logging;
 
 namespace ECA.Business.Service.Admin
 {
     public class LocationService : DbContextService<EcaContext>, ILocationService
     {
 
-        public LocationService(EcaContext context) : base(context)
+        public LocationService(EcaContext context, ILogger logger) : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(logger != null, "The logger must not be null.");
         }
 
         #region Get

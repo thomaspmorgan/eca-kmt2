@@ -9,12 +9,13 @@ using ECA.Data;
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using ECA.Core.Logging;
 
 namespace ECA.Business.Service.Admin
 {
     public class ProjectService : DbContextService<EcaContext>, IProjectService
     {
-        public ProjectService(EcaContext context) : base(context)
+        public ProjectService(EcaContext context, ILogger logger) : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
         }

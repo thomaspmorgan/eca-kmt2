@@ -14,6 +14,10 @@ namespace ECA.Data.Configuration
             Property(x => x.OwnerId).HasColumnName("Owner_OrganizationId");
             HasRequired(e => e.Owner).WithMany(e => e.OwnerPrograms).HasForeignKey(x => x.OwnerId).WillCascadeOnDelete(false);
             HasRequired(a => a.ProgramStatus).WithMany().HasForeignKey(x => x.ProgramStatusId).WillCascadeOnDelete(false);
+            HasRequired(a => a.Focus).WithMany().Map(m =>
+            {
+                m.MapKey("FocusId");
+            }).WillCascadeOnDelete(false);
 
             HasMany<Theme>(p => p.Themes).WithMany(t => t.Programs).Map(p =>
             {

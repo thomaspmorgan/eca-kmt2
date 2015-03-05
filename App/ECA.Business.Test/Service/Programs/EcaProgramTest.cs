@@ -24,7 +24,7 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = ProgramStatus.Active.Id;
-            var focus = "focus";
+            var focusId = 200;
             var website = "http://www.google.com";
             var goalIds = new List<int> { 10 };
             var themeIds = new List<int> { 20 };
@@ -42,7 +42,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                focus: focus,
+                focusId: focusId,
                 website: website,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
@@ -60,7 +60,7 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(parentProgramId, program.ParentProgramId);
             Assert.AreEqual(ownerOrganizationId, program.OwnerOrganizationId);
             Assert.AreEqual(programStatusId, program.ProgramStatusId);
-            Assert.AreEqual(focus, program.Focus);
+            Assert.AreEqual(focusId, program.FocusId);
             Assert.AreEqual(website, program.Website);
 
             CollectionAssert.AreEqual(goalIds, program.GoalIds);
@@ -81,7 +81,7 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = ProgramStatus.Active.Id;
-            var focus = "focus";
+            var focusId = 1;
             var website = "http://www.google.com";
 
             var user = new User(userId);
@@ -95,7 +95,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                focus: focus,
+                focusId: focusId,
                 website: website,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -121,7 +121,7 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = -1;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
 
             var user = new User(userId);
@@ -135,7 +135,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                focus: focus,
+                focusId: focusId,
                 website: website,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -157,7 +157,7 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = 1;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
 
             var user = new User(userId);
@@ -171,7 +171,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                focus: focus,
+                focusId: focusId,
                 website: website,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -194,7 +194,7 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = 1;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
 
             var user = new User(userId);
@@ -208,7 +208,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                focus: focus,
+                focusId: focusId,
                 website: website,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -231,7 +231,7 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = 1;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
 
             var user = new User(userId);
@@ -245,7 +245,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                focus: focus,
+                focusId: focusId,
                 website: website,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -268,7 +268,7 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = ProgramStatus.Active.Id;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int> { 10 };
             var themeIds = new List<int> { 20 };
@@ -286,7 +286,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                focus: focus,
+                focusId: focusId,
                 website: website,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
@@ -308,7 +308,7 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = ProgramStatus.Active.Id;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int> { 10 };
             var themeIds = new List<int> { 20 };
@@ -326,7 +326,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                focus: focus,
+                focusId: focusId,
                 website: website,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
@@ -348,7 +348,7 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = ProgramStatus.Active.Id;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int> { 10 };
             var themeIds = new List<int> { 20 };
@@ -366,7 +366,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                focus: focus,
+                focusId: focusId,
                 website: website,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
@@ -387,7 +387,7 @@ namespace ECA.Business.Test.Service.Programs
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
             var programStatusId = ProgramStatus.Active.Id;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int> { 10 };
             var themeIds = new List<int> { 20 };
@@ -404,7 +404,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
-                focus: focus,
+                focusId: focusId,
                 website: website,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,

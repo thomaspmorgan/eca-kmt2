@@ -30,9 +30,10 @@ namespace ECA.WebApi.Models.Programs
         public string Website { get; set; }
 
         /// <summary>
-        /// The focus.
+        /// The focus Id.
         /// </summary>
-        public string Focus { get; set; }
+        [Required]
+        public int FocusId { get; set; }
 
         /// <summary>
         /// The start date.
@@ -92,7 +93,7 @@ namespace ECA.WebApi.Models.Programs
                 endDate: this.EndDate,
                 ownerOrganizationId: this.OwnerOrganizationId,
                 parentProgramId: this.ParentProgramId,
-                focus: this.Focus,
+                focusId: this.FocusId,
                 website: this.Website,
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,

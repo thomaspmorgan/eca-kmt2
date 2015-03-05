@@ -38,7 +38,7 @@ namespace ECA.WebApi.Models.Programs
                 ownerOrganizationId: this.OwnerOrganizationId,
                 parentProgramId: this.ParentProgramId,
                 programStatusId: this.ProgramStatusId,
-                focus: this.Focus,
+                focusId: this.FocusId,
                 website: this.Website,
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,

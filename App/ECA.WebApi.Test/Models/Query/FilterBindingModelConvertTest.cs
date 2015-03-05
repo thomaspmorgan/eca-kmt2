@@ -45,6 +45,30 @@ namespace ECA.WebApi.Test.Models.Query
         }
 
         [TestMethod]
+        public void TestReadJson_ArrayOfFilters()
+        {
+            var filterBindingModel1 = new FilterBindingModel
+            {
+                Comparison = ComparisonType.Equal.Value,
+                Property = "Id",
+                Value = 1L
+            };
+            var filterBindingModel2 = new FilterBindingModel
+            {
+                Comparison = ComparisonType.Like.Value,
+                Property = "Name",
+                Value = 2L
+            };
+            var list = new List<FilterBindingModel> { filterBindingModel1, filterBindingModel2 };
+            var json = JsonConvert.SerializeObject(list);
+
+            var testObject = JsonConvert.DeserializeObject<List<FilterBindingModel>>(json, new FilterBindingModelConverter());
+            Assert.AreEqual(2, testObject.Count);
+            Assert.IsNotNull(testObject.Select(x => x.Property == filterBindingModel1.Property).FirstOrDefault());
+            Assert.IsNotNull(testObject.Select(x => x.Property == filterBindingModel2.Property).FirstOrDefault());
+        }
+
+        [TestMethod]
         public void TestReadJson_InFilter()
         {
             var list = new List<long> { 1L, 2L};

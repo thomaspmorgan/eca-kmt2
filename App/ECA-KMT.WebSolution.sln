@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoTest", "AutoTest", "{C4B0352C-C9D1-49FA-AA13-B5FDE4FE6C89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Login.Test", "..\..\..\..\Documents\Visual Studio 2013\Projects\Login.Test\Login.Test\Login.Test.csproj", "{C22B5E80-AC42-49F7-A751-42DC3A0767F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Login.Test", "..\..\..\Documents\Visual Studio 2013\Projects\Login.Test\Login.Test\Login.Test.csproj", "{C22B5E80-AC42-49F7-A751-42DC3A0767F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
