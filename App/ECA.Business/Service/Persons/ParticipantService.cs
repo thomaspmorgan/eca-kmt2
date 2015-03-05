@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Persons;
 using ECA.Core.DynamicLinq;
+using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
@@ -23,9 +24,10 @@ namespace ECA.Business.Service.Persons
         /// Creates a new ParticipantService with the given context to operate against.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public ParticipantService(EcaContext context) : base(context)
+        public ParticipantService(EcaContext context, ILogger logger) : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(logger != null, "The logger must not be null.");
         }
 
         #region Get

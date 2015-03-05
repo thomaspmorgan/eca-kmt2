@@ -2,6 +2,7 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
+using ECA.Core.Logging;
 using ECA.Data;
 using Microsoft.Practices.Unity;
 using System.Diagnostics;
@@ -15,6 +16,7 @@ namespace ECA.WebApi
         public static void RegisterComponents()
         {
             var container = new UnityContainer();
+            RegisterLogging(container);
             RegisterContexts(container);
             RegisterAdminDependencies(container);
             RegisterProgramDependencies(container);
@@ -33,6 +35,10 @@ namespace ECA.WebApi
             //}));
         }
 
+        public static void RegisterLogging(IUnityContainer container)
+        {
+            container.RegisterType<ILogger, TraceLogger>(new HierarchicalLifetimeManager());
+        }
 
         public static void RegisterAdminDependencies(IUnityContainer container)
         {
@@ -49,6 +55,7 @@ namespace ECA.WebApi
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IContactService, ContactService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantService, ParticipantService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IFocusService, FocusService>(new HierarchicalLifetimeManager());
         }
     }
 }

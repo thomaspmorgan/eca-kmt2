@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
+using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
@@ -22,9 +23,10 @@ namespace ECA.Business.Service.Admin
         /// Creates a new GoalService with the context to operate against.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        public GoalService(EcaContext context) : base(context)
+        public GoalService(EcaContext context, ILogger logger) : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(logger != null, "The logger must not be null.");
         }
 
 

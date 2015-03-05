@@ -77,6 +77,11 @@ namespace ECA.Business.Queries.Models.Programs
         public IEnumerable<SimpleLookupDTO> Contacts { get; set; }
 
         /// <summary>
+        /// Gets or sets the focus.
+        /// </summary>
+        public SimpleLookupDTO Focus { get; set; }
+
+        /// <summary>
         /// Gets or sets the Owner Name.
         /// </summary>
         public string OwnerName { get; set; }

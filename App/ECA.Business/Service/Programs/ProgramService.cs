@@ -5,6 +5,7 @@ using ECA.Business.Queries.Programs;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
+using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
@@ -24,18 +25,31 @@ namespace ECA.Business.Service.Programs
     public class ProgramService : DbContextService<EcaContext>, IProgramService
     {
         private ILocationService locationService;
+        private IFocusService focusService;
+        private Action<List<int>, FocusDTO> programValidator;
 
         /// <summary>
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
         /// <param name="context">The context to operate on.</param>
         /// <param name="locationService">The location service.</param>
-        public ProgramService(EcaContext context, ILocationService locationService)
-            : base(context)
+        /// <param name="focusService">The focus service.</param>
+        /// <param name="logger">The logger.</param>
+        public ProgramService(EcaContext context, ILocationService locationService, IFocusService focusService, ILogger logger)
+            : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(locationService != null, "The location service must not be null.");
+            Contract.Requires(focusService != null, "The focus service must not be null.");
+            Contract.Requires(logger != null, "The logger must not be null.");
             this.locationService = locationService;
+            this.focusService = focusService;
+
+            programValidator = (regionIds, focus) =>
+            {
+                ValidateAllLocationsAreRegions(regionIds);
+                ValidateFocusExist(focus);
+            };
         }
 
         #region Get
@@ -92,7 +106,9 @@ namespace ECA.Business.Service.Programs
         public Program Create(DraftProgram draftProgram)
         {
             var regionTypeIds = GetLocationTypeIds(draftProgram.RegionIds);
-            return DoCreate(regionTypeIds, draftProgram);
+            var focus = focusService.GetFocusById(draftProgram.FocusId);
+            programValidator(regionTypeIds, focus);
+            return DoCreate(draftProgram);
         }
 
         /// <summary>
@@ -103,19 +119,21 @@ namespace ECA.Business.Service.Programs
         public async Task<Program> CreateAsync(DraftProgram draftProgram)
         {
             var regionTypeIds = await GetLocationTypeIdsAsync(draftProgram.RegionIds);
-            return DoCreate(regionTypeIds, draftProgram);
+            var focus = await focusService.GetFocusByIdAsync(draftProgram.FocusId);
+            programValidator(regionTypeIds, focus);
+            return DoCreate(draftProgram);
         }
 
-        private Program DoCreate(List<int> regionTypeIds, DraftProgram draftProgram)
+        private Program DoCreate(DraftProgram draftProgram)
         {
             Debug.Assert(draftProgram != null, "The draft program must not be null.");
-            ValidateAllLocationsAreRegions(regionTypeIds);
             var owner = AttachOrganization(draftProgram.OwnerOrganizationId);
+            var focus = AttachFocus(draftProgram.FocusId);
             var program = new Program
             {
                 Description = draftProgram.Description,
                 EndDate = draftProgram.EndDate,
-                Focus = draftProgram.Focus,
+                Focus = focus,
                 Name = draftProgram.Name,
                 ParentProgram = draftProgram.ParentProgramId.HasValue ? AttachProgram(draftProgram.ParentProgramId.Value) : null,
                 ProgramType = null,
@@ -150,10 +168,12 @@ namespace ECA.Business.Service.Programs
         public void Update(EcaProgram updatedProgram)
         {
             var programToUpdate = CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefault();
-            var regionLocationTypeIds = GetLocationTypeIds(updatedProgram.RegionIds);
+            var regionTypeIds = GetLocationTypeIds(updatedProgram.RegionIds);
+            var focus = focusService.GetFocusById(updatedProgram.FocusId);
+            programValidator(regionTypeIds, focus);
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, regionLocationTypeIds);
+                DoUpdate(programToUpdate, updatedProgram);
             }
             else
             {
@@ -168,10 +188,12 @@ namespace ECA.Business.Service.Programs
         public async Task UpdateAsync(EcaProgram updatedProgram)
         {
             var programToUpdate = await CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefaultAsync();
-            var regionLocationTypeIds = await GetLocationTypeIdsAsync(updatedProgram.RegionIds);
+            var regionTypeIds = await GetLocationTypeIdsAsync(updatedProgram.RegionIds);
+            var focus = await focusService.GetFocusByIdAsync(updatedProgram.FocusId);
+            programValidator(regionTypeIds, focus);
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, regionLocationTypeIds);
+                DoUpdate(programToUpdate, updatedProgram);
             }
             else
             {
@@ -179,16 +201,16 @@ namespace ECA.Business.Service.Programs
             }
         }
 
-        private void DoUpdate(Program programToUpdate, EcaProgram updatedProgram, List<int> locationTypeIds)
+        private void DoUpdate(Program programToUpdate, EcaProgram updatedProgram)
         {
             Debug.Assert(updatedProgram != null, "The updated program must not be null.");
             Debug.Assert(updatedProgram.Audit != null, "The audit must not be null.");
-            ValidateAllLocationsAreRegions(locationTypeIds);
 
             var owner = AttachOrganization(updatedProgram.OwnerOrganizationId);
+            var focus = AttachFocus(updatedProgram.FocusId);
             programToUpdate.Description = updatedProgram.Description;
             programToUpdate.EndDate = updatedProgram.EndDate;
-            programToUpdate.Focus = updatedProgram.Focus;
+            programToUpdate.Focus = focus;
             programToUpdate.Name = updatedProgram.Name;
             programToUpdate.Owner = owner;
             programToUpdate.OwnerId = owner.OrganizationId;
@@ -206,9 +228,16 @@ namespace ECA.Business.Service.Programs
         }
         #endregion
 
-        private Organization AttachOrganization(int organization)
+        private Focus AttachFocus(int focusId)
         {
-            var org = new Organization { OrganizationId = organization };
+            var focus = new Focus { FocusId = focusId };
+            this.Context.Foci.Attach(focus);
+            return focus;
+        }
+
+        private Organization AttachOrganization(int organizationId)
+        {
+            var org = new Organization { OrganizationId = organizationId };
             this.Context.Organizations.Attach(org);
             return org;
         }
@@ -312,7 +341,19 @@ namespace ECA.Business.Service.Programs
             }
             if (typeIds.Count != 1 || typeIds.First() != LocationType.Region.Id)
             {
-                throw new ValidationException("The given locations are not all regions.");
+                throw new ValidationException("The given locations are not all regions.", ValidationException.GetPropertyName<EcaProgram>(x => x.RegionIds));
+            }
+        }
+
+        /// <summary>
+        /// Validates the given focus is valid.
+        /// </summary>
+        /// <param name="focus">The focus to validate.</param>
+        public void ValidateFocusExist(FocusDTO focus)
+        {
+            if (focus == null)
+            {
+                throw new ValidationException("The focus with the given id does not exist.", ValidationException.GetPropertyName<EcaProgram>(x => x.FocusId));
             }
         }
 

@@ -12,6 +12,7 @@ using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Business.Service.Admin;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Core.Logging;
 
 namespace ECA.Business.Test.Service.Programs
 {
@@ -25,7 +26,7 @@ namespace ECA.Business.Test.Service.Programs
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new FocusService(context);
+            service = new FocusService(context, new TraceLogger());
         }
 
         [TestCleanup]
@@ -35,6 +36,44 @@ namespace ECA.Business.Test.Service.Programs
         }
 
         #region Get
+        [TestMethod]
+        public async Task TestGetFocusById()
+        {
+            var focus = new Focus
+            {
+                FocusId = 1,
+                FocusName = "focus"
+            };
+            context.Foci.Add(focus);
+            Action<FocusDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+                Assert.AreEqual(focus.FocusId, result.Id);
+                Assert.AreEqual(focus.FocusName, result.Name);
+            };
+
+            var serviceResult = service.GetFocusById(focus.FocusId);
+            var serviceResultAsync = await service.GetFocusByIdAsync(focus.FocusId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetFocusById_FocusDoesNotExist()
+        {
+            Action<FocusDTO> tester = (result) =>
+            {
+                Assert.AreEqual(0, context.Foci.Count());
+                Assert.IsNull(result);
+                
+            };
+
+            var serviceResult = service.GetFocusById(1);
+            var serviceResultAsync = await service.GetFocusByIdAsync(1);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
         [TestMethod]
         public async Task TestGetFoci_CheckProperties()
         {

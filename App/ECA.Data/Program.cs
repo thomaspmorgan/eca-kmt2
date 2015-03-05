@@ -85,14 +85,14 @@ namespace ECA.Data
         public virtual ProgramStatus ProgramStatus { get; set; }
 
         /// <summary>
+        /// Gets or sets the Focus.
+        /// </summary>
+        public virtual Focus Focus { get; set; }
+
+        /// <summary>
         /// Gets or sets the program status id.
         /// </summary>
         public int ProgramStatusId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Focus.
-        /// </summary>
-        public string Focus { get; set; }
 
         /// <summary>
         /// Gets or sets the Website.

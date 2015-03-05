@@ -17,7 +17,7 @@ namespace ECA.WebApi.Test.Models.Programs
             model.ProgramStatusId = ProgramStatus.Active.Id;
             model.Description = "desc";
             model.EndDate = DateTimeOffset.UtcNow;
-            model.Focus = "focus";
+            model.FocusId = 100;
             model.Goals = new List<int> { 1 };
             model.Name = "name";
             model.OwnerOrganizationId = 2;
@@ -32,7 +32,7 @@ namespace ECA.WebApi.Test.Models.Programs
             var ecaProgram = model.ToEcaProgram(userId);
             Assert.AreEqual(model.Description, ecaProgram.Description);
             Assert.AreEqual(model.EndDate, ecaProgram.EndDate);
-            Assert.AreEqual(model.Focus, ecaProgram.Focus);
+            Assert.AreEqual(model.FocusId, ecaProgram.FocusId);
             Assert.AreEqual(model.Name, ecaProgram.Name);
             Assert.AreEqual(model.OwnerOrganizationId, ecaProgram.OwnerOrganizationId);
             Assert.AreEqual(model.ParentProgramId, ecaProgram.ParentProgramId);

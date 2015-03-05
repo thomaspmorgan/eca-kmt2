@@ -16,6 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ECA.Business.Queries.Models.Admin;
+using ECA.Core.Logging;
 
 namespace ECA.Business.Test.Service.Programs
 {
@@ -25,6 +27,7 @@ namespace ECA.Business.Test.Service.Programs
         private TestEcaContext context;
         private ProgramService service;
         private Mock<ILocationService> locationServiceMock;
+        private Mock<IFocusService> focusServiceMock;
         private List<int> locationTypeIds;
 
         [TestInitialize]
@@ -33,9 +36,12 @@ namespace ECA.Business.Test.Service.Programs
             locationTypeIds = new List<int>();
             context = new TestEcaContext();
             locationServiceMock = new Mock<ILocationService>();
+            focusServiceMock = new Mock<IFocusService>();
             locationServiceMock.Setup(x => x.GetLocationTypeIds(It.IsAny<List<int>>())).Returns(locationTypeIds);
             locationServiceMock.Setup(x => x.GetLocationTypeIdsAsync(It.IsAny<List<int>>())).ReturnsAsync(locationTypeIds);
-            service = new ProgramService(context, locationServiceMock.Object);
+            focusServiceMock.Setup(x => x.GetFocusById(It.IsAny<int>())).Returns(new FocusDTO());
+            focusServiceMock.Setup(x => x.GetFocusByIdAsync(It.IsAny<int>())).ReturnsAsync(new FocusDTO());
+            service = new ProgramService(context, locationServiceMock.Object, focusServiceMock.Object, new TraceLogger());
         }
 
         [TestCleanup]
@@ -93,11 +99,17 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "owner desc",
                 Name = "owner"
             };
+            var focus = new Focus
+            {
+                FocusId = 501,
+                FocusName = "focus"
+            };
             var program = new Program
             {
                 ProgramId = 1,
                 Name = "name",
                 Description = "description",
+                Focus = focus,
                 ParentProgram = parentProgram,
                 StartDate = DateTimeOffset.UtcNow,
                 History = new History
@@ -112,7 +124,7 @@ namespace ECA.Business.Test.Service.Programs
             program.Contacts.Add(contact);
             program.Goals.Add(goal);
             program.Regions.Add(region);
-
+            
             context.Organizations.Add(owner);
             context.Programs.Add(program);
             context.Contacts.Add(contact);
@@ -121,6 +133,7 @@ namespace ECA.Business.Test.Service.Programs
             context.Locations.Add(country);
             context.Programs.Add(parentProgram);
             context.Locations.Add(region);
+            context.Foci.Add(focus);
 
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
@@ -146,6 +159,9 @@ namespace ECA.Business.Test.Service.Programs
 
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(), publishedProgram.Goals.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalId).ToList(), publishedProgram.Goals.Select(x => x.Id).ToList());
+
+                Assert.AreEqual(context.Foci.Select(x => x.FocusName).First(), publishedProgram.Focus.Value);
+                Assert.AreEqual(context.Foci.Select(x => x.FocusId).First(), publishedProgram.Focus.Id);
 
                 Assert.AreEqual(program.Description, publishedProgram.Description);
                 
@@ -173,11 +189,17 @@ namespace ECA.Business.Test.Service.Programs
             var now = DateTime.UtcNow;
             var creatorId = 1;
             var revisorId = 2;
+            var focus = new Focus
+            {
+                FocusId  = 501,
+                FocusName = "focus"
+            };
             var program = new Program
             {
                 ProgramId = 1,
                 Name = "name",
                 Description = "description",
+                Focus = focus,
                 ParentProgram = null,
                 StartDate = DateTimeOffset.UtcNow,
                 Owner = new Organization
@@ -194,6 +216,7 @@ namespace ECA.Business.Test.Service.Programs
             };
 
             context.Programs.Add(program);
+            context.Foci.Add(focus);
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
                 Assert.IsFalse(publishedProgram.ParentProgramId.HasValue);
@@ -433,7 +456,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
@@ -448,7 +471,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
@@ -475,7 +498,7 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(ownerOrganizationId, program.OwnerId);
             Assert.AreEqual(parentProgramId, program.ParentProgram.ProgramId);
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
-            Assert.AreEqual(focus, program.Focus);
+            Assert.AreEqual(focusId, program.Focus.FocusId);
             Assert.AreEqual(website, program.Website);
         }
 
@@ -490,7 +513,7 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
@@ -505,7 +528,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: null,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
@@ -531,7 +554,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
@@ -546,7 +569,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
@@ -573,7 +596,7 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(ownerOrganizationId, program.OwnerId);
             Assert.AreEqual(parentProgramId, program.ParentProgram.ProgramId);
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
-            Assert.AreEqual(focus, program.Focus);
+            Assert.AreEqual(focusId, program.Focus.FocusId);
             Assert.AreEqual(website, program.Website);
         }
 
@@ -588,7 +611,7 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
@@ -603,7 +626,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: null,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
@@ -616,6 +639,98 @@ namespace ECA.Business.Test.Service.Programs
             Assert.IsNull(program.ParentProgram);
 
         }
+
+        [TestMethod]
+        public void TestCreate_CheckFocus()
+        {
+            locationTypeIds.Add(LocationType.Region.Id);
+            var contact = new Contact
+            {
+                ContactId = 1,
+                FullName = "contact name"
+            };
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var focusId = 100;
+            var website = "http://www.google.com";
+            var pointOfContactIds = new List<int> { contact.ContactId };
+            var themeIds = new List<int>();
+            var goalIds = new List<int>();
+            var regionIds = new List<int>();
+
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerOrganizationId,
+               parentProgramId: parentProgramId,
+               focusId: focusId,
+               website: website,
+               goalIds: goalIds,
+               pointOfContactIds: pointOfContactIds,
+               themeIds: themeIds,
+               regionIds: regionIds
+               );
+
+            var program = service.Create(draftProgram);
+            Assert.IsNotNull(program);
+            Assert.IsNotNull(program.Focus);
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_CheckFocus()
+        {
+            locationTypeIds.Add(LocationType.Region.Id);
+            var contact = new Contact
+            {
+                ContactId = 1,
+                FullName = "contact name"
+            };
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var focusId = 100;
+            var website = "http://www.google.com";
+            var pointOfContactIds = new List<int> { contact.ContactId };
+            var themeIds = new List<int>();
+            var goalIds = new List<int>();
+            var regionIds = new List<int>();
+
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerOrganizationId,
+               parentProgramId: parentProgramId,
+               focusId: focusId,
+               website: website,
+               goalIds: goalIds,
+               pointOfContactIds: pointOfContactIds,
+               themeIds: themeIds,
+               regionIds: regionIds
+               );
+
+            var program = await service.CreateAsync(draftProgram);
+            Assert.IsNotNull(program);
+            Assert.IsNotNull(program.Focus);
+        }
+
+
 
         [TestMethod]
         public void TestCreate_CheckContacts()
@@ -634,7 +749,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int> { contact.ContactId };
             var themeIds = new List<int>();
@@ -649,7 +764,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
@@ -682,7 +797,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int> { contact.ContactId };
             var themeIds = new List<int>();
@@ -697,7 +812,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
@@ -730,7 +845,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int> { goal.GoalId };
             var themeIds = new List<int>();
@@ -745,7 +860,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
@@ -778,7 +893,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int> { goal.GoalId };
             var themeIds = new List<int>();
@@ -793,7 +908,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
@@ -826,7 +941,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int>();
             var themeIds = new List<int> { theme.ThemeId };
@@ -841,7 +956,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
@@ -874,7 +989,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int>();
             var themeIds = new List<int> { theme.ThemeId };
@@ -889,7 +1004,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
@@ -922,7 +1037,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int>();
             var themeIds = new List<int> ();
@@ -937,7 +1052,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
@@ -971,7 +1086,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int>();
             var themeIds = new List<int>();
@@ -986,7 +1101,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: contactIds,
@@ -1005,9 +1120,11 @@ namespace ECA.Business.Test.Service.Programs
 
         [TestMethod]
         [ExpectedException(typeof(ValidationException))]
-        public void TestCreate_RegionsAreNotRegions()
+        public void TestCreate_FocusDoesNotExist()
         {
-            locationTypeIds.Add(LocationType.State.Id);
+            FocusDTO nullDto = null;
+            focusServiceMock.Setup(x => x.GetFocusById(It.IsAny<int>())).Returns(nullDto);
+            locationTypeIds.Add(LocationType.Region.Id);
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -1016,7 +1133,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
@@ -1031,7 +1148,87 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
+               website: website,
+               goalIds: goalIds,
+               pointOfContactIds: pointOfContactIds,
+               themeIds: themeIds,
+               regionIds: regionIds
+               );
+
+            var program = service.Create(draftProgram);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public async Task TestCreateAsync_FocusDoesNotExist()
+        {
+            FocusDTO nullDto = null;
+            focusServiceMock.Setup(x => x.GetFocusByIdAsync(It.IsAny<int>())).ReturnsAsync(nullDto);
+            locationTypeIds.Add(LocationType.Region.Id);
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var focusId = 100;
+            var website = "http://www.google.com";
+            var pointOfContactIds = new List<int>();
+            var themeIds = new List<int>();
+            var goalIds = new List<int>();
+            var regionIds = new List<int>();
+
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerOrganizationId,
+               parentProgramId: parentProgramId,
+               focusId: focusId,
+               website: website,
+               goalIds: goalIds,
+               pointOfContactIds: pointOfContactIds,
+               themeIds: themeIds,
+               regionIds: regionIds
+               );
+
+            var program = await service.CreateAsync(draftProgram);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void TestCreate_RegionsAreNotRegions()
+        {
+            locationTypeIds.Add(LocationType.State.Id);
+            var userId = 1;
+            var user = new User(userId);
+            var name = "name";
+            var description = "description";
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTime.UtcNow.AddDays(1.0);
+            var ownerOrganizationId = 2;
+            var parentProgramId = 3;
+            var focusId = 100;
+            var website = "http://www.google.com";
+            var pointOfContactIds = new List<int>();
+            var themeIds = new List<int>();
+            var goalIds = new List<int>();
+            var regionIds = new List<int>();
+
+            var draftProgram = new DraftProgram(
+               createdBy: user,
+               name: name,
+               description: description,
+               startDate: startDate,
+               endDate: endDate,
+               ownerOrganizationId: ownerOrganizationId,
+               parentProgramId: parentProgramId,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
@@ -1055,7 +1252,7 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focus = "focus";
+            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
@@ -1070,7 +1267,7 @@ namespace ECA.Business.Test.Service.Programs
                endDate: endDate,
                ownerOrganizationId: ownerOrganizationId,
                parentProgramId: parentProgramId,
-               focus: focus,
+               focusId: focusId,
                website: website,
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
@@ -1096,6 +1293,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1103,7 +1304,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -1115,6 +1316,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = yesterday
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -1124,7 +1326,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -1139,7 +1340,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -1151,7 +1352,6 @@ namespace ECA.Business.Test.Service.Programs
             var updatedProgram = context.Programs.First();
             Assert.AreEqual(newDescription, updatedProgram.Description);
             Assert.AreEqual(newEndDate, updatedProgram.EndDate);
-            Assert.AreEqual(newFocus, updatedProgram.Focus);
             Assert.AreEqual(newName, updatedProgram.Name);
             Assert.AreEqual(newOwnerId, updatedProgram.OwnerId);
             Assert.AreEqual(newOwnerId, updatedProgram.Owner.OrganizationId);
@@ -1181,6 +1381,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1188,7 +1392,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -1200,6 +1404,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = yesterday
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -1209,7 +1414,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -1224,7 +1428,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -1236,7 +1440,6 @@ namespace ECA.Business.Test.Service.Programs
             var updatedProgram = context.Programs.First();
             Assert.AreEqual(newDescription, updatedProgram.Description);
             Assert.AreEqual(newEndDate, updatedProgram.EndDate);
-            Assert.AreEqual(newFocus, updatedProgram.Focus);
             Assert.AreEqual(newName, updatedProgram.Name);
             Assert.AreEqual(newOwnerId, updatedProgram.OwnerId);
             Assert.AreEqual(newOwnerId, updatedProgram.Owner.OrganizationId);
@@ -1265,6 +1468,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1272,7 +1479,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -1284,6 +1491,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = now
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -1293,7 +1501,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -1308,7 +1515,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: new List<int> {1},
                 pointOfContactIds: null,
@@ -1339,6 +1546,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1346,7 +1557,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -1358,6 +1569,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = now
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -1367,7 +1579,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -1382,7 +1593,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: new List<int> { 1 },
                 pointOfContactIds: null,
@@ -1396,6 +1607,7 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(0, updatedProgram.Regions.Count);
             Assert.AreEqual(0, updatedProgram.Themes.Count);
             Assert.AreEqual(0, updatedProgram.Contacts.Count);
+
             Assert.AreEqual(updatedEcaProgram.GoalIds.First(), updatedProgram.Goals.First().GoalId);
         }
 
@@ -1412,6 +1624,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1419,7 +1635,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -1431,6 +1647,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = now
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -1440,7 +1657,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -1455,7 +1671,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -1485,6 +1701,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1492,7 +1712,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -1504,6 +1724,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = now
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -1513,7 +1734,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -1528,7 +1748,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -1558,6 +1778,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1565,7 +1789,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -1577,6 +1801,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = now
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -1586,7 +1811,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -1601,7 +1825,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: new List<int> { 1 },
@@ -1631,6 +1855,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1638,7 +1866,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -1650,6 +1878,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = now
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -1659,7 +1888,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -1674,7 +1902,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: new List<int> { 1 },
@@ -1704,6 +1932,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1711,7 +1943,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -1723,6 +1955,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = now
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -1732,7 +1965,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -1747,7 +1979,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -1777,6 +2009,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1784,7 +2020,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -1796,6 +2032,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = now
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -1805,7 +2042,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -1820,7 +2056,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -1841,12 +2077,12 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ModelNotFoundException))]
         public void TestUpdate_ModelNotFoundException()
         {
+            locationTypeIds.Add(LocationType.Region.Id);
             var newName = "new name";
             var newDescription = "new description";
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = 12;
@@ -1861,7 +2097,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: 1,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -1875,12 +2111,12 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ModelNotFoundException))]
         public async Task TestUpdateAsync_ModelNotFoundException()
         {
+            locationTypeIds.Add(LocationType.Region.Id);
             var newName = "new name";
             var newDescription = "new description";
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = 12;
@@ -1895,7 +2131,154 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: 1,
+                website: newWebsite,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: null,
+                regionIds: null
+                );
+            await service.UpdateAsync(updatedEcaProgram);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void TestUpdate_FocusDoesNotExist()
+        {
+            FocusDTO nullDto = null;
+            focusServiceMock.Setup(x => x.GetFocusById(It.IsAny<int>())).Returns(nullDto);
+            locationTypeIds.Add(LocationType.Region.Id);
+            Assert.AreEqual(0, context.Programs.Count());
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+            var parentProgram = new Program
+            {
+                ProgramId = 2
+            };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "old name",
+                Description = "old description",
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                Focus = focus,
+                ProgramStatusId = ProgramStatus.Draft.Id,
+                ParentProgram = null,
+                Website = "old website",
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = creatorId,
+                    RevisedOn = yesterday
+                },
+            };
+            context.Foci.Add(focus);
+            context.Programs.Add(program);
+            context.Programs.Add(parentProgram);
+            Assert.AreEqual(2, context.Programs.Count());
+
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = parentProgram.ProgramId;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(revisorId),
+                id: program.ProgramId,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focusId: -1,
+                website: newWebsite,
+                goalIds: null,
+                pointOfContactIds: null,
+                themeIds: null,
+                regionIds: null
+                );
+            service.Update(updatedEcaProgram);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public async Task TestUpdateAsync_FocusDoesNotExist()
+        {
+            FocusDTO nullDto = null;
+            focusServiceMock.Setup(x => x.GetFocusByIdAsync(It.IsAny<int>())).ReturnsAsync(nullDto);
+            locationTypeIds.Add(LocationType.Region.Id);
+            Assert.AreEqual(0, context.Programs.Count());
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+            var parentProgram = new Program
+            {
+                ProgramId = 2
+            };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "old name",
+                Description = "old description",
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTime.UtcNow.AddDays(1.0),
+                Focus = focus,
+                ProgramStatusId = ProgramStatus.Draft.Id,
+                ParentProgram = null,
+                Website = "old website",
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = creatorId,
+                    RevisedOn = yesterday
+                },
+            };
+            context.Foci.Add(focus);
+            context.Programs.Add(program);
+            context.Programs.Add(parentProgram);
+            Assert.AreEqual(2, context.Programs.Count());
+
+            var newName = "new name";
+            var newDescription = "new description";
+            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
+            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
+            var newProgramStatusId = ProgramStatus.Completed.Id;
+            var newWebsite = "new website";
+            var newOwnerId = 12;
+            var newParentProgramId = parentProgram.ProgramId;
+
+            var updatedEcaProgram = new EcaProgram(
+                updatedBy: new User(revisorId),
+                id: program.ProgramId,
+                name: newName,
+                description: newDescription,
+                startDate: newStartDate,
+                endDate: newEndDate,
+                ownerOrganizationId: newOwnerId,
+                parentProgramId: newParentProgramId,
+                programStatusId: newProgramStatusId,
+                focusId: -1,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -1919,6 +2302,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1926,7 +2313,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -1938,6 +2325,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = yesterday
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -1947,7 +2335,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -1962,7 +2349,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -1986,6 +2373,10 @@ namespace ECA.Business.Test.Service.Programs
             {
                 ProgramId = 2
             };
+            var focus = new Focus
+            {
+                FocusId = 100
+            };
             var program = new Program
             {
                 ProgramId = 1,
@@ -1993,7 +2384,7 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "old description",
                 StartDate = DateTimeOffset.UtcNow,
                 EndDate = DateTime.UtcNow.AddDays(1.0),
-                Focus = "focus",
+                Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
                 Website = "old website",
@@ -2005,6 +2396,7 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = yesterday
                 },
             };
+            context.Foci.Add(focus);
             context.Programs.Add(program);
             context.Programs.Add(parentProgram);
             Assert.AreEqual(2, context.Programs.Count());
@@ -2014,7 +2406,6 @@ namespace ECA.Business.Test.Service.Programs
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
             var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
             var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newFocus = "new focus";
             var newWebsite = "new website";
             var newOwnerId = 12;
             var newParentProgramId = parentProgram.ProgramId;
@@ -2029,7 +2420,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
-                focus: newFocus,
+                focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -2039,6 +2430,21 @@ namespace ECA.Business.Test.Service.Programs
             await service.UpdateAsync(updatedEcaProgram);
         }
         #endregion
+
+        [TestMethod]
+        public void TestValidateFocusExist()
+        {
+            FocusDTO dto = new FocusDTO();
+            service.ValidateFocusExist(dto);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void TestValidateFocusExist_NullDto()
+        {
+            FocusDTO dto = null;
+            service.ValidateFocusExist(dto);
+        }
 
         [TestMethod]
         public void TestValidateAllLocationsAreRegions_NotADistinctList()
