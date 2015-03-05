@@ -36,13 +36,13 @@ namespace ECA.WebApi.Models
             Mapper.CreateMap<History, HistoryDTO>().ReverseMap();
             Mapper.CreateMap<Contact, ContactDTO>().ReverseMap();
             Mapper.CreateMap<Theme, ThemeDTO>().ReverseMap();
-            Mapper.CreateMap<MoneyFlow, MoneyFlowDTO>()
-                .ForMember(dest => dest.MoneyFlowStatus, opt => opt.MapFrom(p => p.MoneyFlowStatus.MoneyFlowStatusName))
-                .ForMember(dest => dest.MoneyFlowType, opt => opt.MapFrom(p => p.MoneyFlowType.MoneyFlowTypeName))
-                .ForMember(dest => dest.SourceType, opt => opt.MapFrom(p => p.SourceType.TypeName))
-                .ForMember(dest => dest.RecipientType, opt => opt.MapFrom(p => p.RecipientType.TypeName))
-                .ForMember(dest => dest.RecipientName, opt => opt.ResolveUsing<RecipientNameResolver>())
-                .ForMember(dest => dest.SourceName, opt => opt.ResolveUsing<SourceNameResolver>());
+            //Mapper.CreateMap<MoneyFlow, MoneyFlowDTO>()
+            //    .ForMember(dest => dest.MoneyFlowStatus, opt => opt.MapFrom(p => p.MoneyFlowStatus.MoneyFlowStatusName))
+            //    .ForMember(dest => dest.MoneyFlowType, opt => opt.MapFrom(p => p.MoneyFlowType.MoneyFlowTypeName))
+            //    .ForMember(dest => dest.SourceType, opt => opt.MapFrom(p => p.SourceType.TypeName))
+            //    .ForMember(dest => dest.RecipientType, opt => opt.MapFrom(p => p.RecipientType.TypeName))
+            //    .ForMember(dest => dest.RecipientName, opt => opt.ResolveUsing<RecipientNameResolver>())
+            //    .ForMember(dest => dest.SourceName, opt => opt.ResolveUsing<SourceNameResolver>());
             //Mapper.CreateMap<Participant, ParticipantDTO>()
             //    .ForMember(dest => dest.Name, opts => opts.MapFrom(p => p.PersonId != null ? p.Person.FullName() : p.Organization.Name))
             //    .ForMember(dest => dest.Gender, opts => opts.MapFrom(p => p.PersonId != null ? Enum.GetName(typeof(Enums.Gender), p.Person.GenderId) : "N/A"))
