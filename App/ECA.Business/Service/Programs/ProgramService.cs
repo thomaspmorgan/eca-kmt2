@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Models.Programs;
+using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Queries.Programs;
@@ -24,9 +25,7 @@ namespace ECA.Business.Service.Programs
     /// </summary>
     public class ProgramService : DbContextService<EcaContext>, IProgramService
     {
-        private ILocationService locationService;
-        private IFocusService focusService;
-        private Action<List<int>, FocusDTO> programValidator;
+        private Action<List<int>, Focus> programValidator;
 
         /// <summary>
         /// Creates a new ProgramService with the given context to operator against.
@@ -35,20 +34,16 @@ namespace ECA.Business.Service.Programs
         /// <param name="locationService">The location service.</param>
         /// <param name="focusService">The focus service.</param>
         /// <param name="logger">The logger.</param>
-        public ProgramService(EcaContext context, ILocationService locationService, IFocusService focusService, ILogger logger)
+        public ProgramService(EcaContext context, ILogger logger)
             : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(locationService != null, "The location service must not be null.");
-            Contract.Requires(focusService != null, "The focus service must not be null.");
             Contract.Requires(logger != null, "The logger must not be null.");
-            this.locationService = locationService;
-            this.focusService = focusService;
 
             programValidator = (regionIds, focus) =>
             {
                 ValidateAllLocationsAreRegions(regionIds);
-                ValidateFocusExist(focus);
+                ValidateFocusExists(focus);
             };
         }
 
@@ -106,7 +101,7 @@ namespace ECA.Business.Service.Programs
         public Program Create(DraftProgram draftProgram)
         {
             var regionTypeIds = GetLocationTypeIds(draftProgram.RegionIds);
-            var focus = focusService.GetFocusById(draftProgram.FocusId);
+            var focus = GetFocusById(draftProgram.FocusId);
             programValidator(regionTypeIds, focus);
             return DoCreate(draftProgram);
         }
@@ -119,7 +114,7 @@ namespace ECA.Business.Service.Programs
         public async Task<Program> CreateAsync(DraftProgram draftProgram)
         {
             var regionTypeIds = await GetLocationTypeIdsAsync(draftProgram.RegionIds);
-            var focus = await focusService.GetFocusByIdAsync(draftProgram.FocusId);
+            var focus = await GetFocusByIdAsync(draftProgram.FocusId);
             programValidator(regionTypeIds, focus);
             return DoCreate(draftProgram);
         }
@@ -169,7 +164,7 @@ namespace ECA.Business.Service.Programs
         {
             var programToUpdate = CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefault();
             var regionTypeIds = GetLocationTypeIds(updatedProgram.RegionIds);
-            var focus = focusService.GetFocusById(updatedProgram.FocusId);
+            var focus = GetFocusById(updatedProgram.FocusId);
             programValidator(regionTypeIds, focus);
             if (programToUpdate != null)
             {
@@ -189,7 +184,7 @@ namespace ECA.Business.Service.Programs
         {
             var programToUpdate = await CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefaultAsync();
             var regionTypeIds = await GetLocationTypeIdsAsync(updatedProgram.RegionIds);
-            var focus = await focusService.GetFocusByIdAsync(updatedProgram.FocusId);
+            var focus = await GetFocusByIdAsync(updatedProgram.FocusId);
             programValidator(regionTypeIds, focus);
             if (programToUpdate != null)
             {
@@ -324,6 +319,18 @@ namespace ECA.Business.Service.Programs
             });
         }
 
+        #region Validation
+
+        public Focus GetFocusById(int focusId)
+        {
+            return this.Context.Foci.Find(focusId);
+        }
+
+        public async Task<Focus> GetFocusByIdAsync(int focusId)
+        {
+            return await this.Context.Foci.FindAsync(focusId);
+        }
+
         /// <summary>
         /// Validates the given location types are all regions.
         /// </summary>
@@ -339,9 +346,25 @@ namespace ECA.Business.Service.Programs
             {
                 typeIds = locationTypeIds.Distinct().ToList();
             }
-            if (typeIds.Count != 1 || typeIds.First() != LocationType.Region.Id)
+            if (typeIds.Count > 1)
             {
                 throw new ValidationException("The given locations are not all regions.", ValidationException.GetPropertyName<EcaProgram>(x => x.RegionIds));
+            }
+            if(typeIds.Count == 1 && typeIds.First() != LocationType.Region.Id)
+            {
+                throw new ValidationException("The given location is not a region.", ValidationException.GetPropertyName<EcaProgram>(x => x.RegionIds));
+            }
+        }
+
+        /// <summary>
+        /// Validates whether the given focus exists.
+        /// </summary>
+        /// <param name="focus">The focus to test.</param>
+        public void ValidateFocusExists(Focus focus)
+        {
+            if (!ValidateEntityExists(focus))
+            {
+                throw new ValidationException("The focus does not exist.", ValidationException.GetPropertyName<EcaProgram>(x => x.FocusId));
             }
         }
 
@@ -349,12 +372,9 @@ namespace ECA.Business.Service.Programs
         /// Validates the given focus is valid.
         /// </summary>
         /// <param name="focus">The focus to validate.</param>
-        public void ValidateFocusExist(FocusDTO focus)
+        private bool ValidateEntityExists<T>(T entity) where T : class
         {
-            if (focus == null)
-            {
-                throw new ValidationException("The focus with the given id does not exist.", ValidationException.GetPropertyName<EcaProgram>(x => x.FocusId));
-            }
+            return entity != null;
         }
 
         /// <summary>
@@ -364,7 +384,7 @@ namespace ECA.Business.Service.Programs
         /// <returns>The list of location type ids.</returns>
         public List<int> GetLocationTypeIds(List<int> locationIds)
         {
-            return this.locationService.GetLocationTypeIds(locationIds);
+            return LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, locationIds).ToList();
         }
 
         /// <summary>
@@ -374,8 +394,14 @@ namespace ECA.Business.Service.Programs
         /// <returns>The list of location type ids.</returns>
         public async Task<List<int>> GetLocationTypeIdsAsync(List<int> locationIds)
         {
-            return await this.locationService.GetLocationTypeIdsAsync(locationIds);
+            return await LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, locationIds).ToListAsync();
         }
+
+        #endregion
+
+        
+
+        
 
     }
 }

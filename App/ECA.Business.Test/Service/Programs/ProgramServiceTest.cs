@@ -26,22 +26,12 @@ namespace ECA.Business.Test.Service.Programs
     {
         private TestEcaContext context;
         private ProgramService service;
-        private Mock<ILocationService> locationServiceMock;
-        private Mock<IFocusService> focusServiceMock;
-        private List<int> locationTypeIds;
 
         [TestInitialize]
         public void TestInit()
         {
-            locationTypeIds = new List<int>();
             context = new TestEcaContext();
-            locationServiceMock = new Mock<ILocationService>();
-            focusServiceMock = new Mock<IFocusService>();
-            locationServiceMock.Setup(x => x.GetLocationTypeIds(It.IsAny<List<int>>())).Returns(locationTypeIds);
-            locationServiceMock.Setup(x => x.GetLocationTypeIdsAsync(It.IsAny<List<int>>())).ReturnsAsync(locationTypeIds);
-            focusServiceMock.Setup(x => x.GetFocusById(It.IsAny<int>())).Returns(new FocusDTO());
-            focusServiceMock.Setup(x => x.GetFocusByIdAsync(It.IsAny<int>())).ReturnsAsync(new FocusDTO());
-            service = new ProgramService(context, locationServiceMock.Object, focusServiceMock.Object, new TraceLogger());
+            service = new ProgramService(context, new TraceLogger());
         }
 
         [TestCleanup]
@@ -72,7 +62,7 @@ namespace ECA.Business.Test.Service.Programs
             {
                 GoalId = 4,
             };
-            
+
             var country = new Location
             {
                 LocationId = 500,
@@ -124,7 +114,7 @@ namespace ECA.Business.Test.Service.Programs
             program.Contacts.Add(contact);
             program.Goals.Add(goal);
             program.Regions.Add(region);
-            
+
             context.Organizations.Add(owner);
             context.Programs.Add(program);
             context.Contacts.Add(contact);
@@ -145,7 +135,7 @@ namespace ECA.Business.Test.Service.Programs
                     context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationId).ToList(),
                     publishedProgram.CountryIsos.Select(x => x.Id).ToList());
                 CollectionAssert.AreEqual(
-                    context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(), 
+                    context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
                     publishedProgram.CountryIsos.Select(x => x.Value).ToList());
 
 
@@ -164,7 +154,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(context.Foci.Select(x => x.FocusId).First(), publishedProgram.Focus.Id);
 
                 Assert.AreEqual(program.Description, publishedProgram.Description);
-                
+
                 Assert.AreEqual(program.ProgramId, publishedProgram.Id);
                 Assert.AreEqual(program.Name, publishedProgram.Name);
                 Assert.AreEqual(parentProgram.ProgramId, publishedProgram.ParentProgramId);
@@ -174,7 +164,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(owner.Name, publishedProgram.OwnerName);
                 Assert.AreEqual(owner.Description, publishedProgram.OwnerDescription);
                 Assert.AreEqual(owner.OrganizationId, publishedProgram.OwnerOrganizationId);
-                
+
             };
             var result = service.GetProgramById(program.ProgramId);
             var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
@@ -191,7 +181,7 @@ namespace ECA.Business.Test.Service.Programs
             var revisorId = 2;
             var focus = new Focus
             {
-                FocusId  = 501,
+                FocusId = 501,
                 FocusName = "focus"
             };
             var program = new Program
@@ -447,7 +437,9 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestCreate_CheckProperties()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -456,7 +448,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
@@ -505,7 +496,9 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestCreate_DoesNotHaveParentProgram()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -513,7 +506,6 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
-            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
@@ -539,13 +531,15 @@ namespace ECA.Business.Test.Service.Programs
             var program = service.Create(draftProgram);
             Assert.IsNotNull(program);
             Assert.IsNull(program.ParentProgram);
-            
+
         }
 
         [TestMethod]
         public async Task TestCreateAsync_CheckProperties()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -554,7 +548,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
@@ -603,7 +596,10 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public async Task TestCreateAsync_DoesNotHaveParentProgram()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
+
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -611,7 +607,7 @@ namespace ECA.Business.Test.Service.Programs
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
-            var focusId = 100;
+            
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
@@ -643,7 +639,9 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestCreate_CheckFocus()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
             var contact = new Contact
             {
                 ContactId = 1,
@@ -657,7 +655,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int> { contact.ContactId };
             var themeIds = new List<int>();
@@ -688,7 +685,9 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public async Task TestCreateAsync_CheckFocus()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
             var contact = new Contact
             {
                 ContactId = 1,
@@ -702,7 +701,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int> { contact.ContactId };
             var themeIds = new List<int>();
@@ -735,7 +733,9 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestCreate_CheckContacts()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
             var contact = new Contact
             {
                 ContactId = 1,
@@ -749,7 +749,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int> { contact.ContactId };
             var themeIds = new List<int>();
@@ -783,7 +782,9 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public async Task TestCreateAsync_CheckContacts()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
             var contact = new Contact
             {
                 ContactId = 1,
@@ -797,7 +798,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var pointOfContactIds = new List<int> { contact.ContactId };
             var themeIds = new List<int>();
@@ -831,7 +831,9 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestCreate_CheckGoals()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
             var goal = new Goal
             {
                 GoalId = 1,
@@ -845,7 +847,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int> { goal.GoalId };
             var themeIds = new List<int>();
@@ -879,7 +880,9 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public async Task TestCreateAsync_CheckGoals()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
             var goal = new Goal
             {
                 GoalId = 1,
@@ -893,7 +896,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int> { goal.GoalId };
             var themeIds = new List<int>();
@@ -927,7 +929,9 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestCreate_CheckThemes()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
             var theme = new Theme
             {
                 ThemeId = 1,
@@ -941,7 +945,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int>();
             var themeIds = new List<int> { theme.ThemeId };
@@ -975,7 +978,9 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public async Task TestCreateAsync_CheckThemes()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
             var theme = new Theme
             {
                 ThemeId = 1,
@@ -989,7 +994,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int>();
             var themeIds = new List<int> { theme.ThemeId };
@@ -1023,12 +1027,11 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestCreate_CheckRegions()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
-            var region = new Location
-            {
-                LocationId = 1,
-                LocationName = "name"
-            };
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
+            var region = new Location { LocationId = 1, LocationTypeId = LocationType.Region.Id };
+            context.Locations.Add(region);
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -1037,12 +1040,11 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int>();
-            var themeIds = new List<int> ();
+            var themeIds = new List<int>();
             var contactIds = new List<int>();
-            var regionIds = new List<int>{region.LocationId};
+            var regionIds = new List<int> { region.LocationId };
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1072,12 +1074,11 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public async Task TestCreateAsync_CheckRegions()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
-            var region = new Location
-            {
-                LocationId = 1,
-                LocationName = "name"
-            };
+            var focusId = 100;
+            var focus = new Focus { FocusId = focusId };
+            context.Foci.Add(focus);
+            var region = new Location { LocationId = 1, LocationTypeId = LocationType.Region.Id };
+            context.Locations.Add(region);
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -1086,7 +1087,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int>();
             var themeIds = new List<int>();
@@ -1122,9 +1122,6 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ValidationException))]
         public void TestCreate_FocusDoesNotExist()
         {
-            FocusDTO nullDto = null;
-            focusServiceMock.Setup(x => x.GetFocusById(It.IsAny<int>())).Returns(nullDto);
-            locationTypeIds.Add(LocationType.Region.Id);
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -1163,9 +1160,6 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ValidationException))]
         public async Task TestCreateAsync_FocusDoesNotExist()
         {
-            FocusDTO nullDto = null;
-            focusServiceMock.Setup(x => x.GetFocusByIdAsync(It.IsAny<int>())).ReturnsAsync(nullDto);
-            locationTypeIds.Add(LocationType.Region.Id);
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -1204,7 +1198,8 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ValidationException))]
         public void TestCreate_RegionsAreNotRegions()
         {
-            locationTypeIds.Add(LocationType.State.Id);
+            var state = new Location { LocationId = 1, LocationTypeId = LocationType.State.Id };
+            context.Locations.Add(state);
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -1218,7 +1213,7 @@ namespace ECA.Business.Test.Service.Programs
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
             var goalIds = new List<int>();
-            var regionIds = new List<int>();
+            var regionIds = new List<int> { state.LocationId };
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1243,7 +1238,8 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ValidationException))]
         public async Task TestCreateAsync_RegionsAreNotRegions()
         {
-            locationTypeIds.Add(LocationType.State.Id);
+            var state = new Location { LocationId = 1, LocationTypeId = LocationType.State.Id };
+            context.Locations.Add(state);
             var userId = 1;
             var user = new User(userId);
             var name = "name";
@@ -1257,7 +1253,7 @@ namespace ECA.Business.Test.Service.Programs
             var pointOfContactIds = new List<int>();
             var themeIds = new List<int>();
             var goalIds = new List<int>();
-            var regionIds = new List<int>();
+            var regionIds = new List<int> { state.LocationId };
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1283,7 +1279,6 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestUpdate_CheckProperties()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -1348,7 +1343,7 @@ namespace ECA.Business.Test.Service.Programs
                 regionIds: null
                 );
             service.Update(updatedEcaProgram);
-            
+
             var updatedProgram = context.Programs.First();
             Assert.AreEqual(newDescription, updatedProgram.Description);
             Assert.AreEqual(newEndDate, updatedProgram.EndDate);
@@ -1365,13 +1360,12 @@ namespace ECA.Business.Test.Service.Programs
 
             Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
             DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn);
-            
+
         }
 
         [TestMethod]
         public async Task TestUpdateAsync_CheckProperties()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -1458,7 +1452,6 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestUpdate_CheckGoals()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -1517,7 +1510,7 @@ namespace ECA.Business.Test.Service.Programs
                 programStatusId: newProgramStatusId,
                 focusId: focus.FocusId,
                 website: newWebsite,
-                goalIds: new List<int> {1},
+                goalIds: new List<int> { 1 },
                 pointOfContactIds: null,
                 themeIds: null,
                 regionIds: null
@@ -1536,7 +1529,6 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public async Task TestUpdateAsync_CheckGoals()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -1614,7 +1606,6 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestUpdate_CheckThemes()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -1691,7 +1682,6 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public async Task TestUpdateAsync_CheckThemes()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -1768,7 +1758,6 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestUpdate_CheckPointOfContacts()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -1845,7 +1834,6 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public async Task TestUpdateAsync_CheckPointOfContacts()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -1922,7 +1910,8 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestUpdate_CheckRegions()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var region = new Location { LocationId = 1, LocationTypeId = LocationType.Region.Id };
+            context.Locations.Add(region);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -1984,7 +1973,7 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: new List<int> { 1 }
+                regionIds: new List<int> { region.LocationId }
                 );
             service.Update(updatedEcaProgram);
 
@@ -1999,7 +1988,8 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public async Task TestUpdateAsync_CheckRegions()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            var region = new Location { LocationId = 1, LocationTypeId = LocationType.Region.Id };
+            context.Locations.Add(region);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -2061,7 +2051,7 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: new List<int> { 1 }
+                regionIds: new List<int> { region.LocationId }
                 );
             await service.UpdateAsync(updatedEcaProgram);
 
@@ -2077,7 +2067,7 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ModelNotFoundException))]
         public void TestUpdate_ModelNotFoundException()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            context.Foci.Add(new Focus { FocusId = 1 });
             var newName = "new name";
             var newDescription = "new description";
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
@@ -2111,7 +2101,7 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ModelNotFoundException))]
         public async Task TestUpdateAsync_ModelNotFoundException()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
+            context.Foci.Add(new Focus { FocusId = 1 });
             var newName = "new name";
             var newDescription = "new description";
             var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
@@ -2145,9 +2135,6 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ValidationException))]
         public void TestUpdate_FocusDoesNotExist()
         {
-            FocusDTO nullDto = null;
-            focusServiceMock.Setup(x => x.GetFocusById(It.IsAny<int>())).Returns(nullDto);
-            locationTypeIds.Add(LocationType.Region.Id);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -2219,9 +2206,6 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ValidationException))]
         public async Task TestUpdateAsync_FocusDoesNotExist()
         {
-            FocusDTO nullDto = null;
-            focusServiceMock.Setup(x => x.GetFocusByIdAsync(It.IsAny<int>())).ReturnsAsync(nullDto);
-            locationTypeIds.Add(LocationType.Region.Id);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -2292,7 +2276,8 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ValidationException))]
         public void TestUpdate_RegionsAreNotRegions()
         {
-            locationTypeIds.Add(LocationType.State.Id);
+            var state = new Location { LocationId = 1, LocationTypeId = LocationType.State.Id };
+            context.Locations.Add(state);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -2354,7 +2339,7 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: null
+                regionIds: new List<int> { state.LocationId }
                 );
             service.Update(updatedEcaProgram);
         }
@@ -2363,7 +2348,8 @@ namespace ECA.Business.Test.Service.Programs
         [ExpectedException(typeof(ValidationException))]
         public async Task TestUpdateAsync_RegionsAreNotRegions()
         {
-            locationTypeIds.Add(LocationType.State.Id);
+            var state = new Location { LocationId = 1, LocationTypeId = LocationType.State.Id };
+            context.Locations.Add(state);
             Assert.AreEqual(0, context.Programs.Count());
             var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
             var now = DateTime.UtcNow;
@@ -2425,25 +2411,24 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: null
+                regionIds: new List<int> { state.LocationId }
                 );
             await service.UpdateAsync(updatedEcaProgram);
         }
         #endregion
 
         [TestMethod]
-        public void TestValidateFocusExist()
+        public void TestValidateFocusExists()
         {
-            FocusDTO dto = new FocusDTO();
-            service.ValidateFocusExist(dto);
+            Focus instance = new Focus();
+            service.ValidateFocusExists(instance);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ValidationException))]
-        public void TestValidateFocusExist_NullDto()
+        public void TestValidateFocusExists_NullDto()
         {
-            FocusDTO dto = null;
-            service.ValidateFocusExist(dto);
+            service.ValidateFocusExists(null);
         }
 
         [TestMethod]
@@ -2465,26 +2450,15 @@ namespace ECA.Business.Test.Service.Programs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ValidationException))]
-        public void TestValidateAllLocationsAreRegions_EmptyList()
-        {
-            var typeIds = new List<int>();
-            service.ValidateAllLocationsAreRegions(typeIds);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ValidationException))]
-        public void TestValidateAllLocationsAreRegions_NullList()
-        {
-            service.ValidateAllLocationsAreRegions(null);
-        }
-
-        [TestMethod]
         public async Task TestGetLocationTypeIds()
         {
-            locationTypeIds.Add(LocationType.Region.Id);
-            CollectionAssert.AreEqual(locationTypeIds, service.GetLocationTypeIds(new List<int>()));
-            CollectionAssert.AreEqual(locationTypeIds, await service.GetLocationTypeIdsAsync(new List<int>()));
+            var expectedTypeIds = new List<int> { LocationType.Region.Id };
+            var region = new Location { LocationId = 1, LocationTypeId = LocationType.Region.Id };
+
+
+            context.Locations.Add(region);
+            CollectionAssert.AreEqual(expectedTypeIds, service.GetLocationTypeIds(new List<int> { region.LocationId }));
+            CollectionAssert.AreEqual(expectedTypeIds, await service.GetLocationTypeIdsAsync(new List<int> { region.LocationId }));
         }
 
         [TestMethod]

@@ -3,6 +3,7 @@
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Data" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Text.RegularExpressions" #>
@@ -21,7 +22,15 @@
 		WriteLine(String.Format("namespace {0}", nameSpace));
 		WriteLine("{");
 		PushIndent("\t");		
+		WriteLine("using System.Linq;");
+		WriteLine("using System.Threading.Tasks;");
 		WriteLine(String.Format("#region {0}", type.Name));
+
+		foreach (var dbSetProperty in GetDbSetTypes(type))
+        {
+			var setType = dbSetProperty.PropertyType.GetGenericArguments()[0];
+			WriteClassSpecificTestDbSet(setType);            
+        }
 
 		WriteLine(GetClassDeclaration(type));
 		WriteLine("{");
@@ -48,19 +57,100 @@
 		return String.Format("public class {0} : {1}", GetClassName(parentContextType), parentContextType.FullName);
 	}
 
+	public List<PropertyInfo> GetDbSetTypes(Type parentContextType)
+	{
+		var dbSetProperties = parentContextType.GetProperties().Where(x => x.PropertyType.IsGenericType && x.PropertyType.GetGenericArguments().Length == 1).OrderBy(x => x.Name).ToList();
+		return dbSetProperties;
+	}
+
 	public void WriteConstructor(Type parentContextType)
 	{
-        var dbSetProperties = parentContextType.GetProperties().Where(x => x.PropertyType.IsGenericType && x.PropertyType.GetGenericArguments().Length == 1).OrderBy(x => x.Name).ToList();
+        
 		WriteLine(String.Format("public {0}()", GetClassName(parentContextType)));
 		WriteLine("{");
 		PushIndent("\t");	
-        foreach (var dbSetProperty in dbSetProperties)
+        foreach (var dbSetProperty in GetDbSetTypes(parentContextType))
         {
 			var setType = dbSetProperty.PropertyType.GetGenericArguments()[0];
-			WriteLine(String.Format("this.{0} = new ECA.Core.Data.TestDbSet<{1}>();", dbSetProperty.Name, setType.FullName));
+			WriteLine(String.Format("this.{0} = new {1}();", dbSetProperty.Name, GetClassSpecificTestDbSetClassName(setType)));
             
         }
 		PopIndent();
 		WriteLine("}");
 	}
+
+	public string GetClassSpecificTestDbSetClassName(Type dbSetType)
+	{
+		return String.Format("{0}TestDbSet", dbSetType.Name);
+	}
+
+	public void WriteClassSpecificTestDbSet(Type dbSetType)
+	{
+		WriteLine("public class {0} : ECA.Core.Data.TestDbSet<{1}>", GetClassSpecificTestDbSetClassName(dbSetType), dbSetType.FullName);
+		WriteLine("{");
+		PushIndent("\t");
+
+		var idKey = "id";
+
+		var idProperty = dbSetType.GetProperties().Where(x => x.Name.ToLower().Contains(dbSetType.Name.ToLower()) && x.Name.ToLower().Contains(idKey)).FirstOrDefault();
+		
+
+		if(idProperty == null)
+		{
+			idProperty = dbSetType.GetProperties().Where(x => x.Name.ToLower().Contains(idKey)).FirstOrDefault();
+		}
+		
+		WriteFind(dbSetType, idProperty);
+		WriteFindAsync(dbSetType, idProperty);
+
+		PopIndent();
+		WriteLine("}");
+	
+	}
+
+	public void WriteFind(Type dbSetType, PropertyInfo idProperty)
+	{
+		WriteLine(String.Format("public override {0} Find(params object[] keyValues)", dbSetType.FullName));
+		WriteLine("{");
+		PushIndent("\t");
+
+		WriteLine(String.Format("if(keyValues.Length != 1) throw new System.NotSupportedException();"));
+
+		if(idProperty != null)
+		{
+			WriteLine("///" + idProperty.Name);
+			WriteLine(String.Format("return this.SingleOrDefault(x => x.{0}.Equals(keyValues.First()));", idProperty.Name));
+			
+		}
+		else
+		{
+			WriteLine(String.Format("throw new NotSupportedException();"));
+		}
+		PopIndent();
+		WriteLine("}");
+	}
+
+	public void WriteFindAsync(Type dbSetType, PropertyInfo idProperty)
+	{
+		WriteLine(String.Format("public override Task<{0}> FindAsync(params object[] keyValues)", dbSetType.FullName));
+		WriteLine("{");
+		PushIndent("\t");
+
+		WriteLine(String.Format("if(keyValues.Length != 1) throw new System.NotSupportedException();"));
+
+		if(idProperty != null)
+		{
+			WriteLine("///" + idProperty.Name);
+			WriteLine(String.Format("return Task.FromResult<{0}>(this.SingleOrDefault(x => x.{1}.Equals(keyValues.First())));", dbSetType.FullName, idProperty.Name));
+			
+		}
+		else
+		{
+			WriteLine(String.Format("throw new NotSupportedException();"));
+		}
+		PopIndent();
+		WriteLine("}");
+	}
+
+
 #>
