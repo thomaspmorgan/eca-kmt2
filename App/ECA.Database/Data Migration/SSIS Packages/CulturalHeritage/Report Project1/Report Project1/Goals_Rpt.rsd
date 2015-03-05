@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition">
+  <DataSet Name="">
+    <Query>
+      <DataSourceReference>Azure ECA_DEV</DataSourceReference>
+      <CommandText>SELECT        Goal.*
+FROM            Goal</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="GoalID1">
+        <DataField>GoalId</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="GoalName1">
+        <DataField>GoalName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="History_CreatedBy1">
+        <DataField>History_CreatedBy</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="History_CreatedOn1">
+        <DataField>History_CreatedOn</DataField>
+        <rd:TypeName>System.DateTimeOffset</rd:TypeName>
+      </Field>
+      <Field Name="History_RevisedBy1">
+        <DataField>History_RevisedBy</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="History_RevisedOn1">
+        <DataField>History_RevisedOn</DataField>
+        <rd:TypeName>System.DateTimeOffset</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Countries", "Countries\Countries.dtproj", "{D5504A9E-E202-479F-94AC-9390475E8F7E}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Regions", "Regions\Regions.dtproj", "{BA3180A6-DB73-4AAD-AEAA-E91F8CA7514A}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Posts", "Posts\Posts.dtproj", "{76422A73-4911-403D-A512-98681D54D2D9}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Places", "Places\Places.dtproj", "{6F6455EE-6840-491D-82BB-D4F81C6F6EDA}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Categories", "Categories\Categories.dtproj", "{8C3EF0C3-06CB-4176-8EDC-C4C9A9E29F61}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "AFCP", "AFCP\AFCP.dtproj", "{BD24E6C0-A594-49A4-ADC4-5FDCFD3485C7}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "FocusAreas", "FocusAreas\FocusAreas.dtproj", "{5382D11F-1B67-4A37-BC34-78B76D91C3FE}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Rationales", "Rationales\Rationales.dtproj", "{1633556D-EE54-429B-84FF-4C03DEE8059F}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "AFCP Rationales", "AFCP Rationales\AFCP Rationales.dtproj", "{7342FF0E-00BC-45A8-AB4A-B9345FD8817F}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Participants", "Participants\Participants.dtproj", "{91FBB8B9-8619-4D32-9B34-AC7E474A47D6}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "RatCat", "RatCat\RatCat.dtproj", "{B87C40BE-778B-48B9-BF0C-962FB1F0EEC2}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Years", "Years\Years.dtproj", "{82D89EBD-1081-44F8-8010-C15C38463DD1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5504A9E-E202-479F-94AC-9390475E8F7E}.Development|Default.ActiveCfg = Development
+		{D5504A9E-E202-479F-94AC-9390475E8F7E}.Development|Default.Build.0 = Development
+		{BA3180A6-DB73-4AAD-AEAA-E91F8CA7514A}.Development|Default.ActiveCfg = Development
+		{BA3180A6-DB73-4AAD-AEAA-E91F8CA7514A}.Development|Default.Build.0 = Development
+		{76422A73-4911-403D-A512-98681D54D2D9}.Development|Default.ActiveCfg = Development
+		{76422A73-4911-403D-A512-98681D54D2D9}.Development|Default.Build.0 = Development
+		{6F6455EE-6840-491D-82BB-D4F81C6F6EDA}.Development|Default.ActiveCfg = Development
+		{6F6455EE-6840-491D-82BB-D4F81C6F6EDA}.Development|Default.Build.0 = Development
+		{8C3EF0C3-06CB-4176-8EDC-C4C9A9E29F61}.Development|Default.ActiveCfg = Development
+		{8C3EF0C3-06CB-4176-8EDC-C4C9A9E29F61}.Development|Default.Build.0 = Development
+		{BD24E6C0-A594-49A4-ADC4-5FDCFD3485C7}.Development|Default.ActiveCfg = Development
+		{BD24E6C0-A594-49A4-ADC4-5FDCFD3485C7}.Development|Default.Build.0 = Development
+		{5382D11F-1B67-4A37-BC34-78B76D91C3FE}.Development|Default.ActiveCfg = Development
+		{5382D11F-1B67-4A37-BC34-78B76D91C3FE}.Development|Default.Build.0 = Development
+		{1633556D-EE54-429B-84FF-4C03DEE8059F}.Development|Default.ActiveCfg = Development
+		{1633556D-EE54-429B-84FF-4C03DEE8059F}.Development|Default.Build.0 = Development
+		{7342FF0E-00BC-45A8-AB4A-B9345FD8817F}.Development|Default.ActiveCfg = Development
+		{7342FF0E-00BC-45A8-AB4A-B9345FD8817F}.Development|Default.Build.0 = Development
+		{91FBB8B9-8619-4D32-9B34-AC7E474A47D6}.Development|Default.ActiveCfg = Development
+		{91FBB8B9-8619-4D32-9B34-AC7E474A47D6}.Development|Default.Build.0 = Development
+		{B87C40BE-778B-48B9-BF0C-962FB1F0EEC2}.Development|Default.ActiveCfg = Development
+		{B87C40BE-778B-48B9-BF0C-962FB1F0EEC2}.Development|Default.Build.0 = Development
+		{82D89EBD-1081-44F8-8010-C15C38463DD1}.Development|Default.ActiveCfg = Development
+		{82D89EBD-1081-44F8-8010-C15C38463DD1}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

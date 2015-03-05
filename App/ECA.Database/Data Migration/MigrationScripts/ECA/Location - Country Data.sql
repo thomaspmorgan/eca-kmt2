@@ -415,3 +415,16 @@ values
 commit tran t1
 GO
 
+insert into location
+ (LocationTypeId,LocationName,LocationIso,
+     History_createdby,history_createdon,history_revisedby,history_revisedon,region_locationid)
+values
+ (3,'International','XIO',0,sysdatetimeoffset(),0,sysdatetimeoffset(),1537),
+ (3,'Hong Kong and Macau','HKG',0,sysdatetimeoffset(),0,sysdatetimeoffset(),2),
+ (3,'Palestine, State of','PSE',0,sysdatetimeoffset(),0,sysdatetimeoffset(),4),
+ (3,'Aruba','ABW',0,sysdatetimeoffset(),0,sysdatetimeoffset(),6),
+ (3,'Bermuda','BMU',0,sysdatetimeoffset(),0,sysdatetimeoffset(),6),
+ (3,'Cayman Islands','CYM',0,sysdatetimeoffset(),0,sysdatetimeoffset(),6),
+ (3,'Curacao','CUW',0,sysdatetimeoffset(),0,sysdatetimeoffset(),6)
+GO
+

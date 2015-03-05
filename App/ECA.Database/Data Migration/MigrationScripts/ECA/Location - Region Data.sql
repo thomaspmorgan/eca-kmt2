@@ -24,12 +24,13 @@ insert into location
  (LocationTypeId,LocationName,LocationIso,
      History_createdby,history_createdon,history_revisedby,history_revisedon)
 values
- (@regionLocationid,'Africa (Sub-Sahara)','AF',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+ (@regionLocationid,'Africa','AF',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
  (@regionLocationid,'East Asia and the Pacific','EAP',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
  (@regionLocationid,'Europe and Eurasia','EUR',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
- (@regionLocationid,'Near East (Northern Africa, Middle East)','NEA',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+ (@regionLocationid,'Near East','NEA',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
  (@regionLocationid,'South and Central Asia','SCA',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
- (@regionLocationid,'Western Hemisphere (Latin America, the Caribbean, Canada)','WHA',0,sysdatetimeoffset(),0,sysdatetimeoffset())
+ (@regionLocationid,'Western Hemisphere','WHA',0,sysdatetimeoffset(),0,sysdatetimeoffset())
+ (@regionLocationid,'UN and Other International Organizations','IO',0,sysdatetimeoffset(),0,sysdatetimeoffset())
 
 commit tran t1
 GO

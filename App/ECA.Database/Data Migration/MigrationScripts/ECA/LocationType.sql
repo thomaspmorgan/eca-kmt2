@@ -31,7 +31,8 @@ values
  ('Country',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
  ('State',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
  ('City',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
- ('Building',0,sysdatetimeoffset(),0,sysdatetimeoffset())
+ ('Building',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
+  ('Post',0,sysdatetimeoffset(),0,sysdatetimeoffset())
 
 Commit tran t1
 GO
