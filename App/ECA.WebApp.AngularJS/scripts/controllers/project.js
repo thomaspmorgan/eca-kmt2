@@ -140,6 +140,7 @@ angular.module('staticApp')
           saveProject();
       }
 
+      /* Refactoring web api
       MoneyFlowService.getMoneyFlowsByProject($stateParams.projectId)
        .then(function (moneyFlows) {
            $scope.project.moneyFlows = moneyFlows;
@@ -148,6 +149,7 @@ angular.module('staticApp')
       $scope.participants = {
           gender: [{ name: 'Male' }, { name: 'Female' }, { name: 'Other' }]
       };
+      */
 
       $scope.addParticipant = function () {
           $scope.newParticipant.id = Date.now().toString();
