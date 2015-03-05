@@ -271,7 +271,7 @@
     <Content Include="scripts\app.js" />
     <Content Include="scripts\controllers\about.js" />
     <Content Include="scripts\controllers\alloffices.js" />
-    <Content Include="scripts\controllers\allpeople.js" />
+    <Content Include="scripts\controllers\allparticipants.js" />
     <Content Include="scripts\controllers\allprograms.js" />
     <Content Include="scripts\controllers\formvalidation.js" />
     <Content Include="scripts\controllers\home.js" />
@@ -329,12 +329,12 @@
     <Content Include="views\partials\tabbar.html" />
     <Content Include="views\partner.html" />
     <Content Include="views\people.html" />
-    <Content Include="views\people\activity.html" />
-    <Content Include="views\people\allpeople.html" />
-    <Content Include="views\people\impact.html" />
-    <Content Include="views\people\overview.html" />
-    <Content Include="views\people\personalinformation.html" />
-    <Content Include="views\people\relatedreports.html" />
+    <Content Include="views\participants\activity.html" />
+    <Content Include="views\participants\allparticipants.html" />
+    <Content Include="views\participants\impact.html" />
+    <Content Include="views\participants\overview.html" />
+    <Content Include="views\participants\personalinformation.html" />
+    <Content Include="views\participants\relatedreports.html" />
     <Content Include="views\programs.html" />
     <Content Include="views\program\activity.html" />
     <Content Include="views\program\allprograms.html" />

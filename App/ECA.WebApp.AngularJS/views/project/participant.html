@@ -105,7 +105,7 @@
                     <tr>
                         <th st-sort="'name'" st-sort-default="true" class="col-md-5 sort-label medium">Name</th>
                         <th st-sort="'participantType'" class="col-md-3 sort-label medium">Type</th>
-                        <th st-sort="'status'" class="col-md-2 sort-label medium">Status</th>
+                        <th class="col-md-2 sort-label medium">Status</th>
                         <th class="col-md-2">&nbsp;</th>
                     </tr>
                     <tr>
@@ -129,7 +129,7 @@
                             <h5 class="list-title"><a ui-sref="people.activity({personId: participant.personId})">{{participant.name}}</a></h5>
                         </td>
                         <td>{{participant.participantType}}</td>
-                        <td>{{participant.status}}</td>
+                        <td>Active</td>
                         <td>
                             <img class="icon" src="images/duplicateA.png" alt="">
                             <img class="icon" src="images/editA.png" alt="">

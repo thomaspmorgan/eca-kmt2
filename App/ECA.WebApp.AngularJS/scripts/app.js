@@ -365,8 +365,8 @@ angular
       })
       .state('allparticipants', {
         url: '/allparticipants/:page',
-        templateUrl: 'views/people/allpeople.html',
-        controller: 'AllPeopleCtrl',
+        templateUrl: 'views/participants/allparticipants.html',
+        controller: 'AllParticipantsCtrl',
         requireADLogin: true
       })
 
