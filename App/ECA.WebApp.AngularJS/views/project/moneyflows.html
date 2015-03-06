@@ -1,55 +1,64 @@
 <h2 class="project-color tab-header">Money Flow</h2>
 <h4 class="tab-subheader">Money Flow List</h4>
-<div st-table="moneyFlowCopy" st-safe-src="project.moneyFlows" class="row">
+<div class="row">
     <!--<button ng-click="modal.createMoneyFlow = true" class="btn btn-success right col-sd-2">Create Money Flow</button> -->
     <button class="btn btn-success right col-sd-2">Create Money Flow</button>
-    <div id="sort-list">
-        <table class="col-md-12">
-            <thead>
-                <tr>
-                    <th st-sort="'transactionDate'" st-sort-default="true" class="col-md-2 sort-label medium">Transaction Date</th>
-                    <th st-sort="'type'" class="col-md-1 sort-label medium">Type</th>
-                    <th st-sort="'source'" class="col-md-3 sort-label medium">From/To</th>
-                    <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
-                    <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
-                    <th class="col-md-2">&nbsp;</th>
-                </tr>
-                <tr>
-                    <th>
-                        <input st-search="'transactionDate'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        <input st-search="'type'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        <input st-search="'sourceRecipient'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        <input st-search="'amount'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        <input st-search="'description'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody class="list2">
-                <tr ng-repeat="moneyFlow in moneyFlowCopy" class="hover">
-                    <td>{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</td>
-                    <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientType : "Funding" }}</td>
-                    <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientName : moneyFlow.sourceName}}</td>
-                    <td><span class="{{moneyFlow.sourceType === 'Project' ? 'text-danger' : ''}}">{{moneyFlow.sourceType === "Project" ? ((0-moneyFlow.value) | currency) : (moneyFlow.value | currency)}}</span></td>
-                    <td>{{moneyFlow.description}}</td>
-                    <td>
-                        <img class="icon" src="images/duplicateA.png" alt="">
-                        <img class="icon" src="images/editA.png" alt="">
-                        <img class="icon" src="images/trash.png" alt="">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div st-pagination="" st-items-by-page="25" st-displayed-pages="10"></div>
-    </div>
+</div>
+<div st-pipe="getMoneyFlows" st-table="project.moneyFlows" id="sort-list">
+    <table class="col-md-12">
+        <thead>
+            <tr>
+                <th st-sort="'transactionDate'" st-sort-default="true" class="col-md-2 sort-label medium">Transaction Date</th>
+                <th st-sort="'type'" class="col-md-1 sort-label medium">Type</th>
+                <th st-sort="'source'" class="col-md-3 sort-label medium">From/To</th>
+                <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
+                <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
+                <th class="col-md-2">&nbsp;</th>
+            </tr>
+            <tr>
+                <th>
+                    <input st-search="'transactionDate'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'type'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'sourceRecipient'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'amount'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>
+                    <input st-search="'description'" placeholder="" type="search" class="input-lg form-control" />
+                </th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody class="list2">
+            <tr ng-repeat="moneyFlow in project.moneyFlows" class="hover" ng-show="!moneyFlowsLoading">
+                <td>{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</td>
+                <td>{{moneyFlow.recipientType }}</td>
+                <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientName : moneyFlow.sourceName}}</td>
+                <td><span class="{{moneyFlow.sourceType === 'Project' ? 'text-danger' : ''}}">{{moneyFlow.sourceType === "Project" ? ((0-moneyFlow.value) | currency) : (moneyFlow.value | currency)}}</span></td>
+                <td>{{moneyFlow.description}}</td>
+                <td>
+                    <img class="icon" src="images/duplicateA.png" alt="">
+                    <img class="icon" src="images/editA.png" alt="">
+                    <img class="icon" src="images/trash.png" alt="">
+                </td>
+            </tr>
+            <tr ng-show="moneyFlowsLoading">
+                <td colspan="5">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="!moneyFlowsLoading"></div>
 </div>
 <modal-dialog show="modal.createMoneyFlow" dialog-title="Create Money Flow" before-close="modalClose()" on-close="modalClear()">
     <div class="tip">

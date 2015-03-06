@@ -96,17 +96,40 @@ angular.module('staticApp')
               limit: TableService.getLimit(),
               sort: TableService.getSort(),
               filter: TableService.getFilter()
-
-          }
+          };
 
           ParticipantService.getParticipantsByProject($stateParams.projectId, params)
             .then(function (data) {
                 $scope.project.participants = data.results;
                 var limit = TableService.getLimit();
-                tableState.pagination.numberOfPages = Math.floor(data.total / limit);
+                tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
                 $scope.participantsLoading = false;
             });
-      }
+      };
+
+      $scope.moneyFlowsLoading = false;
+
+      $scope.getMoneyFlows = function (tableState) {
+
+          $scope.moneyFlowsLoading = true;
+
+          TableService.setTableState(tableState);
+
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: TableService.getFilter()
+          };
+         
+          MoneyFlowService.getMoneyFlowsByProject($stateParams.projectId, params)
+             .then(function (data) {
+                 $scope.project.moneyFlows = data.results;
+                 var limit = TableService.getLimit();
+                 tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
+                 $scope.moneyFlowsLoading = false;
+             });
+      };
 
 
       $scope.params = $stateParams;
@@ -139,11 +162,6 @@ angular.module('staticApp')
           console.log($scope.tabs);
           saveProject();
       }
-
-      MoneyFlowService.getMoneyFlowsByProject($stateParams.projectId)
-       .then(function (moneyFlows) {
-           $scope.project.moneyFlows = moneyFlows;
-       });
 
       $scope.participants = {
           gender: [{ name: 'Male' }, { name: 'Female' }, { name: 'Other' }]

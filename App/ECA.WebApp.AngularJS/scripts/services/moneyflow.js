@@ -30,10 +30,10 @@ angular.module('staticApp')
                 });
               return defer.promise;
           },
-          getMoneyFlowsByProject: function (id) {
+          getMoneyFlowsByProject: function (id, params) {
               var defer = $q.defer();
               var path = 'projects/' + id + '/moneyFlows'
-              DragonBreath.get(path)
+              DragonBreath.get(params, path)
                 .success(function (data) {
                     defer.resolve(data);
                 });

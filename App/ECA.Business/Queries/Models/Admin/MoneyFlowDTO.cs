@@ -15,5 +15,6 @@ namespace ECA.Business.Queries.Models.Admin
         public string RecipientType { get; set; }
         public string RecipientName { get; set; }
         public string Description { get; set; }
+        public float Value { get; set; }
     }
 }

@@ -29,7 +29,8 @@ namespace ECA.Business.Queries.Admin
                             SourceName = "source name",
                             RecipientType = moneyflows.RecipientType.TypeName,
                             RecipientName = "recipient name",
-                            Description = moneyflows.Description
+                            Description = moneyflows.Description,
+                            Value = moneyflows.Value
                         };
             query = query.Apply(queryOperator);
             return query;

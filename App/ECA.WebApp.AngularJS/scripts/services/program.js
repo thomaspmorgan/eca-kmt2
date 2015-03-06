@@ -24,7 +24,7 @@ angular.module('staticApp')
               DragonBreath.get('programs', id)
                 .success(function (data) {
                     getProgram(data);
-                    defer.resolve(program);
+                    defer.resolve(data);
                 });
               return defer.promise;
           },
