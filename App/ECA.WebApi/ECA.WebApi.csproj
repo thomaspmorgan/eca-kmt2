@@ -275,7 +275,7 @@
     <Compile Include="Controllers\Admin\GoalsController.cs" />
     <Compile Include="Controllers\Admin\LocationsController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
-    <Compile Include="Controllers\MoneyFlowsController.cs" />
+    <Compile Include="Controllers\Admin\MoneyFlowsController.cs" />
     <Compile Include="Controllers\Admin\ProjectsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantsController.cs" />
     <Compile Include="Controllers\Persons\ContactsController.cs" />
@@ -301,7 +301,7 @@
     <Compile Include="Models\Query\PagingQueryBindingModel.cs" />
     <None Include="Models\ProgramDTO.csold" />
     <Compile Include="Models\ProgramList.cs" />
-    <Compile Include="Models\MoneyFlowDTO.cs" />
+    <None Include="Models\MoneyFlowDTO.csold" />
     <Compile Include="Models\Query\FilterBindingModel.cs" />
     <Compile Include="Models\Query\SorterBindingModel.cs" />
     <Compile Include="Models\RegionDTO.cs" />

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<UITest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="" Id="8227c1d3-b816-4309-99a4-a69e621e2d5a" AssemblyVersion="12.0.31101.0" Version="1.0" xmlns="http://schemas.microsoft.com/VisualStudio/TeamTest/UITest/2010">
+<UITest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="" Id="751d42b4-6016-4311-ae14-f6c177b6eb53" AssemblyVersion="12.0.31101.0" Version="1.0" xmlns="http://schemas.microsoft.com/VisualStudio/TeamTest/UITest/2010">
   <Configuration>
     <Group Name="IE">
       <Setting Name="Version" Value="9.11.9600.17631" WarningLevel="1" />
@@ -41,6 +41,70 @@
   </Configuration>
   <InitializeActions />
   <ExecuteActions>
+    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIAllProgramsECAPane1">
+      <ParameterName />
+      <PropertyName>InnerText</PropertyName>
+      <ExpectedValue>All Programs</ExpectedValue>
+      <MessageOnValidationFailure>No All Programs in Heading</MessageOnValidationFailure>
+      <Comparison>CurrentCulture</Comparison>
+      <PropertyCondition>Contains</PropertyCondition>
+    </StringAssertAction>
+    <TestStepMarkerAction Comment="Verify All Programs in Heading" MarkerInformation="AllProgramsHeading">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Assertion</MarkerRegionType>
+    </TestStepMarkerAction>
+    <BrowserAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
+      <ParameterName />
+      <ActionType>Close</ActionType>
+    </BrowserAction>
+    <TestStepMarkerAction Comment="Close Browser by clicking (X)" MarkerInformation="CloserBrowser">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIProgramsHyperlink">
+      <ParameterName />
+      <PropertyName>InnerText</PropertyName>
+      <ExpectedValue>Programs</ExpectedValue>
+      <MessageOnValidationFailure>No Programs link in content menu</MessageOnValidationFailure>
+      <Type>String</Type>
+      <PropertyCondition>AreEqual</PropertyCondition>
+    </AssertAction>
+    <TestStepMarkerAction Comment="Check for Programs Link" MarkerInformation="ContentMenu_ProgramsLink">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Assertion</MarkerRegionType>
+    </TestStepMarkerAction>
+    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton">
+      <ParameterName />
+      <PropertyName>ControlType</PropertyName>
+      <ExpectedValue>Button</ExpectedValue>
+      <MessageOnValidationFailure>No Content Menu button</MessageOnValidationFailure>
+      <Type>String</Type>
+      <PropertyCondition>AreEqual</PropertyCondition>
+    </AssertAction>
+    <TestStepMarkerAction Comment="Check Content Menu Button" MarkerInformation="ContentMenuButtonExists">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Assertion</MarkerRegionType>
+    </TestStepMarkerAction>
     <NavigateToUrlAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
       <ParameterName />
       <Url>about:Tabs</Url>
@@ -50,30 +114,22 @@
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="31" Y="6" />
+      <Location X="18" Y="5" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit">
+    <SendKeysAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit">
       <ParameterName />
-      <Value Encoded="false">https://eca-kmt-qa.azurewebsites.net/</Value>
-      <Type>String</Type>
-    </SetValueAction>
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Text Encoded="false">https://eca-kmt-qa.azurewebsites.net/</Text>
+    </SendKeysAction>
     <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="9" Y="12" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoAzureActiveDDocument.UIUseraccountEdit">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="163" Y="6" />
+      <Location X="7" Y="13" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
@@ -92,12 +148,12 @@
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="43" Y="12" />
+      <Location X="45" Y="19" />
       <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
+      <ActionType>DoubleClick</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <TestStepMarkerAction Comment="Login using ECATest creds to the ECA KMT QA site" MarkerInformation="ECAKMTLogin_Homepage">
+    <TestStepMarkerAction Comment="Login to QA site with ECATest creds" MarkerInformation="LogintoQA">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -106,50 +162,34 @@
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITopPane.UIECAKnowledgeManagemePane">
-      <ParameterName />
-      <PropertyName>InnerText</PropertyName>
-      <ExpectedValue>ECA Knowledge Management Tool</ExpectedValue>
-      <MessageOnValidationFailure>No "ECA Knowledge Management Tool" heading in banner</MessageOnValidationFailure>
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <TestStepMarkerAction Comment="Check for ECA KMT Heading on Homepage" MarkerInformation="ECAKMTHeading">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITopPane.UIYourShortcutsHyperlink">
-      <ParameterName />
-      <PropertyName>InnerText</PropertyName>
-      <ExpectedValue>Your Shortcuts</ExpectedValue>
-      <MessageOnValidationFailure>No "Your Shortcuts" link on homepage</MessageOnValidationFailure>
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <TestStepMarkerAction Comment="Check for &quot;Your Shortcuts&quot; link on homepage" MarkerInformation="YourShortcuts_Link">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweTitleBar.UICloseButton">
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIProgramsHyperlink">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="17" Y="4" />
+      <Location X="75" Y="37" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <TestStepMarkerAction Comment="Close the browser window by selecting close button (X)" MarkerInformation="CloseBrowserWindow">
+    <TestStepMarkerAction Comment="Select Programs Links" MarkerInformation="SelectProgramsLink">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="23" Y="19" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <TestStepMarkerAction Comment="Select the Content Menu button to expand it." MarkerInformation="ToggleContentMenuButton">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -164,7 +204,7 @@
   <Maps>
     <UIMap Id="UIMap">
       <TopLevelWindows>
-        <TopLevelWindow ControlType="Window" Id="UINewtabInternetExplorWindow" FriendlyName="New tab - Internet Explorer" SpecialControlType="BrowserWindow" SessionId="590714">
+        <TopLevelWindow ControlType="Window" Id="UINewtabInternetExplorWindow" FriendlyName="New tab - Internet Explorer" SpecialControlType="BrowserWindow" SessionId="2820890">
           <TechnologyName>MSAA</TechnologyName>
           <WindowTitles>
             <WindowTitle>New tab</WindowTitle>
@@ -205,6 +245,37 @@
                   </SearchConfigurations>
                   <AndCondition Id="SearchCondition">
                     <PropertyCondition Name="Name">Address and search using Google</PropertyCondition>
+                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="Window" Id="UIItemWindow" FriendlyName="" SpecialControlType="None">
+              <TechnologyName>MSAA</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>New tab</WindowTitle>
+              </WindowTitles>
+              <SearchConfigurations>
+                <SearchConfiguration>VisibleOnly</SearchConfiguration>
+              </SearchConfigurations>
+              <AndCondition Id="SearchCondition">
+                <PropertyCondition Name="AccessibleName">Address and search using Google</PropertyCondition>
+                <PropertyCondition Name="ClassName">Edit</PropertyCondition>
+                <PropertyCondition Name="ControlType">Window</PropertyCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Edit" Id="UIItemEdit" SpecialControlType="None">
+                  <TechnologyName>MSAA</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>New tab</WindowTitle>
+                  </WindowTitles>
+                  <SearchConfigurations>
+                    <SearchConfiguration>VisibleOnly</SearchConfiguration>
+                  </SearchConfigurations>
+                  <AndCondition Id="SearchCondition">
                     <PropertyCondition Name="ControlType">Edit</PropertyCondition>
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
@@ -259,7 +330,7 @@
                 <FilterCondition Id="Secondary">
                   <PropertyCondition Name="Title">Sign in to Azure Active Directory</PropertyCondition>
                   <PropertyCondition Name="AbsolutePath">/login.srf</PropertyCondition>
-                  <PropertyCondition Name="PageUrl">https://login.microsoftonline.com/login.srf?wa=wsignin1.0&amp;wtrealm=https%3a%2f%2flogin.windows.net&amp;wreply=https%3a%2f%2flogin.windows.net%2fstatedept.us%2fwsfederation&amp;wctx=3wEBD09BdXRoMkF1dGhvcml6ZQEPT0F1dGgyQXV0aG9yaXplAQxzdGF0ZWRlcHQudXMBAQEVb3BlbmlkY29ubmVjdC5pZHRva2VuAAABASRlMDM1NmU1NS1lMTI0LTQ1MmMtODM3ZC1hZWI3NTA0MTg1ZmYBJWh0dHBzOi8vZWNhLWttdC1xYS5henVyZXdlYnNpdGVzLm5ldC8AAAAAAAAAAAAAAQEaAAAAASVodHRwczovL2VjYS1rbXQtcWEuYXp1cmV3ZWJzaXRlcy5uZXQvAQkBCGFkYWxfdmVyAQUwLjAuNwEDY2lkASQyNjU4Y2E5Yi0zMTQ0LTQ1OWUtYTYxMS05NjZkYjk1MmVmZjgBCWVycm9yX3VyaQElaHR0cHM6Ly9lY2Eta210LXFhLmF6dXJld2Vic2l0ZXMubmV0LwEPaW5jbHVkZV9hdF9oYXNoAQExAQtpbnRlcmFjdGl2ZQEBMQEFTm9uY2UBJDBlMjMwYzc2LTBhNTgtNDQzMC1hMzFjLTljNThkNTVhMmM2OAECcmMBJDdmMmJiZWE0LWIwNWItNDEzNC1iOTY1LTIxMzVhNjE5MzJmYQEJc2Vzc2lvbklkASQ2NWY1NzZiZi0wMjEwLTQ2ZTUtYWU3NC0xMjQwNmNhOTczYTMBD2xpbWl0X3Rva2Vuc2l6ZQEBMe01&amp;wp=MBI_FED_SSL&amp;id=</PropertyCondition>
+                  <PropertyCondition Name="PageUrl">https://login.microsoftonline.com/login.srf?wa=wsignin1.0&amp;wtrealm=https%3a%2f%2flogin.windows.net&amp;wreply=https%3a%2f%2flogin.windows.net%2fstatedept.us%2fwsfederation&amp;wctx=3wEBD09BdXRoMkF1dGhvcml6ZQEPT0F1dGgyQXV0aG9yaXplAQxzdGF0ZWRlcHQudXMBAQEVb3BlbmlkY29ubmVjdC5pZHRva2VuAAABASRlMDM1NmU1NS1lMTI0LTQ1MmMtODM3ZC1hZWI3NTA0MTg1ZmYBJWh0dHBzOi8vZWNhLWttdC1xYS5henVyZXdlYnNpdGVzLm5ldC8AAAAAAAAAAAAAAQEaAAAAASVodHRwczovL2VjYS1rbXQtcWEuYXp1cmV3ZWJzaXRlcy5uZXQvAQkBCGFkYWxfdmVyAQUwLjAuNwEDY2lkASRiYjNiZGRmYy01Yzg1LTQ5MDItOTE0MS1mMDQ4MGJmMTllOWQBCWVycm9yX3VyaQElaHR0cHM6Ly9lY2Eta210LXFhLmF6dXJld2Vic2l0ZXMubmV0LwEPaW5jbHVkZV9hdF9oYXNoAQExAQtpbnRlcmFjdGl2ZQEBMQEFTm9uY2UBJDVhOTE1ZTEwLWJmYTctNDM5NC05ZTE2LTgzMzA0N2U3NTZkZAECcmMBJDVkZjE1NmQ3LWMyODktNDQ1Yi1hMGYyLTdlMTg5MDdhOWRmYwEJc2Vzc2lvbklkASRjMDNkZDU0Zi03NDU1LTQzN2EtYWNkYi1iZGIzMWIxZjZjMDQBD2xpbWl0X3Rva2Vuc2l6ZQEBMe01&amp;wp=MBI_FED_SSL&amp;id=</PropertyCondition>
                 </FilterCondition>
               </AndCondition>
               <SupportLevel>0</SupportLevel>
@@ -358,6 +429,101 @@
               </AndCondition>
               <SupportLevel>0</SupportLevel>
               <Descendants>
+                <UIObject ControlType="Button" Id="UITogglenavigationButton" FriendlyName="Toggle navigation " SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Button</PropertyCondition>
+                      <PropertyCondition Name="TagName">BUTTON</PropertyCondition>
+                      <PropertyCondition Name="Id" />
+                      <PropertyCondition Name="Name" />
+                      <PropertyCondition Name="DisplayText">Toggle navigation </PropertyCondition>
+                      <PropertyCondition Name="Type">button</PropertyCondition>
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">navbar-toggle collapsed</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="navbar-toggle collapsed" type="bu</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">1</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+                <UIObject ControlType="Custom" Id="UICbpspmenus1Custom" FriendlyName="cbp-spmenu-s1" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Custom</PropertyCondition>
+                      <PropertyCondition Name="TagName">NAV</PropertyCondition>
+                      <PropertyCondition Name="Id">cbp-spmenu-s1</PropertyCondition>
+                      <PropertyCondition Name="Name" />
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="Class">cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left cbp-spmenu-open</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="cbp-spmenu cbp-spmenu-vertical cb</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">1</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants>
+                    <UIObject ControlType="Hyperlink" Id="UIProgramsHyperlink" FriendlyName="Programs" SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Hyperlink</PropertyCondition>
+                          <PropertyCondition Name="TagName">A</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                          <PropertyCondition Name="Target" />
+                          <PropertyCondition Name="InnerText">Programs</PropertyCondition>
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="AbsolutePath" />
+                          <PropertyCondition Name="Title" />
+                          <PropertyCondition Name="Href">#/allprograms/</PropertyCondition>
+                          <PropertyCondition Name="Class">ng-binding ng-scope</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="ng-binding ng-scope" href="#/allp</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">2</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
+                  </Descendants>
+                </UIObject>
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="Document" Id="UIHttpsecakmtqaazureweDocument1" FriendlyName="https://eca-kmt-qa.azurewebsites.net/#/allprograms..." SpecialControlType="None">
+              <TechnologyName>Web</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+              </WindowTitles>
+              <AndCondition Id="SearchCondition">
+                <AndCondition Id="Primary">
+                  <PropertyCondition Name="ControlType">Document</PropertyCondition>
+                  <PropertyCondition Name="TagName">BODY</PropertyCondition>
+                  <PropertyCondition Name="Id" />
+                  <PropertyCondition Name="RedirectingPage">False</PropertyCondition>
+                  <PropertyCondition Name="FrameDocument">False</PropertyCondition>
+                </AndCondition>
+                <FilterCondition Id="Secondary">
+                  <PropertyCondition Name="Title" />
+                  <PropertyCondition Name="AbsolutePath">/</PropertyCondition>
+                  <PropertyCondition Name="PageUrl">https://eca-kmt-qa.azurewebsites.net/#/allprograms/#top</PropertyCondition>
+                </FilterCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
                 <UIObject ControlType="Pane" Id="UITopPane" FriendlyName="top" SpecialControlType="None">
                   <TechnologyName>Web</TechnologyName>
                   <WindowTitles>
@@ -371,10 +537,12 @@
                       <PropertyCondition Name="Name" />
                     </AndCondition>
                     <FilterCondition Id="Secondary">
-                      <PropertyCondition Name="InnerText">ECA Knowledge Management Tool
+                      <PropertyCondition Name="InnerText">All Programs
+ECA 
 
+ 
 
- Your</PropertyCondition>
+Academic Exch</PropertyCondition>
                       <PropertyCondition Name="Title" />
                       <PropertyCondition Name="Class">ng-scope</PropertyCondition>
                       <PropertyCondition Name="ControlDefinition">class="ng-scope" id="top" ng-click="closeMenus()" autoscroll="true" ui-view=""</PropertyCondition>
@@ -383,20 +551,21 @@
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
                   <Descendants>
-                    <UIObject ControlType="Pane" Id="UIECAKnowledgeManagemePane" FriendlyName="ECA Knowledge Management Tool" SpecialControlType="None">
+                    <UIObject ControlType="Pane" Id="UIAllProgramsECAPane" FriendlyName="All Programs ECA" SpecialControlType="None">
                       <TechnologyName>Web</TechnologyName>
                       <WindowTitles>
                         <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
                       </WindowTitles>
+                      <SearchConfigurations>
+                        <SearchConfiguration>VisibleOnly</SearchConfiguration>
+                      </SearchConfigurations>
                       <AndCondition Id="SearchCondition">
                         <AndCondition Id="Primary">
                           <PropertyCondition Name="ControlType">Pane</PropertyCondition>
                           <PropertyCondition Name="TagName">DIV</PropertyCondition>
-                          <PropertyCondition Name="Id" />
-                          <PropertyCondition Name="Name" />
                         </AndCondition>
                         <FilterCondition Id="Secondary">
-                          <PropertyCondition Name="InnerText">ECA Knowledge Management Tool</PropertyCondition>
+                          <PropertyCondition Name="InnerText">All Programs</PropertyCondition>
                           <PropertyCondition Name="Title" />
                           <PropertyCondition Name="Class">heading</PropertyCondition>
                           <PropertyCondition Name="ControlDefinition">class="heading"</PropertyCondition>
@@ -406,63 +575,31 @@
                       <SupportLevel>0</SupportLevel>
                       <Descendants />
                     </UIObject>
-                    <UIObject ControlType="Hyperlink" Id="UIYourShortcutsHyperlink" FriendlyName="Your Shortcuts" SpecialControlType="None">
+                    <UIObject ControlType="Pane" Id="UIAllProgramsECAPane1" FriendlyName="All Programs ECA" SpecialControlType="None">
                       <TechnologyName>Web</TechnologyName>
                       <WindowTitles>
-                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net//#/allprograms/#top</WindowTitle>
                       </WindowTitles>
                       <AndCondition Id="SearchCondition">
                         <AndCondition Id="Primary">
-                          <PropertyCondition Name="ControlType">Hyperlink</PropertyCondition>
-                          <PropertyCondition Name="TagName">A</PropertyCondition>
+                          <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                          <PropertyCondition Name="TagName">DIV</PropertyCondition>
                           <PropertyCondition Name="Id" />
                           <PropertyCondition Name="Name" />
-                          <PropertyCondition Name="Target" />
-                          <PropertyCondition Name="InnerText">Your Shortcuts</PropertyCondition>
                         </AndCondition>
                         <FilterCondition Id="Secondary">
-                          <PropertyCondition Name="AbsolutePath" />
+                          <PropertyCondition Name="InnerText">All Programs
+ECA </PropertyCondition>
                           <PropertyCondition Name="Title" />
-                          <PropertyCondition Name="Href">#/</PropertyCondition>
-                          <PropertyCondition Name="Class">ng-binding</PropertyCondition>
-                          <PropertyCondition Name="ControlDefinition">class="ng-binding" href="#/" ui-sref=".s</PropertyCondition>
-                          <PropertyCondition Name="TagInstance">1</PropertyCondition>
+                          <PropertyCondition Name="Class">heading</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="heading"</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">26</PropertyCondition>
                         </FilterCondition>
                       </AndCondition>
                       <SupportLevel>0</SupportLevel>
                       <Descendants />
                     </UIObject>
                   </Descendants>
-                </UIObject>
-              </Descendants>
-            </UIObject>
-            <UIObject ControlType="TitleBar" Id="UIHttpsecakmtqaazureweTitleBar" FriendlyName="https://eca-kmt-qa.azurewebsites.net/ - Internet E..." SpecialControlType="None">
-              <TechnologyName>MSAA</TechnologyName>
-              <WindowTitles>
-                <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
-              </WindowTitles>
-              <SearchConfigurations>
-                <SearchConfiguration>VisibleOnly</SearchConfiguration>
-              </SearchConfigurations>
-              <AndCondition Id="SearchCondition">
-                <PropertyCondition Name="ControlType">TitleBar</PropertyCondition>
-              </AndCondition>
-              <SupportLevel>0</SupportLevel>
-              <Descendants>
-                <UIObject ControlType="Button" Id="UICloseButton" FriendlyName="Close" SpecialControlType="None">
-                  <TechnologyName>MSAA</TechnologyName>
-                  <WindowTitles>
-                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
-                  </WindowTitles>
-                  <SearchConfigurations>
-                    <SearchConfiguration>VisibleOnly</SearchConfiguration>
-                  </SearchConfigurations>
-                  <AndCondition Id="SearchCondition">
-                    <PropertyCondition Name="Name">Close</PropertyCondition>
-                    <PropertyCondition Name="ControlType">Button</PropertyCondition>
-                  </AndCondition>
-                  <SupportLevel>0</SupportLevel>
-                  <Descendants />
                 </UIObject>
               </Descendants>
             </UIObject>
