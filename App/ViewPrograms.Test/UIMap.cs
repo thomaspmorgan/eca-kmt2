@@ -1,4 +1,4 @@
-﻿namespace Auto_LoginTest
+﻿namespace ViewPrograms.Test
 {
     using System;
     using System.Collections.Generic;

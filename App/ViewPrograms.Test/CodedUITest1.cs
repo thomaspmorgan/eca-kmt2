@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace Auto_LoginTest
+namespace ViewPrograms.Test
 {
     /// <summary>
     /// Summary description for CodedUITest1
@@ -26,10 +26,13 @@ namespace Auto_LoginTest
         public void CodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-            this.UIMap.ECAKMTLogin_Homepage();
-            this.UIMap.ECAKMTHeading();
-            this.UIMap.YourShortcuts_Link();
-            this.UIMap.CloseBrowserWindow();
+            this.UIMap.LogintoQA();
+            this.UIMap.ContentMenuButtonExists();
+            this.UIMap.ToggleContentMenuButton();
+            this.UIMap.ContentMenu_ProgramsLink();
+            this.UIMap.SelectProgramsLink();
+            //this.UIMap.AllProgramsHeading();
+            this.UIMap.CloserBrowser();
         }
 
         #region Additional test attributes
