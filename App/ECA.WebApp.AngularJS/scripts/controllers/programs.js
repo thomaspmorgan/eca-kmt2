@@ -77,7 +77,7 @@ angular.module('staticApp')
             .then(function (data) {
                 $scope.projects = data.results;
                 var limit = TableService.getLimit();
-                tableState.pagination.numberOfPages = Math.floor(data.total / limit);
+                tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
                 $scope.projectsLoading = false;
             });
       }
