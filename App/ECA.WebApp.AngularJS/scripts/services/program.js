@@ -24,7 +24,7 @@ angular.module('staticApp')
               DragonBreath.get('programs', id)
                 .success(function (data) {
                     getProgram(data);
-                    defer.resolve(data);
+                    defer.resolve(newProgram);
                 });
               return defer.promise;
           },
@@ -41,7 +41,7 @@ angular.module('staticApp')
               DragonBreath.save(program, 'programs', id)
                 .success(function (data) {
                     getProgram(data);
-                    defer.resolve(program);
+                    defer.resolve(newProgram);
                 });
               return defer.promise;
           },
