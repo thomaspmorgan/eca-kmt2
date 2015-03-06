@@ -10,17 +10,18 @@
             <tr>
                 <th st-sort="'transactionDate'" st-sort-default="true" class="col-md-2 sort-label medium">Transaction Date</th>
                 <th st-sort="'type'" class="col-md-1 sort-label medium">Type</th>
-                <th st-sort="'source'" class="col-md-3 sort-label medium">From/To</th>
+                <th st-sort="'fromTo'" class="col-md-3 sort-label medium">From/To</th>
                 <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
                 <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
                 <th class="col-md-2">&nbsp;</th>
             </tr>
+            <!--
             <tr>
                 <th>
                     <input st-search="'transactionDate'" placeholder="" type="search" class="input-lg form-control" />
                 </th>
                 <th>
-                    <input st-search="'type'" placeholder="" type="search" class="input-lg form-control" />
+                    <input st-search="'recipientType'" placeholder="" type="search" class="input-lg form-control" />
                 </th>
                 <th>
                     <input st-search="'sourceRecipient'" placeholder="" type="search" class="input-lg form-control" />
@@ -33,14 +34,20 @@
                 </th>
                 <th>&nbsp;</th>
             </tr>
+            -->
         </thead>
         <tbody class="list2">
             <tr ng-repeat="moneyFlow in project.moneyFlows" class="hover" ng-show="!moneyFlowsLoading">
                 <td>{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</td>
-                <td>{{moneyFlow.recipientType }}</td>
+                <td>{{moneyFlow.type }}</td>
+                <td>{{moneyFlow.fromTo}}</td>
+                <td><span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount | currency}}</span></td>
+                <td>{{moneyFlow.description}}</td>
+                <!--
                 <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientName : moneyFlow.sourceName}}</td>
                 <td><span class="{{moneyFlow.sourceType === 'Project' ? 'text-danger' : ''}}">{{moneyFlow.sourceType === "Project" ? ((0-moneyFlow.value) | currency) : (moneyFlow.value | currency)}}</span></td>
                 <td>{{moneyFlow.description}}</td>
+                -->
                 <td>
                     <img class="icon" src="images/duplicateA.png" alt="">
                     <img class="icon" src="images/editA.png" alt="">

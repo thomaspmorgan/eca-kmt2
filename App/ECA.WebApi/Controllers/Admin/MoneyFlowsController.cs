@@ -17,7 +17,7 @@ namespace ECA.WebApi.Controllers.Admin
     [RoutePrefix("api")]
     public class MoneyFlowsController : ApiController
     {
-        private static readonly ExpressionSorter<MoneyFlowDTO> DEFAULT_MONEY_FLOW_DTO_SORTER = new ExpressionSorter<MoneyFlowDTO>(x => x.SourceName, SortDirection.Ascending);
+        private static readonly ExpressionSorter<MoneyFlowDTO> DEFAULT_MONEY_FLOW_DTO_SORTER = new ExpressionSorter<MoneyFlowDTO>(x => x.TransactionDate, SortDirection.Descending);
 
         private IMoneyFlowService moneyFlowService;
 

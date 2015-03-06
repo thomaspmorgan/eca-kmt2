@@ -114,7 +114,7 @@ angular.module('staticApp')
         .then(function (data) {
             $scope.programs = data.results;
             var limit = TableService.getLimit();
-            tableState.pagination.numberOfPages = Math.floor(data.total / limit);
+            tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
             $scope.programsLoading = false;
         });
     };
