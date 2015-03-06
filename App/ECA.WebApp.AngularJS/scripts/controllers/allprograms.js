@@ -37,9 +37,9 @@ angular.module('staticApp')
           themes: [],
           goals: [],
           regions: [],
-          focusId: 0,
+          focusId: null,
           contacts: [],
-          website: 'http://'
+          website: null
       };
 
       $scope.outThemes = [];
@@ -173,34 +173,39 @@ angular.module('staticApp')
 
 
     $scope.createProgram = function () {
-        cleanUpNewProgram();
-        ProgramService.create($scope.newProgram)
-            .then(function (program) {
-                if (Array.isArray(program)) {
-                    $scope.errorMessage = "There were one or more errors:";
-                    $scope.validations = program;
-                    $scope.modal.confirmFail = true;
-                }
-                else if (program.hasOwnProperty('Message')) {
-                    $scope.errorMessage = program.Message;
-                    $scope.validations = program.ValidationErrors;
-                    $scope.modal.confirmFail = true;
-                }
-                else if (program.hasOwnProperty('ErrorMessage')) {
-                    $scope.errorMessage = program.ErrorMessage;
-                    $scope.validations.push(program.Property);
-                    $scope.validations.confirmFail = true;
-                }
-                else if (Array.isArray(program)) {
-                    $scope.errorMessage = "There were one or more errors:";
-                    $scope.validations = programs;
-                    $scope.validations.confirmFail = true;
-                }
-                else {
-                    $scope.program = program; //perhaps not, this is to get the id
-                    $scope.modal.confirmSave = true;
-                }
-            });
+        if ($scope.programForm.$valid) {
+            cleanUpNewProgram();
+            ProgramService.create($scope.newProgram)
+                .then(function (program) {
+                    if (Array.isArray(program)) {
+                        $scope.errorMessage = "There were one or more errors:";
+                        $scope.validations = program;
+                        $scope.modal.confirmFail = true;
+                    }
+                    else if (program.hasOwnProperty('Message')) {
+                        $scope.errorMessage = program.Message;
+                        $scope.validations = program.ValidationErrors;
+                        $scope.modal.confirmFail = true;
+                    }
+                    else if (program.hasOwnProperty('ErrorMessage')) {
+                        $scope.errorMessage = program.ErrorMessage;
+                        $scope.validations.push(program.Property);
+                        $scope.validations.confirmFail = true;
+                    }
+                    else if (Array.isArray(program)) {
+                        $scope.errorMessage = "There were one or more errors:";
+                        $scope.validations = programs;
+                        $scope.validations.confirmFail = true;
+                    }
+                    else {
+                        $scope.program = program; //perhaps not, this is to get the id
+                        $scope.modal.confirmSave = true;
+                    }
+                });
+        }
+        else {
+            $scope.programForm.submitted = true;
+        }
     };
 
       // calendar popup for startDate
@@ -245,6 +250,22 @@ angular.module('staticApp')
 
     $scope.confirmFailOk = function () {
         $scope.modal.confirmFail = false;
+    };
+
+    $scope.setContactsDirty = function () {
+        $scope.programForm.hiddenContacts.$setViewValue($scope.programForm.hiddenContacts.$viewValue);
+    };
+
+    $scope.setThemesDirty = function () {
+        $scope.programForm.hiddenThemes.$setViewValue($scope.programForm.hiddenThemes.$viewValue);
+    };
+
+    $scope.setGoalsDirty = function () {
+        $scope.programForm.hiddenGoals.$setViewValue($scope.programForm.hiddenGoals.$viewValue);
+    };
+
+    $scope.setRegionsDirty = function () {
+        $scope.programForm.hiddenRegions.$setViewValue($scope.programForm.hiddenRegions.$viewValue);
     };
 
   });
