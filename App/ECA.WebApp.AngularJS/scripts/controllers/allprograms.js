@@ -1,3 +1,4 @@
+/// <reference path="D:\Tom\Source\Repos\ECA-KMT\App\ECA.WebApp.AngularJS\views/program/moneyflow.html.BASE.41042.html" />
 'use strict';
 
 /**
@@ -10,6 +11,9 @@
 angular.module('staticApp')
   .controller('AllProgramsCtrl', function ($scope, $stateParams, ProgramService, LookupService, TableService) {
       
+      $scope.errorMessage = 'Unknown Error';
+      $scope.validations = [];
+
       $scope.today = function () {
           $scope.startDate = new Date();
       };
@@ -18,49 +22,23 @@ angular.module('staticApp')
       $scope.alerts = [];
 
       $scope.themes = [];
-
       $scope.goals = [];
-
-      $scope.regions = [
-          {
-             regionId: 1,
-             regionName: 'Africa'
-          },
-          {
-              regionId: 2,
-              regionName: 'East Asia and the Pacific'
-          },
-          {
-              regionId: 3,
-              regionName: 'Europe and Eurasia'
-          },
-          {
-              regionId: 4,
-              regionName: 'Near East'
-          },
-          {
-              regionId: 5,
-              regionName: 'South and Central Asia'
-          },
-          {
-              regionId: 6,
-              regionName: 'Western Hemisphere'
-          }
-      ];
-
+      $scope.regions = [];
       $scope.pointsOfContact = [];
+      $scope.foci = [];
 
       // initialize new Program record
       $scope.newProgram = {
           name: '',
           description: '',
-          parentProgram: '',
+          parentProgramId: null,
+          ownerOrganizationId: 1,
           startDate: new Date(),
           themes: [],
           goals: [],
           regions: [],
-          focus: '',
-          pointsOfContact: [],
+          focusId: 0,
+          contacts: [],
           website: 'http://'
       };
 
@@ -80,6 +58,13 @@ angular.module('staticApp')
         filter: null
     };
 
+    $scope.regionsLookupParams = {
+        start: null,
+        limit: 10,
+        sort: null,
+        filter: [{ property: 'locationtypeid', comparison: 'eq', value: 2 }]
+    };
+
     LookupService.getAllThemes($scope.lookupParams)
         .then(function (data) {
             $scope.themes = data.results;
@@ -95,14 +80,21 @@ angular.module('staticApp')
             $scope.pointsOfContact = data.results;
         });
 
-  //  LookupService.getAllRegions($scope.lookupParams)
-  //.then(function (data) {
-  //    $scope.regions = data.results;
-  //});
+    LookupService.getAllRegions($scope.regionsLookupParams)
+        .then(function (data) {
+            $scope.regions = data.results;
+        });
+
+    LookupService.getAllFocusAreas($scope.lookupParams)
+        .then(function (data) {
+             $scope.foci = data.results;
+        });
       // don't know why, but I need to access the scope variable for the data to load correctly
     var x = $scope.themes[1];
     x = $scope.goals[1];
     x = $scope.pointsOfContact[1];
+    x = $scope.regions[1];
+    x = $scope.foci[1];
 
     $scope.getPrograms = function (tableState) {
 
@@ -150,18 +142,64 @@ angular.module('staticApp')
         angular.forEach($scope.newProgram, function (value, key) {
             $scope.newProgram[key] = ''
         });
-        $scope.calClear()
+        $scope.calClear();
+        $scope.newProgram.ownerOrganizationId = 1;
+        $scope.newProgram.startDate = new Date();
     };
 
-    $scope.updateProgram = function () {
-        saveProgram();
+    //$scope.updateProgram = function () {
+    //    saveProgram();
+    //};
+
+
+    //function saveProgram() {
+    //    ProgramService.update($scope.program, $stateParams.programId)
+    //        .then(function (program) {
+    //            $scope.program = program;
+    //        });
+    //};
+    
+    function getIds(element) {
+        return element.id;
+    };
+ 
+    function cleanUpNewProgram() {
+        //themes
+        $scope.newProgram.themes = $scope.outThemes.map(getIds);
+        $scope.newProgram.goals = $scope.outGoals.map(getIds);
+        $scope.newProgram.contacts = $scope.outContacts.map(getIds);
+        $scope.newProgram.regions = $scope.outRegions.map(getIds);
     };
 
 
-    function saveProgram() {
-        ProgramService.update($scope.program, $stateParams.programId)
+    $scope.createProgram = function () {
+        cleanUpNewProgram();
+        ProgramService.create($scope.newProgram)
             .then(function (program) {
-                $scope.program = program;
+                if (Array.isArray(program)) {
+                    $scope.errorMessage = "There were one or more errors:";
+                    $scope.validations = program;
+                    $scope.modal.confirmFail = true;
+                }
+                else if (program.hasOwnProperty('Message')) {
+                    $scope.errorMessage = program.Message;
+                    $scope.validations = program.ValidationErrors;
+                    $scope.modal.confirmFail = true;
+                }
+                else if (program.hasOwnProperty('ErrorMessage')) {
+                    $scope.errorMessage = program.ErrorMessage;
+                    $scope.validations.push(program.Property);
+                    $scope.validations.confirmFail = true;
+                }
+                else if (Array.isArray(program)) {
+                    $scope.errorMessage = "There were one or more errors:";
+                    $scope.validations = programs;
+                    $scope.validations.confirmFail = true;
+                }
+                else {
+                    $scope.program = program; //perhaps not, this is to get the id
+                    $scope.modal.confirmSave = true;
+                }
             });
     };
 
@@ -187,19 +225,26 @@ angular.module('staticApp')
         var curDate = new Date();
         curDate = curDate.setFullYear(curDate.getFullYear() + 1);
         $scope.maxDate = curDate;
-    }
+    };
     $scope.toggleMax();
 
-    $scope.confirmCloseYes = function ()
-    {
+    $scope.confirmCloseYes = function () {
         $scope.modal.confirmClose = false;
         $scope.modal.createProgram = false;
-    }
+    };
 
-    $scope.confirmCloseNo = function ()
-    {
+    $scope.confirmCloseNo = function () {
         $scope.modal.createProgram = true;
         $scope.modal.confirmClose = false;
-    }
+    };
+
+    $scope.confirmSaveYes = function () {
+        $scope.modal.confirmSave = false;
+        $scope.modal.createProgram = false;
+    };
+
+    $scope.confirmFailOk = function () {
+        $scope.modal.confirmFail = false;
+    };
 
   });

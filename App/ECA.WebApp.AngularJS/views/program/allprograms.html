@@ -82,8 +82,8 @@
                     <label>Related Regions<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="regions"
                                           output-model="outRegions"
-                                          button-label="regionName"
-                                          item-label="regionName"
+                                          button-label="name"
+                                          item-label="name"
                                           tick-property="ticked"
                                           selection-mode="multiple"
                                           helper-elements="none">
@@ -94,7 +94,7 @@
                 <div class="form-group">
                     <label>Themes<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="themes"
-                                          output-model="newProgram.themes"
+                                          output-model="outThemes"
                                           button-label="name"
                                           item-label="name"
                                           tick-property="ticked"
@@ -106,37 +106,38 @@
                 <div class="form-group">
                     <label>Goals<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="goals"
-                                          output-model="newProgram.goals"
+                                          output-model="outGoals"
                                           button-label="name"
                                           item-label="name"
                                           tick-property="ticked"
                                           selection-mode="multiple"
                                           helper-elements="none"
-                                          max-height="250px"
-                                          required>
+                                          max-height="250px">
                     </isteven-multi-select>
                 </div>
                 <div class="form-group">
                     <label>Focus Area<span class="asterisk"> *</span></label>
-                    <input name="focus" ng-model="newProgram.focus" form-element guidance="This is a focus for the program." type="text" class="form-control" placeholder="Enter focus..." required></input>
-                    <span class="error" ng-show="programForm.focus.$error.required && programForm.focus.$dirty">Focus is required.</span>
+                    <select name="focus" ng-model="newProgram.focusId" data-ng-options="p.id as p.name for p in foci" required>
+                    </select>
+                    <div ng-show="programForm.focus.$dirty">
+                        <span class="error" ng-show="programForm.focus.$error.required">Please select a focus area.</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Points Of Contact<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="pointsOfContact"
-                                          output-model="newProgram.pointsOfContact"
+                                          output-model="outContacts"
                                           button-label="fullName"
                                           item-label="fullName"
                                           tick-property="ticked"
                                           selection-mode="multiple"
                                           helper-elements="filter"
-                                          max-height="250px"
-                                          required>
+                                          max-height="250px">
                     </isteven-multi-select>
                 </div>
                 <div class="form-group">
                     <label>External Website</label>
-                    <input type="url" name="programWebsite" ng-model="newProgram.website" ng-required="false" class="form-control" placeholder="Enter website address (e.g. http://somesite.com)...">
+                    <input type="url" name="programWebsite" ng-model="newProgram.website" class="form-control" placeholder="Enter website address (e.g. http://somesite.com)..."/>
                     <div ng-show="programForm.programWebsite.$dirty">
                         <span class="error" ng-show="programForm.programWebsite.$error.url">Not a valid website address.</span>
                     </div>
@@ -145,12 +146,26 @@
         </div>
     </div>
     <button class="btn btn-default" ng-click="modal.createProgram = !modalClose()">CANCEL</button>
-    <button type="submit" form="programForm" ng-disabled="programForm.$invalid" class="btn btn-success right" ng-click="updateProgram()">CREATE</button>
+    <button ng-disabled="programForm.$invalid" class="btn btn-success right" ng-click="modal.createProgram = !createProgram()">CREATE</button>
 </modal-dialog>
 <modal-dialog show="modal.confirmClose" dialog-title="Confirm Close">
     <p class="strong">There is unsaved data.  Are you sure you want to close?</p>
     <button class="btn btn-default right" ng-click="confirmCloseYes()">YES</button>
     &nbsp;
     <button class="btn btn-success right" ng-click="confirmCloseNo()">NO</button>
+</modal-dialog>
+<modal-dialog show="modal.confirmSave" dialog-title="Program Created">
+    <p class="strong">The program was created sucessfully!</p>
+    <button class="btn btn-default right" ng-click="confirmSaveYes()">OK</button>
+</modal-dialog>
+<modal-dialog show="modal.confirmFail" dialog-title="Error Saving Program">
+    <p class="strong">There was an error saving the new program.</p>
+    <p class="alert-warning">{{errorMessage}}</p>
+    <div>
+        <ul>
+            <li class="alert-danger" ng-repeat="validation in validations">{{validation}}</li>
+        </ul>
+    </div>
+    <button class="btn btn-default right" ng-click="confirmFailOk()">OK</button>
 </modal-dialog>
 

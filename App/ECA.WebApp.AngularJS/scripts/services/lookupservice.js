@@ -30,7 +30,7 @@ angular.module('staticApp')
           },
           getAllRegions: function (params) {
               var defer = $q.defer();
-              DragonBreath.get(params, 'regions')
+              DragonBreath.get(params, 'locations')
                 .success(function (data) {
                     defer.resolve(data);
                 });
@@ -38,7 +38,7 @@ angular.module('staticApp')
           },
           getAllFocusAreas: function (params) {
               var defer = $q.defer();
-              DragonBreath.get(params, 'focusAreas')
+              DragonBreath.get(params, 'focus')
                 .success(function (data) {
                     defer.resolve(data);
                 });
