@@ -16,14 +16,14 @@ namespace ProgramOverview.Test
     /// Summary description for CodedUITest1
     /// </summary>
     [CodedUITest]
-    public class CodedUITest1
+    public class ProgramOverviewCodedUITest1
     {
-        public CodedUITest1()
+        public ProgramOverviewCodedUITest1()
         {
         }
 
         [TestMethod]
-        public void CodedUITestMethod1()
+        public void ProgramOverviewCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
             this.UIMap.LogintoQA();

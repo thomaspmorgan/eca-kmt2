@@ -10,29 +10,36 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace ViewPrograms.Test
+namespace ViewProjectsList.Test
 {
     /// <summary>
-    /// This test proves that the user can login; navigate to the All Programs section and view the list of all Programs available.
+    /// This test proves that the user is able to login to the QA site and navigate to the Programs section; drill down on a specific program; and view all the available projects under the program in the Projects List.
     /// </summary>
     [CodedUITest]
-    public class ViewProgramsCodedUITest1
+    public class ViewProjectsListCodedUITest1
     {
-        public ViewProgramsCodedUITest1()
+        public ViewProjectsListCodedUITest1()
         {
         }
 
         [TestMethod]
-        public void ViewProgramsCodedUITestMethod1()
+        public void ViewProjectsListCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
             this.UIMap.LogintoQA();
-            this.UIMap.ContentMenuButtonExists();
-            this.UIMap.ToggleContentMenuButton();
-            this.UIMap.ContentMenu_ProgramsLink();
+            this.UIMap.ContentMenuButton();
+            this.UIMap.SelectContentMenuButton();
             this.UIMap.SelectProgramsLink();
-            //this.UIMap.AllProgramsHeading();
-            this.UIMap.CloserBrowser();
+            this.UIMap.RefreshAllPrograms();
+            this.UIMap.IndividualProgramLink();
+            this.UIMap.SelectIndividualProgramLink();
+            this.UIMap.RefreshIndividualProgram();
+            this.UIMap.BranchesandProjectsLink();
+            this.UIMap.SelectBranchesandProjectsLink();
+            this.UIMap.RefreshBranchesandProjects();
+            this.UIMap.ScrollDown();
+            this.UIMap.TitleCell();
+            this.UIMap.CloseBrowser();
         }
 
         #region Additional test attributes

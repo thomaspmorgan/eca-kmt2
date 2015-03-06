@@ -10,35 +10,40 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace ViewProjectList.Test
+namespace ProjectOverview.Test
 {
     /// <summary>
-    /// Summary description for CodedUITest1
+    /// This test is compiled of a series of steps to reach the Project Overview for a specific individual Project under a Program.
     /// </summary>
     [CodedUITest]
-    public class CodedUITest1
+    public class ProjectOverviewCodedUITest1
     {
-        public CodedUITest1()
+        public ProjectOverviewCodedUITest1()
         {
         }
 
         [TestMethod]
-        public void CodedUITestMethod1()
+        public void ProjectOverviewCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
             this.UIMap.LogintoQA();
             this.UIMap.ContentMenuButton();
             this.UIMap.SelectContentMenuButton();
+            this.UIMap.ContentMenu_ProgramsLink();
             this.UIMap.SelectProgramsLink();
-            this.UIMap.RefreshAllPrograms();
+            this.UIMap.RefreshAllProgramsPage();
+            //this.UIMap.ScrollDownAllPrograms();
             this.UIMap.IndividualProgramLink();
-            this.UIMap.SelectIndividualProgramLink();
-            this.UIMap.RefreshIndividualProgram();
+            this.UIMap.SelectIndividualProgram();
+            this.UIMap.RefreshIndividualProgramPage();
             this.UIMap.BranchesandProjectsLink();
             this.UIMap.SelectBranchesandProjectsLink();
-            this.UIMap.RefreshBranchesandProjects();
-            this.UIMap.ScrollDown();
-            this.UIMap.TitleCell();
+            this.UIMap.RefreshBranchesandProjectsPage();
+            //this.UIMap.ScrollDownBranchesandProjects();
+            this.UIMap.IndividualProjectLink();
+            this.UIMap.SelectIndividualProject();
+            this.UIMap.RefreshProjectOverviewPage();
+            this.UIMap.ProjectsOverviewSection();
             this.UIMap.CloseBrowser();
         }
 

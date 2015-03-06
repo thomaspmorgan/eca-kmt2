@@ -1,4 +1,4 @@
-﻿namespace ViewProjectsList.Test
+﻿namespace ProjectOverview.Test
 {
     using System;
     using System.Collections.Generic;
