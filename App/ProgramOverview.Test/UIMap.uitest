@@ -172,87 +172,6 @@
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIOverviewPlacesrecentPane">
-      <ParameterName />
-      <PropertyName>InnerText</PropertyName>
-      <ExpectedValue>Overview
-
-
-Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign studentsâ€™ English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country. 
-
- 
-
-
-Details
-
-
-
-Themes
-
-Culture/Sports/American Society
-Education
-Markets and Competitiveness
-Youth Engagement
- 
-
-Public Diplomacy Goals
-
- 
-
-Strategic Goals
-
- 
-
-Regions
-
-Africa
-East Asia and the Pacific
-Europe and Eurasia
-Near East
-South and Central Asia
-Western Hemisphere
- 
-
-
-Focus
-
-
-
-
-Office
-
-Office of the Executive Director
-
-
-Points of Contact
-
- 
-
-Websites
-
- 
-
-Snapshot
-
-
-
- 
-
-
- </ExpectedValue>
-      <MessageOnValidationFailure>No Overview section </MessageOnValidationFailure>
-      <Comparison>CurrentCulture</Comparison>
-      <PropertyCondition>Contains</PropertyCondition>
-    </StringAssertAction>
-    <TestStepMarkerAction Comment="Verify the Program Overview section is displayed." MarkerInformation="ProgramOverviewSection">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
     <SendKeysAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UICbpspmenus1Custom.UIProgramsHyperlink">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
@@ -370,6 +289,158 @@ Snapshot
       <Disabled>false</Disabled>
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom">
+      <ParameterName />
+      <PropertyName>InnerText</PropertyName>
+      <ExpectedValue>3</ExpectedValue>
+      <MessageOnValidationFailure>No Page 3 button to navigate to </MessageOnValidationFailure>
+      <Type>String</Type>
+      <PropertyCondition>AreEqual</PropertyCondition>
+    </AssertAction>
+    <TestStepMarkerAction Comment="Check for Page 3 to navigate to in the All Programs List" MarkerInformation="AllProgramsPageNavigationButton">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Assertion</MarkerRegionType>
+    </TestStepMarkerAction>
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="1358" Y="654" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="1358" Y="654" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>DoubleClick</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="1358" Y="654" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>DoubleClick</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <TestStepMarkerAction Comment="Scroll down to view page numbers" MarkerInformation="AllProgsListScrollDowntoPageNumbers">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="15" Y="19" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <TestStepMarkerAction Comment="Select Page Number 3 for All Programs List to display" MarkerInformation="SelectPageNumberAllProgsList">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIOverviewPlacesrecentPane">
+      <ParameterName />
+      <PropertyName>InnerText</PropertyName>
+      <ExpectedValue>Overview
+
+
+Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign studentsâ€™ English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country. 
+
+ 
+
+
+Details
+
+
+
+Themes
+
+Culture/Sports/American Society
+Education
+Markets and Competitiveness
+Youth Engagement
+ 
+
+Public Diplomacy Goals
+
+ 
+
+Strategic Goals
+
+ 
+
+Regions
+
+AF
+EAP
+EUR
+NEA
+SCA
+WHA
+ 
+
+
+Focus
+
+None Selected
+
+
+Office
+
+Office of the Executive Director
+
+
+Points of Contact
+
+ 
+
+Websites
+
+ 
+
+Snapshot
+
+
+
+ 
+
+
+ </ExpectedValue>
+      <MessageOnValidationFailure>No Overview Section Available</MessageOnValidationFailure>
+      <Comparison>CurrentCulture</Comparison>
+      <PropertyCondition>Contains</PropertyCondition>
+    </StringAssertAction>
+    <TestStepMarkerAction Comment="Verify the Program Overview section is displayed properly." MarkerInformation="ProgramOverviewSection">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
   </ExecuteActions>
   <CleanupActions />
@@ -839,6 +910,53 @@ Academic Exch</PropertyCondition>
                           <PropertyCondition Name="Class">ng-binding</PropertyCondition>
                           <PropertyCondition Name="ControlDefinition">class="ng-binding" href="#/offices/1/pro</PropertyCondition>
                           <PropertyCondition Name="TagInstance">62</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
+                  </Descendants>
+                </UIObject>
+                <UIObject ControlType="Pane" Id="UISortlistPane" FriendlyName="sort-list" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                      <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                      <PropertyCondition Name="Id">sort-list</PropertyCondition>
+                      <PropertyCondition Name="Name" />
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="InnerText">Academic Exchange Programs
+
+Academic E</PropertyCondition>
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">ng-scope ng-isolate-scope</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="ng-scope ng-isolate-scope" id="sort-list" st-table="programs" st-pipe="getPrograms"</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">28</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants>
+                    <UIObject ControlType="Custom" Id="UIItemCustom" FriendlyName="" SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Custom</PropertyCondition>
+                          <PropertyCondition Name="TagName">A</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="Class">ng-binding</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="ng-binding" ng-click="selectPage(</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">28</PropertyCondition>
                         </FilterCondition>
                       </AndCondition>
                       <SupportLevel>0</SupportLevel>
