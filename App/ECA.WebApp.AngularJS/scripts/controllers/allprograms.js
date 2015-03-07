@@ -57,6 +57,13 @@ angular.module('staticApp')
         sort: null,
         filter: null
     };
+    
+    $scope.parentLookupParams = {
+        start: null,
+        limit: 25,
+        sort: null,
+        filter: null
+    };
 
     $scope.regionsLookupParams = {
         start: null,
@@ -96,9 +103,23 @@ angular.module('staticApp')
     x = $scope.regions[1];
     x = $scope.foci[1];
 
+    $scope.getParentPrograms = function (val) {
+        $scope.parentLookupParams = {
+            start: null,
+            limit: 25,
+            sort: null,
+            filter: [{ property: 'name', comparison: 'like', value: val }]
+        };
+        return ProgramService.getAllPrograms($scope.parentLookupParams)
+            .then(function (data) {
+                return data.results;
+            });
+    }
+
     $scope.getPrograms = function (tableState) {
 
         $scope.programsLoading = true;
+
 
         TableService.setTableState(tableState);
 
