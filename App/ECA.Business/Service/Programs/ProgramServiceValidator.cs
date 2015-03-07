@@ -73,6 +73,9 @@ namespace ECA.Business.Service.Programs
         public string Description { get; set; }
     }
 
+    /// <summary>
+    /// The ProgramServiceValidator is used to validate a Program Business entity on create and update.
+    /// </summary>
     public class ProgramServiceValidator : BusinessValidatorBase<ProgramServiceValidationEntity, ProgramServiceValidationEntity>
     {
         /// <summary>

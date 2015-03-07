@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,22 +75,20 @@ namespace ECA.Core.Logging
 
         public void TraceApi(string componentName, TimeSpan timespan, [CallerMemberName] string method = "")
         {
-            string message = String.Concat("component:", componentName, ";method:", method, ";timespan:", timespan.ToString());
+            string message = String.Format("{0}.{1} Elapsed:  {2}", componentName, method, timespan.ToString());
             Trace.TraceInformation(message);
         }
 
-        public void TraceApi(string componentName, TimeSpan timespan, string properties, [CallerMemberName] string method = "")
+        public void TraceApi(string componentName, TimeSpan timespan, IDictionary<string, object> parameters, [CallerMemberName] string method = "")
         {
-            string message = String.Concat("component:", componentName, ";method:", method, ";timespan:", timespan.ToString(), ";properties:", properties);
+            var sb = new StringBuilder();
+            foreach(var p in parameters)
+            {
+                sb.AppendFormat("[{0}:  ({1})],", p.Key, p.Value);
+            }
+            string message = String.Format("{0}.{1} Elapsed:  {2},  Parameters:  ({3})", componentName, method, timespan.ToString(), sb.ToString());
             Trace.TraceInformation(message);
         }
-
-        public void TraceApi(string componentName, TimeSpan timespan, string fmt, [CallerMemberName] string method = "", params object[] vars)
-        {
-            string message = String.Concat("component:", componentName, ";method:", method, ";timespan:", timespan.ToString(), String.Format(";{0}", vars));
-            Trace.TraceInformation(message);
-        }
-
         #endregion
     }
 }

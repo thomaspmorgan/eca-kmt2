@@ -21,8 +21,11 @@ namespace ECA.Core.Logging
         void Error(string fmt, params object[] vars); 
         void Error(Exception exception, string fmt, params object[] vars); 
         
+        //void TraceApi(string componentName, TimeSpan timespan, [CallerMemberName] string method = "");
+        //void TraceApi(string componentName, TimeSpan timespan, string properties, [CallerMemberName] string method = ""); 
+        //void TraceApi(string componentName, TimeSpan timespan, string fmt, [CallerMemberName] string method = "", params object[] vars);
+
         void TraceApi(string componentName, TimeSpan timespan, [CallerMemberName] string method = "");
-        void TraceApi(string componentName, TimeSpan timespan, string properties, [CallerMemberName] string method = ""); 
-        void TraceApi(string componentName, TimeSpan timespan, string fmt, [CallerMemberName] string method = "", params object[] vars);
+        void TraceApi(string componentName, TimeSpan timespan, IDictionary<string, object> parameters, [CallerMemberName] string method = "");
     }
 }

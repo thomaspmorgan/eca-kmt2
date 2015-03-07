@@ -46,7 +46,14 @@ namespace ECA.WebApi.Models.Query
                 Value = this.Value
             };
         }
-    }
 
-    
+        /// <summary>
+        /// Returns a formatted string of this object.
+        /// </summary>
+        /// <returns>A formatted string of this object.</returns>
+        public override string ToString()
+        {
+            return String.Format("Property:  {0}, Comparison:  {1}, Value:  {2}", this.Property, this.Comparison, this.Value);
+        }
+    }
 }

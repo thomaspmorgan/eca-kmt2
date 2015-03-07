@@ -17,6 +17,7 @@ namespace ECA.WebApi
         public static void RegisterComponents()
         {
             var container = new UnityContainer();
+            
             RegisterLogging(container);
             RegisterContexts(container);
             RegisterAdminDependencies(container);

@@ -17,7 +17,7 @@ namespace ECA.Core.Service
     /// <typeparam name="T">The DbContext type.</typeparam>
     public class DbContextService<T> : IDisposable, ISaveable where T : DbContext
     {
-        private const string COMPONENT_NAME = "DbContextService";
+        private static readonly string COMPONENT_NAME = typeof(DbContextService<>).FullName;
 
         private ILogger logger;
 

@@ -60,6 +60,36 @@ namespace ECA.Core.DynamicLinq
         /// Gets the default sorter.
         /// </summary>
         public ISorter DefaultSorter { get; private set; }
+
+        /// <summary>
+        /// Returns a nicely formatted string of the queryable operator.
+        /// </summary>
+        /// <returns>A nicely formatted string of the queryable operator.</returns>
+        public override string ToString()
+        {
+            var filterString = "Null";
+            if(this.Filters != null)
+            {
+                filterString = String.Join(", ", this.Filters.Select(x => x.ToString()).ToList());
+            }
+            var sorterString = "Null";
+            if(this.Sorters != null)
+            {
+                sorterString = String.Join(", ", this.Sorters.Select(x => x.ToString()).ToList());
+            }
+            var defaultSorterString = "Null";
+            if(this.DefaultSorter != null)
+            {
+                defaultSorterString = this.DefaultSorter.ToString();
+            }
+
+            return String.Format("Start:  [{0}], Limit:  [{1}], Filters:[{2}], Sorters:  [{3}], DefaultSorter:  [{4}]",
+                this.Start,
+                this.Limit,
+                filterString,
+                sorterString,
+                defaultSorterString);
+        }
     }
 
     /// <summary>

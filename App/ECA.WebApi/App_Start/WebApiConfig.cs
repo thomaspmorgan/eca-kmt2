@@ -8,6 +8,8 @@ using Newtonsoft.Json.Serialization;
 using ECA.WebApi.Common;
 using System.Net.Http.Headers;
 using ECA.WebApi.Custom.Filters;
+using System.Web.Http.ExceptionHandling;
+using ECA.Core.Logging;
 
 namespace ECA.WebApi
 {
@@ -15,7 +17,7 @@ namespace ECA.WebApi
     {
         public static void Register(HttpConfiguration config)
         {
-            UnityConfig.RegisterComponents();     
+            UnityConfig.RegisterComponents();
 
             // Enable cross-origin resource sharing.
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
@@ -44,6 +46,8 @@ namespace ECA.WebApi
             //config.Formatters.Insert(0, new PlanJsonFormatter());
             //config.Formatters.Insert(0, new PlanHtmlFormatter());
             //config.Formatters.Insert(0, new PlanXmlFormatter());
+
+            config.Services.Add(typeof(IExceptionLogger), new LoggerExceptionHandler(config.DependencyResolver.GetService(typeof(ILogger)) as ILogger));
 
             config.Filters.Add(new ModelNotFoundExceptionFilter());
             config.Filters.Add(new UnknownStaticLookupExceptionFilter());

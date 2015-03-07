@@ -28,5 +28,27 @@ namespace ECA.WebApi.Test.Models.Query
             Assert.AreEqual(model.Direction, simpleSorter.Direction);
             Assert.AreEqual(model.Property, simpleSorter.Property);
         }
+
+        [TestMethod]
+        public void TestToString_AllValuesInitialized()
+        {
+            var model = new SorterBindingModel
+            {
+                Direction = SortDirection.Ascending.Value,
+                Property = "S"
+            };
+            Assert.IsNotNull(model.ToString());
+        }
+
+        [TestMethod]
+        public void TestToString_AllValuesNull()
+        {
+            var model = new SorterBindingModel
+            {
+                Direction = null,
+                Property = null
+            };
+            Assert.IsNotNull(model.ToString());
+        }
     }
 }
