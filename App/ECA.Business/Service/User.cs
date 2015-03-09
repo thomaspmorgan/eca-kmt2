@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service
 {
+    /// <summary>
+    /// The User is a container for holding information about a user when interacting with the business model.
+    /// </summary>
     public class User
     {
+        /// <summary>
+        /// Creates a new user.
+        /// </summary>
+        /// <param name="userId">The user id</param>
         public User(int userId)
         {
             this.Id = userId;
@@ -16,7 +23,7 @@ namespace ECA.Business.Service
         /// <summary>
         /// Gets or sets the Id.
         /// </summary>
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         /// <summary>
         /// Returns true if the given object equals this object.
