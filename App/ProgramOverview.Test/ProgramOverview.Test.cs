@@ -32,6 +32,9 @@ namespace ProgramOverview.Test
             this.UIMap.ContentMenu_ProgramsLink();
             this.UIMap.SelectProgramsLink();
             this.UIMap.RefreshAllProgramsPage();
+            //this.UIMap.AllProgsListScrollDowntoPageNumbers();
+            this.UIMap.AllProgramsPageNavigationButton();
+            this.UIMap.SelectPageNumberAllProgsList();
             //this.UIMap.ScrollDown();
             this.UIMap.IndividualProgramCheck();
             this.UIMap.SelectIndividualProgram();
