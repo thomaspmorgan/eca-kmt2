@@ -129,83 +129,6 @@ namespace ProgramOverview.Test
         }
         
         /// <summary>
-        /// Verify the Program Overview section is displayed.
-        /// </summary>
-        public void ProgramOverviewSection()
-        {
-            #region Variable Declarations
-            HtmlDiv uIOverviewPlacesrecentPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIOverviewPlacesrecentPane;
-            #endregion
-
-            // Verify that the 'InnerText' property of 'Overview Places recent U.S. college' pane contains 'Overview
-            //
-            //
-            //Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign studentsâ€™ English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country. 
-            //
-            // 
-            //
-            //
-            //Details
-            //
-            //
-            //
-            //Themes
-            //
-            //Culture/Sports/American Society
-            //Education
-            //Markets and Competitiveness
-            //Youth Engagement
-            // 
-            //
-            //Public Diplomacy Goals
-            //
-            // 
-            //
-            //Strategic Goals
-            //
-            // 
-            //
-            //Regions
-            //
-            //Africa
-            //East Asia and the Pacific
-            //Europe and Eurasia
-            //Near East
-            //South and Central Asia
-            //Western Hemisphere
-            // 
-            //
-            //
-            //Focus
-            //
-            //
-            //
-            //
-            //Office
-            //
-            //Office of the Executive Director
-            //
-            //
-            //Points of Contact
-            //
-            // 
-            //
-            //Websites
-            //
-            // 
-            //
-            //Snapshot
-            //
-            //
-            //
-            // 
-            //
-            //
-            // '
-            StringAssert.Contains(uIOverviewPlacesrecentPane.InnerText, this.ProgramOverviewSectionExpectedValues.UIOverviewPlacesrecentPaneInnerText, "No Overview section ");
-        }
-        
-        /// <summary>
         /// Refresh/Reload All Programs Page for display
         /// </summary>
         public void RefreshAllProgramsPage()
@@ -298,6 +221,128 @@ namespace ProgramOverview.Test
             Mouse.Click(uIProgramsHyperlink, new Point(87, 41));
         }
         
+        /// <summary>
+        /// Check for Page 3 to navigate to in the All Programs List
+        /// </summary>
+        public void AllProgramsPageNavigationButton()
+        {
+            #region Variable Declarations
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom;
+            #endregion
+
+            // Verify that the 'InnerText' property of custom control equals '3'
+            Assert.AreEqual(this.AllProgramsPageNavigationButtonExpectedValues.UIItemCustomInnerText, uIItemCustom.InnerText, "No Page 3 button to navigate to ");
+        }
+        
+        /// <summary>
+        /// Scroll down to view page numbers
+        /// </summary>
+        public void AllProgsListScrollDowntoPageNumbers()
+        {
+            #region Variable Declarations
+            HtmlDocument uIHttpsecakmtqaazureweDocument1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1;
+            #endregion
+
+            // Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            //Mouse.Click(uIHttpsecakmtqaazureweDocument1, new Point(1358, 654));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            //Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument1, new Point(1358, 654));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            //Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument1, new Point(1358, 654));
+        }
+        
+        /// <summary>
+        /// Select Page Number 3 for All Programs List to display
+        /// </summary>
+        public void SelectPageNumberAllProgsList()
+        {
+            #region Variable Declarations
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom;
+            #endregion
+
+            // Click custom control
+            Mouse.Click(uIItemCustom, new Point(15, 19));
+        }
+        
+        /// <summary>
+        /// Verify the Program Overview section is displayed properly.
+        /// </summary>
+        public void ProgramOverviewSection()
+        {
+            #region Variable Declarations
+            HtmlDiv uIOverviewPlacesrecentPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIOverviewPlacesrecentPane;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Overview Places recent U.S. college' pane contains 'Overview
+            //
+            //
+            //Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign studentsâ€™ English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country. 
+            //
+            // 
+            //
+            //
+            //Details
+            //
+            //
+            //
+            //Themes
+            //
+            //Culture/Sports/American Society
+            //Education
+            //Markets and Competitiveness
+            //Youth Engagement
+            // 
+            //
+            //Public Diplomacy Goals
+            //
+            // 
+            //
+            //Strategic Goals
+            //
+            // 
+            //
+            //Regions
+            //
+            //AF
+            //EAP
+            //EUR
+            //NEA
+            //SCA
+            //WHA
+            // 
+            //
+            //
+            //Focus
+            //
+            //None Selected
+            //
+            //
+            //Office
+            //
+            //Office of the Executive Director
+            //
+            //
+            //Points of Contact
+            //
+            // 
+            //
+            //Websites
+            //
+            // 
+            //
+            //Snapshot
+            //
+            //
+            //
+            // 
+            //
+            //
+            // '
+            StringAssert.Contains(uIOverviewPlacesrecentPane.InnerText, this.ProgramOverviewSectionExpectedValues.UIOverviewPlacesrecentPaneInnerText, "No Overview Section Available");
+        }
+        
         #region Properties
         public virtual ContentMenu_ProgramsLinkExpectedValues ContentMenu_ProgramsLinkExpectedValues
         {
@@ -347,18 +392,6 @@ namespace ProgramOverview.Test
             }
         }
         
-        public virtual ProgramOverviewSectionExpectedValues ProgramOverviewSectionExpectedValues
-        {
-            get
-            {
-                if ((this.mProgramOverviewSectionExpectedValues == null))
-                {
-                    this.mProgramOverviewSectionExpectedValues = new ProgramOverviewSectionExpectedValues();
-                }
-                return this.mProgramOverviewSectionExpectedValues;
-            }
-        }
-        
         public virtual RefreshAllProgramsPageParams RefreshAllProgramsPageParams
         {
             get
@@ -380,6 +413,30 @@ namespace ProgramOverview.Test
                     this.mRefreshIndividualProgramPageParams = new RefreshIndividualProgramPageParams();
                 }
                 return this.mRefreshIndividualProgramPageParams;
+            }
+        }
+        
+        public virtual AllProgramsPageNavigationButtonExpectedValues AllProgramsPageNavigationButtonExpectedValues
+        {
+            get
+            {
+                if ((this.mAllProgramsPageNavigationButtonExpectedValues == null))
+                {
+                    this.mAllProgramsPageNavigationButtonExpectedValues = new AllProgramsPageNavigationButtonExpectedValues();
+                }
+                return this.mAllProgramsPageNavigationButtonExpectedValues;
+            }
+        }
+        
+        public virtual ProgramOverviewSectionExpectedValues ProgramOverviewSectionExpectedValues
+        {
+            get
+            {
+                if ((this.mProgramOverviewSectionExpectedValues == null))
+                {
+                    this.mProgramOverviewSectionExpectedValues = new ProgramOverviewSectionExpectedValues();
+                }
+                return this.mProgramOverviewSectionExpectedValues;
             }
         }
         
@@ -405,11 +462,13 @@ namespace ProgramOverview.Test
         
         private LogintoQAParams mLogintoQAParams;
         
-        private ProgramOverviewSectionExpectedValues mProgramOverviewSectionExpectedValues;
-        
         private RefreshAllProgramsPageParams mRefreshAllProgramsPageParams;
         
         private RefreshIndividualProgramPageParams mRefreshIndividualProgramPageParams;
+        
+        private AllProgramsPageNavigationButtonExpectedValues mAllProgramsPageNavigationButtonExpectedValues;
+        
+        private ProgramOverviewSectionExpectedValues mProgramOverviewSectionExpectedValues;
         
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
         #endregion
@@ -491,6 +550,51 @@ namespace ProgramOverview.Test
     }
     
     /// <summary>
+    /// Parameters to be passed into 'RefreshAllProgramsPage'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class RefreshAllProgramsPageParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '{F5}' in 'Programs' link
+        /// </summary>
+        public string UIProgramsHyperlinkSendKeys = "{F5}";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'RefreshIndividualProgramPage'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class RefreshIndividualProgramPageParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '{F5}' in 'https://eca-kmt-qa.azurewebsites.net/#/offices/1/p...' document
+        /// </summary>
+        public string UIHttpsecakmtqaazureweDocument2SendKeys = "{F5}";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AllProgramsPageNavigationButton'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AllProgramsPageNavigationButtonExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of custom control equals '3'
+        /// </summary>
+        public string UIItemCustomInnerText = "3";
+        #endregion
+    }
+    
+    /// <summary>
     /// Parameters to be passed into 'ProgramOverviewSection'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
@@ -529,18 +633,18 @@ namespace ProgramOverview.Test
         ///
         ///Regions
         ///
-        ///Africa
-        ///East Asia and the Pacific
-        ///Europe and Eurasia
-        ///Near East
-        ///South and Central Asia
-        ///Western Hemisphere
+        ///AF
+        ///EAP
+        ///EUR
+        ///NEA
+        ///SCA
+        ///WHA
         /// 
         ///
         ///
         ///Focus
         ///
-        ///
+        ///None Selected
         ///
         ///
         ///Office
@@ -595,18 +699,18 @@ Strategic Goals
 
 Regions
 
-Africa
-East Asia and the Pacific
-Europe and Eurasia
-Near East
-South and Central Asia
-Western Hemisphere
+AF
+EAP
+EUR
+NEA
+SCA
+WHA
  
 
 
 Focus
 
-
+None Selected
 
 
 Office
@@ -630,36 +734,6 @@ Snapshot
 
 
  ";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'RefreshAllProgramsPage'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class RefreshAllProgramsPageParams
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Type '{F5}' in 'Programs' link
-        /// </summary>
-        public string UIProgramsHyperlinkSendKeys = "{F5}";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'RefreshIndividualProgramPage'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class RefreshIndividualProgramPageParams
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Type '{F5}' in 'https://eca-kmt-qa.azurewebsites.net/#/offices/1/p...' document
-        /// </summary>
-        public string UIHttpsecakmtqaazureweDocument2SendKeys = "{F5}";
         #endregion
     }
     
@@ -1196,12 +1270,26 @@ Snapshot
                 return this.mUITopPane;
             }
         }
+        
+        public UISortlistPane UISortlistPane
+        {
+            get
+            {
+                if ((this.mUISortlistPane == null))
+                {
+                    this.mUISortlistPane = new UISortlistPane(this);
+                }
+                return this.mUISortlistPane;
+            }
+        }
         #endregion
         
         #region Fields
         private UICbpspmenus1Custom1 mUICbpspmenus1Custom;
         
         private UITopPane mUITopPane;
+        
+        private UISortlistPane mUISortlistPane;
         #endregion
     }
     
@@ -1303,6 +1391,54 @@ Snapshot
         
         #region Fields
         private HtmlHyperlink mUIFulbrightEnglishTeacHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane : HtmlDiv
+    {
+        
+        public UISortlistPane(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Academic Exchange Programs\r\n\r\nAcademic E";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope ng-isolate-scope\" id=\"sort-list\" st-table=\"programs\" st-pipe=\"get" +
+                "Programs\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "28";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlCustom UIItemCustom
+        {
+            get
+            {
+                if ((this.mUIItemCustom == null))
+                {
+                    this.mUIItemCustom = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIItemCustom.SearchProperties["TagName"] = "A";
+                    this.mUIItemCustom.SearchProperties["Id"] = null;
+                    this.mUIItemCustom.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIItemCustom.FilterProperties["Class"] = "ng-binding";
+                    this.mUIItemCustom.FilterProperties["ControlDefinition"] = "class=\"ng-binding\" ng-click=\"selectPage(";
+                    this.mUIItemCustom.FilterProperties["TagInstance"] = "28";
+                    this.mUIItemCustom.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemCustom;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlCustom mUIItemCustom;
         #endregion
     }
     
