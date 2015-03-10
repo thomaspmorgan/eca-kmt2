@@ -33,6 +33,9 @@ namespace ProjectOverview.Test
             this.UIMap.SelectProgramsLink();
             this.UIMap.RefreshAllProgramsPage();
             //this.UIMap.ScrollDownAllPrograms();
+            this.UIMap.AllProgramsPageNumber();
+            this.UIMap.SelectAllProgramsPageNumber();
+            this.UIMap.ScrollDowntoIndividualProgram();
             this.UIMap.IndividualProgramLink();
             this.UIMap.SelectIndividualProgram();
             this.UIMap.RefreshIndividualProgramPage();
