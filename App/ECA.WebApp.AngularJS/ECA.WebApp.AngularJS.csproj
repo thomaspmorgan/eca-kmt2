@@ -122,6 +122,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="gulpfile.js" />
     <Content Include="Properties\PublishProfiles\eca-kmt-dev.pubxml.user" />
     <Content Include="Properties\PublishProfiles\eca-kmt-qa.pubxml.user" />
     <Content Include="scripts\constants.js">
@@ -160,6 +161,7 @@
     <Content Include="bower.json" />
     <Content Include=".bowerrc" />
     <Content Include="ApplicationInsights.config" />
+    <Content Include="package.json" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
     <Content Include="scripts\constants.tt">
