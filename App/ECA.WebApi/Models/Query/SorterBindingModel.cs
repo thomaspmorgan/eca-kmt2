@@ -33,5 +33,14 @@ namespace ECA.WebApi.Models.Query
                 Property = this.Property
             };
         }
+
+        /// <summary>
+        /// Returns a formatted string of this object.
+        /// </summary>
+        /// <returns>Aformatted string of this object.</returns>
+        public override string ToString()
+        {
+            return String.Format("Property:  {0}, Direction: {1}", this.Property, this.Direction);
+        }
     }
 }

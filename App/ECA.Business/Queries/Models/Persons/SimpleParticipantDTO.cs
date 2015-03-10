@@ -6,42 +6,39 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Persons
 {
+    /// <summary>
+    /// A SimpleParticipantDTO is used to represent a participant in the ECA system, whether that participant is an organization, or an individual.
+    /// </summary>
     public class SimpleParticipantDTO
     {
+        /// <summary>
+        /// Gets or sets the participant id.
+        /// </summary>
         public int ParticipantId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Person Id.
+        /// </summary>
         public int? PersonId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the organization id.
+        /// </summary>
         public int? OrganizationId { get; set; }
 
-        //public string Gender { get; set; }
-
-        //public int? GenderId { get; set; }
-
+        /// <summary>
+        /// Gets or sets the participant id.
+        /// </summary>
         public int ParticipantTypeId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the participant type.
+        /// </summary>
         public string ParticipantType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the participant.
+        /// </summary>
         public string Name { get; set; }
-
-        //public string FirstName { get; set; }
-
-        //public string LastName { get; set; }
-
-        //public string NamePrefix { get; set; }
-
-        //public string NameSuffix { get; set; }
-
-        //public string GivenName { get; set; }
-
-        //public string MiddleName { get; set; }
-
-        //public string FamilyName { get; set; }
-
-        //public string Patronym { get; set; }
-
-        //public string Alias { get; set; }
-
-
     }
 }

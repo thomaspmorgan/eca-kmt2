@@ -25,6 +25,11 @@ namespace ECA.Core.Test.Query
             }
             return this.Id == testClassInstance.Id;
         }
+
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
     }
 
     [TestClass]

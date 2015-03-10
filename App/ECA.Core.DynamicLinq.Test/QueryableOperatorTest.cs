@@ -100,5 +100,27 @@ namespace ECA.Core.DynamicLinq.Test
             Assert.AreEqual(filterValue, testList.First().Id);
 
         }
+
+        [TestMethod]
+        public void TestToString_DefaultSorterOnly()
+        {
+            var defaultSorter = new ExpressionSorter<QueryableOperatorTestClass>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<QueryableOperatorTestClass>(0, 10, defaultSorter, null, null);
+            Assert.IsNotNull(queryOperator.ToString());
+        }
+
+        [TestMethod]
+        public void TestToString_HasFiltersAndSorters()
+        {
+            var filter1 = new ExpressionFilter<QueryableOperatorTestClass>(x => x.Id, ComparisonType.Equal, 1);
+            var filter2 = new ExpressionFilter<QueryableOperatorTestClass>(x => x.Id, ComparisonType.LessThan, 2);
+
+            var sorter1 = new ExpressionSorter<QueryableOperatorTestClass>(x => x.Id, SortDirection.Descending);
+            var sorter2 = new ExpressionSorter<QueryableOperatorTestClass>(x => x.Id, SortDirection.Ascending);
+
+            var defaultSorter = new ExpressionSorter<QueryableOperatorTestClass>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<QueryableOperatorTestClass>(0, 10, defaultSorter, new List<IFilter>{ filter1, filter2}, new List<ISorter>{sorter1, sorter2});
+            Assert.IsNotNull(queryOperator.ToString());
+        }
     }
 }

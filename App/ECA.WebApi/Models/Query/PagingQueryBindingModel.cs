@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Web.Http.ModelBinding;
 using Newtonsoft.Json.Linq;
 using System.Collections;
+using System.Text;
 
 namespace ECA.WebApi.Models.Query
 {
@@ -108,6 +109,21 @@ namespace ECA.WebApi.Models.Query
                 });
             }
             return sorters;
+        }
+
+        /// <summary>
+        /// Returns a formatted string of this model.
+        /// </summary>
+        /// <returns>A formatted string of this model.</returns>
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat("Start:  {0}, Limit:  {1}:  Filters:[{2}], Sorters:  [{3}]",
+                this.Start,
+                this.Limit,
+                String.Join(", ", this.Filter != null ? this.Filter : new List<string>()),
+                String.Join(", ", this.Sort != null ? this.Sort : new List<string>()));
+            return sb.ToString();
         }
     }
 }

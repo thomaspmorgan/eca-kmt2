@@ -1,9 +1,7 @@
 ﻿using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Admin;
-using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Queries.Programs;
-using ECA.Business.Service.Admin;
 using ECA.Business.Validation;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
@@ -26,19 +24,17 @@ namespace ECA.Business.Service.Programs
     /// </summary>
     public class ProgramService : DbContextService<EcaContext>, IProgramService
     {
-        private IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> validator;
+        private static readonly string COMPONENT_NAME = typeof(ProgramService).FullName;
 
-        public ProgramService(EcaContext context, ILogger logger) : this(context, logger, new ProgramServiceValidator())
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
-        }
+        private ILogger logger;
+        private IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> validator;
 
         /// <summary>
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
         /// <param name="context">The context to operate on.</param>
         /// <param name="logger">The logger.</param>
+        /// <param name="programServiceValidator">The program service validator.</param>
         public ProgramService(EcaContext context, ILogger logger, IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> programServiceValidator)
             : base(context, logger)
         {
@@ -46,6 +42,7 @@ namespace ECA.Business.Service.Programs
             Contract.Requires(logger != null, "The logger must not be null.");
             Contract.Requires(programServiceValidator != null, "The program service validator must not be null.");
             this.validator = programServiceValidator;
+            this.logger = logger;
         }
 
         #region Get
@@ -57,7 +54,11 @@ namespace ECA.Business.Service.Programs
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
         public PagedQueryResults<SimpleProgramDTO> GetPrograms(QueryableOperator<SimpleProgramDTO> queryOperator)
         {
-            return ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            var stopwatch = Stopwatch.StartNew();
+            var results = ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object>{{"queryOperator", queryOperator}});
+            return results;
         }
 
         /// <summary>
@@ -65,9 +66,13 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
-        public Task<PagedQueryResults<SimpleProgramDTO>> GetProgramsAsync(QueryableOperator<SimpleProgramDTO> queryOperator)
+        public async Task<PagedQueryResults<SimpleProgramDTO>> GetProgramsAsync(QueryableOperator<SimpleProgramDTO> queryOperator)
         {
-            return ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            var stopwatch = Stopwatch.StartNew();
+            var results = await ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            return results;
         }
 
         /// <summary>
@@ -77,7 +82,11 @@ namespace ECA.Business.Service.Programs
         /// <returns>The program, or null if it doesn't exist.</returns>
         public ProgramDTO GetProgramById(int programId)
         {
-            return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefault();
+            var stopwatch = Stopwatch.StartNew();
+            var dto = ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefault();
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "programId", programId } });
+            return dto;
         }
 
         /// <summary>
@@ -85,9 +94,13 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="programId">The program id.</param>
         /// <returns>The program, or null if it doesn't exist.</returns>
-        public Task<ProgramDTO> GetProgramByIdAsync(int programId)
+        public async Task<ProgramDTO> GetProgramByIdAsync(int programId)
         {
-            return ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefaultAsync();
+            var stopwatch = Stopwatch.StartNew();
+            var dto = await ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefaultAsync();
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "programId", programId } });
+            return dto;
         }
 
         #endregion
@@ -101,12 +114,16 @@ namespace ECA.Business.Service.Programs
         /// <returns>The saved program.</returns>
         public Program Create(DraftProgram draftProgram)
         {
+            var stopwatch = Stopwatch.StartNew();
             var regionTypeIds = GetLocationTypeIds(draftProgram.RegionIds);
             var focus = GetFocusById(draftProgram.FocusId);
             var owner = GetOrganizationById(draftProgram.OwnerOrganizationId);
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? GetParentProgramById(draftProgram.ParentProgramId.Value) : null;
-            return DoCreate(draftProgram, new ProgramServiceValidationEntity(draftProgram.Name, draftProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
+            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, focus, owner, parentProgram, regionTypeIds));
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
+            return program;
         }
 
         /// <summary>
@@ -116,12 +133,16 @@ namespace ECA.Business.Service.Programs
         /// <returns>The saved program.</returns>
         public async Task<Program> CreateAsync(DraftProgram draftProgram)
         {
+            var stopwatch = Stopwatch.StartNew();
             var regionTypeIds = await GetLocationTypeIdsAsync(draftProgram.RegionIds);
             var focus = await GetFocusByIdAsync(draftProgram.FocusId);
             var owner = await GetOrganizationByIdAsync(draftProgram.OwnerOrganizationId);
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetParentProgramByIdAsync(draftProgram.ParentProgramId.Value) : null;
-            return DoCreate(draftProgram, new ProgramServiceValidationEntity(draftProgram.Name, draftProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
+            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, focus, owner, parentProgram, regionTypeIds));
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
+            return program;
         }
 
         private Program DoCreate(DraftProgram draftProgram, ProgramServiceValidationEntity validationEntity)
@@ -168,6 +189,7 @@ namespace ECA.Business.Service.Programs
         /// <param name="updatedProgram">The updated program.</param>
         public void Update(EcaProgram updatedProgram)
         {
+            var stopwatch = Stopwatch.StartNew();
             var programToUpdate = CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefault();
             var regionTypeIds = GetLocationTypeIds(updatedProgram.RegionIds);
             var focus = GetFocusById(updatedProgram.FocusId);
@@ -176,7 +198,9 @@ namespace ECA.Business.Service.Programs
             Program parentProgram = parentProgramId.HasValue ? GetParentProgramById(updatedProgram.ParentProgramId.Value) : null;
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, new ProgramServiceValidationEntity(updatedProgram.Name, updatedProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
+                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, focus, owner, parentProgram, regionTypeIds));
+                stopwatch.Stop();
+                this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
             }
             else
             {
@@ -190,6 +214,7 @@ namespace ECA.Business.Service.Programs
         /// <param name="updatedProgram">The updated program.</param>
         public async Task UpdateAsync(EcaProgram updatedProgram)
         {
+            var stopwatch = Stopwatch.StartNew();
             var programToUpdate = await CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefaultAsync();
             var regionTypeIds = await GetLocationTypeIdsAsync(updatedProgram.RegionIds);
             var focus = await GetFocusByIdAsync(updatedProgram.FocusId);
@@ -199,7 +224,9 @@ namespace ECA.Business.Service.Programs
             
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, new ProgramServiceValidationEntity(updatedProgram.Name, updatedProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
+                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, focus, owner, parentProgram, regionTypeIds));
+                stopwatch.Stop();
+                this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
             }
             else
             {
@@ -233,6 +260,20 @@ namespace ECA.Business.Service.Programs
             SetRegions(updatedProgram.RegionIds, programToUpdate);
         }
         #endregion
+
+        private ProgramServiceValidationEntity GetValidationEntity(EcaProgram program, Focus focus, Organization owner, Program parentProgram, List<int> regionTypesIds)
+        {
+            return new ProgramServiceValidationEntity(
+                name: program.Name,
+                description: program.Description,
+                regionLocationTypeIds: regionTypesIds,
+                contactIds: program.ContactIds,
+                focus: focus,
+                owner: owner,
+                parentProgramId: program.ParentProgramId,
+                parentProgram: parentProgram
+                );
+        }
 
         /// <summary>
         /// Updates the goals on the given program to the goals with the given ids.

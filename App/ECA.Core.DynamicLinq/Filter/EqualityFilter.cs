@@ -53,7 +53,11 @@ namespace ECA.Core.DynamicLinq.Filter
             return Expression.Lambda<Func<T, bool>>(where, xParameter);
         }
 
-        protected virtual void Initialize(object value)
+        /// <summary>
+        /// Initializes the value property of this filter with the given value and tests for compatibility.
+        /// </summary>
+        /// <param name="value">The value to initialize the filter with.</param>
+        private void Initialize(object value)
         {
             if (this.IsNumeric != this.IsTypeNumeric(value.GetType()))
             {
@@ -74,6 +78,11 @@ namespace ECA.Core.DynamicLinq.Filter
             }
         }
 
+        /// <summary>
+        /// Override this method to return a property linq expression given the property parameter to filter on.
+        /// </summary>
+        /// <param name="property">The property that will be filtered on e.g. x.NullableInt.Value, where Value is the property parameter that is passed.</param>
+        /// <returns>The equality expression.</returns>
         protected abstract Expression GetEqualityExpression(MemberExpression property);
     }
 }

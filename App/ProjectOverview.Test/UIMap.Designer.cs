@@ -145,71 +145,6 @@ namespace ProjectOverview.Test
         }
         
         /// <summary>
-        /// Verify the Projects Overview section displays for the individual project's overview (Fulbright ETA Armenia 2014)
-        /// </summary>
-        public void ProjectsOverviewSection()
-        {
-            #region Variable Declarations
-            HtmlDiv uIOverviewEnglishlanguPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument6.UITopPane.UIOverviewEnglishlanguPane;
-            #endregion
-
-            // Verify that the 'InnerText' property of 'Overview English language teac' pane contains 'Overview
-            //
-            //	
-            //
-            //
-            //English language teaching assistant program for Armenia 2014
-            // 
-            // 
-            //
-            //
-            //Details
-            //
-            //
-            //
-            //Themes
-            //
-            //
-            // 
-            //
-            //Strategic Goals
-            //
-            //  
-            //
-            //
-            //Focus
-            // 
-            //language learning
-            //
-            //
-            //Office
-            //
-            //Office of the Executive Director
-            //
-            //
-            //Program
-            //
-            //Fulbright English Teaching Assistant Program (ETA)
-            //
-            //
-            // of Contact
-            //
-            // 
-            //
-            //Snapshot
-            //
-            //
-            //
-            //
-            //Locations
-            //
-            //
-            //
-            // '
-            StringAssert.Contains(uIOverviewEnglishlanguPane.InnerText, this.ProjectsOverviewSectionExpectedValues.UIOverviewEnglishlanguPaneInnerText, "No Projects Overview section available.");
-        }
-        
-        /// <summary>
         /// Refresh/reload All Programs page for display
         /// </summary>
         public void RefreshAllProgramsPage()
@@ -262,7 +197,7 @@ namespace ProjectOverview.Test
         }
         
         /// <summary>
-        /// Scroll Down All Programs Page to locate individual program for selection.
+        /// Scroll down All Programs page to select the page number to navigate to for the individual program.
         /// </summary>
         public void ScrollDownAllPrograms()
         {
@@ -270,20 +205,65 @@ namespace ProjectOverview.Test
             HtmlDocument uIHttpsecakmtqaazureweDocument2 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2;
             #endregion
 
+            // Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.Click(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
             // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
-            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1360, 653));
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
 
             // Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
-            Mouse.Click(uIHttpsecakmtqaazureweDocument2, new Point(1360, 653));
+            Mouse.Click(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
 
-            // Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
-            Mouse.Click(uIHttpsecakmtqaazureweDocument2, new Point(1360, 653));
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
 
-            // Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
-            Mouse.Click(uIHttpsecakmtqaazureweDocument2, new Point(1360, 653));
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
 
-            // Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
-            Mouse.Click(uIHttpsecakmtqaazureweDocument2, new Point(1360, 653));
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1352, 651));
         }
         
         /// <summary>
@@ -367,6 +347,133 @@ namespace ProjectOverview.Test
             Mouse.Click(uIProgramsHyperlink, new Point(66, 32));
         }
         
+        /// <summary>
+        /// Verify the All Programs page number is available for selection. (3)
+        /// </summary>
+        public void AllProgramsPageNumber()
+        {
+            #region Variable Declarations
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane.UIItemCustom;
+            #endregion
+
+            // Verify that the 'InnerText' property of custom control equals '3'
+            Assert.AreEqual(this.AllProgramsPageNumberExpectedValues.UIItemCustomInnerText, uIItemCustom.InnerText, "No page 3 available for selection");
+        }
+        
+        /// <summary>
+        /// Select the All Programs page number to navigate to the individual project.
+        /// </summary>
+        public void SelectAllProgramsPageNumber()
+        {
+            #region Variable Declarations
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane.UIItemCustom;
+            #endregion
+
+            // Click custom control
+            Mouse.Click(uIItemCustom, new Point(14, 22));
+        }
+        
+        /// <summary>
+        /// Scroll down to select the individual program on the page.
+        /// </summary>
+        public void ScrollDowntoIndividualProgram()
+        {
+            #region Variable Declarations
+            HtmlDocument uIHttpsecakmtqaazureweDocument2 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2;
+            #endregion
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1354, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1354, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1354, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1354, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1354, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1354, 651));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument2, new Point(1354, 651));
+        }
+        
+        /// <summary>
+        /// Verify the Project Overview Section displays for the project. (Fulbright Armenia 2014)
+        /// </summary>
+        public void ProjectsOverviewSection()
+        {
+            #region Variable Declarations
+            HtmlDiv uIOverviewEnglishlanguPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument6.UITopPane.UIOverviewEnglishlanguPane1;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Overview English language teac' pane contains 'Overview
+            //
+            // 
+            //
+            //
+            //English language teaching assistant program for Armenia 2014
+            // 
+            // 
+            //
+            //
+            //Details
+            //
+            //
+            //
+            //Status
+            //
+            //Completed
+            //
+            //
+            //Themes
+            //
+            //
+            // 
+            //
+            //Strategic Goals
+            //
+            //  
+            //
+            //
+            //Focus
+            // 
+            //language learning
+            //
+            //
+            //Office
+            //
+            //Office of the Executive Director
+            //
+            //
+            //Program
+            //
+            //Fulbright English Teaching Assistant Program (ETA)
+            //
+            //
+            //Points of Contact
+            //
+            // 
+            //
+            //Snapshot
+            //
+            //
+            //0
+            //
+            //Locations
+            //
+            //
+            //
+            //  '
+            StringAssert.Contains(uIOverviewEnglishlanguPane1.InnerText, this.ProjectsOverviewSectionExpectedValues.UIOverviewEnglishlanguPane1InnerText, "No Project Overview Section; wrong inner text");
+        }
+        
         #region Properties
         public virtual BranchesandProjectsLinkExpectedValues BranchesandProjectsLinkExpectedValues
         {
@@ -440,18 +547,6 @@ namespace ProjectOverview.Test
             }
         }
         
-        public virtual ProjectsOverviewSectionExpectedValues ProjectsOverviewSectionExpectedValues
-        {
-            get
-            {
-                if ((this.mProjectsOverviewSectionExpectedValues == null))
-                {
-                    this.mProjectsOverviewSectionExpectedValues = new ProjectsOverviewSectionExpectedValues();
-                }
-                return this.mProjectsOverviewSectionExpectedValues;
-            }
-        }
-        
         public virtual RefreshAllProgramsPageParams RefreshAllProgramsPageParams
         {
             get
@@ -500,6 +595,30 @@ namespace ProjectOverview.Test
             }
         }
         
+        public virtual AllProgramsPageNumberExpectedValues AllProgramsPageNumberExpectedValues
+        {
+            get
+            {
+                if ((this.mAllProgramsPageNumberExpectedValues == null))
+                {
+                    this.mAllProgramsPageNumberExpectedValues = new AllProgramsPageNumberExpectedValues();
+                }
+                return this.mAllProgramsPageNumberExpectedValues;
+            }
+        }
+        
+        public virtual ProjectsOverviewSectionExpectedValues ProjectsOverviewSectionExpectedValues
+        {
+            get
+            {
+                if ((this.mProjectsOverviewSectionExpectedValues == null))
+                {
+                    this.mProjectsOverviewSectionExpectedValues = new ProjectsOverviewSectionExpectedValues();
+                }
+                return this.mProjectsOverviewSectionExpectedValues;
+            }
+        }
+        
         public UINewtabInternetExplorWindow UINewtabInternetExplorWindow
         {
             get
@@ -526,8 +645,6 @@ namespace ProjectOverview.Test
         
         private LogintoQAParams mLogintoQAParams;
         
-        private ProjectsOverviewSectionExpectedValues mProjectsOverviewSectionExpectedValues;
-        
         private RefreshAllProgramsPageParams mRefreshAllProgramsPageParams;
         
         private RefreshBranchesandProjectsPageParams mRefreshBranchesandProjectsPageParams;
@@ -535,6 +652,10 @@ namespace ProjectOverview.Test
         private RefreshIndividualProgramPageParams mRefreshIndividualProgramPageParams;
         
         private RefreshProjectOverviewPageParams mRefreshProjectOverviewPageParams;
+        
+        private AllProgramsPageNumberExpectedValues mAllProgramsPageNumberExpectedValues;
+        
+        private ProjectsOverviewSectionExpectedValues mProjectsOverviewSectionExpectedValues;
         
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
         #endregion
@@ -646,125 +767,6 @@ namespace ProjectOverview.Test
     }
     
     /// <summary>
-    /// Parameters to be passed into 'ProjectsOverviewSection'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class ProjectsOverviewSectionExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Overview English language teac' pane contains 'Overview
-        ///
-        ///	
-        ///
-        ///
-        ///English language teaching assistant program for Armenia 2014
-        /// 
-        /// 
-        ///
-        ///
-        ///Details
-        ///
-        ///
-        ///
-        ///Themes
-        ///
-        ///
-        /// 
-        ///
-        ///Strategic Goals
-        ///
-        ///  
-        ///
-        ///
-        ///Focus
-        /// 
-        ///language learning
-        ///
-        ///
-        ///Office
-        ///
-        ///Office of the Executive Director
-        ///
-        ///
-        ///Program
-        ///
-        ///Fulbright English Teaching Assistant Program (ETA)
-        ///
-        ///
-        /// of Contact
-        ///
-        /// 
-        ///
-        ///Snapshot
-        ///
-        ///
-        ///
-        ///
-        ///Locations
-        ///
-        ///
-        ///
-        /// '
-        /// </summary>
-        public string UIOverviewEnglishlanguPaneInnerText = @"Overview
-
-	
-
-
-English language teaching assistant program for Armenia 2014
- 
- 
-
-
-Details
-
-
-
-Themes
-
-
- 
-
-Strategic Goals
-
-  
-
-
-Focus
- 
-language learning
-
-
-Office
-
-Office of the Executive Director
-
-
-Program
-
-Fulbright English Teaching Assistant Program (ETA)
-
-
- of Contact
-
- 
-
-Snapshot
-
-
-
-
-Locations
-
-
-
- ";
-        #endregion
-    }
-    
-    /// <summary>
     /// Parameters to be passed into 'RefreshAllProgramsPage'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
@@ -821,6 +823,150 @@ Locations
         /// Type '{F5}' in 'https://eca-kmt-qa.azurewebsites.net/#/offices/1/p...' document
         /// </summary>
         public string UIHttpsecakmtqaazureweDocument6SendKeys = "{F5}";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AllProgramsPageNumber'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AllProgramsPageNumberExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of custom control equals '3'
+        /// </summary>
+        public string UIItemCustomInnerText = "3";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'ProjectsOverviewSection'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class ProjectsOverviewSectionExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Overview English language teac' pane contains 'Overview
+        ///
+        /// 
+        ///
+        ///
+        ///English language teaching assistant program for Armenia 2014
+        /// 
+        /// 
+        ///
+        ///
+        ///Details
+        ///
+        ///
+        ///
+        ///Status
+        ///
+        ///Completed
+        ///
+        ///
+        ///Themes
+        ///
+        ///
+        /// 
+        ///
+        ///Strategic Goals
+        ///
+        ///  
+        ///
+        ///
+        ///Focus
+        /// 
+        ///language learning
+        ///
+        ///
+        ///Office
+        ///
+        ///Office of the Executive Director
+        ///
+        ///
+        ///Program
+        ///
+        ///Fulbright English Teaching Assistant Program (ETA)
+        ///
+        ///
+        ///Points of Contact
+        ///
+        /// 
+        ///
+        ///Snapshot
+        ///
+        ///
+        ///0
+        ///
+        ///Locations
+        ///
+        ///
+        ///
+        ///  '
+        /// </summary>
+        public string UIOverviewEnglishlanguPane1InnerText = @"Overview
+
+ 
+
+
+English language teaching assistant program for Armenia 2014
+ 
+ 
+
+
+Details
+
+
+
+Status
+
+Completed
+
+
+Themes
+
+
+ 
+
+Strategic Goals
+
+  
+
+
+Focus
+ 
+language learning
+
+
+Office
+
+Office of the Executive Director
+
+
+Program
+
+Fulbright English Teaching Assistant Program (ETA)
+
+
+Points of Contact
+
+ 
+
+Snapshot
+
+
+0
+
+Locations
+
+
+
+  ";
         #endregion
     }
     
@@ -1411,12 +1557,26 @@ Locations
                 return this.mUITopPane;
             }
         }
+        
+        public UISortlistPane UISortlistPane
+        {
+            get
+            {
+                if ((this.mUISortlistPane == null))
+                {
+                    this.mUISortlistPane = new UISortlistPane(this);
+                }
+                return this.mUISortlistPane;
+            }
+        }
         #endregion
         
         #region Fields
         private UICbpspmenus1Custom1 mUICbpspmenus1Custom;
         
         private UITopPane mUITopPane;
+        
+        private UISortlistPane mUISortlistPane;
         #endregion
     }
     
@@ -1518,6 +1678,54 @@ Locations
         
         #region Fields
         private HtmlHyperlink mUIFulbrightEnglishTeacHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane : HtmlDiv
+    {
+        
+        public UISortlistPane(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Academic Exchange Programs\r\n\r\nAcademic E";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope ng-isolate-scope\" id=\"sort-list\" st-table=\"programs\" st-pipe=\"get" +
+                "Programs\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "28";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlCustom UIItemCustom
+        {
+            get
+            {
+                if ((this.mUIItemCustom == null))
+                {
+                    this.mUIItemCustom = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIItemCustom.SearchProperties["TagName"] = "A";
+                    this.mUIItemCustom.SearchProperties["Id"] = null;
+                    this.mUIItemCustom.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIItemCustom.FilterProperties["Class"] = "ng-binding";
+                    this.mUIItemCustom.FilterProperties["ControlDefinition"] = "class=\"ng-binding\" ng-click=\"selectPage(";
+                    this.mUIItemCustom.FilterProperties["TagInstance"] = "28";
+                    this.mUIItemCustom.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemCustom;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlCustom mUIItemCustom;
         #endregion
     }
     
@@ -1716,13 +1924,13 @@ Locations
         }
         
         #region Properties
-        public UISortlistPane UISortlistPane
+        public UISortlistPane1 UISortlistPane
         {
             get
             {
                 if ((this.mUISortlistPane == null))
                 {
-                    this.mUISortlistPane = new UISortlistPane(this);
+                    this.mUISortlistPane = new UISortlistPane1(this);
                 }
                 return this.mUISortlistPane;
             }
@@ -1730,15 +1938,15 @@ Locations
         #endregion
         
         #region Fields
-        private UISortlistPane mUISortlistPane;
+        private UISortlistPane1 mUISortlistPane;
         #endregion
     }
     
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class UISortlistPane : HtmlDiv
+    public class UISortlistPane1 : HtmlDiv
     {
         
-        public UISortlistPane(UITestControl searchLimitContainer) : 
+        public UISortlistPane1(UITestControl searchLimitContainer) : 
                 base(searchLimitContainer)
         {
             #region Search Criteria
@@ -1887,12 +2095,36 @@ Locations
                 return this.mUIDRAFTButton;
             }
         }
+        
+        public HtmlDiv UIOverviewEnglishlanguPane1
+        {
+            get
+            {
+                if ((this.mUIOverviewEnglishlanguPane1 == null))
+                {
+                    this.mUIOverviewEnglishlanguPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIOverviewEnglishlanguPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIOverviewEnglishlanguPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIOverviewEnglishlanguPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Overview\r\n\r\n \r\n\r\n\r\nEnglish language teac";
+                    this.mUIOverviewEnglishlanguPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIOverviewEnglishlanguPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "container ng-scope";
+                    this.mUIOverviewEnglishlanguPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"container ng-scope\" ui-view=\"\"";
+                    this.mUIOverviewEnglishlanguPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "41";
+                    this.mUIOverviewEnglishlanguPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIOverviewEnglishlanguPane1;
+            }
+        }
         #endregion
         
         #region Fields
         private HtmlDiv mUIOverviewEnglishlanguPane;
         
         private HtmlButton mUIDRAFTButton;
+        
+        private HtmlDiv mUIOverviewEnglishlanguPane1;
         #endregion
     }
 }

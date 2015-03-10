@@ -12,69 +12,15 @@ using System.Threading.Tasks;
 namespace ECA.Business.Service.Programs
 {
     /// <summary>
-    /// The ProgramServiceValidationEntity is a container for all objects that must be validated for a Program.
+    /// The ProgramServiceValidator is used to validate a Program Business entity on create and update.
     /// </summary>
-    public class ProgramServiceValidationEntity
-    {
-        /// <summary>
-        /// Creates a new ProgramServiceValidationEntity.
-        /// </summary>
-        /// <param name="name">The name of the program.</param>
-        /// <param name="description">The description of the program.</param>
-        /// <param name="regionLocationTypeIds">The region ids.</param>
-        /// <param name="focus">The focus.</param>
-        /// <param name="owner">The owner.</param>
-        /// <param name="parentProgramId">The parent program id.</param>
-        /// <param name="parentProgram">The parent program.</param>
-        public ProgramServiceValidationEntity(string name, string description, List<int> regionLocationTypeIds, Focus focus, Organization owner, int? parentProgramId, Program parentProgram)
-        {
-            this.RegionLocationTypeIds = regionLocationTypeIds;
-            this.Focus = focus;
-            this.OwnerOrganization = owner;
-            this.ParentProgramId = parentProgramId;
-            this.ParentProgram = parentProgram;
-            this.Name = name;
-            this.Description = description;
-        }
-
-        /// <summary>
-        /// Gets the region ids.
-        /// </summary>
-        public List<int> RegionLocationTypeIds { get; private set; }
-
-        /// <summary>
-        /// Gets the focus.
-        /// </summary>
-        public Focus Focus { get; private set; }
-
-        /// <summary>
-        /// Gets or the owner.
-        /// </summary>
-        public Organization OwnerOrganization { get; private set; }
-
-        /// <summary>
-        /// Gets the parent program.
-        /// </summary>
-        public Program ParentProgram { get; private set; }
-
-        /// <summary>
-        /// Gets the parent program id.
-        /// </summary>
-        public int? ParentProgramId { get; private set; }
-
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gest the description.
-        /// </summary>
-        public string Description { get; set; }
-    }
-
     public class ProgramServiceValidator : BusinessValidatorBase<ProgramServiceValidationEntity, ProgramServiceValidationEntity>
     {
+        /// <summary>
+        /// The error message when a program is configured without any points of contact.
+        /// </summary>
+        public const string NO_POINTS_OF_CONTACT_GIVEN_ERROR_MESSAGE = "There must be at least one point of contact for a program.";
+
         /// <summary>
         /// The error message when a location is not a region.
         /// </summary>
@@ -148,6 +94,10 @@ namespace ECA.Business.Service.Programs
             if (String.IsNullOrWhiteSpace(validationEntity.Description))
             {
                 yield return new BusinessValidationResult<EcaProgram>(x => x.Description, INVALID_DESCRIPTION_ERROR_MESSAGE);
+            }
+            if (validationEntity.ContactIds == null || validationEntity.ContactIds.Count == 0)
+            {
+                yield return new BusinessValidationResult<EcaProgram>(x => x.ContactIds, NO_POINTS_OF_CONTACT_GIVEN_ERROR_MESSAGE);
             }
         }
 

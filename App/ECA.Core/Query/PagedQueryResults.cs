@@ -15,10 +15,6 @@ namespace ECA.Core.Query
     /// <typeparam name="T">The result type.</typeparam>
     public class PagedQueryResults<T> where T : class
     {
-        private IQueryable<T> query;
-        private int start;
-        private int limit;
-
         /// <summary>
         /// Creates a new PagedQueryResults object with the total number of objects T, and the paged list of objects T.
         /// </summary>

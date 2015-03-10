@@ -23,6 +23,7 @@ namespace ECA.Business.Service.Admin
         /// Creates a new GoalService with the context to operate against.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
+        /// <param name="logger">The logger.</param>
         public GoalService(EcaContext context, ILogger logger) : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
