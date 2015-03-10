@@ -93,7 +93,6 @@ namespace ECA.Core.DynamicLinq
         /// <summary>
         /// Returns the name of the property given the expression of the property.
         /// </summary>
-        /// <typeparam name="TSource">The object to get the property of.</typeparam>
         /// <param name="propertySelector">The expression to get the property.</param>
         /// <returns>The name of the property.</returns>
         public static string GetPropertyName(Expression<Func<TSource, object>> propertySelector)

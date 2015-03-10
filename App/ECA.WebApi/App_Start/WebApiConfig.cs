@@ -8,6 +8,9 @@ using Newtonsoft.Json.Serialization;
 using ECA.WebApi.Common;
 using System.Net.Http.Headers;
 using ECA.WebApi.Custom.Filters;
+using System.Web.Http.ExceptionHandling;
+using ECA.Core.Logging;
+using System.Diagnostics;
 
 namespace ECA.WebApi
 {
@@ -15,7 +18,7 @@ namespace ECA.WebApi
     {
         public static void Register(HttpConfiguration config)
         {
-            UnityConfig.RegisterComponents();     
+            UnityConfig.RegisterComponents();
 
             // Enable cross-origin resource sharing.
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
@@ -45,10 +48,16 @@ namespace ECA.WebApi
             //config.Formatters.Insert(0, new PlanHtmlFormatter());
             //config.Formatters.Insert(0, new PlanXmlFormatter());
 
+            var logger = config.DependencyResolver.GetService(typeof(ILogger)) as ILogger;
+            Debug.Assert(logger != null, "The logger must not be null.");
+            config.Services.Add(typeof(IExceptionLogger), new LoggerExceptionHandler(logger));
+
             config.Filters.Add(new ModelNotFoundExceptionFilter());
             config.Filters.Add(new UnknownStaticLookupExceptionFilter());
             config.Filters.Add(new ValidationExceptionFilter());
             config.Filters.Add(new DbEntityValidationExceptionFilter());
+
+            config.Filters.Add(new ECA.WebApi.Custom.Filters.TraceFilter(logger));
         }
     }
 }

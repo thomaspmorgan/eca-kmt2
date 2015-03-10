@@ -14,6 +14,11 @@ namespace ECA.Core.DynamicLinq.Filter
     /// <typeparam name="T">The type to filter on.</typeparam>
     public class EqualFilter<T> : EqualityFilter<T> where T : class
     {
+        /// <summary>
+        /// Creates a new EqualFilter with the given property and value.
+        /// </summary>
+        /// <param name="property">The property to filter on.</param>
+        /// <param name="value">The value to filter with.</param>
         public EqualFilter(string property, object value)
             : base(property, value)
         {

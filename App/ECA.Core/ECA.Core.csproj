@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\InMemoryDbContext.cs" />
     <Compile Include="Data\InMemoryDbContextGenerator.generated.cs">
       <DependentUpon>InMemoryDbContextGenerator.tt</DependentUpon>
       <AutoGen>True</AutoGen>

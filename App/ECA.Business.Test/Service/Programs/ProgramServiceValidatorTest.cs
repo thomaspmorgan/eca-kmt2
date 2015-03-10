@@ -23,12 +23,13 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            entity = new ProgramServiceValidationEntity(name, " ", locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            entity = new ProgramServiceValidationEntity(name, " ", locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);
             var validationResult = results.First();
@@ -47,12 +48,13 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            entity = new ProgramServiceValidationEntity(name, String.Empty, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            entity = new ProgramServiceValidationEntity(name, String.Empty, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);
             var validationResult = results.First();
@@ -71,12 +73,13 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            entity = new ProgramServiceValidationEntity(name, null, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            entity = new ProgramServiceValidationEntity(name, null, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);
             var validationResult = results.First();
@@ -98,12 +101,13 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            entity = new ProgramServiceValidationEntity(" ", description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            entity = new ProgramServiceValidationEntity(" ", description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);
             var validationResult = results.First();
@@ -122,12 +126,13 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            entity = new ProgramServiceValidationEntity(String.Empty, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            entity = new ProgramServiceValidationEntity(String.Empty, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);
             var validationResult = results.First();
@@ -146,12 +151,13 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            entity = new ProgramServiceValidationEntity(null, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            entity = new ProgramServiceValidationEntity(null, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);
             var validationResult = results.First();
@@ -170,8 +176,9 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
@@ -195,8 +202,9 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
@@ -221,12 +229,13 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, null, owner, parentProgramId, parentProgram);
+            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, null, owner, parentProgramId, parentProgram);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);
             var validationResult = results.First();
@@ -245,12 +254,13 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, null, parentProgramId, parentProgram);
+            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, null, parentProgramId, parentProgram);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);
             var validationResult = results.First();
@@ -269,12 +279,13 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, null);
+            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, null);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);
             var validationResult = results.First();
@@ -294,14 +305,69 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, null, parentProgram);
+            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, null, parentProgram);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
+
+        }
+
+        [TestMethod]
+        public void TestValidate_NullContactIds()
+        {
+            var validator = new ProgramServiceValidator();
+            var locationTypeIds = new List<int>();
+            var focus = new Focus();
+            var owner = new Organization();
+            var parentProgramId = 1;
+            var parentProgram = new Program();
+            var name = "name";
+            var description = "description";
+            var contactIds = new List<int> { 1 };
+
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
+            var results = validator.Validate(entity).ToList();
+            Assert.AreEqual(0, results.Count);
+
+            contactIds = null;
+            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
+            results = validator.Validate(entity).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            var validationResult = results.First();
+            Assert.AreEqual(ProgramServiceValidator.NO_POINTS_OF_CONTACT_GIVEN_ERROR_MESSAGE, validationResult.ErrorMessage);
+
+        }
+
+        [TestMethod]
+        public void TestValidate_NoContactIds()
+        {
+            var validator = new ProgramServiceValidator();
+            var locationTypeIds = new List<int>();
+            var focus = new Focus();
+            var owner = new Organization();
+            var parentProgramId = 1;
+            var parentProgram = new Program();
+            var name = "name";
+            var description = "description";
+            var contactIds = new List<int> { 1 };
+
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
+            var results = validator.Validate(entity).ToList();
+            Assert.AreEqual(0, results.Count);
+
+            contactIds = new List<int>();
+            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
+            results = validator.Validate(entity).ToList();
+            Assert.AreEqual(1, results.Count);
+
+            var validationResult = results.First();
+            Assert.AreEqual(ProgramServiceValidator.NO_POINTS_OF_CONTACT_GIVEN_ERROR_MESSAGE, validationResult.ErrorMessage);
 
         }
 
@@ -316,8 +382,9 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.DoValidateCreate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
@@ -334,8 +401,9 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "name";
             var description = "description";
+            var contactIds = new List<int> { 1 };
 
-            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, focus, owner, parentProgramId, parentProgram);
+            var entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, focus, owner, parentProgramId, parentProgram);
             var results = validator.DoValidateUpdate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 

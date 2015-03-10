@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Models.Programs
 {
+    /// <summary>
+    /// A ProgramDTO is used to represent a Program in the ECA system.
+    /// </summary>
     public class ProgramDTO
     {
         /// <summary>

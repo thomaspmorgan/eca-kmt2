@@ -30,5 +30,29 @@ namespace ECA.WebApi.Test.Models.Query
             Assert.AreEqual(model.Property, simpleFilter.Property);
             Assert.AreEqual(model.Value, simpleFilter.Value);
         }
+
+        [TestMethod]
+        public void TestToString_AllValuesInitialized()
+        {
+            var model = new FilterBindingModel
+            {
+                Comparison = ComparisonType.Equal.Value,
+                Property = "S",
+                Value = "hello"
+            };
+            Assert.IsNotNull(model.ToString());
+        }
+
+        [TestMethod]
+        public void TestToString_AllValuesNull()
+        {
+            var model = new FilterBindingModel
+            {
+                Comparison = null,
+                Property = null,
+                Value = null
+            };
+            Assert.IsNotNull(model.ToString());
+        }
     }
 }

@@ -110,6 +110,28 @@ namespace ECA.WebApi.Test.Models.Query
         }
 
         #endregion
+
+        #region ToString
+        [TestMethod]
+        public void TestToString_OnlyStartAndLimitInitialized()
+        {
+            var model = new PagingQueryBindingModel();
+            model.Start = 0;
+            model.Limit = 10;
+            Assert.IsNotNull(model.ToString());
+        }
+
+        [TestMethod]
+        public void TestToString_FilterAndSorterStrings()
+        {
+            var model = new PagingQueryBindingModel();
+            model.Start = 0;
+            model.Limit = 10;
+            model.Filter = new List<string> { "filter1" };
+            model.Sort = new List<string> { "sort1" };
+            Assert.IsNotNull(model.ToString());
+        }
+        #endregion
     }
 
 }

@@ -11,76 +11,131 @@ using System.Threading.Tasks;
 
 namespace ECA.Core.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public class TestDbSet<TEntity> : DbSet<TEntity>, IQueryable, IEnumerable<TEntity>, IDbAsyncEnumerable<TEntity>
         where TEntity : class
     {
         ObservableCollection<TEntity> _data;
         IQueryable _query;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public TestDbSet()
         {
             _data = new ObservableCollection<TEntity>();
             _query = _data.AsQueryable();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public override TEntity Add(TEntity item)
         {
             _data.Add(item);
             return item;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public override TEntity Remove(TEntity item)
         {
             _data.Remove(item);
             return item;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public override TEntity Attach(TEntity item)
         {
             _data.Add(item);
             return item;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override TEntity Create()
         {
             return Activator.CreateInstance<TEntity>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TDerivedEntity"></typeparam>
+        /// <returns></returns>
         public override TDerivedEntity Create<TDerivedEntity>()
         {
             return Activator.CreateInstance<TDerivedEntity>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override ObservableCollection<TEntity> Local
         {
             get { return _data; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         Type IQueryable.ElementType
         {
             get { return _query.ElementType; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         Expression IQueryable.Expression
         {
             get { return _query.Expression; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         IQueryProvider IQueryable.Provider
         {
             get { return new TestDbAsyncQueryProvider<TEntity>(_query.Provider); }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return _data.GetEnumerator();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         IEnumerator<TEntity> IEnumerable<TEntity>.GetEnumerator()
         {
             return _data.GetEnumerator();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         IDbAsyncEnumerator<TEntity> IDbAsyncEnumerable<TEntity>.GetAsyncEnumerator()
         {
             return new TestDbAsyncEnumerator<TEntity>(_data.GetEnumerator());

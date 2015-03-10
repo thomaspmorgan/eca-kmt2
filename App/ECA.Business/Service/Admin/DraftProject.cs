@@ -49,11 +49,6 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Gets the status id of the draft project.
         /// </summary>
-        public int StatusId { get; private set; }
-
-        /// <summary>
-        /// Gets the history of the draft project.
-        /// </summary>
-        //public CreatedHistory History { get; private set; }        
+        public int StatusId { get; private set; }      
     }
 }

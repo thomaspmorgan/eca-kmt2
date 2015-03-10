@@ -98,7 +98,7 @@ namespace ECA.Core.DynamicLinq.Filter
         /// </summary>
         /// <typeparam name="T">The type to filter.</typeparam>
         /// <param name="source">The collection of objects to filter.</param>
-        /// <param name="filter">The filters.</param>
+        /// <param name="filters">The filters.</param>
         /// <returns>The filtered collection.</returns>
         public static IEnumerable<T> Where<T>(this IEnumerable<T> source, IEnumerable<IFilter> filters) where T : class
         {
@@ -164,7 +164,7 @@ namespace ECA.Core.DynamicLinq.Filter
         /// </summary>
         /// <typeparam name="T">The type to filter.</typeparam>
         /// <param name="source">The collection of objects to filter.</param>
-        /// <param name="filter">The filters.</param>
+        /// <param name="filters">The filters.</param>
         /// <returns>The filtered collection.</returns>
         public static IQueryable<T> Where<T>(this IQueryable<T> source, IEnumerable<IFilter> filters) where T : class
         {
