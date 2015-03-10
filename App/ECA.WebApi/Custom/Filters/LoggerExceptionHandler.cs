@@ -26,18 +26,17 @@ namespace ECA.WebApi.Custom.Filters
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Overrides the Log method.
+        /// </summary>
+        /// <param name="context">The ExceptionLoggerContext instance.</param>
         public override void Log(ExceptionLoggerContext context)
         {
             base.Log(context);
             logger.Error(GetMessage(context));
         }
 
-        /// <summary>
-        /// Returns a formatted message of the error log.
-        /// </summary>
-        /// <param name="context">The exception context.</param>
-        /// <returns>A formatted message of the error log.</returns>
-        public string GetMessage(ExceptionLoggerContext context)
+        private string GetMessage(ExceptionLoggerContext context)
         {
             var utcNow = DateTime.UtcNow;
             var localTime = utcNow.ToLocalTime();
@@ -45,6 +44,7 @@ namespace ECA.WebApi.Custom.Filters
             var sb = new StringBuilder();
             sb.AppendFormat("Exception occurred at {0} UTC ({1} {2})", utcNow.ToString(), utcNow.ToLocalTime().ToString(), timeZone.StandardName);
             sb.AppendLine(String.Empty);
+
             var actionContext = context.ExceptionContext.ActionContext;
             sb.AppendFormat("Request Uri:  {0}", actionContext.Request.RequestUri.ToString());
             sb.AppendLine(String.Empty);

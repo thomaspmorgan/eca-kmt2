@@ -12,56 +12,66 @@ using Unity.WebApi;
 
 namespace ECA.WebApi
 {
+    /// <summary>
+    /// The UnityConfig is used to register components through the Unity IoC container.
+    /// </summary>
     public static class UnityConfig
     {
+        /// <summary>
+        /// Registers the components to a UnityContainer and sets the web api dependency resolver to a UnityDependencyResolver.
+        /// </summary>
         public static void RegisterComponents()
         {
             var container = new UnityContainer();
-            
             RegisterLogging(container);
             RegisterContexts(container);
-            RegisterAdminDependencies(container);
-            RegisterProgramDependencies(container);
+            RegisterServices(container);
             RegisterValidations(container);
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
 
+        /// <summary>
+        /// Registers the EcaContext.
+        /// </summary>
+        /// <param name="container">The unity container.</param>
         public static void RegisterContexts(IUnityContainer container)
         {
-            //var localDbConnectionString = @"Data Source=(LocalDb)\v11.0;Initial Catalog=Test;Integrated Security=True";
             var connectionString = "EcaContext";
             container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
-            //container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(localDbConnectionString));
-            //container.RegisterType<EcaContext>(new InjectionFactory((c) =>
-            //{
-            //    return DbContextHelper.GetInMemoryContext();
-            //}));
         }
 
+        /// <summary>
+        /// Registers the logger.
+        /// </summary>
+        /// <param name="container">The unity container.</param>
         public static void RegisterLogging(IUnityContainer container)
         {
             container.RegisterType<ILogger, TraceLogger>(new HierarchicalLifetimeManager());
         }
 
-        public static void RegisterAdminDependencies(IUnityContainer container)
+        /// <summary>
+        /// Registers Admin services.
+        /// </summary>
+        /// <param name="container">The unity container.</param>
+        public static void RegisterServices(IUnityContainer container)
         {
             Debug.Assert(container.IsRegistered<EcaContext>(), "The EcaContext is a dependency.  It should be registered.");
-            container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
-            container.RegisterType<ILocationService, LocationService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IGoalService, GoalService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IMoneyFlowService, MoneyFlowService>(new HierarchicalLifetimeManager());
-        }
-
-        public static void RegisterProgramDependencies(IUnityContainer container)
-        {
-            Debug.Assert(container.IsRegistered<EcaContext>(), "The EcaContext is a dependency.  It should be registered.");
-            container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
+            
             container.RegisterType<IContactService, ContactService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IParticipantService, ParticipantService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusService, FocusService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IGoalService, GoalService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ILocationService, LocationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IMoneyFlowService, MoneyFlowService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IParticipantService, ParticipantService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
         }
 
+        /// <summary>
+        /// Registers business validation.
+        /// </summary>
+        /// <param name="container">Registers business validations.</param>
         public static void RegisterValidations(IUnityContainer container)
         {
             container.RegisterType<IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>, ProgramServiceValidator>();

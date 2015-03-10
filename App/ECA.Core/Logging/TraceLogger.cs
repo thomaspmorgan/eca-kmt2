@@ -146,7 +146,7 @@ namespace ECA.Core.Logging
             {
                 sb.AppendFormat("[{0}:  ({1})],", p.Key, p.Value);
             }
-            string message = String.Format("{0}.{1} Elapsed:  {2},  Parameters:  ({3})", componentName, method, timespan.ToString(), sb.ToString());
+            string message = String.Format("{0}.{1} Elapsed:  {2},  Parameters:  ({3})", componentName, method, timespan.ToString(), sb.ToString().TrimEnd(','));
             Trace.TraceInformation(message);
         }
         #endregion

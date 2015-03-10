@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using ECA.WebApi.Custom.Filters;
 using System.Web.Http.ExceptionHandling;
 using ECA.Core.Logging;
+using System.Diagnostics;
 
 namespace ECA.WebApi
 {
@@ -47,12 +48,16 @@ namespace ECA.WebApi
             //config.Formatters.Insert(0, new PlanHtmlFormatter());
             //config.Formatters.Insert(0, new PlanXmlFormatter());
 
-            config.Services.Add(typeof(IExceptionLogger), new LoggerExceptionHandler(config.DependencyResolver.GetService(typeof(ILogger)) as ILogger));
+            var logger = config.DependencyResolver.GetService(typeof(ILogger)) as ILogger;
+            Debug.Assert(logger != null, "The logger must not be null.");
+            config.Services.Add(typeof(IExceptionLogger), new LoggerExceptionHandler(logger));
 
             config.Filters.Add(new ModelNotFoundExceptionFilter());
             config.Filters.Add(new UnknownStaticLookupExceptionFilter());
             config.Filters.Add(new ValidationExceptionFilter());
             config.Filters.Add(new DbEntityValidationExceptionFilter());
+
+            config.Filters.Add(new ECA.WebApi.Custom.Filters.TraceFilter(logger));
         }
     }
 }
