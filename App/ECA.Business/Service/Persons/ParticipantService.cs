@@ -24,6 +24,7 @@ namespace ECA.Business.Service.Persons
         /// Creates a new ParticipantService with the given context to operate against.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
+        /// <param name="logger">The logger.</param>
         public ParticipantService(EcaContext context, ILogger logger) : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");

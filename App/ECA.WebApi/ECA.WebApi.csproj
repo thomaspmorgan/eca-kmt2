@@ -281,7 +281,6 @@
     <Compile Include="Controllers\Persons\ContactsController.cs" />
     <Compile Include="Controllers\Programs\ProgramsController.cs" />
     <Compile Include="Controllers\Programs\ThemesController.cs" />
-    <Compile Include="Controllers\SampleController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Custom\Filters\DbEntityValidationExceptionFilter.cs" />
     <Compile Include="Custom\Filters\LoggerExceptionHandler.cs" />

@@ -21,8 +21,9 @@ namespace ECA.Business.Service.Programs
         /// <param name="focus">The focus.</param>
         /// <param name="owner">The owner.</param>
         /// <param name="parentProgramId">The parent program id.</param>
+        /// <param name="contactIds">The list of contacts by id.</param>
         /// <param name="parentProgram">The parent program.</param>
-        public ProgramServiceValidationEntity(string name, string description, List<int> regionLocationTypeIds, Focus focus, Organization owner, int? parentProgramId, Program parentProgram)
+        public ProgramServiceValidationEntity(string name, string description, List<int> regionLocationTypeIds, List<int> contactIds, Focus focus, Organization owner, int? parentProgramId, Program parentProgram)
         {
             this.RegionLocationTypeIds = regionLocationTypeIds;
             this.Focus = focus;
@@ -31,7 +32,13 @@ namespace ECA.Business.Service.Programs
             this.ParentProgram = parentProgram;
             this.Name = name;
             this.Description = description;
+            this.ContactIds = contactIds;
         }
+
+        /// <summary>
+        /// Gets the contact ids.
+        /// </summary>
+        public List<int> ContactIds { get; private set; }
 
         /// <summary>
         /// Gets the region ids.

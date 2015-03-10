@@ -23,6 +23,7 @@ namespace ECA.Business.Service.Lookup
         /// Creates a new ThemeService.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
+        /// <param name="logger">The logger.</param>
         public ThemeService(EcaContext context, ILogger logger) : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");

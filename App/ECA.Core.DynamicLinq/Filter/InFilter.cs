@@ -65,6 +65,10 @@ namespace ECA.Core.DynamicLinq.Filter
             return list;
         }
 
+        /// <summary>
+        /// Returns a where expression checking the property value will be contained in an IEnumerable of items.
+        /// </summary>
+        /// <returns>The where expression checking an enumerable object containing the property to filter with.</returns>
         public override Expression<Func<T, bool>> ToWhereExpression()
         {
             Contract.Assert(this.Value != null, "The value must not be null.");

@@ -13,6 +13,10 @@ namespace ECA.Business.Service
     /// </summary>
     public abstract class Audit
     {
+        /// <summary>
+        /// Creates a new Audit entity with the given user making the changes.
+        /// </summary>
+        /// <param name="user">The user performing changes.</param>
         public Audit(User user)
         {
             Contract.Requires(user != null, "The user must not be null.");

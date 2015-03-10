@@ -1310,7 +1310,7 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
 
             Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
-            DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn, DbContextHelper.DATE_PRECISION);
 
         }
 
@@ -1398,7 +1398,7 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
 
             Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
-            DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn, DbContextHelper.DATE_PRECISION);
         }
 
         [TestMethod]

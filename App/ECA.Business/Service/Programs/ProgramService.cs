@@ -120,7 +120,7 @@ namespace ECA.Business.Service.Programs
             var owner = GetOrganizationById(draftProgram.OwnerOrganizationId);
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? GetParentProgramById(draftProgram.ParentProgramId.Value) : null;
-            var program = DoCreate(draftProgram, new ProgramServiceValidationEntity(draftProgram.Name, draftProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
+            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, focus, owner, parentProgram, regionTypeIds));
             stopwatch.Stop();
             this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
             return program;
@@ -139,7 +139,7 @@ namespace ECA.Business.Service.Programs
             var owner = await GetOrganizationByIdAsync(draftProgram.OwnerOrganizationId);
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetParentProgramByIdAsync(draftProgram.ParentProgramId.Value) : null;
-            var program = DoCreate(draftProgram, new ProgramServiceValidationEntity(draftProgram.Name, draftProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
+            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, focus, owner, parentProgram, regionTypeIds));
             stopwatch.Stop();
             this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
             return program;
@@ -198,7 +198,7 @@ namespace ECA.Business.Service.Programs
             Program parentProgram = parentProgramId.HasValue ? GetParentProgramById(updatedProgram.ParentProgramId.Value) : null;
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, new ProgramServiceValidationEntity(updatedProgram.Name, updatedProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
+                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, focus, owner, parentProgram, regionTypeIds));
                 stopwatch.Stop();
                 this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
             }
@@ -224,7 +224,7 @@ namespace ECA.Business.Service.Programs
             
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, new ProgramServiceValidationEntity(updatedProgram.Name, updatedProgram.Description, regionTypeIds, focus, owner, parentProgramId, parentProgram));
+                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, focus, owner, parentProgram, regionTypeIds));
                 stopwatch.Stop();
                 this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
             }
@@ -260,6 +260,20 @@ namespace ECA.Business.Service.Programs
             SetRegions(updatedProgram.RegionIds, programToUpdate);
         }
         #endregion
+
+        private ProgramServiceValidationEntity GetValidationEntity(EcaProgram program, Focus focus, Organization owner, Program parentProgram, List<int> regionTypesIds)
+        {
+            return new ProgramServiceValidationEntity(
+                name: program.Name,
+                description: program.Description,
+                regionLocationTypeIds: regionTypesIds,
+                contactIds: program.ContactIds,
+                focus: focus,
+                owner: owner,
+                parentProgramId: program.ParentProgramId,
+                parentProgram: parentProgram
+                );
+        }
 
         /// <summary>
         /// Updates the goals on the given program to the goals with the given ids.

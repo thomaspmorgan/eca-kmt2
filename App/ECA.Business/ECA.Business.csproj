@@ -97,7 +97,6 @@
     <Compile Include="Validation\IBusinessValidator.cs" />
     <Compile Include="Service\Programs\ProgramService.cs" />
     <Compile Include="Service\Admin\ProjectService.cs" />
-    <Compile Include="Service\Lookup\LookupService.cs" />
     <Compile Include="Service\Lookup\ThemeService.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidator.cs" />
     <Compile Include="Service\Update.cs" />

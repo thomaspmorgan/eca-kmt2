@@ -17,6 +17,11 @@ namespace ECA.Business.Service.Programs
     public class ProgramServiceValidator : BusinessValidatorBase<ProgramServiceValidationEntity, ProgramServiceValidationEntity>
     {
         /// <summary>
+        /// The error message when a program is configured without any points of contact.
+        /// </summary>
+        public const string NO_POINTS_OF_CONTACT_GIVEN_ERROR_MESSAGE = "There must be at least one point of contact for a program.";
+
+        /// <summary>
         /// The error message when a location is not a region.
         /// </summary>
         public const string GIVEN_LOCATION_IS_NOT_A_REGION_ERROR_MESSAGE = "The given location is not a region.";
@@ -89,6 +94,10 @@ namespace ECA.Business.Service.Programs
             if (String.IsNullOrWhiteSpace(validationEntity.Description))
             {
                 yield return new BusinessValidationResult<EcaProgram>(x => x.Description, INVALID_DESCRIPTION_ERROR_MESSAGE);
+            }
+            if (validationEntity.ContactIds == null || validationEntity.ContactIds.Count == 0)
+            {
+                yield return new BusinessValidationResult<EcaProgram>(x => x.ContactIds, NO_POINTS_OF_CONTACT_GIVEN_ERROR_MESSAGE);
             }
         }
 

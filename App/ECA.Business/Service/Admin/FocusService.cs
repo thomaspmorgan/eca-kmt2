@@ -24,6 +24,7 @@ namespace ECA.Business.Service.Admin
         /// Creates a new FocusSerivce with the given context.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
+        /// <param name="logger">The logger.</param>
         public FocusService(EcaContext context, ILogger logger)
             : base(context, logger)
         {
