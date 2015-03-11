@@ -12,7 +12,7 @@ namespace ECA.Core.DynamicLinq.Filter
     /// A NullFilter is used to filter objects whose property is or is not null.
     /// </summary>
     /// <typeparam name="T">The type to filter.</typeparam>
-    public class NullFilter<T> : LinqFilter<T> where T : class
+    public class NullFilter<T> : PropertyOperator<T> where T : class
     {
         /// <summary>
         /// Creates a new NullFilter with the property to filter and whether or not

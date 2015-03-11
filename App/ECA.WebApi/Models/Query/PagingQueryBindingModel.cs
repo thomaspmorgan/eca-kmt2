@@ -7,32 +7,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Web;
-using System.Web.Http.ValueProviders;
-using System.Net.Http;
-using System.Web.Http.ModelBinding;
-using Newtonsoft.Json.Linq;
-using System.Collections;
 using System.Text;
+using System.Web;
 
 namespace ECA.WebApi.Models.Query
 {
-    /// <summary>
-    /// A PagingQueryBindingModel is used to take in paging, filtering, and sorting parameters in an action
-    /// and use those parameters to return a QueryableOperator.
-    /// </summary>
-    public class PagingQueryBindingModel
+    public abstract class PagingQueryBindingModel
     {
-        /// <summary>
-        /// 
-        /// Creates a new default instance and intializes the Filter and Sort properties.
-        /// </summary>
-        public PagingQueryBindingModel()
-        {
-            this.Filter = new List<string>();
-            this.Sort = new List<string>();
-        }
-
         /// <summary>
         /// Gets the maximum number of results a paged request can have.
         /// </summary>
@@ -49,11 +30,6 @@ namespace ECA.WebApi.Models.Query
         /// </summary>
         [Range(1, MAX_LIMIT)]
         public int Limit { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Filters.
-        /// </summary>
-        public List<string> Filter { get; set; }
 
         /// <summary>
         /// Gets or sets the Sorters.
@@ -73,25 +49,15 @@ namespace ECA.WebApi.Models.Query
                 start: this.Start,
                 limit: this.Limit,
                 defaultSorter: defaultSorter,
-                filters: ParseFilters(this.Filter).Select(x => x.ToIFilter()).ToList(),
+                filters: GetFilters(),
                 sorters: ParseSorters(this.Sort).Select(x => x.ToISorter()).ToList());
         }
 
         /// <summary>
-        /// Parses a list of filters given the json encoded filters.
+        /// Returns the list of filters for the query operator.
         /// </summary>
-        /// <param name="filterStrings">The list of json encoded filters.</param>
-        /// <returns>The list of filter binding models.</returns>
-        public List<FilterBindingModel> ParseFilters(List<string> filterStrings)
-        {
-            var list = new List<FilterBindingModel>();
-            var converter = new FilterBindingModelConverter();
-            filterStrings.ForEach(x =>
-            {
-                list.Add(JsonConvert.DeserializeObject<FilterBindingModel>(x, converter));
-            });
-            return list;
-        }
+        /// <returns>The list of filters for the query operator.</returns>
+        public abstract List<IFilter> GetFilters();
 
         /// <summary>
         /// Parses sorters given the json encoded sorters.
@@ -118,10 +84,9 @@ namespace ECA.WebApi.Models.Query
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.AppendFormat("Start:  {0}, Limit:  {1}:  Filters:[{2}], Sorters:  [{3}]",
+            sb.AppendFormat("Start:  {0}, Limit:  {1}:  Sorters:  [{2}]",
                 this.Start,
                 this.Limit,
-                String.Join(", ", this.Filter != null ? this.Filter : new List<string>()),
                 String.Join(", ", this.Sort != null ? this.Sort : new List<string>()));
             return sb.ToString();
         }

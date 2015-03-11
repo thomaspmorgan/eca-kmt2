@@ -17,6 +17,7 @@ namespace ECA.WebApi.Controllers.Programs
     /// <summary>
     /// The ProgramsController is capable of handling program requests from a client.
     /// </summary>
+    [RoutePrefix("api")]
     public class ProgramsController : ApiController
     {
         /// <summary>
@@ -42,10 +43,31 @@ namespace ECA.WebApi.Controllers.Programs
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of programs.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleProgramDTO>))]
-        public async Task<IHttpActionResult> GetProgramsAsync([FromUri]PagingQueryBindingModel queryModel)
+        public async Task<IHttpActionResult> GetProgramsAsync([FromUri]MultipleFilterBindingModel queryModel)
         {
             if (ModelState.IsValid)
             {
+                var results = await this.programService.GetProgramsAsync(queryModel.ToQueryableOperator<SimpleProgramDTO>(DEFAULT_PROGRAM_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a listing of the paged, sorted, and filtered list of programs.
+        /// </summary>
+        /// <param name="queryModel">The paging, filtering, and sorting model.</param>
+        /// <returns>The list of programs.</returns>
+        [ResponseType(typeof(PagedQueryResults<SimpleProgramDTO>))]
+        [Route("Programs/Search")]
+        public async Task<IHttpActionResult> GetProgramBySearchAsync([FromUri]KeywordBindingModel<SimpleProgramDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                queryModel.SetPropertiesToFilter(x => x.Name, x => x.Description);
                 var results = await this.programService.GetProgramsAsync(queryModel.ToQueryableOperator<SimpleProgramDTO>(DEFAULT_PROGRAM_SORTER));
                 return Ok(results);
             }
@@ -116,7 +138,6 @@ namespace ECA.WebApi.Controllers.Programs
             {
                 return BadRequest(ModelState);
             }
-
         }
     }
 }

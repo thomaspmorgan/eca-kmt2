@@ -59,13 +59,16 @@
     <Compile Include="Filter\ExpressionFilterTest.cs" />
     <Compile Include="Filter\GreaterThanFilterTest.cs" />
     <Compile Include="Filter\InFilterTest.cs" />
+    <Compile Include="Filter\KeywordFilterTest.cs" />
     <Compile Include="Filter\LessThanFilterTest.cs" />
     <Compile Include="Filter\LikeFilterTest.cs" />
     <Compile Include="Filter\LinqFilterTest.cs" />
     <Compile Include="Filter\NullFilterTest.cs" />
     <Compile Include="Filter\SimpleFilterTest.cs" />
+    <Compile Include="Filter\SimpleKeywordFilterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyOperatorTest.cs" />
+    <Compile Include="PropertyHelperTest.cs" />
+    <Compile Include="Filter\PropertyOperatorTest.cs" />
     <Compile Include="QueryableOperatorTest.cs" />
     <Compile Include="SortDirectionTest.cs" />
     <Compile Include="Sorter\ExpressionSorterTest.cs" />

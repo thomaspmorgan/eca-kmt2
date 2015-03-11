@@ -34,7 +34,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestGetThemesAsync()
         {
-            var response = await controller.GetThemesAsync(new PagingQueryBindingModel());
+            var response = await controller.GetThemesAsync(new MultipleFilterBindingModel());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ThemeDTO>>));
         }
 
@@ -42,7 +42,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         public async Task TestGetThemesAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetThemesAsync(new PagingQueryBindingModel());
+            var response = await controller.GetThemesAsync(new MultipleFilterBindingModel());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion

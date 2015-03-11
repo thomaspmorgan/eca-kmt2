@@ -14,6 +14,15 @@ namespace ECA.WebApi.Test.Models.Query
         public string S { get; set; }
     }
 
+    public class TestPagingQueryBindingModel : PagingQueryBindingModel
+    {
+
+        public override List<IFilter> GetFilters()
+        {
+            return new List<IFilter>();
+        }
+    }
+
     [TestClass]
     public class PagingQueryBindingModelTest
     {
@@ -25,7 +34,7 @@ namespace ECA.WebApi.Test.Models.Query
             var start = 0;
             var limit = 10;
             var defaultSorter = new ExpressionSorter<PagingQueryBindingModelTestClass>(x => x.S, SortDirection.Ascending);
-            var model = new PagingQueryBindingModel
+            var model = new TestPagingQueryBindingModel
             {
                 Start = start,
                 Limit = limit
@@ -42,41 +51,6 @@ namespace ECA.WebApi.Test.Models.Query
         }
 
         [TestMethod]
-        public void TestToQueryableOperator_HasFilter()
-        {
-            var start = 0;
-            var limit = 10;
-            var defaultSorter = new ExpressionSorter<PagingQueryBindingModelTestClass>(x => x.S, SortDirection.Ascending);
-            var filter = new ExpressionFilter<PagingQueryBindingModelTestClass>(x => x.S, ComparisonType.Equal, "s");
-            var filters = new List<FilterBindingModel>{new FilterBindingModel
-            {
-                Comparison = filter.Comparison,
-                Property = filter.Property,
-                Value = filter.Value
-            }};
-            var jsonStrings = new List<string>();
-            jsonStrings.AddRange(filters.Select(x => JsonConvert.SerializeObject(x)).ToList());
-            var model = new PagingQueryBindingModel
-            {
-                Start = start,
-                Limit = limit,
-                Filter = jsonStrings
-            };
-            var queryOperator = model.ToQueryableOperator<PagingQueryBindingModelTestClass>(defaultSorter);
-            Assert.AreEqual(start, queryOperator.Start);
-            Assert.AreEqual(limit, queryOperator.Limit);
-            Assert.AreEqual(1, queryOperator.Filters.Count);
-            Assert.AreEqual(0, queryOperator.Sorters.Count);
-
-            var testFilter = queryOperator.Filters.First();
-            Assert.IsInstanceOfType(testFilter, typeof(SimpleFilter));
-            var simpleTestFilter = (SimpleFilter)testFilter;
-            Assert.AreEqual(filter.Comparison, simpleTestFilter.Comparison);
-            Assert.AreEqual(filter.Property, simpleTestFilter.Property);
-            Assert.AreEqual(filter.Value, simpleTestFilter.Value);
-        }
-
-        [TestMethod]
         public void TestToQueryableOperator_HasSorter()
         {
             var start = 0;
@@ -90,7 +64,7 @@ namespace ECA.WebApi.Test.Models.Query
             }};
             var jsonStrings = new List<string>();
             jsonStrings.AddRange(sorters.Select(x => JsonConvert.SerializeObject(x)).ToList());
-            var model = new PagingQueryBindingModel
+            var model = new TestPagingQueryBindingModel
             {
                 Start = start,
                 Limit = limit,
@@ -115,19 +89,18 @@ namespace ECA.WebApi.Test.Models.Query
         [TestMethod]
         public void TestToString_OnlyStartAndLimitInitialized()
         {
-            var model = new PagingQueryBindingModel();
+            var model = new TestPagingQueryBindingModel();
             model.Start = 0;
             model.Limit = 10;
             Assert.IsNotNull(model.ToString());
         }
 
         [TestMethod]
-        public void TestToString_FilterAndSorterStrings()
+        public void TestToString_SorterStrings()
         {
-            var model = new PagingQueryBindingModel();
+            var model = new TestPagingQueryBindingModel();
             model.Start = 0;
             model.Limit = 10;
-            model.Filter = new List<string> { "filter1" };
             model.Sort = new List<string> { "sort1" };
             Assert.IsNotNull(model.ToString());
         }

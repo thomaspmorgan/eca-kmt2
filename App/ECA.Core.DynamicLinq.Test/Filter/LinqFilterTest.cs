@@ -20,8 +20,8 @@ namespace ECA.Core.DynamicLinq.Test.Filter
     public class LinqTestFilter<T> : LinqFilter<T> where T : class
     {
 
-        public LinqTestFilter(string property)
-            : base(property)
+        public LinqTestFilter()
+            : base()
         {
 
         }
@@ -35,46 +35,7 @@ namespace ECA.Core.DynamicLinq.Test.Filter
     [TestClass]
     public class LinqFilterTest
     {
-        [TestMethod]
-        public void TestConstructor_NonNullableProperty()
-        {
-            var propertyName = "Id";
-            var t = typeof(LinqFilterTestClass);
-            var property = t.GetProperty(propertyName);
-            var filter = new LinqTestFilter<LinqFilterTestClass>(propertyName);
-            Assert.AreEqual(property, filter.PropertyInfo);
-            Assert.IsFalse(filter.IsNullable);
-        }
-
-        [TestMethod]
-        public void TestConstructor_NullableProperty()
-        {
-            var propertyName = "NullableId";
-            var t = typeof(LinqFilterTestClass);
-            var property = t.GetProperty(propertyName);
-            var filter = new LinqTestFilter<LinqFilterTestClass>(propertyName);
-            Assert.AreEqual(property, filter.PropertyInfo);
-            Assert.IsTrue(filter.IsNullable);
-        }
-
-        [TestMethod]
-        public void TestConstructor_PropertyNameCaseInsenstive()
-        {
-            var propertyName = "nullableid";
-            var t = typeof(LinqFilterTestClass);
-            var property = t.GetProperty("NullableId");
-            var filter = new LinqTestFilter<LinqFilterTestClass>(propertyName);
-            Assert.AreEqual(property, filter.PropertyInfo);
-            Assert.IsTrue(filter.IsNullable);
-        }
-
-        [TestMethod]
-        public void TestToString()
-        {
-            var propertyName = "S";
-            var filter = new LikeFilter<LinqFilterTestClass>(propertyName, "hello");
-            Assert.IsNotNull(filter.ToString());
-        }
+        
 
         #region IEnumerable Extension Tests
 

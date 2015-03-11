@@ -29,7 +29,7 @@ namespace ECA.WebApi.Controllers.Admin
 
         [ResponseType(typeof(PagedQueryResults<MoneyFlowDTO>))]
         [Route("Projects/{projectId:int}/MoneyFlows")]
-        public async Task<IHttpActionResult> GetMoneyFlowsByProjectId(int projectId, [FromUri]PagingQueryBindingModel queryModel)
+        public async Task<IHttpActionResult> GetMoneyFlowsByProjectId(int projectId, [FromUri]MultipleFilterBindingModel queryModel)
         {
             if (ModelState.IsValid)
             {
