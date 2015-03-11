@@ -10,43 +10,32 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace ProjectOverview.Test
+namespace Viewhome.Test
 {
     /// <summary>
-    /// This test is compiled of a series of steps to reach the Project Overview for a specific individual Project under a Program.
+    /// This test logs the user in and verifies that the three tabs on the homepage/landing page for the QA site are functional and available for display/view.
     /// </summary>
     [CodedUITest]
-    public class ProjectOverviewCodedUITest1
+    public class ViewHomeCodedUITest1
     {
-        public ProjectOverviewCodedUITest1()
+        public ViewHomeCodedUITest1()
         {
         }
 
         [TestMethod]
-        public void ProjectOverviewCodedUITestMethod1()
+        public void ViewHomeCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-            this.UIMap.LogintoQA();
-            this.UIMap.ContentMenuButton();
-            this.UIMap.SelectContentMenuButton();
-            this.UIMap.ContentMenu_ProgramsLink();
-            this.UIMap.SelectProgramsLink();
-            this.UIMap.RefreshAllProgramsPage();
-            //this.UIMap.ScrollDownAllPrograms();
-            this.UIMap.AllProgramsPageNumber();
-            this.UIMap.SelectAllProgramsPageNumber();
-            this.UIMap.ScrollDowntoIndividualProgram();
-            this.UIMap.IndividualProgramLink();
-            this.UIMap.SelectIndividualProgram();
-            this.UIMap.RefreshIndividualProgramPage();
-            this.UIMap.BranchesandProjectsLink();
-            this.UIMap.SelectBranchesandProjectsLink();
-            this.UIMap.RefreshBranchesandProjectsPage();
-            //this.UIMap.ScrollDownBranchesandProjects();
-            this.UIMap.IndividualProjectLink();
-            this.UIMap.SelectIndividualProject();
-            this.UIMap.RefreshProjectOverviewPage();
-            this.UIMap.ProjectsOverviewSection();
+            this.UIMap.OpenBrowserEnterCreds();
+            this.UIMap.SignInButton();
+            this.UIMap.SignIn();
+            this.UIMap.Notifications_ActivityLink();
+            this.UIMap.SelectNotifications_ActivityLink();
+            this.UIMap.NewsLink();
+            this.UIMap.SelectNewsLink();
+            this.UIMap.YourShortcutsLink();
+            this.UIMap.SelectYourShortcutsLink();
+            this.UIMap.CloseBrowserButton();
             this.UIMap.CloseBrowser();
         }
 

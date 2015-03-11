@@ -10,44 +10,22 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace ProjectOverview.Test
+namespace ViewParticipantsList.Test
 {
     /// <summary>
-    /// This test is compiled of a series of steps to reach the Project Overview for a specific individual Project under a Program.
+    /// Summary description for CodedUITest1
     /// </summary>
     [CodedUITest]
-    public class ProjectOverviewCodedUITest1
+    public class CodedUITest1
     {
-        public ProjectOverviewCodedUITest1()
+        public CodedUITest1()
         {
         }
 
         [TestMethod]
-        public void ProjectOverviewCodedUITestMethod1()
+        public void CodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-            this.UIMap.LogintoQA();
-            this.UIMap.ContentMenuButton();
-            this.UIMap.SelectContentMenuButton();
-            this.UIMap.ContentMenu_ProgramsLink();
-            this.UIMap.SelectProgramsLink();
-            this.UIMap.RefreshAllProgramsPage();
-            //this.UIMap.ScrollDownAllPrograms();
-            this.UIMap.AllProgramsPageNumber();
-            this.UIMap.SelectAllProgramsPageNumber();
-            this.UIMap.ScrollDowntoIndividualProgram();
-            this.UIMap.IndividualProgramLink();
-            this.UIMap.SelectIndividualProgram();
-            this.UIMap.RefreshIndividualProgramPage();
-            this.UIMap.BranchesandProjectsLink();
-            this.UIMap.SelectBranchesandProjectsLink();
-            this.UIMap.RefreshBranchesandProjectsPage();
-            //this.UIMap.ScrollDownBranchesandProjects();
-            this.UIMap.IndividualProjectLink();
-            this.UIMap.SelectIndividualProject();
-            this.UIMap.RefreshProjectOverviewPage();
-            this.UIMap.ProjectsOverviewSection();
-            this.UIMap.CloseBrowser();
         }
 
         #region Additional test attributes
@@ -86,20 +64,5 @@ namespace ProjectOverview.Test
             }
         }
         private TestContext testContextInstance;
-
-        public UIMap UIMap
-        {
-            get
-            {
-                if ((this.map == null))
-                {
-                    this.map = new UIMap();
-                }
-
-                return this.map;
-            }
-        }
-
-        private UIMap map;
     }
 }

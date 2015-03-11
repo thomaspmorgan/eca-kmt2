@@ -10,44 +10,44 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace ProjectOverview.Test
+namespace ProjectMoneyFlow.Test
 {
     /// <summary>
-    /// This test is compiled of a series of steps to reach the Project Overview for a specific individual Project under a Program.
+    /// Summary description for CodedUITest1
     /// </summary>
     [CodedUITest]
-    public class ProjectOverviewCodedUITest1
+    public class ProjectMoneyFlowCodedUITest1
     {
-        public ProjectOverviewCodedUITest1()
+        public ProjectMoneyFlowCodedUITest1()
         {
         }
 
         [TestMethod]
-        public void ProjectOverviewCodedUITestMethod1()
+        public void ProjectMoneyFlowCodedUITestMethod1()
         {
-            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
             this.UIMap.LogintoQA();
-            this.UIMap.ContentMenuButton();
+            this.UIMap.AssertContentMenuButton();
             this.UIMap.SelectContentMenuButton();
-            this.UIMap.ContentMenu_ProgramsLink();
-            this.UIMap.SelectProgramsLink();
+            this.UIMap.AssertProgramsLink_ContentMenu();
+            this.UIMap.SelectProgramsLink_ContentMenu();
             this.UIMap.RefreshAllProgramsPage();
-            //this.UIMap.ScrollDownAllPrograms();
-            this.UIMap.AllProgramsPageNumber();
-            this.UIMap.SelectAllProgramsPageNumber();
-            this.UIMap.ScrollDowntoIndividualProgram();
-            this.UIMap.IndividualProgramLink();
-            this.UIMap.SelectIndividualProgram();
+            //this.UIMap.ScrollDownAllProgramsPage();
+            this.UIMap.AssertLinkforIndividualProgram();
+            this.UIMap.SelectIndividualProgramLink();
             this.UIMap.RefreshIndividualProgramPage();
-            this.UIMap.BranchesandProjectsLink();
+            this.UIMap.AssertBranchesandProjectsLink();
             this.UIMap.SelectBranchesandProjectsLink();
-            this.UIMap.RefreshBranchesandProjectsPage();
-            //this.UIMap.ScrollDownBranchesandProjects();
-            this.UIMap.IndividualProjectLink();
-            this.UIMap.SelectIndividualProject();
+            //this.UIMap.ScrollDownIndividualProjectsPage();
+            this.UIMap.AssertIndividualProject();
+            this.UIMap.SelectIndividualProjectLink();
             this.UIMap.RefreshProjectOverviewPage();
-            this.UIMap.ProjectsOverviewSection();
-            this.UIMap.CloseBrowser();
+            this.UIMap.AssertMoneyFlowLink();
+            this.UIMap.SelectMoneyFlow();
+            this.UIMap.RefreshMoneyFlow();
+            //this.UIMap.ScrollDownMoneyFlowList();
+            this.UIMap.AssertMoneyFlowList();
+            
+            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
         #region Additional test attributes

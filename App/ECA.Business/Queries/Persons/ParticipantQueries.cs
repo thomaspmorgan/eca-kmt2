@@ -18,13 +18,9 @@ namespace ECA.Business.Queries.Persons
         private static IQueryable<SimpleParticipantDTO> CreateGetPersonParticipantsQuery(EcaContext context)
         {
             var query = from participant in context.Participants
-
-                        join participantType in context.ParticipantTypes
-                        on participant.ParticipantType equals participantType
-
                         let person = participant.Person
-                        where person != null                       
-
+                        let participantType = participant.ParticipantType
+                        where participant.ParticipantTypeId == ParticipantType.Individual.Id
                         select new SimpleParticipantDTO
                         {
                             Name = (person.FirstName != null ? person.FirstName : String.Empty)
@@ -43,12 +39,9 @@ namespace ECA.Business.Queries.Persons
         private static IQueryable<SimpleParticipantDTO> CreateGetOrganizationParticipantsQuery(EcaContext context)
         {
             var query = from participant in context.Participants
-
-                        join participantType in context.ParticipantTypes
-                        on participant.ParticipantType equals participantType
-
                         let org = participant.Organization
-                        where org != null
+                        let participantType = participant.ParticipantType
+                        where participant.ParticipantTypeId != ParticipantType.Individual.Id
 
                         select new SimpleParticipantDTO
                         {
