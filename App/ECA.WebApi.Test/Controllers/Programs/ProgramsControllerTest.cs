@@ -39,7 +39,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestGetProgramsAsync()
         {
-            var response = await controller.GetProgramsAsync(new MultipleFilterBindingModel());
+            var response = await controller.GetProgramsAsync(new PagingQueryBindingModel<SimpleProgramDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProgramDTO>>));
         }
 
@@ -47,7 +47,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         public async Task TestGetProgramsAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetProgramsAsync(new MultipleFilterBindingModel());
+            var response = await controller.GetProgramsAsync(new PagingQueryBindingModel<SimpleProgramDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
@@ -68,20 +68,6 @@ namespace ECA.WebApi.Test.Controllers.Programs
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
 
-        [TestMethod]
-        public async Task TestGetProgramBySearchAsync()
-        {
-            var response = await controller.GetProgramBySearchAsync(new KeywordBindingModel<SimpleProgramDTO>());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProgramDTO>>));
-        }
-
-        [TestMethod]
-        public async Task TestGetProgramBySearchAsync_InvalidModel()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetProgramBySearchAsync(new KeywordBindingModel<SimpleProgramDTO>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
         #endregion
 
         #region Post

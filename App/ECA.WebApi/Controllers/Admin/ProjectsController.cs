@@ -42,11 +42,11 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns>The list of projects by program.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleProjectDTO>))]
         [Route("Programs/{programId:int}/Projects")]
-        public async Task<IHttpActionResult> GetProjectsByProgramAsync(int programId, [FromUri]MultipleFilterBindingModel queryModel)
+        public async Task<IHttpActionResult> GetProjectsByProgramAsync(int programId, [FromUri]PagingQueryBindingModel<SimpleProjectDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.projectService.GetProjectsByProgramIdAsync(programId, queryModel.ToQueryableOperator<SimpleProjectDTO>(DEFAULT_SIMPLE_PROJECT_DTO_SORTER));
+                var results = await this.projectService.GetProjectsByProgramIdAsync(programId, queryModel.ToQueryableOperator(DEFAULT_SIMPLE_PROJECT_DTO_SORTER));
                 return Ok(results);
             }
             else

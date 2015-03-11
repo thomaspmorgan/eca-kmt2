@@ -44,11 +44,11 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="queryModel">The page, filter and sort information.</param>
         /// <returns>The list of locations.</returns>
         [ResponseType(typeof(PagedQueryResults<LocationDTO>))]
-        public async Task<IHttpActionResult> GetLocationsAsync([FromUri]MultipleFilterBindingModel queryModel)
+        public async Task<IHttpActionResult> GetLocationsAsync([FromUri]PagingQueryBindingModel<LocationDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetLocationsAsync(queryModel.ToQueryableOperator<LocationDTO>(DEFAULT_LOCATION_DTO_SORTER));
+                var results = await this.service.GetLocationsAsync(queryModel.ToQueryableOperator(DEFAULT_LOCATION_DTO_SORTER));
                 return Ok(results);
             }
             else

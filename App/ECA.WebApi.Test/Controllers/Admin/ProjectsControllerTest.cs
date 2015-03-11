@@ -34,7 +34,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestGetProjectsByProgramIcAsync()
         {
-            var response = await controller.GetProjectsByProgramAsync(1, new MultipleFilterBindingModel());
+            var response = await controller.GetProjectsByProgramAsync(1, new PagingQueryBindingModel<SimpleProjectDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProjectDTO>>));
         }
 
@@ -42,7 +42,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         public async Task TestGetProjectsByProgramIcAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetProjectsByProgramAsync(1, new MultipleFilterBindingModel());
+            var response = await controller.GetProjectsByProgramAsync(1, new PagingQueryBindingModel<SimpleProjectDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion
