@@ -39,7 +39,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestGetParticipantsAsync()
         {
-            var response = await controller.GetParticipantsAsync(new MultipleFilterBindingModel());
+            var response = await controller.GetParticipantsAsync(new PagingQueryBindingModel<SimpleParticipantDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleParticipantDTO>>));
         }
 
@@ -47,14 +47,14 @@ namespace ECA.WebApi.Test.Controllers.Programs
         public async Task TestGetParticipantsAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetParticipantsAsync(new MultipleFilterBindingModel());
+            var response = await controller.GetParticipantsAsync(new PagingQueryBindingModel<SimpleParticipantDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
         [TestMethod]
         public async Task TestGetParticipantsByProjectIdAsync()
         {
-            var response = await controller.GetParticipantsByProjectIdAsync(1, new MultipleFilterBindingModel());
+            var response = await controller.GetParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<SimpleParticipantDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleParticipantDTO>>));
         }
 
@@ -62,7 +62,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         public async Task TestGetParticipantsByProjectIdAsyncAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetParticipantsByProjectIdAsync(1, new MultipleFilterBindingModel());
+            var response = await controller.GetParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<SimpleParticipantDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion

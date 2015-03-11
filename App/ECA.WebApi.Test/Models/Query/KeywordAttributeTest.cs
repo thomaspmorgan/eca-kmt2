@@ -54,28 +54,5 @@ namespace ECA.WebApi.Test.Models.Query
             isValid = attribute.IsValid(searchTerms);
             Assert.IsFalse(isValid);
         }
-
-
-        [TestMethod]
-        public void TestIsValid_NoKeywords()
-        {
-            var maxLength = 5;
-            var maxKeywords = 5;
-            var attribute = new KeywordAttribute(maxKeywords, maxLength);
-
-            var searchTerm = new String('s', maxLength);
-            var searchTerms = new List<string>();
-            for (var i = 0; i < maxKeywords; i++)
-            {
-                searchTerms.Add(searchTerm);
-            }
-
-            var isValid = attribute.IsValid(searchTerms);
-            Assert.IsTrue(isValid);
-
-            searchTerms.Clear();
-            isValid = attribute.IsValid(searchTerms);
-            Assert.IsFalse(isValid);
-        }
     }
 }

@@ -41,11 +41,11 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of contacts.</returns>
         [ResponseType(typeof(PagedQueryResults<ContactDTO>))]
-        public async Task<IHttpActionResult> GetContactsAsync([FromUri]MultipleFilterBindingModel queryModel)
+        public async Task<IHttpActionResult> GetContactsAsync([FromUri]PagingQueryBindingModel<ContactDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetContactsAsync(queryModel.ToQueryableOperator<ContactDTO>(DEFAULT_SORTER));
+                var results = await this.service.GetContactsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else

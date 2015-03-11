@@ -45,11 +45,11 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of participants.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleParticipantDTO>))]
-        public async Task<IHttpActionResult> GetParticipantsAsync([FromUri]MultipleFilterBindingModel queryModel)
+        public async Task<IHttpActionResult> GetParticipantsAsync([FromUri]PagingQueryBindingModel<SimpleParticipantDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetParticipantsAsync(queryModel.ToQueryableOperator<SimpleParticipantDTO>(DEFAULT_SORTER));
+                var results = await this.service.GetParticipantsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else
@@ -67,11 +67,11 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns>The list of participants.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleParticipantDTO>))]
         [Route("Projects/{projectId:int}/Participants")]
-        public async Task<IHttpActionResult> GetParticipantsByProjectIdAsync(int projectId, [FromUri]MultipleFilterBindingModel queryModel)
+        public async Task<IHttpActionResult> GetParticipantsByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel<SimpleParticipantDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetParticipantsByProjectIdAsync(projectId, queryModel.ToQueryableOperator<SimpleParticipantDTO>(DEFAULT_SORTER));
+                var results = await this.service.GetParticipantsByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else

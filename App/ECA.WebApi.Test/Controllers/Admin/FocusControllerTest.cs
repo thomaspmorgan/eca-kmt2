@@ -35,7 +35,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestGetThemesAsync()
         {
-            var response = await controller.GetLocationsAsync(new MultipleFilterBindingModel());
+            var response = await controller.GetLocationsAsync(new PagingQueryBindingModel<FocusDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<FocusDTO>>));
         }
 
@@ -43,7 +43,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         public async Task TestGetThemesAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetLocationsAsync(new MultipleFilterBindingModel());
+            var response = await controller.GetLocationsAsync(new PagingQueryBindingModel<FocusDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion

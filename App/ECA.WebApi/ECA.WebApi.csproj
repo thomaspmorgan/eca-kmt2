@@ -295,9 +295,7 @@
     <Compile Include="Models\Programs\ProgramBindingModel.cs" />
     <Compile Include="Models\Projects\DraftProjectBindingModel.cs" />
     <Compile Include="Models\Query\FilterBindingModelConverter.cs" />
-    <Compile Include="Models\Query\KeywordBindingModel.cs" />
     <Compile Include="Models\Query\KeywordAttribute.cs" />
-    <Compile Include="Models\Query\MultipleFilterBindingModel.cs" />
     <Compile Include="Models\ProgramList.cs" />
     <Compile Include="Models\Query\FilterBindingModel.cs" />
     <Compile Include="Models\Query\PagingQueryBindingModel.cs" />

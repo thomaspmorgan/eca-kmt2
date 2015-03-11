@@ -41,10 +41,6 @@ namespace ECA.WebApi.Models.Query
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var keywordsValue = ((IEnumerable<string>)value).ToList();
-            if (keywordsValue.Count == 0)
-            {
-                return new ValidationResult("There must be at least one keyword.");
-            }
             if (keywordsValue.Count > this.MaxNumberOfKeywords)
             {
                 return new ValidationResult(String.Format("The number of keywords to search with must not exceed [{0}].", this.MaxNumberOfKeywords));

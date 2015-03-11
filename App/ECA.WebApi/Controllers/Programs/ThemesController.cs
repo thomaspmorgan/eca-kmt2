@@ -39,11 +39,11 @@ namespace ECA.WebApi.Controllers.Programs
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of themes.</returns>
         [ResponseType(typeof(PagedQueryResults<ThemeDTO>))]
-        public async Task<IHttpActionResult> GetThemesAsync([FromUri]MultipleFilterBindingModel queryModel)
+        public async Task<IHttpActionResult> GetThemesAsync([FromUri]PagingQueryBindingModel<ThemeDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetThemesAsync(queryModel.ToQueryableOperator<ThemeDTO>(DEFAULT_SORTER));
+                var results = await this.service.GetThemesAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else

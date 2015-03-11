@@ -41,11 +41,11 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="queryModel">The page, filter and sort information.</param>
         /// <returns>The list of foci.</returns>
         [ResponseType(typeof(PagedQueryResults<FocusDTO>))]
-        public async Task<IHttpActionResult> GetLocationsAsync([FromUri]MultipleFilterBindingModel queryModel)
+        public async Task<IHttpActionResult> GetLocationsAsync([FromUri]PagingQueryBindingModel<FocusDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetFociAsync(queryModel.ToQueryableOperator<FocusDTO>(DEFAULT_FOCUS_DTO_SORTER));
+                var results = await this.service.GetFociAsync(queryModel.ToQueryableOperator(DEFAULT_FOCUS_DTO_SORTER));
                 return Ok(results);
             }
             else

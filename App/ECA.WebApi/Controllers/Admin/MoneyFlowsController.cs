@@ -48,11 +48,11 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns>Returns a list of moneyflows that are paged, filtered, and sorted</returns>
         [ResponseType(typeof(PagedQueryResults<MoneyFlowDTO>))]
         [Route("Projects/{projectId:int}/MoneyFlows")]
-        public async Task<IHttpActionResult> GetMoneyFlowsByProjectId(int projectId, [FromUri]MultipleFilterBindingModel queryModel)
+        public async Task<IHttpActionResult> GetMoneyFlowsByProjectId(int projectId, [FromUri]PagingQueryBindingModel<MoneyFlowDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.moneyFlowService.GetMoneyFlowsByProjectIdAsync(projectId, queryModel.ToQueryableOperator<MoneyFlowDTO>(DEFAULT_MONEY_FLOW_DTO_SORTER));
+                var results = await this.moneyFlowService.GetMoneyFlowsByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_MONEY_FLOW_DTO_SORTER));
                 return Ok(results);
             }
             else
