@@ -196,8 +196,8 @@ FakesAssemblies/
 *.opt
 
 # Code coverage artifacts
-App/ECA.Business.Test/coverage/
-App/ECA.Business.Test/results.xml
+App/*/coverage/
+App/*/results.xml
 
 # Ignore gulp build artifacts
 App/ECA.WebApp.AngularJS/dist
