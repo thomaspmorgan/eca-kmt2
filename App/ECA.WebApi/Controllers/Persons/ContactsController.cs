@@ -41,7 +41,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of contacts.</returns>
         [ResponseType(typeof(PagedQueryResults<ContactDTO>))]
-        public async Task<IHttpActionResult> GetContactsAsync([FromUri]PagingQueryBindingModel queryModel)
+        public async Task<IHttpActionResult> GetContactsAsync([FromUri]MultipleFilterBindingModel queryModel)
         {
             if (ModelState.IsValid)
             {

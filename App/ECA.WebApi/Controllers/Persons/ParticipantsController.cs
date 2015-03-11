@@ -45,7 +45,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of participants.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleParticipantDTO>))]
-        public async Task<IHttpActionResult> GetParticipantsAsync([FromUri]PagingQueryBindingModel queryModel)
+        public async Task<IHttpActionResult> GetParticipantsAsync([FromUri]MultipleFilterBindingModel queryModel)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <returns>The list of participants.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleParticipantDTO>))]
         [Route("Projects/{projectId:int}/Participants")]
-        public async Task<IHttpActionResult> GetParticipantsByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel queryModel)
+        public async Task<IHttpActionResult> GetParticipantsByProjectIdAsync(int projectId, [FromUri]MultipleFilterBindingModel queryModel)
         {
             if (ModelState.IsValid)
             {

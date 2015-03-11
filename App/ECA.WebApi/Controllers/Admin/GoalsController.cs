@@ -39,7 +39,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="queryModel">The page, filter and sort information.</param>
         /// <returns>The list of goals.</returns>
         [ResponseType(typeof(PagedQueryResults<GoalDTO>))]
-        public async Task<IHttpActionResult> GetLocationsAsync([FromUri]PagingQueryBindingModel queryModel)
+        public async Task<IHttpActionResult> GetLocationsAsync([FromUri]MultipleFilterBindingModel queryModel)
         {
             if (ModelState.IsValid)
             {

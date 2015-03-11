@@ -80,6 +80,8 @@
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelConvertTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelTest.cs" />
+    <Compile Include="Models\Query\KeywordBindingModelTest.cs" />
+    <Compile Include="Models\Query\MultipleFilterBindingModelTest.cs" />
     <Compile Include="Models\Query\PagingQueryBindingModelTest.cs" />
     <Compile Include="Models\Query\SorterBindingModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

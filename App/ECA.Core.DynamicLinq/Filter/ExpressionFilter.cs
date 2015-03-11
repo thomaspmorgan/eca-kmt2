@@ -26,7 +26,7 @@ namespace ECA.Core.DynamicLinq.Filter
             Contract.Requires(comparisonType != null, "The comparison type must not be null.");
             this.Comparison = comparisonType.Value;
             this.Value = value;
-            this.Property = PropertyOperator<TSource>.GetPropertyName(propertySelector);
+            this.Property = PropertyHelper.GetPropertyName<TSource>(propertySelector);
         }
     }
 }

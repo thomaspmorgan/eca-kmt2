@@ -24,7 +24,7 @@ namespace ECA.Core.DynamicLinq.Sorter
             Contract.Requires(propertySelector != null, "The property selector must not be null.");
             Contract.Requires(direction != null, "The direction must not be null.");
             this.Direction = direction.Value;
-            this.Property = PropertyOperator<TSource>.GetPropertyName(propertySelector);
+            this.Property = PropertyHelper.GetPropertyName<TSource>(propertySelector);
         }
     }
 }

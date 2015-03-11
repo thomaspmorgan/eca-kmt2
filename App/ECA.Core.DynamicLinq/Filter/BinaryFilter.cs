@@ -11,7 +11,7 @@ namespace ECA.Core.DynamicLinq.Filter
     /// A BinaryFilter is used to compare an object's property value to another value of the same type.
     /// </summary>
     /// <typeparam name="T">The type to filter on.</typeparam>
-    public abstract class BinaryFilter<T> : LinqFilter<T> where T : class
+    public abstract class BinaryFilter<T> : PropertyOperator<T> where T : class
     {
         /// <summary>
         /// Creates a new BinaryFilter with the property to filter on the value to filter with.  The

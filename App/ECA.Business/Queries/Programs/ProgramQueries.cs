@@ -85,7 +85,5 @@ namespace ECA.Business.Queries.Programs
                         };
             return query;
         }
-
-
     }
 }

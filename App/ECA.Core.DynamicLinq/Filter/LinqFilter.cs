@@ -14,17 +14,8 @@ namespace ECA.Core.DynamicLinq.Filter
     /// A LinqFilter is a property operator that will filter instances on a object's property.
     /// </summary>
     /// <typeparam name="T">The object type to filter on.</typeparam>
-    public abstract class LinqFilter<T> : PropertyOperator<T> where T : class
+    public abstract class LinqFilter<T> where T : class
     {
-        /// <summary>
-        /// Creates a new LinqFilter with the property name to filter on.
-        /// </summary>
-        /// <param name="property">The name of the property to filter on.</param>
-        public LinqFilter(string property) : base(property)
-        {
-            Contract.Requires(property != null, "The property must not be null.");
-        }
-
         /// <summary>
         /// Returns an expression to filter with in a linq query.
         /// </summary>

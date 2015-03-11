@@ -16,7 +16,7 @@ namespace ECA.Business.Service
         /// <summary>
         /// Creates a new audit business entity with the user performing the change.
         /// </summary>
-        /// <param name="creator"></param>
+        /// <param name="creator">The user creating the auditable entity.</param>
         public Create(User creator) : base(creator)
         {
             Contract.Requires(creator != null, "The creator must not be null.");
