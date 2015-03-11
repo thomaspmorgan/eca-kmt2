@@ -14,19 +14,38 @@ using System.Web.Http.Description;
 
 namespace ECA.WebApi.Controllers.Admin
 {
+    /// <summary>
+    /// Controller for managing moneyflows
+    /// </summary>
     [RoutePrefix("api")]
     public class MoneyFlowsController : ApiController
     {
+        /// <summary>
+        /// The default sorter
+        /// </summary>
         private static readonly ExpressionSorter<MoneyFlowDTO> DEFAULT_MONEY_FLOW_DTO_SORTER = new ExpressionSorter<MoneyFlowDTO>(x => x.TransactionDate, SortDirection.Descending);
 
+        /// <summary>
+        /// The injected moneyflow service
+        /// </summary>
         private IMoneyFlowService moneyFlowService;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="moneyFlowService">The moneyflow service</param>
         public MoneyFlowsController(IMoneyFlowService moneyFlowService)
         {
             Debug.Assert(moneyFlowService != null, "The money flow service must not be null.");
             this.moneyFlowService = moneyFlowService;
         }
 
+        /// <summary>
+        /// Gets moneyflows by the project id
+        /// </summary>
+        /// <param name="projectId">The project id to query for associated moneyflows</param>
+        /// <param name="queryModel">The page, sort, and filter info</param>
+        /// <returns>Returns a list of moneyflows that are paged, filtered, and sorted</returns>
         [ResponseType(typeof(PagedQueryResults<MoneyFlowDTO>))]
         [Route("Projects/{projectId:int}/MoneyFlows")]
         public async Task<IHttpActionResult> GetMoneyFlowsByProjectId(int projectId, [FromUri]MultipleFilterBindingModel queryModel)
@@ -41,33 +60,5 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
-
-        /**
-        [Route("api/Projects/{id:int}/MoneyFlows")]
-        public IEnumerable<MoneyFlowDTO> GetMoneyFlowsByProject(int id)
-        {
-            var moneyOutFlows = db.MoneyFlows
-                .Include(m => m.RecipientParticipant)
-                .Include(m => m.RecipientParticipant.Organization)
-                //.Include(m => m.RecipientParticipant.Person.Names)
-                .Include(m => m.RecipientAccommodation)
-                .Include(m => m.RecipientTransportation)
-                .Include(m => m.SourceProject)
-                .Include(m => m.SourceType)
-                .Include(m => m.RecipientType)
-                .Where(m => m.SourceProjectId == id);
-
-            var moneyInFlows = db.MoneyFlows
-                .Include(m => m.SourceProgram)
-                .Include(m => m.RecipientProject)
-                .Where(m => m.RecipientProjectId == id);
-
-            var moneyFlows = moneyInFlows.Union(moneyOutFlows);
-
-            var moneyFlowDTOs = Mapper.Map<IEnumerable<MoneyFlow>, IEnumerable<MoneyFlowDTO>>(moneyFlows);
-
-            return moneyFlowDTOs;
-        }
-        */
     }
 }
