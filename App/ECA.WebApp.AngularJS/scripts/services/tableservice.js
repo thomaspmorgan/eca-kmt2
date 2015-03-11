@@ -43,7 +43,7 @@ angular.module('staticApp')
             if (predicateObject !== undefined) {
                 for (var key in predicateObject) {
                     filter.push({
-                        property: key,
+                        property: key.replace(/'/g, ""),
                         value: predicateObject[key],
                         comparison: 'like'
                     });

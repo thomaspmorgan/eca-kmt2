@@ -88,11 +88,11 @@ angular.module('staticApp')
               description: $scope.newProject.description,
               projectStatusId: 5,
               startDate: new Date(Date.now()).toUTCString(),
-              programId: $scope.program.programId
+              programId: $scope.program.id
           }
           ProjectService.create(project)
             .then(function (createdProject) {
-                $state.go('projects.overview', { officeId: $scope.program.owner.organizationId,  programId: $scope.program.programId, projectId: createdProject.projectId});
+                $state.go('projects.overview', { officeId: $scope.program.owner.organizationId,  programId: $scope.program.id, projectId: createdProject.projectId});
             });
       };
 

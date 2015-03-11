@@ -45,7 +45,7 @@
     </div>
     <div id="modal" class="row" in-context-form>
         <div class="col-md-10">
-            <form name="$parent.programForm">
+            <form name="programForm">
                 <div class="form-group">
                     <label>Program Name<span class="asterisk"> *</span></label>
                     <input name="name" ng-model="newProgram.name" form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" type="text" class="form-control" placeholder="Enter program title..." required>
@@ -68,7 +68,7 @@
                     <label>Program Inception<span class="asterisk"> *</span></label>
                     <p class="input-group">
                         <input name="start" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="newProgram.startDate" is-open="$parent.calOpened"
-                                min-date="minDate" max-date="maxDate" close-text="Close" placeholder="Enter start date..." required />
+                               min-date="minDate" max-date="maxDate" close-text="Close" placeholder="Enter start date..." required form-element guidance="This is the inception (start) date of your new program, defaults to today." />
                         <span class="error" ng-show="programForm.description.$error.required && programForm.programDescription.$dirty">Program description is required.</span>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="calOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -90,7 +90,7 @@
                                           on-select-none="setRegionsDirty()">
                     </isteven-multi-select>
                     <div ng-show="programForm.hiddenRegions.$dirty">
-                        <input name="hiddenRegions" ng-model="outRegions.length" style="display: none" type="number" min="1" />
+                        <input name="hiddenRegions" ng-model="outRegions.length" style="display: none" type="number" min="1" form-element guidance="These are the regions of your new program, at least one required." />
                         <span class="error" ng-show="programForm.hiddenRegions.$invalid">Please select as least one region.</span>
                     </div>
                 </div>
@@ -163,9 +163,12 @@
                 </div>
             </form>
         </div>
+        <div class="col-md-2">
+            <guidance></guidance>
+        </div>
     </div>
     <button class="btn btn-default" ng-click="modal.createProgram = !modalClose()">CANCEL</button>
-    <button ng-disabled="programForm.$invalid" class="btn btn-success right" ng-click="modal.createProgram = !createProgram()">CREATE</button>
+    <button ng-disabled="programForm.$invalid" class="btn btn-success right" ng-click="modal.createProgram = !createProgram(programForm)">CREATE</button>
 </modal-dialog>
 <modal-dialog show="modal.confirmClose" dialog-title="Confirm Close">
     <p class="strong">There is unsaved data.  Are you sure you want to close?</p>

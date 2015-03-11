@@ -28,8 +28,18 @@ namespace ECA.Business.Service.Admin
         /// <returns>The paged, filtered, and sorted projects.</returns>
         Task<PagedQueryResults<SimpleProjectDTO>> GetProjectsByProgramIdAsync(int programId, QueryableOperator<SimpleProjectDTO> queryOperator);
 
+        /// <summary>
+        /// Returns a project by id asynchronously
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <returns>Project</returns>
         Task<ProjectDTO> GetProjectByIdAsync(int projectId);
 
+        /// <summary>
+        /// Returns a project by id  
+        /// </summary>
+        /// <param name="projectId">The project id</param>
+        /// <returns>Project</returns>
         ProjectDTO GetProjectById(int projectId);
     }
 }

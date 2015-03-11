@@ -193,8 +193,8 @@ angular.module('staticApp')
     };
 
 
-    $scope.createProgram = function () {
-        if ($scope.programForm.$valid) {
+    $scope.createProgram = function (programForm) {
+        if (this.programForm.$valid) {
             cleanUpNewProgram();
             ProgramService.create($scope.newProgram)
                 .then(function (program) {

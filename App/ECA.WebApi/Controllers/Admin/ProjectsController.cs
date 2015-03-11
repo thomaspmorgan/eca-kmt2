@@ -55,6 +55,11 @@ namespace ECA.WebApi.Controllers.Admin
             }
         }
 
+        /// <summary>
+        /// Returns a project by id
+        /// </summary>
+        /// <param name="id">The project id to fetch</param>
+        /// <returns>Project</returns>
         [ResponseType(typeof(ProjectDTO))]
         public async Task<IHttpActionResult> GetProjectByIdAsync(int id)
         {
