@@ -21,30 +21,30 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         [TestMethod]
         public void TestConstructor()
         {
-            var properties = new List<string> { "s1", "s2" };
-            var keywords = new List<string> { "hello", "world" };
+            var properties = new HashSet<string> { "s1", "s2" };
+            var keywords = new HashSet<string> { "hello", "world" };
             var filter = new SimpleKeywordFilter(properties, keywords);
 
-            CollectionAssert.AreEqual(properties, filter.Properties.ToList());
-            CollectionAssert.AreEqual(keywords, filter.Keywords.ToList());
+            CollectionAssert.AreEqual(properties.ToList(), filter.Properties.ToList());
+            CollectionAssert.AreEqual(keywords.ToList(), filter.Keywords.ToList());
         }
 
         [TestMethod]
         public void TestTypedConstructor()
         {
-            var keywords = new List<string> { "hello", "world" };
+            var keywords = new HashSet<string> { "hello", "world" };
             var filter = new SimpleKeywordFilter<SimpleKeywordFilterTestClass>(keywords, x => x.S1, x => x.S2);
 
             Assert.IsTrue(filter.Properties.Contains("S1"));
             Assert.IsTrue(filter.Properties.Contains("S2"));
-            CollectionAssert.AreEqual(keywords, filter.Keywords.ToList());
+            CollectionAssert.AreEqual(keywords.ToList(), filter.Keywords.ToList());
         }
 
         [TestMethod]
         public void TestToLinqFilter()
         {
-            var properties = new List<string> { "s1", "s2" };
-            var keywords = new List<string> { "hello", "world" };
+            var properties = new HashSet<string> { "s1", "s2" };
+            var keywords = new HashSet<string> { "hello", "world" };
             var filter = new SimpleKeywordFilter(properties, keywords);
 
             var linqFilter = filter.ToLinqFilter<SimpleKeywordFilterTestClass>();

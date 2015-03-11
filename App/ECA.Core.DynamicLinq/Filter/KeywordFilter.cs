@@ -24,11 +24,11 @@ namespace ECA.Core.DynamicLinq.Filter
         public const int MAX_KEYWORDS_COUNT = 10;
 
         /// <summary>
-        /// The maximum number of characters the keywords can total.  In other words, you can not filter on more than this number of characters.
+        /// The maximum length of a keyword.
         /// </summary>
-        public const int MAX_KEYWORD_CHARACTER_COUNT = 300;
+        public const int MAX_KEYWORD_LENGTH = 30;
 
-        public KeywordFilter(IList<string> properties, IEnumerable<string> keywords)
+        public KeywordFilter(ISet<string> properties, ISet<string> keywords)
         {
             Contract.Requires(properties != null, "The properties must not be null.");
             Contract.Requires(properties.Count > 0, "There must be at least one property provided.");            
@@ -36,8 +36,9 @@ namespace ECA.Core.DynamicLinq.Filter
 
             Contract.Requires(keywords != null, "The keywords must not be null.");
             Contract.Requires(keywords.Count() <= MAX_KEYWORDS_COUNT, "The number of keywords to filter on must not exceed the max of " + MAX_PROPERTIES_COUNT);
-            Contract.Requires(keywords.SelectMany(x => x.ToCharArray()).ToList().Count <= MAX_KEYWORD_CHARACTER_COUNT, 
-                "The number of characters total to filter on must not exceed the max of " + MAX_KEYWORD_CHARACTER_COUNT);
+
+            Contract.Requires(keywords.Where(x => x.Count() > MAX_KEYWORD_LENGTH).Count() <= MAX_KEYWORD_LENGTH, 
+                "A keyword must not exceed " + MAX_KEYWORD_LENGTH + " in length.");
 
             InitializeKeywords(keywords);
             InitializeProperties(properties);
@@ -101,7 +102,7 @@ namespace ECA.Core.DynamicLinq.Filter
         }
 
 
-        private void InitializeKeywords(IEnumerable<string> keywords)
+        private void InitializeKeywords(ISet<string> keywords)
         {
             this.Keywords = new List<string>();
             foreach (var keyword in keywords)
@@ -110,7 +111,7 @@ namespace ECA.Core.DynamicLinq.Filter
             }
         }
 
-        private void InitializeProperties(IList<string> properties)
+        private void InitializeProperties(ISet<string> properties)
         {
             this.Properties = new Dictionary<string, PropertyInfo>();
             foreach (var property in properties)

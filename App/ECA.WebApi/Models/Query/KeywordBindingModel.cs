@@ -18,7 +18,7 @@ namespace ECA.WebApi.Models.Query
     /// <typeparam name="T">The object that will be filtered on.</typeparam>
     public class KeywordBindingModel<T> : PagingQueryBindingModel where T : class
     {
-        private List<Expression<Func<T, object>>> propertySelectors;
+        private Expression<Func<T, object>>[] propertySelectors;
 
         /// <summary>
         /// Creates a new default instance and intializes the Filter and Sort properties.
@@ -31,7 +31,7 @@ namespace ECA.WebApi.Models.Query
         /// <summary>
         /// The keywords.
         /// </summary>
-        [Keyword(KeywordFilter<T>.MAX_KEYWORDS_COUNT, KeywordFilter<T>.MAX_KEYWORD_CHARACTER_COUNT)]
+        [Keyword(KeywordFilter<T>.MAX_KEYWORDS_COUNT, KeywordFilter<T>.MAX_KEYWORD_LENGTH)]
         public List<string> Keyword { get; set; }
 
         /// <summary>
@@ -40,17 +40,21 @@ namespace ECA.WebApi.Models.Query
         /// <param name="propertySelectors">The expressions to select properties that can be filtered on keywords.</param>
         public void SetPropertiesToFilter(params Expression<Func<T, object>>[] propertySelectors)
         {
+            if (propertySelectors == null)
+            {
+                throw new ArgumentNullException("propertySelectors");
+            }
             var count = propertySelectors.Count();
             if (count == 0)
             {
-                throw new NotSupportedException("There must be at least one property to filter on.");
+                throw new ArgumentException("There must be at least one property to filter on.");
             }
             if (count > KeywordFilter<T>.MAX_PROPERTIES_COUNT)
             {
-                throw new NotSupportedException("The number of properties to filter on exceeds the max.");
+                throw new ArgumentException("The number of properties to filter on exceeds the max.");
             }
 
-            this.propertySelectors = propertySelectors.ToList();
+            this.propertySelectors = propertySelectors.Distinct().ToArray();
         }
 
         /// <summary>
@@ -78,7 +82,9 @@ namespace ECA.WebApi.Models.Query
             {
                 throw new NotSupportedException("The property selectors have not been initialized, be sure to call SetPropertiesToFilter.");
             }
-            var keywordFilter = new SimpleKeywordFilter<T>(this.Keyword, this.propertySelectors.ToArray());
+            var keywordsHashSet = new HashSet<string>();
+            this.Keyword.ForEach(x => keywordsHashSet.Add(x));
+            var keywordFilter = new SimpleKeywordFilter<T>(keywordsHashSet, this.propertySelectors);
             return new List<IFilter> { keywordFilter };
         }
     }

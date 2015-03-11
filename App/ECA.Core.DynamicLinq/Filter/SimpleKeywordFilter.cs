@@ -13,7 +13,7 @@ namespace ECA.Core.DynamicLinq.Filter
 
         internal SimpleKeywordFilter() { }
 
-        public SimpleKeywordFilter(IList<string> properties, IList<string> keywords)
+        public SimpleKeywordFilter(ISet<string> properties, ISet<string> keywords)
         {
             Contract.Requires(keywords != null, "The keywords must not be null.");
             Contract.Requires(properties != null, "The properties must not be null.");
@@ -22,9 +22,9 @@ namespace ECA.Core.DynamicLinq.Filter
             this.Properties = properties;
         }
 
-        public IList<string> Keywords { get; protected set; }
+        public ISet<string> Keywords { get; protected set; }
 
-        public IList<string> Properties { get; protected set; }
+        public ISet<string> Properties { get; protected set; }
 
         public LinqFilter<T> ToLinqFilter<T>() where T : class
         {
@@ -34,13 +34,13 @@ namespace ECA.Core.DynamicLinq.Filter
 
     public class SimpleKeywordFilter<T> : SimpleKeywordFilter, IFilter where T : class
     {
-        public SimpleKeywordFilter(IList<string> keywords, params Expression<Func<T, object>>[] propertySelectors)
+        public SimpleKeywordFilter(ISet<string> keywords, params Expression<Func<T, object>>[] propertySelectors)
         {
             Contract.Requires(keywords != null, "The keywords must not be null.");
             Contract.Requires(propertySelectors != null, "The properties must not be null.");
             Contract.Requires(propertySelectors.Count() > 0, "There must be at least one property.");
             this.Keywords = keywords;
-            this.Properties = new List<string>();
+            this.Properties = new HashSet<string>();
             foreach (var propertySelector in propertySelectors)
             {
                 this.Properties.Add(PropertyHelper.GetPropertyName<T>(propertySelector));

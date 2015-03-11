@@ -43,6 +43,7 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -80,6 +81,7 @@
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelConvertTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelTest.cs" />
+    <Compile Include="Models\Query\KeywordAttributeTest.cs" />
     <Compile Include="Models\Query\KeywordBindingModelTest.cs" />
     <Compile Include="Models\Query\MultipleFilterBindingModelTest.cs" />
     <Compile Include="Models\Query\PagingQueryBindingModelTest.cs" />
