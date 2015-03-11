@@ -173,11 +173,11 @@
     &nbsp;
     <button class="btn btn-success right" ng-click="confirmCloseNo()">NO</button>
 </modal-dialog>
-<modal-dialog show="modal.confirmSave" dialog-title="Program Created">
+<modal-dialog show="modal.confirmSave" dialog-title="Program Created" before-close="confirmSaveYes()">
     <p class="strong">The program was created sucessfully!</p>
     <button class="btn btn-default right" ng-click="confirmSaveYes()">OK</button>
 </modal-dialog>
-<modal-dialog show="modal.confirmFail" dialog-title="Error Saving Program">
+<modal-dialog show="modal.confirmFail" dialog-title="Error Saving Program" before-close="confirmFailOk()">
     <p class="strong">There was an error saving the new program.</p>
     <p class="alert-warning">{{errorMessage}}</p>
     <div>
