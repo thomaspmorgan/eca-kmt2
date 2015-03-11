@@ -47,9 +47,9 @@ namespace ECA.Business.Queries.Admin
         /// <summary>
         /// Returns a project by id
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="projectId"></param>
-        /// <returns></returns>
+        /// <param name="context">The context to query</param>
+        /// <param name="projectId">The project id to fetch</param>
+        /// <returns>Project</returns>
         public static IQueryable<ProjectDTO> CreateGetProjectByIdQuery(EcaContext context, int projectId)
         {
             Contract.Requires(context != null, "The context must not be null.");

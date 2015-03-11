@@ -31,15 +31,15 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Returns a project by id asynchronously
         /// </summary>
-        /// <param name="projectId"></param>
-        /// <returns></returns>
+        /// <param name="projectId">The project id</param>
+        /// <returns>Project</returns>
         Task<ProjectDTO> GetProjectByIdAsync(int projectId);
 
         /// <summary>
         /// Returns a project by id  
         /// </summary>
-        /// <param name="projectId"></param>
-        /// <returns></returns>
+        /// <param name="projectId">The project id</param>
+        /// <returns>Project</returns>
         ProjectDTO GetProjectById(int projectId);
     }
 }

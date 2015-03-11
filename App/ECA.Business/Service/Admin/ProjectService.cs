@@ -68,20 +68,20 @@ namespace ECA.Business.Service.Admin
         }
 
         /// <summary>
-        /// Returns a project by id asynchronously 
+        /// Returns a project by id asynchronously
         /// </summary>
-        /// <param name="projectId"></param>
-        /// <returns></returns>
+        /// <param name="projectId">The project id</param>
+        /// <returns>Project</returns>
         public Task<ProjectDTO> GetProjectByIdAsync(int projectId)
         {
             return ProjectQueries.CreateGetProjectByIdQuery(this.Context, projectId).FirstOrDefaultAsync();
         }
 
         /// <summary>
-        /// Returns a project by id  
+        /// Returns a project by id
         /// </summary>
-        /// <param name="projectId"></param>
-        /// <returns></returns>
+        /// <param name="projectId">The project id</param>
+        /// <returns>Project</returns>
         public ProjectDTO GetProjectById(int projectId)
         {
             return ProjectQueries.CreateGetProjectByIdQuery(this.Context, projectId).FirstOrDefault();
