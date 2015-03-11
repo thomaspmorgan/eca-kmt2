@@ -67,11 +67,21 @@ namespace ECA.Business.Service.Admin
             return ProjectQueries.CreateGetProjectsByProgramQuery(this.Context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
 
+        /// <summary>
+        /// Returns a project by id asynchronously 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public Task<ProjectDTO> GetProjectByIdAsync(int projectId)
         {
             return ProjectQueries.CreateGetProjectByIdQuery(this.Context, projectId).FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Returns a project by id  
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public ProjectDTO GetProjectById(int projectId)
         {
             return ProjectQueries.CreateGetProjectByIdQuery(this.Context, projectId).FirstOrDefault();
