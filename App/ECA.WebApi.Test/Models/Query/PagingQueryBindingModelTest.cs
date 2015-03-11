@@ -130,18 +130,85 @@ namespace ECA.WebApi.Test.Models.Query
             };
 
             var keyword = "hello";
-            model.SetPropertiesToSearch(x => x.A);
             model.Keyword.Add(keyword);
 
             var expressionFilter = new ExpressionFilter<PagingQueryBindingModelTestClass>(x => x.A, ComparisonType.Equal, "S");
             var json = JsonConvert.SerializeObject(expressionFilter);
             model.Filter = new List<string> { json };
 
-            var queryOperator = model.ToQueryableOperator(defaultSorter);
+            var queryOperator = model.ToQueryableOperator(defaultSorter, x => x.A);
             Assert.AreEqual(start, queryOperator.Start);
             Assert.AreEqual(limit, queryOperator.Limit);
             Assert.AreEqual(1, queryOperator.Sorters.Count);
             Assert.AreEqual(2, queryOperator.Filters.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestToQueryableOperator_HasKeyword_NullPropertySelectors()
+        {
+            var start = 0;
+            var limit = 10;
+            var defaultSorter = new ExpressionSorter<PagingQueryBindingModelTestClass>(x => x.A, SortDirection.Ascending);
+            var sorter = new ExpressionSorter<PagingQueryBindingModelTestClass>(x => x.A, SortDirection.Ascending);
+
+            var model = new PagingQueryBindingModel<PagingQueryBindingModelTestClass>
+            {
+                Start = start,
+                Limit = limit                
+            };
+            var keyword = "hello";
+            model.Keyword.Add(keyword);
+            var queryOperator = model.ToQueryableOperator(defaultSorter, null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestToQueryableOperator_HasKeyword_EmptyPropertySelectors()
+        {
+            var start = 0;
+            var limit = 10;
+            var defaultSorter = new ExpressionSorter<PagingQueryBindingModelTestClass>(x => x.A, SortDirection.Ascending);
+            var sorter = new ExpressionSorter<PagingQueryBindingModelTestClass>(x => x.A, SortDirection.Ascending);
+
+            var model = new PagingQueryBindingModel<PagingQueryBindingModelTestClass>
+            {
+                Start = start,
+                Limit = limit
+            };
+            var keyword = "hello";
+            model.Keyword.Add(keyword);
+            var queryOperator = model.ToQueryableOperator(defaultSorter, new Expression<Func<PagingQueryBindingModelTestClass, string>>[0]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestToQueryableOperator_ToManyProperties()
+        {
+            var start = 0;
+            var limit = 10;
+            var defaultSorter = new ExpressionSorter<PagingQueryBindingModelTestClass>(x => x.A, SortDirection.Ascending);
+            var sorter = new ExpressionSorter<PagingQueryBindingModelTestClass>(x => x.A, SortDirection.Ascending);
+
+            var model = new PagingQueryBindingModel<PagingQueryBindingModelTestClass>
+            {
+                Start = start,
+                Limit = limit
+            };
+            var keyword = "hello";
+            model.Keyword.Add(keyword);
+            var queryOperator = model.ToQueryableOperator(defaultSorter,
+                x => x.A,
+                x => x.B,
+                x => x.C,
+                x => x.D,
+                x => x.E,
+                x => x.F,
+                x => x.G,
+                x => x.H,
+                x => x.I,
+                x => x.J,
+                x => x.K);
         }
 
         #endregion

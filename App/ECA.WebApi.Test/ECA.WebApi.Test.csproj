@@ -82,8 +82,6 @@
     <Compile Include="Models\Query\FilterBindingModelConvertTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelTest.cs" />
     <Compile Include="Models\Query\KeywordAttributeTest.cs" />
-    <None Include="Models\Query\KeywordBindingModelTest.csold" />
-    <None Include="Models\Query\MultipleFilterBindingModelTest.csold" />
     <Compile Include="Models\Query\PagingQueryBindingModelTest.cs" />
     <Compile Include="Models\Query\SorterBindingModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -64,10 +64,23 @@ namespace ECA.WebApi.Models.Query
         /// </summary>
         /// <typeparam name="T">The type to page, filter and sort.</typeparam>
         /// <param name="defaultSorter">The default sorter of the query.</param>
+        /// <param name="propertySelectors">The properties to allow keyword searches on.</param>
         /// <returns>The query operator to apply to an IQueryable.</returns>
-        public virtual QueryableOperator<T> ToQueryableOperator(ISorter defaultSorter)
+        public QueryableOperator<T> ToQueryableOperator(ISorter defaultSorter, params Expression<Func<T, string>>[] propertySelectors)
         {
             Contract.Requires(defaultSorter != null, "The default sorter must not be null.");
+            if ((propertySelectors == null || propertySelectors.Count() == 0) && this.Keyword != null && this.Keyword.Count > 0)
+            {
+                throw new ArgumentException("The QueryableOperator must have keyword search properties selected in order to perform a keyword search.");
+            }
+            if (propertySelectors.Count() > KeywordFilter<T>.MAX_KEYWORDS_COUNT)
+            {
+                throw new ArgumentException("The number of properties to keyword search on exceeds the max.");
+            }
+            if (propertySelectors != null && propertySelectors.Count() > 0)
+            {
+                SetPropertiesToSearch(propertySelectors);
+            }
             return new QueryableOperator<T>(
                 start: this.Start,
                 limit: this.Limit,
