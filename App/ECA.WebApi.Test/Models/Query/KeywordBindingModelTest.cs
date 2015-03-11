@@ -130,7 +130,7 @@ namespace ECA.WebApi.Test.Models.Query
         public void TestSetPropertiesToFilter_NoProperties()
         {
             var model = new KeywordBindingModel<KeywordBindingModelTestClass>();
-            model.SetPropertiesToFilter(new Expression<Func<KeywordBindingModelTestClass, object>>[0]);
+            model.SetPropertiesToFilter(new Expression<Func<KeywordBindingModelTestClass, string>>[0]);
         }
 
         [TestMethod]

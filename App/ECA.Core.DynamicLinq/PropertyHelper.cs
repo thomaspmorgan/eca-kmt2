@@ -33,5 +33,25 @@ namespace ECA.Core.DynamicLinq
             }
             return expression.Member.Name;
         }
+
+        /// <summary>
+        /// Returns the name of the property given the expression of the property.
+        /// </summary>
+        /// <param name="propertySelector">The expression to get the property.</param>
+        /// <returns>The name of the property.</returns>
+        public static string GetPropertyName<TSource>(Expression<Func<TSource, string>> propertySelector) where TSource : class
+        {
+            Contract.Requires(propertySelector != null, "The field must not be null.");
+            MemberExpression expression = null;
+            if (propertySelector.Body is MemberExpression)
+            {
+                expression = (MemberExpression)propertySelector.Body;
+            }
+            else
+            {
+                throw new ArgumentException("The property is not supported.");
+            }
+            return expression.Member.Name;
+        }
     }
 }

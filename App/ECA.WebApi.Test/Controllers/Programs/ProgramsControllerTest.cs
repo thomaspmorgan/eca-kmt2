@@ -67,6 +67,21 @@ namespace ECA.WebApi.Test.Controllers.Programs
             var response = await controller.GetProgramByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
+
+        [TestMethod]
+        public async Task TestGetProgramBySearchAsync()
+        {
+            var response = await controller.GetProgramBySearchAsync(new KeywordBindingModel<SimpleProgramDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProgramDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetProgramBySearchAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetProgramBySearchAsync(new KeywordBindingModel<SimpleProgramDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
         #endregion
 
         #region Post

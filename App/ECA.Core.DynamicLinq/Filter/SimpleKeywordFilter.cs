@@ -34,7 +34,7 @@ namespace ECA.Core.DynamicLinq.Filter
 
     public class SimpleKeywordFilter<T> : SimpleKeywordFilter, IFilter where T : class
     {
-        public SimpleKeywordFilter(ISet<string> keywords, params Expression<Func<T, object>>[] propertySelectors)
+        public SimpleKeywordFilter(ISet<string> keywords, params Expression<Func<T, string>>[] propertySelectors)
         {
             Contract.Requires(keywords != null, "The keywords must not be null.");
             Contract.Requires(propertySelectors != null, "The properties must not be null.");

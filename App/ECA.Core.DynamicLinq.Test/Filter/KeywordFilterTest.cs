@@ -11,6 +11,8 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         public string S1 { get; set; }
 
         public string S2 { get; set; }
+
+        public int Id { get; set; }
     }
 
     [TestClass]
@@ -147,6 +149,23 @@ namespace ECA.Core.DynamicLinq.Test.Filter
                 S2 = "world"
             });
             var filter = new KeywordFilter<KeywordFilterTestClass>(properties, keywords);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void TestToWhereExpression_NotAStringProperty()
+        {
+            var properties = new HashSet<string> { "Id" };
+            var keywords = new HashSet<string> { "1" };
+
+            var list = new List<KeywordFilterTestClass>();
+            list.Add(new KeywordFilterTestClass
+            {
+                Id = 1
+            });
+
+            var filter = new KeywordFilter<KeywordFilterTestClass>(properties, keywords);
+            var where = filter.ToWhereExpression();
         }
     }
 }

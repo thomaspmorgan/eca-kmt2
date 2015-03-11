@@ -11,6 +11,11 @@ using System.Threading.Tasks;
 
 namespace ECA.Core.DynamicLinq.Filter
 {
+    /// <summary>
+    /// A KeywordFilter is used to filter an object by given properties and their value contained within
+    /// any of the keywords.
+    /// </summary>
+    /// <typeparam name="TSource">The object to filter on.</typeparam>
     public class KeywordFilter<TSource> : LinqFilter<TSource> where TSource : class
     {
         /// <summary>
@@ -28,6 +33,12 @@ namespace ECA.Core.DynamicLinq.Filter
         /// </summary>
         public const int MAX_KEYWORD_LENGTH = 30;
 
+        /// <summary>
+        /// Creates a new KeywordFilter for filtering an object by given properties and keywords.  if Any of the properties
+        /// match any of the keywords they will be returned as a result.
+        /// </summary>
+        /// <param name="properties">The properties to filter with.</param>
+        /// <param name="keywords">The keywords to filter with.</param>
         public KeywordFilter(ISet<string> properties, ISet<string> keywords)
         {
             Contract.Requires(properties != null, "The properties must not be null.");
@@ -48,10 +59,21 @@ namespace ECA.Core.DynamicLinq.Filter
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Properties that are filtered on.
+        /// </summary>
         private IDictionary<string, PropertyInfo> Properties { get; set; }
 
-        private IList<string> Keywords { get; set; }
+        /// <summary>
+        /// Gets or sets the Keywords.
+        /// </summary>
+        private ISet<string> Keywords { get; set; }
 
+        /// <summary>
+        /// Returns an expression that searches the object's properties for a value that
+        /// is contained within any of the keywords.  The search is case insensitive.
+        /// </summary>
+        /// <returns>The where expression.</returns>
         public override Expression<Func<TSource, bool>> ToWhereExpression()
         {
             var stringType = typeof(string);
@@ -92,6 +114,7 @@ namespace ECA.Core.DynamicLinq.Filter
 
         private Expression CreateContainsKeywordExpression(ParameterExpression xParameter, PropertyInfo property, ParameterExpression keywordParameter)
         {
+            Contract.Assert(property.PropertyType == typeof(string), "The property type must be a string.");
             var xProperty = Expression.Property(xParameter, property);
             var isNotNullExpression = Expression.NotEqual(xProperty, Expression.Constant(null));
             var toLowerMethod = Expression.Call(xProperty, "ToLower", System.Type.EmptyTypes);
@@ -104,7 +127,7 @@ namespace ECA.Core.DynamicLinq.Filter
 
         private void InitializeKeywords(ISet<string> keywords)
         {
-            this.Keywords = new List<string>();
+            this.Keywords = new HashSet<string>();
             foreach (var keyword in keywords)
             {
                 this.Keywords.Add(keyword.Trim().ToLower());
@@ -129,6 +152,10 @@ namespace ECA.Core.DynamicLinq.Filter
         {
             Contract.Assert(propertyName != null, "The property name must not be null.");
             var property = typeof(TSource).GetProperties().Where(x => x.Name.ToLower() == propertyName.ToLower()).FirstOrDefault();
+            if (property.PropertyType != typeof(string))
+            {
+                throw new NotSupportedException("The property type to filter on must be a string.");
+            }
             return property;
         }
     }

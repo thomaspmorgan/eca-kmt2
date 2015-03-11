@@ -24,9 +24,14 @@ namespace ECA.Core.DynamicLinq.Test
 
         public object O { get; set; }
 
-        public string MethodName()
+        public object GetObject()
         {
             return null;
+        }
+
+        public string GetString()
+        {
+            return String.Empty;
         }
     }
 
@@ -59,9 +64,16 @@ namespace ECA.Core.DynamicLinq.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestGetPropertyName_GiveAMethod()
+        public void TestGetPropertyName_MethodReturnsAnObject()
         {
-            var propertyName = PropertyHelper.GetPropertyName<PropertyHelperTestClass>(x => x.MethodName());
+            var propertyName = PropertyHelper.GetPropertyName<PropertyHelperTestClass>(x => x.GetObject());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestGetPropertyName_MethodReturnsAString()
+        {
+            var propertyName = PropertyHelper.GetPropertyName<PropertyHelperTestClass>(x => x.GetString());
         }
     }
 }

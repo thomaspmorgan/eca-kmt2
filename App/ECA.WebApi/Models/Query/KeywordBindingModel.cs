@@ -18,7 +18,7 @@ namespace ECA.WebApi.Models.Query
     /// <typeparam name="T">The object that will be filtered on.</typeparam>
     public class KeywordBindingModel<T> : PagingQueryBindingModel where T : class
     {
-        private Expression<Func<T, object>>[] propertySelectors;
+        private Expression<Func<T, string>>[] propertySelectors;
 
         /// <summary>
         /// Creates a new default instance and intializes the Filter and Sort properties.
@@ -35,10 +35,10 @@ namespace ECA.WebApi.Models.Query
         public List<string> Keyword { get; set; }
 
         /// <summary>
-        /// Sets the properties that can be filtered for keywords.
+        /// Sets the string properties that can be filtered for keywords.  The properties must be strings.
         /// </summary>
         /// <param name="propertySelectors">The expressions to select properties that can be filtered on keywords.</param>
-        public void SetPropertiesToFilter(params Expression<Func<T, object>>[] propertySelectors)
+        public void SetPropertiesToFilter(params Expression<Func<T, string>>[] propertySelectors)
         {
             if (propertySelectors == null)
             {
