@@ -123,6 +123,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
+    <Content Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml.user" />
+    <Content Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml.user" />
     <Content Include="scripts\constants.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -167,6 +169,8 @@
     <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\brian.pubxml" />
+    <None Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml.test" />
+    <None Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
     <Content Include="scripts\constants.tt">
@@ -453,6 +457,9 @@
     <Error Condition="Exists('..\packages\Microsoft.ApplicationInsights.0.13.2-build00132\tools\net40\Microsoft.ApplicationInsights.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
   </Target>
   <!--
+  
+  http://www.asp.net/mvc/overview/deployment/visual-studio-web-deployment/deploying-extra-files
+  
 https://msdn.microsoft.com/en-us/library/ff398069%28v=vs.110%29.aspx
 http://stackoverflow.com/questions/3137880/how-to-get-visual-studio-publish-functionality-to-include-files-from-post-buil
 http://blog.nansen.com/2013/01/copyallfilestosinglefolderforpackagedep.html
