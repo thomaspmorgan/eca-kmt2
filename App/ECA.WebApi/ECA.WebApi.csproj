@@ -230,6 +230,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml.user" />
+    <Content Include="Properties\PublishProfiles\ecaapi-kmt-dev - FTP.pubxml.user" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +333,8 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <None Include="Properties\PublishProfiles\ecaapi-kmt-dev - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-qa.pubxml" />
     <None Include="Web.Debug.config">
