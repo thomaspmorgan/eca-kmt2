@@ -162,6 +162,10 @@
     <Content Include=".bowerrc" />
     <Content Include="ApplicationInsights.config" />
     <Content Include="package.json" />
+    <Content Include=".bin\bower.cmd" />
+    <Content Include=".bin\git.cmd" />
+    <Content Include=".bin\node.cmd" />
+    <None Include=".bin\npm.cmd" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
     <Content Include="scripts\constants.tt">
