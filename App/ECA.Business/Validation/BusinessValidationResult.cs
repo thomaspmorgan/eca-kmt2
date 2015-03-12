@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECA.Core.DynamicLinq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -22,16 +23,24 @@ namespace ECA.Business.Validation
         /// Creates a new BusinessValidationResult with the given error message.
         /// </summary>
         /// <param name="errorMessage">The failed validation error message.</param>
-        public BusinessValidationResult(string errorMessage)
+        /// <param name="property">The property that was in error.</param>
+        public BusinessValidationResult(string property, string errorMessage)
         {
             Contract.Requires(errorMessage != null, "The error message must not be null.");
+            Contract.Requires(property != null, "The property must not be null.");
             this.ErrorMessage = errorMessage;
+            this.Property = property;
         }       
 
         /// <summary>
         /// Gets the error message.
         /// </summary>
         public string ErrorMessage { get; protected set; }
+
+        /// <summary>
+        /// Gets the property.
+        /// </summary>
+        public string Property { get; protected set; }
     }
 
     /// <summary>
@@ -39,7 +48,7 @@ namespace ECA.Business.Validation
     /// that failed validation.
     /// </summary>
     /// <typeparam name="T">The business entity.</typeparam>
-    public class BusinessValidationResult<T> : BusinessValidationResult
+    public class BusinessValidationResult<T> : BusinessValidationResult where T : class
     {
         /// <summary>
         /// Creates a new BusinessValidationResult with the expression to the property that failed validation and the
@@ -50,26 +59,8 @@ namespace ECA.Business.Validation
         public BusinessValidationResult(Expression<Func<T, object>> propertySelector, string errorMessage)
         {
             Contract.Requires(propertySelector != null, "The field must not be null.");
-            MemberExpression expression = null;
-            if (propertySelector.Body is MemberExpression)
-            {
-                expression = (MemberExpression)propertySelector.Body;
-            }
-            else if (propertySelector.Body is UnaryExpression)
-            {
-                expression = (MemberExpression)((UnaryExpression)propertySelector.Body).Operand;
-            }
-            else
-            {
-                throw new ArgumentException("The property is not supported.");
-            }
-            this.Property = expression.Member.Name;
+            this.Property = PropertyHelper.GetPropertyName<T>(propertySelector);
             this.ErrorMessage = errorMessage;
         }
-
-        /// <summary>
-        /// Gets the property.
-        /// </summary>
-        public string Property { get; private set; }
     }
 }

@@ -16,8 +16,10 @@ namespace ECA.Business.Test.Validation
         public void TestConstructor()
         {
             var message = "message";
-            var result = new BusinessValidationResult(message);
+            var property = "property";
+            var result = new BusinessValidationResult(property, message);
             Assert.AreEqual(message, result.ErrorMessage);
+            Assert.AreEqual(property, result.Property);
         }
 
         [TestMethod]

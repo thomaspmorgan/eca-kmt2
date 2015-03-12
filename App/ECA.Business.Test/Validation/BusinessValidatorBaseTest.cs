@@ -37,7 +37,7 @@ namespace ECA.Business.Test.Validation
             var errors = new List<BusinessValidationResult>();
             if (HasErrors)
             {
-                errors.Add(new BusinessValidationResult("Error"));
+                errors.Add(new BusinessValidationResult("Property", "Error"));
             }
             return errors;
 
@@ -49,7 +49,7 @@ namespace ECA.Business.Test.Validation
             var errors = new List<BusinessValidationResult>();
             if (HasErrors)
             {
-                errors.Add(new BusinessValidationResult("Error"));
+                errors.Add(new BusinessValidationResult("Property", "Error"));
             }
             return errors;
         }

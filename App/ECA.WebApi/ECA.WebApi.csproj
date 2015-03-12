@@ -285,6 +285,7 @@
     <Compile Include="Custom\Filters\DbEntityValidationExceptionFilter.cs" />
     <Compile Include="Custom\Filters\LoggerExceptionHandler.cs" />
     <Compile Include="Custom\Filters\TraceFilter.cs" />
+    <Compile Include="Custom\Filters\ValidationErrorResponseContent.cs" />
     <Compile Include="Custom\Filters\ValidationExceptionFilter.cs" />
     <Compile Include="Custom\Filters\UnknownStaticLookupExceptionFilter.cs" />
     <Compile Include="Custom\Filters\ModelNotFoundExceptionFilter.cs" />

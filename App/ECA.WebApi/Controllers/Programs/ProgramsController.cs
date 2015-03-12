@@ -47,7 +47,11 @@ namespace ECA.WebApi.Controllers.Programs
         {
             if (ModelState.IsValid)
             {
-                var results = await this.programService.GetProgramsAsync(queryModel.ToQueryableOperator(DEFAULT_PROGRAM_SORTER));
+                var results = await this.programService.GetProgramsAsync(
+                    queryModel.ToQueryableOperator(
+                    DEFAULT_PROGRAM_SORTER, 
+                    x => x.Name, 
+                    x=> x.Description));
                 return Ok(results);
             }
             else
