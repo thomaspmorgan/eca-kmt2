@@ -166,6 +166,7 @@
     <Content Include=".bin\git.cmd" />
     <Content Include=".bin\node.cmd" />
     <None Include=".bin\npm.cmd" />
+    <Content Include="build.cmd" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
     <Content Include="scripts\constants.tt">
