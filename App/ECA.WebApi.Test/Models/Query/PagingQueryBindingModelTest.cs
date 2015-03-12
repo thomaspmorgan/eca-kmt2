@@ -498,6 +498,16 @@ namespace ECA.WebApi.Test.Models.Query
 
             Assert.IsNotNull(model.ToString());
         }
+
+        [TestMethod]
+        public void TestToString_HasKeywords()
+        {
+            var model = new PagingQueryBindingModel<PagingQueryBindingModelTestClass>();
+            model.Start = 0;
+            model.Limit = 10;
+            model.Keyword.Add("hello");
+            Assert.IsNotNull(model.ToString());
+        }
         #endregion
     }
 

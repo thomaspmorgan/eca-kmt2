@@ -165,11 +165,12 @@ namespace ECA.WebApi.Models.Query
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.AppendFormat("Start:  {0}, Limit:  {1}:  Filters:  [{2}], Sorters:  [{3}]",
+            sb.AppendFormat("Start:  {0}, Limit:  {1}:  Filters:  [{2}], Sorters:  [{3}], Keyword:  [{4}]",
                 this.Start,
                 this.Limit,
                 String.Join(", ", this.Filter != null ? this.Filter : new List<string>()),
-                String.Join(", ", this.Sort != null ? this.Sort : new List<string>()));
+                String.Join(", ", this.Sort != null ? this.Sort : new List<string>()),
+                String.Join(", ", this.Keyword != null ? this.Keyword : new List<string>()));
             return sb.ToString();
         }
 
