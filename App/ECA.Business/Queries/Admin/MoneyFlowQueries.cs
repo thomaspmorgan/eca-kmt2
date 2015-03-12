@@ -10,9 +10,19 @@ using System.Diagnostics.Contracts;
 
 namespace ECA.Business.Queries.Admin
 {
+    /// <summary>
+    /// Contains queries for moneyflows against a db context
+    /// </summary>
     class MoneyFlowQueries
     {
 
+        /// <summary>
+        /// Creates a query object to get moneyflows by project id
+        /// </summary>
+        /// <param name="context">The context to query</param>
+        /// <param name="projectId">The project id to find associated moneyflows</param>
+        /// <param name="queryOperator">The query to retrieve filtered and sorted moneyflows</param>
+        /// <returns>List of moneyflows that are paged, sorted, and filtered</returns>
         public static IQueryable<MoneyFlowDTO> CreateGetMoneyFlowsByProjectIdQuery(EcaContext context, int projectId, QueryableOperator<MoneyFlowDTO> queryOperator)
         {
             Contract.Requires(context != null, "The context must not be null.");
