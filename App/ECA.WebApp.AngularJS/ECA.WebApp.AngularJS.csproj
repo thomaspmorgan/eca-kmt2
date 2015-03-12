@@ -457,7 +457,7 @@
     <Error Condition="Exists('..\packages\Microsoft.ApplicationInsights.0.13.2-build00132\tools\net40\Microsoft.ApplicationInsights.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
   </Target>
   <!--
-  
+  for azure you have to use both CopyAllFilesToSingleFolderForMsdeployDependsOn and CopyAllFilesToSingleFolderForPackageDependsOn in the wpp.targets file
   http://www.asp.net/mvc/overview/deployment/visual-studio-web-deployment/deploying-extra-files
   
 https://msdn.microsoft.com/en-us/library/ff398069%28v=vs.110%29.aspx
