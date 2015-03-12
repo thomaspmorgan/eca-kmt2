@@ -23,12 +23,13 @@ namespace ECA.WebApi.Custom.Filters
             if (context.Exception is ValidationException)
             {
                 var validationException = context.Exception as ValidationException;
-                var validationResults = validationException.ValidationResults.ToList();
+                var validationResults = validationException.ValidationResults;
                 context.Response = new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
-                    Content = new ObjectContent<List<BusinessValidationResult>>(validationResults, new JsonMediaTypeFormatter()),
-                    ReasonPhrase = "Entity validation failed."
-
+                    Content = new ObjectContent<ValidationErrorResponseContent>(
+                        new ValidationErrorResponseContent(ValidationErrorResponseContent.VALIDATION_FAILED_ERROR_MESSAGE, validationResults), 
+                        new JsonMediaTypeFormatter()),
+                    ReasonPhrase = ValidationErrorResponseContent.VALIDATION_FAILED_REASON_FAILED_MESSAGE
                 };
             }
         }

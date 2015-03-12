@@ -25,27 +25,15 @@ namespace ECA.WebApi.Custom.Filters
                 var exception = (DbEntityValidationException)context.Exception;
                 var entityValidationErrors = exception.EntityValidationErrors;
                 var validationErrors = entityValidationErrors.SelectMany(x => x.ValidationErrors).ToList();
-                var errorMessages = validationErrors.Select(x => x.ErrorMessage).ToList();
-
-                var content = new EntityValidationErrorResponseContent
-                {
-                    Message = exception.Message,
-                    ValidationErrors = errorMessages
-                };
                 context.Response = new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
-                    Content = new ObjectContent<EntityValidationErrorResponseContent>(content, new JsonMediaTypeFormatter()),
-                    ReasonPhrase = "Entity validation failed."
-
+                    Content = new ObjectContent<ValidationErrorResponseContent>(
+                        new ValidationErrorResponseContent(ValidationErrorResponseContent.VALIDATION_FAILED_ERROR_MESSAGE, validationErrors), 
+                        new JsonMediaTypeFormatter()),
+                    ReasonPhrase = ValidationErrorResponseContent.VALIDATION_FAILED_REASON_FAILED_MESSAGE
                 };
             }
         }
     }
 
-    public class EntityValidationErrorResponseContent
-    {
-        public string Message { get; set; }
-
-        public IEnumerable<string> ValidationErrors { get; set; }
-    }
 }

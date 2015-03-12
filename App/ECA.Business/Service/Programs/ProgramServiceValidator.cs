@@ -44,7 +44,7 @@ namespace ECA.Business.Service.Programs
         /// <summary>
         /// The error message when the parent program does not exist.
         /// </summary>
-        public const string PARENT_PROGRAM_DOES_NOT_EXIST_ERROR_MESSAGE = "The parent program does not exist.";
+        public const string PARENT_PROGRAM_DOES_NOT_EXIST_ERROR_MESSAGE = "The Parent Program does not exist.";
 
         /// <summary>
         /// The program name is invalid.
