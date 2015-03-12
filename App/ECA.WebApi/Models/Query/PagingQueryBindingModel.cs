@@ -73,7 +73,7 @@ namespace ECA.WebApi.Models.Query
             {
                 throw new ArgumentException("The QueryableOperator must have keyword search properties selected in order to perform a keyword search.");
             }
-            if (propertySelectors.Count() > KeywordFilter<T>.MAX_KEYWORDS_COUNT)
+            if (propertySelectors.Count() > KeywordFilter<T>.MAX_PROPERTIES_COUNT)
             {
                 throw new ArgumentException("The number of properties to keyword search on exceeds the max.");
             }
