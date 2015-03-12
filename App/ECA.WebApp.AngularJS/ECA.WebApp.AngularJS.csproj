@@ -162,6 +162,8 @@
     <Content Include=".bowerrc" />
     <Content Include="ApplicationInsights.config" />
     <Content Include="package.json" />
+    <None Include="ECA.WebApp.AngularJS.wpp.targets.old" />
+    <None Include="Properties\PublishProfiles\brian.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
     <Content Include="scripts\constants.tt">
@@ -426,9 +428,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>cd ..
-.bin\bower install
-xcopy /e /y $(ProjectDir)bower_components $(ProjectPath)\$(OutDir)bower_components</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
@@ -448,6 +449,31 @@ xcopy /e /y $(ProjectDir)bower_components $(ProjectPath)\$(OutDir)bower_componen
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.0.13.2-build00132\tools\net40\Microsoft.ApplicationInsights.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
     <Error Condition="Exists('..\packages\Microsoft.ApplicationInsights.0.13.2-build00132\tools\net40\Microsoft.ApplicationInsights.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
   </Target>
+
+
+<!--
+https://msdn.microsoft.com/en-us/library/ff398069%28v=vs.110%29.aspx
+http://stackoverflow.com/questions/3137880/how-to-get-visual-studio-publish-functionality-to-include-files-from-post-buil
+http://blog.nansen.com/2013/01/copyallfilestosinglefolderforpackagedep.html
+http://sedodream.com/PermaLink,guid,803d77d7-a220-4cee-a803-f6291cd4ba71.aspx
+-->
+
+  <Target Name="CustomCollectFiles">
+    <ItemGroup>
+      <_CustomFiles Include="dist\**\*" />
+      <FilesForPackagingFromProject  Include="%(_CustomFiles.Identity)">
+        <DestinationRelativePath>Extra Files\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <CopyAllFilesToSingleFolderForMsdeployDependsOn>
+      CustomCollectFiles;
+      $(CopyAllFilesToSingleFolderForPackageDependsOn);
+    </CopyAllFilesToSingleFolderForMsdeployDependsOn>
+  </PropertyGroup>
+
+
   <Import Project="..\packages\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.0.13.0-build22724\build\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.targets" Condition="Exists('..\packages\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.0.13.0-build22724\build\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
