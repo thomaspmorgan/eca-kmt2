@@ -123,8 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
-    <Content Include="Properties\PublishProfiles\eca-kmt-dev.pubxml.user" />
-    <Content Include="Properties\PublishProfiles\eca-kmt-qa.pubxml.user" />
     <Content Include="scripts\constants.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
