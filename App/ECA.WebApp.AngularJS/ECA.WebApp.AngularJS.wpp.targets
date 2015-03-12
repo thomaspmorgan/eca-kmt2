@@ -5,9 +5,9 @@
   </PropertyGroup>
   <Target Name="CustomCollectFiles">
     <ItemGroup>
-      <_CustomFiles Include="..\dist\**\*" />
-      <FilesForPackagingFromProject  Include="%(_CustomFiles.Identity)">
-        <DestinationRelativePath>Extra Files\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      <_CustomFiles Include="dist\**\*" />
+      <FilesForPackagingFromProject Include="%(_CustomFiles.Identity)">
+        <DestinationRelativePath>%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
       </FilesForPackagingFromProject>
     </ItemGroup>
   </Target>
