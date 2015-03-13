@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace ECA.Business.Validation
     /// </summary>
     /// <typeparam name="TCreate">The create business entity type.</typeparam>
     /// <typeparam name="TUpdate">The update business entity type.</typeparam>
+    [ContractClass(typeof(BusinessValidatorBaseContract<,>))]
     public abstract class BusinessValidatorBase<TCreate, TUpdate> : IBusinessValidator<TCreate, TUpdate>
         where TCreate : class
         where TUpdate : class
@@ -64,7 +66,6 @@ namespace ECA.Business.Validation
             {
                 return DoValidateUpdate(validationEntity);
             }
-
         }
 
         private void DoThrowException(List<BusinessValidationResult> validationResults)
@@ -88,5 +89,39 @@ namespace ECA.Business.Validation
         /// <param name="validationEntity">The entity to validate.</param>
         /// <returns>The collection of validation results.</returns>
         public abstract IEnumerable<BusinessValidationResult> DoValidateUpdate(TUpdate validationEntity);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TCreate"></typeparam>
+    /// <typeparam name="TUpdate"></typeparam>
+    [ContractClassFor(typeof(BusinessValidatorBase<,>))]
+    public abstract class BusinessValidatorBaseContract<TCreate, TUpdate> : BusinessValidatorBase<TCreate, TUpdate>
+        where TCreate : class
+        where TUpdate : class
+    {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validationEntity"></param>
+        /// <returns></returns>
+        public override IEnumerable<BusinessValidationResult> DoValidateCreate(TCreate validationEntity)
+        {
+            Contract.Ensures(Contract.Result<IEnumerable<BusinessValidationResult>>() != null, "The business validator must return a non null value.");
+            return new List<BusinessValidationResult>();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validationEntity"></param>
+        /// <returns></returns>
+        public override IEnumerable<BusinessValidationResult> DoValidateUpdate(TUpdate validationEntity)
+        {
+            Contract.Ensures(Contract.Result<IEnumerable<BusinessValidationResult>>() != null, "The business validator must return a non null value.");
+            return new List<BusinessValidationResult>();
+        }
     }
 }

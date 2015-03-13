@@ -28,7 +28,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
             serviceMock = new Mock<IProgramService>();
             serviceMock.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<SimpleProgramDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<SimpleProgramDTO>(1, new List<SimpleProgramDTO>()));
-            serviceMock.Setup(x => x.Create(It.IsAny<DraftProgram>())).Returns(new Program());
+            serviceMock.Setup(x => x.CreateAsync(It.IsAny<DraftProgram>())).ReturnsAsync(new Program());
             serviceMock.Setup(x => x.UpdateAsync(It.IsAny<EcaProgram>())).Returns(Task.FromResult<object>(null));
             serviceMock.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
             controller = new ProgramsController(serviceMock.Object);

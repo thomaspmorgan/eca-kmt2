@@ -32,14 +32,14 @@ namespace ECA.WebApi.Test.Controllers.Admin
 
         #region Get
         [TestMethod]
-        public async Task TestGetProjectsByProgramIcAsync()
+        public async Task TestGetProjectsByProgramIdAsync()
         {
             var response = await controller.GetProjectsByProgramAsync(1, new PagingQueryBindingModel<SimpleProjectDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProjectDTO>>));
         }
 
         [TestMethod]
-        public async Task TestGetProjectsByProgramIcAsync_InvalidModel()
+        public async Task TestGetProjectsByProgramIdAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetProjectsByProgramAsync(1, new PagingQueryBindingModel<SimpleProjectDTO>());

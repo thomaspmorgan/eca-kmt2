@@ -17,6 +17,13 @@ namespace ECA.Data
         public Organization()
         {
             this.History = new History();
+            this.SocialMediaPresence = new HashSet<SocialMedia>();
+            this.MoneyFlowSources = new HashSet<MoneyFlow>();
+            this.MoneyFlowRecipients = new HashSet<MoneyFlow>();
+            this.OwnerPrograms = new HashSet<Program>();
+            this.Contacts = new HashSet<Contact>();
+            this.Addresses = new HashSet<Address>();
+
         }
 
         [Key]

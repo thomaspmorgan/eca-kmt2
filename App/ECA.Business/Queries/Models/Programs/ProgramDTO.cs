@@ -55,27 +55,27 @@ namespace ECA.Business.Queries.Models.Programs
         public int? ParentProgramId { get; set; }
 
         /// <summary>
-        /// Gets or sets the Theme Ids.
+        /// Gets or sets the Themes.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Themes { get; set; }
 
         /// <summary>
-        /// Gets or sets the Country Ids.
+        /// Gets or sets the Country Isos..
         /// </summary>
         public IEnumerable<SimpleLookupDTO> CountryIsos { get; set; }
 
         /// <summary>
-        /// Gets or sets the Country Ids.
+        /// Gets or sets the Region Isos..
         /// </summary>
         public IEnumerable<SimpleLookupDTO> RegionIsos { get; set; }
 
         /// <summary>
-        /// Gets or sets the Goal Ids.
+        /// Gets or sets the Goals.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Goals { get; set; }
 
         /// <summary>
-        /// Gets or sets the Contact Ids.
+        /// Gets or sets the Contacts.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Contacts { get; set; }
 
