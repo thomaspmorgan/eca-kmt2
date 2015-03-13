@@ -11,7 +11,7 @@ namespace ECA.Business.Service.Programs
     /// <summary>
     /// A ProgramService is capable of performing crud operations on a program.
     /// </summary>
-    [ContractClass(typeof(IProgramService))]
+    [ContractClass(typeof(ProgramServiceContract))]
     public interface IProgramService : ISaveable
     {
         /// <summary>
@@ -48,6 +48,13 @@ namespace ECA.Business.Service.Programs
         /// <param name="draftProgram">The draft program.</param>
         /// <returns>The saved program.</returns>
         Program Create(DraftProgram draftProgram);
+
+        /// <summary>
+        /// Creates a new program in the ECA system with a status of draft.
+        /// </summary>
+        /// <param name="draftProgram">The draft program.</param>
+        /// <returns>The saved program.</returns>
+        Task<Program> CreateAsync(DraftProgram draftProgram);
 
         /// <summary>
         /// Updates the system's program with the given updated program.
@@ -120,8 +127,18 @@ namespace ECA.Business.Service.Programs
         public Program Create(DraftProgram draftProgram)
         {
             Contract.Requires(draftProgram != null, "The draft program must not be null.");
-            Contract.Ensures(Contract.Result<Program>() != null, "The returned program must not be null.");
             return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="draftProgram"></param>
+        /// <returns></returns>
+        public Task<Program> CreateAsync(DraftProgram draftProgram)
+        {
+            Contract.Requires(draftProgram != null, "The draft program must not be null.");
+            return Task.FromResult<Program>(null);
         }
 
         /// <summary>
@@ -163,5 +180,8 @@ namespace ECA.Business.Service.Programs
             Contract.Requires(updatedProgram != null, "The updated program must not be null.");
             return Task.FromResult<object>(null);
         }
+
+
+        
     }
 }

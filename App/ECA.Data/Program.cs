@@ -121,10 +121,10 @@ namespace ECA.Data
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            Contract.Requires(validationContext != null, "The validation context must not be null.");
-            Contract.Requires(validationContext.Items.ContainsKey(EcaContext.VALIDATABLE_CONTEXT_KEY), "The validation context must have a context to query.");
-            Contract.Requires(validationContext.Items[EcaContext.VALIDATABLE_CONTEXT_KEY].GetType() == typeof(EcaContext), "The context must be an EcaContext.");
+            Contract.Assert(validationContext != null, "The validation context must not be null.");
+            Contract.Assert(validationContext.Items.ContainsKey(EcaContext.VALIDATABLE_CONTEXT_KEY), "The validation context must have a context to query.");
             var context = validationContext.Items[EcaContext.VALIDATABLE_CONTEXT_KEY] as EcaContext;
+            Contract.Assert(context != null, "The context must not be null.");
 
             var existingProgramsByName = context.Programs
                 .Where(x => x.Name.ToLower().Trim() == this.Name.ToLower().Trim() && x.ProgramId != this.ProgramId)

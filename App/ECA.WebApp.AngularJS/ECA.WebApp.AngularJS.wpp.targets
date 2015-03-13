@@ -23,3 +23,14 @@
   </PropertyGroup>
   
 </Project>
+
+
+<!--
+  for azure you have to use both CopyAllFilesToSingleFolderForMsdeployDependsOn and CopyAllFilesToSingleFolderForPackageDependsOn in the wpp.targets file
+  http://www.asp.net/mvc/overview/deployment/visual-studio-web-deployment/deploying-extra-files
+  
+https://msdn.microsoft.com/en-us/library/ff398069%28v=vs.110%29.aspx
+http://stackoverflow.com/questions/3137880/how-to-get-visual-studio-publish-functionality-to-include-files-from-post-buil
+http://blog.nansen.com/2013/01/copyallfilestosinglefolderforpackagedep.html
+http://sedodream.com/PermaLink,guid,803d77d7-a220-4cee-a803-f6291cd4ba71.aspx
+-->

@@ -191,5 +191,6 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.ProgramStatus.staticdata.sql" />
     <Build Include="dbo\Tables\Focus.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.Focus.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.OrganizationType.staticdata.sql" />
   </ItemGroup>
 </Project>

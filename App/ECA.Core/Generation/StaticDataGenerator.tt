@@ -13,12 +13,15 @@
 <#+
 	public void WriteTypes(List<ECA.Core.Generation.StaticLookupConfig> types, string connectionString)
 	{
-		foreach(var t in types.OrderBy(x => x.ClassName).ToList())
+		var orderedTypes = types.OrderBy(x => x.ClassName).ToList();
+		foreach(var t in orderedTypes)
 		{
 			WriteType(t, connectionString);
 			WriteLine(String.Empty);
 		}
+		WriteValidatorClass(orderedTypes);
 	}
+
 
 	public string GetStaticLookupClassName()
 	{
@@ -110,14 +113,12 @@
 			connection.Open();
 			var reader = command.ExecuteReader();
 			if(reader.HasRows)
-			{
-				
+			{	
 				while(reader.Read())
 				{
 					var propertyName = Pascalize(reader[config.ValueColumnName]);
 					var id = Int32.Parse(reader[config.IdColumnName].ToString());
 					WriteLine(String.Format("if({0} == id) return {1}.{2};", id, config.ClassName,  propertyName));
-
 				}
 			}
 		}
@@ -139,6 +140,54 @@
 		//2 is the value
 		//3 is the id
 		return String.Format("public static {0} {1} {{ get {{ return new {0}(\"{2}\", {3}); }} }}", lookupClassName, propertyName, friendlyName, id);
+	}
+
+	public void WriteValidatorClass(List<StaticLookupConfig> types)
+	{
+		var nameSpace = types[0].Namespace;
+		WriteLine(String.Format("#region Validator"));
+		WriteLine(GetNamespace(nameSpace));
+		WriteLine("{");
+		PushIndent("\t");
+
+		WriteLine("using ECA.Core.Generation;");
+		WriteLine("using System.Collections.Generic;");
+		WriteLine("///<summary>Validates all classes that have static lookups defined.</summary>");
+		WriteLine(GetValidatorClassDeclaration(nameSpace));
+		WriteLine("{");
+		PushIndent("\t");
+		
+
+		WriteLine("///<summary>");
+		WriteLine("/// Validates all static lookup classes with the given validator.");
+		WriteLine("///<param name=\"validator\">The validator.</param>");
+		WriteLine("/// <returns>The list of validation errors, or an empty list if no errors are found.</returns>");
+		WriteLine("///</summary>");
+		WriteLine("public static List<string> ValidateAll(IStaticGeneratorValidator validator)");
+		WriteLine("{");
+		PushIndent("\t");
+		WriteLine("var errors = new List<string>();");
+
+		foreach(var type in types)
+		{
+			WriteLine(String.Format("errors.AddRange(validator.Validate<{0}>());", type.ClassName));
+		}
+
+		WriteLine("return errors;");
+		PopIndent();
+		WriteLine("}");
+
+		PopIndent();
+		WriteLine("}");
+
+		PopIndent();
+		WriteLine("}");
+		WriteLine("#endregion");
+	}
+
+	public string GetValidatorClassDeclaration(string nameSpace)
+	{
+		return String.Format("public static class {0}Validator", Pascalize(nameSpace));
 	}
 
 	public string GetNamespace(string ns)

@@ -11,6 +11,7 @@ namespace ECA.Business.Service
     /// <summary>
     /// An Audit business entity is an entity that tracks the user making a change and the date of the change.
     /// </summary>
+    [ContractClass(typeof(AuditContract))]
     public abstract class Audit
     {
         /// <summary>
@@ -39,5 +40,29 @@ namespace ECA.Business.Service
         /// </summary>
         /// <param name="historicalEntity">The historical entity.</param>
         public abstract void SetHistory(IHistorical historicalEntity);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [ContractClassFor(typeof(Audit))]
+    public abstract class AuditContract : Audit
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public AuditContract()
+            : base(new User(0))
+        {
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="historicalEntity"></param>
+        public override void SetHistory(IHistorical historicalEntity)
+        {
+            Contract.Requires(historicalEntity != null, "The historical entity must not be null.");
+        }
     }
 }

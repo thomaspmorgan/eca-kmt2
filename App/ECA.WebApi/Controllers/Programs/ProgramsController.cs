@@ -89,7 +89,7 @@ namespace ECA.WebApi.Controllers.Programs
             if (ModelState.IsValid)
             {
                 var userId = 0;
-                var program = programService.Create(model.ToDraftProgram(userId));
+                var program = await programService.CreateAsync(model.ToDraftProgram(userId));
                 await programService.SaveChangesAsync();
                 var dto = await programService.GetProgramByIdAsync(program.ProgramId);
                 return Ok(dto);

@@ -136,22 +136,6 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void TestToWhereExpression_NoProperties()
-        {
-            var properties = new HashSet<string>();
-            var keywords = new HashSet<string>();
-
-            var list = new List<KeywordFilterTestClass>();
-            list.Add(new KeywordFilterTestClass
-            {
-                S1 = "hello",
-                S2 = "world"
-            });
-            var filter = new KeywordFilter<KeywordFilterTestClass>(properties, keywords);
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
         public void TestToWhereExpression_NotAStringProperty()
         {

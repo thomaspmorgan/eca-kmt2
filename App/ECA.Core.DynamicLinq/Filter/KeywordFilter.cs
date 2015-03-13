@@ -43,20 +43,16 @@ namespace ECA.Core.DynamicLinq.Filter
         {
             Contract.Requires(properties != null, "The properties must not be null.");
             Contract.Requires(properties.Count > 0, "There must be at least one property provided.");            
-            Contract.Requires(properties.Count <= MAX_PROPERTIES_COUNT, "The number of properties to filter on must not exceed the max of " + MAX_PROPERTIES_COUNT);
+            Contract.Requires(properties.Count <= MAX_PROPERTIES_COUNT, "The number of properties to filter on must not exceed the max.");
 
             Contract.Requires(keywords != null, "The keywords must not be null.");
-            Contract.Requires(keywords.Count() <= MAX_KEYWORDS_COUNT, "The number of keywords to filter on must not exceed the max of " + MAX_PROPERTIES_COUNT);
+            Contract.Requires(keywords.Count() <= MAX_KEYWORDS_COUNT, "The number of keywords to filter on must not exceed the max.");
 
             Contract.Requires(keywords.Where(x => x.Count() > MAX_KEYWORD_LENGTH).Count() <= MAX_KEYWORD_LENGTH, 
-                "A keyword must not exceed " + MAX_KEYWORD_LENGTH + " in length.");
+                "A keyword must not exceed the max length.");
 
             InitializeKeywords(keywords);
             InitializeProperties(properties);
-            if (this.Properties.Count == 0)
-            {
-                throw new ArgumentException("The given properties do not match any properties on the object to filter.");
-            }
         }
 
         /// <summary>
