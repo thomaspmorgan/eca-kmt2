@@ -428,3 +428,19 @@ values
  (3,'Curacao','CUW',0,sysdatetimeoffset(),0,sysdatetimeoffset(),6)
 GO
 
+
+/* ALWAYS RUN THIS - THIS WILL POPULATE ALL CORRECTLY */
+INSERT INTO location
+	(LocationTypeId,LocationName,LocationIso,
+	History_createdby,history_createdon,history_revisedby,history_revisedon,region_locationid)
+SELECT lt.locationtypeid,cx.countryname,cx.ISOCode3,
+	0, CAST(N'2015-02-22T00:00:00.0000000-05:00' AS DateTimeOffset), 0, CAST(N'2015-02-22T00:00:00.0000000-05:00' AS DateTimeOffset)
+	NULL)
+  FROM CountryCodeXREF cx
+  JOIN eca_dev.eca_dev.dbo.locationtype lt ON (lt.locationtypename = 'Country')
+  FULL OUTER JOIN eca_dev.eca_dev.dbo.location l ON (l.locationtypeid = lt.locationtypeid AND l.locationiso = cx.ISOCode3)
+ WHERE l.locationid IS NULL
+
+0, CAST(N'2015-02-22T00:00:00.0000000-05:00' AS DateTimeOffset), 0, CAST(N'2015-02-22T00:00:00.0000000-05:00' AS DateTimeOffset)
+
+
