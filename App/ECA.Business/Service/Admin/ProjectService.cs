@@ -25,20 +25,42 @@ namespace ECA.Business.Service.Admin
         public Project Create(DraftProject draftProject)
         {
             Contract.Requires(draftProject != null, "The draft project must not be null.");
-            return DoCreate(draftProject);
+            var program = GetProgramById(draftProject.ProgramId);
+            return DoCreate(draftProject, program);
         }
 
-        private Project DoCreate(DraftProject draftProject)
+        public async Task<Project> CreateAsync(DraftProject draftProject)
+        {
+            Contract.Requires(draftProject != null, "The draft project must not be null.");
+            var program = await GetProgramByIdAsync(draftProject.ProgramId);
+            return DoCreate(draftProject, program);
+        }
+
+        private Project DoCreate(DraftProject draftProject, Program program)
         {
             var project = new Project
             {
                 Name = draftProject.Name,
                 ProjectStatusId = draftProject.StatusId,
-                ProgramId = draftProject.ProgramId
+                ProgramId = draftProject.ProgramId,
+                Themes = program.Themes,
+                Goals = program.Goals,
+                //FocusArea = program.Focus.FocusName,
+                Contacts = program.Contacts,
+                Regions = program.Regions,
             };
-            //draftProject.History.SetHistory(project);
+            draftProject.Audit.SetHistory(project);
             this.Context.Projects.Add(project);
             return project;
+        }
+
+        protected Program GetProgramById(int programId)
+        {
+            return this.Context.Programs.Find(programId);
+        }
+        protected async Task<Program> GetProgramByIdAsync(int programId)
+        {
+            return await this.Context.Programs.FindAsync(programId);
         }
 
         #endregion
