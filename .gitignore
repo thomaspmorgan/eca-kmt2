@@ -201,3 +201,7 @@ App/*/results.xml
 
 # Ignore gulp build artifacts
 App/ECA.WebApp.AngularJS/dist
+
+# Ignore database build artifacts
+bin/Development/
+obj/Development/
