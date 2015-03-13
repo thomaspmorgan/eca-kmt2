@@ -3,10 +3,9 @@ GO
 
 /* Create all the Participant Data from VisitingScholarData table */
 INSERT INTO eca_dev.eca_dev.dbo.Participant
-(OrganizationId,PersonId,ParticipantTypeId,
- History_CreatedBy,History_CreatedOn,History_RevisedBy,History_RevisedOn)
-SELECT --vs.[Last Name],vs.[First Name],p.lastname,p.firstname,
-       NULL,
+  (OrganizationId,PersonId,ParticipantTypeId,
+   History_CreatedBy,History_CreatedOn,History_RevisedBy,History_RevisedOn)
+SELECT o.organizationid,
        p.PersonId,
        pt.ParticipantTypeId,
        0,N'3/2/2015 12:00:00 AM -05:00',0, N'3/2/2015 12:00:00 AM -05:00'
@@ -18,6 +17,7 @@ SELECT --vs.[Last Name],vs.[First Name],p.lastname,p.firstname,
   (vs.[Second Last Name] IS NULL OR (p.secondlastname = vs.[Second Last Name])) AND
   (vs.[Middle Name] IS NULL OR (p.middlename = vs.[Middle Name])))
   JOIN eca_dev.eca_dev.dbo.participanttype pt ON (pt.name = 'Individual')
+  LEFT JOIN eca_dev.eca_dev.dbo.organization o ON (o.description = vs.[Home Institution Name])
  ORDER BY vs.[Last Name],vs.[First Name]
 
 GO

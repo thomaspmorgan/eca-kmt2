@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
-  DTS:VersionBuild="14"
-  DTS:VersionGUID="{526D0DD5-4E76-468F-BE99-ACA430D0F298}">
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{EF9CA7D7-B964-4E01-9F03-B79360AB6AF8}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACqUPlxD5Aj4lpcRKEUDO5HBm21xSSoY2SdG56D7+FMKgAAAAAOgAAAAAIAACAAAABL+lb4MHqhSwqB+gbZf43osuXVIGYRCtYZpUO1a0uzISAAAACLQBNn1kM7E/ip4B6amO4pcg/zoO/MZmD6gpTsnGMhDUAAAACA12AUWHoLaYKM7PKarUXzgBDp2gSKJNFM+TrRHzwysWbgEcjALxknH6J2H2LEhGvrKr1j5FkxeFq56O5tz43k</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABc/Vr0jxSAx+3xQXTr7UlZ533z+CiD8D1pZsZaNx3zGAAAAAAOgAAAAAIAACAAAACfKGSgejkTFOq8l6aOZXAH2p579y/ZMrojbLsiLAv4ViAAAADZRZX/yzX8hP8nCdj2lXsPNoIAPiHe6wv82hpuQtq550AAAADrbZrvnSNLZiZdreEkgFp021pTwqRybfARX3mJ6a/b6vWBNf2u8BdhxrhQXCOMBHjMSUF8gka4EET6Vt6WMldx</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -42,7 +42,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABf2OjGYM0Noeku4FLrgtpT3wUh7WcY0wn5QQm0kQuFTwAAAAAOgAAAAAIAACAAAADhW8TQElqydiSoMsAG+APzF8h4HYwnMGrPite4shVcvCAAAAAX9p+LQHsHVe80GYfeg1HDonkafhgRZKVuGcBMjJylikAAAACvJUPgXCCh4stnpKt6jn22enOLmh6pMAD0luUsCTqBYd3th1xrTV84XHjJqKBYFKowlrBo2LnkxMw3+94rnWzw</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAKR8PSwTegxUimKoWsF5Ou9EkCoJBOFcfOopIZHhEXfwAAAAAOgAAAAAIAACAAAABG2qio1AfmnPCFPEt8JHs4EYIAmz3EYfXmPEpe4b+nmCAAAAAM87Fn7ZYb2enHtljiAV/vgxIQSbU91coJsvjex1s5sUAAAACmq0Ve8WUrvNGWJH/1Ih3JQnS6v5ptp/nhzQ/Bi5/eABIQ+/4m9ZHHHib3N5RMxVz94JyiXHY4dRHbinkahxsA</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -305,6 +305,28 @@
                           description="Derived Column Friendly Expression"
                           expressionType="Notify"
                           name="FriendlyExpression">54</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[FocusId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[FocusId]"
+                      name="FocusId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">10</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">10</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -1129,6 +1151,12 @@
                       cachedName="ProjectTypeId"
                       externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectTypeId]"
                       lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectTypeId]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].Columns[FocusId]"
+                      cachedDataType="i4"
+                      cachedName="FocusId"
+                      externalMetadataColumnId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[FocusId]"
+                      lineageId="Package\Data Flow Task\Add Required Columns.Outputs[Derived Column Output].Columns[FocusId]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -1204,6 +1232,10 @@
                       refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectTypeId]"
                       dataType="i4"
                       name="ProjectTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Load Data to Project.Inputs[OLE DB Destination Input].ExternalColumns[FocusId]"
+                      dataType="i4"
+                      name="FocusId" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -1279,49 +1311,21 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="270,42"
-          Id="Package\Data Flow Task\Get Data from VisitingScholars Database"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
           Size="176,42"
           Id="Package\Data Flow Task\Load Data to Project"
           TopLeft="719.5,155.5" />
+        <NodeLayout
+          Size="221,42"
+          Id="Package\Data Flow Task\Create Description from Name"
+          TopLeft="480.5,108.5" />
         <NodeLayout
           Size="186,42"
           Id="Package\Data Flow Task\Add Required Columns"
           TopLeft="285.5,55.5" />
         <NodeLayout
-          Size="221,42"
-          Id="Package\Data Flow Task\Create Description from Name"
-          TopLeft="480.5,108.5" />
-        <EdgeLayout
-          Id="Package\Data Flow Task.Paths[Copy Column Output]"
-          TopLeft="701.5,129.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="106,26"
-              Start="0,0"
-              End="106,18.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="102,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="102,0"
-                    Point2="106,0"
-                    Point3="106,4" />
-                  <mssgle:LineSegment
-                    End="106,18.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          Size="270,42"
+          Id="Package\Data Flow Task\Get Data from VisitingScholars Database"
+          TopLeft="5.5,5.5" />
         <EdgeLayout
           Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
           TopLeft="275.5,26.5">
@@ -1378,11 +1382,39 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Copy Column Output]"
+          TopLeft="701.5,129.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="106,26"
+              Start="0,0"
+              End="106,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="102,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="102,0"
+                    Point2="106,0"
+                    Point3="106,4" />
+                  <mssgle:LineSegment
+                    End="106,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Task\Get Data from VisitingScholars Database">
+    design-time-name="Package\Data Flow Task\Load Data to Project">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1395,7 +1427,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Task\Load Data to Project">
+    design-time-name="Package\Data Flow Task\Get Data from VisitingScholars Database">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
