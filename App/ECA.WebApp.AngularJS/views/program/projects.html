@@ -117,6 +117,26 @@
             <guidance></guidance>
         </div>
     </div>
-    <button class="btn btn-default" ng-click="modal.createProject = !modalClose()">CANCEL</button>
+    <button class="btn btn-default" ng-click="createProject = !modalClose()">CANCEL</button>
     <button type="submit" form="projectForm" ng-disabled="projectForm.projectDescription.$error.required" class="btn btn-success right" ng-click="saveProject()">CREATE</button>
+</modal-dialog>
+<modal-dialog show="confirmClose" dialog-title="Confirm Close">
+    <p class="strong">There is unsaved data.  Are you sure you want to close?</p>
+    <button class="btn btn-default right" ng-click="confirmCloseYes()">YES</button>
+    &nbsp;
+    <button class="btn btn-success right" ng-click="confirmCloseNo()">NO</button>
+</modal-dialog>
+<modal-dialog show="confirmSave" dialog-title="Project Created" before-close="confirmSaveYes()">
+    <p class="strong">The project was created sucessfully!</p>
+    <button class="btn btn-default right" ng-click="confirmSaveYes()">OK</button>
+</modal-dialog>
+<modal-dialog show="confirmFail" dialog-title="Error Saving Project" before-close="confirmFailOk()">
+    <p class="strong">There was an error saving the new project.</p>
+    <p class="alert-warning">{{errorMessage}}</p>
+    <div>
+        <ul>
+            <li class="alert-danger" ng-repeat="validation in validations">{{validation}}</li>
+        </ul>
+    </div>
+    <button class="btn btn-default right" ng-click="confirmFailOk()">OK</button>
 </modal-dialog>
