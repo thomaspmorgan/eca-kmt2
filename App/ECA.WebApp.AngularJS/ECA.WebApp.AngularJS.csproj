@@ -123,14 +123,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
-    <Content Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml.user" />
-    <Content Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml.user" />
     <Content Include="scripts\constants.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>constants.tt</DependentUpon>
     </Content>
     <Content Include="scripts\services\moneyflow.js" />
+    <Content Include="scripts\services\office.js" />
     <Content Include="scripts\services\tableservice.js" />
     <Content Include="scripts\services\lookupservice.js" />
     <Content Include="styles\main.css">
@@ -169,7 +168,7 @@
     <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\brian.pubxml" />
-    <None Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml.test" />
+    <None Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
@@ -456,23 +455,14 @@
     <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.0.13.2-build00132\tools\net40\Microsoft.ApplicationInsights.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
     <Error Condition="Exists('..\packages\Microsoft.ApplicationInsights.0.13.2-build00132\tools\net40\Microsoft.ApplicationInsights.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
   </Target>
-  <!--
-  for azure you have to use both CopyAllFilesToSingleFolderForMsdeployDependsOn and CopyAllFilesToSingleFolderForPackageDependsOn in the wpp.targets file
-  http://www.asp.net/mvc/overview/deployment/visual-studio-web-deployment/deploying-extra-files
-  
-https://msdn.microsoft.com/en-us/library/ff398069%28v=vs.110%29.aspx
-http://stackoverflow.com/questions/3137880/how-to-get-visual-studio-publish-functionality-to-include-files-from-post-buil
-http://blog.nansen.com/2013/01/copyallfilestosinglefolderforpackagedep.html
-http://sedodream.com/PermaLink,guid,803d77d7-a220-4cee-a803-f6291cd4ba71.aspx
--->
   <Import Project="..\packages\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.0.13.0-build22724\build\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.targets" Condition="Exists('..\packages\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.0.13.0-build22724\build\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+       Other similar extension points exist, see Microsoft.Common.targets.-->
+  
   <Target Name="BeforeBuild">
-  </Target>
-  -->
-  <Target Name="AfterBuild">
-    <Exec Command="build.cmd" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <Exec Command="build.cmd">
     </Exec>
+  </Target>
+  <Target Name="AfterBuild">
   </Target>
 </Project>

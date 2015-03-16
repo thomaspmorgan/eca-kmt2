@@ -29,8 +29,6 @@ namespace ECA.Business.Service
         /// <param name="historicalEntity">The historical entity.</param>
         public override void SetHistory(IHistorical historicalEntity)
         {
-            Contract.Requires(historicalEntity != null, "The historical entity must not be null.");
-            Contract.Requires(historicalEntity.History != null, "The history entity must already have a history item associated with it.");
             historicalEntity.History.RevisedBy = this.User.Id;
             historicalEntity.History.RevisedOn = this.Date;
         }

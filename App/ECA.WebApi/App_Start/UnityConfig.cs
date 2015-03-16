@@ -62,6 +62,7 @@ namespace ECA.WebApi
             container.RegisterType<IGoalService, GoalService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILocationService, LocationService>(new HierarchicalLifetimeManager());
             container.RegisterType<IMoneyFlowService, MoneyFlowService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IOfficeService, OfficeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantService, ParticipantService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());

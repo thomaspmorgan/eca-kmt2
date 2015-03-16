@@ -188,48 +188,56 @@ namespace ECA.Data
 }
 #endregion
 
-#region NameType
+#region OrganizationType
 namespace ECA.Data
 {
 	using ECA.Core.Generation;
-	public partial class NameType
+	public partial class OrganizationType
 	{
 		///<summary>
-		/// Returns the LastName lookup with id 1.
+		/// Returns the Office lookup with id 1.
 		///</summary>
-		public static StaticLookup Lastname { get { return new StaticLookup("LastName", 1); } }
+		public static StaticLookup Office { get { return new StaticLookup("Office", 1); } }
 		///<summary>
-		/// Returns the FirstName lookup with id 2.
+		/// Returns the Branch lookup with id 2.
 		///</summary>
-		public static StaticLookup Firstname { get { return new StaticLookup("FirstName", 2); } }
+		public static StaticLookup Branch { get { return new StaticLookup("Branch", 2); } }
 		///<summary>
-		/// Returns the Prefix lookup with id 3.
+		/// Returns the Division lookup with id 3.
 		///</summary>
-		public static StaticLookup Prefix { get { return new StaticLookup("Prefix", 3); } }
+		public static StaticLookup Division { get { return new StaticLookup("Division", 3); } }
 		///<summary>
-		/// Returns the Suffix lookup with id 4.
+		/// Returns the Foreign Educational Institution lookup with id 4.
 		///</summary>
-		public static StaticLookup Suffix { get { return new StaticLookup("Suffix", 4); } }
+		public static StaticLookup ForeignEducationalInstitution { get { return new StaticLookup("Foreign Educational Institution", 4); } }
 		///<summary>
-		/// Returns the GivenName lookup with id 5.
+		/// Returns the Foreign Government lookup with id 5.
 		///</summary>
-		public static StaticLookup Givenname { get { return new StaticLookup("GivenName", 5); } }
+		public static StaticLookup ForeignGovernment { get { return new StaticLookup("Foreign Government", 5); } }
 		///<summary>
-		/// Returns the FamilyName lookup with id 6.
+		/// Returns the Foreign NGO/PVO lookup with id 6.
 		///</summary>
-		public static StaticLookup Familyname { get { return new StaticLookup("FamilyName", 6); } }
+		public static StaticLookup ForeignNgoPvo { get { return new StaticLookup("Foreign NGO/PVO", 6); } }
 		///<summary>
-		/// Returns the MiddleName lookup with id 7.
+		/// Returns the Other lookup with id 7.
 		///</summary>
-		public static StaticLookup Middlename { get { return new StaticLookup("MiddleName", 7); } }
+		public static StaticLookup Other { get { return new StaticLookup("Other", 7); } }
 		///<summary>
-		/// Returns the Patronym lookup with id 8.
+		/// Returns the Public International Organization (PIO) lookup with id 8.
 		///</summary>
-		public static StaticLookup Patronym { get { return new StaticLookup("Patronym", 8); } }
+		public static StaticLookup PublicInternationalOrganizationPio { get { return new StaticLookup("Public International Organization (PIO)", 8); } }
 		///<summary>
-		/// Returns the Alias lookup with id 9.
+		/// Returns the U.S. Educational Institution lookup with id 9.
 		///</summary>
-		public static StaticLookup Alias { get { return new StaticLookup("Alias", 9); } }
+		public static StaticLookup USEducationalInstitution { get { return new StaticLookup("U.S. Educational Institution", 9); } }
+		///<summary>
+		/// Returns the U.S. Non-Profit Organization (501(c)(3)) lookup with id 10.
+		///</summary>
+		public static StaticLookup USNonProfitOrganization501C3 { get { return new StaticLookup("U.S. Non-Profit Organization (501(c)(3))", 10); } }
+		///<summary>
+		/// Returns the Individual lookup with id 11.
+		///</summary>
+		public static StaticLookup Individual { get { return new StaticLookup("Individual", 11); } }
 
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
@@ -238,15 +246,17 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(int id)
 		{
-			if(1 == id) return NameType.Lastname;
-			if(2 == id) return NameType.Firstname;
-			if(3 == id) return NameType.Prefix;
-			if(4 == id) return NameType.Suffix;
-			if(5 == id) return NameType.Givenname;
-			if(6 == id) return NameType.Familyname;
-			if(7 == id) return NameType.Middlename;
-			if(8 == id) return NameType.Patronym;
-			if(9 == id) return NameType.Alias;
+			if(1 == id) return OrganizationType.Office;
+			if(2 == id) return OrganizationType.Branch;
+			if(3 == id) return OrganizationType.Division;
+			if(4 == id) return OrganizationType.ForeignEducationalInstitution;
+			if(5 == id) return OrganizationType.ForeignGovernment;
+			if(6 == id) return OrganizationType.ForeignNgoPvo;
+			if(7 == id) return OrganizationType.Other;
+			if(8 == id) return OrganizationType.PublicInternationalOrganizationPio;
+			if(9 == id) return OrganizationType.USEducationalInstitution;
+			if(10 == id) return OrganizationType.USNonProfitOrganization501C3;
+			if(11 == id) return OrganizationType.Individual;
 			return null;
 		}
 	}
@@ -533,3 +543,37 @@ namespace ECA.Data
 }
 #endregion
 
+#region Validator
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	using System.Collections.Generic;
+	///<summary>Validates all classes that have static lookups defined.</summary>
+	public static class EcaDataValidator
+	{
+		///<summary>
+		/// Validates all static lookup classes with the given validator.
+		///<param name="validator">The validator.</param>
+		/// <returns>The list of validation errors, or an empty list if no errors are found.</returns>
+		///</summary>
+		public static List<string> ValidateAll(IStaticGeneratorValidator validator)
+		{
+			var errors = new List<string>();
+			errors.AddRange(validator.Validate<ActorType>());
+			errors.AddRange(validator.Validate<Gender>());
+			errors.AddRange(validator.Validate<ItineraryStatus>());
+			errors.AddRange(validator.Validate<LocationType>());
+			errors.AddRange(validator.Validate<MoneyFlowSourceRecipientType>());
+			errors.AddRange(validator.Validate<MoneyFlowType>());
+			errors.AddRange(validator.Validate<OrganizationType>());
+			errors.AddRange(validator.Validate<ParticipantType>());
+			errors.AddRange(validator.Validate<PhoneNumberType>());
+			errors.AddRange(validator.Validate<ProgramStatus>());
+			errors.AddRange(validator.Validate<ProgramType>());
+			errors.AddRange(validator.Validate<ProjectStatus>());
+			errors.AddRange(validator.Validate<SocialMediaType>());
+			return errors;
+		}
+	}
+}
+#endregion

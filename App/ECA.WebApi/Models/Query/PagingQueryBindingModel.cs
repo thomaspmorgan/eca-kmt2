@@ -62,7 +62,6 @@ namespace ECA.WebApi.Models.Query
         /// <summary>
         /// Returns a QueryableOperator on type T to page, filter, and sort a query.
         /// </summary>
-        /// <typeparam name="T">The type to page, filter and sort.</typeparam>
         /// <param name="defaultSorter">The default sorter of the query.</param>
         /// <param name="propertySelectors">The properties to allow keyword searches on.</param>
         /// <returns>The query operator to apply to an IQueryable.</returns>

@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ECA.Data
 {
 
-    public class OrganizationType
+    public partial class OrganizationType
     {
         [Key]
         public int OrganizationTypeId { get; set; }

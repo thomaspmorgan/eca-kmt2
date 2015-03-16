@@ -3,6 +3,7 @@ using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -73,6 +74,28 @@ namespace ECA.WebApi.Controllers.Admin
                 return NotFound();
             }
 
+        }
+
+        /// <summary>
+        /// Creates and return a new draft project 
+        /// </summary>
+        /// <param name="model">The new project to create</param>
+        /// <returns>The created project</returns>
+        [ResponseType(typeof(ProjectDTO))]
+        public async Task<IHttpActionResult> PostProjectAsync(DraftProjectBindingModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var userId = 0;
+                var project = await projectService.CreateAsync(model.ToDraftProject(userId));
+                await projectService.SaveChangesAsync();
+                var dto = await projectService.GetProjectByIdAsync(project.ProjectId);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
     }
 }

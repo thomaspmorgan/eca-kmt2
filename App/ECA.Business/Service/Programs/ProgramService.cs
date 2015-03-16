@@ -26,8 +26,8 @@ namespace ECA.Business.Service.Programs
     {
         private static readonly string COMPONENT_NAME = typeof(ProgramService).FullName;
 
-        private ILogger logger;
-        private IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> validator;
+        private readonly ILogger logger;
+        private readonly IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> validator;
 
         /// <summary>
         /// Creates a new ProgramService with the given context to operator against.
@@ -147,7 +147,7 @@ namespace ECA.Business.Service.Programs
 
         private Program DoCreate(DraftProgram draftProgram, ProgramServiceValidationEntity validationEntity)
         {
-            Debug.Assert(draftProgram != null, "The draft program must not be null.");
+            Contract.Requires(draftProgram != null, "The draft program must not be null.");
             validator.ValidateCreate(validationEntity);
             var owner = GetOrganizationById(draftProgram.OwnerOrganizationId);
             var focus = GetFocusById(draftProgram.FocusId);
@@ -236,8 +236,7 @@ namespace ECA.Business.Service.Programs
 
         private void DoUpdate(Program programToUpdate, EcaProgram updatedProgram, ProgramServiceValidationEntity validationEntity)
         {
-            Debug.Assert(updatedProgram != null, "The updated program must not be null.");
-            Debug.Assert(updatedProgram.Audit != null, "The audit must not be null.");
+            Contract.Requires(updatedProgram != null, "The updated program must not be null.");
             validator.ValidateUpdate(validationEntity);
             var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
             var focus = GetFocusById(updatedProgram.FocusId);

@@ -2,15 +2,29 @@
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
+using ECA.Data;
 using System.Threading.Tasks;
 namespace ECA.Business.Service.Admin
 {
     /// <summary>
     /// A ProjectService is a service capable of performing crud on projects.
     /// </summary>
-    public interface IProjectService
+    public interface IProjectService : ISaveable
     {
-        ECA.Data.Project Create(DraftProject project);
+
+        /// <summary>
+        /// Creates and returns project
+        /// </summary>
+        /// <param name="project">The project to create</param>
+        /// <returns>The project that was created</returns>
+        Project Create(DraftProject project);
+
+        /// <summary>
+        /// Creates and returns project asyncronously
+        /// </summary>
+        /// <param name="project">The project to create</param>
+        /// <returns>The project that was created</returns>
+        Task<Project> CreateAsync(DraftProject project);
 
         /// <summary>
         /// Returns the sorted, filtered, and paged projects in the program with the given program id.

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
-using System.Web.Http.Cors;
+﻿using ECA.Core.Logging;
+using ECA.WebApi.Custom.Filters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using ECA.WebApi.Common;
-using System.Net.Http.Headers;
-using ECA.WebApi.Custom.Filters;
-using System.Web.Http.ExceptionHandling;
-using ECA.Core.Logging;
 using System.Diagnostics;
+using System.Net.Http.Headers;
+using System.Web.Http;
+using System.Web.Http.Cors;
+using System.Web.Http.ExceptionHandling;
 
 namespace ECA.WebApi
 {
@@ -58,6 +54,7 @@ namespace ECA.WebApi
             config.Filters.Add(new DbEntityValidationExceptionFilter());
 
             config.Filters.Add(new ECA.WebApi.Custom.Filters.TraceFilter(logger));
+
         }
     }
 }

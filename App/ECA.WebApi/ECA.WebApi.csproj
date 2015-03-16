@@ -230,8 +230,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml.user" />
-    <Content Include="Properties\PublishProfiles\ecaapi-kmt-dev - FTP.pubxml.user" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -273,9 +271,11 @@
     <Compile Include="Common\CurrentUser.cs" />
     <Compile Include="Common\HttpForm.cs" />
     <Compile Include="Common\SecurityGroups.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\Admin\FocusController.cs" />
     <Compile Include="Controllers\Admin\GoalsController.cs" />
     <Compile Include="Controllers\Admin\LocationsController.cs" />
+    <Compile Include="Controllers\Admin\OfficesController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsController.cs" />
     <Compile Include="Controllers\Admin\ProjectsController.cs" />
@@ -291,6 +291,7 @@
     <Compile Include="Custom\Filters\ValidationExceptionFilter.cs" />
     <Compile Include="Custom\Filters\UnknownStaticLookupExceptionFilter.cs" />
     <Compile Include="Custom\Filters\ModelNotFoundExceptionFilter.cs" />
+    <Compile Include="Models\AboutViewModel.cs" />
     <Compile Include="Models\AutoMapperConfig.cs" />
     <Compile Include="Models\ContactDTO.cs" />
     <Compile Include="Models\HistoryDTO.cs" />
@@ -334,9 +335,7 @@
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\ecaapi-kmt-dev.pubxml" />
-    <None Include="Properties\PublishProfiles\ecaapi-kmt-qa.pubxml" />
+    <None Include="Properties\PublishProfiles\ecaapi-kmt-dev-Web-Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

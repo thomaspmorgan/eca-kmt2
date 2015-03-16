@@ -2,7 +2,10 @@
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
+using ECA.Core.Service;
+using ECA.Data;
 using ECA.WebApi.Controllers.Admin;
+using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -32,14 +35,14 @@ namespace ECA.WebApi.Test.Controllers.Admin
 
         #region Get
         [TestMethod]
-        public async Task TestGetProjectsByProgramIcAsync()
+        public async Task TestGetProjectsByProgramIdAsync()
         {
             var response = await controller.GetProjectsByProgramAsync(1, new PagingQueryBindingModel<SimpleProjectDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProjectDTO>>));
         }
 
         [TestMethod]
-        public async Task TestGetProjectsByProgramIcAsync_InvalidModel()
+        public async Task TestGetProjectsByProgramIdAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetProjectsByProgramAsync(1, new PagingQueryBindingModel<SimpleProjectDTO>());
@@ -63,6 +66,26 @@ namespace ECA.WebApi.Test.Controllers.Admin
             serviceMock.Setup(x => x.GetProjectByIdAsync(It.IsAny<int>())).ReturnsAsync(null);
             var response = await controller.GetProjectByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+        }
+        #endregion
+
+        #region Post
+        [TestMethod]
+        public async Task TestPostProjectAsync()
+        {
+            serviceMock.Setup(x => x.CreateAsync(It.IsAny<DraftProject>()))
+                .ReturnsAsync(new Project());
+            serviceMock.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            var response = await controller.PostProjectAsync(new DraftProjectBindingModel());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProjectDTO>));
+        }
+
+        [TestMethod]
+        public async Task TestPostProjectAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.PostProjectAsync(new DraftProjectBindingModel());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion
     }

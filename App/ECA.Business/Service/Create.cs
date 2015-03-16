@@ -28,7 +28,6 @@ namespace ECA.Business.Service
         /// <param name="historicalEntity">The historical entity.</param>
         public override void SetHistory(IHistorical historicalEntity)
         {
-            Contract.Requires(historicalEntity != null, "The historical entity must not be null.");
             if (historicalEntity.History == null)
             {
                 historicalEntity.History = new History();

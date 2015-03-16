@@ -63,7 +63,6 @@ namespace ECA.Business.Service.Programs
         /// <returns>The collection of validation results.</returns>
         public IEnumerable<BusinessValidationResult> Validate(ProgramServiceValidationEntity validationEntity)
         {
-            Contract.Requires(validationEntity != null, "The validation entity should not be null.");
             if (validationEntity.RegionLocationTypeIds.Count > 1)
             {
                 yield return new BusinessValidationResult<EcaProgram>(x => x.RegionIds, NOT_ALL_LOCATIONS_ARE_REGIONS_ERROR_MESSAGE);
@@ -108,7 +107,6 @@ namespace ECA.Business.Service.Programs
         /// <returns>The collection of validation results.</returns>
         public override IEnumerable<BusinessValidationResult> DoValidateCreate(ProgramServiceValidationEntity validationEntity)
         {
-            Contract.Requires(validationEntity != null, "The validation entity should not be null.");
             return Validate(validationEntity);
         }
 
@@ -119,7 +117,6 @@ namespace ECA.Business.Service.Programs
         /// <returns>The collection of validation results.</returns>
         public override IEnumerable<BusinessValidationResult> DoValidateUpdate(ProgramServiceValidationEntity validationEntity)
         {
-            Contract.Requires(validationEntity != null, "The validation entity should not be null.");
             return Validate(validationEntity);
         }
     }

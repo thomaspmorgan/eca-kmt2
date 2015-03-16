@@ -45,27 +45,32 @@ namespace ECA.WebApi.Custom.Filters
             sb.AppendFormat("Exception occurred at {0} UTC ({1} {2})", utcNow.ToString(), utcNow.ToLocalTime().ToString(), timeZone.StandardName);
             sb.AppendLine(String.Empty);
 
-            var actionContext = context.ExceptionContext.ActionContext;
-            sb.AppendFormat("Request Uri:  {0}", actionContext.Request.RequestUri.ToString());
-            sb.AppendLine(String.Empty);
-
-            sb.AppendFormat("User:  {0}", GetUser(context));
-            sb.AppendLine(String.Empty);
-
-            var actionName = actionContext.ActionDescriptor.ActionName;
-            sb.AppendFormat("Controller Name:  {0}", actionContext.ControllerContext.ControllerDescriptor.ControllerName);
-            sb.AppendLine(String.Empty);
-
-            sb.AppendFormat("Action Name:  {0}", actionName);
-            sb.AppendLine(String.Empty);
-            
-            var actionArguments = actionContext.ActionArguments;
-            if(actionArguments != null && actionArguments.Count > 0)
+            if (context.ExceptionContext.ActionContext != null)
             {
-                var actionArgumentsJson = Jsonify(actionArguments);
-                sb.AppendFormat("Action Arguments:  {0}", actionArgumentsJson);
+                var actionContext = context.ExceptionContext.ActionContext;
+                sb.AppendFormat("Request Uri:  {0}", actionContext.Request.RequestUri.ToString());
                 sb.AppendLine(String.Empty);
+
+                sb.AppendFormat("User:  {0}", GetUser(context));
+                sb.AppendLine(String.Empty);
+
+                var actionName = actionContext.ActionDescriptor.ActionName;
+                sb.AppendFormat("Controller Name:  {0}", actionContext.ControllerContext.ControllerDescriptor.ControllerName);
+                sb.AppendLine(String.Empty);
+
+                sb.AppendFormat("Action Name:  {0}", actionName);
+                sb.AppendLine(String.Empty);
+
+                var actionArguments = actionContext.ActionArguments;
+                if (actionArguments != null && actionArguments.Count > 0)
+                {
+                    var actionArgumentsJson = Jsonify(actionArguments);
+                    sb.AppendFormat("Action Arguments:  {0}", actionArgumentsJson);
+                    sb.AppendLine(String.Empty);
+                }
+
             }
+            
             sb.Append(context.Exception.ToString());
             return sb.ToString();
         }

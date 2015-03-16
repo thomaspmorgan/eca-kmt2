@@ -1,13 +1,6 @@
+USE ECA_DEV
+GO
 /* creates test Region data for Location Table  */
-
-/* Do this if countryid column not created */
-ALTER TABLE dbo.location ADD Country_LocationId int NULL ;
-GO
-ALTER TABLE [dbo].[Location]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Location_dbo.Location_Country_LocationId] FOREIGN KEY([Country_LocationId])
-REFERENCES [dbo].[Location] ([LocationId])
-GO
-
-begin tran t1
 
 DECLARE @regionLocationID int = 0; 
 
@@ -20,7 +13,7 @@ SELECT @regionLocationID = locationtypeid
 SELECT @regionLocationID AS 'Region Location ID'
 
 /* Insert test data */
-insert into location
+INSERT INTO location
  (LocationTypeId,LocationName,LocationIso,
      History_createdby,history_createdon,history_revisedby,history_revisedon)
 values
@@ -30,9 +23,9 @@ values
  (@regionLocationid,'Near East','NEA',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
  (@regionLocationid,'South and Central Asia','SCA',0,sysdatetimeoffset(),0,sysdatetimeoffset()),
  (@regionLocationid,'Western Hemisphere','WHA',0,sysdatetimeoffset(),0,sysdatetimeoffset())
- (@regionLocationid,'UN and Other International Organizations','IO',0,sysdatetimeoffset(),0,sysdatetimeoffset())
+ (@regionLocationid,'UN and Other International Organizations','IO',0,sysdatetimeoffset(),0,sysdatetimeoffset(),
+ (@regionLocationid,'United States','US',0,sysdatetimeoffset(),0,sysdatetimeoffset())
 
-commit tran t1
 GO
 
 
