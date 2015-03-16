@@ -123,8 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
-    <Content Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml.user" />
-    <Content Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml.user" />
     <Content Include="scripts\constants.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -170,7 +168,7 @@
     <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\brian.pubxml" />
-    <None Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml.test" />
+    <None Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
