@@ -1,6 +1,6 @@
 {
   "name": "static",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "dependencies": {
     "angular": "~1.3.14",
     "json3": "~3.3.2",
@@ -17,7 +17,9 @@
     "bower": "*",
     "ngSticky": "~1.7.9",
     "adal-angular": "~1.0.0",
-    "angular-smart-table": "~2.0.1"
+    "angular-smart-table": "~2.0.1",
+    "angular-ui-date": "0.0.7",
+    "angular-ui-select": "0.11.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.3.14",

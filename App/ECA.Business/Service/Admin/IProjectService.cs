@@ -12,8 +12,18 @@ namespace ECA.Business.Service.Admin
     public interface IProjectService : ISaveable
     {
 
+        /// <summary>
+        /// Creates and returns project
+        /// </summary>
+        /// <param name="project">The project to create</param>
+        /// <returns>The project that was created</returns>
         Project Create(DraftProject project);
 
+        /// <summary>
+        /// Creates and returns project asyncronously
+        /// </summary>
+        /// <param name="project">The project to create</param>
+        /// <returns>The project that was created</returns>
         Task<Project> CreateAsync(DraftProject project);
 
         /// <summary>
