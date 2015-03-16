@@ -12,12 +12,12 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.ActorType.staticdata.sql
 :r .\StaticData\dbo.AddressType.staticdata.sql
 :r .\StaticData\dbo.ArtifactType.staticdata.sql
+:r .\StaticData\dbo.EmailAddressType.staticdata.sql
 :r .\StaticData\dbo.EventType.staticdata.sql
 :r .\StaticData\dbo.Focus.staticdata.sql
 :r .\StaticData\dbo.Gender.staticdata.sql
 :r .\StaticData\dbo.ImpactType.staticdata.sql
 :r .\StaticData\dbo.LocationType.staticdata.sql
-:r .\StaticData\dbo.NameType.staticdata.sql
 :r .\StaticData\dbo.OrganizationType.staticdata.sql
 :r .\StaticData\dbo.ParticipantType.staticdata.sql
 :r .\StaticData\dbo.PhoneNumberType.staticdata.sql
