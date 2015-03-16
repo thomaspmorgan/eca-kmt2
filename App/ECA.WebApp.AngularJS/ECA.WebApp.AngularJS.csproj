@@ -457,12 +457,12 @@
   </Target>
   <Import Project="..\packages\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.0.13.0-build22724\build\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.targets" Condition="Exists('..\packages\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.0.13.0-build22724\build\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+       Other similar extension points exist, see Microsoft.Common.targets.-->
+  
   <Target Name="BeforeBuild">
-  </Target>
-  -->
-  <Target Name="AfterBuild">
     <Exec Command="build.cmd" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     </Exec>
+  </Target>
+  <Target Name="AfterBuild">
   </Target>
 </Project>
