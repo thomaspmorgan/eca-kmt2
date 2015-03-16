@@ -64,6 +64,7 @@ namespace ECA.Business.Queries.Admin
                         let regions = project.Regions
                         let countries = countryQuery.Where(x => regions.Select(y => y.LocationId).Contains(x.Region.LocationId))
                         let goals = project.Goals
+                        let contacts = project.Contacts
                         where project.ProjectId == projectId
                         select new ProjectDTO
                         {
@@ -74,7 +75,8 @@ namespace ECA.Business.Queries.Admin
                             Focus = project.Focus.FocusName,
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
-                            Goals = goals.Select(x => new SimpleLookupDTO {Id = x.GoalId, Value = x.GoalName})
+                            Goals = goals.Select(x => new SimpleLookupDTO {Id = x.GoalId, Value = x.GoalName}),
+                            Contacts = contacts.Select(x => new SimpleLookupDTO {Id = x.ContactId, Value = x.FullName})
                         };
             return query;
         }

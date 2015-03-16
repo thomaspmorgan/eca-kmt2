@@ -24,5 +24,6 @@ namespace ECA.Business.Queries.Models.Admin
         public IEnumerable<SimpleLookupDTO> Themes { get; set; }
         public IEnumerable<SimpleLookupDTO> CountryIsos { get; set; }
         public IEnumerable<SimpleLookupDTO> Goals { get; set; }
+        public IEnumerable<SimpleLookupDTO> Contacts { get; set; }
     }
 }

@@ -739,6 +739,11 @@ namespace ECA.Business.Test.Service.Admin
                 FocusName = "focusName"
             };
 
+            var contact = new Contact
+            {
+                ContactId = 1,
+                FullName = "fullName"
+            };
 
             var project = new Project
             {
@@ -750,13 +755,15 @@ namespace ECA.Business.Test.Service.Admin
                 Locations = new HashSet<Location>(),
                 Regions = new HashSet<Location>(),
                 Goals = new HashSet<Goal>(),
-                Status = status 
+                Status = status,
+                Contacts = new HashSet<Contact>()
             };
 
             project.Themes.Add(theme);
             project.Locations.Add(location);
             project.Regions.Add(region);
             project.Goals.Add(goal);
+            project.Contacts.Add(contact);
 
             context.Themes.Add(theme);
             context.Locations.Add(location);
@@ -765,6 +772,7 @@ namespace ECA.Business.Test.Service.Admin
             context.Goals.Add(goal);
             context.ProjectStatuses.Add(status);
             context.Foci.Add(focus);
+            context.Contacts.Add(contact);
 
             Action<ProjectDTO> tester = (serviceResult) =>
             {
@@ -778,6 +786,7 @@ namespace ECA.Business.Test.Service.Admin
                     serviceResult.Goals.Select(x => x.Value).ToList());
                 Assert.AreEqual(context.ProjectStatuses.Select(x => x.Status).FirstOrDefault(), serviceResult.Status);
                 Assert.AreEqual(context.Foci.Select(x => x.FocusName).FirstOrDefault(), serviceResult.Focus);
+                CollectionAssert.AreEqual(context.Contacts.Select(x => x.ContactId).ToList(), serviceResult.Contacts.Select(x => x.Id).ToList());
             };
 
             var result = service.GetProjectById(project.ProjectId);
