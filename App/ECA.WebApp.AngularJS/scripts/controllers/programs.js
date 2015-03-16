@@ -87,7 +87,6 @@ angular.module('staticApp')
               name: $scope.newProject.title,
               description: $scope.newProject.description,
               projectStatusId: 5,
-              startDate: new Date(Date.now()).toUTCString(),
               programId: $scope.program.id
           }
           ProjectService.create(project)

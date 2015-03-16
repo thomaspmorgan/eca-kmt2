@@ -33,7 +33,7 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Creates and returns project
         /// </summary>
-        /// <param name="project">The project to create</param>
+        /// <param name="draftProject">The project to create</param>
         /// <returns>The project that was created</returns>
         public Project Create(DraftProject draftProject)
         {
@@ -45,7 +45,7 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Creates and returns project asyncronously
         /// </summary>
-        /// <param name="project">The project to create</param>
+        /// <param name="draftProject">The project to create</param>
         /// <returns>The project that was created</returns>
         public async Task<Project> CreateAsync(DraftProject draftProject)
         {
@@ -60,6 +60,7 @@ namespace ECA.Business.Service.Admin
             {
                 Name = draftProject.Name,
                 Description = draftProject.Description,
+                StartDate = DateTimeOffset.Now,
                 ProjectStatusId = draftProject.StatusId,
                 ProjectTypeId = 0, // need to figure this out
                 ProgramId = draftProject.ProgramId,
