@@ -61,12 +61,13 @@ namespace ECA.Business.Service.Admin
                 Name = draftProject.Name,
                 Description = draftProject.Description,
                 ProjectStatusId = draftProject.StatusId,
+                ProjectTypeId = 0, // need to figure this out
                 ProgramId = draftProject.ProgramId,
                 Themes = program.Themes,
                 Goals = program.Goals,
-                //FocusArea = program.Focus.FocusName,
+                FocusArea = program.Focus.FocusName,
                 Contacts = program.Contacts,
-                Regions = program.Regions,
+                Regions = program.Regions
             };
             draftProject.Audit.SetHistory(project);
             this.Context.Projects.Add(project);
