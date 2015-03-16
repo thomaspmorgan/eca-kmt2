@@ -35,13 +35,13 @@ namespace ECA.Business.Queries.Admin
                         where office.OrganizationTypeId == OrganizationType.Office.Id && office.OrganizationId == officeId
                         select new OfficeDTO
                         {
-                            Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
+                            Contacts = contacts.OrderBy(x => x.FullName).Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
                             Description = office.Description,
-                            Foci = foci.Select(x => new SimpleLookupDTO {Id = x.FocusId, Value = x.FocusName}),
-                            Goals = goals.Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
+                            Foci = foci.OrderBy(x => x.FocusName).Select(x => new SimpleLookupDTO { Id = x.FocusId, Value = x.FocusName }),
+                            Goals = goals.OrderBy(x => x.GoalName).Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
                             Id = office.OrganizationId,
                             Name = office.Name,
-                            Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName })
+                            Themes = themes.OrderBy(x => x.ThemeName).Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName })
                         };
             return query;
         }

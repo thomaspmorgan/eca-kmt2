@@ -61,33 +61,47 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Data Migration" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\PostDeploy" />
     <Folder Include="Scripts\PostDeploy\StaticData" />
     <Folder Include="dbo" />
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="dbo\Tables" />
+    <Folder Include="Data Migration\MigrationScripts\CulturalHeritage" />
+    <Folder Include="Data Migration\MigrationScripts" />
+    <Folder Include="Data Migration" />
+    <Folder Include="Data Migration\MigrationScripts\ECA" />
+    <Folder Include="Data Migration\MigrationScripts\VisitingScholars" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data Migration\Assign Region Code %28Africa).sql" />
-    <None Include="Data Migration\Assign Region Code %28East Asia Pacific).sql" />
-    <None Include="Data Migration\Assign Region Code %28Europe and Eurasia).sql" />
-    <None Include="Data Migration\Assign Region Code %28Near East).sql" />
-    <None Include="Data Migration\Assign Region Code %28South Central Asia).sql" />
-    <None Include="Data Migration\Assign Region Code %28Western Hemisphere).sql" />
-    <None Include="Data Migration\Location - Country Data.sql" />
-    <None Include="Data Migration\LocationType.sql" />
-    <None Include="Data Migration\Theme.sql" />
-    <None Include="Data Migration\ThemeProgram.sql" />
     <None Include="ECA_Local.publish.xml" />
     <None Include="ECA_Dev.publish.xml" />
     <None Include="ECA_QA.publish.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Data Migration\dbo.Program.data.sql" />
-    <None Include="Data Migration\dbo.OrganizationType.data.sql" />
-    <None Include="Data Migration\dbo.Organization.data.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\dbo.Organization.data.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\dbo.Program.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.ActorType.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.EmailAddressType.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.Gender.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.Goal.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.ItineraryStatus.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.Method.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.NameType.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.OrganizationType.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.PersonStatus.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.PhoneNumberType.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.ProgramType.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.ProjectStatus.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.ProjectType.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\dbo.SocialMediaType.data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\EmailAddressType.Create.Lookup.Data.sql" />
+    <None Include="Data Migration\MigrationScripts\VisitingScholars\dbo.Organization.Load.Missing.Home.Host.Intitutions.data.sql" />
+    <None Include="Data Migration\MigrationScripts\VisitingScholars\EmailAddress.Create.Visiting.Scholar.Person.Participant.EmailAddress.Data.sql" />
+    <None Include="Data Migration\MigrationScripts\VisitingScholars\Participant.Create.Visiting.Scholar.Participant.Data.sql" />
+    <None Include="Data Migration\MigrationScripts\VisitingScholars\Participant.Update.Visiting.Scholar.Participant.OrgId.Data.sql" />
+    <None Include="Data Migration\MigrationScripts\VisitingScholars\ParticipantProject.Create.Visiting.Scholar.ParticipantProject.XRef.Data.sql" />
+    <None Include="Data Migration\MigrationScripts\VisitingScholars\Person.Create.Visiting.Scholar.Person.Data.sql" />
+    <None Include="Data Migration\MigrationScripts\VisitingScholars\PhoneNumber.Create.Visiting.Scholar.Person.Participant.PhoneNumber.Data.sql" />
+    <None Include="Data Migration\MigrationScripts\VisitingScholars\Project.Update.FocusId.Values.Data.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\ECA.PostDeployment.sql" />
@@ -192,5 +206,42 @@
     <Build Include="dbo\Tables\Focus.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.Focus.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.OrganizationType.staticdata.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Build Program Goals.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Build Project Goals.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Create AFCP Programs.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Create AFCP Recipient Organizations.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Create Contacts.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\dbo.Emailaddress.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\dbo.PhoneNumber.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\MoneyFlow.PostToProject.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\MoneyFlow.ProgramToProject.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\MoneyFlow.ProjectToParticipant.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\MoneyFlow.ProjectToParticipantOrg.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\MoneyFlow.ProjectToParticipantPerson.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\ParticipantProject.Load.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Person - Load AFCP Person and Name Data.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Program - Resolve Organization.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Programs.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Project - Resolve parent program id.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Project StartDate corrections.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Project StartDate Enddate corrections.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\Reassign Branch Programs to Project Table.sql" />
+    <None Include="Data Migration\MigrationScripts\CulturalHeritage\ThemeProgram.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Assign Region Code %28Africa).sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Assign Region Code %28East Asia Pacific).sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Assign Region Code %28Europe and Eurasia).sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Assign Region Code %28Near East).sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Assign Region Code %28South Central Asia).sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Assign Region Code %28Western Hemisphere).sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\CountryCodeXREF_Vw.create.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Location - Country Data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Location - Region Data.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Location.Update.LocationISO.and.Region.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\LocationType.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Person.Migrate.Names.From.NamePart.sql" />
+    <None Include="Data Migration\MigrationScripts\ECA\Theme.sql" />
+    <None Include="Data Migration\MigrationScripts\VisitingScholars\ProjectRegion.Create.Visiting.Scholar.Project.Region.Mapping.sql" />
+    <None Include="Data Migration\MigrationScripts\VisitingScholars\Remove.NULL.Rows.From.Scholars.Table.sql" />
+    <None Include="Data Migration\MigrationScripts\VisitingScholars\VisitingScholarData.Update.Gender.For.Lookup.sql" />
   </ItemGroup>
 </Project>

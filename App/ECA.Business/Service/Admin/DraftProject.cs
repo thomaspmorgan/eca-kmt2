@@ -11,7 +11,7 @@ namespace ECA.Business.Service.Admin
     /// <summary>
     /// A DraftProject is a new project in ECA.
     /// </summary>
-    public class DraftProject
+    public class DraftProject : IAuditable
     {
         /// <summary>
         /// Creates a new DraftProject with the project's name, description and creator.
@@ -22,13 +22,11 @@ namespace ECA.Business.Service.Admin
         /// <param name="createdBy">The user who created the draft project.</param>
         public DraftProject(User createdBy, string name, string description, int programId)
         {
-            // remember to fix the unit test for this constructor too
-            throw new NotImplementedException();
-            //this.Name = name;
-            //this.ProgramId = programId;
-            //this.StatusId = ProjectStatus.Draft.Id;
-            //this.Description = description;
-            //this.History = new CreatedHistory(createdBy);
+            this.Name = name;
+            this.ProgramId = programId;
+            this.StatusId = ProjectStatus.Draft.Id;
+            this.Description = description;
+            this.Audit = new Create(createdBy);
         }
 
         /// <summary>
@@ -49,6 +47,11 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Gets the status id of the draft project.
         /// </summary>
-        public int StatusId { get; private set; }      
+        public int StatusId { get; private set; }
+
+        /// <summary>
+        /// Gets the project audit
+        /// </summary>
+        public Audit Audit { get; protected set; }
     }
 }

@@ -35,9 +35,12 @@ namespace ECA.WebApi.Models.Projects
         /// Returns a DraftProject instance to be used by the ProjectService.
         /// </summary>
         /// <param name="creatorId">The id of the user creating the project.</param>
-        public DraftProject ToDraftProject(ECA.Business.Service.User user)
+        public DraftProject ToDraftProject(int userId)
         {
-            return new DraftProject(user, this.Name, this.Description, this.ProgramId);
+            return new DraftProject(new ECA.Business.Service.User(userId), 
+                                    this.Name, 
+                                    this.Description, 
+                                    this.ProgramId);
         }
     }
 }
