@@ -244,6 +244,7 @@
     <None Include="Data Migration\MigrationScripts\VisitingScholars\VisitingScholarData.Update.Gender.For.Lookup.sql" />
     <Build Include="dbo\Tables\EmailAddressType.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.EmailAddressType.staticdata.sql" />
-    <Build Include="dbo\Tables\Test.sql" />
+    <Build Include="dbo\Stored Procedures\GetOffices.sql" />
+    <Build Include="dbo\Stored Procedures\GetPrograms.sql" />
   </ItemGroup>
 </Project>
