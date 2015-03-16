@@ -212,6 +212,38 @@ namespace ECA.Business.Test.Service.Admin
             var createdProject = service.Create(draftProject);
             var createdProjectAsync = await service.CreateAsync(draftProject);
         }
+
+        [TestMethod]
+        public async Task TestCreate_CheckAudit()
+        {
+            var program = new Program
+            {
+                ProgramId = 1,
+                Themes = new List<Theme>(),
+                Goals = new List<Goal>(),
+                Contacts = new List<Contact>(),
+                Regions = new List<Location>()
+            };
+
+            context.Programs.Add(program);
+
+            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
+
+            Action<Project> tester = (project) =>
+            {
+                Assert.IsNotNull(project);
+                Assert.AreEqual(1, project.History.CreatedBy);
+                Assert.AreEqual(1, project.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(project.History.CreatedOn, DbContextHelper.DATE_PRECISION);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(project.History.RevisedOn, DbContextHelper.DATE_PRECISION);
+            };
+
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+
+            tester(createdProject);
+            tester(createdProjectAsync);
+        }
         #endregion
 
         #region Get Projects By Program Id
