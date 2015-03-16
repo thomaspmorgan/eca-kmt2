@@ -37,32 +37,213 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         #region Create Draft Project
-        //[TestMethod]
-        //public void TestCreate()
-        //{
-        //    Assert.AreEqual(0, context.Programs.Count());
-        //    var utcNow = DateTimeOffset.UtcNow;
-        //    var projectName = "project";
-        //    var userId = 1;
-        //    var user = new User(userId);
-        //    var description = "description";
-        //    var programId = 2;
-        //    var draft = new DraftProject(user, projectName, description, programId);
-        //    var project = service.Create(draft);
+        [TestMethod]
+        public async Task TestCreate_CheckProperties()
+        {
+            var program = new Program 
+            {
+                ProgramId = 1
+            };
 
-        //    Assert.AreEqual(1, context.Projects.Count());
-        //    var savedProject = context.Projects.First();
-        //    Assert.IsNotNull(savedProject);
-        //    Assert.AreEqual(project.Name, savedProject.Name);
-        //    Assert.AreEqual(project.Description, savedProject.Description);
-        //    Assert.AreEqual(project.ProgramId, savedProject.ProgramId);
+            context.Programs.Add(program);
 
-        //    Assert.IsNotNull(savedProject.History);
-        //    Assert.AreEqual(userId, savedProject.History.CreatedBy);
-        //    Assert.AreEqual(userId, savedProject.History.RevisedBy);
-        //    savedProject.History.CreatedOn.Should().BeCloseTo(utcNow, DbContextHelper.DATE_PRECISION);
-        //    savedProject.History.RevisedOn.Should().BeCloseTo(utcNow, DbContextHelper.DATE_PRECISION);
-        //}
+            User user = new User(1);
+            var name = "name";
+            var description = "description";
+            var draftProject = new DraftProject(user, name, description, program.ProgramId);
+
+            Action<Project> tester = (project) =>
+            {
+                Assert.IsNotNull(project);
+                Assert.AreEqual(name, project.Name);
+                Assert.AreEqual(description, project.Description);
+                Assert.AreEqual(program.ProgramId, project.ProgramId);
+            };
+
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+
+            tester(createdProject);
+            tester(createdProjectAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_CheckThemes()
+        {
+            var theme = new Theme
+            {
+                ThemeId = 1,
+                ThemeName = "themeName"
+            };
+
+            var program = new Program
+            {
+                ProgramId = 1,
+                Themes = new List<Theme>(),
+                Goals = new List<Goal>(),
+                Contacts = new List<Contact>(),
+                Regions = new List<Location>() 
+            };
+
+            program.Themes.Add(theme);
+
+            context.Themes.Add(theme);
+            context.Programs.Add(program);
+
+            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
+
+            Action<Project> tester = (project) =>
+            {
+                Assert.IsNotNull(project);
+                CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeId).ToList(), project.Themes.Select(x => x.ThemeId).ToList());
+            };
+
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+
+            tester(createdProject);
+            tester(createdProjectAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_CheckGoals()
+        {
+            var goal = new Goal
+            {
+                GoalId = 1,
+                GoalName = "goalName"
+            };
+
+            var program = new Program
+            {
+                ProgramId = 1,
+                Themes = new List<Theme>(),
+                Goals = new List<Goal>(),
+                Contacts = new List<Contact>(),
+                Regions = new List<Location>() 
+            };
+
+            program.Goals.Add(goal);
+
+            context.Goals.Add(goal);
+            context.Programs.Add(program);
+
+            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
+
+            Action<Project> tester = (project) =>
+            {
+                Assert.IsNotNull(project);
+                CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalId).ToList(), project.Goals.Select(x => x.GoalId).ToList());
+            };
+
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_CheckContacts()
+        {
+            var contact = new Contact
+            {
+                ContactId = 1,
+                FullName = "fullName"
+            };
+
+            var program = new Program
+            {
+                ProgramId = 1,
+                Themes = new List<Theme>(),
+                Goals = new List<Goal>(),
+                Contacts = new List<Contact>(),
+                Regions = new List<Location>() 
+            };
+
+            program.Contacts.Add(contact);
+
+            context.Contacts.Add(contact);
+            context.Programs.Add(program);
+
+            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
+
+            Action<Project> tester = (project) =>
+            {
+                Assert.IsNotNull(project);
+                CollectionAssert.AreEqual(context.Contacts.Select(x => x.ContactId).ToList(), project.Contacts.Select(x => x.ContactId).ToList());
+            };
+
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+
+            tester(createdProject);
+            tester(createdProjectAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_CheckRegions()
+        {
+            var region = new Location
+            {
+                LocationId = 1,
+                LocationName = "locationName"
+            };
+
+            var program = new Program
+            {
+                ProgramId = 1,
+                Themes = new List<Theme>(),
+                Goals = new List<Goal>(),
+                Contacts = new List<Contact>(),
+                Regions = new List<Location>() 
+            };
+
+            program.Regions.Add(region);
+
+            context.Locations.Add(region);
+            context.Programs.Add(program);
+
+            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
+
+            Action<Project> tester = (project) =>
+            {
+                Assert.IsNotNull(project);
+                CollectionAssert.AreEqual(context.Locations.Select(x => x.LocationId).ToList(), project.Regions.Select(x => x.LocationId).ToList());
+            };
+
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_CheckAudit()
+        {
+            var program = new Program
+            {
+                ProgramId = 1,
+                Themes = new List<Theme>(),
+                Goals = new List<Goal>(),
+                Contacts = new List<Contact>(),
+                Regions = new List<Location>()
+            };
+
+            context.Programs.Add(program);
+
+            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
+
+            Action<Project> tester = (project) =>
+            {
+                Assert.IsNotNull(project);
+                Assert.AreEqual(1, project.History.CreatedBy);
+                Assert.AreEqual(1, project.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(project.History.CreatedOn, DbContextHelper.DATE_PRECISION);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(project.History.RevisedOn, DbContextHelper.DATE_PRECISION);
+            };
+
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+
+            tester(createdProject);
+            tester(createdProjectAsync);
+        }
         #endregion
 
         #region Get Projects By Program Id

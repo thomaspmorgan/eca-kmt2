@@ -19,6 +19,8 @@ angular.module('staticApp')
       };
       $scope.today();
 
+      $scope.calOpened = false;
+
       $scope.alerts = [];
 
       $scope.themes = [];
@@ -234,7 +236,7 @@ angular.module('staticApp')
         $event.preventDefault();
         $event.stopPropagation();
 
-        $scope.calOpened = true;
+       this.calOpened = true;
 
     };
 
@@ -274,19 +276,19 @@ angular.module('staticApp')
     };
 
     $scope.setContactsDirty = function () {
-        $scope.programForm.hiddenContacts.$setViewValue($scope.programForm.hiddenContacts.$viewValue);
+        this.programForm.hiddenContacts.$setDirty(true);
     };
 
     $scope.setThemesDirty = function () {
-        $scope.programForm.hiddenThemes.$setViewValue($scope.programForm.hiddenThemes.$viewValue);
+        this.programForm.hiddenThemes.$setDirty(true);
     };
 
     $scope.setGoalsDirty = function () {
-        $scope.programForm.hiddenGoals.$setViewValue($scope.programForm.hiddenGoals.$viewValue);
+        this.programForm.hiddenGoals.$setDirty(true);
     };
 
     $scope.setRegionsDirty = function () {
-        $scope.programForm.hiddenRegions.$setViewValue($scope.programForm.hiddenRegions.$viewValue);
+        this.programForm.hiddenRegions.$setDirty(true);
     };
 
   });

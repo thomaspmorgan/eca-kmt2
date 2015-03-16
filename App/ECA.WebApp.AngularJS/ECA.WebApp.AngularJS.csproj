@@ -123,8 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
-    <Content Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml.user" />
-    <Content Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml.user" />
     <Content Include="scripts\constants.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -170,7 +168,7 @@
     <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\brian.pubxml" />
-    <None Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml.test" />
+    <None Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
@@ -459,12 +457,12 @@
   </Target>
   <Import Project="..\packages\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.0.13.0-build22724\build\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.targets" Condition="Exists('..\packages\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.0.13.0-build22724\build\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+       Other similar extension points exist, see Microsoft.Common.targets.-->
+  
   <Target Name="BeforeBuild">
-  </Target>
-  -->
-  <Target Name="AfterBuild">
-    <Exec Command="build.cmd" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <Exec Command="build.cmd">
     </Exec>
+  </Target>
+  <Target Name="AfterBuild">
   </Target>
 </Project>

@@ -20,7 +20,9 @@ angular
     'xeditable',
     'sticky',
     'AdalAngular',
-    'smart-table'
+    'smart-table',
+    'ui.select',
+    'ui.date'
   ])
   .config(function ($stateProvider, $httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider) {
     

@@ -193,7 +193,6 @@
     <None Include="Scripts\PostDeploy\StaticData\dbo.LocationType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.MoneyFlowSourceRecipientType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.MoneyFlowType.staticdata.sql" />
-    <None Include="Scripts\PostDeploy\StaticData\dbo.NameType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ParticipantType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.PhoneNumberType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.ProgramType.staticdata.sql" />
@@ -243,5 +242,9 @@
     <None Include="Data Migration\MigrationScripts\VisitingScholars\ProjectRegion.Create.Visiting.Scholar.Project.Region.Mapping.sql" />
     <None Include="Data Migration\MigrationScripts\VisitingScholars\Remove.NULL.Rows.From.Scholars.Table.sql" />
     <None Include="Data Migration\MigrationScripts\VisitingScholars\VisitingScholarData.Update.Gender.For.Lookup.sql" />
+    <Build Include="dbo\Tables\EmailAddressType.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\dbo.EmailAddressType.staticdata.sql" />
+    <Build Include="dbo\Stored Procedures\GetOffices.sql" />
+    <Build Include="dbo\Stored Procedures\GetPrograms.sql" />
   </ItemGroup>
 </Project>
