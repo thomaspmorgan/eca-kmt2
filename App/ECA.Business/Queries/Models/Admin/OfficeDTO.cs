@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Service.Lookup;
+using System;
 using System.Collections.Generic;
 
 namespace ECA.Business.Queries.Models.Admin
@@ -32,6 +33,16 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the description.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date of last revision
+        /// </summary>
+        public DateTimeOffset RevisedOn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the title.
+        /// </summary>
+        public string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the Themes.
