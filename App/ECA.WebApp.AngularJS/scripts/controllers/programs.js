@@ -92,7 +92,7 @@ angular.module('staticApp')
           }
           ProjectService.create(project)
             .then(function (createdProject) {
-                $state.go('projects.overview', { officeId: $scope.program.owner.organizationId,  programId: $scope.program.id, projectId: createdProject.projectId});
+                $state.go('projects.overview', { officeId: $scope.program.ownerOrganizationId,  programId: $scope.program.id, projectId: createdProject.id});
             });
       };
 

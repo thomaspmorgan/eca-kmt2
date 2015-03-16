@@ -68,6 +68,43 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         [TestMethod]
+        public async Task TestCreate_CheckFocus()
+        {
+            var focus = new Focus
+            {
+                FocusId = 1,
+                FocusName = "focusName"
+            };
+            
+            var program = new Program
+            {
+                ProgramId = 1,
+                Themes = new List<Theme>(),
+                Goals = new List<Goal>(),
+                Contacts = new List<Contact>(),
+                Regions = new List<Location>(),
+                Focus = focus
+            };
+
+            context.Foci.Add(focus);
+            context.Programs.Add(program);
+
+            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
+
+            Action<Project> tester = (project) => 
+            {
+                Assert.IsNotNull(project);
+                Assert.AreEqual(context.Foci.Select(x => x.FocusName).FirstOrDefault(), project.Focus.FocusName);
+            };
+           
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+
+            tester(createdProject);
+            tester(createdProjectAsync);
+        }
+
+        [TestMethod]
         public async Task TestCreate_CheckThemes()
         {
             var theme = new Theme
@@ -695,13 +732,19 @@ namespace ECA.Business.Test.Service.Admin
                 Status = "status" 
             };
 
+            var focus = new Focus
+            {
+                FocusId = 1,
+                FocusName = "focusName"
+            };
+
 
             var project = new Project
             {
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                FocusArea = "focus",
+                Focus = focus,
                 Themes = new HashSet<Theme>(),
                 Locations = new HashSet<Location>(),
                 Regions = new HashSet<Location>(),
@@ -720,19 +763,20 @@ namespace ECA.Business.Test.Service.Admin
             context.Locations.Add(region);
             context.Goals.Add(goal);
             context.ProjectStatuses.Add(status);
+            context.Foci.Add(focus);
 
             Action<ProjectDTO> tester = (serviceResult) =>
             {
                 Assert.AreEqual(project.Name, serviceResult.Name);
                 Assert.AreEqual(project.Description, serviceResult.Description);
-                Assert.AreEqual(project.FocusArea, serviceResult.Focus);
                 CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),
                     serviceResult.Themes.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
                     serviceResult.CountryIsos.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(),
                     serviceResult.Goals.Select(x => x.Value).ToList());
-                Assert.AreEqual(context.ProjectStatuses.Select(x => x.Status).FirstOrDefault(), serviceResult.Status);                 
+                Assert.AreEqual(context.ProjectStatuses.Select(x => x.Status).FirstOrDefault(), serviceResult.Status);
+                Assert.AreEqual(context.Foci.Select(x => x.FocusName).FirstOrDefault(), serviceResult.Focus);
             };
 
             var result = service.GetProjectById(project.ProjectId);
@@ -750,7 +794,7 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                FocusArea = "focus",
+                Focus = new Focus(),
                 Themes = new HashSet<Theme>(),
                 Regions = new HashSet<Location>(),
                 Goals = new HashSet<Goal>(),
@@ -763,7 +807,6 @@ namespace ECA.Business.Test.Service.Admin
             {
                 Assert.AreEqual(project.Name, serviceResult.Name);
                 Assert.AreEqual(project.Description, serviceResult.Description);
-                Assert.AreEqual(project.FocusArea, serviceResult.Focus);
                 CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),
                     serviceResult.Themes.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
@@ -787,7 +830,7 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                FocusArea = "focus",
+                Focus = new Focus(),
                 Themes = new HashSet<Theme>(),
                 Regions = new HashSet<Location>(),
                 Goals = new HashSet<Goal>()
