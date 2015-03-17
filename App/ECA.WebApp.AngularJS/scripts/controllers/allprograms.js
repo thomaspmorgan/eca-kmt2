@@ -155,7 +155,7 @@ angular.module('staticApp')
       // Need to have more added to function
     function unsavedChanges() {
         var unsavedChanges = false;
-        if ($scope.newProgram.$dirty) {
+        if ($scope.formScope.programForm.$dirty) {
             unsavedChanges = true;
         }
         return unsavedChanges;
@@ -168,6 +168,11 @@ angular.module('staticApp')
         $scope.calClear();
         $scope.newProgram.ownerOrganizationId = 1;
         $scope.newProgram.startDate = new Date();
+        $scope.formScope.programForm.$setPristine();
+    };
+
+    $scope.setFormScope = function (scope) {
+        $scope.formScope = scope;
     };
 
     //$scope.updateProgram = function () {
