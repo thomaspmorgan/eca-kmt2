@@ -26,6 +26,19 @@ namespace ViewParticipantsList.Test
         [TestMethod]
         public void ViewParticipantsCodedUITestMethod1()
         {
+            this.UIMap.LogintoQA();
+            this.UIMap.AssertContentMenuButton();
+            this.UIMap.SelectContentMenuButton();
+            this.UIMap.AssertParticipantsLink();
+            this.UIMap.SelectParticipantsLink();
+            this.UIMap.RefreshAllParticipantsPage();
+            this.UIMap.AssertParticipantsList();
+            this.UIMap.AssertPageNumberCustomControl();
+            this.UIMap.SelectPageCustomControl();
+            this.UIMap.AssertPageNumberParticipantsList();
+            this.UIMap.AssertParticipant_NameandHyperlink();
+            this.UIMap.CloseBrowserWindow();
+
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
@@ -65,5 +78,20 @@ namespace ViewParticipantsList.Test
             }
         }
         private TestContext testContextInstance;
+
+        public UIMap UIMap
+        {
+            get
+            {
+                if ((this.map == null))
+                {
+                    this.map = new UIMap();
+                }
+
+                return this.map;
+            }
+        }
+
+        private UIMap map;
     }
 }
