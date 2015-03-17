@@ -113,8 +113,8 @@ namespace ECA.Core.DynamicLinq
 
         private ComparisonType(string value, string displayName)
         {
-            Debug.Assert(value != null, "The comparison type must not be null.");
-            Debug.Assert(displayName != null, "The displayName must not be null.");
+            Contract.Requires(value != null, "The comparison type must not be null.");
+            Contract.Requires(displayName != null, "The displayName must not be null.");
             this.Value = value;
             this.Display = displayName;
         }

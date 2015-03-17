@@ -9,7 +9,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllProgramsCtrl', function ($scope, $stateParams, ProgramService, LookupService, TableService) {
+  .controller('AllProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, LookupService, TableService) {
       
       $scope.errorMessage = 'Unknown Error';
       $scope.validations = [];
@@ -267,6 +267,7 @@ angular.module('staticApp')
     };
 
     $scope.confirmSaveYes = function () {
+        $state.go('programs.overview', { officeId: $scope.program.ownerOrganizationId, programId: $scope.program.id });
         $scope.modal.confirmSave = false;
         $scope.modal.createProgram = false;
     };

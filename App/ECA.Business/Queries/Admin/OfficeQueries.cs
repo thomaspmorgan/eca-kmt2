@@ -41,7 +41,9 @@ namespace ECA.Business.Queries.Admin
                             Goals = goals.OrderBy(x => x.GoalName).Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
                             Id = office.OrganizationId,
                             Name = office.Name,
-                            Themes = themes.OrderBy(x => x.ThemeName).Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName })
+                            RevisedOn = office.History.RevisedOn,
+                            Themes = themes.OrderBy(x => x.ThemeName).Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
+                            Title = office.Description
                         };
             return query;
         }

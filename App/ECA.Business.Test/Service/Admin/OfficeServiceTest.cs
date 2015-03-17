@@ -28,13 +28,16 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public async Task TestGetOfficeById_CheckProperties()
         {
+            var now = DateTimeOffset.UtcNow;
             var office = new Organization
             {
                 OrganizationId = 1,
                 OrganizationTypeId = OrganizationType.Office.Id,
                 Name = "office",
-                Description = "office desc"
+                Description = "office desc",
+                
             };
+            office.History.RevisedOn = now;
             var contact = new Contact
             {
                 ContactId = 2,
@@ -79,7 +82,9 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.IsNotNull(dto);
                 Assert.AreEqual(office.OrganizationId, dto.Id);
                 Assert.AreEqual(office.Name, dto.Name);
+                Assert.AreEqual(office.Description, dto.Title);
                 Assert.AreEqual(office.Description, dto.Description);
+                Assert.AreEqual(office.History.RevisedOn, dto.RevisedOn);
 
                 Assert.AreEqual(1, dto.Contacts.Count());
                 Assert.AreEqual(contact.ContactId, dto.Contacts.First().Id);

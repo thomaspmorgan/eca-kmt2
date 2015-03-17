@@ -10,6 +10,12 @@
 angular.module('staticApp')
   .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, ProjectService, TableService) {
 
+      $scope.confirmClose = false;
+      $scope.confirmFail = false;
+      $scope.confirmSave = false;
+      $scope.newProjectId = null;
+
+
       $scope.newProject = {
           title: '',
           description: ''
@@ -91,16 +97,24 @@ angular.module('staticApp')
           }
           ProjectService.create(project)
             .then(function (createdProject) {
-                $state.go('projects.overview', { officeId: $scope.program.ownerOrganizationId,  programId: $scope.program.id, projectId: createdProject.id});
+                if (createdProject.hasOwnProperty('ErrorMessage')) {
+                    $scope.errorMessage = program.ErrorMessage;
+                    $scope.validations.push(program.Property);
+                    $scope.confirmFail = true;
+                } else {
+                    $scope.confirmSave = true;
+                    $scope.newProjectId = createdProject.id;
+                }
             });
       };
 
       $scope.modalClose = function () {
-          var close = true;
           if (unsavedChanges()) {
-              close = confirm('You have unsaved changes!\nAre you sure you want to close?');
+              $scope.confirmClose = true;
           }
-          return close;
+          else {
+              this.modal.createProject = false;
+          }
       };
 
       function unsavedChanges() {
@@ -137,4 +151,24 @@ angular.module('staticApp')
                   $scope.program = program;
               });
       }
+
+      $scope.confirmCloseYes = function () {
+          $scope.confirmClose = false;
+          this.modal.createProject = false;
+      };
+
+      $scope.confirmCloseNo = function () {
+          this.modal.createProject = true;
+          $scope.confirmClose = false;
+      };
+
+      $scope.confirmSaveYes = function () {
+          $scope.confirmSave = false;
+          $state.go('projects.overview', { officeId: $scope.program.ownerOrganizationId, programId: $scope.program.id, projectId: $scope.newProjectId });
+          this.modal.createProject = false;
+      };
+
+      $scope.confirmFailOk = function () {
+          $scope.confirmFail = false;
+      };
   });
