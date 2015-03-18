@@ -45,6 +45,7 @@ angular.module('staticApp')
 
       $scope.office = {};
       $scope.programs = [];
+      $scope.programFilter = '';
 
       $scope.isLoadingOfficeById = true;
       $scope.isLoadingPrograms = false;
@@ -98,6 +99,13 @@ angular.module('staticApp')
 
       function getProgramsByOfficeId(officeId, params) {
           var dfd = $q.defer();
+          var levels = [1, 2];
+
+          params.filter.push({
+              property: 'programLevel',
+              comparison: 'in',
+              value: levels
+          });
 
           OfficeService.getPrograms(params, officeId)
               .then(function (data, status, headers, config) {
@@ -115,18 +123,14 @@ angular.module('staticApp')
           reset();
           $scope.isLoadingPrograms = true;
           TableService.setTableState(tableState);
-          var levels = [1, 2];
           var params = {
               start: TableService.getStart(),
               limit: TableService.getLimit(),
               sort: TableService.getSort(),
-              filter: TableService.getFilter()
+              filter: TableService.getFilter(),
+              keyword: TableService.getKeywords()
           };
-          params.filter.push({
-              property: 'programLevel',
-              comparison: 'in',
-              value: levels
-          });
+          $scope.programFilter = params.keyword;
           getProgramsByOfficeId(officeId, params)
             .then(function (data) {
                 var programs = data.results;

@@ -1,9 +1,5 @@
 <div class="alert alert-danger" ng-show="loadingProgramsErrorOccurred">There was an error retrieving programs.</div>
 <h2 class="office-color tab-header">Branches & Programs</h2>
-<form>
-    <input type="text" ng-model="programFilter" placeholder="Search Programs" class="search-contextual">
-    <i class="glyphicon glyphicon-search contextual"></i>
-</form>
 <div st-pipe="getPrograms" st-table="programs" id="sort-list">
     <table class="col-md-12">
         <thead>
@@ -11,13 +7,21 @@
                 <th class="col-md-7"></th>
                 <th class="col-md-2">&nbsp;</th>
             </tr>
+            <tr>
+                <th>
+                    <input st-search type="search" placeholder="Search Programs" class="search-contextual" maxlength="100">
+                    <i class="glyphicon glyphicon-search contextual"></i>
+                </th>
+            </tr>
         </thead>
         <tbody class="list2">
             <tr ng-repeat="program in programs" class="hover" ng-show="!isLoadingPrograms">
-                <td>                    
+                <td>
                     <div ng-style="{marginLeft: (program.programLevel - 1) * 60}">
-                        <h5 class="list-title"><a ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a></h5>
-                        <p class="description">{{program.description}}</p>
+                        <h5 ng-bind-html="program.name | highlight:programFilter" class="list-title">
+                            <a ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a>
+                        </h5>
+                        <p ng-bind-html="program.description | highlight:programFilter" class="description">{{program.description}}</p>
                     </div>
                 </td>
                 <td>
