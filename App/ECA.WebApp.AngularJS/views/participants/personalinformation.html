@@ -1,2 +1,68 @@
 <h2 class="person-color tab-header">Personal Information</h2>
+<!--
 <img class="" ng-click="pushMenu2($event)" src="images/placeholders/participant/personalinformation3.png" alt="">
+-->
+<div class="row table">
+    <div class="row" ng-click="showPii = !showPii">
+        <div class="col-md-10">
+            <h4 class="tab-subheader">Personal Identifiable Information (PII)</h4>
+        </div>
+        <div class="col-sd-2"> <span class="right"><img src="images/expand.png"></span></div>
+    </div>
+    <div class="row" ng-show="showPii">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6 title-label">Names & Alternatives</div>
+                <div class="col-md-6">{{project.status}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Gender</div>
+                <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.themeName}} </span></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Ethnicity</div>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="goal in project.goals">{{goal.value}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Place of Birth</div>
+                <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.themeName}} </span></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Date of Birth</div>
+                <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.themeName}} </span></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 title-label">Countries of Citizenship</div>
+                    <div class="col-md-6">{{project.status}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">Residence Address</div>
+                    <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.themeName}} </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">Medical Conditions</div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li ng-repeat="goal in project.goals">{{goal.value}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">Marital Status</div>
+                    <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.themeName}} </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">Sevis Id</div>
+                    <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.themeName}} </span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

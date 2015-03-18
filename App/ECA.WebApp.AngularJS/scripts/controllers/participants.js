@@ -43,6 +43,8 @@ angular.module('staticApp')
       },
     };
 
+    $scope.showPii = true;
+
     $scope.activityImageSet = [
         'images/placeholders/participant/activities1.png',
         'images/placeholders/participant/activities2.png'
