@@ -42,14 +42,30 @@ angular.module('staticApp')
             var predicateObject = tableState.search.predicateObject;
             if (predicateObject !== undefined) {
                 for (var key in predicateObject) {
-                    filter.push({
-                        property: key.replace(/'/g, ""),
-                        value: predicateObject[key],
-                        comparison: 'like'
-                    });
+                    if (key !== '$') { //The $ key is used for the search form fields
+                        filter.push({
+                            property: key.replace(/'/g, ""),
+                            value: predicateObject[key],
+                            comparison: 'like'
+                        });
+                    }
+                    
                 }
             }
             return filter;
+        }
+
+        function getKeywords() {
+            var keywords = [];
+            var predicateObject = tableState.search.predicateObject;
+            if (predicateObject && predicateObject.$)
+            {
+                return predicateObject.$.split(' ');
+            }
+            
+            else {
+                return null;
+            }
         }
 
         return {
@@ -57,6 +73,7 @@ angular.module('staticApp')
             getStart: getStart,
             getLimit: getLimit,
             getSort: getSort,
-            getFilter: getFilter
+            getFilter: getFilter,
+            getKeywords: getKeywords
         };
     });
