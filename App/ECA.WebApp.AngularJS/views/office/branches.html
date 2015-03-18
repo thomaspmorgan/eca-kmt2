@@ -18,8 +18,8 @@
             <tr ng-repeat="program in programs" class="hover" ng-show="!isLoadingPrograms">
                 <td>
                     <div ng-style="{marginLeft: (program.programLevel - 1) * 60}">
-                        <h5 ng-bind-html="program.name | highlight:programFilter" class="list-title">
-                            <a ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a>
+                        <h5 class="list-title">
+                            <a ng-bind-html="program.name | highlight:programFilter" ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a>
                         </h5>
                         <p ng-bind-html="program.description | highlight:programFilter" class="description">{{program.description}}</p>
                     </div>
