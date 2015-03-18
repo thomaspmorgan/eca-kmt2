@@ -9,5 +9,6 @@ namespace ECA.Business.Queries.Models.Persons
     public class ParticipantDTO
     {
         public string Name { get; set; }
+        public DateTimeOffset LastUpdated { get; set; }
     }
 }

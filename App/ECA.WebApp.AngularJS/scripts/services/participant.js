@@ -27,6 +27,14 @@ angular.module('staticApp')
               defer.resolve(data);
           });
         return defer.promise;
+      },
+      getParticipantById: function (id) {
+          var defer = $q.defer();
+          DragonBreath.get('participants', id)
+            .success(function (data) {
+                defer.resolve(data);
+            })
+          return defer.promise;
       }
     };
   });

@@ -47,25 +47,9 @@ angular.module('staticApp')
         'images/placeholders/participant/activities1.png',
         'images/placeholders/participant/activities2.png'
     ]
-    /**
 
-    PersonService.get($stateParams.personId)
-        .then(function (person) {
-            $scope.person = person;
-            console.log($scope);
-
-        });
-
-    $scope.updatePerson = function () {
-        savePerson();
-    };
-
-    function savePerson() {
-        PersonService.update($scope.person, $stateParams.personId)
-            .then(function (person) {
-              $scope.person = person;
-            });
-    }
-    */
-
+    ParticipantService.getParticipantById($stateParams.participantId)
+      .then(function (data) {
+          $scope.participant = data;
+      });
   });

@@ -106,15 +106,15 @@ namespace ECA.Business.Queries.Persons
             Contract.Requires(context != null, "The context must not be null.");
             var query = from participant in context.Participants
                         let person = participant.Person
-                        let org = participant.Organization
-                        where participant.ParticipantId == participantId
+                        let history = participant.History
+                        where participant.ParticipantId == participantId && participant.ParticipantTypeId == ParticipantType.Individual.Id
 
                         select new ParticipantDTO
                         {
-                            Name = participant.ParticipantId == ParticipantType.Individual.Id ?  ((person.FirstName != null ? person.FirstName : String.Empty)
-                                                                                               + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
-                                                                                               + (person.LastName != null ? person.LastName : String.Empty)) :
-                                                                                               org.Name
+                            Name = (person.FirstName != null ? person.FirstName : String.Empty)
+                                + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
+                                + (person.LastName != null ? person.LastName : String.Empty), 
+                            LastUpdated = history.RevisedOn
                         };
             return query;
         }

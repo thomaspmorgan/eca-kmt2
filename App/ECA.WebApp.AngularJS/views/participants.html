@@ -1,27 +1,24 @@
 <div class="breadcrumbs">
-  <p><a ui-sref="allparticipants({page: 1})">Participants</a> &bull; {{person.names[0].value}} {{person.names[1].value}}</p>
+    <p><a ui-sref="allparticipants({page: 1})">Participants</a> &bull; {{participant.name}}</p>
 </div>
 <div class="jumbotron person">
-  <div class="toolbar" sticky offset="50">
-    <div class="left">
-      <span class="detail"><a ui-sref="lastupdated">Last Updated {{person.updated | date}}</a></span>
-      <!--<span class="detail">Last Updated {{person.updated | date}}</span>
-      <span class="detail">Last Updated {{person.updated | date}}</span>-->
+    <div class="toolbar" sticky offset="50">
+        <div class="left">
+            <span class="detail">Last Updated {{participant.lastUpdated | date}}</span>
+        </div>
+        <div class="right">
+            <img class="icon star" src="images/star.png" alt="">
+            <img class="icon" src="images/exportA.png" alt="">
+            <img class="icon wide" src="images/collabA.png" alt="">
+            <img ng-click="pushMenu2($event)" class="icon" src="images/toolCommentsA.png" alt="">
+        </div>
     </div>
-    <div class="right">
-      <img class="icon star" src="images/star.png" alt="">
-      <img class="icon" src="images/exportA.png" alt="">
-      <img class="icon wide" src="images/collabA.png" alt="">
-      <img ng-click="pushMenu2($event)" class="icon" src="images/toolCommentsA.png" alt="">
+    <div class="heading">
+        <h5>PARTICIPANT</h5>
+        <h1>{{participant.name}}</h1>
+        <span class="prominent">Prominent</span>
+        <div class="permalink">Permalink: url goes here</div>
     </div>
-  </div>
-  <div class="heading">
-    <h5>PARTICIPANT</h5>
-    <h1>{{person.names[0].value}} {{person.names[1].value}}</h1>
-    <span class="prominent">Prominent</span>    
-<!--     <span class="owner-office">{{person.owner.shortName}}</span> -->
-    <div class="permalink">Permalink: url goes here</div>
-  </div>
 </div>
 <tab-bar tabs="tabs" on-add="updateProgram()"></tab-bar>
 <div class="container" ui-view>
