@@ -1,20 +1,41 @@
+<div class="alert alert-danger" ng-show="loadingProgramsErrorOccurred">There was an error retrieving programs.</div>
 <h2 class="office-color tab-header">Branches & Programs</h2>
-<input type="text" ng-model="programFilter" placeholder="Search Programs" class="search-contextual">
-<i class="glyphicon glyphicon-search contextual"></i>
-<div class="list2">
-	<div class="row hover" ng-repeat="program in office.programReferences | filter:programFilter">
-		<div class="col-md-9">
-			<div class="title-label">ACTIVE</div>
-			<h4 class="list-title"><a ui-sref="programs.overview({officeId: office.id, programId: program.programId})">{{program.programName}}</a></h4>
-			<p class="description">{{program.programDescription}}</p>
-		</div>
-		<div class="col-md-3 tools">
-			<div class="right">
-				<img class="icon" src="images/duplicateA.png" alt="">
-				<img class="icon" src="images/editA.png" alt="">
-				<img class="icon" src="images/trash.png" alt="">
-			</div>
-		</div>
-	</div>
-	<div class="divider"></div>
+<form>
+    <input type="text" ng-model="programFilter" placeholder="Search Programs" class="search-contextual">
+    <i class="glyphicon glyphicon-search contextual"></i>
+</form>
+<div st-pipe="getPrograms" st-table="programs" id="sort-list">
+    <table class="col-md-12">
+        <thead>
+            <tr>
+                <th class="col-md-7"></th>
+                <th class="col-md-2">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody class="list2">
+            <tr ng-repeat="program in programs" class="hover" ng-show="!isLoadingPrograms">
+                <td>                    
+                    <div ng-style="{marginLeft: (program.programLevel - 1) * 60}">
+                        <h5 class="list-title"><a ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a></h5>
+                        <p class="description">{{program.description}}</p>
+                    </div>
+                </td>
+                <td>
+                    <img class="icon" src="images/duplicateA.png" alt="">
+                    <img class="icon" src="images/editA.png" alt="">
+                    <img class="icon" src="images/trash.png" alt="">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" ng-show="isLoadingPrograms">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="programs.length > 0"></div>
 </div>

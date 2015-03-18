@@ -26,6 +26,8 @@ namespace ECA.WebApi.Test.Controllers.Admin
             serviceMock = new Mock<IOfficeService>();
             serviceMock.Setup(x => x.GetOfficeByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync(new OfficeDTO());
+            serviceMock.Setup(x => x.GetProgramsAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<OrganizationProgramDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<OrganizationProgramDTO>(0, new List<OrganizationProgramDTO>()));
             controller = new OfficesController(serviceMock.Object);
             ControllerHelper.InitializeController(controller);
         }
@@ -44,6 +46,22 @@ namespace ECA.WebApi.Test.Controllers.Admin
             serviceMock.Setup(x => x.GetOfficeByIdAsync(It.IsAny<int>())).ReturnsAsync(null);
             var response = await controller.GetOfficeByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetProgramsByOfficeIdAsync()
+        {
+            var response = await controller.GetProgramsByOfficeIdAsync(1, new PagingQueryBindingModel<OrganizationProgramDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<OrganizationProgramDTO>>));
+
+        }
+
+        [TestMethod]
+        public async Task TestGetProgramsByOfficeIdAsync_InvalidQueryModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetProgramsByOfficeIdAsync(1, new PagingQueryBindingModel<OrganizationProgramDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 
         #endregion
