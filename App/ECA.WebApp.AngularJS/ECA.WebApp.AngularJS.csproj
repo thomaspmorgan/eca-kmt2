@@ -289,7 +289,7 @@
     <Content Include="scripts\controllers\login.js" />
     <Content Include="scripts\controllers\logout.js" />
     <Content Include="scripts\controllers\office.js" />
-    <Content Include="scripts\controllers\people.js" />
+    <Content Include="scripts\controllers\participants.js" />
     <Content Include="scripts\controllers\programs.js" />
     <Content Include="scripts\controllers\project.js" />
     <Content Include="scripts\controllers\report.js" />
@@ -339,7 +339,7 @@
     <Content Include="views\partials\searchbar.html" />
     <Content Include="views\partials\tabbar.html" />
     <Content Include="views\partner.html" />
-    <Content Include="views\people.html" />
+    <Content Include="views\participants.html" />
     <Content Include="views\participants\activity.html" />
     <Content Include="views\participants\allparticipants.html" />
     <Content Include="views\participants\impact.html" />
