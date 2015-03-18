@@ -394,7 +394,8 @@ angular
 
     editableOptions.theme = 'bs3';
     $rootScope.rootStates = [
-      {name: 'Home', state: 'home.shortcuts'},
+      { name: 'Home', state: 'home.shortcuts' },
+      { name: 'Offices', state: 'alloffices' },
       {name: 'Programs', state: 'allprograms'},
       {name: 'Participants', state: 'allparticipants'},
       {name: 'Events', state: 'events'},

@@ -13,6 +13,8 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using ECA.Business.Queries.Models.Office;
 
 namespace ECA.Business.Service.Admin
 {
@@ -107,6 +109,15 @@ namespace ECA.Business.Service.Admin
             var queryable = list.AsQueryable<T>();
             queryable = queryable.Apply(queryOpeator);
             return queryable.ToPagedQueryResults<T>(queryOpeator.Start, queryOpeator.Limit);
+        }
+
+        public List<SimpleOfficeDTO> GetOffices()
+        {
+            var stopWatch = Stopwatch.StartNew();
+            var dto = OfficeQueries.CreateGetOfficesQuery(this.Context).ToList();
+            stopWatch.Stop();
+            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            return dto;
         }
 
         #endregion

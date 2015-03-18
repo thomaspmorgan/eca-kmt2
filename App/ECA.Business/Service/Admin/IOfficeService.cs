@@ -1,9 +1,12 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Office;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+
 namespace ECA.Business.Service.Admin
 {
     /// <summary>
@@ -41,6 +44,13 @@ namespace ECA.Business.Service.Admin
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The office programs.</returns>
         Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsAsync(int officeId, QueryableOperator<OrganizationProgramDTO> queryOperator);
+
+        /// <summary>
+        /// Returns a list of offices in hierarchical order
+        /// </summary>
+        /// <returns></returns>
+        List<SimpleOfficeDTO> GetOffices();
+
     }
 
     /// <summary>
@@ -93,5 +103,14 @@ namespace ECA.Business.Service.Admin
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
             return Task.FromResult<PagedQueryResults<OrganizationProgramDTO>>(null);
         }
+
+        /// Get list of Offices (Simple hierarchial list)
+        /// </summary>
+        /// <returns></returns>
+        public List<SimpleOfficeDTO> GetOffices()
+        {
+            return null;
+        }
+
     }
 }

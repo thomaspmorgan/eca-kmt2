@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Office;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
@@ -69,6 +70,20 @@ namespace ECA.WebApi.Controllers.Admin
             if (ModelState.IsValid)
             {
                 var results = await service.GetProgramsAsync(id, queryModel.ToQueryableOperator(DEFAULT_ORGANIZATION_PROGRAM_SORTER, x => x.Name, x => x.Description));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        ///
+        [ResponseType(typeof(List<SimpleOfficeDTO>))]
+        public async Task<IHttpActionResult> GetOffices()
+        {
+            if (ModelState.IsValid)
+            {
+                var results = this.service.GetOffices();
                 return Ok(results);
             }
             else
