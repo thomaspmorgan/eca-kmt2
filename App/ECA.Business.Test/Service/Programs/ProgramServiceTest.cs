@@ -59,6 +59,7 @@ namespace ECA.Business.Test.Service.Programs
             var now = DateTime.UtcNow;
             var creatorId = 1;
             var revisorId = 2;
+            var rowVersion = new byte[1] { (byte)1 };
 
             var contact = new Contact
             {
@@ -112,7 +113,8 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "description",
                 Focus = focus,
                 ParentProgram = parentProgram,
-                StartDate = DateTimeOffset.UtcNow,
+                RowVersion = rowVersion,
+                StartDate = DateTimeOffset.UtcNow,                
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -160,6 +162,8 @@ namespace ECA.Business.Test.Service.Programs
 
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(), publishedProgram.Goals.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalId).ToList(), publishedProgram.Goals.Select(x => x.Id).ToList());
+
+                CollectionAssert.AreEqual(rowVersion, publishedProgram.RowVersion);
 
                 Assert.AreEqual(context.Foci.Select(x => x.FocusName).First(), publishedProgram.Focus.Value);
                 Assert.AreEqual(context.Foci.Select(x => x.FocusId).First(), publishedProgram.Focus.Id);
@@ -1236,6 +1240,7 @@ namespace ECA.Business.Test.Service.Programs
             var now = DateTime.UtcNow;
             var creatorId = 1;
             var revisorId = 2;
+            var originalRowVersion = new byte[1] { (byte)0 };
             var parentProgram = new Program
             {
                 ProgramId = 2
@@ -1275,6 +1280,7 @@ namespace ECA.Business.Test.Service.Programs
             var newProgramStatusId = ProgramStatus.Completed.Id;
             var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
+            var updatedRowVersion = new byte[1] { (byte)1 };
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(revisorId),
@@ -1287,6 +1293,7 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 focusId: focus.FocusId,
+                programRowVersion: updatedRowVersion,
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -1308,9 +1315,9 @@ namespace ECA.Business.Test.Service.Programs
 
             Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
             Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
-
             Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
             DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn, DbContextHelper.DATE_PRECISION);
+            CollectionAssert.AreEqual(updatedRowVersion, updatedProgram.RowVersion);
 
         }
 
@@ -1324,6 +1331,7 @@ namespace ECA.Business.Test.Service.Programs
             var now = DateTime.UtcNow;
             var creatorId = 1;
             var revisorId = 2;
+            var originalRowVersion = new byte[1] { (byte)1 };
             var parentProgram = new Program
             {
                 ProgramId = 2
@@ -1342,6 +1350,7 @@ namespace ECA.Business.Test.Service.Programs
                 Focus = focus,
                 ProgramStatusId = ProgramStatus.Draft.Id,
                 ParentProgram = null,
+                RowVersion = originalRowVersion,
                 Website = "old website",
                 History = new History
                 {
@@ -1363,6 +1372,7 @@ namespace ECA.Business.Test.Service.Programs
             var newProgramStatusId = ProgramStatus.Completed.Id;
             var newWebsite = "new website";
             var newParentProgramId = parentProgram.ProgramId;
+            var updatedRowVersion = new byte[1] { (byte)1 };
 
             var updatedEcaProgram = new EcaProgram(
                 updatedBy: new User(revisorId),
@@ -1374,6 +1384,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
+                programRowVersion: updatedRowVersion,
                 focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
@@ -1396,6 +1407,8 @@ namespace ECA.Business.Test.Service.Programs
 
             Assert.AreEqual(yesterday, updatedProgram.History.CreatedOn);
             Assert.AreEqual(creatorId, updatedProgram.History.CreatedBy);
+
+            CollectionAssert.AreEqual(updatedRowVersion, updatedProgram.RowVersion);
 
             Assert.AreEqual(revisorId, updatedProgram.History.RevisedBy);
             DateTimeOffset.UtcNow.Should().BeCloseTo(updatedProgram.History.RevisedOn, DbContextHelper.DATE_PRECISION);
@@ -1461,6 +1474,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
+                programRowVersion: new byte[0],
                 focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: new List<int> { 1 },
@@ -1540,6 +1554,7 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 focusId: focus.FocusId,
+                programRowVersion: new byte[0],
                 website: newWebsite,
                 goalIds: new List<int> { 1 },
                 pointOfContactIds: null,
@@ -1617,6 +1632,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
+                programRowVersion: new byte[0],
                 focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
@@ -1694,6 +1710,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
+                programRowVersion: new byte[0],
                 focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
@@ -1771,6 +1788,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
+                programRowVersion: new byte[0],
                 focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
@@ -1848,6 +1866,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
+                programRowVersion: new byte[0],
                 focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
@@ -1927,6 +1946,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: ownerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
+                programRowVersion: new byte[0],
                 focusId: focus.FocusId,
                 website: newWebsite,
                 goalIds: null,
@@ -2007,6 +2027,7 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 focusId: focus.FocusId,
+                programRowVersion: new byte[0],
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -2049,6 +2070,7 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
                 focusId: 1,
+                programRowVersion: new byte[0],
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -2084,6 +2106,7 @@ namespace ECA.Business.Test.Service.Programs
                 ownerOrganizationId: newOwnerId,
                 parentProgramId: newParentProgramId,
                 programStatusId: newProgramStatusId,
+                programRowVersion: new byte[0],
                 focusId: 1,
                 website: newWebsite,
                 goalIds: null,
@@ -2116,6 +2139,7 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: 1,
                 programStatusId: 1,
                 focusId: 1,
+                programRowVersion: new byte[0],
                 website: newWebsite,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -2150,6 +2174,7 @@ namespace ECA.Business.Test.Service.Programs
                 programStatusId: 1,
                 focusId: 1,
                 website: newWebsite,
+                programRowVersion: new byte[0],
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,

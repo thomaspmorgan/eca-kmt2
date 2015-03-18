@@ -32,6 +32,15 @@ namespace ECA.Business.Test.Validation
         }
 
         [TestMethod]
+        public void TestToString()
+        {
+            var message = "message";
+            var property = "property";
+            var result = new BusinessValidationResult(property, message);
+            Assert.IsNotNull(result.ToString());
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void TestTypedConstructor_ParameterIsAMethod()
         {

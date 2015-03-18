@@ -1,7 +1,9 @@
-﻿using ECA.Core.Logging;
+﻿using ECA.Core.Data;
+using ECA.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -25,9 +27,11 @@ namespace ECA.Core.Service
         /// Creates a new DbContextService with the given DbContext instance.
         /// </summary>
         /// <param name="context">The DbContext instance.</param>
+        /// <param name="logger">The logger.</param>
         public DbContextService(T context, ILogger logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(logger != null, "The logger must not be null.");
             this.Context = context;
             this.logger = logger;
         }
@@ -48,7 +52,16 @@ namespace ECA.Core.Service
             var list = GetSaveActions(saveActions);
             list.ForEach(x => x.BeforeSaveChanges(this.Context));            
             var errors = this.Context.GetValidationErrors();
-            var i = this.Context.SaveChanges();
+            int i = -1;
+            try
+            {
+                i = this.Context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                HandleDbUpdateConcurrencyException(ex);
+                throw ex;
+            }
             list.ForEach(x => x.AfterSaveChanges(this.Context));
             stopWatch.Stop();
             logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
@@ -69,7 +82,16 @@ namespace ECA.Core.Service
                 await saveAction.BeforeSaveChangesAsync(this.Context);
             }
             var errors = this.Context.GetValidationErrors();
-            var i = await this.Context.SaveChangesAsync();
+            int i = -1;
+            try
+            {
+                i = await this.Context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                HandleDbUpdateConcurrencyException(ex);
+                throw ex;
+            }
             foreach (var saveAction in list)
             {
                 await saveAction.AfterSaveChangesAsync(this.Context);
@@ -87,6 +109,24 @@ namespace ECA.Core.Service
             else
             {
                 return new List<ISaveAction>();
+            }
+        }
+
+        private void HandleDbUpdateConcurrencyException(DbUpdateConcurrencyException ex)
+        {
+            var concurrentEntities = new List<IConcurrentEntity>();
+            foreach (var entry in ex.Entries)
+            {
+                Contract.Assert(entry is IConcurrentEntity, "The entity must be an IConcurrent entity.");
+                var iConcurrent = entry as IConcurrentEntity;
+                concurrentEntities.Add(iConcurrent);
+            }
+            var likeEntityIds = from concurrentEntity in concurrentEntities
+                                group concurrentEntity by new { Id = concurrentEntity.GetId() } into g
+                                select new { Id = g.Key, Count = g.Count() };
+            if (likeEntityIds.Where(x => x.Count > 1).Count() > 0)
+            {
+                throw new NotSupportedException("There are multiple entities with concurrency issues with the same Id.  The system will be unable to reconcile automatically concurrent issues.");
             }
         }
 

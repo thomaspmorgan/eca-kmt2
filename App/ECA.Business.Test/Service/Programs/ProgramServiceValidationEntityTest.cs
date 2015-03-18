@@ -12,6 +12,10 @@ namespace ECA.Business.Test.Service.Programs
         [TestMethod]
         public void TestConstructor()
         {
+            var regionLocationTypeIds = new List<int> { 1 };
+            var contactIds = new List<int> { 1 };
+            var themeIds = new List<int> { 1 };
+            var goalIds = new List<int> { 1 };
             var regionIds = new List<int> { 1 };
             var focus = new Focus();
             var owner = new Organization();
@@ -19,19 +23,24 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "hello";
             var description = "desc";
-            var contactIds = new List<int>();
             var entity = new ProgramServiceValidationEntity(
-                name: name,
-                description: description,
-                regionLocationTypeIds: regionIds,
-                contactIds: contactIds,
-                focus: focus,
-                owner: owner,
-                parentProgramId: parentProgramId, 
-                parentProgram: parentProgram
+                name,
+                description, 
+                regionLocationTypeIds,
+                contactIds,
+                themeIds,
+                goalIds,
+                regionIds,
+                focus,
+                owner,
+                parentProgramId,
+                parentProgram
                 );
 
-            Assert.IsTrue(Object.ReferenceEquals(regionIds, entity.RegionLocationTypeIds));
+            Assert.IsTrue(Object.ReferenceEquals(regionLocationTypeIds, entity.RegionLocationTypeIds));
+            Assert.IsTrue(Object.ReferenceEquals(contactIds, entity.ContactIds));
+            Assert.IsTrue(Object.ReferenceEquals(themeIds, entity.ThemeIds));
+            Assert.IsTrue(Object.ReferenceEquals(goalIds, entity.GoalIds));
             Assert.IsTrue(Object.ReferenceEquals(focus, entity.Focus));
             Assert.IsTrue(Object.ReferenceEquals(owner, entity.OwnerOrganization));
             Assert.IsTrue(Object.ReferenceEquals(parentProgram, entity.ParentProgram));

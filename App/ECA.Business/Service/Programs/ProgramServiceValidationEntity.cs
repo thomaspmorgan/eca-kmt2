@@ -23,7 +23,20 @@ namespace ECA.Business.Service.Programs
         /// <param name="parentProgramId">The parent program id.</param>
         /// <param name="contactIds">The list of contacts by id.</param>
         /// <param name="parentProgram">The parent program.</param>
-        public ProgramServiceValidationEntity(string name, string description, List<int> regionLocationTypeIds, List<int> contactIds, Focus focus, Organization owner, int? parentProgramId, Program parentProgram)
+        /// <param name="goalIds">The goals by id.</param>
+        /// <param name="regionIds">The regions by id.</param>
+        /// <param name="themeIds">The themes by id.</param>
+        public ProgramServiceValidationEntity(string name, 
+            string description, 
+            List<int> regionLocationTypeIds, 
+            List<int> contactIds, 
+            List<int> themeIds, 
+            List<int> goalIds, 
+            List<int> regionIds, 
+            Focus focus, 
+            Organization owner, 
+            int? parentProgramId, 
+            Program parentProgram)
         {
             this.RegionLocationTypeIds = regionLocationTypeIds;
             this.Focus = focus;
@@ -33,7 +46,25 @@ namespace ECA.Business.Service.Programs
             this.Name = name;
             this.Description = description;
             this.ContactIds = contactIds;
+            this.GoalIds = goalIds;
+            this.ThemeIds = themeIds;
+            this.RegionIds = regionIds;
         }
+
+        /// <summary>
+        /// Gets the goal ids.
+        /// </summary>
+        public List<int> GoalIds { get; private set; }
+
+        /// <summary>
+        /// Gets the theme ids.
+        /// </summary>
+        public List<int> ThemeIds { get; private set; }
+
+        /// <summary>
+        /// Gets the region ids.
+        /// </summary>
+        public List<int> RegionIds { get; private set; }
 
         /// <summary>
         /// Gets the contact ids.

@@ -1,25 +1,55 @@
-﻿using ECA.Business.Service.Lookup;
-using ECA.Core.Data;
+﻿using AutoMapper;
+using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Service.Lookup;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Web;
 
-namespace ECA.Business.Queries.Models.Programs
+namespace ECA.WebApi.Models.Programs
 {
     /// <summary>
-    /// A ProgramDTO is used to represent a Program in the ECA system.
+    /// A ProgramViewModel is client side representation of a program .
     /// </summary>
-    public class ProgramDTO : IConcurrent
+    public class ProgramViewModel
     {
         /// <summary>
         /// Creates a new default instance and initializes IEnumerable properties.
         /// </summary>
-        public ProgramDTO()
+        public ProgramViewModel()
         {
             this.Contacts = new List<SimpleLookupDTO>();
             this.CountryIsos = new List<SimpleLookupDTO>();
             this.RegionIsos = new List<SimpleLookupDTO>();
             this.Goals = new List<SimpleLookupDTO>();
             this.Themes = new List<SimpleLookupDTO>();
+        }
+
+        /// <summary>
+        /// Creates a new ProgramViewModel and initializes itself with the given program dto.
+        /// </summary>
+        /// <param name="program">The program dto.</param>
+        public ProgramViewModel(ProgramDTO program) : this()
+        {
+            Contract.Requires(program != null, "The program must not be null.");
+            Contract.Requires(program.RowVersion != null, "The row version must not be null.");
+            this.Contacts = program.Contacts;
+            this.CountryIsos = program.CountryIsos;
+            this.Description = program.Description;
+            this.Focus = program.Focus;
+            this.Goals = program.Goals;
+            this.Id = program.Id;
+            this.Name = program.Name;
+            this.OwnerDescription = program.OwnerDescription;
+            this.OwnerName = program.OwnerName;
+            this.OwnerOrganizationId = program.OwnerOrganizationId;
+            this.ParentProgramId = program.ParentProgramId;
+            this.RegionIsos = program.RegionIsos;
+            this.RevisedOn = program.RevisedOn;
+            this.RowVersion = Convert.ToBase64String(program.RowVersion);
+            this.StartDate = program.StartDate;
+            this.Themes = program.Themes;
         }
 
         /// <summary>
@@ -100,6 +130,6 @@ namespace ECA.Business.Queries.Models.Programs
         /// <summary>
         /// Gets or sets the row version.
         /// </summary>
-        public byte[] RowVersion { get; set; }
+        public string RowVersion { get; set; }
     }
 }

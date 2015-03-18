@@ -31,6 +31,7 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int> { 20 };
             var pointOfContactIds = new List<int> { 30 };
             var regionIds = new List<int> { 40 };
+            var rowVersion = new byte[1] { (byte)1 };
 
             var user = new User(userId);
             var program = new EcaProgram(
@@ -45,6 +46,7 @@ namespace ECA.Business.Test.Service.Programs
                 programStatusId: programStatusId,
                 focusId: focusId,
                 website: website,
+                programRowVersion: rowVersion,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
                 themeIds: themeIds,
@@ -68,6 +70,7 @@ namespace ECA.Business.Test.Service.Programs
             CollectionAssert.AreEqual(themeIds, program.ThemeIds);
             CollectionAssert.AreEqual(pointOfContactIds, program.ContactIds);
             CollectionAssert.AreEqual(regionIds, program.RegionIds);
+            CollectionAssert.AreEqual(rowVersion, program.RowVersion);
         }
 
         [TestMethod]
@@ -97,6 +100,7 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
                 focusId: focusId,
+                programRowVersion: new byte[0],
                 website: website,
                 goalIds: null,
                 pointOfContactIds: null,
@@ -137,6 +141,7 @@ namespace ECA.Business.Test.Service.Programs
                 parentProgramId: parentProgramId,
                 programStatusId: programStatusId,
                 focusId: focusId,
+                programRowVersion: new byte[0],
                 website: website,
                 goalIds: null,
                 pointOfContactIds: null,

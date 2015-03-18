@@ -1,14 +1,24 @@
-﻿using ECA.Business.Models.Programs;
+﻿using AutoMapper;
+using ECA.Business.Models.Programs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web;
 
 namespace ECA.WebApi.Models.Programs
 {
+    /// <summary>
+    /// A ProgramBindingModel is used when a client wishes to update a program.
+    /// </summary>
     public class ProgramBindingModel : DraftProgramBindingModel
     {
+        /// <summary>
+        /// A base 64 regular expression.
+        /// </summary>
+        public const string BASE64_REGULAR_EXPRESSION = @"[^-A-Za-z0-9+/=]|=[^=]|={3,}$";
+
         /// <summary>
         /// The Program Id.
         /// </summary>
@@ -22,12 +32,20 @@ namespace ECA.WebApi.Models.Programs
         public int ProgramStatusId { get; set; }
 
         /// <summary>
+        /// The row version of the program.
+        /// </summary>
+        [Required]
+        [RegularExpression(BASE64_REGULAR_EXPRESSION, ErrorMessage="The given row version is not a valid base 64 string.")]
+        public string RowVersion { get; set; }
+
+        /// <summary>
         /// Returns a business entity capable of updating system programs.
         /// </summary>
         /// <param name="userId">The user performing the update.</param>
         /// <returns>The EcaProgram business entity.</returns>
         public EcaProgram ToEcaProgram(int userId)
         {
+            Contract.Assert(this.RowVersion != null, "The row version must not be null.");
             return new EcaProgram(
                 updatedBy: new Business.Service.User(userId),
                 id: this.Id,
@@ -39,6 +57,7 @@ namespace ECA.WebApi.Models.Programs
                 parentProgramId: this.ParentProgramId,
                 programStatusId: this.ProgramStatusId,
                 focusId: this.FocusId,
+                programRowVersion: Convert.FromBase64String(this.RowVersion),
                 website: this.Website,
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,
@@ -46,5 +65,6 @@ namespace ECA.WebApi.Models.Programs
                 regionIds: this.Regions
                 );
         }
+
     }
 }

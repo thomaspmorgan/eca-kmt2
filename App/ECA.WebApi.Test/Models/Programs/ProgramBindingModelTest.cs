@@ -12,6 +12,8 @@ namespace ECA.WebApi.Test.Models.Programs
         [TestMethod]
         public void TestToEcaProgram()
         {
+            var rowVersion = new byte[1] { (byte)0 };
+
             var model = new ProgramBindingModel();
             model.Id = 100;
             model.ProgramStatusId = ProgramStatus.Active.Id;
@@ -27,6 +29,7 @@ namespace ECA.WebApi.Test.Models.Programs
             model.Themes = new List<int> { 3 };
             model.Regions = new List<int> { 4 };
             model.Website = "website";
+            model.RowVersion = Convert.ToBase64String(rowVersion);
             var userId = 1;
 
             var ecaProgram = model.ToEcaProgram(userId);
@@ -45,6 +48,7 @@ namespace ECA.WebApi.Test.Models.Programs
             CollectionAssert.AreEqual(model.Contacts, ecaProgram.ContactIds);
             CollectionAssert.AreEqual(model.Themes, ecaProgram.ThemeIds);
             CollectionAssert.AreEqual(model.Regions, ecaProgram.RegionIds);
+            CollectionAssert.AreEqual(rowVersion, ecaProgram.RowVersion);
             Assert.AreEqual(userId, ecaProgram.Audit.User.Id);
 
         }

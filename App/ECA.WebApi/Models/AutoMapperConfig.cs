@@ -6,6 +6,7 @@ using ECA.Data;
 using Enums = ECA.Data.Enums;
 using AutoMapper;
 using System.Text;
+using System.Reflection;
 
 namespace ECA.WebApi.Models
 {
