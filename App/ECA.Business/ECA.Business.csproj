@@ -97,6 +97,7 @@
     <Compile Include="Queries\Models\Admin\FocusDTO.cs" />
     <Compile Include="Queries\Models\Admin\MoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
+    <Compile Include="Queries\Models\Admin\OrganizationProgramDTO.cs" />
     <Compile Include="Service\Lookup\ILookup.cs" />
     <Compile Include="Service\Admin\FocusService.cs" />
     <Compile Include="Service\Admin\IFocusService.cs" />

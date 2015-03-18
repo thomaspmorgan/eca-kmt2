@@ -1,5 +1,9 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Query;
+using ECA.WebApi.Models.Query;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,8 +19,12 @@ namespace ECA.WebApi.Controllers.Admin
     /// <summary>
     /// The OfficesController is capable of performing crud operations for an office.
     /// </summary>
+    [RoutePrefix("api")]
     public class OfficesController : ApiController
     {
+        private static readonly ExpressionSorter<OrganizationProgramDTO> DEFAULT_ORGANIZATION_PROGRAM_SORTER =
+            new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
+
         private IOfficeService service;
 
         /// <summary>
@@ -45,6 +53,27 @@ namespace ECA.WebApi.Controllers.Admin
             else
             {
                 return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Returns the child programs of the office with the given id.
+        /// </summary>
+        /// <param name="id">The id of the office.</param>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The child programs.</returns>
+        [Route("Offices/{id}/Programs")]
+        [ResponseType(typeof(PagedQueryResults<OrganizationProgramDTO>))]
+        public async Task<IHttpActionResult> GetProgramsByOfficeIdAsync(int id, [FromUri]PagingQueryBindingModel<OrganizationProgramDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await service.GetProgramsAsync(id, queryModel.ToQueryableOperator(DEFAULT_ORGANIZATION_PROGRAM_SORTER, x => x.Name, x => x.Description));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
             }
         }
     }
