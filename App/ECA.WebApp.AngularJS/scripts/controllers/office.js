@@ -46,7 +46,7 @@ angular.module('staticApp')
       $scope.office = {};
       $scope.programs = [];
 
-      $scope.isLoading = true;
+      $scope.isLoadingOfficeById = true;
       $scope.isLoadingPrograms = false;
 
       $scope.officeExists = true;
@@ -54,18 +54,19 @@ angular.module('staticApp')
       $scope.loadingProgramsErrorOccurred = false;
 
       var officeId = $stateParams.officeId;
+
       function reset() {
           $scope.officeExists = true;
           $scope.showLoadingOfficeByIdError = false;
           $scope.loadingProgramsErrorOccurred = false;
       }
 
-      function setBusy() {
-          $scope.isLoading = true;
+      function showLoadingOfficeById() {
+          $scope.isLoadingOfficeById = true;
       }
 
-      function setIdle() {
-          $scope.isLoading = false;
+      function hideLoadingOfficeById() {
+          $scope.isLoadingOfficeById = false;
       }
 
       function showNotFound() {
@@ -137,23 +138,24 @@ angular.module('staticApp')
                 showLoadingProgramsError();
             })
             .then(function () {
-                $scope.isLoadingPrograms = false;                
+                $scope.isLoadingPrograms = false;
             });
       }
 
-      setBusy();
+      showLoadingOfficeById();
       getOfficeById(officeId)
           .then(function (data) {
-              setIdle();
               $scope.office = data;
 
           }, function (errorCode) {
-              setIdle();
               if (errorCode === 404) {
                   showNotFound();
               }
               else {
-                  showServerError();
+                  showLoadingOfficeByIdError();
               }
-          });
+          })
+        .then(function () {
+            hideLoadingOfficeById();
+        });
   });

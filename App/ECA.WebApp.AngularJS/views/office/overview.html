@@ -1,4 +1,4 @@
-<div class="spinner" ng-show="isLoading">
+<div class="spinner" ng-show="isLoadingOfficeById">
     <div class="bounce1"></div>
     <div class="bounce2"></div>
     <div class="bounce3"></div>
@@ -9,7 +9,7 @@
 <div class="alert alert-danger" ng-show="showLoadingOfficeByIdError">
     Error!  There was an error processing the request.
 </div>
-<div ng-show="!isLoading">
+<div ng-show="!isLoadingOfficeById">
     <h2 class="office-color tab-header">Overview</h2>
     <div class="row">
         <h5>
@@ -38,7 +38,7 @@
                     </ul>
                 </div>
             </div>
-            
+
         </div>
         <div class="col-md-6">
             <div class="row" ng-show="office.foci">
@@ -58,5 +58,5 @@
                 </div>
             </div>
         </div>
-    </div>  
+    </div>
 </div>
