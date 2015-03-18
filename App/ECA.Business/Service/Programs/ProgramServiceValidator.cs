@@ -17,6 +17,21 @@ namespace ECA.Business.Service.Programs
     public class ProgramServiceValidator : BusinessValidatorBase<ProgramServiceValidationEntity, ProgramServiceValidationEntity>
     {
         /// <summary>
+        /// The error message when a program is configured without any goals.
+        /// </summary>
+        public const string NO_GOALS_GIVEN_ERROR_MESSAGE = "There must be at least one goal for a program.";
+
+        /// <summary>
+        /// The error message when a program is configured without any themes.
+        /// </summary>
+        public const string NO_THEMES_GIVEN_ERROR_MESSAGE = "There must be at least one theme for a program.";
+
+        /// <summary>
+        /// The error message when a program is configured without any regions.
+        /// </summary>
+        public const string NO_REGIONS_GIVEN_ERROR_MESSAGE = "There must be at least one region for a program.";
+
+        /// <summary>
         /// The error message when a program is configured without any points of contact.
         /// </summary>
         public const string NO_POINTS_OF_CONTACT_GIVEN_ERROR_MESSAGE = "There must be at least one point of contact for a program.";
@@ -97,6 +112,18 @@ namespace ECA.Business.Service.Programs
             if (validationEntity.ContactIds == null || validationEntity.ContactIds.Count == 0)
             {
                 yield return new BusinessValidationResult<EcaProgram>(x => x.ContactIds, NO_POINTS_OF_CONTACT_GIVEN_ERROR_MESSAGE);
+            }
+            if (validationEntity.RegionIds == null || validationEntity.RegionIds.Count == 0)
+            {
+                yield return new BusinessValidationResult<EcaProgram>(x => x.RegionIds, NO_REGIONS_GIVEN_ERROR_MESSAGE);
+            }
+            if (validationEntity.ThemeIds == null || validationEntity.ThemeIds.Count == 0)
+            {
+                yield return new BusinessValidationResult<EcaProgram>(x => x.ThemeIds, NO_THEMES_GIVEN_ERROR_MESSAGE);
+            }
+            if (validationEntity.GoalIds == null || validationEntity.GoalIds.Count == 0)
+            {
+                yield return new BusinessValidationResult<EcaProgram>(x => x.GoalIds, NO_GOALS_GIVEN_ERROR_MESSAGE);
             }
         }
 

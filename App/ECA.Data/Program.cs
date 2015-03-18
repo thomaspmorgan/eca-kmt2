@@ -7,13 +7,14 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Contracts;
+using ECA.Core.Data;
 
 namespace ECA.Data
 {
     /// <summary>
     /// A program is an umbrella for a set of projects and sub-programs.
     /// </summary>
-    public class Program : IHistorical, IValidatableObject
+    public class Program : IHistorical, IValidatableObject, IConcurrentEntity
     {
         public Program()
         {
@@ -98,6 +99,20 @@ namespace ECA.Data
         /// Gets or sets the Website.
         /// </summary>
         public string Website { get; set; }
+
+        /// <summary>
+        /// Gets or sets the RowVersion.
+        /// </summary>
+        public byte[] RowVersion { get; set; }
+
+        /// <summary>
+        /// Returns the program id.
+        /// </summary>
+        /// <returns>The program id.</returns>
+        public object GetId()
+        {
+            return this.ProgramId;
+        }
 
         [Required]
         [InverseProperty("RegionPrograms")]

@@ -15,7 +15,7 @@
     <RootNamespace>ECA.WebApp.AngularJS</RootNamespace>
     <AssemblyName>ECA.WebApp.AngularJS</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -128,6 +128,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>constants.tt</DependentUpon>
     </Content>
+    <Content Include="scripts\filters\highlight.js" />
     <Content Include="scripts\services\moneyflow.js" />
     <Content Include="scripts\services\office.js" />
     <Content Include="scripts\services\tableservice.js" />
@@ -288,7 +289,7 @@
     <Content Include="scripts\controllers\login.js" />
     <Content Include="scripts\controllers\logout.js" />
     <Content Include="scripts\controllers\office.js" />
-    <Content Include="scripts\controllers\people.js" />
+    <Content Include="scripts\controllers\participants.js" />
     <Content Include="scripts\controllers\programs.js" />
     <Content Include="scripts\controllers\project.js" />
     <Content Include="scripts\controllers\report.js" />
@@ -338,7 +339,7 @@
     <Content Include="views\partials\searchbar.html" />
     <Content Include="views\partials\tabbar.html" />
     <Content Include="views\partner.html" />
-    <Content Include="views\people.html" />
+    <Content Include="views\participants.html" />
     <Content Include="views\participants\activity.html" />
     <Content Include="views\participants\allparticipants.html" />
     <Content Include="views\participants\impact.html" />
@@ -458,7 +459,6 @@
   <Import Project="..\packages\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.0.13.0-build22724\build\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.targets" Condition="Exists('..\packages\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.0.13.0-build22724\build\Microsoft.Diagnostics.Instrumentation.Extensions.Intercept.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.-->
-  
   <Target Name="BeforeBuild">
     <Exec Command="build.cmd">
     </Exec>

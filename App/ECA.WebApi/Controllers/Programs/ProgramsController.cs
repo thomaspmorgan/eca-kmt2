@@ -1,4 +1,5 @@
-﻿using ECA.Business.Models.Programs;
+﻿using AutoMapper;
+using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
@@ -64,13 +65,13 @@ namespace ECA.WebApi.Controllers.Programs
         /// Returns the program with the given id.
         /// </summary>
         /// <returns>The program with the given id.</returns>
-        [ResponseType(typeof(ProgramDTO))]
+        [ResponseType(typeof(ProgramViewModel))]
         public async Task<IHttpActionResult> GetProgramByIdAsync(int id)
         {
             var program = await this.programService.GetProgramByIdAsync(id);
             if (program != null)
             {
-                return Ok(program);
+                return Ok(new ProgramViewModel(program));
             }
             else
             {
@@ -92,7 +93,7 @@ namespace ECA.WebApi.Controllers.Programs
                 var program = await programService.CreateAsync(model.ToDraftProgram(userId));
                 await programService.SaveChangesAsync();
                 var dto = await programService.GetProgramByIdAsync(program.ProgramId);
-                return Ok(dto);
+                return Ok(new ProgramViewModel(dto));
 
             }
             else
@@ -115,7 +116,7 @@ namespace ECA.WebApi.Controllers.Programs
                 await programService.UpdateAsync(model.ToEcaProgram(userId));
                 await programService.SaveChangesAsync();
                 var dto = await programService.GetProgramByIdAsync(model.Id);
-                return Ok(dto);
+                return Ok(new ProgramViewModel(dto));
             }
             else
             {

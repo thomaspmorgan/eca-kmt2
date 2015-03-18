@@ -14,7 +14,7 @@ namespace ECA.Business.Models.Programs
     /// <summary>
     /// A EcaProgram is a program in the ECA system.
     /// </summary>
-    public class EcaProgram : IAuditable
+    public class EcaProgram : IAuditable, IConcurrent
     {
         /// <summary>
         /// Creates a new EcaProgram instance.
@@ -31,6 +31,7 @@ namespace ECA.Business.Models.Programs
         /// <param name="focusId">The focus by id.</param>
         /// <param name="website">The website.</param>
         /// <param name="goalIds">The goals of the program by id.</param>
+        /// <param name="programRowVersion">The row version of the program.</param>
         /// <param name="pointOfContactIds">The points of contact by id.</param>
         /// <param name="regionIds">The program's regions by id.</param>
         /// <param name="themeIds">The themes by id.</param>
@@ -46,6 +47,7 @@ namespace ECA.Business.Models.Programs
             int programStatusId,
             int focusId,
             string website,
+            byte[] programRowVersion,
             List<int> goalIds,
             List<int> pointOfContactIds,
             List<int> themeIds,
@@ -73,6 +75,7 @@ namespace ECA.Business.Models.Programs
             this.RegionIds = regionIds ?? new List<int>();
             this.ProgramStatusId = programStatusId;
             this.Audit = new Update(updatedBy);
+            this.RowVersion = programRowVersion;
         }
 
         /// <summary>
@@ -150,5 +153,9 @@ namespace ECA.Business.Models.Programs
         /// </summary>
         public Audit Audit { get; protected set; }
 
+        /// <summary>
+        /// Gets or sets the row version.
+        /// </summary>
+        public byte[] RowVersion { get; set; }
     }
 }

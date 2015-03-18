@@ -6,6 +6,9 @@ using System.Data.Entity;
 using System.Collections.Generic;
 using System.Reflection;
 using ECA.Core.Logging;
+using ECA.Core.Data;
+using Moq;
+using System.Data.Entity.Infrastructure;
 
 namespace ECA.Core.Test.Service
 {
@@ -70,12 +73,29 @@ namespace ECA.Core.Test.Service
         {
             this.IsDisposed = true;
         }
+    }
 
+    public class ConcurrentEntity : IConcurrent
+    {
+        public int Id { get; set; }
+
+        public byte[] RowVersion
+        {
+            get;
+            set;
+        }
+
+        public object GetId()
+        {
+            return this.Id;
+        }
     }
 
     public class SampleService : DbContextService<SampleDbContext>
     {
         public SampleService(SampleDbContext context) : base(context, new TraceLogger()) { }
+
+        public TestDbSet<ConcurrentEntity> ConcurrentEntities { get; set; }
     }
 
     [TestClass]
@@ -86,6 +106,8 @@ namespace ECA.Core.Test.Service
         {
             Database.SetInitializer<SampleDbContext>(null);
         }
+
+        #region Save Changes
 
         [TestMethod]
         public void TestSaveChanges()
@@ -153,6 +175,8 @@ namespace ECA.Core.Test.Service
             Assert.IsFalse(context.SaveChangesCalled);
             Assert.IsTrue(context.SaveChangesAsyncCalled);
         }
+
+        #endregion
 
         #region Dispose
         [TestMethod]

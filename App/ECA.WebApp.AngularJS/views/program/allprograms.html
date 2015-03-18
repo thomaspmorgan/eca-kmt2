@@ -45,7 +45,7 @@
     </div>
     <div id="modal" class="row" in-context-form>
         <div class="col-md-10">
-            <form name="programForm">
+            <form name="programForm" ng-init="setFormScope(this)">
                 <div class="form-group">
                     <label>Program Name<span class="asterisk"> *</span></label>
                     <input name="name" ng-model="newProgram.name" form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" type="text" class="form-control" placeholder="Enter program title..." required>

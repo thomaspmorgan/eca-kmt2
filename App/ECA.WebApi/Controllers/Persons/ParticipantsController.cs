@@ -79,5 +79,20 @@ namespace ECA.WebApi.Controllers.Persons
                 return BadRequest(ModelState);
             }
         }
+
+        [ResponseType(typeof(ParticipantDTO))]
+        [Route("Participants/{participantId:int}")]
+        public async Task<IHttpActionResult> GetParticipantByIdAsync(int participantId) 
+        {
+            var participant = await this.service.GetParticipantByIdAsync(participantId);
+            if (participant != null)
+            {
+                return Ok(participant);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

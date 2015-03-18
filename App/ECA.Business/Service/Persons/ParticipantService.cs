@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -73,6 +74,18 @@ namespace ECA.Business.Service.Persons
         public Task<PagedQueryResults<SimpleParticipantDTO>> GetParticipantsByProjectIdAsync(int projectId, QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
             return ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+        }
+
+
+        public ParticipantDTO GetParticipantById(int participantId)
+        {
+            return ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+        }
+
+
+        public Task<ParticipantDTO> GetParticipantByIdAsync(int participantId)
+        {
+            return ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
         }
         #endregion
 

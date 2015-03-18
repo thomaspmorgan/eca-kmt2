@@ -12,6 +12,7 @@ namespace ECA.Data.Configuration
         public ProgramConfiguration()
         {
             Property(x => x.OwnerId).HasColumnName("Owner_OrganizationId");
+            Property(x => x.RowVersion).IsRowVersion();
             HasRequired(e => e.Owner).WithMany(e => e.OwnerPrograms).HasForeignKey(x => x.OwnerId).WillCascadeOnDelete(false);
             HasRequired(a => a.ProgramStatus).WithMany().HasForeignKey(x => x.ProgramStatusId).WillCascadeOnDelete(false);
             HasRequired(a => a.Focus).WithMany().Map(m =>

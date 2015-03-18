@@ -1,18 +1,32 @@
 <div class="row">
 	<div class="jumbotron office">
   <div class="heading">
-    <h1>ECA Directory</h1>
+    <h1>ECA Office Directory</h1>
   </div>
 	</div>
 </div>
-<div class="list2">
-
-<div class="row3 hover" ng-repeat="office in offices">
-	<div class="col-md-12">
-		<h5>
-			<a ng-href="#/offices/{{office.id}}/overview">{{office.name}} ({{office.abbreviation}})</a>
-		</h5>
-	</div>
-</div>
-
+<div st-pipe="getOffices" st-table="offices" id="sort-list">
+    <table class="col-md-12">
+        <tbody class="list2">
+            <tr class="row hover" ng-repeat="office in offices" ng-show="!officesLoading">
+                <td class="col-md-9" ng-style="{'padding-left': 60+(20*office.officeLevel-1)}">
+                    <span class="owner-office">{{office.name}}</span>
+                    <h4><a ng-href="#/offices/{{office.organizationId}}/overview">{{office.description}}</a></h4>
+                    <p>This would be the description of the office</p>
+                </td>
+                <td class="col-md-3 tools">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr ng-show="officesLoading">
+                <td colspan="5">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

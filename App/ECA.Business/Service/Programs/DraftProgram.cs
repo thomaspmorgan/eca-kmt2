@@ -55,6 +55,7 @@ namespace ECA.Business.Models.Programs
                 parentProgramId: parentProgramId,
                 programStatusId: ProgramStatus.Draft.Id,
                 focusId: focusId,
+                programRowVersion: null,
                 website: website,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,

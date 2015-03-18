@@ -19,6 +19,13 @@ angular.module('staticApp')
           },
           create: function (program) {
               return DragonBreath.create(program, 'offices');
+          },
+          getPrograms: function (params, officeId) {
+              var path = 'offices/' + officeId + '/Programs';
+              return DragonBreath.get(params, path)
+          },
+          getAll: function (filterParams) {
+              return DragonBreath.get(filterParams, 'offices');
           }
       };
   });

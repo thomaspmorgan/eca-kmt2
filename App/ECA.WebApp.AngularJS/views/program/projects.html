@@ -80,14 +80,14 @@
     </table>
     <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
 </div>
-<modal-dialog show="modal.createProject" dialog-title="Create Project" before-close="modalClose()" on-close="modalClear()">
+<modal-dialog show="modal.createProject" dialog-title="Create Project" on-open="modalSetPristine()" before-close="modalClose()" on-close="modalClear()">
     <div class="tip">
         <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
         <div class="required">* Marks required fields</div>
     </div>
     <div id="modal" class="row" in-context-form>
         <div class="col-md-10">
-            <form name="projectForm" novalidate>
+            <form name="projectForm" ng-init="setFormScope(this)" novalidate>
                 <div class="form-group">
                     <label>Project Title<span class="asterisk"> *</span></label>
                     <input name="projectTitle" ng-model="newProject.title" form-element guidance="This is the name of your project. (e.g. ETA Fulbright 2015)" type="text" class="form-control" placeholder="Enter project title..." required>

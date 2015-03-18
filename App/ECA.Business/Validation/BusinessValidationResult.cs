@@ -41,6 +41,15 @@ namespace ECA.Business.Validation
         /// Gets the property.
         /// </summary>
         public string Property { get; protected set; }
+
+        /// <summary>
+        /// Returns a formatted message of this validation result.
+        /// </summary>
+        /// <returns>A formatted message of this validation result.</returns>
+        public override string ToString()
+        {
+            return String.Format("{0}:  {1}", this.Property, this.ErrorMessage);
+        }
     }
 
     /// <summary>

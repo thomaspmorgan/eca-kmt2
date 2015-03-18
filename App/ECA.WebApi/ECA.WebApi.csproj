@@ -14,7 +14,7 @@
     <RootNamespace>ECA.WebApi</RootNamespace>
     <AssemblyName>ECA.WebApi</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -297,6 +297,7 @@
     <Compile Include="Models\HistoryDTO.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModel.cs" />
     <Compile Include="Models\Programs\ProgramBindingModel.cs" />
+    <Compile Include="Models\Programs\ProgramViewModel.cs" />
     <Compile Include="Models\Projects\DraftProjectBindingModel.cs" />
     <Compile Include="Models\Query\FilterBindingModelConverter.cs" />
     <Compile Include="Models\Query\KeywordAttribute.cs" />
@@ -305,6 +306,7 @@
     <Compile Include="Models\Query\PagingQueryBindingModel.cs" />
     <Compile Include="Models\Query\SorterBindingModel.cs" />
     <Compile Include="Models\RegionDTO.cs" />
+    <Compile Include="Models\RowVersionStringResolver.cs" />
     <Compile Include="Models\ThemeDTO.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

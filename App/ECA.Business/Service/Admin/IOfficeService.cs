@@ -1,7 +1,12 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Office;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+
 namespace ECA.Business.Service.Admin
 {
     /// <summary>
@@ -23,6 +28,29 @@ namespace ECA.Business.Service.Admin
         /// <param name="officeId">The id of the office.</param>
         /// <returns>The office with the given id or null.</returns>
         Task<OfficeDTO> GetOfficeByIdAsync(int officeId);
+
+        /// <summary>
+        /// Returns the programs for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The id the office.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The office programs.</returns>
+        PagedQueryResults<OrganizationProgramDTO> GetPrograms(int officeId, QueryableOperator<OrganizationProgramDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the programs for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The id the office.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The office programs.</returns>
+        Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsAsync(int officeId, QueryableOperator<OrganizationProgramDTO> queryOperator);
+
+        /// <summary>
+        /// Returns a list of offices in hierarchical order
+        /// </summary>
+        /// <returns></returns>
+        List<SimpleOfficeDTO> GetOffices();
+
     }
 
     /// <summary>
@@ -51,5 +79,38 @@ namespace ECA.Business.Service.Admin
         {
             return Task.FromResult<OfficeDTO>(null);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public PagedQueryResults<OrganizationProgramDTO> GetPrograms(int officeId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsAsync(int officeId, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            return Task.FromResult<PagedQueryResults<OrganizationProgramDTO>>(null);
+        }
+
+        /// Get list of Offices (Simple hierarchial list)
+        /// </summary>
+        /// <returns></returns>
+        public List<SimpleOfficeDTO> GetOffices()
+        {
+            return null;
+        }
+
     }
 }

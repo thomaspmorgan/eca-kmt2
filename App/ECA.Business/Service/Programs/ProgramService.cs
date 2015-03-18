@@ -248,6 +248,7 @@ namespace ECA.Business.Service.Programs
             programToUpdate.OwnerId = owner.OrganizationId;
             programToUpdate.ParentProgram = updatedProgram.ParentProgramId.HasValue ? GetParentProgramById(updatedProgram.ParentProgramId.Value) : null;
             programToUpdate.ProgramStatusId = updatedProgram.ProgramStatusId;
+            programToUpdate.RowVersion = updatedProgram.RowVersion;
             programToUpdate.StartDate = updatedProgram.StartDate;
             programToUpdate.Website = updatedProgram.Website;
 
@@ -269,6 +270,9 @@ namespace ECA.Business.Service.Programs
                 contactIds: program.ContactIds,
                 focus: focus,
                 owner: owner,
+                themeIds: program.ThemeIds,
+                goalIds: program.GoalIds,
+                regionIds: program.RegionIds,
                 parentProgramId: program.ParentProgramId,
                 parentProgram: parentProgram
                 );

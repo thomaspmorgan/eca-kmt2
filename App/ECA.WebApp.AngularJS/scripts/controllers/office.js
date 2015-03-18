@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('OfficeCtrl', function ($scope, $stateParams, $q, DragonBreath, OfficeService) {
+  .controller('OfficeCtrl', function ($scope, $stateParams, $q, DragonBreath, OfficeService, TableService) {
 
       $scope.tabs = {
           overview: {
@@ -44,31 +44,42 @@ angular.module('staticApp')
       };
 
       $scope.office = {};
-      $scope.isLoading = true;
+      $scope.programs = [];
+      $scope.programFilter = '';
+
+      $scope.isLoadingOfficeById = true;
+      $scope.isLoadingPrograms = false;
+
       $scope.officeExists = true;
-      $scope.serverErrorOccurred = false;
+      $scope.showLoadingOfficeByIdError = false;
+      $scope.loadingProgramsErrorOccurred = false;
 
       var officeId = $stateParams.officeId;
 
       function reset() {
           $scope.officeExists = true;
-          $scope.serverErrorOccurred = false;
+          $scope.showLoadingOfficeByIdError = false;
+          $scope.loadingProgramsErrorOccurred = false;
       }
 
-      function setBusy() {
-          $scope.isLoading = true;
+      function showLoadingOfficeById() {
+          $scope.isLoadingOfficeById = true;
       }
 
-      function setIdle() {
-          $scope.isLoading = false;
+      function hideLoadingOfficeById() {
+          $scope.isLoadingOfficeById = false;
       }
 
       function showNotFound() {
           $scope.officeExists = false;
       }
 
-      function showServerError() {
-          $scope.serverErrorOccurred = true;
+      function showLoadingOfficeByIdError() {
+          $scope.showLoadingOfficeByIdError = true;
+      }
+
+      function showLoadingProgramsError() {
+          $scope.loadingProgramsErrorOccurred = true;
       }
 
       function getOfficeById(id) {
@@ -81,24 +92,74 @@ angular.module('staticApp')
               function (data, status, headers, config) {
                   var errorCode = data.status;
                   dfd.reject(errorCode);
-                  
+
               });
           return dfd.promise;
       }
 
-      setBusy();
+      function getProgramsByOfficeId(officeId, params) {
+          var dfd = $q.defer();
+          var levels = [1, 2];
+
+          params.filter.push({
+              property: 'programLevel',
+              comparison: 'in',
+              value: levels
+          });
+
+          OfficeService.getPrograms(params, officeId)
+              .then(function (data, status, headers, config) {
+                  dfd.resolve(data.data);
+              },
+              function (data, status, headers, config) {
+                  var errorCode = data.status;
+                  dfd.reject(errorCode);
+
+              });
+          return dfd.promise;
+      }
+
+      $scope.getPrograms = function (tableState) {
+          reset();
+          $scope.isLoadingPrograms = true;
+          TableService.setTableState(tableState);
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: TableService.getFilter(),
+              keyword: TableService.getKeywords()
+          };
+          $scope.programFilter = params.keyword;
+          getProgramsByOfficeId(officeId, params)
+            .then(function (data) {
+                var programs = data.results;
+                var total = data.total;
+                $scope.programs = programs;
+                var limit = TableService.getLimit();
+                tableState.pagination.numberOfPages = Math.ceil(total / limit);
+            }, function (errorCode) {
+                showLoadingProgramsError();
+            })
+            .then(function () {
+                $scope.isLoadingPrograms = false;
+            });
+      }
+
+      showLoadingOfficeById();
       getOfficeById(officeId)
           .then(function (data) {
-              setIdle();
               $scope.office = data;
-              
+
           }, function (errorCode) {
-              setIdle();
               if (errorCode === 404) {
                   showNotFound();
               }
               else {
-                  showServerError();
+                  showLoadingOfficeByIdError();
               }
-          });
+          })
+        .then(function () {
+            hideLoadingOfficeById();
+        });
   });

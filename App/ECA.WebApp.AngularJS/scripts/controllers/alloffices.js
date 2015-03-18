@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllOfficesCtrl', function ($scope, DragonBreath, $stateParams) {
+  .controller('AllOfficesCtrl', function ($scope, $stateParams, OfficeService, TableService) {
     
 
     $scope.offices = [];
@@ -20,43 +20,28 @@ angular.module('staticApp')
         offset: (($scope.currentpage - 1) * 20)
     };
 
+    $scope.getOffices = function (tableState) {
+
+        $scope.officesLoading = true;
 
 
-    DragonBreath.get(filterParams,'organizations')
-        .success(function (data) {
-            console.log(data);
-            if(angular.isArray(data.results)){
-                $scope.offices = data.results.sort(
-                    function(office1, office2){
-                        if (office1.name < office2.name) {
-                            return -1;
-                        }
-                        if (office1.name > office2.name) {
-                            return 1;
-                        }
-                        if (office1.abbreviation < office2.abbreviation){
-                            return -1;
-                        }
-                        if (office1.abbreviation > office2.abbreviation) {
-                            return 1;
-                        }
-                        return 0;
-                    });
-            }
-            
+        TableService.setTableState(tableState);
+
+        var params = {
+            start: TableService.getStart(),
+            limit: TableService.getLimit(),
+            sort: TableService.getSort(),
+            filter: TableService.getFilter()
+
+        };
+
+        OfficeService.getAll(params)
+        .then(function (results) {
+            $scope.offices = results.data;
+            var limit = TableService.getLimit();
+            //tableState.pagination.limit = Math.ceil(data.length / limit);
+            $scope.officesLoading = false;
         });
+    };
 
-
-
-
-    $scope.branches = [
-    	{
-    		name: 'Africa & Europe',
-    		ticked: false
-    	},
-    	{
-    		name: 'WHA, EAP, NEA, SCA',
-    		ticked: false
-    	}
-    ];
   });

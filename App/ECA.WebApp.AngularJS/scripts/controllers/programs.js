@@ -129,6 +129,11 @@ angular.module('staticApp')
           angular.forEach($scope.newProject, function (value, key) {
               $scope.newProject[key] = '';
           });
+          $scope.formScope.projectForm.$setPristine();
+      };
+
+      $scope.setFormScope = function (scope) {
+          $scope.formScope = scope;
       };
 
       $scope.updateProgram = function () {

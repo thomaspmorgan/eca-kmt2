@@ -222,37 +222,37 @@ angular
         controller: 'SettingsCtrl',
         requireADLogin: true
       })
-      .state('people', {
-        url: '/people/:personId',
-        templateUrl: 'views/people.html',
-        controller: 'PeopleCtrl',
+      .state('participants', {
+        url: '/participants/:participantId',
+        templateUrl: 'views/participants.html',
+        controller: 'ParticipantCtrl',
         requireADLogin: true
       })
-      .state('people.overview', {
+      .state('participants.overview', {
         url: '/overview',
-        templateUrl: 'views/people/overview.html',
-        controller: 'PeopleCtrl',
+        templateUrl: 'views/participants/overview.html',
+        controller: 'ParticipantCtrl',
         requireADLogin: true
       })
-      .state('people.activity', {
+      .state('participants.activity', {
         url: '/activity',
-        templateUrl: 'views/people/activity.html',
-        controller: 'PeopleCtrl'
+        templateUrl: 'views/participants/activity.html',
+        controller: 'ParticipantCtrl'
       })
-      .state('people.personalinformation', {
+      .state('participants.personalinformation', {
         url: '/personalinformation',
-        templateUrl: 'views/people/personalinformation.html',
-        controller: 'PeopleCtrl'
+        templateUrl: 'views/participants/personalinformation.html',
+        controller: 'ParticipantCtrl'
       })
-      .state('people.relatedreports', {
+      .state('participants.relatedreports', {
         url: '/relatedreports',
-        templateUrl: 'views/people/relatedreports.html',
-        controller: 'PeopleCtrl'
+        templateUrl: 'views/participants/relatedreports.html',
+        controller: 'ParticipantCtrl'
       })
-      .state('people.impact', {
+      .state('participants.impact', {
         url: '/impact',
-        templateUrl: 'views/people/impact.html',
-        controller: 'PeopleCtrl'
+        templateUrl: 'views/participants/impact.html',
+        controller: 'ParticipantCtrl'
       })
       
       .state('allprograms',{
@@ -394,7 +394,8 @@ angular
 
     editableOptions.theme = 'bs3';
     $rootScope.rootStates = [
-      {name: 'Home', state: 'home.shortcuts'},
+      { name: 'Home', state: 'home.shortcuts' },
+      { name: 'Offices', state: 'alloffices' },
       {name: 'Programs', state: 'allprograms'},
       {name: 'Participants', state: 'allparticipants'},
       {name: 'Events', state: 'events'},

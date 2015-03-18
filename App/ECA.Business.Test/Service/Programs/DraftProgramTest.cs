@@ -56,11 +56,13 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
             Assert.AreEqual(focusId, program.FocusId);
             Assert.AreEqual(website, program.Website);
+            Assert.IsNull(program.RowVersion);
 
             CollectionAssert.AreEqual(goalIds, program.GoalIds);
             CollectionAssert.AreEqual(themeIds, program.ThemeIds);
             CollectionAssert.AreEqual(pointOfContactIds, program.ContactIds);
             CollectionAssert.AreEqual(regionIds, program.RegionIds);
+            
         }
 
         [TestMethod]

@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Office;
 using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
@@ -25,6 +26,7 @@ namespace ECA.Business.Queries.Admin
         public static IQueryable<OfficeDTO> CreateGetOfficeByIdQuery(EcaContext context, int officeId)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            var officeDivisionBranch = new [] {OrganizationType.Office.Id, OrganizationType.Division.Id, OrganizationType.Branch.Id };
             var query = from office in context.Organizations
                         let contacts = office.Contacts
                         let programs = office.OwnerPrograms
@@ -32,7 +34,7 @@ namespace ECA.Business.Queries.Admin
                         let themes = programs.SelectMany(x => x.Themes).Distinct()
                         let foci = programs.Select(x => x.Focus).Distinct()
 
-                        where office.OrganizationTypeId == OrganizationType.Office.Id && office.OrganizationId == officeId
+                        where officeDivisionBranch.Contains(office.OrganizationTypeId) && office.OrganizationId == officeId
                         select new OfficeDTO
                         {
                             Contacts = contacts.OrderBy(x => x.FullName).Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
@@ -46,6 +48,13 @@ namespace ECA.Business.Queries.Admin
                             Title = office.Description
                         };
             return query;
+        }
+
+        public static IQueryable<SimpleOfficeDTO> CreateGetOfficesQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = context.Database.SqlQuery<SimpleOfficeDTO>("GetOffices");
+            return query.AsQueryable<SimpleOfficeDTO>();
         }
     }
 }
