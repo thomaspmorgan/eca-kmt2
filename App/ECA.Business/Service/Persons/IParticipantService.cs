@@ -35,5 +35,19 @@ namespace ECA.Business.Service.Persons
         /// <param name="projectId">The id of the project.</param>
         /// <returns>The participants.</returns>
         System.Threading.Tasks.Task<ECA.Core.Query.PagedQueryResults<ECA.Business.Queries.Models.Persons.SimpleParticipantDTO>> GetParticipantsByProjectIdAsync(int projectId, ECA.Core.DynamicLinq.QueryableOperator<ECA.Business.Queries.Models.Persons.SimpleParticipantDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the participant by id
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>The participant</returns>
+        ECA.Business.Queries.Models.Persons.ParticipantDTO GetParticipantById(int participantId);
+
+        /// <summary>
+        /// Returns the participant by id asyncronously
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>The participant</returns>
+        System.Threading.Tasks.Task<ECA.Business.Queries.Models.Persons.ParticipantDTO> GetParticipantByIdAsync(int participantId);
     }
 }
