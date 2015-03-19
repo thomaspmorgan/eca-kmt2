@@ -10,9 +10,9 @@
         <tbody class="list2">
             <tr class="row hover" ng-repeat="office in offices" ng-show="!officesLoading">
                 <td class="col-md-9" ng-style="{'padding-left': 60+(20*office.officeLevel-1)}">
-                    <span class="owner-office">{{office.name}}</span>
-                    <h4><a ng-href="#/offices/{{office.organizationId}}/overview">{{office.description}}</a></h4>
-                    <p>This would be the description of the office</p>
+                    <span class="owner-office">{{office.officeSymbol}}</span>
+                    <h4><a ng-href="#/offices/{{office.organizationId}}/overview">{{office.name}}</a></h4>
+                    <p>{{office.description}}</p>
                 </td>
                 <td class="col-md-3 tools">
                     &nbsp;

@@ -80,7 +80,7 @@
                 <div class="form-group">
                     <label>Related Regions<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="regions"
-                                          output-model="outRegions"
+                                          output-model="out.Regions"
                                           button-label="name"
                                           item-label="name"
                                           tick-property="ticked"
@@ -89,7 +89,7 @@
                                           on-select-none="setRegionsDirty()">
                     </isteven-multi-select>
                     <div ng-show="programForm.hiddenRegions.$dirty">
-                        <input name="hiddenRegions" ng-model="outRegions.length" style="display: none" type="number" min="1" form-element guidance="These are the regions of your new program, at least one required." />
+                        <input name="hiddenRegions" ng-model="out.Regions.length" style="display: none" type="number" min="1" form-element guidance="These are the regions of your new program, at least one required." />
                         <span class="error" ng-show="programForm.hiddenRegions.$invalid">Please select as least one region.</span>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                 <div class="form-group" form-element guidance="This lists the themes for the program (at least one required).">
                     <label>Themes<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="themes"
-                                          output-model="outThemes"
+                                          output-model="out.Themes"
                                           button-label="name"
                                           item-label="name"
                                           tick-property="ticked"
@@ -119,14 +119,14 @@
                                           on-select-none="setThemesDirty()">
                     </isteven-multi-select>
                     <div ng-show="programForm.hiddenThemes.$dirty">
-                        <input name="hiddenThemes" ng-model="outThemes.length" style="display: none" type="number" min="1" />
+                        <input name="hiddenThemes" ng-model="out.Themes.length" style="display: none" type="number" min="1" />
                         <span class="error" ng-show="programForm.hiddenThemes.$invalid">Please select as least one theme.</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Goals<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="goals"
-                                          output-model="outGoals"
+                                          output-model="out.Goals"
                                           button-label="name"
                                           item-label="name"
                                           tick-property="ticked"
@@ -136,7 +136,7 @@
                                           on-select-none="setGoalsDirty()">
                     </isteven-multi-select>
                     <div ng-show="programForm.hiddenGoals.$dirty">
-                        <input name="hiddenGoals" ng-model="outGoals.length" style="display: none" type="number" min="1" />
+                        <input name="hiddenGoals" ng-model="out.Goals.length" style="display: none" type="number" min="1" />
                         <span class="error" ng-show="programForm.hiddenGoals.$invalid">Please select as least one goal.</span>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                 <div class="form-group">
                     <label>Points Of Contact<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="pointsOfContact"
-                                          output-model="outContacts"
+                                          output-model="out.Contacts"
                                           button-label="fullName"
                                           item-label="fullName"
                                           tick-property="ticked"
@@ -162,7 +162,7 @@
                                           on-select-none="setContactsDirty()">
                     </isteven-multi-select>
                     <div ng-show="programForm.hiddenContacts.$dirty">
-                        <input name="hiddenContacts" ng-model="outContacts.length" style="display: none" type="number" min="1" />
+                        <input name="hiddenContacts" ng-model="out.Contacts.length" style="display: none" type="number" min="1" />
                         <span class="error" ng-show="programForm.hiddenContacts.$invalid">Please select as least one point of contact.</span>
                     </div>
                 </div>
