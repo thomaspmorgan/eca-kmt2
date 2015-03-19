@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ParticipantCtrl', function ($scope, ParticipantService, $stateParams) {
+  .controller('ParticipantCtrl', function ($scope, ParticipantService, PersonService, $stateParams) {
 
     $scope.tabs = {
       overview: {
@@ -48,10 +48,16 @@ angular.module('staticApp')
     $scope.activityImageSet = [
         'images/placeholders/participant/activities1.png',
         'images/placeholders/participant/activities2.png'
-    ]
+    ];
+
+    console.log($stateParams);
 
     ParticipantService.getParticipantById($stateParams.participantId)
       .then(function (data) {
           $scope.participant = data;
+          PersonService.getPiiById(data.personId)
+            .then(function (data) {
+                $scope.pii = data;
+            });
       });
   });

@@ -16,6 +16,7 @@ With Programs As
       ,TopLevelProgram.[ParentProgram_ProgramId]
 	  ,TopLevelProgram.[Owner_OrganizationId]
 	  ,Org.Name As OrgName
+	  ,Org.OfficeSymbol as OfficeSymbol
 	  ,1 As ProgramLevel
   FROM [Program] as TopLevelProgram
   Join Organization As Org On TopLevelProgram.Owner_OrganizationId = Org.OrganizationId
@@ -29,6 +30,7 @@ With Programs As
       ,Prog.[ParentProgram_ProgramId]
 	  	,Prog.[Owner_OrganizationId]
 		,Org.Name As OrgName
+		,Org.OfficeSymbol as OfficeSymbol
 	  , PL.ProgramLevel + 1
   FROM [Program] as Prog
     Join Organization as Org on Prog.Owner_OrganizationId = Org.OrganizationId

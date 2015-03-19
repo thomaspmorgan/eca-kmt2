@@ -281,6 +281,7 @@
     <Compile Include="Controllers\Admin\ProjectsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantsController.cs" />
     <Compile Include="Controllers\Persons\ContactsController.cs" />
+    <Compile Include="Controllers\Persons\PeopleController.cs" />
     <Compile Include="Controllers\Programs\ProgramsController.cs" />
     <Compile Include="Controllers\Programs\ThemesController.cs" />
     <Compile Include="Controllers\TicketController.cs" />

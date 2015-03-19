@@ -131,6 +131,7 @@
     <Content Include="scripts\filters\highlight.js" />
     <Content Include="scripts\services\moneyflow.js" />
     <Content Include="scripts\services\office.js" />
+    <Content Include="scripts\services\person.js" />
     <Content Include="scripts\services\tableservice.js" />
     <Content Include="scripts\services\lookupservice.js" />
     <Content Include="styles\main.css">
