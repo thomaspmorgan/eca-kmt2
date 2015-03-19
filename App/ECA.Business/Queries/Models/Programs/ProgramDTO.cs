@@ -88,6 +88,11 @@ namespace ECA.Business.Queries.Models.Programs
         public string OwnerName { get; set; }
 
         /// <summary>
+        /// Gets or sets the Owner office symbol.
+        /// </summary>
+        public string OwnerOfficeSymbol { get; set; }
+
+        /// <summary>
         /// Gets or sets the owner description.
         /// </summary>
         public string OwnerDescription { get; set; }

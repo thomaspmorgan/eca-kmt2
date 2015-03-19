@@ -44,6 +44,7 @@ namespace ECA.WebApi.Models.Programs
             this.OwnerDescription = program.OwnerDescription;
             this.OwnerName = program.OwnerName;
             this.OwnerOrganizationId = program.OwnerOrganizationId;
+            this.OwnerOfficeSymbol = program.OwnerOfficeSymbol;
             this.ParentProgramId = program.ParentProgramId;
             this.RegionIsos = program.RegionIsos;
             this.RevisedOn = program.RevisedOn;
@@ -126,6 +127,11 @@ namespace ECA.WebApi.Models.Programs
         /// Gets or sets the owner organization id.
         /// </summary>
         public int OwnerOrganizationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the owner office symbol.
+        /// </summary>
+        public string OwnerOfficeSymbol { get; set; }
 
         /// <summary>
         /// Gets or sets the row version.

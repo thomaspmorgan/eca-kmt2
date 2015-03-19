@@ -99,7 +99,8 @@ namespace ECA.Business.Test.Service.Programs
             {
                 OrganizationId = 30,
                 Description = "owner desc",
-                Name = "owner"
+                Name = "owner",
+                OfficeSymbol = "symbol"
             };
             var focus = new Focus
             {
@@ -179,6 +180,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(owner.Name, publishedProgram.OwnerName);
                 Assert.AreEqual(owner.Description, publishedProgram.OwnerDescription);
                 Assert.AreEqual(owner.OrganizationId, publishedProgram.OwnerOrganizationId);
+                Assert.AreEqual(owner.OfficeSymbol, publishedProgram.OwnerOfficeSymbol);
 
             };
             var result = service.GetProgramById(program.ProgramId);

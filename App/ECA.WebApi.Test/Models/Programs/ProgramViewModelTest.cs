@@ -39,6 +39,7 @@ namespace ECA.WebApi.Test.Models.Programs
             dto.OwnerDescription = "owner desc";
             dto.OwnerName = "owner name";
             dto.OwnerOrganizationId = 2;
+            dto.OwnerOfficeSymbol = "symbol";
             dto.ParentProgramId = 3;
             dto.RegionIsos = ToListOfSimpleLookups(5, "region iso");
             dto.RevisedOn = DateTimeOffset.UtcNow;
@@ -52,6 +53,7 @@ namespace ECA.WebApi.Test.Models.Programs
             Assert.AreEqual(dto.Name, viewModel.Name);
             Assert.AreEqual(dto.OwnerDescription, viewModel.OwnerDescription);
             Assert.AreEqual(dto.OwnerOrganizationId, viewModel.OwnerOrganizationId);
+            Assert.AreEqual(dto.OwnerOfficeSymbol, viewModel.OwnerOfficeSymbol);
             Assert.AreEqual(dto.ParentProgramId, viewModel.ParentProgramId);
             Assert.AreEqual(dto.RevisedOn, viewModel.RevisedOn);
             Assert.AreEqual(Convert.ToBase64String(dto.RowVersion), viewModel.RowVersion);

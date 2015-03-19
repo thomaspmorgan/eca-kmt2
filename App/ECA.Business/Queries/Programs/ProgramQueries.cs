@@ -76,6 +76,7 @@ namespace ECA.Business.Queries.Programs
                             Name = program.Name,
                             OwnerDescription = owner.Description,
                             OwnerName = owner.Name,
+                            OwnerOfficeSymbol = owner.OfficeSymbol,
                             OwnerOrganizationId = owner.OrganizationId,
                             ParentProgramId = parentProgram == null ? default(int?) : parentProgram.ProgramId,
                             RevisedOn = program.History.RevisedOn,
