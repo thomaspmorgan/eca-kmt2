@@ -43,6 +43,11 @@ namespace ECA.Business.Queries.Models.Admin
         public string OrgName { get; set; }
 
         /// <summary>
+        /// Gets or sets the office symbol.
+        /// </summary>
+        public string OfficeSymbol { get; set; }
+
+        /// <summary>
         /// Gets or sets the program level.
         /// </summary>
         public int ProgramLevel { get; set; }
