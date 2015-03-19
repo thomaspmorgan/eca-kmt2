@@ -44,11 +44,12 @@ angular.module('staticApp')
           website: null
       };
 
-      $scope.outThemes = [];
-      $scope.outRegions = [];
-      $scope.outGoals = [];
-      $scope.outContacts = [];
-
+      $scope.out = {
+          Themes: [],
+          Regions: [],
+          Goals: [],
+          Contacts: []
+      };
     $scope.programs = [];
 
     $scope.programsLoading = false;
@@ -193,10 +194,10 @@ angular.module('staticApp')
  
     function cleanUpNewProgram() {
         //themes
-        $scope.newProgram.themes = $scope.outThemes.map(getIds);
-        $scope.newProgram.goals = $scope.outGoals.map(getIds);
-        $scope.newProgram.contacts = $scope.outContacts.map(getIds);
-        $scope.newProgram.regions = $scope.outRegions.map(getIds);
+        $scope.newProgram.themes = $scope.out.Themes.map(getIds);
+        $scope.newProgram.goals = $scope.out.Goals.map(getIds);
+        $scope.newProgram.contacts = $scope.out.Contacts.map(getIds);
+        $scope.newProgram.regions = $scope.out.Regions.map(getIds);
     };
 
 
