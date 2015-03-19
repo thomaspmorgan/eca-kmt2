@@ -81,8 +81,12 @@ namespace ECA.Business.Service.Admin
         /// <returns>The office programs.</returns>
         public PagedQueryResults<OrganizationProgramDTO> GetPrograms(int officeId, QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
-            var results = CreateGetOrganizationProgramsSqlQuery().ToList().Where(x => x.Owner_OrganizationId == officeId).ToList();
-            return GetPagedQueryResults<OrganizationProgramDTO>(results, queryOperator);
+            var stopWatch = Stopwatch.StartNew();
+            var results = CreateGetOrganizationProgramsSqlQuery().ToArray();
+            stopWatch.Stop();            
+            var pagedResults = GetPagedQueryResults(officeId, results, queryOperator);
+            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            return pagedResults;
         }
 
         /// <summary>
@@ -93,8 +97,12 @@ namespace ECA.Business.Service.Admin
         /// <returns>The office programs.</returns>
         public async Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsAsync(int officeId, QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
-            var results = (await CreateGetOrganizationProgramsSqlQuery().ToListAsync()).Where(x => x.Owner_OrganizationId == officeId).ToList();
-            return GetPagedQueryResults<OrganizationProgramDTO>(results, queryOperator);
+            var stopWatch = Stopwatch.StartNew();
+            var results = (await CreateGetOrganizationProgramsSqlQuery().ToArrayAsync());
+            stopWatch.Stop();
+            var pagedResults = GetPagedQueryResults(officeId, results, queryOperator);
+            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            return pagedResults;
         }
 
         private DbRawSqlQuery<OrganizationProgramDTO> CreateGetOrganizationProgramsSqlQuery()
@@ -102,9 +110,14 @@ namespace ECA.Business.Service.Admin
             return this.Context.Database.SqlQuery<OrganizationProgramDTO>(GET_PROGRAMS_SPROC_NAME);
         }
 
-        private PagedQueryResults<T> GetPagedQueryResults<T>(List<T> list, QueryableOperator<T> queryOperator) where T : class
+        private PagedQueryResults<OrganizationProgramDTO> GetPagedQueryResults(int officeId, IEnumerable<OrganizationProgramDTO> enumerable, QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
-            var queryable = list.AsQueryable<T>();
+            return GetPagedQueryResults<OrganizationProgramDTO>(enumerable.Where(x => x.Owner_OrganizationId == officeId).ToList(), queryOperator);
+        }
+
+        private PagedQueryResults<T> GetPagedQueryResults<T>(IEnumerable<T> enumerable, QueryableOperator<T> queryOperator) where T : class
+        {
+            var queryable = enumerable.AsQueryable<T>();
             queryable = queryable.Apply(queryOperator);
             return queryable.ToPagedQueryResults<T>(queryOperator.Start, queryOperator.Limit);
         }
