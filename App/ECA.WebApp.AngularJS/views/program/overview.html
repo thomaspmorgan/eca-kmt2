@@ -50,7 +50,7 @@
         </div>
         <div class="row" ng-show="program.ownerOrganizationId && program.ownerDescription">
             <div class="col-md-4 title-label">Office</div>
-            <div class="col-md-8"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerDescription}}</a></div>
+            <div class="col-md-8"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
         </div>
 
         <div class="row" ng-show="program.contacts">
