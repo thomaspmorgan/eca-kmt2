@@ -16,14 +16,14 @@ namespace CreateProgram.Test
     /// Create Program -under construction
     /// </summary>
     [CodedUITest]
-    public class CodedUITest1
+    public class CreateProgram
     {
-        public CodedUITest1()
+        public CreateProgram()
         {
         }
 
         [TestMethod]
-        public void CodedUITestMethod1()
+        public void CreateProgramCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
