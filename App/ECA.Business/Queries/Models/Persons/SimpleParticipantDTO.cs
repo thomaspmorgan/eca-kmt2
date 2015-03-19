@@ -40,5 +40,10 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets or sets the name of the participant.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date revised on.
+        /// </summary>
+        public DateTimeOffset RevisedOn { get; set; }
     }
 }

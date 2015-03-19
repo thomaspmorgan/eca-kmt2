@@ -18,20 +18,20 @@ namespace ECA.Business.Queries.Persons
         private static IQueryable<SimpleParticipantDTO> CreateGetPersonParticipantsQuery(EcaContext context)
         {
             var query = from participant in context.Participants
-                        let person = participant.Person
-                        let participantType = participant.ParticipantType
+                        //let person = participant.Person
+                        //let participantType = participant.ParticipantType
                         where participant.ParticipantTypeId == ParticipantType.Individual.Id
                         select new SimpleParticipantDTO
                         {
-                            Name = (person.FirstName != null ? person.FirstName : String.Empty)
-                                + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
-                                + (person.LastName != null ? person.LastName : String.Empty),
+                          //  Name = (person.FirstName != null ? person.FirstName : String.Empty)
+                          //      + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
+                          //      + (person.LastName != null ? person.LastName : String.Empty),
                             OrganizationId = default(int?),
                             ParticipantId = participant.ParticipantId,
-                            ParticipantType = participantType.Name,
-                            ParticipantTypeId = participantType.ParticipantTypeId,
-                            PersonId = person.PersonId
-
+                         //   ParticipantType = participantType.Name,
+                         //   ParticipantTypeId = participantType.ParticipantTypeId,
+                         //   PersonId = person.PersonId,
+                            RevisedOn = participant.History.RevisedOn
                         };
             return query;
         }
@@ -50,8 +50,8 @@ namespace ECA.Business.Queries.Persons
                             ParticipantId = participant.ParticipantId,
                             ParticipantType = participantType.Name,
                             ParticipantTypeId = participantType.ParticipantTypeId,
-                            PersonId = default(int?)
-
+                            PersonId = default(int?),
+                            RevisedOn = participant.History.RevisedOn
                         };
             return query;
         }
@@ -101,22 +101,16 @@ namespace ECA.Business.Queries.Persons
             return query;
         }
 
-        public static IQueryable<ParticipantDTO> CreateGetParticipantDTOByIdQuery(EcaContext context, int participantId)
+        /// <summary>
+        /// Returns the participant by participant id 
+        /// </summary>
+        /// <param name="context">The context to query</param>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>The participant</returns>
+        public static IQueryable<SimpleParticipantDTO> CreateGetSimpleParticipantDTOByIdQuery(EcaContext context, int participantId)
         {
-            Contract.Requires(context != null, "The context must not be null.");
-            var query = from participant in context.Participants
-                        let person = participant.Person
-                        let history = participant.History
-                        where participant.ParticipantId == participantId && participant.ParticipantTypeId == ParticipantType.Individual.Id
-
-                        select new ParticipantDTO
-                        {
-                            Name = (person.FirstName != null ? person.FirstName : String.Empty)
-                                + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
-                                + (person.LastName != null ? person.LastName : String.Empty), 
-                            LastUpdated = history.RevisedOn
-                        };
-            return query;
+            var p = CreateGetPersonParticipantsQuery(context).Where(x => x.ParticipantId == participantId);
+            return p;
         }
     }
 }

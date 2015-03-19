@@ -76,16 +76,24 @@ namespace ECA.Business.Service.Persons
             return ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
         }
 
-
-        public ParticipantDTO GetParticipantById(int participantId)
+        /// <summary>
+        /// Returns a participant 
+        /// </summary>
+        /// <param name="participantId">The participantId to lookup</param>
+        /// <returns>The participant</returns>
+        public SimpleParticipantDTO GetParticipantById(int participantId)
         {
-            return ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            return ParticipantQueries.CreateGetSimpleParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
         }
 
-
-        public Task<ParticipantDTO> GetParticipantByIdAsync(int participantId)
+        /// <summary>
+        /// Returns a participant asyncronously
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>The participant</returns>
+        public Task<SimpleParticipantDTO> GetParticipantByIdAsync(int participantId)
         {
-            return ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
+            return ParticipantQueries.CreateGetSimpleParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
         }
         #endregion
 

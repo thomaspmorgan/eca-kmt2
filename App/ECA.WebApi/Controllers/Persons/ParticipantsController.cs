@@ -80,7 +80,7 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
-        [ResponseType(typeof(ParticipantDTO))]
+        [ResponseType(typeof(SimpleParticipantDTO))]
         [Route("Participants/{participantId:int}")]
         public async Task<IHttpActionResult> GetParticipantByIdAsync(int participantId) 
         {

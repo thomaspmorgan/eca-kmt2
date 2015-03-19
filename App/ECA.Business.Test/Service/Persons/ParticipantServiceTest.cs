@@ -962,6 +962,53 @@ namespace ECA.Business.Test.Service.Persons
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+
+        [TestMethod]
+        public async Task TestGetParticipantById()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "firstName",
+                LastName = "lastName"
+            };
+
+            var history = new History
+            {
+                RevisedOn = DateTimeOffset.Now
+            };
+            
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = 1,
+                Name = "name"
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person.PersonId,
+                Person = person,
+                ParticipantType = participantType,
+                ParticipantTypeId = participantType.ParticipantTypeId,
+                History = history
+            };
+
+            context.People.Add(person);
+            context.ParticipantTypes.Add(participantType);
+            context.Participants.Add(participant);
+
+            Action<SimpleParticipantDTO> tester = (result) =>
+            {
+                Assert.IsNotNull(result);
+            };
+
+            var serviceResult = service.GetParticipantById(participant.ParticipantId);
+            var serviceResultAsync = await service.GetParticipantByIdAsync(participant.ParticipantId);
+
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
         #endregion
     }
 }
