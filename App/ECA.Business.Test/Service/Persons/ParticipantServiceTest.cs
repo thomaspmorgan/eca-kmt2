@@ -980,7 +980,7 @@ namespace ECA.Business.Test.Service.Persons
             
             var participantType = new ParticipantType
             {
-                ParticipantTypeId = 1,
+                ParticipantTypeId = ParticipantType.Individual.Id,
                 Name = "name"
             };
 
@@ -1001,6 +1001,13 @@ namespace ECA.Business.Test.Service.Persons
             Action<SimpleParticipantDTO> tester = (result) =>
             {
                 Assert.IsNotNull(result);
+                Assert.AreEqual(participant.ParticipantId, result.ParticipantId);
+                Assert.AreEqual(participant.PersonId, result.PersonId);
+                Assert.IsNull(participant.OrganizationId);
+                Assert.AreEqual(participant.ParticipantTypeId, result.ParticipantTypeId);
+                Assert.AreEqual(participant.ParticipantType.Name, result.ParticipantType);
+                Assert.AreEqual(person.FirstName + " " + person.LastName, result.Name);
+
             };
 
             var serviceResult = service.GetParticipantById(participant.ParticipantId);

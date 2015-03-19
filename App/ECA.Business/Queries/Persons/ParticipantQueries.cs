@@ -18,19 +18,19 @@ namespace ECA.Business.Queries.Persons
         private static IQueryable<SimpleParticipantDTO> CreateGetPersonParticipantsQuery(EcaContext context)
         {
             var query = from participant in context.Participants
-                        //let person = participant.Person
-                        //let participantType = participant.ParticipantType
+                        let person = participant.Person
+                        let participantType = participant.ParticipantType
                         where participant.ParticipantTypeId == ParticipantType.Individual.Id
                         select new SimpleParticipantDTO
                         {
-                          //  Name = (person.FirstName != null ? person.FirstName : String.Empty)
-                          //      + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
-                          //      + (person.LastName != null ? person.LastName : String.Empty),
+                            Name = (person.FirstName != null ? person.FirstName : String.Empty)
+                                  + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
+                                  + (person.LastName != null ? person.LastName : String.Empty),
                             OrganizationId = default(int?),
                             ParticipantId = participant.ParticipantId,
-                         //   ParticipantType = participantType.Name,
-                         //   ParticipantTypeId = participantType.ParticipantTypeId,
-                         //   PersonId = person.PersonId,
+                            ParticipantType = participantType.Name,
+                            ParticipantTypeId = participantType.ParticipantTypeId,
+                            PersonId = person.PersonId,
                             RevisedOn = participant.History.RevisedOn
                         };
             return query;
@@ -109,8 +109,7 @@ namespace ECA.Business.Queries.Persons
         /// <returns>The participant</returns>
         public static IQueryable<SimpleParticipantDTO> CreateGetSimpleParticipantDTOByIdQuery(EcaContext context, int participantId)
         {
-            var p = CreateGetPersonParticipantsQuery(context).Where(x => x.ParticipantId == participantId);
-            return p;
+            return CreateGetPersonParticipantsQuery(context).Where(x => x.ParticipantId == participantId);
         }
     }
 }
