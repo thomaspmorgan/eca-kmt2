@@ -13,11 +13,23 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-6 title-label">Names & Alternatives</div>
-                <div class="col-md-6">{{project.status}}</div>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-show="pii.firstName">First name: {{pii.firstName}}</li>
+                        <li ng-show="pii.lastName">Last name: {{pii.lastName}}</li>
+                        <li ng-show="pii.namePrefix">Name prefix: {{pii.namePrefix}}</li>
+                        <li ng-show="pii.nameSuffix">Name suffix: {{pii.nameSuffix}}</li>
+                        <li ng-show="pii.givenName">Given name: {{pii.givenName}}</li>
+                        <li ng-show="pii.familyName">Family name: {{pii.familyName}}</li>
+                        <li ng-show="pii.middleName">Middle name: {{pii.middleName}}</li>
+                        <li ng-show="pii.patronym">Patronym: {{pii.patronym}}</li>
+                        <li ng-show="pii.alias">Alias: {{pii.alias}}</li>
+                    </ul>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Gender</div>
-                <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.themeName}} </span></div>
+                <div class="col-md-6">{{pii.gender}}</div>
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Ethnicity</div>
@@ -33,14 +45,18 @@
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Date of Birth</div>
-                <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.themeName}} </span></div>
+                <div class="col-md-6">{{pii.dateOfBirth | date }}</div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6 title-label">Countries of Citizenship</div>
-                    <div class="col-md-6">{{project.status}}</div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li ng-repeat="country in pii.countriesOfCitizenship">{{country.value}}</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 title-label">Residence Address</div>
