@@ -349,10 +349,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ECA.Business.Test\ECA.Business.Test.csproj">
-      <Project>{88c15fd9-1a48-4e34-bc25-a7d31eb92cf3}</Project>
-      <Name>ECA.Business.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>

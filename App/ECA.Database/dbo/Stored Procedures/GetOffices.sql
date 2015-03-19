@@ -12,8 +12,9 @@ BEGIN
 With Offices As
 (SELECT TopLevelOffice.[OrganizationId]
       ,TopLevelOffice.[OrganizationTypeId]
-,TopLevelOffice.[Name]
-,TopLevelOffice.[Description]
+	  ,TopLevelOffice.OfficeSymbol
+	  ,TopLevelOffice.[Name]
+	  ,TopLevelOffice.[Description]
       ,[ParentOrganization_OrganizationId],
 	  1 as OfficeLevel
   FROM [Organization] as TopLevelOffice
@@ -23,15 +24,16 @@ With Offices As
 
   SELECT Org.[OrganizationId]
       ,Org.[OrganizationTypeId]
-,Org.Name
-,Org.Description
+	  ,Org.OfficeSymbol
+	  ,Org.Name
+      ,Org.Description
       ,Org.[ParentOrganization_OrganizationId]
 	  , OL.OfficeLevel + 1
   FROM [Organization] as Org
   inner join Offices as OL On Org.ParentOrganization_OrganizationId = OL.OrganizationId
   where Org.ParentOrganization_OrganizationId Is Not Null and Org.OrganizationTypeId In (1,2,3) and Org.Status = 'Active')
 
-  select * from Offices order by Name, OfficeLevel
+  select * from Offices order by OfficeSymbol, OfficeLevel
 
 End
 GO
