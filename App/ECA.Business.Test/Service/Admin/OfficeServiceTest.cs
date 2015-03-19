@@ -3,6 +3,7 @@ using ECA.Business.Service.Admin;
 using ECA.Core.Logging;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace ECA.Business.Test.Service.Admin
                 OrganizationTypeId = OrganizationType.Office.Id,
                 Name = "office",
                 Description = "office desc",
+                OfficeSymbol = "symbol"
                 
             };
             office.History.RevisedOn = now;
@@ -82,7 +84,7 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.IsNotNull(dto);
                 Assert.AreEqual(office.OrganizationId, dto.Id);
                 Assert.AreEqual(office.Name, dto.Name);
-                Assert.AreEqual(office.Description, dto.Title);
+                Assert.AreEqual(office.OfficeSymbol, dto.OfficeSymbol);
                 Assert.AreEqual(office.Description, dto.Description);
                 Assert.AreEqual(office.History.RevisedOn, dto.RevisedOn);
 
@@ -244,7 +246,7 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         [TestMethod]
-        public async Task TestGetOfficeById_OrganizationIsNotAnOffice()
+        public async Task TestGetOfficeById_OrganizationIsNotOffice()
         {
             var office = new Organization
             {
@@ -260,13 +262,84 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.IsNull(dto);
             };
 
-            var serviceResults = service.GetOfficeById(office.OrganizationTypeId);
+            var serviceResults = service.GetOfficeById(office.OrganizationId);
             var serviceResultsAsync = await service.GetOfficeByIdAsync(office.OrganizationId);
 
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
 
+        [TestMethod]
+        public async Task TestGetOfficeById_OrganizationIsAnOffice()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = OrganizationType.Office.Id,
+                Name = "office",
+                Description = "office desc"
+            };
+            context.Organizations.Add(office);
+
+            Action<OfficeDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+            };
+
+            var serviceResults = service.GetOfficeById(office.OrganizationId);
+            var serviceResultsAsync = await service.GetOfficeByIdAsync(office.OrganizationId);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeById_OrganizationIsADivison()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = OrganizationType.Division.Id,
+                Name = "office",
+                Description = "office desc"
+            };
+            context.Organizations.Add(office);
+
+            Action<OfficeDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+            };
+
+            var serviceResults = service.GetOfficeById(office.OrganizationId);
+            var serviceResultsAsync = await service.GetOfficeByIdAsync(office.OrganizationId);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeById_OrganizationIsABranch()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                OrganizationTypeId = OrganizationType.Branch.Id,
+                Name = "office",
+                Description = "office desc"
+            };
+            context.Organizations.Add(office);
+
+            Action<OfficeDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+            };
+
+            var serviceResults = service.GetOfficeById(office.OrganizationId);
+            var serviceResultsAsync = await service.GetOfficeByIdAsync(office.OrganizationId);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
         #endregion
 
 

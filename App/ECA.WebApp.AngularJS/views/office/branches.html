@@ -1,5 +1,6 @@
 <div class="alert alert-danger" ng-show="loadingProgramsErrorOccurred">There was an error retrieving programs.</div>
 <h2 class="office-color tab-header">Branches & Programs</h2>
+<p class="subheader">Showing {{skippedNumberOfPrograms}} - {{numberOfPrograms}} of {{totalNumberOfPrograms}} programs</p>
 <div st-pipe="getPrograms" st-table="programs" id="sort-list">
     <table class="col-md-12">
         <thead>

@@ -45,6 +45,9 @@ angular.module('staticApp')
 
       $scope.office = {};
       $scope.programs = [];
+      $scope.totalNumberOfPrograms = -1;
+      $scope.skippedNumberOfPrograms = -1;
+      $scope.numberOfPrograms = -1;
       $scope.programFilter = '';
 
       $scope.isLoadingOfficeById = true;
@@ -97,6 +100,12 @@ angular.module('staticApp')
           return dfd.promise;
       }
 
+      function updatePagingDetails(total, start, count) {
+          $scope.totalNumberOfPrograms = total;
+          $scope.skippedNumberOfPrograms = start;
+          $scope.numberOfPrograms = count;
+      }
+
       function getProgramsByOfficeId(officeId, params) {
           var dfd = $q.defer();
           var levels = [1, 2];
@@ -135,6 +144,7 @@ angular.module('staticApp')
             .then(function (data) {
                 var programs = data.results;
                 var total = data.total;
+                updatePagingDetails(total, params.start + 1, programs.length);
                 $scope.programs = programs;
                 var limit = TableService.getLimit();
                 tableState.pagination.numberOfPages = Math.ceil(total / limit);

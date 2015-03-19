@@ -11,6 +11,7 @@ namespace ECA.Data.Configuration
     {
         public OrganizationConfiguration()
         {
+            Property(a => a.OfficeSymbol).IsOptional().HasMaxLength(Organization.OFFICE_SYMBOL_MAX_LENGTH);
             HasMany<Contact>(p => p.Contacts).WithMany(t => t.Organizations)
             .Map(p =>
             {

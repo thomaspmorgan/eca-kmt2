@@ -1,6 +1,6 @@
 ﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Queries.Models.Office;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Logging;
 using ECA.Core.Query;
@@ -13,8 +13,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using ECA.Business.Queries.Models.Office;
 
 namespace ECA.Business.Service.Admin
 {
@@ -104,11 +102,11 @@ namespace ECA.Business.Service.Admin
             return this.Context.Database.SqlQuery<OrganizationProgramDTO>(GET_PROGRAMS_SPROC_NAME);
         }
 
-        private PagedQueryResults<T> GetPagedQueryResults<T>(List<T> list, QueryableOperator<T> queryOpeator) where T : class
+        private PagedQueryResults<T> GetPagedQueryResults<T>(List<T> list, QueryableOperator<T> queryOperator) where T : class
         {
             var queryable = list.AsQueryable<T>();
-            queryable = queryable.Apply(queryOpeator);
-            return queryable.ToPagedQueryResults<T>(queryOpeator.Start, queryOpeator.Limit);
+            queryable = queryable.Apply(queryOperator);
+            return queryable.ToPagedQueryResults<T>(queryOperator.Start, queryOperator.Limit);
         }
 
         public List<SimpleOfficeDTO> GetOffices()

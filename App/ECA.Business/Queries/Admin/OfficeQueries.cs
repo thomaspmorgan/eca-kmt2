@@ -26,7 +26,7 @@ namespace ECA.Business.Queries.Admin
         public static IQueryable<OfficeDTO> CreateGetOfficeByIdQuery(EcaContext context, int officeId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var officeDivisionBranch = new [] {OrganizationType.Office.Id, OrganizationType.Division.Id, OrganizationType.Branch.Id };
+            var allowedOrganizationTypes = new int[] { OrganizationType.Office.Id, OrganizationType.Division.Id, OrganizationType.Branch.Id };
             var query = from office in context.Organizations
                         let contacts = office.Contacts
                         let programs = office.OwnerPrograms
@@ -34,7 +34,7 @@ namespace ECA.Business.Queries.Admin
                         let themes = programs.SelectMany(x => x.Themes).Distinct()
                         let foci = programs.Select(x => x.Focus).Distinct()
 
-                        where officeDivisionBranch.Contains(office.OrganizationTypeId) && office.OrganizationId == officeId
+                        where allowedOrganizationTypes.Contains(office.OrganizationTypeId) && office.OrganizationId == officeId
                         select new OfficeDTO
                         {
                             Contacts = contacts.OrderBy(x => x.FullName).Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
@@ -45,7 +45,7 @@ namespace ECA.Business.Queries.Admin
                             Name = office.Name,
                             RevisedOn = office.History.RevisedOn,
                             Themes = themes.OrderBy(x => x.ThemeName).Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
-                            Title = office.Description
+                            OfficeSymbol = office.OfficeSymbol
                         };
             return query;
         }

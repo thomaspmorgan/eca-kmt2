@@ -42,7 +42,7 @@ namespace ECA.Business.Queries.Models.Admin
         /// <summary>
         /// Gets or sets the title.
         /// </summary>
-        public string Title { get; set; }
+        public string OfficeSymbol { get; set; }
 
         /// <summary>
         /// Gets or sets the Themes.

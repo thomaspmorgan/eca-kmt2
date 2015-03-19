@@ -14,6 +14,11 @@ namespace ECA.Data
     /// </summary>
     public class Organization
     {
+        /// <summary>
+        /// The max length of the office symbol.
+        /// </summary>
+        public const int OFFICE_SYMBOL_MAX_LENGTH = 128;
+
         public Organization()
         {
             this.History = new History();
@@ -40,6 +45,12 @@ namespace ECA.Data
         public ICollection<Contact> Contacts { get; set; }
         [Required]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the office symbol, i.e. abbreviation of the organization.
+        /// </summary>
+        public string OfficeSymbol { get; set; }
+
         public string Website { get; set; }
         public ICollection<SocialMedia> SocialMediaPresence { get; set; }
         //public List<DateTimeOffset> ContactHistory { get; set; }
