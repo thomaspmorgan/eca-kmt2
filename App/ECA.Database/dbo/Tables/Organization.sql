@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Organization] (
     [OrganizationId]                    INT                IDENTITY (1, 1) NOT NULL,
     [OrganizationTypeId]                INT                NOT NULL,
+	[OfficeSymbol]                      NVARCHAR (128)     NULL,
     [Description]                       NVARCHAR (MAX)     NOT NULL,
     [Status]                            NVARCHAR (MAX)     NOT NULL,
     [Name]                              NVARCHAR (MAX)     NOT NULL,
