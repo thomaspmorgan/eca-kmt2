@@ -10,20 +10,20 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace CreateProject.Test
+namespace EditProject.Test
 {
     /// <summary>
-    /// Create Project - under construction
+    /// Edit Project --under construction
     /// </summary>
     [CodedUITest]
-    public class CodedUITest1
+    public class EditProjectCodedUITest1
     {
-        public CodedUITest1()
+        public EditProjectCodedUITest1()
         {
         }
 
         [TestMethod]
-        public void CodedUITestMethod1()
+        public void EditProjectCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
