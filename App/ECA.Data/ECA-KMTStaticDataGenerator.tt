@@ -12,7 +12,7 @@
 <#
 	
 	var nameSpace = "ECA.Data";
-	var connectionString = @"Data Source=(LocalDb)\v11.0;Initial Catalog=ECA_Local;Integrated Security=True";
+	var connectionString = @"Server=tcp:dx4ykgy2iu.database.windows.net,1433;Database=ECA_Dev;Persist Security Info=True;User ID=ECA@dx4ykgy2iu;Password=wisconsin-89;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;MultipleActiveResultSets=True";
 	var types = new List<StaticLookupConfig>();
 	types.Add(new StaticLookupConfig
 	{
@@ -129,6 +129,15 @@
 		ClassName = "SocialMediaType",
 		IdColumnName = "SocialMediaTypeId",
 		ValueColumnName = "SocialMediaTypeName",
+		Namespace = nameSpace
+	});
+
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "AddressType",
+		ClassName = "AddressType",
+		IdColumnName = "AddressTypeId",
+		ValueColumnName = "AddressName",
 		Namespace = nameSpace
 	});
 

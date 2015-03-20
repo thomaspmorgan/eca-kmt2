@@ -12,6 +12,7 @@ namespace ECA.Business.Queries.Models.Persons
         public PiiDTO ()
         {
             this.CountriesOfCitizenship = new List<SimpleLookupDTO>();
+            this.HomeAddresses = new List<LocationDTO>();
         }
 
         public string Gender { get; set; }
@@ -26,5 +27,6 @@ namespace ECA.Business.Queries.Models.Persons
         public string MiddleName { get; set; }
         public string Patronym { get; set; }
         public string Alias { get; set; }
+        public IEnumerable<LocationDTO> HomeAddresses { get; set; }
     }
 }
