@@ -63,7 +63,13 @@ namespace ECA.Business.Service.Admin
         /// Returns a list of offices in hierarchical order
         /// </summary>
         /// <returns></returns>
-        List<SimpleOfficeDTO> GetOffices();
+        PagedQueryResults<SimpleOfficeDTO> GetOffices(QueryableOperator<SimpleOfficeDTO> queryOperator);
+
+        /// <summary>
+        /// Returns a list of offices in hierarchical order Async
+        /// </summary>
+        /// <returns></returns>
+        Task<PagedQueryResults<SimpleOfficeDTO>> GetOfficesAsync(QueryableOperator<SimpleOfficeDTO> queryOperator);
 
     }
 
@@ -121,9 +127,19 @@ namespace ECA.Business.Service.Admin
         /// Get list of Offices (Simple hierarchial list)
         /// </summary>
         /// <returns></returns>
-        public List<SimpleOfficeDTO> GetOffices()
+        public PagedQueryResults<SimpleOfficeDTO> GetOffices(QueryableOperator<SimpleOfficeDTO> queryOperator)
         {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
             return null;
+        }
+
+        /// Get list of Offices (Simple hierarchial list)
+        /// </summary>
+        /// <returns></returns>
+        public Task<PagedQueryResults<SimpleOfficeDTO>> GetOfficesAsync(QueryableOperator<SimpleOfficeDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            return Task.FromResult<PagedQueryResults<SimpleOfficeDTO>>(null);
         }
 
         /// <summary>
