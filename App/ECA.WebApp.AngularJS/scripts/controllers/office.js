@@ -45,6 +45,7 @@ angular.module('staticApp')
 
       $scope.office = {};
       $scope.programs = [];
+      $scope.branches = [];
       $scope.totalNumberOfPrograms = -1;
       $scope.skippedNumberOfPrograms = -1;
       $scope.numberOfPrograms = -1;
@@ -106,6 +107,21 @@ angular.module('staticApp')
           $scope.numberOfPrograms = count;
       }
 
+      function getChildOfficesById(officeId) {
+          var dfd = $q.defer();
+
+          OfficeService.getChildOffices(officeId)
+              .then(function (data, status, headers, config) {
+                  dfd.resolve(data.data);
+              },
+              function (data, status, headers, config) {
+                  var errorCode = data.status;
+                  dfd.reject(errorCode);
+
+              });
+          return dfd.promise;
+      }
+
       function getProgramsByOfficeId(officeId, params) {
           var dfd = $q.defer();
           var levels = [1, 2];
@@ -160,6 +176,8 @@ angular.module('staticApp')
             });
       }
 
+      
+
       showLoadingOfficeById();
       getOfficeById(officeId)
           .then(function (data) {
@@ -176,4 +194,13 @@ angular.module('staticApp')
         .then(function () {
             hideLoadingOfficeById();
         });
+
+        getChildOfficesById(officeId)
+        .then(function (data) {
+            var childOffices = data;
+            $scope.branches = childOffices;
+        }, function (errorCode) {
+
+        });
+      
   });

@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Office;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
@@ -347,6 +348,141 @@ namespace ECA.Business.Test.Service.Admin
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+        #endregion
+
+        #region Get Child Programs
+        [TestMethod]
+        public async Task TestGetChildOfficesAsync_CheckProperties()
+        {
+            var parentOfficeId = 1;
+            var childOfficeId = 2;
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.Branch.Id,
+                OrganizationTypeName = OrganizationType.Branch.Value
+            };
+            var parentOffice = new Organization
+            {
+                OrganizationId = parentOfficeId
+            };
+            var childOffice = new Organization
+            {
+                Description = "desc",
+                Name = "name",
+                OfficeSymbol = "symbol",
+                OrganizationId = childOfficeId,
+                OrganizationType = organizationType,
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                ParentOrganization = parentOffice,
+            };
+
+            context.OrganizationTypes.Add(organizationType);
+            context.Organizations.Add(parentOffice);
+            context.Organizations.Add(childOffice);
+
+            Action<List<SimpleOfficeDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Count);
+                var testChildOffice = results.First();
+                Assert.AreEqual(childOffice.Description, testChildOffice.Description);
+                Assert.AreEqual(childOffice.Name, testChildOffice.Name);
+                Assert.AreEqual(childOffice.OfficeSymbol, testChildOffice.OfficeSymbol);
+                Assert.AreEqual(childOffice.OrganizationId, testChildOffice.OrganizationId);
+                Assert.AreEqual(childOffice.OrganizationType.OrganizationTypeName, testChildOffice.OrganizationType);
+                Assert.AreEqual(childOffice.OrganizationTypeId, testChildOffice.OrganizationTypeId);
+                Assert.AreEqual(1, testChildOffice.OfficeLevel);
+                Assert.AreEqual(parentOffice.OrganizationId, testChildOffice.ParentOrganization_OrganizationId);
+                
+            };
+
+            var serviceResults = service.GetChildOffices(parentOfficeId);
+            var serviceResultsAsync = await service.GetChildOfficesAsync(parentOfficeId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetChildOfficesAsync_ParentOfficeDoesNotExist()
+        {
+            var parentOfficeId = 1;
+            Action<List<SimpleOfficeDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(0, results.Count);
+            };
+            var serviceResults = service.GetChildOffices(parentOfficeId);
+            var serviceResultsAsync = await service.GetChildOfficesAsync(parentOfficeId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetChildOfficesAsync_NoChildOffices()
+        {
+            var parentOfficeId = 1;
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.Branch.Id,
+                OrganizationTypeName = OrganizationType.Branch.Value
+            };
+            var parentOffice = new Organization
+            {
+                OrganizationId = parentOfficeId
+            };
+
+            context.OrganizationTypes.Add(organizationType);
+            context.Organizations.Add(parentOffice);
+
+            Action<List<SimpleOfficeDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(0, results.Count);
+            };
+
+            var serviceResults = service.GetChildOffices(parentOfficeId);
+            var serviceResultsAsync = await service.GetChildOfficesAsync(parentOfficeId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetChildOfficesAsync_InvalidOrganizationType()
+        {
+            var parentOfficeId = 1;
+            var childOfficeId = 2;
+            var organizationType = new OrganizationType
+            {
+                OrganizationTypeId = OrganizationType.ForeignEducationalInstitution.Id,
+                OrganizationTypeName = OrganizationType.ForeignEducationalInstitution.Value
+            };
+            var parentOffice = new Organization
+            {
+                OrganizationId = parentOfficeId
+            };
+            var childOffice = new Organization
+            {
+                Description = "desc",
+                Name = "name",
+                OfficeSymbol = "symbol",
+                OrganizationId = childOfficeId,
+                OrganizationType = organizationType,
+                OrganizationTypeId = organizationType.OrganizationTypeId,
+                ParentOrganization = parentOffice,
+            };
+
+            context.OrganizationTypes.Add(organizationType);
+            context.Organizations.Add(parentOffice);
+            context.Organizations.Add(childOffice);
+
+            Action<List<SimpleOfficeDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(0, results.Count);
+            };
+
+            var serviceResults = service.GetChildOffices(parentOfficeId);
+            var serviceResultsAsync = await service.GetChildOfficesAsync(parentOfficeId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
         #endregion
 
         #region Get Programs

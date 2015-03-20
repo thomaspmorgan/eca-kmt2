@@ -74,6 +74,34 @@ namespace ECA.Business.Service.Admin
         }
 
         /// <summary>
+        /// Returns the first level child offices/branches/divisions of the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The child offices, branches, and divisions.</returns>
+        public List<SimpleOfficeDTO> GetChildOffices(int officeId)
+        {
+            var stopWatch = Stopwatch.StartNew();
+            var childOffices = OfficeQueries.CreateGetChildOfficesByOfficeIdQuery(this.Context, officeId).ToList();
+            stopWatch.Stop();
+            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            return childOffices;
+        }
+
+        /// <summary>
+        /// Returns the first level child offices/branches/divisions of the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The child offices, branches, and divisions.</returns>
+        public async Task<List<SimpleOfficeDTO>> GetChildOfficesAsync(int officeId)
+        {
+            var stopWatch = Stopwatch.StartNew();
+            var childOffices = await OfficeQueries.CreateGetChildOfficesByOfficeIdQuery(this.Context, officeId).ToListAsync();
+            stopWatch.Stop();
+            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            return childOffices;
+        }
+
+        /// <summary>
         /// Returns the programs for the office with the given id.
         /// </summary>
         /// <param name="officeId">The id the office.</param>

@@ -12,24 +12,32 @@ BEGIN
 With Offices As
 (SELECT TopLevelOffice.[OrganizationId]
       ,TopLevelOffice.[OrganizationTypeId]
+	  ,OrgType.OrganizationTypeName as [OrganizationType]
 	  ,TopLevelOffice.OfficeSymbol
 	  ,TopLevelOffice.[Name]
 	  ,TopLevelOffice.[Description]
       ,[ParentOrganization_OrganizationId],
 	  1 as OfficeLevel
   FROM [Organization] as TopLevelOffice
+  JOIN OrganizationType as OrgType
+  ON TopLevelOffice.OrganizationTypeId = orgType.OrganizationTypeId
   where TopLevelOffice.ParentOrganization_OrganizationId Is Null and TopLevelOffice.OrganizationTypeId In (1,2,3) and TopLevelOffice.Status = 'Active'
 
   union all
 
   SELECT Org.[OrganizationId]
       ,Org.[OrganizationTypeId]
+	  ,OrgType.OrganizationTypeName as [OrganizationType]
 	  ,Org.OfficeSymbol
 	  ,Org.Name
       ,Org.Description
       ,Org.[ParentOrganization_OrganizationId]
 	  , OL.OfficeLevel + 1
   FROM [Organization] as Org
+  
+  JOIN OrganizationType as OrgType
+  ON Org.OrganizationTypeId = orgType.OrganizationTypeId
+
   inner join Offices as OL On Org.ParentOrganization_OrganizationId = OL.OrganizationId
   where Org.ParentOrganization_OrganizationId Is Not Null and Org.OrganizationTypeId In (1,2,3) and Org.Status = 'Active')
 

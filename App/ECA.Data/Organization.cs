@@ -15,6 +15,11 @@ namespace ECA.Data
     public class Organization
     {
         /// <summary>
+        /// Returns all organization type ids that represent an office.
+        /// </summary>
+        public static readonly int[] OFFICE_ORGANIZATION_TYPE_IDS = new int[] { OrganizationType.Office.Id, OrganizationType.Division.Id, OrganizationType.Branch.Id };
+
+        /// <summary>
         /// The max length of the office symbol.
         /// </summary>
         public const int OFFICE_SYMBOL_MAX_LENGTH = 128;

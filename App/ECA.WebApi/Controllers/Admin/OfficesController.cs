@@ -58,6 +58,26 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
+        /// Returns the first level child offices/branches/divisions of the office with the given id.
+        /// </summary>
+        /// <param name="id">The office id.</param>
+        /// <returns>The child offices, branches, and divisions.</returns>
+        [Route("Offices/{id}/ChildOffices")]
+        [ResponseType(typeof(SimpleOfficeDTO))]
+        public async Task<IHttpActionResult> GetChildOfficesByOfficeIdAsync(int id)
+        {
+            var dto = await this.service.GetChildOfficesAsync(id);
+            if (dto != null)
+            {
+                return Ok(dto);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
         /// Returns the child programs of the office with the given id.
         /// </summary>
         /// <param name="id">The id of the office.</param>

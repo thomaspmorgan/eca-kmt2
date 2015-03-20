@@ -46,6 +46,20 @@ namespace ECA.Business.Service.Admin
         Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsAsync(int officeId, QueryableOperator<OrganizationProgramDTO> queryOperator);
 
         /// <summary>
+        /// Returns the first level child offices/branches/divisions of the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The child offices, branches, and divisions.</returns>
+        List<SimpleOfficeDTO> GetChildOffices(int officeId);
+
+        /// <summary>
+        /// Returns the first level child offices/branches/divisions of the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The child offices, branches, and divisions.</returns>
+        Task<List<SimpleOfficeDTO>> GetChildOfficesAsync(int officeId);
+
+        /// <summary>
         /// Returns a list of offices in hierarchical order
         /// </summary>
         /// <returns></returns>
@@ -112,5 +126,24 @@ namespace ECA.Business.Service.Admin
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <returns></returns>
+        public List<SimpleOfficeDTO> GetChildOffices(int officeId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <returns></returns>
+        public Task<List<SimpleOfficeDTO>> GetChildOfficesAsync(int officeId)
+        {
+            return Task.FromResult<List<SimpleOfficeDTO>>(null);
+        }
     }
 }

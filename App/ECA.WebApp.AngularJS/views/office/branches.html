@@ -1,8 +1,14 @@
 <div class="alert alert-danger" ng-show="loadingProgramsErrorOccurred">There was an error retrieving programs.</div>
 <h2 class="office-color tab-header">Branches & Programs</h2>
-<p class="subheader">Showing {{skippedNumberOfPrograms}} - {{numberOfPrograms}} of {{totalNumberOfPrograms}} programs</p>
+<div class="row">
+    <div class="coolbox col-md-3" ng-repeat="branch in branches">
+        <p>{{branch.organizationType}}</p>
+        <h5 ui-sref="offices.overview({officeId: branch.organizationId})"><a>{{branch.name}}</a></h5>
+    </div>
+</div>
 <div st-pipe="getPrograms" st-table="programs" id="sort-list">
-    <table class="col-md-12">
+    
+    <table class="col-md-12">        
         <thead>
             <tr>
                 <th class="col-md-7"></th>
@@ -10,8 +16,13 @@
             </tr>
             <tr>
                 <th>
-                    <input st-search type="search" placeholder="Search Programs" class="search-contextual" maxlength="100">
-                    <i class="glyphicon glyphicon-search contextual"></i>
+                    <div>
+                        <input st-search type="search" placeholder="Search Programs" class="search-contextual" maxlength="100">
+                        <i class="glyphicon glyphicon-search contextual"></i>                    
+                    </div>
+                    <div style="margin-top:25px;margin-bottom:-25px">
+                        <p class="subheader">Showing {{skippedNumberOfPrograms}} - {{numberOfPrograms}} of {{totalNumberOfPrograms}} programs</p>
+                    </div>
                 </th>
             </tr>
         </thead>
