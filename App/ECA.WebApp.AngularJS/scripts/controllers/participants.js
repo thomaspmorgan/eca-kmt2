@@ -11,17 +11,17 @@ angular.module('staticApp')
   .controller('ParticipantCtrl', function ($scope, ParticipantService, PersonService, $stateParams) {
 
     $scope.tabs = {
-      activity: {
-          title: 'Activities',
-          path: 'activity',
-          active: true,
-          order: 2
-      },
       personalInformation: {
           title: 'Personal Information',
           path: 'personalinformation',
           active: true,
           order: 1
+      },
+      activity: {
+          title: 'Activities',
+          path: 'activity',
+          active: true,
+          order: 2
       },
       relatedReports: {
           title: 'Related Reports',
