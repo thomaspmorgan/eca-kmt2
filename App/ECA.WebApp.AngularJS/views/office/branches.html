@@ -1,14 +1,21 @@
 <div class="alert alert-danger" ng-show="loadingProgramsErrorOccurred">There was an error retrieving programs.</div>
-<h2 class="office-color tab-header">Branches & Programs</h2>
+<h2 class="office-color tab-header">{{header}}</h2>
 <div class="row">
-    <div class="coolbox col-md-3" ng-repeat="branch in branches">
-        <p>{{branch.organizationType}}</p>
-        <h5 ui-sref="offices.overview({officeId: branch.organizationId})"><a>{{branch.name}}</a></h5>
+    <div class="spinner" ng-show="isLoadingBranches">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <div class="coolbox col-sm-2" ng-repeat="branch in branches" ng-show="!isLoadingBranches">
+        <h6>{{branch.organizationType}}</h6>
+        <h5>
+            <a ui-sref="offices.overview({officeId: branch.organizationId})">{{branch.name}}</a>
+        </h5>
     </div>
 </div>
 <div st-pipe="getPrograms" st-table="programs" id="sort-list">
-    
-    <table class="col-md-12">        
+
+    <table class="col-md-12">
         <thead>
             <tr>
                 <th class="col-md-7"></th>
@@ -18,10 +25,8 @@
                 <th>
                     <div>
                         <input st-search type="search" placeholder="Search Programs" class="search-contextual" maxlength="100">
-                        <i class="glyphicon glyphicon-search contextual"></i>                    
-                    </div>
-                    <div style="margin-top:25px;margin-bottom:-25px">
-                        <p class="subheader">Showing {{skippedNumberOfPrograms}} - {{numberOfPrograms}} of {{totalNumberOfPrograms}} programs</p>
+                        <i class="glyphicon glyphicon-search contextual"></i>
+                        <p>Showing {{skippedNumberOfPrograms}} - {{numberOfPrograms}} of {{totalNumberOfPrograms}} programs</p>
                     </div>
                 </th>
             </tr>

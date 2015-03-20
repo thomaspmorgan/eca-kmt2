@@ -43,6 +43,7 @@ angular.module('staticApp')
           }
       };
 
+      $scope.header = 'Branches & Programs';
       $scope.office = {};
       $scope.programs = [];
       $scope.branches = [];
@@ -53,6 +54,7 @@ angular.module('staticApp')
 
       $scope.isLoadingOfficeById = true;
       $scope.isLoadingPrograms = false;
+      $scope.isLoadingBranches = true;
 
       $scope.officeExists = true;
       $scope.showLoadingOfficeByIdError = false;
@@ -64,6 +66,14 @@ angular.module('staticApp')
           $scope.officeExists = true;
           $scope.showLoadingOfficeByIdError = false;
           $scope.loadingProgramsErrorOccurred = false;
+      }
+
+      function showLoadingBranches() {
+          $scope.isLoadingBranches = true;
+      }
+
+      function hideLoadingBranches() {
+          $scope.isLoadingBranches = false;
       }
 
       function showLoadingOfficeById() {
@@ -84,6 +94,12 @@ angular.module('staticApp')
 
       function showLoadingProgramsError() {
           $scope.loadingProgramsErrorOccurred = true;
+      }
+
+      function updateHeader() {
+          if ($scope.branches.length === 0) {
+              $scope.header = "Programs";
+          }
       }
 
       function getOfficeById(id) {
@@ -176,8 +192,6 @@ angular.module('staticApp')
             });
       }
 
-      
-
       showLoadingOfficeById();
       getOfficeById(officeId)
           .then(function (data) {
@@ -195,12 +209,17 @@ angular.module('staticApp')
             hideLoadingOfficeById();
         });
 
-        getChildOfficesById(officeId)
-        .then(function (data) {
-            var childOffices = data;
-            $scope.branches = childOffices;
-        }, function (errorCode) {
+      showLoadingBranches();
+      getChildOfficesById(officeId)
+          .then(function (data) {
+              var childOffices = data;
+              $scope.branches = childOffices;
+          }, function (errorCode) {
 
-        });
+          })
+          .then(function(){
+              hideLoadingBranches();
+              updateHeader();
+          });
       
   });
