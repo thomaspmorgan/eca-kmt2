@@ -1,5 +1,8 @@
 <div class="alert alert-danger" ng-show="loadingProgramsErrorOccurred">There was an error retrieving programs.</div>
 <h2 class="office-color tab-header">{{header}}</h2>
+<div class="alert alert-danger" ng-show="loadingBranchesErrorOccurred">
+    Error!  There was an error retrieving the branches.
+</div>
 <div ng-show="branches.length">
     <!--<h4 class="tab-subheader">Branches</h4>-->
     <div class="spinner" ng-show="isLoadingBranches">
