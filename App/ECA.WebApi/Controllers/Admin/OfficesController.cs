@@ -89,7 +89,13 @@ namespace ECA.WebApi.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var results = await service.GetProgramsAsync(id, queryModel.ToQueryableOperator(DEFAULT_ORGANIZATION_PROGRAM_SORTER, x => x.Name, x => x.Description));
+                var results = await service.GetProgramsAsync(
+                    id,
+                    queryModel.ToQueryableOperator(
+                    DEFAULT_ORGANIZATION_PROGRAM_SORTER,
+                    x => x.Name,
+                    x => x.Description,
+                    x => x.OfficeSymbol));
                 return Ok(results);
             }
             else

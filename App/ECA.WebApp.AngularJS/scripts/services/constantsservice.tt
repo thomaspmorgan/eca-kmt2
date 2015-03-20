@@ -19,21 +19,32 @@
 	types.Add(typeof(OrganizationType));
 
 	types = types.OrderBy(x => x.Name).ToList();
-	WriteTypes(types);
+	var otherConstants = new Dictionary<string, string>();
+	otherConstants["searchDelimiter"] = " ";
+	otherConstants["emptyGuid"] = Guid.Empty.ToString();
+
+	WriteTypes(types, otherConstants);
 #>
 
 <#+
 
-public void WriteTypes(List<Type> types)
+public void WriteTypes(List<Type> types, Dictionary<string, string> otherConstants)
 {
-	WriteLine("var constants = {");
-	PushIndent("\t");
+	var moduleName = "staticApp";
+	var indent = "\t";
+
+	WriteLine(String.Format("angular.module('{0}').factory('ConstantsService', function() {{", moduleName));
+	PushIndent(indent);
+
+	WriteLine("return {");
+	PushIndent(indent);
+
 	for(var typeCounter = 0; typeCounter < types.Count; typeCounter++)
 	{
 		var type = types[typeCounter];
 		var staticLookups = GetStaticLookups(type);
 		WriteLine(String.Format("{0}: {{", CamelCase(type.Name)));
-		PushIndent("\t");
+		PushIndent(indent);
 
 		for(var staticLookupCounter = 0; staticLookupCounter < staticLookups.Count; staticLookupCounter++)
 		{
@@ -48,15 +59,31 @@ public void WriteTypes(List<Type> types)
 		
 		PopIndent();
 		Write("}");
-		if(typeCounter != types.Count - 1)
+		if(typeCounter != types.Count - 1 || otherConstants.Count > 0)
 		{
 			Write(",");
 		}
 		WriteLine(String.Empty);		
 	}
 
+	var keyCounter = 0;
+	foreach(var key in otherConstants.Keys)
+	{
+		var value = otherConstants[key];
+		Write(String.Format("{0}: '{1}'", CamelCase(key), value));
+		if(keyCounter != otherConstants.Count - 1)
+		{
+			Write(",");
+		}
+		keyCounter++;
+		WriteLine(String.Empty);		
+	}
+
 	PopIndent();
 	WriteLine("};");
+
+	PopIndent();
+	WriteLine("});");
 }
 
 public string CamelCase(string s)
