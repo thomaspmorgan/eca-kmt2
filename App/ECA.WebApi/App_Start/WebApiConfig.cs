@@ -1,4 +1,6 @@
-﻿using ECA.Core.Logging;
+﻿using ECA.Core.Generation;
+using ECA.Core.Logging;
+using ECA.Data;
 using ECA.WebApi.Custom.Filters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -54,6 +56,14 @@ namespace ECA.WebApi
             config.Filters.Add(new DbEntityValidationExceptionFilter());
 
             config.Filters.Add(new ECA.WebApi.Custom.Filters.TraceFilter(logger));
+
+            //var context = config.DependencyResolver.GetService(typeof(EcaContext)) as EcaContext;
+            //var validator = new DbContextStaticLookupValidator(context, logger);
+            //var errors = EcaDataValidator.ValidateAll(validator);
+            //foreach(var error in errors)
+            //{
+            //    logger.Warning(error);
+            //}
 
         }
     }
