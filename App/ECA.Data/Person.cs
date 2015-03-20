@@ -59,6 +59,29 @@ namespace ECA.Data
         /// </summary>
         public const int ALIAS_NAME_MAX_LENGTH = 50;
 
+        public Person()
+        {
+            Gender = new Gender();
+            CountriesOfCitizenship = new HashSet<Location>();
+            Publications = new HashSet<Publication>();
+            SpecialStatuses = new HashSet<SpecialStatus>();
+            Memberships = new HashSet<Membership>();
+            InterestsAndSpecializations = new HashSet<InterestSpecialization>();
+            ProminentCategories = new HashSet<ProminentCategory>();
+            ProfessionalHistory = new HashSet<ProfessionEducation>();
+            EducationalHistory = new HashSet<ProfessionEducation>();
+            LanguageProficiencies = new HashSet<LanguageProficiency>();
+            PhoneNumbers = new HashSet<PhoneNumber>();
+            Emails = new HashSet<EmailAddress>();
+            ExternalIds = new HashSet<ExternalId>();
+            SocialMediaIds = new HashSet<SocialMedia>();
+            Addresses = new HashSet<Address>();
+            Events = new HashSet<Event>();
+            Family = new HashSet<Person>();
+            OtherFamily = new HashSet<Person>();
+            Impacts = new HashSet<Impact>();
+            History = new History();
+        }
 
         [Key]
         public int PersonId { get; set; }

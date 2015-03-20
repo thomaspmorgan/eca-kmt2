@@ -10,8 +10,17 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Queries.Persons
 {
+    /// <summary>
+    /// Provides linq queries for person
+    /// </summary>
     public class PersonQueries
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context">The context to query</param>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Personally identifiable information for person</returns>
         public static IQueryable<PiiDTO> CreateGetPiiByIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");
