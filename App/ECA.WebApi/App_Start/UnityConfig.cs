@@ -67,6 +67,7 @@ namespace ECA.WebApi
             container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPersonService, PersonService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
