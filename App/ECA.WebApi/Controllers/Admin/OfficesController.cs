@@ -26,6 +26,9 @@ namespace ECA.WebApi.Controllers.Admin
         private static readonly ExpressionSorter<OrganizationProgramDTO> DEFAULT_ORGANIZATION_PROGRAM_SORTER =
             new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending);
 
+        private static readonly ExpressionSorter<SimpleOfficeDTO> DEFAULT_OFFICE_SORTER =
+            new ExpressionSorter<SimpleOfficeDTO>(x => x.OfficeSymbol, SortDirection.Ascending);
+
         private IOfficeService service;
 
         /// <summary>
@@ -89,7 +92,13 @@ namespace ECA.WebApi.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var results = await service.GetProgramsAsync(id, queryModel.ToQueryableOperator(DEFAULT_ORGANIZATION_PROGRAM_SORTER, x => x.Name, x => x.Description));
+                var results = await service.GetProgramsAsync(
+                    id,
+                    queryModel.ToQueryableOperator(
+                    DEFAULT_ORGANIZATION_PROGRAM_SORTER,
+                    x => x.Name,
+                    x => x.Description,
+                    x => x.OfficeSymbol));
                 return Ok(results);
             }
             else
@@ -97,13 +106,17 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
-        ///
-        [ResponseType(typeof(List<SimpleOfficeDTO>))]
-        public async Task<IHttpActionResult> GetOffices()
+        /// <summary>
+        /// Returns a hierarchical list of offices
+        /// </summary>
+        /// <param name="queryModel">The query model</param>
+        /// <returns>The offices</returns>
+        [ResponseType(typeof(PagedQueryResults<SimpleOfficeDTO>))]
+        public async Task<IHttpActionResult> GetOfficesAsync([FromUri]PagingQueryBindingModel<SimpleOfficeDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = this.service.GetOffices();
+                var results = await service.GetOfficesAsync(queryModel.ToQueryableOperator(DEFAULT_OFFICE_SORTER, x => x.Name, x => x.Description));
                 return Ok(results);
             }
             else

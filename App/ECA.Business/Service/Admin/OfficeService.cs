@@ -24,7 +24,9 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Gets the name of the GetPrograms sproc in the database.
         /// </summary>
-        public const string GET_PROGRAMS_SPROC_NAME = "GetPrograms";
+        private const string GET_PROGRAMS_SPROC_NAME = "GetPrograms";
+
+        private const string GET_OFFICES_SPROC_NAME = "GetOffices";
 
         private static readonly string COMPONENT_NAME = typeof(OfficeService).FullName;
 
@@ -150,15 +152,39 @@ namespace ECA.Business.Service.Admin
             return queryable.ToPagedQueryResults<T>(queryOperator.Start, queryOperator.Limit);
         }
 
-        public List<SimpleOfficeDTO> GetOffices()
+        /// <summary>
+        /// Get list of offices in heirarchical list
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The child offices, branches, and divisions.</returns>
+        public PagedQueryResults<SimpleOfficeDTO> GetOffices(QueryableOperator<SimpleOfficeDTO> queryOperator)
         {
             var stopWatch = Stopwatch.StartNew();
-            var dto = OfficeQueries.CreateGetOfficesQuery(this.Context).ToList();
-            stopWatch.Stop();
+            var results = CreateGetOfficesSqlQuery().ToArray();
+            var pagedResults = GetPagedQueryResults(results, queryOperator);
             logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
-            return dto;
+            return pagedResults;
         }
 
+        /// <summary>
+        /// Returns the first level child offices/branches/divisions of the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The child offices, branches, and divisions.</returns>
+        public async Task<PagedQueryResults<SimpleOfficeDTO>> GetOfficesAsync(QueryableOperator<SimpleOfficeDTO> queryOperator)
+        {
+            var stopWatch = Stopwatch.StartNew();
+            var results = await CreateGetOfficesSqlQuery().ToArrayAsync();
+            var pagedResults = GetPagedQueryResults(results, queryOperator);
+            stopWatch.Stop();
+            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            return pagedResults;
+        }
+
+        private DbRawSqlQuery<SimpleOfficeDTO> CreateGetOfficesSqlQuery()
+        {
+            return this.Context.Database.SqlQuery<SimpleOfficeDTO>(GET_OFFICES_SPROC_NAME);
+        }
         #endregion
     }
 }

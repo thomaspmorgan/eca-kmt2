@@ -4,7 +4,7 @@
  * Factory for paging, sorting, and filtering
  */
 angular.module('staticApp')
-    .factory('TableService', function () {
+    .factory('TableService', function (ConstantsService) {
 
         var tableState;
         
@@ -60,7 +60,8 @@ angular.module('staticApp')
             var predicateObject = tableState.search.predicateObject;
             if (predicateObject && predicateObject.$)
             {
-                return predicateObject.$.split(' ');
+                var searchDelimiter = ConstantsService.searchDelimiter;
+                return predicateObject.$.split(searchDelimiter);
             }
             
             else {

@@ -59,6 +59,7 @@ angular.module('staticApp')
       $scope.officeExists = true;
       $scope.showLoadingOfficeByIdError = false;
       $scope.loadingProgramsErrorOccurred = false;
+      $scope.loadingBranchesErrorOccurred = false;
 
       var officeId = $stateParams.officeId;
 
@@ -66,6 +67,7 @@ angular.module('staticApp')
           $scope.officeExists = true;
           $scope.showLoadingOfficeByIdError = false;
           $scope.loadingProgramsErrorOccurred = false;
+          $scope.loadingBranchesErrorOccurred = false;
       }
 
       function showLoadingBranches() {
@@ -94,6 +96,10 @@ angular.module('staticApp')
 
       function showLoadingProgramsError() {
           $scope.loadingProgramsErrorOccurred = true;
+      }
+
+      function showLoadingBranchesError() {
+          $scope.loadingBranchesErrorOccurred = true;
       }
 
       function updateHeader() {
@@ -215,7 +221,7 @@ angular.module('staticApp')
               var childOffices = data;
               $scope.branches = childOffices;
           }, function (errorCode) {
-
+              showLoadingBranchesError();
           })
           .then(function(){
               hideLoadingBranches();

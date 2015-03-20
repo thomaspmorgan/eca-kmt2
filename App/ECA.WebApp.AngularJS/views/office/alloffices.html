@@ -3,23 +3,40 @@
   <div class="heading">
     <h1>ECA Office Directory</h1>
   </div>
-	</div>
 </div>
 <div st-pipe="getOffices" st-table="offices" id="sort-list">
     <table class="col-md-12">
+        <thead>
+            <tr>
+                <th class="col-md-7"></th>
+                <th class="col-md-2">&nbsp;</th>
+            </tr>
+            <tr>
+                <th class="col-md-7">
+                    <div>
+                        <input st-search type="search" placeholder="Search Offices" class="search-contextual" maxlength="100">
+                        <i class="glyphicon glyphicon-search contextual"></i>
+                    </div>
+                    <div style="margin-top:25px;margin-bottom:-25px">
+                        <p class="subheader">Showing {{skippedNumberOfOffices}} - {{numberOfOffices}} of {{totalNumberOfOffices}} offices</p>
+                    </div>
+                </th>
+                <th class="col-md-2">&nbsp;</th>
+            </tr>
+        </thead>
         <tbody class="list2">
-            <tr class="row hover" ng-repeat="office in offices" ng-show="!officesLoading">
-                <td class="col-md-9" ng-style="{'padding-left': 60+(20*office.officeLevel-1)}">
+            <tr ng-repeat="office in offices" ng-show="!officesLoading">
+                <td class="col-md-7" ng-style="{'padding-left': 60+(20*office.officeLevel-1)}">
                     <span class="owner-office">{{office.officeSymbol}}</span>
-                    <h4><a ng-href="#/offices/{{office.organizationId}}/overview">{{office.name}}</a></h4>
-                    <p>{{office.description}}</p>
+                    <h4><a ng-bind-html="office.name | highlight:officeFilter" ng-href="#/offices/{{office.organizationId}}/overview">{{office.name}}</a></h4>
+                    <p ng-bind-html="office.description | highlight:officeFilter">{{office.description}}</p>
                 </td>
-                <td class="col-md-3 tools">
+                <td class="col-md-2 tools">
                     &nbsp;
                 </td>
             </tr>
             <tr ng-show="officesLoading">
-                <td colspan="5">
+                <td class=col-md-7">
                     <div class="spinner">
                         <div class="bounce1"></div>
                         <div class="bounce2"></div>
@@ -29,4 +46,5 @@
             </tr>
         </tbody>
     </table>
+    <div class="col-md-7" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="offices.length > 0"></div>
 </div>
