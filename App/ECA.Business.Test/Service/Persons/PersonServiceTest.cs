@@ -125,6 +125,58 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             tester(resultAsync);
         }
+
+        [TestMethod]
+        public async Task TestGetPiiById_CheckHomeAddresses()
+        {
+            var location = new Location
+            {
+                LocationId = 1,
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+                City = "city",
+                PostalCode = "postalCode"
+            };
+
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressTypeId = AddressType.Home.Id,
+                Location = location
+            };
+
+
+            var person = new Person
+            {
+                PersonId = 1
+            };
+
+            
+            person.Addresses.Add(address);
+
+            context.Locations.Add(location);
+            context.Addresses.Add(address);
+            context.People.Add(person);
+
+            Action<PiiDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                var homeAddresses = serviceResult.HomeAddresses;
+                Assert.AreEqual(1, homeAddresses.Count());
+                var homeAddress = homeAddresses.FirstOrDefault();
+                Assert.AreEqual(location.Street1, homeAddress.Street1);
+                Assert.AreEqual(location.Street2, homeAddress.Street2);
+                Assert.AreEqual(location.Street3, homeAddress.Street3);
+                Assert.AreEqual(location.City, homeAddress.City);
+                Assert.AreEqual(location.PostalCode, homeAddress.PostalCode);
+            };
+            var result = this.service.GetPiiById(person.PersonId);
+            var resultAsync = await this.service.GetPiiByIdAsync(person.PersonId);
+
+            tester(result);
+            tester(resultAsync);
+        }
         #endregion
     }
 }
