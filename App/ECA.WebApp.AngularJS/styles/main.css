@@ -6124,13 +6124,6 @@ ul {
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s; }
 
-.coolbox {
-  border-style: solid;
-  border-color: #e5eae9;
-  border-width: 1px;
-  margin: 10px;
-  padding: 20px; }
-
 @-webkit-keyframes bouncedelay {
   0%, 80%, 100% {
     -webkit-transform: scale(0); }
