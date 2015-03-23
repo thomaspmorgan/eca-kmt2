@@ -9,7 +9,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, LookupService, TableService) {
+  .controller('AllProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, LookupService, TableService, $timeout) {
       
       $scope.errorMessage = 'Unknown Error';
       $scope.validations = [];
@@ -78,26 +78,41 @@ angular.module('staticApp')
     LookupService.getAllThemes($scope.lookupParams)
         .then(function (data) {
             $scope.themes = data.results;
+            angular.forEach($scope.themes, function (value, key) {
+                $scope.themes[key].ticked = false;
+            });
         });
 
     LookupService.getAllGoals($scope.lookupParams)
       .then(function (data) {
           $scope.goals = data.results;
+          angular.forEach($scope.goals, function (value, key) {
+              $scope.goals[key].ticked = false;
+          })
       });
 
     LookupService.getAllContacts($scope.lookupParams)
         .then(function (data) {
             $scope.pointsOfContact = data.results;
+            angular.forEach($scope.pointsOfContact, function (value, key) {
+                $scope.pointsOfContact[key].ticked = false;
+            })
         });
 
     LookupService.getAllRegions($scope.regionsLookupParams)
         .then(function (data) {
             $scope.regions = data.results;
+            angular.forEach($scope.regions, function (value, key) {
+                $scope.regions[key].ticked = false;
+            });
         });
 
     LookupService.getAllFocusAreas($scope.lookupParams)
         .then(function (data) {
-             $scope.foci = data.results;
+            $scope.foci = data.results;
+            angular.forEach($scope.foci, function (value, key) {
+                $scope.foci[key].ticked = false;
+            });
         });
       // don't know why, but I need to access the scope variable for the data to load correctly
     var x = $scope.themes[1];
@@ -170,6 +185,14 @@ angular.module('staticApp')
         $scope.newProgram.ownerOrganizationId = 1;
         $scope.newProgram.startDate = new Date();
         $scope.formScope.programForm.$setPristine();
+
+        var elements = angular.element(document.querySelectorAll('.multiSelect .reset'));
+        angular.forEach(elements, function (value, key) {
+            $timeout(function () {
+                elements[key].click();
+            })
+        });
+        $scope.formScope.programForm.parentProgram.$setViewValue('','');
     };
 
     $scope.setFormScope = function (scope) {
