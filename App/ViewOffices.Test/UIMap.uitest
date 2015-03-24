@@ -78,19 +78,19 @@ Cultural Heritage Center</ExpectedValue>
       <ParameterName />
       <PropertyName>InnerText</PropertyName>
       <ExpectedValue>ECA Office Directory</ExpectedValue>
-      <MessageOnValidationFailure>No ECA Office Directory banner available.</MessageOnValidationFailure>
+      <MessageOnValidationFailure>No ECA Office Directory banner inner text available.</MessageOnValidationFailure>
       <Type>String</Type>
       <PropertyCondition>AreEqual</PropertyCondition>
     </AssertAction>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIECAOfficeDirectoryPane">
+    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIECAOfficeDirectoryPane" ThinkTime="2000">
       <ParameterName />
       <PropertyName>DisplayText</PropertyName>
       <ExpectedValue>ECA Office Directory</ExpectedValue>
-      <MessageOnValidationFailure>No text display as ECA Office Directory.</MessageOnValidationFailure>
+      <MessageOnValidationFailure>No ECA Office Directory DisplayText available.</MessageOnValidationFailure>
       <Type>String</Type>
       <PropertyCondition>AreEqual</PropertyCondition>
     </AssertAction>
-    <TestStepMarkerAction Comment="Verify the ECA Office Directory banner displays on the All Offices page." MarkerInformation="AssertECAOfficeDirectoryPage">
+    <TestStepMarkerAction Comment="Verify the Inner Text and DisplayText for the ECA Office Directory banner on the All Offices landing page." MarkerInformation="AssertECAOfficeDirectoryPage">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -255,16 +255,34 @@ Cultural Heritage Center</ExpectedValue>
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink" ThinkTime="5000">
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="50" Y="32" />
+      <Location X="53" Y="32" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <TestStepMarkerAction Comment="Click the Offices Content Menu link to navigate to the ECA Office Directory landing page. " MarkerInformation="SelectOfficesContentMenuLink">
+    <TestStepMarkerAction Comment="Click and verify navigation to the All Offices/ECA Office Directory page." MarkerInformation="SelectOfficesContentMenuLink">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="56" Y="37" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <TestStepMarkerAction Comment="Click on the Offices link in the Content Menu to navigate to the All Offices page." MarkerInformation="SelectOfficesContentMenu_Link">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>

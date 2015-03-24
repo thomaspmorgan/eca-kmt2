@@ -59,7 +59,7 @@ namespace ViewOffices.Test
         }
         
         /// <summary>
-        /// Verify the ECA Office Directory banner displays on the All Offices page.
+        /// Verify the Inner Text and DisplayText for the ECA Office Directory banner on the All Offices landing page.
         /// </summary>
         public void AssertECAOfficeDirectoryPage()
         {
@@ -69,10 +69,11 @@ namespace ViewOffices.Test
 
             // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
             Playback.Wait(5000);
-            Assert.AreEqual(this.AssertECAOfficeDirectoryPageExpectedValues.UIECAOfficeDirectoryPaneInnerText, uIECAOfficeDirectoryPane.InnerText, "No ECA Office Directory banner available.");
+            Assert.AreEqual(this.AssertECAOfficeDirectoryPageExpectedValues.UIECAOfficeDirectoryPaneInnerText, uIECAOfficeDirectoryPane.InnerText, "No ECA Office Directory banner inner text available.");
 
-            // Verify that the 'DisplayText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
-            Assert.AreEqual(this.AssertECAOfficeDirectoryPageExpectedValues.UIECAOfficeDirectoryPaneDisplayText, uIECAOfficeDirectoryPane.DisplayText, "No text display as ECA Office Directory.");
+            // Wait for 2 seconds for user delay between actions; Verify that the 'DisplayText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
+            Playback.Wait(2000);
+            Assert.AreEqual(this.AssertECAOfficeDirectoryPageExpectedValues.UIECAOfficeDirectoryPaneDisplayText, uIECAOfficeDirectoryPane.DisplayText, "No ECA Office Directory DisplayText available.");
         }
         
         /// <summary>
@@ -193,7 +194,7 @@ namespace ViewOffices.Test
         }
         
         /// <summary>
-        /// Click the Offices Content Menu link to navigate to the ECA Office Directory landing page.
+        /// Click and verify navigation to the All Offices/ECA Office Directory page.
         /// </summary>
         public void SelectOfficesContentMenuLink()
         {
@@ -201,9 +202,21 @@ namespace ViewOffices.Test
             HtmlHyperlink uIOfficesHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink;
             #endregion
 
-            // Wait for 5 seconds for user delay between actions; Click 'Offices' link
-            Playback.Wait(5000);
-            Mouse.Click(uIOfficesHyperlink, new Point(50, 32));
+            // Click 'Offices' link
+            Mouse.Click(uIOfficesHyperlink, new Point(53, 32));
+        }
+        
+        /// <summary>
+        /// Click on the Offices link in the Content Menu to navigate to the All Offices page.
+        /// </summary>
+        public void SelectOfficesContentMenu_Link()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIOfficesHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink;
+            #endregion
+
+            // Click 'Offices' link
+            Mouse.Click(uIOfficesHyperlink, new Point(56, 37));
         }
         
         #region Properties
@@ -384,7 +397,7 @@ namespace ViewOffices.Test
         public string UIECAOfficeDirectoryPaneInnerText = "ECA Office Directory";
         
         /// <summary>
-        /// Verify that the 'DisplayText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
+        /// Wait for 2 seconds for user delay between actions; Verify that the 'DisplayText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
         /// </summary>
         public string UIECAOfficeDirectoryPaneDisplayText = "ECA Office Directory";
         #endregion
