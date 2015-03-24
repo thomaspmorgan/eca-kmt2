@@ -48,7 +48,7 @@ namespace ECA.Core.DynamicLinq.Filter
             Contract.Requires(keywords != null, "The keywords must not be null.");
             Contract.Requires(keywords.Count() <= MAX_KEYWORDS_COUNT, "The number of keywords to filter on must not exceed the max.");
 
-            Contract.Requires(keywords.Where(x => x.Count() > MAX_KEYWORD_LENGTH).Count() <= MAX_KEYWORD_LENGTH, 
+            Contract.Requires(keywords.Where(x => x.Count() > MAX_KEYWORD_LENGTH).Count() == 0, 
                 "A keyword must not exceed the max length.");
 
             InitializeKeywords(keywords);
@@ -146,7 +146,7 @@ namespace ECA.Core.DynamicLinq.Filter
         /// <returns>The PropertyInfo associated with the property.</returns>
         private PropertyInfo GetPropertyInfo(string propertyName)
         {
-            Contract.Assert(propertyName != null, "The property name must not be null.");
+            Contract.Requires(propertyName != null, "The property name must not be null.");
             var property = typeof(TSource).GetProperties().Where(x => x.Name.ToLower() == propertyName.ToLower()).FirstOrDefault();
             if (property.PropertyType != typeof(string))
             {

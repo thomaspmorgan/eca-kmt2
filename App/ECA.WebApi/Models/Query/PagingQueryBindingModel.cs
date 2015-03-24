@@ -13,6 +13,11 @@ using System.Web;
 
 namespace ECA.WebApi.Models.Query
 {
+    /// <summary>
+    /// A PagingQueryBindingModel is a class used by web api clients to dynamically pass filtering, paging, and sorting
+    /// requests.
+    /// </summary>
+    /// <typeparam name="T">The type of object that will be sorted, filtered, and paged.</typeparam>
     public class PagingQueryBindingModel<T> where T : class
     {
         /// <summary>

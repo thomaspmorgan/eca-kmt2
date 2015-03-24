@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<UITest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="" Id="412bcebe-ded2-4276-81c2-3c84499142c0" AssemblyVersion="14.0.22609.0" Version="1.0" xmlns="http://schemas.microsoft.com/VisualStudio/TeamTest/UITest/2010">
+<UITest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="" Id="3c48e237-6dac-44e2-bc80-42a2a00cf47c" AssemblyVersion="14.0.22609.0" Version="1.0" xmlns="http://schemas.microsoft.com/VisualStudio/TeamTest/UITest/2010">
   <Configuration>
     <Group Name="IE">
       <Setting Name="Version" Value="9.11.9600.17690" WarningLevel="1" />
@@ -37,26 +37,6 @@
   </Configuration>
   <InitializeActions />
   <ExecuteActions>
-    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemTable.UIECAPCCulturalHeritagCell">
-      <ParameterName />
-      <PropertyName>InnerText</PropertyName>
-      <ExpectedValue> 
-ECA/P/C
-
-Cultural Heritage Center</ExpectedValue>
-      <MessageOnValidationFailure>No Cultural Heritage Center available on ECA Offices Directory landing page.</MessageOnValidationFailure>
-      <Comparison>CurrentCulture</Comparison>
-      <PropertyCondition>Contains</PropertyCondition>
-    </StringAssertAction>
-    <TestStepMarkerAction Comment="Verify the (Cultural Heritage Center) office is available for selection on the ECA Offices Directory landing page." MarkerInformation="AssertAvailableOfficeinList">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
     <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton">
       <ParameterName />
       <PropertyName>ControlType</PropertyName>
@@ -65,7 +45,7 @@ Cultural Heritage Center</ExpectedValue>
       <Type>String</Type>
       <PropertyCondition>AreEqual</PropertyCondition>
     </AssertAction>
-    <TestStepMarkerAction Comment="Verify the Content Menu button is available to toggle and expand to display the Content Menu sections." MarkerInformation="AssertContentMenuButton">
+    <TestStepMarkerAction Comment="Verify the Content Menu button is available to toggle and expand to view the content menu." MarkerInformation="AssertContentMenuButton">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -74,23 +54,19 @@ Cultural Heritage Center</ExpectedValue>
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIECAOfficeDirectoryPane" ThinkTime="5000">
+    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane.UIPARTICIPANTAbdelatifPane">
       <ParameterName />
       <PropertyName>InnerText</PropertyName>
-      <ExpectedValue>ECA Office Directory</ExpectedValue>
-      <MessageOnValidationFailure>No ECA Office Directory banner inner text available.</MessageOnValidationFailure>
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIECAOfficeDirectoryPane" ThinkTime="2000">
-      <ParameterName />
-      <PropertyName>DisplayText</PropertyName>
-      <ExpectedValue>ECA Office Directory</ExpectedValue>
-      <MessageOnValidationFailure>No ECA Office Directory DisplayText available.</MessageOnValidationFailure>
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <TestStepMarkerAction Comment="Verify the Inner Text and DisplayText for the ECA Office Directory banner on the All Offices landing page." MarkerInformation="AssertECAOfficeDirectoryPage">
+      <ExpectedValue>PARTICIPANT
+
+Abdelatif Elboudjay
+Prominent 
+Permalink: url goes here</ExpectedValue>
+      <MessageOnValidationFailure>No Participant data available in the Participant name heading. (Abdelatif Elboudjay)</MessageOnValidationFailure>
+      <Comparison>CurrentCulture</Comparison>
+      <PropertyCondition>Contains</PropertyCondition>
+    </StringAssertAction>
+    <TestStepMarkerAction Comment="Verify the Participant name appears in the heading for the individual participant (Abdelatif Elboudjay)" MarkerInformation="AssertParticipantNameHeading">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -99,23 +75,40 @@ Cultural Heritage Center</ExpectedValue>
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIECAPCHyperlink">
+    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIParticipantsPane">
+      <ParameterName />
+      <PropertyName>InnerText</PropertyName>
+      <ExpectedValue>Participants</ExpectedValue>
+      <MessageOnValidationFailure>No Participants banner. </MessageOnValidationFailure>
+      <Type>String</Type>
+      <PropertyCondition>AreEqual</PropertyCondition>
+    </AssertAction>
+    <TestStepMarkerAction Comment="Verify the Participants Banner displays on the all participants page." MarkerInformation="AssertParticipantsBanner">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Assertion</MarkerRegionType>
+    </TestStepMarkerAction>
+    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIParticipantsHyperlink">
+      <ParameterName />
+      <PropertyName>InnerText</PropertyName>
+      <ExpectedValue>Participants</ExpectedValue>
+      <MessageOnValidationFailure>No participants link available in content menu.</MessageOnValidationFailure>
+      <Type>String</Type>
+      <PropertyCondition>AreEqual</PropertyCondition>
+    </AssertAction>
+    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIParticipantsHyperlink">
       <ParameterName />
       <PropertyName>ControlType</PropertyName>
       <ExpectedValue>Hyperlink</ExpectedValue>
-      <MessageOnValidationFailure>No hyperlink available for the (ECA/P/C Cultural Heritage Center) office.</MessageOnValidationFailure>
+      <MessageOnValidationFailure>No hyperlink for Participants available in the Content Menu.</MessageOnValidationFailure>
       <Type>String</Type>
       <PropertyCondition>AreEqual</PropertyCondition>
     </AssertAction>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIECAPCHyperlink">
-      <ParameterName />
-      <PropertyName>InnerText</PropertyName>
-      <ExpectedValue>ECA/P/C</ExpectedValue>
-      <MessageOnValidationFailure>No inner text of (ECA/P/C) available for the (ECA/P/C Cultural Heritage Center) office.</MessageOnValidationFailure>
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <TestStepMarkerAction Comment="Verify hyperlink and inner text available for the (ECA/P/C Cultural Heritage Center) office on ECA Office Directory landing page." MarkerInformation="AssertOfficeAvailableinList">
+    <TestStepMarkerAction Comment="Verify the Participants link is available for selection in the content menu. check inner text; check hyperlink controltype" MarkerInformation="AssertParticipantsLink">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -124,23 +117,23 @@ Cultural Heritage Center</ExpectedValue>
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink">
+    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIAbdelatifElboudjayHyperlink">
+      <ParameterName />
+      <PropertyName>InnerText</PropertyName>
+      <ExpectedValue>Abdelatif Elboudjay</ExpectedValue>
+      <MessageOnValidationFailure>No Participant for selection (Abdelatif Elboudjay)</MessageOnValidationFailure>
+      <Type>String</Type>
+      <PropertyCondition>AreEqual</PropertyCondition>
+    </AssertAction>
+    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIAbdelatifElboudjayHyperlink">
       <ParameterName />
       <PropertyName>ControlType</PropertyName>
       <ExpectedValue>Hyperlink</ExpectedValue>
-      <MessageOnValidationFailure>No Offices Hyperlink available. </MessageOnValidationFailure>
+      <MessageOnValidationFailure>No hyperlink available for the participant name (Abdelatif Elboudjay)</MessageOnValidationFailure>
       <Type>String</Type>
       <PropertyCondition>AreEqual</PropertyCondition>
     </AssertAction>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink">
-      <ParameterName />
-      <PropertyName>InnerText</PropertyName>
-      <ExpectedValue>Offices</ExpectedValue>
-      <MessageOnValidationFailure>No Offices inner text display in the content menu.</MessageOnValidationFailure>
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <TestStepMarkerAction Comment="Verify the Offices Content Menu link is available by hyperlink and inner text availability." MarkerInformation="AssertOfficesContentMenuLink">
+    <TestStepMarkerAction Comment="Verify the Participant name is available for selection from the All Participants link (Abdelatif Elboudjay)" MarkerInformation="AssertParticipantsNameLink">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -149,15 +142,79 @@ Cultural Heritage Center</ExpectedValue>
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemEdit">
+    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane.UIPersonalInformationPPane1">
       <ParameterName />
-      <PropertyName>ControlType</PropertyName>
-      <ExpectedValue>Edit</ExpectedValue>
-      <MessageOnValidationFailure>Verify the Search Offices box is available on the ECA Office Directory landing page.</MessageOnValidationFailure>
-      <Type>String</Type>
-      <PropertyCondition>AreEqual</PropertyCondition>
-    </AssertAction>
-    <TestStepMarkerAction Comment="Verify Search Offices text box is availabe." MarkerInformation="AssertSearchOffices">
+      <PropertyName>InnerText</PropertyName>
+      <ExpectedValue>Personal Information
+ 
+
+
+
+Personal Identifiable Information (PII)
+
+
+
+
+
+
+Names &amp; Alternatives
+
+First name: Abdelatif
+Last name: Elboudjay
+Name prefix: 
+Name suffix: 
+Given name: 
+Family name: 
+Middle name: 
+Patronym: 
+Alias: 
+
+
+Gender
+
+Male
+
+
+Ethnicity
+
+ 
+
+Place of Birth
+
+
+
+
+Date of Birth
+
+Jan 1, 2015
+
+
+
+
+Countries of Citizenship
+
+Morocco
+ 
+
+Residence Address
+
+ 
+
+Medical Conditions
+
+ 
+
+Marital Status
+
+
+
+
+Sevis Id</ExpectedValue>
+      <MessageOnValidationFailure>No Personal Information fields available for the individual participant (Abdelatif Elboudjay)</MessageOnValidationFailure>
+      <Comparison>CurrentCulture</Comparison>
+      <PropertyCondition>Contains</PropertyCondition>
+    </StringAssertAction>
+    <TestStepMarkerAction Comment="Verify the Participants Personal Information exists and is displayed; check innertext - contains-. " MarkerInformation="AssertParticipantsPersonalInfo">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -170,7 +227,7 @@ Cultural Heritage Center</ExpectedValue>
       <ParameterName />
       <ActionType>Close</ActionType>
     </BrowserAction>
-    <TestStepMarkerAction Comment="Close browser window. End test." MarkerInformation="CloseBrowserWindow">
+    <TestStepMarkerAction Comment="Close browser. End test." MarkerInformation="CloseBrowser">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -179,26 +236,46 @@ Cultural Heritage Center</ExpectedValue>
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <NavigateToUrlAction>
+    <NavigateToUrlAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
       <ParameterName />
       <Url>about:Tabs</Url>
       <NewInstance>true</NewInstance>
     </NavigateToUrlAction>
-    <NavigateToUrlAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit">
       <ParameterName />
-      <Url>https://eca-kmt-qa.azurewebsites.net/</Url>
-      <NewInstance>false</NewInstance>
-    </NavigateToUrlAction>
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="45" Y="11" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <SendKeysAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Text Encoded="false">https://eca-kmt-qa.azurewebsites.net/</Text>
+    </SendKeysAction>
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="12" Y="13" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
     <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoAzureActiveDDocument.UIUseraccountEdit">
       <ParameterName />
       <Value Encoded="false">ECATest1@statedept.us</Value>
       <Type>String</Type>
     </SetValueAction>
-    <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoAzureActiveDDocument.UIPasswordEdit">
+    <SendKeysAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoAzureActiveDDocument.UIUseraccountEdit">
       <ParameterName />
-      <Value Encoded="false" />
-      <Type>String</Type>
-    </SetValueAction>
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Text Encoded="false">{Tab}</Text>
+    </SendKeysAction>
     <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoAzureActiveDDocument.UIPasswordEdit">
       <ParameterName />
       <Value Encoded="true">pnl8gvcmh7nq2IDxDyIPucvLUfiP5WCkCWyYApPZam4=</Value>
@@ -208,12 +285,12 @@ Cultural Heritage Center</ExpectedValue>
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="24" Y="10" />
+      <Location X="42" Y="15" />
       <WheelDirection>0</WheelDirection>
       <ActionType>DoubleClick</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <TestStepMarkerAction Comment="Open browser; navigate to QA site; login using ECATest creds; click sign in" MarkerInformation="LogintoQA">
+    <TestStepMarkerAction Comment="Open browser; navigate to QA site; input ECATest creds; click sign in " MarkerInformation="LogintoQA">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -222,13 +299,16 @@ Cultural Heritage Center</ExpectedValue>
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <SendKeysAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UICbpspmenus1Custom.UIOfficesHyperlink">
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIParticipantsHyperlink">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Text Encoded="false">{F5}</Text>
-    </SendKeysAction>
-    <TestStepMarkerAction Comment="Refresh/Reload the All Offices/ECA Office Directory Page to display." MarkerInformation="RefreshAllOffices_ECAOfficeDirectoryPage">
+      <Location X="58" Y="29" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <TestStepMarkerAction Comment="Select the Participants link in the content menu to navigate to the all participants page." MarkerInformation="SelectContentMenu_ParticipantsLink">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -241,12 +321,12 @@ Cultural Heritage Center</ExpectedValue>
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="21" Y="18" />
+      <Location X="25" Y="12" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <TestStepMarkerAction Comment="Click the Content Menu button to expand the Content Menu and display the menu sections." MarkerInformation="SelectContentMenuButton">
+    <TestStepMarkerAction Comment="Select the content menu button to expand the content menu and view the sections." MarkerInformation="SelectContentMenuButton">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -255,34 +335,16 @@ Cultural Heritage Center</ExpectedValue>
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink">
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane.UIAbdelatifElboudjayHyperlink">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="53" Y="32" />
+      <Location X="91" Y="6" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <TestStepMarkerAction Comment="Click and verify navigation to the All Offices/ECA Office Directory page." MarkerInformation="SelectOfficesContentMenuLink">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Action</MarkerRegionType>
-    </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="56" Y="37" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <TestStepMarkerAction Comment="Click on the Offices link in the Content Menu to navigate to the All Offices page." MarkerInformation="SelectOfficesContentMenu_Link">
+    <TestStepMarkerAction Comment="Select the Participant to view the Personal Information participant page. (Abdelatif Elboudjay)" MarkerInformation="SelectParticipant">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -297,7 +359,7 @@ Cultural Heritage Center</ExpectedValue>
   <Maps>
     <UIMap Id="UIMap">
       <TopLevelWindows>
-        <TopLevelWindow ControlType="Window" Id="UINewtabInternetExplorWindow" FriendlyName="New tab - Internet Explorer" SpecialControlType="BrowserWindow" SessionId="1247178">
+        <TopLevelWindow ControlType="Window" Id="UINewtabInternetExplorWindow" FriendlyName="New tab - Internet Explorer" SpecialControlType="BrowserWindow" SessionId="1180904">
           <TechnologyName>MSAA</TechnologyName>
           <WindowTitles>
             <WindowTitle>New tab</WindowTitle>
@@ -314,6 +376,99 @@ Cultural Heritage Center</ExpectedValue>
           </AndCondition>
           <SupportLevel>0</SupportLevel>
           <Descendants>
+            <UIObject ControlType="Client" Id="UIAddressBarClient" FriendlyName="Address Bar" SpecialControlType="None">
+              <TechnologyName>MSAA</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>New tab</WindowTitle>
+              </WindowTitles>
+              <SearchConfigurations>
+                <SearchConfiguration>VisibleOnly</SearchConfiguration>
+              </SearchConfigurations>
+              <AndCondition Id="SearchCondition">
+                <PropertyCondition Name="Name">Address Bar</PropertyCondition>
+                <PropertyCondition Name="ControlType">Client</PropertyCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Edit" Id="UIAddressandsearchusinEdit" FriendlyName="Address and search using Bing" SpecialControlType="None">
+                  <TechnologyName>MSAA</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>New tab</WindowTitle>
+                  </WindowTitles>
+                  <SearchConfigurations>
+                    <SearchConfiguration>VisibleOnly</SearchConfiguration>
+                  </SearchConfigurations>
+                  <AndCondition Id="SearchCondition">
+                    <PropertyCondition Name="Name">Address and search using Bing</PropertyCondition>
+                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="Window" Id="UIItemWindow" FriendlyName="" SpecialControlType="None">
+              <TechnologyName>MSAA</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>New tab</WindowTitle>
+              </WindowTitles>
+              <SearchConfigurations>
+                <SearchConfiguration>VisibleOnly</SearchConfiguration>
+              </SearchConfigurations>
+              <AndCondition Id="SearchCondition">
+                <PropertyCondition Name="AccessibleName">Address and search using Bing</PropertyCondition>
+                <PropertyCondition Name="ClassName">Edit</PropertyCondition>
+                <PropertyCondition Name="ControlType">Window</PropertyCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Edit" Id="UIItemEdit" SpecialControlType="None">
+                  <TechnologyName>MSAA</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>New tab</WindowTitle>
+                  </WindowTitles>
+                  <SearchConfigurations>
+                    <SearchConfiguration>VisibleOnly</SearchConfiguration>
+                  </SearchConfigurations>
+                  <AndCondition Id="SearchCondition">
+                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="ToolBar" Id="UIPageControlToolBar" FriendlyName="Page Control" SpecialControlType="None">
+              <TechnologyName>MSAA</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>New tab</WindowTitle>
+              </WindowTitles>
+              <SearchConfigurations>
+                <SearchConfiguration>VisibleOnly</SearchConfiguration>
+              </SearchConfigurations>
+              <AndCondition Id="SearchCondition">
+                <PropertyCondition Name="Name">Page Control</PropertyCondition>
+                <PropertyCondition Name="ControlType">ToolBar</PropertyCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Button" Id="UIGotohttpsecakmtqaazuButton" FriendlyName="Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt..." SpecialControlType="None">
+                  <TechnologyName>MSAA</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>New tab</WindowTitle>
+                  </WindowTitles>
+                  <SearchConfigurations>
+                    <SearchConfiguration>VisibleOnly</SearchConfiguration>
+                  </SearchConfigurations>
+                  <AndCondition Id="SearchCondition">
+                    <PropertyCondition Name="Name">Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt+Enter to open in a new tab)</PropertyCondition>
+                    <PropertyCondition Name="ControlType">Button</PropertyCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+              </Descendants>
+            </UIObject>
             <UIObject ControlType="Document" Id="UISignintoAzureActiveDDocument" FriendlyName="Sign in to Azure Active Directory" SpecialControlType="None">
               <TechnologyName>Web</TechnologyName>
               <WindowTitles>
@@ -330,7 +485,7 @@ Cultural Heritage Center</ExpectedValue>
                 <FilterCondition Id="Secondary">
                   <PropertyCondition Name="Title">Sign in to Azure Active Directory</PropertyCondition>
                   <PropertyCondition Name="AbsolutePath">/login.srf</PropertyCondition>
-                  <PropertyCondition Name="PageUrl">https://login.microsoftonline.com/login.srf?wa=wsignin1.0&amp;wtrealm=https%3a%2f%2flogin.windows.net&amp;wreply=https%3a%2f%2flogin.windows.net%2fstatedept.us%2fwsfederation&amp;wctx=3wEBD09BdXRoMkF1dGhvcml6ZQEPT0F1dGgyQXV0aG9yaXplAQxzdGF0ZWRlcHQudXMBAQEVb3BlbmlkY29ubmVjdC5pZHRva2VuAAABASRlMDM1NmU1NS1lMTI0LTQ1MmMtODM3ZC1hZWI3NTA0MTg1ZmYBJWh0dHBzOi8vZWNhLWttdC1xYS5henVyZXdlYnNpdGVzLm5ldC8AAAAAAAAAAAAAAQEaAAAAASVodHRwczovL2VjYS1rbXQtcWEuYXp1cmV3ZWJzaXRlcy5uZXQvAQkBCGFkYWxfdmVyAQUwLjAuNwEDY2lkASRmMDdkOTg3YS04YmMzLTQ4NWItODIwZi0zZWFhYjUwODZjY2IBCWVycm9yX3VyaQElaHR0cHM6Ly9lY2Eta210LXFhLmF6dXJld2Vic2l0ZXMubmV0LwEPaW5jbHVkZV9hdF9oYXNoAQExAQtpbnRlcmFjdGl2ZQEBMQEFTm9uY2UBJGQ4MDYwNWY3LTNiYjgtNGY1Yi05MDVjLTgxNDQ4ODZlZDM0MQECcmMBJGU3MWM1NDcwLWEwYmYtNDYxMC04YWVmLWYyN2I3M2U2MjNiZQEJc2Vzc2lvbklkASQ4NzY4NTc3Yi0yM2I2LTQ1YWEtYmUxMS0zOTc1OWEwYWYxMmUBD2xpbWl0X3Rva2Vuc2l6ZQEBMe01&amp;wp=MBI_FED_SSL&amp;id=</PropertyCondition>
+                  <PropertyCondition Name="PageUrl">https://login.microsoftonline.com/login.srf?wa=wsignin1.0&amp;wtrealm=https%3a%2f%2flogin.windows.net&amp;wreply=https%3a%2f%2flogin.windows.net%2fstatedept.us%2fwsfederation&amp;wctx=3wEBD09BdXRoMkF1dGhvcml6ZQEPT0F1dGgyQXV0aG9yaXplAQxzdGF0ZWRlcHQudXMBAQEVb3BlbmlkY29ubmVjdC5pZHRva2VuAAABASRlMDM1NmU1NS1lMTI0LTQ1MmMtODM3ZC1hZWI3NTA0MTg1ZmYBJWh0dHBzOi8vZWNhLWttdC1xYS5henVyZXdlYnNpdGVzLm5ldC8AAAAAAAAAAAAAAQEaAAAAASVodHRwczovL2VjYS1rbXQtcWEuYXp1cmV3ZWJzaXRlcy5uZXQvAQkBCGFkYWxfdmVyAQUxLjAuMAEDY2lkASRiZWUxOWY4Zi04ZTMyLTQ3MTYtOWM5MC03YzQwYjQwNTczMmUBCWVycm9yX3VyaQElaHR0cHM6Ly9lY2Eta210LXFhLmF6dXJld2Vic2l0ZXMubmV0LwEPaW5jbHVkZV9hdF9oYXNoAQExAQtpbnRlcmFjdGl2ZQEBMQEFTm9uY2UBJDgyMGFjODZkLTkyMmUtNGQ4YS1hMWYzLTY1Y2MxOWYxMmViNgECcmMBJDQ1OGU1M2M2LWRjY2EtNGFmNS04YmE1LTM5Y2ZhMGZhZmViYgEJc2Vzc2lvbklkASQ0MGM3MjA0MC1kOGU3LTQzMmYtYTBkOS0xNjQ4Y2ExMWJmNDQBD2xpbWl0X3Rva2Vuc2l6ZQEBMe01&amp;wp=MBI_FED_SSL&amp;id=</PropertyCondition>
                 </FilterCondition>
               </AndCondition>
               <SupportLevel>0</SupportLevel>
@@ -453,29 +608,6 @@ Cultural Heritage Center</ExpectedValue>
                   <SupportLevel>0</SupportLevel>
                   <Descendants />
                 </UIObject>
-                <UIObject ControlType="Pane" Id="UIItemPane" FriendlyName="" SpecialControlType="None">
-                  <TechnologyName>Web</TechnologyName>
-                  <WindowTitles>
-                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
-                  </WindowTitles>
-                  <AndCondition Id="SearchCondition">
-                    <AndCondition Id="Primary">
-                      <PropertyCondition Name="ControlType">Pane</PropertyCondition>
-                      <PropertyCondition Name="TagName">SPAN</PropertyCondition>
-                      <PropertyCondition Name="Id" />
-                      <PropertyCondition Name="Name" />
-                    </AndCondition>
-                    <FilterCondition Id="Secondary">
-                      <PropertyCondition Name="InnerText" />
-                      <PropertyCondition Name="Title" />
-                      <PropertyCondition Name="Class">icon-bar</PropertyCondition>
-                      <PropertyCondition Name="ControlDefinition">class="icon-bar"</PropertyCondition>
-                      <PropertyCondition Name="TagInstance">4</PropertyCondition>
-                    </FilterCondition>
-                  </AndCondition>
-                  <SupportLevel>0</SupportLevel>
-                  <Descendants />
-                </UIObject>
                 <UIObject ControlType="Custom" Id="UICbpspmenus1Custom" FriendlyName="cbp-spmenu-s1" SpecialControlType="None">
                   <TechnologyName>Web</TechnologyName>
                   <WindowTitles>
@@ -496,7 +628,7 @@ Cultural Heritage Center</ExpectedValue>
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
                   <Descendants>
-                    <UIObject ControlType="Hyperlink" Id="UIOfficesHyperlink" FriendlyName="Offices" SpecialControlType="None">
+                    <UIObject ControlType="Hyperlink" Id="UIParticipantsHyperlink" FriendlyName="Participants" SpecialControlType="None">
                       <TechnologyName>Web</TechnologyName>
                       <WindowTitles>
                         <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
@@ -508,15 +640,15 @@ Cultural Heritage Center</ExpectedValue>
                           <PropertyCondition Name="Id" />
                           <PropertyCondition Name="Name" />
                           <PropertyCondition Name="Target" />
-                          <PropertyCondition Name="InnerText">Offices</PropertyCondition>
+                          <PropertyCondition Name="InnerText">Participants</PropertyCondition>
                         </AndCondition>
                         <FilterCondition Id="Secondary">
                           <PropertyCondition Name="AbsolutePath" />
                           <PropertyCondition Name="Title" />
-                          <PropertyCondition Name="Href">#/alloffices/</PropertyCondition>
+                          <PropertyCondition Name="Href">#/allparticipants/</PropertyCondition>
                           <PropertyCondition Name="Class">ng-binding ng-scope</PropertyCondition>
-                          <PropertyCondition Name="ControlDefinition">class="ng-binding ng-scope" href="#/allo</PropertyCondition>
-                          <PropertyCondition Name="TagInstance">2</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="ng-binding ng-scope" href="#/allp</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">4</PropertyCondition>
                         </FilterCondition>
                       </AndCondition>
                       <SupportLevel>0</SupportLevel>
@@ -526,7 +658,7 @@ Cultural Heritage Center</ExpectedValue>
                 </UIObject>
               </Descendants>
             </UIObject>
-            <UIObject ControlType="Document" Id="UIHttpsecakmtqaazureweDocument1" FriendlyName="https://eca-kmt-qa.azurewebsites.net/#/alloffices/..." SpecialControlType="None">
+            <UIObject ControlType="Document" Id="UIHttpsecakmtqaazureweDocument1" FriendlyName="https://eca-kmt-qa.azurewebsites.net/#/allparticip..." SpecialControlType="None">
               <TechnologyName>Web</TechnologyName>
               <WindowTitles>
                 <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
@@ -542,7 +674,7 @@ Cultural Heritage Center</ExpectedValue>
                 <FilterCondition Id="Secondary">
                   <PropertyCondition Name="Title" />
                   <PropertyCondition Name="AbsolutePath">/</PropertyCondition>
-                  <PropertyCondition Name="PageUrl">https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top</PropertyCondition>
+                  <PropertyCondition Name="PageUrl">https://eca-kmt-qa.azurewebsites.net/#/allparticipants/#top</PropertyCondition>
                 </FilterCondition>
               </AndCondition>
               <SupportLevel>0</SupportLevel>
@@ -560,16 +692,12 @@ Cultural Heritage Center</ExpectedValue>
                       <PropertyCondition Name="Name" />
                     </AndCondition>
                     <FilterCondition Id="Secondary">
-                      <PropertyCondition Name="InnerText">ECA Office Directory
+                      <PropertyCondition Name="InnerText">Participants
 
 
+Participants List
 
-
- 
-
-
-
- </PropertyCondition>
+S</PropertyCondition>
                       <PropertyCondition Name="Title" />
                       <PropertyCondition Name="Class">ng-scope</PropertyCondition>
                       <PropertyCondition Name="ControlDefinition">class="ng-scope" id="top" ng-click="closeMenus()" autoscroll="true" ui-view=""</PropertyCondition>
@@ -578,7 +706,7 @@ Cultural Heritage Center</ExpectedValue>
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
                   <Descendants>
-                    <UIObject ControlType="Pane" Id="UIECAOfficeDirectoryPane" FriendlyName="ECA Office Directory" SpecialControlType="None">
+                    <UIObject ControlType="Pane" Id="UIParticipantsPane" FriendlyName="Participants" SpecialControlType="None">
                       <TechnologyName>Web</TechnologyName>
                       <WindowTitles>
                         <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
@@ -591,11 +719,11 @@ Cultural Heritage Center</ExpectedValue>
                           <PropertyCondition Name="Name" />
                         </AndCondition>
                         <FilterCondition Id="Secondary">
-                          <PropertyCondition Name="InnerText">ECA Office Directory</PropertyCondition>
+                          <PropertyCondition Name="InnerText">Participants</PropertyCondition>
                           <PropertyCondition Name="Title" />
                           <PropertyCondition Name="Class">heading</PropertyCondition>
                           <PropertyCondition Name="ControlDefinition">class="heading"</PropertyCondition>
-                          <PropertyCondition Name="TagInstance">27</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">26</PropertyCondition>
                         </FilterCondition>
                       </AndCondition>
                       <SupportLevel>0</SupportLevel>
@@ -616,102 +744,28 @@ Cultural Heritage Center</ExpectedValue>
                       <PropertyCondition Name="Name" />
                     </AndCondition>
                     <FilterCondition Id="Secondary">
-                      <PropertyCondition Name="InnerText">Showing 1 - 25 of 56 offices
+                      <PropertyCondition Name="InnerText">Name
+
+Type
+
+Status
 
  
+
+
+
 
 
  </PropertyCondition>
                       <PropertyCondition Name="Title" />
                       <PropertyCondition Name="Class">ng-isolate-scope</PropertyCondition>
-                      <PropertyCondition Name="ControlDefinition">class="ng-isolate-scope" id="sort-list" st-table="offices" st-pipe="getOffices"</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="ng-isolate-scope" id="sort-list" st-table="participants" st-pipe="getParticipants"</PropertyCondition>
                       <PropertyCondition Name="TagInstance">28</PropertyCondition>
                     </FilterCondition>
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
                   <Descendants>
-                    <UIObject ControlType="Edit" Id="UIItemEdit" FriendlyName="" SpecialControlType="None">
-                      <TechnologyName>Web</TechnologyName>
-                      <WindowTitles>
-                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
-                      </WindowTitles>
-                      <AndCondition Id="SearchCondition">
-                        <AndCondition Id="Primary">
-                          <PropertyCondition Name="ControlType">Edit</PropertyCondition>
-                          <PropertyCondition Name="TagName">INPUT</PropertyCondition>
-                          <PropertyCondition Name="Id" />
-                          <PropertyCondition Name="Name" />
-                          <PropertyCondition Name="LabeledBy" />
-                          <PropertyCondition Name="Type">SINGLELINE</PropertyCondition>
-                        </AndCondition>
-                        <FilterCondition Id="Secondary">
-                          <PropertyCondition Name="Title" />
-                          <PropertyCondition Name="Class">search-contextual</PropertyCondition>
-                          <PropertyCondition Name="ControlDefinition">class="search-contextual" type="search" </PropertyCondition>
-                          <PropertyCondition Name="TagInstance">1</PropertyCondition>
-                        </FilterCondition>
-                      </AndCondition>
-                      <SupportLevel>0</SupportLevel>
-                      <Descendants />
-                    </UIObject>
-                    <UIObject ControlType="Table" Id="UIItemTable" FriendlyName="" SpecialControlType="None">
-                      <TechnologyName>Web</TechnologyName>
-                      <WindowTitles>
-                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
-                      </WindowTitles>
-                      <AndCondition Id="SearchCondition">
-                        <AndCondition Id="Primary">
-                          <PropertyCondition Name="ControlType">Table</PropertyCondition>
-                          <PropertyCondition Name="TagName">TABLE</PropertyCondition>
-                          <PropertyCondition Name="Id" />
-                          <PropertyCondition Name="Name" />
-                        </AndCondition>
-                        <FilterCondition Id="Secondary">
-                          <PropertyCondition Name="InnerText">Showing 1 - 25 of 56 offices
-
- 
-
-
- </PropertyCondition>
-                          <PropertyCondition Name="ControlDefinition">class="col-md-12"</PropertyCondition>
-                          <PropertyCondition Name="RowCount">28</PropertyCondition>
-                          <PropertyCondition Name="ColumnCount">2</PropertyCondition>
-                          <PropertyCondition Name="Class">col-md-12</PropertyCondition>
-                          <PropertyCondition Name="TagInstance">1</PropertyCondition>
-                        </FilterCondition>
-                      </AndCondition>
-                      <SupportLevel>0</SupportLevel>
-                      <Descendants>
-                        <UIObject ControlType="Cell" Id="UIECAPCCulturalHeritagCell" FriendlyName="ECA/P/C Cultural Heritage Center" SpecialControlType="None">
-                          <TechnologyName>Web</TechnologyName>
-                          <WindowTitles>
-                            <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
-                          </WindowTitles>
-                          <AndCondition Id="SearchCondition">
-                            <AndCondition Id="Primary">
-                              <PropertyCondition Name="ControlType">Cell</PropertyCondition>
-                              <PropertyCondition Name="TagName">TD</PropertyCondition>
-                              <PropertyCondition Name="Id" />
-                              <PropertyCondition Name="Name" />
-                              <PropertyCondition Name="MaxDepth">3</PropertyCondition>
-                              <PropertyCondition Name="InnerText">ECA/P/C
-
-Cultural Heritage Center</PropertyCondition>
-                            </AndCondition>
-                            <FilterCondition Id="Secondary">
-                              <PropertyCondition Name="ControlDefinition">class="col-md-7" style="padding-left: 99px;" ng-style="{'padding-left': 60+(20*office.officeLevel-1)}"</PropertyCondition>
-                              <PropertyCondition Name="RowIndex">17</PropertyCondition>
-                              <PropertyCondition Name="ColumnIndex">0</PropertyCondition>
-                              <PropertyCondition Name="Class">col-md-7</PropertyCondition>
-                              <PropertyCondition Name="TagInstance">31</PropertyCondition>
-                            </FilterCondition>
-                          </AndCondition>
-                          <SupportLevel>0</SupportLevel>
-                          <Descendants />
-                        </UIObject>
-                      </Descendants>
-                    </UIObject>
-                    <UIObject ControlType="Hyperlink" Id="UIECAPCHyperlink" FriendlyName="ECA/P/C" SpecialControlType="None">
+                    <UIObject ControlType="Hyperlink" Id="UIAbdelatifElboudjayHyperlink" FriendlyName="Abdelatif Elboudjay" SpecialControlType="None">
                       <TechnologyName>Web</TechnologyName>
                       <WindowTitles>
                         <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
@@ -723,15 +777,15 @@ Cultural Heritage Center</PropertyCondition>
                           <PropertyCondition Name="Id" />
                           <PropertyCondition Name="Name" />
                           <PropertyCondition Name="Target" />
-                          <PropertyCondition Name="InnerText">ECA/P/C</PropertyCondition>
+                          <PropertyCondition Name="InnerText">Abdelatif Elboudjay</PropertyCondition>
                         </AndCondition>
                         <FilterCondition Id="Secondary">
                           <PropertyCondition Name="AbsolutePath" />
                           <PropertyCondition Name="Title" />
-                          <PropertyCondition Name="Href">#/offices/1036/overview</PropertyCondition>
+                          <PropertyCondition Name="Href">#/participants/986/personalinformation</PropertyCondition>
                           <PropertyCondition Name="Class">ng-binding</PropertyCondition>
-                          <PropertyCondition Name="ControlDefinition">class="ng-binding" href="#/offices/1036/</PropertyCondition>
-                          <PropertyCondition Name="TagInstance">16</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="ng-binding" href="#/participants/</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">1</PropertyCondition>
                         </FilterCondition>
                       </AndCondition>
                       <SupportLevel>0</SupportLevel>
@@ -739,27 +793,64 @@ Cultural Heritage Center</PropertyCondition>
                     </UIObject>
                   </Descendants>
                 </UIObject>
-                <UIObject ControlType="Custom" Id="UICbpspmenus1Custom" FriendlyName="cbp-spmenu-s1" SpecialControlType="None">
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="Document" Id="UIHttpsecakmtqaazureweDocument2" FriendlyName="https://eca-kmt-qa.azurewebsites.net/" SpecialControlType="None">
+              <TechnologyName>Web</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+              </WindowTitles>
+              <AndCondition Id="SearchCondition">
+                <AndCondition Id="Primary">
+                  <PropertyCondition Name="ControlType">Document</PropertyCondition>
+                  <PropertyCondition Name="TagName">BODY</PropertyCondition>
+                  <PropertyCondition Name="Id" />
+                  <PropertyCondition Name="RedirectingPage">False</PropertyCondition>
+                  <PropertyCondition Name="FrameDocument">False</PropertyCondition>
+                </AndCondition>
+                <FilterCondition Id="Secondary">
+                  <PropertyCondition Name="Title" />
+                  <PropertyCondition Name="AbsolutePath">/</PropertyCondition>
+                  <PropertyCondition Name="PageUrl">https://eca-kmt-qa.azurewebsites.net/</PropertyCondition>
+                </FilterCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Pane" Id="UISortlistPane" FriendlyName="sort-list" SpecialControlType="None">
                   <TechnologyName>Web</TechnologyName>
                   <WindowTitles>
                     <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
                   </WindowTitles>
                   <AndCondition Id="SearchCondition">
                     <AndCondition Id="Primary">
-                      <PropertyCondition Name="ControlType">Custom</PropertyCondition>
-                      <PropertyCondition Name="TagName">NAV</PropertyCondition>
-                      <PropertyCondition Name="Id">cbp-spmenu-s1</PropertyCondition>
+                      <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                      <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                      <PropertyCondition Name="Id">sort-list</PropertyCondition>
                       <PropertyCondition Name="Name" />
                     </AndCondition>
                     <FilterCondition Id="Secondary">
-                      <PropertyCondition Name="Class">cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left</PropertyCondition>
-                      <PropertyCondition Name="ControlDefinition">class="cbp-spmenu cbp-spmenu-vertical cb</PropertyCondition>
-                      <PropertyCondition Name="TagInstance">1</PropertyCondition>
+                      <PropertyCondition Name="InnerText">Name
+
+Type
+
+Status
+
+ 
+
+
+
+
+
+ </PropertyCondition>
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">ng-isolate-scope</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="ng-isolate-scope" id="sort-list" st-table="participants" st-pipe="getParticipants"</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">28</PropertyCondition>
                     </FilterCondition>
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
                   <Descendants>
-                    <UIObject ControlType="Hyperlink" Id="UIOfficesHyperlink" FriendlyName="Offices" SpecialControlType="None">
+                    <UIObject ControlType="Hyperlink" Id="UIAbdelatifElboudjayHyperlink" FriendlyName="Abdelatif Elboudjay" SpecialControlType="None">
                       <TechnologyName>Web</TechnologyName>
                       <WindowTitles>
                         <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
@@ -771,15 +862,147 @@ Cultural Heritage Center</PropertyCondition>
                           <PropertyCondition Name="Id" />
                           <PropertyCondition Name="Name" />
                           <PropertyCondition Name="Target" />
-                          <PropertyCondition Name="InnerText">Offices</PropertyCondition>
+                          <PropertyCondition Name="InnerText">Abdelatif Elboudjay</PropertyCondition>
                         </AndCondition>
                         <FilterCondition Id="Secondary">
                           <PropertyCondition Name="AbsolutePath" />
                           <PropertyCondition Name="Title" />
-                          <PropertyCondition Name="Href">#/alloffices/</PropertyCondition>
-                          <PropertyCondition Name="Class">ng-binding ng-scope</PropertyCondition>
-                          <PropertyCondition Name="ControlDefinition">class="ng-binding ng-scope" href="#/allo</PropertyCondition>
-                          <PropertyCondition Name="TagInstance">2</PropertyCondition>
+                          <PropertyCondition Name="Href">#/participants/986/personalinformation</PropertyCondition>
+                          <PropertyCondition Name="Class">ng-binding</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="ng-binding" href="#/participants/</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">1</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
+                  </Descendants>
+                </UIObject>
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="Document" Id="UIHttpsecakmtqaazureweDocument3" FriendlyName="https://eca-kmt-qa.azurewebsites.net/#/participant..." SpecialControlType="None">
+              <TechnologyName>Web</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+              </WindowTitles>
+              <AndCondition Id="SearchCondition">
+                <AndCondition Id="Primary">
+                  <PropertyCondition Name="ControlType">Document</PropertyCondition>
+                  <PropertyCondition Name="TagName">BODY</PropertyCondition>
+                  <PropertyCondition Name="Id" />
+                  <PropertyCondition Name="RedirectingPage">False</PropertyCondition>
+                  <PropertyCondition Name="FrameDocument">False</PropertyCondition>
+                </AndCondition>
+                <FilterCondition Id="Secondary">
+                  <PropertyCondition Name="Title" />
+                  <PropertyCondition Name="AbsolutePath">/</PropertyCondition>
+                  <PropertyCondition Name="PageUrl">https://eca-kmt-qa.azurewebsites.net/#/participants/986/personalinformation#top</PropertyCondition>
+                </FilterCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Pane" Id="UITopPane" FriendlyName="top" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                      <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                      <PropertyCondition Name="Id">top</PropertyCondition>
+                      <PropertyCondition Name="Name" />
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="InnerText">Participants • Abdelatif Elboudjay
+
+
+</PropertyCondition>
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">ng-scope</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="ng-scope" id="top" ng-click="closeMenus()" autoscroll="true" ui-view=""</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">24</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants>
+                    <UIObject ControlType="Pane" Id="UIPersonalInformationPPane" FriendlyName="Personal Information Personal " SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                          <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="InnerText" Operator="Contains">Personal Information
+ 
+
+
+
+Personal </PropertyCondition>
+                          <PropertyCondition Name="Title" />
+                          <PropertyCondition Name="Class">container ng-scope</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="container ng-scope" ui-view=""</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">39</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
+                    <UIObject ControlType="Pane" Id="UIPARTICIPANTAbdelatifPane" FriendlyName="PARTICIPANT Abdelatif Elboudjay Prom" SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                          <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="InnerText">PARTICIPANT
+
+Abdelatif Elboudjay
+Prom</PropertyCondition>
+                          <PropertyCondition Name="Title" />
+                          <PropertyCondition Name="Class">heading</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="heading"</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">30</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
+                    <UIObject ControlType="Pane" Id="UIPersonalInformationPPane1" FriendlyName="Personal Information Personal " SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                          <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="InnerText">Personal Information
+ 
+
+
+
+Personal </PropertyCondition>
+                          <PropertyCondition Name="Title" />
+                          <PropertyCondition Name="Class">container ng-scope</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="container ng-scope" ui-view=""</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">39</PropertyCondition>
                         </FilterCondition>
                       </AndCondition>
                       <SupportLevel>0</SupportLevel>

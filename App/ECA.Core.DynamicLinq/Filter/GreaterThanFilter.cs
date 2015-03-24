@@ -33,8 +33,6 @@ namespace ECA.Core.DynamicLinq.Filter
         /// <returns>The expression.</returns>
         protected override Expression GetEqualityExpression(MemberExpression property)
         {
-            Contract.Assert(property != null, "The property must not be null.");
-            Contract.Assert(this.Value != null, "The value must not be null.");
             var valueConstant = Expression.Constant(this.Value);
             return Expression.GreaterThan(property, valueConstant);
         }

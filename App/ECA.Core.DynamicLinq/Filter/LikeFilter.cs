@@ -37,8 +37,8 @@ namespace ECA.Core.DynamicLinq.Filter
         /// <returns>An expression to filter with in a linq query.</returns>
         public override Expression<Func<T, bool>> ToWhereExpression()
         {
-            Contract.Assert(this.Value != null, "The value must not be null.");
-            Contract.Assert(this.Value is string, "The value must be a string.");
+            Contract.Requires(this.Value != null, "The value must not be null.");
+            Contract.Requires(this.Value is string, "The value must be a string.");
             var lowerCaseValue = this.Value.ToString().ToLower();
             var lowerCaseValueConstant = Expression.Constant(lowerCaseValue);
             var xParameter = Expression.Parameter(typeof(T), "x");

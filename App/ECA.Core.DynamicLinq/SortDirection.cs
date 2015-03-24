@@ -41,7 +41,7 @@ namespace ECA.Core.DynamicLinq
 
         private SortDirection(string value)
         {
-            Debug.Assert(value != null, "The value must not be null.");
+            Contract.Requires(value != null, "The value must not be null.");
             this.Value = value;
         }
 

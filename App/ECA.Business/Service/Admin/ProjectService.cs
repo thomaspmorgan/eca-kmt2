@@ -26,6 +26,7 @@ namespace ECA.Business.Service.Admin
         public ProjectService(EcaContext context, ILogger logger) : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(logger != null, "The logger must not be null.");
         }
 
         #region Create
