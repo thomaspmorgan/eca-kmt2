@@ -30,6 +30,112 @@ namespace ViewOffices.Test
     {
         
         /// <summary>
+        /// Verify the (Cultural Heritage Center) office is available for selection on the ECA Offices Directory landing page.
+        /// </summary>
+        public void AssertAvailableOfficeinList()
+        {
+            #region Variable Declarations
+            HtmlCell uIECAPCCulturalHeritagCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemTable.UIECAPCCulturalHeritagCell;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'ECA/P/C Cultural Heritage Center' cell contains ' 
+            //ECA/P/C
+            //
+            //Cultural Heritage Center'
+            StringAssert.Contains(uIECAPCCulturalHeritagCell.InnerText, this.AssertAvailableOfficeinListExpectedValues.UIECAPCCulturalHeritagCellInnerText, "No Cultural Heritage Center available on ECA Offices Directory landing page.");
+        }
+        
+        /// <summary>
+        /// Verify the Content Menu button is available to toggle and expand to display the Content Menu sections.
+        /// </summary>
+        public void AssertContentMenuButton()
+        {
+            #region Variable Declarations
+            HtmlButton uITogglenavigationButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
+            #endregion
+
+            // Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
+            Assert.AreEqual(this.AssertContentMenuButtonExpectedValues.UITogglenavigationButtonControlType, uITogglenavigationButton.ControlType.ToString(), "No Content Menu button available.");
+        }
+        
+        /// <summary>
+        /// Verify the ECA Office Directory banner displays on the All Offices page.
+        /// </summary>
+        public void AssertECAOfficeDirectoryPage()
+        {
+            #region Variable Declarations
+            HtmlDiv uIECAOfficeDirectoryPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIECAOfficeDirectoryPane;
+            #endregion
+
+            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
+            Playback.Wait(5000);
+            Assert.AreEqual(this.AssertECAOfficeDirectoryPageExpectedValues.UIECAOfficeDirectoryPaneInnerText, uIECAOfficeDirectoryPane.InnerText, "No ECA Office Directory banner available.");
+
+            // Verify that the 'DisplayText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
+            Assert.AreEqual(this.AssertECAOfficeDirectoryPageExpectedValues.UIECAOfficeDirectoryPaneDisplayText, uIECAOfficeDirectoryPane.DisplayText, "No text display as ECA Office Directory.");
+        }
+        
+        /// <summary>
+        /// Verify hyperlink and inner text available for the (ECA/P/C Cultural Heritage Center) office on ECA Office Directory landing page.
+        /// </summary>
+        public void AssertOfficeAvailableinList()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIECAPCHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIECAPCHyperlink;
+            #endregion
+
+            // Verify that the 'ControlType' property of 'ECA/P/C' link equals 'Hyperlink'
+            Assert.AreEqual(this.AssertOfficeAvailableinListExpectedValues.UIECAPCHyperlinkControlType, uIECAPCHyperlink.ControlType.ToString(), "No hyperlink available for the (ECA/P/C Cultural Heritage Center) office.");
+
+            // Verify that the 'InnerText' property of 'ECA/P/C' link equals 'ECA/P/C'
+            Assert.AreEqual(this.AssertOfficeAvailableinListExpectedValues.UIECAPCHyperlinkInnerText, uIECAPCHyperlink.InnerText, "No inner text of (ECA/P/C) available for the (ECA/P/C Cultural Heritage Center) o" +
+                    "ffice.");
+        }
+        
+        /// <summary>
+        /// Verify the Offices Content Menu link is available by hyperlink and inner text availability.
+        /// </summary>
+        public void AssertOfficesContentMenuLink()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIOfficesHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink;
+            #endregion
+
+            // Verify that the 'ControlType' property of 'Offices' link equals 'Hyperlink'
+            Assert.AreEqual(this.AssertOfficesContentMenuLinkExpectedValues.UIOfficesHyperlinkControlType, uIOfficesHyperlink.ControlType.ToString(), "No Offices Hyperlink available. ");
+
+            // Verify that the 'InnerText' property of 'Offices' link equals 'Offices'
+            Assert.AreEqual(this.AssertOfficesContentMenuLinkExpectedValues.UIOfficesHyperlinkInnerText, uIOfficesHyperlink.InnerText, "No Offices inner text display in the content menu.");
+        }
+        
+        /// <summary>
+        /// Verify Search Offices text box is availabe.
+        /// </summary>
+        public void AssertSearchOffices()
+        {
+            #region Variable Declarations
+            HtmlEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemEdit;
+            #endregion
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertSearchOfficesExpectedValues.UIItemEditControlType, uIItemEdit.ControlType.ToString(), "Verify the Search Offices box is available on the ECA Office Directory landing pa" +
+                    "ge.");
+        }
+        
+        /// <summary>
+        /// Close browser window. End test.
+        /// </summary>
+        public void CloseBrowserWindow()
+        {
+            #region Variable Declarations
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            #endregion
+
+            // Perform Close on Browser Window
+            uINewtabInternetExplorWindow.Close();
+        }
+        
+        /// <summary>
         /// Open browser; navigate to QA site; login using ECATest creds; click sign in
         /// </summary>
         public void LogintoQA()
@@ -56,46 +162,60 @@ namespace ViewOffices.Test
             // Type '********' in 'Password' text box
             uIPasswordEdit.Password = this.LogintoQAParams.UIPasswordEditPassword;
 
-            // Click 'Sign in' pane
-            Mouse.Click(uISigninPane, new Point(24, 10));
+            // Double-Click 'Sign in' pane
+            Mouse.DoubleClick(uISigninPane, new Point(24, 10));
         }
         
         /// <summary>
-        /// Verify Content Menu button is available to toggle and expand.
+        /// Refresh/Reload the All Offices/ECA Office Directory Page to display.
         /// </summary>
-        public void AssertContentMenuButton()
+        public void RefreshAllOffices_ECAOfficeDirectoryPage()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIOfficesHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UICbpspmenus1Custom.UIOfficesHyperlink;
+            #endregion
+
+            // Type '{F5}' in 'Offices' link
+            Keyboard.SendKeys(uIOfficesHyperlink, this.RefreshAllOffices_ECAOfficeDirectoryPageParams.UIOfficesHyperlinkSendKeys, ModifierKeys.None);
+        }
+        
+        /// <summary>
+        /// Click the Content Menu button to expand the Content Menu and display the menu sections.
+        /// </summary>
+        public void SelectContentMenuButton()
         {
             #region Variable Declarations
             HtmlButton uITogglenavigationButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
             #endregion
 
-            // Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
-            Assert.AreEqual(this.AssertContentMenuButtonExpectedValues.UITogglenavigationButtonControlType, uITogglenavigationButton.ControlType.ToString(), "No Content Menu button.");
+            // Click 'Toggle navigation' button
+            Mouse.Click(uITogglenavigationButton, new Point(21, 18));
         }
         
         /// <summary>
-        /// Click on the Content Menu button to toggle and expand menu and view menu items.
+        /// Click the Offices Content Menu link to navigate to the ECA Office Directory landing page.
         /// </summary>
-        public void SelectContentMenuButton()
+        public void SelectOfficesContentMenuLink()
         {
             #region Variable Declarations
-            HtmlSpan uIItemPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UIItemPane;
+            HtmlHyperlink uIOfficesHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink;
             #endregion
 
-            // Click pane
-            Mouse.Click(uIItemPane, new Point(12, 1));
+            // Wait for 5 seconds for user delay between actions; Click 'Offices' link
+            Playback.Wait(5000);
+            Mouse.Click(uIOfficesHyperlink, new Point(50, 32));
         }
         
         #region Properties
-        public virtual LogintoQAParams LogintoQAParams
+        public virtual AssertAvailableOfficeinListExpectedValues AssertAvailableOfficeinListExpectedValues
         {
             get
             {
-                if ((this.mLogintoQAParams == null))
+                if ((this.mAssertAvailableOfficeinListExpectedValues == null))
                 {
-                    this.mLogintoQAParams = new LogintoQAParams();
+                    this.mAssertAvailableOfficeinListExpectedValues = new AssertAvailableOfficeinListExpectedValues();
                 }
-                return this.mLogintoQAParams;
+                return this.mAssertAvailableOfficeinListExpectedValues;
             }
         }
         
@@ -108,6 +228,78 @@ namespace ViewOffices.Test
                     this.mAssertContentMenuButtonExpectedValues = new AssertContentMenuButtonExpectedValues();
                 }
                 return this.mAssertContentMenuButtonExpectedValues;
+            }
+        }
+        
+        public virtual AssertECAOfficeDirectoryPageExpectedValues AssertECAOfficeDirectoryPageExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertECAOfficeDirectoryPageExpectedValues == null))
+                {
+                    this.mAssertECAOfficeDirectoryPageExpectedValues = new AssertECAOfficeDirectoryPageExpectedValues();
+                }
+                return this.mAssertECAOfficeDirectoryPageExpectedValues;
+            }
+        }
+        
+        public virtual AssertOfficeAvailableinListExpectedValues AssertOfficeAvailableinListExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertOfficeAvailableinListExpectedValues == null))
+                {
+                    this.mAssertOfficeAvailableinListExpectedValues = new AssertOfficeAvailableinListExpectedValues();
+                }
+                return this.mAssertOfficeAvailableinListExpectedValues;
+            }
+        }
+        
+        public virtual AssertOfficesContentMenuLinkExpectedValues AssertOfficesContentMenuLinkExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertOfficesContentMenuLinkExpectedValues == null))
+                {
+                    this.mAssertOfficesContentMenuLinkExpectedValues = new AssertOfficesContentMenuLinkExpectedValues();
+                }
+                return this.mAssertOfficesContentMenuLinkExpectedValues;
+            }
+        }
+        
+        public virtual AssertSearchOfficesExpectedValues AssertSearchOfficesExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertSearchOfficesExpectedValues == null))
+                {
+                    this.mAssertSearchOfficesExpectedValues = new AssertSearchOfficesExpectedValues();
+                }
+                return this.mAssertSearchOfficesExpectedValues;
+            }
+        }
+        
+        public virtual LogintoQAParams LogintoQAParams
+        {
+            get
+            {
+                if ((this.mLogintoQAParams == null))
+                {
+                    this.mLogintoQAParams = new LogintoQAParams();
+                }
+                return this.mLogintoQAParams;
+            }
+        }
+        
+        public virtual RefreshAllOffices_ECAOfficeDirectoryPageParams RefreshAllOffices_ECAOfficeDirectoryPageParams
+        {
+            get
+            {
+                if ((this.mRefreshAllOffices_ECAOfficeDirectoryPageParams == null))
+                {
+                    this.mRefreshAllOffices_ECAOfficeDirectoryPageParams = new RefreshAllOffices_ECAOfficeDirectoryPageParams();
+                }
+                return this.mRefreshAllOffices_ECAOfficeDirectoryPageParams;
             }
         }
         
@@ -125,11 +317,131 @@ namespace ViewOffices.Test
         #endregion
         
         #region Fields
-        private LogintoQAParams mLogintoQAParams;
+        private AssertAvailableOfficeinListExpectedValues mAssertAvailableOfficeinListExpectedValues;
         
         private AssertContentMenuButtonExpectedValues mAssertContentMenuButtonExpectedValues;
         
+        private AssertECAOfficeDirectoryPageExpectedValues mAssertECAOfficeDirectoryPageExpectedValues;
+        
+        private AssertOfficeAvailableinListExpectedValues mAssertOfficeAvailableinListExpectedValues;
+        
+        private AssertOfficesContentMenuLinkExpectedValues mAssertOfficesContentMenuLinkExpectedValues;
+        
+        private AssertSearchOfficesExpectedValues mAssertSearchOfficesExpectedValues;
+        
+        private LogintoQAParams mLogintoQAParams;
+        
+        private RefreshAllOffices_ECAOfficeDirectoryPageParams mRefreshAllOffices_ECAOfficeDirectoryPageParams;
+        
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertAvailableOfficeinList'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class AssertAvailableOfficeinListExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'ECA/P/C Cultural Heritage Center' cell contains ' 
+        ///ECA/P/C
+        ///
+        ///Cultural Heritage Center'
+        /// </summary>
+        public string UIECAPCCulturalHeritagCellInnerText = " \r\nECA/P/C\r\n\r\nCultural Heritage Center";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertContentMenuButton'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class AssertContentMenuButtonExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
+        /// </summary>
+        public string UITogglenavigationButtonControlType = "Button";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertECAOfficeDirectoryPage'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class AssertECAOfficeDirectoryPageExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
+        /// </summary>
+        public string UIECAOfficeDirectoryPaneInnerText = "ECA Office Directory";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
+        /// </summary>
+        public string UIECAOfficeDirectoryPaneDisplayText = "ECA Office Directory";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertOfficeAvailableinList'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class AssertOfficeAvailableinListExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'ECA/P/C' link equals 'Hyperlink'
+        /// </summary>
+        public string UIECAPCHyperlinkControlType = "Hyperlink";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'ECA/P/C' link equals 'ECA/P/C'
+        /// </summary>
+        public string UIECAPCHyperlinkInnerText = "ECA/P/C";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertOfficesContentMenuLink'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class AssertOfficesContentMenuLinkExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Offices' link equals 'Hyperlink'
+        /// </summary>
+        public string UIOfficesHyperlinkControlType = "Hyperlink";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Offices' link equals 'Offices'
+        /// </summary>
+        public string UIOfficesHyperlinkInnerText = "Offices";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertSearchOffices'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class AssertSearchOfficesExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEditControlType = "Edit";
         #endregion
     }
     
@@ -169,17 +481,17 @@ namespace ViewOffices.Test
     }
     
     /// <summary>
-    /// Parameters to be passed into 'AssertContentMenuButton'
+    /// Parameters to be passed into 'RefreshAllOffices_ECAOfficeDirectoryPage'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
-    public class AssertContentMenuButtonExpectedValues
+    public class RefreshAllOffices_ECAOfficeDirectoryPageParams
     {
         
         #region Fields
         /// <summary>
-        /// Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
+        /// Type '{F5}' in 'Offices' link
         /// </summary>
-        public string UITogglenavigationButtonControlType = "Button";
+        public string UIOfficesHyperlinkSendKeys = "{F5}";
         #endregion
     }
     
@@ -227,12 +539,26 @@ namespace ViewOffices.Test
                 return this.mUIHttpsecakmtqaazureweDocument;
             }
         }
+        
+        public UIHttpsecakmtqaazureweDocument1 UIHttpsecakmtqaazureweDocument1
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument1 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument1 = new UIHttpsecakmtqaazureweDocument1(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument1;
+            }
+        }
         #endregion
         
         #region Fields
         private UISignintoAzureActiveDDocument mUISignintoAzureActiveDDocument;
         
         private UIHttpsecakmtqaazureweDocument mUIHttpsecakmtqaazureweDocument;
+        
+        private UIHttpsecakmtqaazureweDocument1 mUIHttpsecakmtqaazureweDocument1;
         #endregion
     }
     
@@ -398,12 +724,381 @@ namespace ViewOffices.Test
                 return this.mUIItemPane;
             }
         }
+        
+        public UICbpspmenus1Custom UICbpspmenus1Custom
+        {
+            get
+            {
+                if ((this.mUICbpspmenus1Custom == null))
+                {
+                    this.mUICbpspmenus1Custom = new UICbpspmenus1Custom(this);
+                }
+                return this.mUICbpspmenus1Custom;
+            }
+        }
         #endregion
         
         #region Fields
         private HtmlButton mUITogglenavigationButton;
         
         private HtmlSpan mUIItemPane;
+        
+        private UICbpspmenus1Custom mUICbpspmenus1Custom;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UICbpspmenus1Custom : HtmlCustom
+    {
+        
+        public UICbpspmenus1Custom(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties["TagName"] = "NAV";
+            this.SearchProperties["Id"] = "cbp-spmenu-s1";
+            this.SearchProperties[UITestControl.PropertyNames.Name] = null;
+            this.FilterProperties["Class"] = "cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left cbp-spmenu-open";
+            this.FilterProperties["ControlDefinition"] = "class=\"cbp-spmenu cbp-spmenu-vertical cb";
+            this.FilterProperties["TagInstance"] = "1";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIOfficesHyperlink
+        {
+            get
+            {
+                if ((this.mUIOfficesHyperlink == null))
+                {
+                    this.mUIOfficesHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIOfficesHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIOfficesHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIOfficesHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIOfficesHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "Offices";
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/alloffices/";
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding ng-scope";
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding ng-scope\" href=\"#/allo";
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "2";
+                    this.mUIOfficesHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIOfficesHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIOfficesHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIHttpsecakmtqaazureweDocument1 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UITopPane UITopPane
+        {
+            get
+            {
+                if ((this.mUITopPane == null))
+                {
+                    this.mUITopPane = new UITopPane(this);
+                }
+                return this.mUITopPane;
+            }
+        }
+        
+        public UISortlistPane UISortlistPane
+        {
+            get
+            {
+                if ((this.mUISortlistPane == null))
+                {
+                    this.mUISortlistPane = new UISortlistPane(this);
+                }
+                return this.mUISortlistPane;
+            }
+        }
+        
+        public UICbpspmenus1Custom1 UICbpspmenus1Custom
+        {
+            get
+            {
+                if ((this.mUICbpspmenus1Custom == null))
+                {
+                    this.mUICbpspmenus1Custom = new UICbpspmenus1Custom1(this);
+                }
+                return this.mUICbpspmenus1Custom;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UITopPane mUITopPane;
+        
+        private UISortlistPane mUISortlistPane;
+        
+        private UICbpspmenus1Custom1 mUICbpspmenus1Custom;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UITopPane : HtmlDiv
+    {
+        
+        public UITopPane(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "ECA Office Directory\r\n\r\n\r\n\r\n\r\n \r\n\r\n\r\n\r\n ";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" ng-click=\"closeMenus()\" autoscroll=\"true\" ui-view=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "24";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlDiv UIECAOfficeDirectoryPane
+        {
+            get
+            {
+                if ((this.mUIECAOfficeDirectoryPane == null))
+                {
+                    this.mUIECAOfficeDirectoryPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIECAOfficeDirectoryPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIECAOfficeDirectoryPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIECAOfficeDirectoryPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "ECA Office Directory";
+                    this.mUIECAOfficeDirectoryPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIECAOfficeDirectoryPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "heading";
+                    this.mUIECAOfficeDirectoryPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"heading\"";
+                    this.mUIECAOfficeDirectoryPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "27";
+                    this.mUIECAOfficeDirectoryPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIECAOfficeDirectoryPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlDiv mUIECAOfficeDirectoryPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UISortlistPane : HtmlDiv
+    {
+        
+        public UISortlistPane(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Showing 1 - 25 of 56 offices\r\n\r\n \r\n\r\n\r\n ";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-isolate-scope\" id=\"sort-list\" st-table=\"offices\" st-pipe=\"getOffices\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "28";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "search-contextual";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"search-contextual\" type=\"search\" ";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "1";
+                    this.mUIItemEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        
+        public UIItemTable UIItemTable
+        {
+            get
+            {
+                if ((this.mUIItemTable == null))
+                {
+                    this.mUIItemTable = new UIItemTable(this);
+                }
+                return this.mUIItemTable;
+            }
+        }
+        
+        public HtmlHyperlink UIECAPCHyperlink
+        {
+            get
+            {
+                if ((this.mUIECAPCHyperlink == null))
+                {
+                    this.mUIECAPCHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIECAPCHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIECAPCHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIECAPCHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIECAPCHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "ECA/P/C";
+                    this.mUIECAPCHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIECAPCHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIECAPCHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/offices/1036/overview";
+                    this.mUIECAPCHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
+                    this.mUIECAPCHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/offices/1036/";
+                    this.mUIECAPCHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "16";
+                    this.mUIECAPCHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIECAPCHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlEdit mUIItemEdit;
+        
+        private UIItemTable mUIItemTable;
+        
+        private HtmlHyperlink mUIECAPCHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIItemTable : HtmlTable
+    {
+        
+        public UIItemTable(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlTable.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlTable.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlTable.PropertyNames.InnerText] = "Showing 1 - 25 of 56 offices\r\n\r\n \r\n\r\n\r\n ";
+            this.FilterProperties[HtmlTable.PropertyNames.ControlDefinition] = "class=\"col-md-12\"";
+            this.FilterProperties[HtmlTable.PropertyNames.RowCount] = "28";
+            this.FilterProperties[HtmlTable.PropertyNames.ColumnCount] = "2";
+            this.FilterProperties[HtmlTable.PropertyNames.Class] = "col-md-12";
+            this.FilterProperties[HtmlTable.PropertyNames.TagInstance] = "1";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlCell UIECAPCCulturalHeritagCell
+        {
+            get
+            {
+                if ((this.mUIECAPCCulturalHeritagCell == null))
+                {
+                    this.mUIECAPCCulturalHeritagCell = new HtmlCell(this);
+                    #region Search Criteria
+                    this.mUIECAPCCulturalHeritagCell.SearchProperties[HtmlCell.PropertyNames.Id] = null;
+                    this.mUIECAPCCulturalHeritagCell.SearchProperties[HtmlCell.PropertyNames.Name] = null;
+                    this.mUIECAPCCulturalHeritagCell.SearchProperties[HtmlCell.PropertyNames.MaxDepth] = "3";
+                    this.mUIECAPCCulturalHeritagCell.SearchProperties[HtmlCell.PropertyNames.InnerText] = "ECA/P/C\r\n\r\nCultural Heritage Center";
+                    this.mUIECAPCCulturalHeritagCell.FilterProperties[HtmlCell.PropertyNames.ControlDefinition] = "class=\"col-md-7\" style=\"padding-left: 99px;\" ng-style=\"{\'padding-left\': 60+(20*of" +
+                        "fice.officeLevel-1)}\"";
+                    this.mUIECAPCCulturalHeritagCell.FilterProperties[HtmlCell.PropertyNames.RowIndex] = "17";
+                    this.mUIECAPCCulturalHeritagCell.FilterProperties[HtmlCell.PropertyNames.ColumnIndex] = "0";
+                    this.mUIECAPCCulturalHeritagCell.FilterProperties[HtmlCell.PropertyNames.Class] = "col-md-7";
+                    this.mUIECAPCCulturalHeritagCell.FilterProperties[HtmlCell.PropertyNames.TagInstance] = "31";
+                    this.mUIECAPCCulturalHeritagCell.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIECAPCCulturalHeritagCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlCell mUIECAPCCulturalHeritagCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UICbpspmenus1Custom1 : HtmlCustom
+    {
+        
+        public UICbpspmenus1Custom1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties["TagName"] = "NAV";
+            this.SearchProperties["Id"] = "cbp-spmenu-s1";
+            this.SearchProperties[UITestControl.PropertyNames.Name] = null;
+            this.FilterProperties["Class"] = "cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left";
+            this.FilterProperties["ControlDefinition"] = "class=\"cbp-spmenu cbp-spmenu-vertical cb";
+            this.FilterProperties["TagInstance"] = "1";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIOfficesHyperlink
+        {
+            get
+            {
+                if ((this.mUIOfficesHyperlink == null))
+                {
+                    this.mUIOfficesHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIOfficesHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIOfficesHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIOfficesHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIOfficesHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "Offices";
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/alloffices/";
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding ng-scope";
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding ng-scope\" href=\"#/allo";
+                    this.mUIOfficesHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "2";
+                    this.mUIOfficesHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIOfficesHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIOfficesHyperlink;
         #endregion
     }
 }
