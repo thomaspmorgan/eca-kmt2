@@ -32,7 +32,6 @@
                 return false;
             }
             return this.Id == otherType.Id && this.Value == otherType.Value;
-
         }
 
         /// <summary>
