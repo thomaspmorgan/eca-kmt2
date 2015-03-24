@@ -1,7 +1,24 @@
 <div class="alert alert-danger" ng-show="loadingProgramsErrorOccurred">There was an error retrieving programs.</div>
-<h2 class="office-color tab-header">Branches & Programs</h2>
-<p class="subheader">Showing {{skippedNumberOfPrograms}} - {{numberOfPrograms}} of {{totalNumberOfPrograms}} programs</p>
+<h2 class="office-color tab-header">{{header}}</h2>
+<div class="alert alert-danger" ng-show="loadingBranchesErrorOccurred">
+    Error!  There was an error retrieving the branches.
+</div>
+<div ng-show="branches.length">
+    <!--<h4 class="tab-subheader">Branches</h4>-->
+    <div class="spinner" ng-show="isLoadingBranches">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <ul class="branch-list" ng-show="!isLoadingBranches">
+        <li ng-repeat="branch in branches" class="branch">
+            <span class="branch-title">{{branch.organizationType}}</span>
+            <span class="branch-name"><a ui-sref="offices.overview({officeId: branch.organizationId})">{{branch.name}}</a></span>
+        </li>
+    </ul>
+</div>
 <div st-pipe="getPrograms" st-table="programs" id="sort-list">
+    <!--<h4 class="tab-subheader">Programs</h4>-->
     <table class="col-md-12">
         <thead>
             <tr>
@@ -10,8 +27,11 @@
             </tr>
             <tr>
                 <th>
-                    <input st-search type="search" placeholder="Search Programs" class="search-contextual" maxlength="100">
-                    <i class="glyphicon glyphicon-search contextual"></i>
+                    <div>
+                        <input st-search type="search" placeholder="Search Programs" class="search-contextual" maxlength="100">
+                        <i class="glyphicon glyphicon-search contextual"></i>
+                        <p>Showing {{skippedNumberOfPrograms}} - {{numberOfPrograms}} of {{totalNumberOfPrograms}} programs</p>
+                    </div>
                 </th>
             </tr>
         </thead>
@@ -19,7 +39,7 @@
             <tr ng-repeat="program in programs" class="hover" ng-show="!isLoadingPrograms">
                 <td>
                     <div ng-style="{marginLeft: (program.programLevel - 1) * 60}">
-                        <span class="owner-office">{{office.officeSymbol}}</span>
+                        <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:programFilter">{{office.officeSymbol}}</span>
                         <h5 class="list-title">
                             <a ng-bind-html="program.name | highlight:programFilter" ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a>
                         </h5>

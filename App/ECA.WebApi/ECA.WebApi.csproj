@@ -339,6 +339,7 @@
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev-Web-Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\ecaapi-kmt-qa.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

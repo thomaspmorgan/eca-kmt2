@@ -123,12 +123,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
-    <Content Include="scripts\constants.js">
+    <Content Include="scripts\filters\highlight.js" />
+    <Content Include="scripts\services\constantsservice.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>constants.tt</DependentUpon>
+      <DependentUpon>constantsservice.tt</DependentUpon>
     </Content>
-    <Content Include="scripts\filters\highlight.js" />
     <Content Include="scripts\services\moneyflow.js" />
     <Content Include="scripts\services\office.js" />
     <Content Include="scripts\services\person.js" />
@@ -174,9 +174,9 @@
     <None Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
-    <Content Include="scripts\constants.tt">
+    <Content Include="scripts\services\constantsservice.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>constants.js</LastGenOutput>
+      <LastGenOutput>constantsservice.js</LastGenOutput>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

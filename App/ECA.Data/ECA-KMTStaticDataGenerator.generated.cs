@@ -33,6 +33,46 @@ namespace ECA.Data
 }
 #endregion
 
+#region AddressType
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class AddressType
+	{
+		///<summary>
+		/// Returns the Home lookup with id 1.
+		///</summary>
+		public static StaticLookup Home { get { return new StaticLookup("Home", 1); } }
+		///<summary>
+		/// Returns the Host lookup with id 2.
+		///</summary>
+		public static StaticLookup Host { get { return new StaticLookup("Host", 2); } }
+		///<summary>
+		/// Returns the Work lookup with id 3.
+		///</summary>
+		public static StaticLookup Work { get { return new StaticLookup("Work", 3); } }
+		///<summary>
+		/// Returns the Organization lookup with id 4.
+		///</summary>
+		public static StaticLookup Organization { get { return new StaticLookup("Organization", 4); } }
+
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if(1 == id) return AddressType.Home;
+			if(2 == id) return AddressType.Host;
+			if(3 == id) return AddressType.Work;
+			if(4 == id) return AddressType.Organization;
+			return null;
+		}
+	}
+}
+#endregion
+
 #region Gender
 namespace ECA.Data
 {
@@ -79,6 +119,18 @@ namespace ECA.Data
 	using ECA.Core.Generation;
 	public partial class ItineraryStatus
 	{
+		///<summary>
+		/// Returns the Planned lookup with id 1.
+		///</summary>
+		public static StaticLookup Planned { get { return new StaticLookup("Planned", 1); } }
+		///<summary>
+		/// Returns the InProgress lookup with id 2.
+		///</summary>
+		public static StaticLookup Inprogress { get { return new StaticLookup("InProgress", 2); } }
+		///<summary>
+		/// Returns the Completed lookup with id 3.
+		///</summary>
+		public static StaticLookup Completed { get { return new StaticLookup("Completed", 3); } }
 
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
@@ -87,6 +139,9 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(int id)
 		{
+			if(1 == id) return ItineraryStatus.Planned;
+			if(2 == id) return ItineraryStatus.Inprogress;
+			if(3 == id) return ItineraryStatus.Completed;
 			return null;
 		}
 	}
@@ -127,6 +182,10 @@ namespace ECA.Data
 		/// Returns the Place lookup with id 8.
 		///</summary>
 		public static StaticLookup Place { get { return new StaticLookup("Place", 8); } }
+		///<summary>
+		/// Returns the Address lookup with id 9.
+		///</summary>
+		public static StaticLookup Address { get { return new StaticLookup("Address", 9); } }
 
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
@@ -142,6 +201,7 @@ namespace ECA.Data
 			if(6 == id) return LocationType.Building;
 			if(7 == id) return LocationType.Post;
 			if(8 == id) return LocationType.Place;
+			if(9 == id) return LocationType.Address;
 			return null;
 		}
 	}
@@ -154,6 +214,42 @@ namespace ECA.Data
 	using ECA.Core.Generation;
 	public partial class MoneyFlowSourceRecipientType
 	{
+		///<summary>
+		/// Returns the Organization lookup with id 1.
+		///</summary>
+		public static StaticLookup Organization { get { return new StaticLookup("Organization", 1); } }
+		///<summary>
+		/// Returns the Program lookup with id 2.
+		///</summary>
+		public static StaticLookup Program { get { return new StaticLookup("Program", 2); } }
+		///<summary>
+		/// Returns the Project lookup with id 3.
+		///</summary>
+		public static StaticLookup Project { get { return new StaticLookup("Project", 3); } }
+		///<summary>
+		/// Returns the Participant lookup with id 4.
+		///</summary>
+		public static StaticLookup Participant { get { return new StaticLookup("Participant", 4); } }
+		///<summary>
+		/// Returns the ItineraryStop lookup with id 5.
+		///</summary>
+		public static StaticLookup Itinerarystop { get { return new StaticLookup("ItineraryStop", 5); } }
+		///<summary>
+		/// Returns the Accomodation lookup with id 6.
+		///</summary>
+		public static StaticLookup Accomodation { get { return new StaticLookup("Accomodation", 6); } }
+		///<summary>
+		/// Returns the Transportation lookup with id 7.
+		///</summary>
+		public static StaticLookup Transportation { get { return new StaticLookup("Transportation", 7); } }
+		///<summary>
+		/// Returns the Expense lookup with id 8.
+		///</summary>
+		public static StaticLookup Expense { get { return new StaticLookup("Expense", 8); } }
+		///<summary>
+		/// Returns the Post lookup with id 9.
+		///</summary>
+		public static StaticLookup Post { get { return new StaticLookup("Post", 9); } }
 
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
@@ -162,6 +258,15 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(int id)
 		{
+			if(1 == id) return MoneyFlowSourceRecipientType.Organization;
+			if(2 == id) return MoneyFlowSourceRecipientType.Program;
+			if(3 == id) return MoneyFlowSourceRecipientType.Project;
+			if(4 == id) return MoneyFlowSourceRecipientType.Participant;
+			if(5 == id) return MoneyFlowSourceRecipientType.Itinerarystop;
+			if(6 == id) return MoneyFlowSourceRecipientType.Accomodation;
+			if(7 == id) return MoneyFlowSourceRecipientType.Transportation;
+			if(8 == id) return MoneyFlowSourceRecipientType.Expense;
+			if(9 == id) return MoneyFlowSourceRecipientType.Post;
 			return null;
 		}
 	}
@@ -174,6 +279,18 @@ namespace ECA.Data
 	using ECA.Core.Generation;
 	public partial class MoneyFlowType
 	{
+		///<summary>
+		/// Returns the Incoming lookup with id 1.
+		///</summary>
+		public static StaticLookup Incoming { get { return new StaticLookup("Incoming", 1); } }
+		///<summary>
+		/// Returns the Outgoing lookup with id 2.
+		///</summary>
+		public static StaticLookup Outgoing { get { return new StaticLookup("Outgoing", 2); } }
+		///<summary>
+		/// Returns the Internal lookup with id 3.
+		///</summary>
+		public static StaticLookup Internal { get { return new StaticLookup("Internal", 3); } }
 
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
@@ -182,6 +299,9 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(int id)
 		{
+			if(1 == id) return MoneyFlowType.Incoming;
+			if(2 == id) return MoneyFlowType.Outgoing;
+			if(3 == id) return MoneyFlowType.Internal;
 			return null;
 		}
 	}
@@ -301,10 +421,6 @@ namespace ECA.Data
 		/// Returns the Other lookup with id 8.
 		///</summary>
 		public static StaticLookup Other { get { return new StaticLookup("Other", 8); } }
-		///<summary>
-		/// Returns the Marc lookup with id 9.
-		///</summary>
-		public static StaticLookup Marc { get { return new StaticLookup("Marc", 9); } }
 
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
@@ -321,7 +437,6 @@ namespace ECA.Data
 			if(6 == id) return ParticipantType.Individual;
 			if(7 == id) return ParticipantType.ForeignNgoPvo;
 			if(8 == id) return ParticipantType.Other;
-			if(9 == id) return ParticipantType.Marc;
 			return null;
 		}
 	}
@@ -520,10 +635,6 @@ namespace ECA.Data
 		/// Returns the Weibo lookup with id 4.
 		///</summary>
 		public static StaticLookup Weibo { get { return new StaticLookup("Weibo", 4); } }
-		///<summary>
-		/// Returns the brian lookup with id 5.
-		///</summary>
-		public static StaticLookup Brian { get { return new StaticLookup("brian", 5); } }
 
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
@@ -536,7 +647,6 @@ namespace ECA.Data
 			if(2 == id) return SocialMediaType.Linkedin;
 			if(3 == id) return SocialMediaType.Twitter;
 			if(4 == id) return SocialMediaType.Weibo;
-			if(5 == id) return SocialMediaType.Brian;
 			return null;
 		}
 	}
@@ -560,6 +670,7 @@ namespace ECA.Data
 		{
 			var errors = new List<string>();
 			errors.AddRange(validator.Validate<ActorType>());
+			errors.AddRange(validator.Validate<AddressType>());
 			errors.AddRange(validator.Validate<Gender>());
 			errors.AddRange(validator.Validate<ItineraryStatus>());
 			errors.AddRange(validator.Validate<LocationType>());

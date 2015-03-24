@@ -43,8 +43,10 @@ angular.module('staticApp')
           }
       };
 
+      $scope.header = 'Branches & Programs';
       $scope.office = {};
       $scope.programs = [];
+      $scope.branches = [];
       $scope.totalNumberOfPrograms = -1;
       $scope.skippedNumberOfPrograms = -1;
       $scope.numberOfPrograms = -1;
@@ -52,10 +54,12 @@ angular.module('staticApp')
 
       $scope.isLoadingOfficeById = true;
       $scope.isLoadingPrograms = false;
+      $scope.isLoadingBranches = true;
 
       $scope.officeExists = true;
       $scope.showLoadingOfficeByIdError = false;
       $scope.loadingProgramsErrorOccurred = false;
+      $scope.loadingBranchesErrorOccurred = false;
 
       var officeId = $stateParams.officeId;
 
@@ -63,6 +67,15 @@ angular.module('staticApp')
           $scope.officeExists = true;
           $scope.showLoadingOfficeByIdError = false;
           $scope.loadingProgramsErrorOccurred = false;
+          $scope.loadingBranchesErrorOccurred = false;
+      }
+
+      function showLoadingBranches() {
+          $scope.isLoadingBranches = true;
+      }
+
+      function hideLoadingBranches() {
+          $scope.isLoadingBranches = false;
       }
 
       function showLoadingOfficeById() {
@@ -85,6 +98,16 @@ angular.module('staticApp')
           $scope.loadingProgramsErrorOccurred = true;
       }
 
+      function showLoadingBranchesError() {
+          $scope.loadingBranchesErrorOccurred = true;
+      }
+
+      function updateHeader() {
+          if ($scope.branches.length === 0) {
+              $scope.header = "Programs";
+          }
+      }
+
       function getOfficeById(id) {
           var dfd = $q.defer();
           reset();
@@ -104,6 +127,21 @@ angular.module('staticApp')
           $scope.totalNumberOfPrograms = total;
           $scope.skippedNumberOfPrograms = start;
           $scope.numberOfPrograms = count;
+      }
+
+      function getChildOfficesById(officeId) {
+          var dfd = $q.defer();
+
+          OfficeService.getChildOffices(officeId)
+              .then(function (data, status, headers, config) {
+                  dfd.resolve(data.data);
+              },
+              function (data, status, headers, config) {
+                  var errorCode = data.status;
+                  dfd.reject(errorCode);
+
+              });
+          return dfd.promise;
       }
 
       function getProgramsByOfficeId(officeId, params) {
@@ -176,4 +214,18 @@ angular.module('staticApp')
         .then(function () {
             hideLoadingOfficeById();
         });
+
+      showLoadingBranches();
+      getChildOfficesById(officeId)
+          .then(function (data) {
+              var childOffices = data;
+              $scope.branches = childOffices;
+          }, function (errorCode) {
+              showLoadingBranchesError();
+          })
+          .then(function(){
+              hideLoadingBranches();
+              updateHeader();
+          });
+      
   });
