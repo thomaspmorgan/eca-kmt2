@@ -192,7 +192,7 @@ angular.module('staticApp')
                 elements[key].click();
             })
         });
-        $scope.formScope.programForm.parentProgram.$setViewValue('','');
+        $scope.newProgram.parentProgramId = null;
     };
 
     $scope.setFormScope = function (scope) {
