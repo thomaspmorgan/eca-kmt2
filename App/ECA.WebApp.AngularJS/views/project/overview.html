@@ -18,12 +18,8 @@
         </div>
         <div class="row">
             <div class="col-md-6 title-label">Themes</div>
-            <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.themeName}} </span></div>
+            <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.value}} </span></div>
         </div>
-        <!--<div class="row">
-            <div class="col-md-6 title-label">Public Diplomacy Goals</div>
-            <div class="col-md-6"><span ng-repeat="goal in project.pdGoals">{{goal}} </span></div>
-        </div>-->
         <div class="row">
             <div class="col-md-6 title-label">Strategic Goals</div>
             <div class="col-md-6">
@@ -31,13 +27,11 @@
                     <li ng-repeat="goal in project.goals">{{goal.value}}</li>
                 </ul>
             </div>
-            <!--<div class="col-md-6"><span ng-repeat="goal in project.goals">{{goal.goalName}} </span></div>-->
         </div>
     </div>
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-6 title-label">Focus</div>
-            <!--<div class="col-md-6"><span ng-repeat="area in project.focusAreas">{{area}}</span></div>-->
             <div class="col-md-6">{{project.focus}}</div>
         </div>
         <div class="row">
@@ -68,12 +62,3 @@
         <map width="600" height="300" activecolor="5cb9dd" countries="project.countryIsos"></map>
     </div>
 </div>
-<!--<div class="row">
-    <div class="col-md-4">
-        <p class="stat text-center">{{project.targets.length}}</p>
-        <p class="title-label text-center">Targets</p>
-    </div>
-    <div class="col-md-8">
-        <map width="600" height="300" activecolor="5cb9dd" countries="project.targets"></map>
-    </div>
-</div> -->
