@@ -170,9 +170,11 @@
     <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\brian.pubxml" />
+    <None Include="Properties\PublishProfiles\eca-kmt-dev - brandon.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev.pubxml" />
+    <None Include="Properties\PublishProfiles\eca-kmt-qa - brandon.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-qa.pubxml" />
     <Content Include="scripts\services\constantsservice.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
