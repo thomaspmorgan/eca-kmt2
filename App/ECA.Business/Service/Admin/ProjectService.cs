@@ -84,12 +84,7 @@ namespace ECA.Business.Service.Admin
         /// <returns>The program</returns>
         protected Program GetProgramById(int programId)
         {
-            return this.Context.Programs
-                .Include("Themes")
-                .Include("Goals")
-                .Include("Contacts")
-                .Include("Regions")
-                .FirstOrDefault(p => p.ProgramId == programId);
+            return CreateGetProgramByIdQuery(programId).FirstOrDefault();
         }
 
         /// <summary>
@@ -99,12 +94,17 @@ namespace ECA.Business.Service.Admin
         /// <returns>The program</returns>
         protected async Task<Program> GetProgramByIdAsync(int programId)
         {
-            return await this.Context.Programs
+            return await CreateGetProgramByIdQuery(programId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<Program> CreateGetProgramByIdQuery(int programId)
+        {
+            return this.Context.Programs
                 .Include("Themes")
                 .Include("Goals")
                 .Include("Contacts")
                 .Include("Regions")
-                .FirstOrDefaultAsync(p => p.ProgramId == programId);
+                .Where(x => x.ProgramId == programId);
         }
 
         #endregion
