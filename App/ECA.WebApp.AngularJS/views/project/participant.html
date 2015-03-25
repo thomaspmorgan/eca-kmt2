@@ -147,7 +147,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="project.participants > 0"></div>
+            <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="project.participants.length > 0"></div>
         </div>
         <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" on-close="modalClear()" main-model="newParticipant">
             <h5>Fill out the required information below for each participant.</h5>
