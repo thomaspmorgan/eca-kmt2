@@ -12,6 +12,12 @@ gulp.task('styles', ['clean'], function () {
         .pipe(gulp.dest('dist/styles'));
 });
 
+gulp.task('localStyles', ['clean'], function () {
+    var sass = require('gulp-sass');
+    gulp.src('styles/main.scss')
+        .pipe(sass())
+        .pipe(gulp.dest('styles'));
+});
 
 gulp.task('html', ['clean'], function () {
     var useref = require('gulp-useref');
