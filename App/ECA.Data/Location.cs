@@ -29,6 +29,7 @@ namespace ECA.Data
         public string PostalCode { get; set; }
         public string LocationName { get; set; }
         public string LocationIso { get; set; }
+
         public virtual Location Region { get; set; }
 
         // Relationships

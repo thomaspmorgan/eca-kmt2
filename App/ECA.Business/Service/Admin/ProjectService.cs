@@ -23,7 +23,8 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="context">The db context</param>
         /// <param name="logger">The logger</param>
-        public ProjectService(EcaContext context, ILogger logger) : base(context, logger)
+        public ProjectService(EcaContext context, ILogger logger)
+            : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(logger != null, "The logger must not be null.");
@@ -83,7 +84,12 @@ namespace ECA.Business.Service.Admin
         /// <returns>The program</returns>
         protected Program GetProgramById(int programId)
         {
-            return this.Context.Programs.Find(programId);
+            return this.Context.Programs
+                .Include("Themes")
+                .Include("Goals")
+                .Include("Contacts")
+                .Include("Regions")
+                .FirstOrDefault(p => p.ProgramId == programId);
         }
 
         /// <summary>
@@ -94,11 +100,11 @@ namespace ECA.Business.Service.Admin
         protected async Task<Program> GetProgramByIdAsync(int programId)
         {
             return await this.Context.Programs
-                                         .Include("Themes")
-                                         .Include("Goals")
-                                         .Include("Contacts")
-                                         .Include("Regions")
-                                         .FirstOrDefaultAsync(p => p.ProgramId == programId);
+                .Include("Themes")
+                .Include("Goals")
+                .Include("Contacts")
+                .Include("Regions")
+                .FirstOrDefaultAsync(p => p.ProgramId == programId);
         }
 
         #endregion

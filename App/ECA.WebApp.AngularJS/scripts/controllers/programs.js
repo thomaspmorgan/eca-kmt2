@@ -14,6 +14,7 @@ angular.module('staticApp')
       $scope.confirmFail = false;
       $scope.confirmSave = false;
       $scope.newProjectId = null;
+      $scope.validations = [];
 
 
       $scope.newProject = {
@@ -96,15 +97,23 @@ angular.module('staticApp')
               programId: $scope.program.id
           }
           ProjectService.create(project)
-            .then(function (createdProject) {
-                if (createdProject.hasOwnProperty('ErrorMessage')) {
-                    $scope.errorMessage = program.ErrorMessage;
-                    $scope.validations.push(program.Property);
+            .then(function (createSuccessData) {
+                var createdProject = createSuccessData.data;
+                $scope.confirmSave = true;
+                $scope.newProjectId = createdProject.id;
+            }, function (createErrorData) {
+                if (createErrorData.status === 400 && createErrorData.data && createErrorData.data.ValidationErrors) {
+                    $scope.errorMessage = createErrorData.data.Message;
+                    for (var key in createErrorData.data.ValidationErrors)
+                    {
+                        $scope.validations.push(createErrorData.data.ValidationErrors[key]);
+                    }
                     $scope.confirmFail = true;
-                } else {
-                    $scope.confirmSave = true;
-                    $scope.newProjectId = createdProject.id;
                 }
+                else {
+                    $scope.errorMessage = 'An Error has occurred.';
+                    $scope.confirmFail = true;
+                }   
             });
       };
 

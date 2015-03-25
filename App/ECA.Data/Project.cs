@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
 
 namespace ECA.Data
 {
     /// <summary>
     /// A project is a specific, time-bounded instance of a program, such as a cohort, an event or an exchange.
     /// </summary>
-    public class Project : IHistorical
+    public class Project : IHistorical, IValidatableObject
     {
         /// <summary>
         /// Creates a new Project and initializes the collections.
@@ -78,5 +79,29 @@ namespace ECA.Data
         public ICollection<Contact> Contacts { get; set; }
 
         public History History { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validationContext"></param>
+        /// <returns></returns>
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            Contract.Assert(validationContext != null, "The validation context must not be null.");
+            Contract.Assert(validationContext.Items.ContainsKey(EcaContext.VALIDATABLE_CONTEXT_KEY), "The validation context must have a context to query.");
+            var context = validationContext.Items[EcaContext.VALIDATABLE_CONTEXT_KEY] as EcaContext;
+            Contract.Assert(context != null, "The context must not be null.");
+
+            var existingProjectsByName = context.Projects
+                .Where(x => x.Name.ToLower().Trim() == this.Name.ToLower().Trim() && x.ProjectId != this.ProjectId)
+                .FirstOrDefault();
+            if (existingProjectsByName != null)
+            {
+                yield return new ValidationResult(
+                    String.Format("The project with the name [{0}] already exists.",
+                        this.Name), 
+                    new List<string> { "Name" });
+            }
+        }
     }
 }
