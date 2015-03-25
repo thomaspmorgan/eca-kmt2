@@ -1,12 +1,14 @@
 .form-group {
-  color: $primarytext;
-  margin-bottom: 20px;
-
-  .form-control {
-    border: 1px solid $bordergray;    
     color: $primarytext;
-    opacity: 1;
-  }
+    margin-bottom: 20px;
+
+    .form-control {
+        border: 1px solid $bordergray;
+        color: $primarytext;
+        opacity: 1;
+        padding: 10.5px 14px;
+        height: 100%;
+    }
 }
 
 .form-control {
@@ -14,126 +16,126 @@
 }
 
 #modal {
-  border-top: 0;
+    border-top: 0;
 }
 
 #form-container {
-  padding: 0 0 0 40px;
+    padding: 0 0 0 40px;
 
-  .row {
-    border-top: 0;
-    margin-bottom: 0;
-    padding: 40px 0 0 40px;
-  }
+    .row {
+        border-top: 0;
+        margin-bottom: 0;
+        padding: 40px 0 0 40px;
+    }
 }
 
 #modal-tab {
-  margin-left: -40px;
-  margin-top: 40px;
-  width: 110%;
+    margin-left: -40px;
+    margin-top: 40px;
+    width: 110%;
 }
 
 .required,
 .required2 {
-  color: $required;
-  font-size: 13px;
-  font-weight: 500;
+    color: $required;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .required {
-  margin: 5px 0 0 23px;
+    margin: 5px 0 0 23px;
 }
 
 .required2 {
-  margin: 5px 0 0 ;
+    margin: 5px 0 0;
 }
 
 .asterisk {
-  color: $required;
+    color: $required;
 }
 
 .btn {
-  border: 0;
-  border-radius: 3px;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
-  height: 42px;
-  letter-spacing: 1.5px;
-  outline: 0;
-  padding: 0 30px;
-  text-transform: uppercase;
+    border: 0;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    height: 42px;
+    letter-spacing: 1.5px;
+    outline: 0;
+    padding: 0 30px;
+    text-transform: uppercase;
 
-  &:disabled {
-    opacity: .5;
-  }
+    &:disabled {
+        opacity: .5;
+    }
 }
 
 .btn-success {
-  background-color: $green;
+    background-color: $green;
 
-  &:hover {
-    background-color: $greenactive;
-  }
+    &:hover {
+        background-color: $greenactive;
+    }
 }
 
 .btn-default {
-  background-color: $gray;
-  color: $primarytext;
+    background-color: $gray;
+    color: $primarytext;
 
-  &:hover {
-    background-color: $grayactive;
-    color: #fff;
-  }
+    &:hover {
+        background-color: $grayactive;
+        color: #fff;
+    }
 }
 
-input, 
-textarea { 
-  border-radius: 3px;
-  outline: none;
+input,
+textarea {
+    border-radius: 3px;
+    outline: none;
 
-  &:focus {
-    border: 1px solid $blue;
-  }
+    &:focus {
+        border: 1px solid $blue;
+    }
 
-  &.ng-invalid.ng-dirty {
-    background-color: #fff0ef;
-    border: 1px solid #dc413a;
-  }
+    &.ng-invalid.ng-dirty {
+        background-color: #fff0ef;
+        border: 1px solid #dc413a;
+    }
 }
 
 .error {
-  color: #dc413a;
+    color: #dc413a;
 }
 
 label {
-  color: $primarytext;
-  display: block;
-  font-size: 12px; //.93em;
-  font-weight: 500;
-  line-height: 15px;
-  margin-bottom: 9px;
-  text-transform: uppercase;
+    color: $primarytext;
+    display: block;
+    font-size: 12px; //.93em;
+    font-weight: 500;
+    line-height: 15px;
+    margin-bottom: 9px;
+    text-transform: uppercase;
 }
 
 .multiSelect {
-  .multiSelectButton {
-    background-image: none;
-    border: 1px solid $bordergray;      
-    color: $primarytext;
-    padding: 10px 14px;
-    text-align: left;
-    width: 100%;
+    .multiSelectButton {
+        background-image: none;
+        border: 1px solid $bordergray;
+        color: $primarytext;
+        padding: 10px 14px;
+        text-align: left;
+        width: 100%;
 
-    &:hover {
-      background-image: none;
-    }
+        &:hover {
+            background-image: none;
+        }
 
-    .caret {
-      color: $darkgray;
-      float: right;
-      margin: 8px 0 1px 12px !important;
-      opacity: 1;
+        .caret {
+            color: $darkgray;
+            float: right;
+            margin: 8px 0 1px 12px !important;
+            opacity: 1;
+        }
     }
-  }
 }
