@@ -61,7 +61,6 @@ namespace ECA.Data
 
         public Person()
         {
-            Gender = new Gender();
             CountriesOfCitizenship = new HashSet<Location>();
             Publications = new HashSet<Publication>();
             SpecialStatuses = new HashSet<SpecialStatus>();

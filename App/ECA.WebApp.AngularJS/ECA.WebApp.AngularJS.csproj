@@ -134,6 +134,9 @@
     <Content Include="scripts\services\person.js" />
     <Content Include="scripts\services\tableservice.js" />
     <Content Include="scripts\services\lookupservice.js" />
+    <Content Include="styles\main.css">
+      <DependentUpon>main.scss</DependentUpon>
+    </Content>
     <Content Include="styles\_footer.scss" />
     <Content Include="styles\_form.scss" />
     <Content Include="styles\_hero.scss" />
@@ -170,6 +173,9 @@
     <Content Include="scripts\services\constantsservice.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>constantsservice.js</LastGenOutput>
+    </Content>
+    <Content Include="styles\main.css.map">
+      <DependentUpon>main.css</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -414,7 +420,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49831</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

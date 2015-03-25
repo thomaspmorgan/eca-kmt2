@@ -102,6 +102,7 @@ namespace ECA.Business.Test.Service.Persons
             var person = new Person
             {
                 PersonId = 1,
+                Gender = new Gender(),
             };
 
             person.CountriesOfCitizenship.Add(location);
@@ -149,7 +150,8 @@ namespace ECA.Business.Test.Service.Persons
 
             var person = new Person
             {
-                PersonId = 1
+                PersonId = 1,
+                Gender = new Gender()
             };
 
             

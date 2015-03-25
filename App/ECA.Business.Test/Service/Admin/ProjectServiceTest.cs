@@ -176,6 +176,8 @@ namespace ECA.Business.Test.Service.Admin
 
             var createdProject = service.Create(draftProject);
             var createdProjectAsync = await service.CreateAsync(draftProject);
+            tester(createdProject);
+            tester(createdProjectAsync);
         }
 
         [TestMethod]

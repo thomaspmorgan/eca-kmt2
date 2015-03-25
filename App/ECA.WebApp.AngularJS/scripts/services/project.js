@@ -98,12 +98,7 @@ angular.module('staticApp')
         return defer.promise;
       },
       create: function (project) {
-        var defer = $q.defer();
-        DragonBreath.create(project, 'projects')
-          .success(function (data) {
-            defer.resolve(data);
-          });
-        return defer.promise;
+          return DragonBreath.create(project, 'projects');
       }
     };
   });
