@@ -14,6 +14,7 @@ angular.module('staticApp')
       $scope.confirmFail = false;
       $scope.confirmSave = false;
       $scope.newProjectId = null;
+      $scope.isSavingProject = false;
       $scope.validations = [];
 
 
@@ -96,6 +97,7 @@ angular.module('staticApp')
               projectStatusId: 5,
               programId: $scope.program.id
           }
+          $scope.isSavingProject = true;
           ProjectService.create(project)
             .then(function (createSuccessData) {
                 var createdProject = createSuccessData.data;
@@ -114,7 +116,10 @@ angular.module('staticApp')
                     $scope.errorMessage = 'An Error has occurred.';
                     $scope.confirmFail = true;
                 }   
-            });
+            })
+          .then(function() {
+              $scope.isSavingProject = false;
+          });
       };
 
       $scope.modalClose = function () {
