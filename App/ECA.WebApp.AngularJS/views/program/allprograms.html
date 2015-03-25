@@ -60,7 +60,7 @@
                 </div>
                 <div class="form-group">
                     <label>Parent Program</label>
-                    <input name="parentProgram" ng-model="newProgram.parentProgramId" form-element guidance="This is the parent program of your new program, if needed." type="text" placeholder="Enter Parent Program name..."
+                    <input name="parentProgram" ng-model="newProgram.parentProgram" form-element guidance="This is the parent program of your new program, if needed." type="text" placeholder="Enter Parent Program name..."
                            typeahead="p as p.name for p in getParentPrograms($viewValue)" typeahead-loading="loadingPrograms" typeahead-on-select="model=$item.value"
                            typeahead-editable="false" class="form-control" /><i ng-show="loadingPrograms" class="glyphicon glyphicon-refresh"></i>
                 </div>
