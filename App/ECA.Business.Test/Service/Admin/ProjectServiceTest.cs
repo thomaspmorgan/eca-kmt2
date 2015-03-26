@@ -868,8 +868,7 @@ namespace ECA.Business.Test.Service.Admin
         }
         #endregion
 
-        #region Update
-        
+        #region Update        
 
         [TestMethod]
         [ExpectedException(typeof(ModelNotFoundException))]
@@ -1031,6 +1030,248 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(updatedProject.ProjectId, projectToUpdate.ProjectId);
             Assert.AreEqual(updatedProject.ProjectStatusId, projectToUpdate.ProjectStatusId);
             Assert.AreEqual(updatedProject.StartDate, projectToUpdate.StartDate);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckContacts()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1
+
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var contactIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: contactIds,
+                focusId: 1,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            await service.UpdateAsync(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Contacts.Count);
+            Assert.AreEqual(contactIds.First(), projectToUpdate.Contacts.First().ContactId);
+        }
+
+        [TestMethod]
+        public void TestUpdate_CheckContacts()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1
+
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var contactIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: contactIds,
+                focusId: 1,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            service.Update(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Contacts.Count);
+            Assert.AreEqual(contactIds.First(), projectToUpdate.Contacts.First().ContactId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckThemes()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var themeIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: themeIds,
+                pointsOfContactIds: null,
+                focusId: 1,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            await service.UpdateAsync(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Themes.Count);
+            Assert.AreEqual(themeIds.First(), projectToUpdate.Themes.First().ThemeId);
+        }
+
+        [TestMethod]
+        public void TestUpdate_CheckThemes()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var themeIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: themeIds,
+                pointsOfContactIds: null,
+                focusId: 1,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            service.Update(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Themes.Count);
+            Assert.AreEqual(themeIds.First(), projectToUpdate.Themes.First().ThemeId);
+        }
+
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckGoals()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var goalIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: goalIds,
+                themeIds: null,
+                pointsOfContactIds: null,
+                focusId: 1,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            await service.UpdateAsync(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Goals.Count);
+            Assert.AreEqual(goalIds.First(), projectToUpdate.Goals.First().GoalId);
+        }
+
+        [TestMethod]
+        public void TestUpdate_CheckGoals()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var goalIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: goalIds,
+                themeIds: null,
+                pointsOfContactIds: null,
+                focusId: 1,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            service.Update(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Goals.Count);
+            Assert.AreEqual(goalIds.First(), projectToUpdate.Goals.First().GoalId);
+        }
+
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckFocus()
+        {
+            var focus = new Focus
+            {
+                FocusId = 10
+            };
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1
+            };
+            context.Projects.Add(projectToUpdate);
+            context.Foci.Add(focus);
+
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                focusId: focus.FocusId,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            await service.UpdateAsync(updatedProject);
+            Assert.AreEqual(focus.FocusId, projectToUpdate.Focus.FocusId);
+        }
+
+        [TestMethod]
+        public void TestUpdate_CheckFocus()
+        {
+            var focus = new Focus
+            {
+                FocusId = 10
+            };
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1
+            };
+            context.Projects.Add(projectToUpdate);
+            context.Foci.Add(focus);
+
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                focusId: focus.FocusId,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            service.Update(updatedProject);
+            Assert.AreEqual(focus.FocusId, projectToUpdate.Focus.FocusId);
         }
         #endregion
 

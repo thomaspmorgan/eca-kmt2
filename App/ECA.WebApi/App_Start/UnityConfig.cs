@@ -77,6 +77,7 @@ namespace ECA.WebApi
         public static void RegisterValidations(IUnityContainer container)
         {
             container.RegisterType<IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>, ProgramServiceValidator>();
+            container.RegisterType<IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>, ProjectServiceValidator>();
         }
     }
 }
