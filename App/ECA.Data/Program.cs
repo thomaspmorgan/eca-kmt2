@@ -14,7 +14,12 @@ namespace ECA.Data
     /// <summary>
     /// A program is an umbrella for a set of projects and sub-programs.
     /// </summary>
-    public class Program : IHistorical, IValidatableObject, IConcurrentEntity
+    public class Program : IHistorical, 
+        IValidatableObject, 
+        IConcurrentEntity, 
+        IGoalable, 
+        IThemeable, 
+        IContactable
     {
         public Program()
         {

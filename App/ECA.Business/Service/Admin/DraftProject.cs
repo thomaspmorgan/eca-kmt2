@@ -52,6 +52,6 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Gets the project audit
         /// </summary>
-        public Audit Audit { get; protected set; }
+        public Audit Audit { get; private set; }
     }
 }

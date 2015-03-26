@@ -102,6 +102,11 @@
     <Compile Include="Queries\Models\Persons\LocationDTO.cs" />
     <Compile Include="Queries\Models\Persons\PiiDTO.cs" />
     <Compile Include="Queries\Persons\PersonQueries.cs" />
+    <Compile Include="Service\Admin\ProjectServiceCreateValidationEntity.cs" />
+    <Compile Include="Service\Admin\ProjectServiceUpdateValidationEntity.cs" />
+    <Compile Include="Service\Admin\ProjectServiceValidator.cs" />
+    <Compile Include="Service\Admin\PublishedProject.cs" />
+    <Compile Include="Service\EcaService.cs" />
     <Compile Include="Service\Lookup\ILookup.cs" />
     <Compile Include="Service\Admin\FocusService.cs" />
     <Compile Include="Service\Admin\IFocusService.cs" />

@@ -119,7 +119,10 @@
     <Compile Include="Focus.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
+    <Compile Include="IContactable.cs" />
+    <Compile Include="IGoalable.cs" />
     <Compile Include="IHistorical.cs" />
+    <Compile Include="IThemeable.cs" />
     <Compile Include="ItineraryStatus.cs" />
     <Compile Include="Method.cs" />
     <Compile Include="MoneyFlowSourceRecipientType.cs" />

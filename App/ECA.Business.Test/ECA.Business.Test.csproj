@@ -90,6 +90,7 @@
     <Compile Include="Service\Admin\FocusServiceTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceTest.cs" />
     <Compile Include="Service\Admin\OfficeServiceTest.cs" />
+    <Compile Include="Service\Admin\PublishedProjectTest.cs" />
     <Compile Include="Service\CreateTest.cs" />
     <Compile Include="Service\Lookup\SimpleLookupDTOTest.cs" />
     <Compile Include="Service\Persons\PersonServiceTest.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Service\Programs\EcaProgramTest.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidationEntityTest.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidatorTest.cs" />
+    <Compile Include="Service\EcaServiceTest.cs" />
     <Compile Include="Service\UserTest.cs" />
     <Compile Include="Service\UpdateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

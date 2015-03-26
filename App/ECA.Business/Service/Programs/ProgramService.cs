@@ -22,7 +22,7 @@ namespace ECA.Business.Service.Programs
     /// <summary>
     /// A ProgramService is capable of performing crud operations on a program using entity framework.
     /// </summary>
-    public class ProgramService : DbContextService<EcaContext>, IProgramService
+    public class ProgramService : EcaService, IProgramService
     {
         private static readonly string COMPONENT_NAME = typeof(ProgramService).FullName;
 
@@ -119,7 +119,7 @@ namespace ECA.Business.Service.Programs
             var focus = GetFocusById(draftProgram.FocusId);
             var owner = GetOrganizationById(draftProgram.OwnerOrganizationId);
             var parentProgramId = draftProgram.ParentProgramId;
-            Program parentProgram = parentProgramId.HasValue ? GetParentProgramById(draftProgram.ParentProgramId.Value) : null;
+            Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null;
             var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, focus, owner, parentProgram, regionTypeIds));
             stopwatch.Stop();
             this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
@@ -138,7 +138,7 @@ namespace ECA.Business.Service.Programs
             var focus = await GetFocusByIdAsync(draftProgram.FocusId);
             var owner = await GetOrganizationByIdAsync(draftProgram.OwnerOrganizationId);
             var parentProgramId = draftProgram.ParentProgramId;
-            Program parentProgram = parentProgramId.HasValue ? await GetParentProgramByIdAsync(draftProgram.ParentProgramId.Value) : null;
+            Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(draftProgram.ParentProgramId.Value) : null;
             var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, focus, owner, parentProgram, regionTypeIds));
             stopwatch.Stop();
             this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
@@ -157,7 +157,8 @@ namespace ECA.Business.Service.Programs
                 EndDate = draftProgram.EndDate,
                 Focus = focus,
                 Name = draftProgram.Name,
-                ParentProgram = draftProgram.ParentProgramId.HasValue ? GetParentProgramById(draftProgram.ParentProgramId.Value) : null,
+                //reason I'm loading parent program here is it should already be in the context cache when using the Find method
+                ParentProgram = draftProgram.ParentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null,
                 ProgramType = null,
                 ProgramStatusId = draftProgram.ProgramStatusId,
                 StartDate = draftProgram.StartDate,
@@ -195,7 +196,7 @@ namespace ECA.Business.Service.Programs
             var focus = GetFocusById(updatedProgram.FocusId);
             var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
             var parentProgramId = updatedProgram.ParentProgramId;
-            Program parentProgram = parentProgramId.HasValue ? GetParentProgramById(updatedProgram.ParentProgramId.Value) : null;
+            Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(updatedProgram.ParentProgramId.Value) : null;
             if (programToUpdate != null)
             {
                 DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, focus, owner, parentProgram, regionTypeIds));
@@ -220,7 +221,7 @@ namespace ECA.Business.Service.Programs
             var focus = await GetFocusByIdAsync(updatedProgram.FocusId);
             var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
             var parentProgramId = updatedProgram.ParentProgramId;
-            Program parentProgram = parentProgramId.HasValue ? await GetParentProgramByIdAsync(updatedProgram.ParentProgramId.Value) : null;
+            Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(updatedProgram.ParentProgramId.Value) : null;
             
             if (programToUpdate != null)
             {
@@ -246,7 +247,8 @@ namespace ECA.Business.Service.Programs
             programToUpdate.Name = updatedProgram.Name;
             programToUpdate.Owner = owner;
             programToUpdate.OwnerId = owner.OrganizationId;
-            programToUpdate.ParentProgram = updatedProgram.ParentProgramId.HasValue ? GetParentProgramById(updatedProgram.ParentProgramId.Value) : null;
+            //parent program should already be loaded in the context via the Find method
+            programToUpdate.ParentProgram = updatedProgram.ParentProgramId.HasValue ? GetProgramEntityById(updatedProgram.ParentProgramId.Value) : null;
             programToUpdate.ProgramStatusId = updatedProgram.ProgramStatusId;
             programToUpdate.RowVersion = updatedProgram.RowVersion;
             programToUpdate.StartDate = updatedProgram.StartDate;
@@ -260,139 +262,6 @@ namespace ECA.Business.Service.Programs
             SetRegions(updatedProgram.RegionIds, programToUpdate);
         }
         #endregion
-
-        private ProgramServiceValidationEntity GetValidationEntity(EcaProgram program, Focus focus, Organization owner, Program parentProgram, List<int> regionTypesIds)
-        {
-            return new ProgramServiceValidationEntity(
-                name: program.Name,
-                description: program.Description,
-                regionLocationTypeIds: regionTypesIds,
-                contactIds: program.ContactIds,
-                focus: focus,
-                owner: owner,
-                themeIds: program.ThemeIds,
-                goalIds: program.GoalIds,
-                regionIds: program.RegionIds,
-                parentProgramId: program.ParentProgramId,
-                parentProgram: parentProgram
-                );
-        }
-
-        /// <summary>
-        /// Updates the goals on the given program to the goals with the given ids.
-        /// </summary>
-        /// <param name="goalIds">The goal ids.</param>
-        /// <param name="programEntity">The program.</param>
-        public void SetGoals(List<int> goalIds, Program programEntity)
-        {
-            Contract.Requires(goalIds != null, "The goal ids must not be null.");
-            Contract.Requires(programEntity != null, "The program entity must not be null.");
-            programEntity.Goals.Clear();
-            goalIds.ForEach(x =>
-            {
-                var goal = new Goal { GoalId = x };
-                this.Context.Goals.Attach(goal);
-                programEntity.Goals.Add(goal);
-                goal.Programs.Add(programEntity);
-            });
-        }
-
-        /// <summary>
-        /// Updates the points of contacts on the given program to the pocs with the given ids.
-        /// </summary>
-        /// <param name="pointOfContactIds">The points of contacts by id.</param>
-        /// <param name="programEntity">The program to update.</param>
-        public void SetPointOfContacts(List<int> pointOfContactIds, Program programEntity)
-        {
-            Contract.Requires(pointOfContactIds != null, "The list of poc ids must not be null.");
-            Contract.Requires(programEntity != null, "The program entity must not be null.");
-            programEntity.Contacts.Clear();
-            pointOfContactIds.ForEach(x =>
-            {
-                var contact = new Contact { ContactId = x };
-                this.Context.Contacts.Attach(contact);
-                programEntity.Contacts.Add(contact);
-                contact.Programs.Add(programEntity);
-            });
-        }
-
-        /// <summary>
-        /// Updates the themes on the given program to the themes with the given ids.
-        /// </summary>
-        /// <param name="themeIds">The themes by id.</param>
-        /// <param name="programEntity">The program to update.</param>
-        public void SetThemes(List<int> themeIds, Program programEntity)
-        {
-            Contract.Requires(themeIds != null, "The theme ids must not be null.");
-            Contract.Requires(programEntity != null, "The program entity must not be null.");
-            programEntity.Themes.Clear();
-            themeIds.ForEach(x =>
-            {
-                var theme = new Theme { ThemeId = x };
-                this.Context.Themes.Attach(theme);
-                programEntity.Themes.Add(theme);
-                theme.Programs.Add(programEntity);
-            });
-        }
-
-        /// <summary>
-        /// Updates the regions on the given program to the regions with the given ids.
-        /// </summary>
-        /// <param name="regionIds">The regions by id.</param>
-        /// <param name="programEntity">The program to update.</param>
-        public void SetRegions(List<int> regionIds, Program programEntity)
-        {
-            Contract.Requires(regionIds != null, "The theme ids must not be null.");
-            Contract.Requires(programEntity != null, "The program entity must not be null.");            
-            programEntity.Regions.Clear();
-            regionIds.ForEach(x =>
-            {
-                var location = new Location { LocationId = x };
-                this.Context.Locations.Attach(location);
-                programEntity.Regions.Add(location);
-            });
-        }
-
-        #region Validation
-        /// <summary>
-        /// Returns the program with the given id.
-        /// </summary>
-        /// <param name="parentProgramId">The program id.</param>
-        /// <returns>The program.</returns>
-        protected Program GetParentProgramById(int parentProgramId)
-        {
-            return this.Context.Programs.Find(parentProgramId);
-        }
-
-        /// <summary>
-        /// Returns the program with the given id.
-        /// </summary>
-        /// <param name="parentProgramId">The program id.</param>
-        /// <returns>The program.</returns>
-        protected async Task<Program> GetParentProgramByIdAsync(int parentProgramId)
-        {
-            return await this.Context.Programs.FindAsync(parentProgramId);
-        }
-
-        /// <summary>
-        /// Returns the focus with the given id.
-        /// </summary>
-        /// <param name="focusId">The focus id.</param>
-        /// <returns>The focus.</returns>
-        protected Focus GetFocusById(int focusId)
-        {
-            return this.Context.Foci.Find(focusId);
-        }
-
-        /// <summary>
-        /// Returns the focus with the given id.
-        /// </summary>
-        /// <param name="focusId">The focus id.</param>
-        /// <returns>The focus.</returns>
-        protected async Task<Focus> GetFocusByIdAsync(int focusId)
-        {
-            return await this.Context.Foci.FindAsync(focusId);
-        }
 
         /// <summary>
         /// Returns the organization with the given id.
@@ -434,6 +303,60 @@ namespace ECA.Business.Service.Programs
             return await LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, locationIds).ToListAsync();
         }
 
-        #endregion
+        /// <summary>
+        /// Returns the program with the given id.
+        /// </summary>
+        /// <param name="parentProgramId">The program id.</param>
+        /// <returns>The program.</returns>
+        protected Program GetProgramEntityById(int parentProgramId)
+        {
+            return this.Context.Programs.Find(parentProgramId);
+        }
+
+        /// <summary>
+        /// Returns the program with the given id.
+        /// </summary>
+        /// <param name="parentProgramId">The program id.</param>
+        /// <returns>The program.</returns>
+        protected async Task<Program> GetProgramEntityByIdAsync(int parentProgramId)
+        {
+            return await this.Context.Programs.FindAsync(parentProgramId);
+        }
+
+        private ProgramServiceValidationEntity GetValidationEntity(EcaProgram program, Focus focus, Organization owner, Program parentProgram, List<int> regionTypesIds)
+        {
+            return new ProgramServiceValidationEntity(
+                name: program.Name,
+                description: program.Description,
+                regionLocationTypeIds: regionTypesIds,
+                contactIds: program.ContactIds,
+                focus: focus,
+                owner: owner,
+                themeIds: program.ThemeIds,
+                goalIds: program.GoalIds,
+                regionIds: program.RegionIds,
+                parentProgramId: program.ParentProgramId,
+                parentProgram: parentProgram
+                );
+        }
+
+
+        /// <summary>
+        /// Updates the regions on the given program to the regions with the given ids.
+        /// </summary>
+        /// <param name="regionIds">The regions by id.</param>
+        /// <param name="programEntity">The program to update.</param>
+        public void SetRegions(List<int> regionIds, Program programEntity)
+        {
+            Contract.Requires(regionIds != null, "The theme ids must not be null.");
+            Contract.Requires(programEntity != null, "The program entity must not be null.");            
+            programEntity.Regions.Clear();
+            regionIds.ForEach(x =>
+            {
+                var location = new Location { LocationId = x };
+                this.Context.Locations.Attach(location);
+                programEntity.Regions.Add(location);
+            });
+        }
     }
 }
