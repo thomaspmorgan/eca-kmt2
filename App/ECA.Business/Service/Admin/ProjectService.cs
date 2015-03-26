@@ -53,6 +53,7 @@ namespace ECA.Business.Service.Admin
         {
             var stopwatch = Stopwatch.StartNew();
             var program = GetProgramById(draftProject.ProgramId);
+            validator.ValidateCreate(GetCreateValidationEntity(draftProject, program));
             var project = DoCreate(draftProject, program);
             stopwatch.Stop();
             logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
@@ -68,10 +69,20 @@ namespace ECA.Business.Service.Admin
         {
             var stopwatch = Stopwatch.StartNew();
             var program = await GetProgramByIdAsync(draftProject.ProgramId);
+            validator.ValidateCreate(GetCreateValidationEntity(draftProject, program));
             var project = DoCreate(draftProject, program);
             stopwatch.Stop();
             logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
             return project;
+        }
+
+        private ProjectServiceCreateValidationEntity GetCreateValidationEntity(DraftProject draftProject, Program program)
+        {
+            return new ProjectServiceCreateValidationEntity(
+                name: draftProject.Name,
+                description: draftProject.Description,
+                program: program
+                );
         }
 
         private Project DoCreate(DraftProject draftProject, Program program)
@@ -119,6 +130,10 @@ namespace ECA.Business.Service.Admin
 
         #region Update
 
+        /// <summary>
+        /// Updates the system's project with the given updated project.
+        /// </summary>
+        /// <param name="updatedProject">The updated project.</param>
         public void Update(PublishedProject updatedProject)
         {
             var projectToUpdate = GetProjectEntityById(updatedProject.ProjectId);
@@ -143,6 +158,10 @@ namespace ECA.Business.Service.Admin
             logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
         }
 
+        /// <summary>
+        /// Updates the system's project with the given updated project.
+        /// </summary>
+        /// <param name="updatedProject">The updated project.</param>
         public async Task UpdateAsync(PublishedProject updatedProject)
         {
             var projectToUpdate = await GetProjectEntityByIdAsync(updatedProject.ProjectId);

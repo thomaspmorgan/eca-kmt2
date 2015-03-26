@@ -68,7 +68,7 @@ namespace ECA.Business.Test.Service.Admin
 
             var createdProject = service.Create(draftProject);
             var createdProjectAsync = await service.CreateAsync(draftProject);
-
+            validator.Verify(x => x.ValidateCreate(It.IsAny<ProjectServiceCreateValidationEntity>()), Times.Exactly(2));
             tester(createdProject);
             tester(createdProjectAsync);
         }
