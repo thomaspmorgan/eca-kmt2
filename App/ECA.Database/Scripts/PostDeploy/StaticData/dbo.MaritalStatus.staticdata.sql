@@ -47,7 +47,7 @@ INSERT INTO @tblTempTable ([MaritalStatusId], [Status], [Description], [History_
 -- 3: Insert any new items into the table from the table variable
 SET IDENTITY_INSERT [dbo].[MaritalStatus] ON
 INSERT INTO [dbo].[MaritalStatus] ([MaritalStatusId], [Status], [Description], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn])
-SELECT tmp.[MaritalStatusId], tmp.[Status], [Description], tmp.[History_CreatedBy], tmp.[History_CreatedOn], tmp.[History_RevisedBy], tmp.[History_RevisedOn]
+SELECT tmp.[MaritalStatusId], tmp.[Status], tmp.[Description], tmp.[History_CreatedBy], tmp.[History_CreatedOn], tmp.[History_RevisedBy], tmp.[History_RevisedOn]
 FROM @tblTempTable tmp
 LEFT JOIN [dbo].[MaritalStatus] tbl ON tbl.[MaritalStatusId] = tmp.[MaritalStatusId]
 WHERE tbl.[MaritalStatusId] IS NULL
@@ -56,13 +56,13 @@ SET IDENTITY_INSERT [dbo].[MaritalStatus] OFF
 -- 4: Update any modified values with the values from the table variable
 UPDATE LiveTable SET
 LiveTable.[Status] = tmp.[Status],
-LiveTable.[Descrition] = tmp.[Description],
+LiveTable.[Description] = tmp.[Description],
 LiveTable.[History_CreatedBy] = tmp.[History_CreatedBy],
 LiveTable.[History_CreatedOn] = tmp.[History_CreatedOn],
 LiveTable.[History_RevisedBy] = tmp.[History_RevisedBy],
 LiveTable.[History_RevisedOn] = tmp.[History_RevisedOn]
-FROM [dbo].[SocialMediaType] LiveTable 
-INNER JOIN @tblTempTable tmp ON LiveTable.[SocialMediaTypeId] = tmp.[SocialMediaTypeId]
+FROM [dbo].[MaritalStatus] LiveTable 
+INNER JOIN @tblTempTable tmp ON LiveTable.[MaritalStatusId] = tmp.[MaritalStatusId]
 
 -- 5: Delete any missing records from the target
 IF @DeleteMissingRecords = 1
