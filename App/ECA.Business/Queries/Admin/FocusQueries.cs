@@ -13,21 +13,6 @@ namespace ECA.Business.Queries.Admin
     public static class FocusQueries
     {
         /// <summary>
-        /// Returns the filtered and sorted foci in the system.
-        /// </summary>
-        /// <param name="context">the context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The filtered and sorted foci in the system.</returns>
-        public static IQueryable<FocusDTO> CreateFociDTOsQuery(EcaContext context, QueryableOperator<FocusDTO> queryOperator)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetFocusDTOQuery(context);
-            query = query.Apply(queryOperator);
-            return query;
-        }
-
-        /// <summary>
         /// Returns the focus dto with the given focus id.
         /// </summary>
         /// <param name="context">The context to query.</param>

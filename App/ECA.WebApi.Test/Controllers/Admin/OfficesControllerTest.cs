@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Office;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -34,14 +35,14 @@ namespace ECA.WebApi.Test.Controllers.Admin
 
         #region Get
         [TestMethod]
-        public async Task TestGetProjectsByProgramIcAsync()
+        public async Task TestGetOfficeByIdAsync()
         {
             var response = await controller.GetOfficeByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<OfficeDTO>));
         }
 
         [TestMethod]
-        public async Task TestGetProjectsByProgramIcAsync_OfficeDoesNotExist()
+        public async Task TestGetOfficeByIdAsync_OfficeDoesNotExist()
         {
             serviceMock.Setup(x => x.GetOfficeByIdAsync(It.IsAny<int>())).ReturnsAsync(null);
             var response = await controller.GetOfficeByIdAsync(1);
@@ -61,6 +62,39 @@ namespace ECA.WebApi.Test.Controllers.Admin
         {
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetProgramsByOfficeIdAsync(1, new PagingQueryBindingModel<OrganizationProgramDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetChildOfficesByOfficeIdAsync()
+        {
+            serviceMock.Setup(x => x.GetChildOfficesAsync(It.IsAny<int>())).ReturnsAsync(new List<SimpleOfficeDTO>());
+            var response = await controller.GetChildOfficesByOfficeIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<List<SimpleOfficeDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetChildOfficesByOfficeIdAsync_IdNotExist()
+        {
+            serviceMock.Setup(x => x.GetChildOfficesAsync(It.IsAny<int>())).ReturnsAsync(null);
+            var response = await controller.GetChildOfficesByOfficeIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficesAsync()
+        {
+            serviceMock.Setup(x => x.GetOfficesAsync(It.IsAny<QueryableOperator<SimpleOfficeDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<SimpleOfficeDTO>(1, new List<SimpleOfficeDTO>()));
+            var response = await controller.GetOfficesAsync(new PagingQueryBindingModel<SimpleOfficeDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleOfficeDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficesAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetOfficesAsync(new PagingQueryBindingModel<SimpleOfficeDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 

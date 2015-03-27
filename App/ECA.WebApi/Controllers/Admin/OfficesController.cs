@@ -66,7 +66,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="id">The office id.</param>
         /// <returns>The child offices, branches, and divisions.</returns>
         [Route("Offices/{id}/ChildOffices")]
-        [ResponseType(typeof(SimpleOfficeDTO))]
+        [ResponseType(typeof(List<SimpleOfficeDTO>))]
         public async Task<IHttpActionResult> GetChildOfficesByOfficeIdAsync(int id)
         {
             var dto = await this.service.GetChildOfficesAsync(id);
@@ -116,7 +116,11 @@ namespace ECA.WebApi.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var results = await service.GetOfficesAsync(queryModel.ToQueryableOperator(DEFAULT_OFFICE_SORTER, x => x.Name, x => x.Description));
+                var results = await service.GetOfficesAsync(
+                    queryModel.ToQueryableOperator(
+                        DEFAULT_OFFICE_SORTER,
+                        x => x.Name,
+                        x => x.Description));
                 return Ok(results);
             }
             else
