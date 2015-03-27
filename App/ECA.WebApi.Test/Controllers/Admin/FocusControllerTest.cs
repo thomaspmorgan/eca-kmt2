@@ -25,7 +25,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         public void TestInit()
         {
             serviceMock = new Mock<IFocusService>();
-            serviceMock.Setup(x => x.GetFociAsync(It.IsAny<QueryableOperator<FocusDTO>>()))
+            serviceMock.Setup(x => x.GetAsync(It.IsAny<QueryableOperator<FocusDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<FocusDTO>(1, new List<FocusDTO>()));
             controller = new FocusController(serviceMock.Object);
             ControllerHelper.InitializeController(controller);

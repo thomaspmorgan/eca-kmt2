@@ -16,21 +16,18 @@ namespace ECA.Business.Queries.Admin
     public static class GoalQueries
     {
         /// <summary>
-        /// Returns a query to get filtered and sorted goals.
+        /// Returns a query to select goal dtos.
         /// </summary>
         /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The filtered and sorted query.</returns>
-        public static IQueryable<GoalDTO> CreateGetGoalsQuery(EcaContext context, QueryableOperator<GoalDTO> queryOperator)
+        /// <returns>The query.</returns>
+        public static IQueryable<GoalDTO> CreateGetGoalDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
             var query = context.Goals.Select(x => new GoalDTO
             {
                 Id = x.GoalId,
                 Name = x.GoalName
             });
-            query = query.Apply(queryOperator);
             return query;
         }
     }

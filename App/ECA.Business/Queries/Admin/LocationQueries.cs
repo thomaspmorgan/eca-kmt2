@@ -13,15 +13,13 @@ namespace ECA.Business.Queries.Admin
     public static class LocationQueries
     {
         /// <summary>
-        /// Returns a query to retrieve filtered and sorted location dtos from the system.
+        /// Returns a query to retrieve location dtos.
         /// </summary>
         /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The queryable operator.</param>
-        /// <returns>The query to retrieve filtered and sorted locations.</returns>
-        public static IQueryable<LocationDTO> CreateGetLocationsQuery(EcaContext context, QueryableOperator<LocationDTO> queryOperator)
+        /// <returns>The query.</returns>
+        public static IQueryable<LocationDTO> CreateGetLocationsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
             var query = context.Locations.Select(x => new LocationDTO
             {
                 Id = x.LocationId,
@@ -29,7 +27,6 @@ namespace ECA.Business.Queries.Admin
                 LocationTypeName = x.LocationType.LocationTypeName,
                 Name = x.LocationName
             });
-            query = query.Apply(queryOperator);
             return query;
         }
 
@@ -41,6 +38,8 @@ namespace ECA.Business.Queries.Admin
         /// <returns>The query to get the distinct list of location types.</returns>
         public static IQueryable<int> CreateGetLocationTypeIdsQuery(EcaContext context, List<int> locationIds)
         {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(locationIds != null, "The location ids must not be null.");
             return context.Locations
                 .Where(x => locationIds.Contains(x.LocationId))
                 .Select(x => x.LocationTypeId)

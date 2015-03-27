@@ -18,7 +18,11 @@
         </div>
         <div class="row">
             <div class="col-md-6 title-label">Themes</div>
-            <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.value}} </span></div>
+            <div class="col-md-6">
+                <ul>
+                    <li ng-repeat="theme in project.themes">{{theme.value}}</li>
+                </ul>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-6 title-label">Strategic Goals</div>

@@ -16,14 +16,14 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>A list of locations in the system.</returns>
-        PagedQueryResults<LocationDTO> GetLocations(QueryableOperator<LocationDTO> queryOperator);
+        PagedQueryResults<LocationDTO> Get(QueryableOperator<LocationDTO> queryOperator);
 
         /// <summary>
         /// Returns a list of locations.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>A list of locations in the system.</returns>
-        Task<PagedQueryResults<LocationDTO>> GetLocationsAsync(QueryableOperator<LocationDTO> queryOperator);
+        Task<PagedQueryResults<LocationDTO>> GetAsync(QueryableOperator<LocationDTO> queryOperator);
 
 
         /// <summary>

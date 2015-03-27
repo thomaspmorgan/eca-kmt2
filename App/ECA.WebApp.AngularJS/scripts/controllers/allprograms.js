@@ -216,7 +216,9 @@ angular.module('staticApp')
     };
  
     function cleanUpNewProgram() {
-        $scope.newProgram.parentProgramId = $scope.newProgram.parentProgram.programId;
+        if ($scope.newProgram.parentProgram !== undefined) {
+            $scope.newProgram.parentProgramId = $scope.newProgram.parentProgram.programId;
+        }
         $scope.newProgram.themes = $scope.out.Themes.map(getIds);
         $scope.newProgram.goals = $scope.out.Goals.map(getIds);
         $scope.newProgram.contacts = $scope.out.Contacts.map(getIds);

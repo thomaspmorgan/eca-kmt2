@@ -23,7 +23,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         public void TestInit()
         {
             serviceMock = new Mock<IThemeService>();
-            serviceMock.Setup(x => x.GetThemesAsync(It.IsAny<QueryableOperator<ThemeDTO>>()))
+            serviceMock.Setup(x => x.GetAsync(It.IsAny<QueryableOperator<ThemeDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<ThemeDTO>(1, new List<ThemeDTO>()));
 
             controller = new ThemesController(serviceMock.Object);

@@ -43,7 +43,7 @@ namespace ECA.WebApi.Controllers.Programs
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetThemesAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await this.service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else

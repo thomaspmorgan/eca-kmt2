@@ -48,7 +48,7 @@ namespace ECA.WebApi.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetFociAsync(queryModel.ToQueryableOperator(DEFAULT_FOCUS_DTO_SORTER));
+                var results = await this.service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_FOCUS_DTO_SORTER));
                 return Ok(results);
             }
             else
