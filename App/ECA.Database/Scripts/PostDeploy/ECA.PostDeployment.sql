@@ -26,4 +26,5 @@ Post-Deployment Script Template
 :r .\StaticData\dbo.ProjectStatus.staticdata.sql
 :r .\StaticData\dbo.ProjectType.staticdata.sql
 :r .\StaticData\dbo.SocialMediaType.staticdata.sql
+:r .\StaticData\dbo.MaritalStatus.staticdata.sql
 
