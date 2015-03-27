@@ -11,6 +11,11 @@ namespace ECA.Data
 {
     public class Participant
     {
+        /// <summary>
+        /// Gets the max length of the SEVIS Id.
+        /// </summary>
+        private const int SEVIS_ID_MAX_LENGTH = 10;
+
         public Participant()
         {
             this.Projects = new HashSet<Project>();
@@ -29,6 +34,8 @@ namespace ECA.Data
         [Required]
         public int ParticipantTypeId { get; set; }
         public ParticipantType ParticipantType { get; set; }
+        [MaxLength(SEVIS_ID_MAX_LENGTH)]
+        public string SevisId {get; set;}
 
 
         //Relationships
