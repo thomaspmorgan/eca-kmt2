@@ -25,7 +25,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         public void TestInit()
         {
             serviceMock = new Mock<IGoalService>();
-            serviceMock.Setup(x => x.GetGoalsAsync(It.IsAny<QueryableOperator<GoalDTO>>()))
+            serviceMock.Setup(x => x.GetAsync(It.IsAny<QueryableOperator<GoalDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<GoalDTO>(1, new List<GoalDTO>()));
             controller = new GoalsController(serviceMock.Object);
             ControllerHelper.InitializeController(controller);

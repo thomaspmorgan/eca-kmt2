@@ -37,7 +37,7 @@ namespace ECA.Business.Test.Service.Programs
 
         #region Get
         [TestMethod]
-        public async Task TestGetThemes_CheckProperties()
+        public async Task TestGetGoals_CheckProperties()
         {
             var goal = new Goal
             {
@@ -57,140 +57,12 @@ namespace ECA.Business.Test.Service.Programs
             var defaultSorter = new ExpressionSorter<GoalDTO>(x => x.Id, SortDirection.Ascending);
             var queryOperator = new QueryableOperator<GoalDTO>(0, 10, defaultSorter);
 
-            var serviceResults = service.GetGoals(queryOperator);
-            var serviceResultsAsync = await service.GetGoalsAsync(queryOperator);
+            var serviceResults = service.Get(queryOperator);
+            var serviceResultsAsync = await service.GetAsync(queryOperator);
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
 
-        [TestMethod]
-        public async Task TestGetThemes_DefaultSorter()
-        {
-            var goal1 = new Goal
-            {
-                GoalId = 1,
-                GoalName = "g1"
-            };
-            var goal2 = new Goal
-            {
-                GoalId = 2,
-                GoalName = "g2"
-            };
-            context.Goals.Add(goal1);
-            context.Goals.Add(goal2);
-            Action<PagedQueryResults<GoalDTO>> tester = (results) =>
-            {
-                Assert.AreEqual(2, results.Total);
-                Assert.AreEqual(1, results.Results.Count);
-
-                var firstResult = results.Results.First();
-                Assert.AreEqual(goal2.GoalId, firstResult.Id);
-            };
-            var defaultSorter = new ExpressionSorter<GoalDTO>(x => x.Id, SortDirection.Descending);
-            var queryOperator = new QueryableOperator<GoalDTO>(0, 1, defaultSorter);
-
-            var serviceResults = service.GetGoals(queryOperator);
-            var serviceResultsAsync = await service.GetGoalsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetThemes_Filter()
-        {
-            var goal1 = new Goal
-            {
-                GoalId = 1,
-                GoalName = "g1"
-            };
-            var goal2 = new Goal
-            {
-                GoalId = 2,
-                GoalName = "g2"
-            };
-            context.Goals.Add(goal1);
-            context.Goals.Add(goal2);
-            Action<PagedQueryResults<GoalDTO>> tester = (results) =>
-            {
-                Assert.AreEqual(1, results.Total);
-                Assert.AreEqual(1, results.Results.Count);
-
-                var firstResult = results.Results.First();
-                Assert.AreEqual(goal1.GoalId, firstResult.Id);
-            };
-            var defaultSorter = new ExpressionSorter<GoalDTO>(x => x.Id, SortDirection.Descending);
-            var queryOperator = new QueryableOperator<GoalDTO>(0, 1, defaultSorter);
-            queryOperator.Filters.Add(new ExpressionFilter<GoalDTO>(x => x.Id, ComparisonType.Equal, goal1.GoalId));
-
-            var serviceResults = service.GetGoals(queryOperator);
-            var serviceResultsAsync = await service.GetGoalsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetThemes_Sort()
-        {
-            var goal1 = new Goal
-            {
-                GoalId = 1,
-                GoalName = "g1"
-            };
-            var goal2 = new Goal
-            {
-                GoalId = 2,
-                GoalName = "g2"
-            };
-            context.Goals.Add(goal2);
-            context.Goals.Add(goal1);
-
-            Action<PagedQueryResults<GoalDTO>> tester = (results) =>
-            {
-                Assert.AreEqual(2, results.Total);
-                Assert.AreEqual(1, results.Results.Count);
-
-                var firstResult = results.Results.First();
-                Assert.AreEqual(goal2.GoalId, firstResult.Id);
-            };
-            var defaultSorter = new ExpressionSorter<GoalDTO>(x => x.Id, SortDirection.Descending);
-            var queryOperator = new QueryableOperator<GoalDTO>(0, 1, defaultSorter);
-            queryOperator.Sorters.Add(new ExpressionSorter<GoalDTO>(x => x.Id, SortDirection.Descending));
-
-            var serviceResults = service.GetGoals(queryOperator);
-            var serviceResultsAsync = await service.GetGoalsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-        }
-
-        [TestMethod]
-        public async Task TestGetThemes_Paging()
-        {
-            var goal1 = new Goal
-            {
-                GoalId = 1,
-                GoalName = "g1"
-            };
-            var goal2 = new Goal
-            {
-                GoalId = 2,
-                GoalName = "g2"
-            };
-            context.Goals.Add(goal2);
-            context.Goals.Add(goal1);
-
-            Action<PagedQueryResults<GoalDTO>> tester = (results) =>
-            {
-                Assert.AreEqual(2, results.Total);
-                Assert.AreEqual(1, results.Results.Count);
-            };
-            var defaultSorter = new ExpressionSorter<GoalDTO>(x => x.Id, SortDirection.Descending);
-            var queryOperator = new QueryableOperator<GoalDTO>(0, 1, defaultSorter);
-
-            var serviceResults = service.GetGoals(queryOperator);
-            var serviceResultsAsync = await service.GetGoalsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-        }
         #endregion
 
     }

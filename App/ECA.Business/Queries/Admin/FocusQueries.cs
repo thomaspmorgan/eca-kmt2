@@ -40,7 +40,12 @@ namespace ECA.Business.Queries.Admin
             return query;
         }
 
-        private static IQueryable<FocusDTO> CreateGetFocusDTOQuery(EcaContext context)
+        /// <summary>
+        /// Returns a query to select focus dtos.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query.</returns>
+        public static IQueryable<FocusDTO> CreateGetFocusDTOQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = context.Foci.Select(x => new FocusDTO

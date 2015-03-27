@@ -12,13 +12,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECA.Core.Logging;
+using ECA.Business.Service.Lookup;
 
 namespace ECA.Business.Service.Admin
 {
     /// <summary>
     /// The FocusService is capable of performing crud operations on ECA Foci.
     /// </summary>
-    public class FocusService : DbContextService<EcaContext>, ECA.Business.Service.Admin.IFocusService
+    public class FocusService : LookupService<FocusDTO>, ECA.Business.Service.Admin.IFocusService
     {
         /// <summary>
         /// Creates a new FocusSerivce with the given context.
@@ -33,24 +34,10 @@ namespace ECA.Business.Service.Admin
         }
 
         #region Get
-        /// <summary>
-        /// Returns the foci currently in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query oprator.</param>
-        /// <returns>The foci in the system.</returns>
-        public PagedQueryResults<FocusDTO> GetFoci(QueryableOperator<FocusDTO> queryOperator)
-        {
-            return FocusQueries.CreateFociDTOsQuery(this.Context, queryOperator).ToPagedQueryResults<FocusDTO>(queryOperator.Start, queryOperator.Limit);
-        }
 
-        /// <summary>
-        /// Returns the foci currently in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query oprator.</param>
-        /// <returns>The foci in the system.</returns>
-        public Task<PagedQueryResults<FocusDTO>> GetFociAsync(QueryableOperator<FocusDTO> queryOperator)
+        protected override IQueryable<FocusDTO> GetSelectDTOQuery()
         {
-            return FocusQueries.CreateFociDTOsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync<FocusDTO>(queryOperator.Start, queryOperator.Limit);
+            return FocusQueries.CreateGetFocusDTOQuery(this.Context);
         }
 
         /// <summary>
@@ -73,5 +60,7 @@ namespace ECA.Business.Service.Admin
             return FocusQueries.CreateGetFocusByIdQuery(this.Context, id).FirstOrDefaultAsync();
         }
         #endregion
+
+        
     }
 }

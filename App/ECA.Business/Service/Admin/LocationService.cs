@@ -12,12 +12,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECA.Core.Logging;
+using ECA.Business.Service.Lookup;
 
 namespace ECA.Business.Service.Admin
 {
-    public class LocationService : DbContextService<EcaContext>, ILocationService
+    public class LocationService : LookupService<LocationDTO>, ILocationService
     {
-
         public LocationService(EcaContext context, ILogger logger) : base(context, logger)
         {
             Contract.Requires(context != null, "The context must not be null.");
@@ -25,24 +25,9 @@ namespace ECA.Business.Service.Admin
         }
 
         #region Get
-        /// <summary>
-        /// Returns a list of locations.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>A list of locations in the system.</returns>
-        public PagedQueryResults<LocationDTO> GetLocations(QueryableOperator<LocationDTO> queryOperator)
+        protected override IQueryable<LocationDTO> GetSelectDTOQuery()
         {
-            return LocationQueries.CreateGetLocationsQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-        }
-
-        /// <summary>
-        /// Returns a list of locations.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>A list of locations in the system.</returns>
-        public Task<PagedQueryResults<LocationDTO>> GetLocationsAsync(QueryableOperator<LocationDTO> queryOperator)
-        {
-            return LocationQueries.CreateGetLocationsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            return LocationQueries.CreateGetLocationsQuery(this.Context);
         }
         #endregion
 
@@ -69,5 +54,7 @@ namespace ECA.Business.Service.Admin
         }
         #endregion
 
+
+        
     }
 }

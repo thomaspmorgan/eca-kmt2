@@ -98,6 +98,7 @@
     <Compile Include="Queries\Models\Admin\MoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationProgramDTO.cs" />
+    <Compile Include="Queries\Models\Admin\ProjectStatusDTO.cs" />
     <Compile Include="Queries\Models\Office\SimpleOfficeDTO.cs" />
     <Compile Include="Queries\Models\Persons\LocationDTO.cs" />
     <Compile Include="Queries\Models\Persons\PiiDTO.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Service\Admin\ProjectServiceCreateValidationEntity.cs" />
     <Compile Include="Service\Admin\ProjectServiceUpdateValidationEntity.cs" />
     <Compile Include="Service\Admin\ProjectServiceValidator.cs" />
+    <Compile Include="Service\Admin\ProjectStatusService.cs" />
     <Compile Include="Service\Admin\PublishedProject.cs" />
     <Compile Include="Service\EcaService.cs" />
     <Compile Include="Service\Lookup\ILookup.cs" />
@@ -117,6 +119,8 @@
     <Compile Include="Service\Audit.cs" />
     <Compile Include="Service\Create.cs" />
     <Compile Include="Service\IAuditable.cs" />
+    <Compile Include="Service\Lookup\ILookupService.cs" />
+    <Compile Include="Service\Lookup\LookupService.cs" />
     <Compile Include="Service\Persons\IPersonService.cs" />
     <Compile Include="Service\Persons\PersonService.cs" />
     <Compile Include="Service\Programs\DraftProgram.cs" />

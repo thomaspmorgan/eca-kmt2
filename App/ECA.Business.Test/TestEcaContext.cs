@@ -1,4 +1,6 @@
-﻿using ECA.Data;
+﻿using ECA.Business.Test.Service.Lookup;
+using ECA.Core.Data;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,16 @@ namespace ECA.Business.Test
 {
     public class TestEcaContext : InMemoryEcaContext
     {
+        public TestEcaContext()
+        {
+            this.LookupServiceTestDTOs = new TestDbSet<LookupServiceTestDTO>();
+        }
+
         public int SaveChangesCalledCount { get; set; }
 
         public bool IsDisposed { get; set; }
+
+        public TestDbSet<LookupServiceTestDTO> LookupServiceTestDTOs { get; set; }
 
         public override int SaveChanges()
         {

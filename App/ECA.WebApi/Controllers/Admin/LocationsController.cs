@@ -48,7 +48,7 @@ namespace ECA.WebApi.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetLocationsAsync(queryModel.ToQueryableOperator(DEFAULT_LOCATION_DTO_SORTER));
+                var results = await this.service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_LOCATION_DTO_SORTER));
                 return Ok(results);
             }
             else

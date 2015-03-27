@@ -25,7 +25,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         public void TestInit()
         {
             serviceMock = new Mock<ILocationService>();
-            serviceMock.Setup(x => x.GetLocationsAsync(It.IsAny<QueryableOperator<LocationDTO>>()))
+            serviceMock.Setup(x => x.GetAsync(It.IsAny<QueryableOperator<LocationDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<LocationDTO>(1, new List<LocationDTO>()));
             controller = new LocationsController(serviceMock.Object);
             ControllerHelper.InitializeController(controller);
