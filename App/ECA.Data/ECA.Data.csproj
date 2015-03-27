@@ -124,6 +124,7 @@
     <Compile Include="IHistorical.cs" />
     <Compile Include="IThemeable.cs" />
     <Compile Include="ItineraryStatus.cs" />
+    <Compile Include="MaritalStatus.cs" />
     <Compile Include="Method.cs" />
     <Compile Include="MoneyFlowSourceRecipientType.cs" />
     <Compile Include="MoneyFlowStatus.cs" />
