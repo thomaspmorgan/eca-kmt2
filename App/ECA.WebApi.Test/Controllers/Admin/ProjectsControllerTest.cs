@@ -88,5 +88,24 @@ namespace ECA.WebApi.Test.Controllers.Admin
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion
+
+        #region Put
+        [TestMethod]
+        public async Task TestPutProjectAsync()
+        {
+            serviceMock.Setup(x => x.UpdateAsync(It.IsAny<PublishedProject>())).Returns(Task.FromResult<object>(null));
+            serviceMock.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            var response = await controller.PutProjectAsync(new PublishedProjectBindingModel());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProjectDTO>));
+        }
+
+        [TestMethod]
+        public async Task TestPutProjectAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.PutProjectAsync(new PublishedProjectBindingModel());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+        #endregion
     }
 }

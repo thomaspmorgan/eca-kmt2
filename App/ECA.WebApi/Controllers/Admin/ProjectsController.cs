@@ -97,5 +97,27 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
+
+        /// <summary>
+        /// Updates and returns the system's project given the client's updated project.
+        /// </summary>
+        /// <param name="model">The updated project.</param>
+        /// <returns>The saved and updated project.</returns>
+        [ResponseType(typeof(ProjectDTO))]
+        public async Task<IHttpActionResult> PutProjectAsync(PublishedProjectBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = 0;
+                await projectService.UpdateAsync(model.ToPublishedProject(userId));
+                await projectService.SaveChangesAsync();
+                var dto = await projectService.GetProjectByIdAsync(model.ProjectId);
+                return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
     }
 }

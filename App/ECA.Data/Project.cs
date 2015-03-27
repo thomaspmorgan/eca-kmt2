@@ -13,7 +13,12 @@ namespace ECA.Data
     /// <summary>
     /// A project is a specific, time-bounded instance of a program, such as a cohort, an event or an exchange.
     /// </summary>
-    public class Project : IHistorical, IValidatableObject
+    public class Project :
+        IHistorical,
+        IValidatableObject,
+        IGoalable,
+        IThemeable,
+        IContactable
     {
         /// <summary>
         /// Creates a new Project and initializes the collections.
@@ -59,11 +64,11 @@ namespace ECA.Data
         public ICollection<Location> Regions { get; set; }
         [InverseProperty("LocationProjects")]
         public ICollection<Location> Locations { get; set; }
-        public string Language { get; set;}
+        public string Language { get; set; }
         [InverseProperty("TargetProjects")]
         public ICollection<Location> Targets { get; set; }
         public ICollection<Theme> Themes { get; set; }
-        public ICollection<Goal> Goals {get; set;}
+        public ICollection<Goal> Goals { get; set; }
         public Program ParentProgram { get; set; }
         [Required]
         public int ProgramId { get; set; }
@@ -99,7 +104,7 @@ namespace ECA.Data
             {
                 yield return new ValidationResult(
                     String.Format("The project with the name [{0}] already exists.",
-                        this.Name), 
+                        this.Name),
                     new List<string> { "Name" });
             }
         }

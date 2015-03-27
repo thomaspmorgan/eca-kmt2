@@ -35,8 +35,8 @@ SELECT p.[Name Last],
        p.Prefix,
        p.suffix,
        CASE 
-          WHEN gender = 'M' THEN 0 
-          WHEN gender = 'F' THEN 1
+          WHEN SUBSTR(gender,1,1) = 'M' THEN 0
+          WHEN SUBSTR(gender,1,1) = 'F' THEN 1
 	  WHEN gender IS NULL THEN 3
 	  ELSE 2
        END,

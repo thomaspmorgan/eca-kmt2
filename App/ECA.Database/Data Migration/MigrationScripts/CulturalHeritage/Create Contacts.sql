@@ -20,6 +20,8 @@ INSERT INTO [dbo].[Contact]
            (N'Cathy Jenkins-Smith',N'Grants Coordinator',0,N'2/11/2015 12:00:00 AM -05:00',0,N'2/11/2015 12:00:00 AM -05:00'),
            (N'Veronica Rector',N'Administrative Coordinator',0,N'2/11/2015 12:00:00 AM -05:00',0,N'2/11/2015 12:00:00 AM -05:00'),
            (N'Brenda K. Jones',N'Secretary',0,N'2/11/2015 12:00:00 AM -05:00',0,N'2/11/2015 12:00:00 AM -05:00'),
+           (N'Mary E. Kirk',N'Director',0,N'3/25/2015 12:00:00 AM -05:00',0,N'3/25/2015 12:00:00 AM -05:00'),
+	   (N'Lana S. Muck',N'Deputy Director',0,N'3/25/2015 12:00:00 AM -05:00',0,N'3/25/2015 12:00:00 AM -05:00')
            
 
 GO
