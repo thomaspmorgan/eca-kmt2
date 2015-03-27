@@ -12,9 +12,14 @@ namespace ECA.Data.Configuration
         public LocationConfiguration()
         {
             ToTable("Location");
+
             HasKey(x => x.LocationId);
+
             HasOptional(x => x.Country).WithMany().HasForeignKey(x => x.CountryId).WillCascadeOnDelete(false);
             Property(x => x.CountryId).HasColumnName("Country_LocationId");
+
+            HasOptional(x => x.Region).WithMany().HasForeignKey(x => x.RegionId).WillCascadeOnDelete(false);
+            Property(x => x.RegionId).HasColumnName("Region_LocationId");
         }
     }
 }
