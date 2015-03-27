@@ -939,6 +939,8 @@ namespace ECA.Business.Test.Service.Admin
                 Name = oldName,
                 ProjectId = projectId,
                 StartDate = oldStartDate,
+                ProjectStatusId = ProjectStatus.Other.Id
+
             };
             context.Projects.Add(projectToUpdate);
 
@@ -999,6 +1001,7 @@ namespace ECA.Business.Test.Service.Admin
                 Name = oldName,
                 ProjectId = projectId,
                 StartDate = oldStartDate,
+                ProjectStatusId = ProjectStatus.Other.Id
             };
             context.Projects.Add(projectToUpdate);
 
@@ -1037,7 +1040,8 @@ namespace ECA.Business.Test.Service.Admin
         {
             var projectToUpdate = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
 
             };
             context.Projects.Add(projectToUpdate);
@@ -1067,7 +1071,8 @@ namespace ECA.Business.Test.Service.Admin
         {
             var projectToUpdate = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
 
             };
             context.Projects.Add(projectToUpdate);
@@ -1097,7 +1102,8 @@ namespace ECA.Business.Test.Service.Admin
         {
             var projectToUpdate = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
             };
             context.Projects.Add(projectToUpdate);
 
@@ -1126,7 +1132,8 @@ namespace ECA.Business.Test.Service.Admin
         {
             var projectToUpdate = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
             };
             context.Projects.Add(projectToUpdate);
 
@@ -1156,7 +1163,8 @@ namespace ECA.Business.Test.Service.Admin
         {
             var projectToUpdate = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
             };
             context.Projects.Add(projectToUpdate);
 
@@ -1185,7 +1193,8 @@ namespace ECA.Business.Test.Service.Admin
         {
             var projectToUpdate = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
             };
             context.Projects.Add(projectToUpdate);
 
@@ -1219,7 +1228,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             var projectToUpdate = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
             };
             context.Projects.Add(projectToUpdate);
             context.Foci.Add(focus);
@@ -1251,7 +1261,8 @@ namespace ECA.Business.Test.Service.Admin
             };
             var projectToUpdate = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
             };
             context.Projects.Add(projectToUpdate);
             context.Foci.Add(focus);

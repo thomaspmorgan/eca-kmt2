@@ -1,6 +1,8 @@
 ﻿using ECA.Business.Validation;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,7 +55,13 @@ namespace ECA.Business.Service.Admin
         public const string INVALID_START_AND_END_DATE_MESSAGE = "The start and end dates are invalid.";
 
         /// <summary>
-        /// eturns enumerated validation results for a project create.
+        /// The error message when the project was not in draft and is set back to draft.
+        /// </summary>
+        public const string CAN_NOT_SET_PROJECT_BACK_TO_DRAFT_ERROR_MESSAGE = "The project can not be set back to a draft state once it has been out of draft.";
+
+
+        /// <summary>
+        /// Returns enumerated validation results for a project create.
         /// </summary>
         /// <param name="validationEntity">The create entity.</param>
         /// <returns>The enumerated errors.</returns>
@@ -107,6 +115,14 @@ namespace ECA.Business.Service.Admin
             if (validationEntity.StartDate >= validationEntity.EndDate)
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.StartDate, INVALID_START_AND_END_DATE_MESSAGE);
+            }
+            var oldProjectStatus = ProjectStatus.GetStaticLookup(validationEntity.OriginalProjectStatusId);
+            var newProjectStatus = ProjectStatus.GetStaticLookup(validationEntity.UpdatedProjectStatusId);
+            Contract.Assert(oldProjectStatus != null, "The old project status must not be null.");
+            Contract.Assert(newProjectStatus != null, "The new project status must not be null.");
+            if (oldProjectStatus != ProjectStatus.Draft && newProjectStatus == ProjectStatus.Draft)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.ProjectStatusId, CAN_NOT_SET_PROJECT_BACK_TO_DRAFT_ERROR_MESSAGE);
             }
         }
     }

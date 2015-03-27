@@ -300,6 +300,7 @@
     <Compile Include="Models\Programs\ProgramBindingModel.cs" />
     <Compile Include="Models\Programs\ProgramViewModel.cs" />
     <Compile Include="Models\Projects\DraftProjectBindingModel.cs" />
+    <Compile Include="Models\Projects\PublishedProjectBindingModel.cs" />
     <Compile Include="Models\Query\FilterBindingModelConverter.cs" />
     <Compile Include="Models\Query\KeywordAttribute.cs" />
     <Compile Include="Models\ProgramList.cs" />

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Admin;
 using ECA.Data;
 using ECA.Business.Service;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Admin
 {
@@ -61,7 +62,10 @@ namespace ECA.Business.Test.Service.Admin
                 1,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow);
-            var project = new Project();
+            var project = new Project
+            {
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
             var focus = new Focus();
             var goalsExist = false;
             var themesExist = true;
@@ -88,7 +92,10 @@ namespace ECA.Business.Test.Service.Admin
                 1,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow);
-            var project = new Project();
+            var project = new Project
+            {
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
             var focus = new Focus();
             var goalsExist = true;
             var themesExist = false;
@@ -99,7 +106,6 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
         }
-
 
         [TestMethod]
         public void TestConstructor_CheckPointsOfContactExistBool()
@@ -116,7 +122,10 @@ namespace ECA.Business.Test.Service.Admin
                 1,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow);
-            var project = new Project();
+            var project = new Project
+            {
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
             var focus = new Focus();
             var goalsExist = true;
             var themesExist = true;
@@ -126,6 +135,34 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UnknownStaticLookupException))]
+        public void TestConstructor_UnknownProjectStatusLookupId()
+        {
+            var updatedProject = new PublishedProject(
+                 new User(1),
+                 projectId: 1,
+                 name: "name",
+                 description: "description",
+                 projectStatusId: 0,
+                 themeIds: null,
+                 goalIds: null,
+                 pointsOfContactIds: null,
+                 focusId: 1,
+                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                 endDate: DateTimeOffset.UtcNow);
+            var project = new Project
+            {
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            var focus = new Focus();
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactExist = false;
+
+            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, focus, goalsExist, themesExist, pointsOfContactExist);
         }
     }
 }

@@ -919,6 +919,119 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual("StartDate", validationErrors.First().Property);
         }
 
+        [TestMethod]
+        public void TestDoValidateUpdate_OriginalProjectIsDraftState_UpdatedProjectIsDraftState()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Draft.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Draft.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    focusId: 1,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  focus: focus,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());            
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_OriginalProjectIsNotDraftState_UpdatedProjectIsDraftState()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Active.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Active.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    focusId: 1,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  focus: focus,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            statusId = ProjectStatus.Draft.Id;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(ProjectServiceValidator.CAN_NOT_SET_PROJECT_BACK_TO_DRAFT_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("ProjectStatusId", validationErrors.First().Property);
+        }
+
         #endregion
     }
 }

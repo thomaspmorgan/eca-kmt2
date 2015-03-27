@@ -1,4 +1,5 @@
-﻿using ECA.Data;
+﻿using ECA.Core.Exceptions;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -34,6 +35,12 @@ namespace ECA.Business.Service.Admin
             Contract.Requires(updatedProject != null, "The updated project must not be null.");
             Contract.Requires(projectToUpdate != null, "The project to update must not be null.");
 
+            var updatedProjectStatus = ProjectStatus.GetStaticLookup(updatedProject.ProjectStatusId);
+            if (updatedProjectStatus == null)
+            {
+                throw new UnknownStaticLookupException(String.Format("The project status with id [{0}] is not recognized.", updatedProject.ProjectStatusId));
+            }
+            Contract.Assert(ProjectStatus.GetStaticLookup(projectToUpdate.ProjectStatusId) != null, "The project to update should have a valid project status.");
             this.Name = updatedProject.Name;
             this.Description = updatedProject.Description;
             this.Focus = focus;
