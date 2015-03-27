@@ -64,10 +64,12 @@ namespace ECA.WebApi
             container.RegisterType<IMoneyFlowService, MoneyFlowService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOfficeService, OfficeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantService, ParticipantService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPersonService, PersonService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IProjectStatusService, ProjectStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IPersonService, PersonService>(new HierarchicalLifetimeManager());
+            
         }
 
         /// <summary>
@@ -76,8 +78,12 @@ namespace ECA.WebApi
         /// <param name="container">Registers business validations.</param>
         public static void RegisterValidations(IUnityContainer container)
         {
-            container.RegisterType<IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>, ProgramServiceValidator>();
-            container.RegisterType<IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>, ProjectServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>, 
+                ProgramServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>, 
+                ProjectServiceValidator>();
         }
     }
 }

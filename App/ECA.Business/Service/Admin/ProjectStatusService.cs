@@ -16,11 +16,19 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
-    public class ProjectStatusService : LookupService<ProjectStatusDTO>//DbContextService<EcaContext>
+    /// <summary>
+    /// The ProjectStatusService is used to retrieve project stati from the db context.
+    /// </summary>
+    public class ProjectStatusService : LookupService<ProjectStatusDTO>, IProjectStatusService
     {
         private static readonly string COMPONENT_NAME = typeof(ProjectService).FullName;
         private readonly ILogger logger;
 
+        /// <summary>
+        /// Creates a new ProjectStatusService with the context and logger.
+        /// </summary>
+        /// <param name="context">The context to operate against.</param>
+        /// <param name="logger">The logger.</param>
         public ProjectStatusService(EcaContext context, ILogger logger)
             : base(context, logger)
         {

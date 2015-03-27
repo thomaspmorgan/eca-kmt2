@@ -33,14 +33,14 @@ namespace ECA.WebApi.Test.Controllers.Admin
 
         #region Get
         [TestMethod]
-        public async Task TestGetThemesAsync()
+        public async Task TestGetLocationsAsync()
         {
             var response = await controller.GetLocationsAsync(new PagingQueryBindingModel<LocationDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<LocationDTO>>));
         }
 
         [TestMethod]
-        public async Task TestGetThemesAsync_InvalidModel()
+        public async Task TestGetLocationsAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetLocationsAsync(new PagingQueryBindingModel<LocationDTO>());

@@ -48,7 +48,7 @@ namespace ECA.Business.Service.Lookup
             var stopWatch = Stopwatch.StartNew();
             var results = GetDTOQuery(queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
             stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
             return results;
         }
 
@@ -62,7 +62,7 @@ namespace ECA.Business.Service.Lookup
             var stopWatch = Stopwatch.StartNew();
             var results = await GetDTOQuery(queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
             stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
             return results;
         }
 

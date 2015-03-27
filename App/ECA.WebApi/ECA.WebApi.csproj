@@ -276,6 +276,7 @@
     <Compile Include="Controllers\Admin\GoalsController.cs" />
     <Compile Include="Controllers\Admin\LocationsController.cs" />
     <Compile Include="Controllers\Admin\OfficesController.cs" />
+    <Compile Include="Controllers\Admin\ProjectStatusesController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsController.cs" />
     <Compile Include="Controllers\Admin\ProjectsController.cs" />
