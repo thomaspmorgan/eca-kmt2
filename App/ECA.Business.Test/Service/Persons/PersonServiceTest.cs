@@ -130,6 +130,12 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetPiiById_CheckHomeAddresses()
         {
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "country"
+            };
+
             var location = new Location
             {
                 LocationId = 1,
@@ -137,7 +143,9 @@ namespace ECA.Business.Test.Service.Persons
                 Street2 = "street2",
                 Street3 = "street3",
                 City = "city",
-                PostalCode = "postalCode"
+                PostalCode = "postalCode",
+                CountryId = 2,
+                Country = country
             };
 
             var address = new Address
@@ -157,6 +165,7 @@ namespace ECA.Business.Test.Service.Persons
             
             person.Addresses.Add(address);
 
+            context.Locations.Add(country);
             context.Locations.Add(location);
             context.Addresses.Add(address);
             context.People.Add(person);
@@ -172,6 +181,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(location.Street3, homeAddress.Street3);
                 Assert.AreEqual(location.City, homeAddress.City);
                 Assert.AreEqual(location.PostalCode, homeAddress.PostalCode);
+                Assert.AreEqual(country.LocationName, homeAddress.Country);
             };
             var result = this.service.GetPiiById(person.PersonId);
             var resultAsync = await this.service.GetPiiByIdAsync(person.PersonId);

@@ -32,6 +32,10 @@ namespace ECA.Data
 
         public virtual Location Region { get; set; }
 
+        public int? CountryId { get; set; }
+        public virtual Location Country { get; set; }
+
+
         // Relationships
         public virtual ICollection<Person> BirthPlacePeople { get; set; }
         public virtual ICollection<Program> RegionPrograms { get; set; }
