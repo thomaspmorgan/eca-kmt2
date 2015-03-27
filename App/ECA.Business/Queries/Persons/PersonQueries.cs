@@ -47,7 +47,8 @@ namespace ECA.Business.Queries.Persons
                                                             Street2 = x.Location.Street2, 
                                                             Street3 = x.Location.Street3,
                                                             City = x.Location.City,
-                                                            PostalCode = x.Location.PostalCode
+                                                            PostalCode = x.Location.PostalCode,
+                                                            Country = x.Location.Country.LocationName
                                                         })
                         };
             return query;

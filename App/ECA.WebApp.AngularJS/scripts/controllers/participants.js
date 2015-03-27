@@ -44,8 +44,6 @@ angular.module('staticApp')
         'images/placeholders/participant/activities2.png'
     ];
 
-    console.log($stateParams);
-
     ParticipantService.getParticipantById($stateParams.participantId)
       .then(function (data) {
           $scope.participant = data;

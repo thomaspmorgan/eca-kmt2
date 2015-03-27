@@ -109,6 +109,16 @@ namespace ECA.Data
         public virtual Location Region { get; set; }
 
         /// <summary>
+        /// Gets or sets the country id
+        /// </summary>
+        public int? CountryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country
+        /// </summary>
+        public virtual Location Country { get; set; }
+
+        /// <summary>
         /// Gets or sets the birth place people
         /// </summary>
         public virtual ICollection<Person> BirthPlacePeople { get; set; }

@@ -35,5 +35,10 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets and sets postal code
         /// </summary>
         public string PostalCode { get; set; }
+
+        /// <summary>
+        /// Gets and sets country
+        /// </summary>
+        public string Country { get; set; }
     }
 }
