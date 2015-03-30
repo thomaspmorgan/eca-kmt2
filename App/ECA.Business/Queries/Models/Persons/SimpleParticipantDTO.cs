@@ -42,6 +42,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the participant's sevis id
+        /// </summary>
+        public string SevisId { get; set; }
+
+        /// <summary>
         /// Gets or sets the date revised on.
         /// </summary>
         public DateTimeOffset RevisedOn { get; set; }

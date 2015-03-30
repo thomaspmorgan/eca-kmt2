@@ -962,7 +962,9 @@ namespace ECA.Business.Test.Service.Persons
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+        #endregion
 
+        #region Get Participant By Id
         [TestMethod]
         public async Task TestGetParticipantById()
         {
@@ -991,6 +993,7 @@ namespace ECA.Business.Test.Service.Persons
                 Person = person,
                 ParticipantType = participantType,
                 ParticipantTypeId = participantType.ParticipantTypeId,
+                SevisId = "1234567890",
                 History = history
             };
 
@@ -1007,7 +1010,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(participant.ParticipantTypeId, result.ParticipantTypeId);
                 Assert.AreEqual(participant.ParticipantType.Name, result.ParticipantType);
                 Assert.AreEqual(person.FirstName + " " + person.LastName, result.Name);
-
+                Assert.AreEqual(participant.SevisId, result.SevisId);
             };
 
             var serviceResult = service.GetParticipantById(participant.ParticipantId);
