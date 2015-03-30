@@ -38,6 +38,7 @@ angular.module('staticApp')
     };
 
     $scope.showPii = true;
+    $scope.showContact = true;
 
     $scope.activityImageSet = [
         'images/placeholders/participant/activities1.png',
