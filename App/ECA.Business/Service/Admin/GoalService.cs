@@ -32,6 +32,11 @@ namespace ECA.Business.Service.Admin
         }
 
         #region Get
+
+        /// <summary>
+        /// Returns a query to get dtos.
+        /// </summary>
+        /// <returns>The query to get goal dtos.</returns>
         protected override IQueryable<GoalDTO> GetSelectDTOQuery()
         {
             return GoalQueries.CreateGetGoalDTOQuery(this.Context);

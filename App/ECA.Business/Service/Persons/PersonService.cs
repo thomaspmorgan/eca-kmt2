@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Diagnostics;
 
 namespace ECA.Business.Service.Persons
 {
@@ -18,6 +19,8 @@ namespace ECA.Business.Service.Persons
     /// </summary>
     public class PersonService : DbContextService<EcaContext>, IPersonService
     {
+        private static readonly string COMPONENT_NAME = typeof(PersonService).FullName;
+        private readonly ILogger logger;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -27,6 +30,7 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(logger != null, "The logger must not be null.");
+            this.logger = logger;
         }
 
         /// <summary>
@@ -36,7 +40,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>Personally identifiable information for person</returns>
         public PiiDTO GetPiiById(int personId)
         {
-            return PersonQueries.CreateGetPiiByIdQuery(this.Context, personId).SingleOrDefault();
+            var stopwatch = Stopwatch.StartNew();
+            var pii = PersonQueries.CreateGetPiiByIdQuery(this.Context, personId).SingleOrDefault();
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "personId", personId } });
+            return pii;
         }
 
         /// <summary>
@@ -46,7 +54,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>Personally identifiable information for person</returns>
         public Task<PiiDTO> GetPiiByIdAsync(int personId)
         {
-            return PersonQueries.CreateGetPiiByIdQuery(this.Context, personId).SingleOrDefaultAsync();
+            var stopwatch = Stopwatch.StartNew();
+            var pii = PersonQueries.CreateGetPiiByIdQuery(this.Context, personId).SingleOrDefaultAsync();
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "personId", personId } });
+            return pii;
         }
     }
 }

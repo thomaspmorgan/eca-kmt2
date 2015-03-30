@@ -12,6 +12,20 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class PublishedProject : IAuditable
     {
+        /// <summary>
+        /// A PublishedProject is used to update a project in the ECA system.
+        /// </summary>
+        /// <param name="updatedBy">The user performing the update.</param>
+        /// <param name="projectId">The id of the project.</param>
+        /// <param name="name">The name of the project.</param>
+        /// <param name="description">The description of the project.</param>
+        /// <param name="projectStatusId">The status of the project.</param>
+        /// <param name="goalIds">The goals by id.</param>
+        /// <param name="themeIds">The themes by id.</param>
+        /// <param name="pointsOfContactIds">The points of contact by id.</param>
+        /// <param name="focusId">The focus of the project.</param>
+        /// <param name="startDate">The start date of the project.</param>
+        /// <param name="endDate">The end date of the project.</param>
         public PublishedProject(
             User updatedBy,
             int projectId,

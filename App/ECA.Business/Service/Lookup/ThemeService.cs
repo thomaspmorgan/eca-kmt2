@@ -31,6 +31,10 @@ namespace ECA.Business.Service.Lookup
         }
 
         #region Get
+        /// <summary>
+        /// Returns a query to get dtos.
+        /// </summary>
+        /// <returns>The query to get theme dtos.</returns>
         protected override IQueryable<ThemeDTO> GetSelectDTOQuery()
         {
             return ThemeQueries.CreateGetThemesQuery(this.Context);

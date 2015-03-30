@@ -71,7 +71,6 @@ namespace ECA.Core.DynamicLinq.Filter
         /// <returns>The where expression checking an enumerable object containing the property to filter with.</returns>
         public override Expression<Func<T, bool>> ToWhereExpression()
         {
-            Contract.Requires(this.Value != null, "The value must not be null.");
             var xParameter = Expression.Parameter(typeof(T), "x");
             var xProperty = Expression.Property(xParameter, this.PropertyInfo);
             var list = Expression.Constant(GetValuesAsList());

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ECA.Business.Service.Persons
 {
@@ -20,7 +21,10 @@ namespace ECA.Business.Service.Persons
     /// A ParticipantService is capable of performing crud operations on participants in the ECA system.
     /// </summary>
     public class ParticipantService : DbContextService<EcaContext>, ECA.Business.Service.Persons.IParticipantService
-    {       
+    {
+        private static readonly string COMPONENT_NAME = typeof(ParticipantService).FullName;
+        private readonly ILogger logger;
+
         /// <summary>
         /// Creates a new ParticipantService with the given context to operate against.
         /// </summary>
@@ -30,6 +34,7 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(logger != null, "The logger must not be null.");
+            this.logger = logger;
         }
 
         #region Get
@@ -41,7 +46,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participants.</returns>
         public PagedQueryResults<SimpleParticipantDTO> GetParticipants(QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
-            return ParticipantQueries.CreateGetSimpleParticipantsDTOQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            var stopwatch = Stopwatch.StartNew();
+            var participants = ParticipantQueries.CreateGetSimpleParticipantsDTOQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            return participants;
         }
 
         /// <summary>
@@ -51,7 +60,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participants.</returns>
         public Task<PagedQueryResults<SimpleParticipantDTO>> GetParticipantsAsync(QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
-            return ParticipantQueries.CreateGetSimpleParticipantsDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            var stopwatch = Stopwatch.StartNew();
+            var participants = ParticipantQueries.CreateGetSimpleParticipantsDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            return participants;
         }
 
         /// <summary>
@@ -62,7 +75,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participants.</returns>
         public PagedQueryResults<SimpleParticipantDTO> GetParticipantsByProjectId(int projectId, QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
-            return ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            var stopwatch = Stopwatch.StartNew();
+            var participants = ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            return participants;
         }
 
         /// <summary>
@@ -73,7 +90,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participants.</returns>
         public Task<PagedQueryResults<SimpleParticipantDTO>> GetParticipantsByProjectIdAsync(int projectId, QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
-            return ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            var stopwatch = Stopwatch.StartNew();
+            var participants = ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            return participants;
         }
 
         /// <summary>
@@ -83,7 +104,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participant</returns>
         public SimpleParticipantDTO GetParticipantById(int participantId)
         {
-            return ParticipantQueries.CreateGetSimpleParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var stopwatch = Stopwatch.StartNew();
+            var participant = ParticipantQueries.CreateGetSimpleParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "participantId", participantId } });
+            return participant;
         }
 
         /// <summary>
@@ -93,7 +118,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participant</returns>
         public Task<SimpleParticipantDTO> GetParticipantByIdAsync(int participantId)
         {
-            return ParticipantQueries.CreateGetSimpleParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
+            var stopwatch = Stopwatch.StartNew();
+            var participant = ParticipantQueries.CreateGetSimpleParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "participantId", participantId } });
+            return participant;
         }
         #endregion
 

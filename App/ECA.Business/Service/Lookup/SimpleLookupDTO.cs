@@ -40,7 +40,14 @@
         /// <returns>A hash of this object.</returns>
         public override int GetHashCode()
         {
-            return this.Value.GetHashCode();
+            if (this.Value == null)
+            {
+                return this.Id.GetHashCode();
+            }
+            else
+            {
+                return this.Value.GetHashCode();
+            }
         }
     }
 }
