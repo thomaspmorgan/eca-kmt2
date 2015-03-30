@@ -14,6 +14,7 @@ namespace ECA.Core.DynamicLinq.Filter
     /// A LinqFilter is a property operator that will filter instances on a object's property.
     /// </summary>
     /// <typeparam name="T">The object type to filter on.</typeparam>
+    [ContractClass(typeof(LinqFilterContract<>))]
     public abstract class LinqFilter<T> where T : class
     {
         /// <summary>
@@ -29,6 +30,24 @@ namespace ECA.Core.DynamicLinq.Filter
         public override string ToString()
         {
             return ToWhereExpression().ToString();
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    [ContractClassFor(typeof(LinqFilter<>))]
+    public abstract class LinqFilterContract<T> : LinqFilter<T> where T : class
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override Expression<Func<T, bool>> ToWhereExpression()
+        {
+            Contract.Ensures(Contract.Result<Expression<Func<T, bool>>>() != null, "The ToWhereExpression method must return a non null expression.");
+            return null;
         }
     }
 

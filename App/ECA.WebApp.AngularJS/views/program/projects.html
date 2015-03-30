@@ -81,11 +81,11 @@
     <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
 </div>
 <modal-dialog show="modal.createProject" dialog-title="Create Project" on-open="modalSetPristine()" before-close="modalClose()" on-close="modalClear()">
-    <div class="tip">
+    <div class="tip" ng-show="!isSavingProject">
         <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
         <div class="required">* Marks required fields</div>
     </div>
-    <div id="modal" class="row" in-context-form>
+    <div id="modal" class="row" ng-show="!isSavingProject" in-context-form>
         <div class="col-md-10">
             <form name="projectForm" ng-init="setFormScope(this)" novalidate>
                 <div class="form-group">
@@ -117,10 +117,15 @@
             <guidance></guidance>
         </div>
     </div>
-    <button class="btn btn-default" ng-click="createProject = !modalClose()">CANCEL</button>
-    <button type="submit" form="projectForm" ng-disabled="projectForm.projectDescription.$error.required" class="btn btn-success right" ng-click="saveProject()">CREATE</button>
+    <div class="spinner" ng-show="isSavingProject">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <button class="btn btn-default" ng-show="!isSavingProject" ng-click="createProject = !modalClose()">CANCEL</button>
+    <button type="submit" form="projectForm" ng-show="!isSavingProject" ng-disabled="projectForm.projectDescription.$error.required" class="btn btn-success right" ng-click="saveProject()">CREATE</button>
 </modal-dialog>
-<modal-dialog show="confirmClose" dialog-title="Confirm Close">
+<modal-dialog show="confirmClose" dialog-title="Confirm Close" before-close="confirmCloseNo()">
     <p class="strong">There is unsaved data.  Are you sure you want to close?</p>
     <button class="btn btn-default right" ng-click="confirmCloseYes()">YES</button>
     &nbsp;
@@ -130,7 +135,7 @@
     <p class="strong">The project was created sucessfully!</p>
     <button class="btn btn-default right" ng-click="confirmSaveYes()">OK</button>
 </modal-dialog>
-<modal-dialog show="confirmFail" dialog-title="Error Saving Project" before-close="confirmFailOk()">
+<modal-dialog show="confirmFail" dialog-title="Error Saving Project" before-close="confirmFailOk()" on-close="">
     <p class="strong">There was an error saving the new project.</p>
     <p class="alert-warning">{{errorMessage}}</p>
     <div>

@@ -24,7 +24,7 @@ namespace ECA.Core.DynamicLinq.Filter
         {
             Contract.Requires(property != null, "The property must not be null.");
             this.PropertyInfo = GetPropertyInfo(property);
-            Contract.Assert(this.PropertyInfo != null, "The property info must not be null.");
+            Contract.Assume(this.PropertyInfo != null, "The property info must not be null.");
             this.IsNullable = IsPropertyNullable();
             if (this.IsNullable)
             {
@@ -58,14 +58,14 @@ namespace ECA.Core.DynamicLinq.Filter
         /// <returns>The PropertyInfo associated with the property.</returns>
         protected PropertyInfo GetPropertyInfo(string propertyName)
         {
-            Contract.Assert(propertyName != null, "The property name must not be null.");
+            Contract.Requires(propertyName != null, "The property name must not be null.");
             var property = typeof(TSource).GetProperties().Where(x => x.Name.ToLower() == propertyName.ToLower()).FirstOrDefault();
             return property;
         }
 
         private bool IsPropertyNullable()
         {
-            Debug.Assert(this.PropertyInfo != null, "The property info property must be set.");
+            Contract.Assume(this.PropertyInfo != null, "The property info property must be set.");
             return this.PropertyInfo.PropertyType.GetGenericArguments().Length > 0;
         }
 
@@ -87,6 +87,7 @@ namespace ECA.Core.DynamicLinq.Filter
         /// <returns>The property type of this class's underlying nullable property.</returns>
         protected Type GetNullableUnderlyingType()
         {
+            Contract.Assert(this.PropertyInfo != null, "The property info property must be set.");
             return Nullable.GetUnderlyingType(this.PropertyInfo.PropertyType);
         }
     }

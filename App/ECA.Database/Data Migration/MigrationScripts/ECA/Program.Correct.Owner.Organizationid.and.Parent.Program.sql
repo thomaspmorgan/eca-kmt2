@@ -62,12 +62,3 @@ GO
 
 
 
-
-/*
-select [Program Name],[Office Name],[Office Symbol],p.name,p.programid,p.owner_organizationid,o2.name ,o.organizationid orgid2,o.name orgname2,o.organizationtypeid,o.description 
-from FullProgramStaging fp
-left join eca_dev_test.dbo.organization o on (o.name = fp.[Office Symbol])
-left join eca_dev_test.dbo.program p on (p.name = fp.[Program Name])
-left join eca_dev_test.dbo.organization o2 on (o2.organizationid = p.owner_organizationid)
-where fp.[Program Name] is not null
-/*

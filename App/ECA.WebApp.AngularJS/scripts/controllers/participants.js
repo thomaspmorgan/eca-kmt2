@@ -11,9 +11,9 @@ angular.module('staticApp')
   .controller('ParticipantCtrl', function ($scope, ParticipantService, PersonService, $stateParams) {
 
     $scope.tabs = {
-      overview: {
-          title: 'Overview',
-          path: 'overview',
+      personalInformation: {
+          title: 'Personal Information',
+          path: 'personalinformation',
           active: true,
           order: 1
       },
@@ -23,23 +23,17 @@ angular.module('staticApp')
           active: true,
           order: 2
       },
-      personalInformation: {
-          title: 'Personal Information',
-          path: 'personalinformation',
-          active: true,
-          order: 3
-      },
       relatedReports: {
           title: 'Related Reports',
           path: 'relatedreports',
           active: true,
-          order: 4
+          order: 3
       },
       impact: {
           title: 'Impact',
           path: 'impact',
           active: true,
-          order: 5 
+          order: 4
       },
     };
 
@@ -49,8 +43,6 @@ angular.module('staticApp')
         'images/placeholders/participant/activities1.png',
         'images/placeholders/participant/activities2.png'
     ];
-
-    console.log($stateParams);
 
     ParticipantService.getParticipantById($stateParams.participantId)
       .then(function (data) {

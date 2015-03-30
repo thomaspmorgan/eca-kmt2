@@ -12,6 +12,7 @@ namespace ECA.Core.DynamicLinq.Filter
     /// An EqualityFilter is used to compare an object's property equal to another value.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [ContractClass(typeof(EqualityFilterContract<>))]
     public abstract class EqualityFilter<T> : BinaryFilter<T> where T : class
     {
         /// <summary>
@@ -33,7 +34,6 @@ namespace ECA.Core.DynamicLinq.Filter
         /// <returns>An expression to filter with in a linq query.</returns>
         public override Expression<Func<T, bool>> ToWhereExpression()
         {
-            Contract.Assert(this.Value != null, "The value must not be null.");
             var xParameter = Expression.Parameter(typeof(T), "x");
             var xProperty = Expression.Property(xParameter, this.PropertyInfo);
 
@@ -43,7 +43,9 @@ namespace ECA.Core.DynamicLinq.Filter
                 var hasValueProperty = Expression.Property(xProperty, "HasValue");
                 var valueProperty = Expression.Property(xProperty, "Value");
                 var hasValueExpression = Expression.IsTrue(hasValueProperty);
+                
                 var equalityExpression = GetEqualityExpression(valueProperty);
+                Contract.Assert(equalityExpression != null, "The equality expresison must return a value.");
                 where = Expression.AndAlso(hasValueExpression, equalityExpression);
             }
             else
@@ -84,5 +86,30 @@ namespace ECA.Core.DynamicLinq.Filter
         /// <param name="property">The property that will be filtered on e.g. x.NullableInt.Value, where Value is the property parameter that is passed.</param>
         /// <returns>The equality expression.</returns>
         protected abstract Expression GetEqualityExpression(MemberExpression property);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    [ContractClassFor(typeof(EqualityFilter<>))]
+    public abstract class EqualityFilterContract<T> : EqualityFilter<T> where T : class
+    {
+        public EqualityFilterContract(string property, object value)
+            : base(property, value)
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        protected override Expression GetEqualityExpression(MemberExpression property)
+        {
+            Contract.Requires(property != null, "The property must not be null.");
+            Contract.Ensures(Contract.Result<Expression>() != null, "The method must return a non-null expression.");
+            return null;
+        }
     }
 }

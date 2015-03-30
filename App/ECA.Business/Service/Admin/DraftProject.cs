@@ -22,6 +22,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="createdBy">The user who created the draft project.</param>
         public DraftProject(User createdBy, string name, string description, int programId)
         {
+            Contract.Requires(createdBy != null, "The created by user must not be null.");
             this.Name = name;
             this.ProgramId = programId;
             this.StatusId = ProjectStatus.Draft.Id;
@@ -52,6 +53,6 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Gets the project audit
         /// </summary>
-        public Audit Audit { get; protected set; }
+        public Audit Audit { get; private set; }
     }
 }

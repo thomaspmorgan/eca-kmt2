@@ -24,6 +24,7 @@ namespace ECA.Business.Queries.Persons
         public static IQueryable<PiiDTO> CreateGetPiiByIdQuery(EcaContext context, int personId)
         {
             Contract.Requires(context != null, "The context must not be null.");
+
             var query = from person in context.People
                         where person.PersonId == personId
                         select new PiiDTO
@@ -39,7 +40,16 @@ namespace ECA.Business.Queries.Persons
                             FamilyName = person.FamilyName,
                             MiddleName = person.MiddleName,
                             Patronym = person.Patronym,
-                            Alias = person.Alias
+                            Alias = person.Alias,
+                            HomeAddresses = person.Addresses.Where(x => x.AddressTypeId == AddressType.Home.Id)
+                                                        .Select(x => new LocationDTO {
+                                                            Street1 = x.Location.Street1, 
+                                                            Street2 = x.Location.Street2, 
+                                                            Street3 = x.Location.Street3,
+                                                            City = x.Location.City,
+                                                            PostalCode = x.Location.PostalCode,
+                                                            Country = x.Location.Country.LocationName
+                                                        })
                         };
             return query;
         }

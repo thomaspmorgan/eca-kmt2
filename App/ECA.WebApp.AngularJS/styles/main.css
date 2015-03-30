@@ -5149,7 +5149,8 @@ button.close {
     border: 1px solid #e5eae9;
     color: #415358;
     opacity: 1;
-    padding: 20px 14px; }
+    padding: 10.5px 14px;
+    height: 100%; }
 
 .form-control {
   color: #415358; }

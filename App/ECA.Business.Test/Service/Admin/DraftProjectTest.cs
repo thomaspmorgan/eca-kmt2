@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Service;
 using ECA.Business.Service.Admin;
+using ECA.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -12,21 +13,29 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public void TestConstructor()
         {
-            //var name = "name";
-            //var description = "description";
-            //var userId = 1;
-            //var user = new User(userId);
-            //var programId = 2;
-            //var now = DateTimeOffset.UtcNow;
+            var name = "name";
+            var description = "description";
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var user = new User(1);
+            var draftProject = new DraftProject(
+                createdBy: user,
+                name: name,
+                description: description,
+                programId: program.ProgramId
+                );
 
-            //var model = new DraftProject(user, name, description, programId);
-            //Assert.AreEqual(name, model.Name);
-            //Assert.AreEqual(description, model.Description);
-            //Assert.AreEqual(programId, model.ProgramId);
+            Assert.AreEqual(name, draftProject.Name);
+            Assert.AreEqual(description, draftProject.Description);
+            Assert.AreEqual(program.ProgramId, draftProject.ProgramId);
+            Assert.AreEqual(ProjectStatus.Draft.Id, draftProject.StatusId);
+            Assert.IsInstanceOfType(draftProject.Audit, typeof(Create));
 
-            //Assert.IsNotNull(model.History);
-            //Assert.AreEqual(userId, model.History.CreatedBy.Id);
-            //model.History.CreatedAndRevisedOn.Should().BeCloseTo(now, DbContextHelper.DATE_PRECISION);
+            var create = draftProject.Audit as Create;
+            Assert.AreEqual(user.Id, create.User.Id);
+            DateTimeOffset.UtcNow.Should().BeCloseTo(create.Date, DbContextHelper.DATE_PRECISION);
         }
     }
 }

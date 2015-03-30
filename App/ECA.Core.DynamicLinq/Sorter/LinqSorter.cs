@@ -47,7 +47,7 @@ namespace ECA.Core.DynamicLinq.Sorter
         /// <returns>The PropertyInfo associated with the property.</returns>
         protected PropertyInfo GetPropertyInfo(string propertyName)
         {
-            Contract.Assert(propertyName != null, "The property name must not be null.");
+            Contract.Requires(propertyName != null, "The property name must not be null.");
             var property = typeof(TSource).GetProperties().Where(x => x.Name.ToLower() == propertyName.ToLower()).FirstOrDefault();
             return property;
         }

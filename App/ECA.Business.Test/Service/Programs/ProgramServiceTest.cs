@@ -2190,49 +2190,6 @@ namespace ECA.Business.Test.Service.Programs
         #endregion
 
         [TestMethod]
-        public async Task TestGetLocationTypeIds()
-        {
-            var expectedTypeIds = new List<int> { LocationType.Region.Id };
-            var region = new Location { LocationId = 1, LocationTypeId = LocationType.Region.Id };
-
-            context.Locations.Add(region);
-            CollectionAssert.AreEqual(expectedTypeIds, service.GetLocationTypeIds(new List<int> { region.LocationId }));
-            CollectionAssert.AreEqual(expectedTypeIds, await service.GetLocationTypeIdsAsync(new List<int> { region.LocationId }));
-        }
-
-        [TestMethod]
-        public void TestSetGoals()
-        {
-            var original = new Goal { GoalId = 1 };
-
-            var program = new Program();
-            program.Goals.Add(original);
-
-            var newGoal = new Goal { GoalId = 2 };
-            var newGoalIds = new List<int> { newGoal.GoalId };
-            service.SetGoals(newGoalIds, program);
-            Assert.AreEqual(1, program.Goals.Count);
-            Assert.AreEqual(newGoal.GoalId, program.Goals.First().GoalId);
-
-        }
-
-        [TestMethod]
-        public void TestSetThemes()
-        {
-            var original = new Theme { ThemeId = 1 };
-
-            var program = new Program();
-            program.Themes.Add(original);
-
-            var newTheme = new Theme { ThemeId = 2 };
-            var newThemeIds = new List<int> { newTheme.ThemeId };
-            service.SetThemes(newThemeIds, program);
-            Assert.AreEqual(1, program.Themes.Count);
-            Assert.AreEqual(newTheme.ThemeId, program.Themes.First().ThemeId);
-
-        }
-
-        [TestMethod]
         public void TestSetRegions()
         {
             var original = new Location { LocationId = 1 };
@@ -2248,18 +2205,14 @@ namespace ECA.Business.Test.Service.Programs
         }
 
         [TestMethod]
-        public void TestSetPointsOfContact()
+        public async Task TestGetLocationTypeIds()
         {
-            var original = new Contact { ContactId = 1 };
+            var expectedTypeIds = new List<int> { LocationType.Region.Id };
+            var region = new Location { LocationId = 1, LocationTypeId = LocationType.Region.Id };
 
-            var program = new Program();
-            program.Contacts.Add(original);
-
-            var newContact = new Contact { ContactId = 2 };
-            var newContactIds = new List<int> { newContact.ContactId };
-            service.SetPointOfContacts(newContactIds, program);
-            Assert.AreEqual(1, program.Contacts.Count);
-            Assert.AreEqual(newContact.ContactId, program.Contacts.First().ContactId);
+            context.Locations.Add(region);
+            CollectionAssert.AreEqual(expectedTypeIds, service.GetLocationTypeIds(new List<int> { region.LocationId }));
+            CollectionAssert.AreEqual(expectedTypeIds, await service.GetLocationTypeIdsAsync(new List<int> { region.LocationId }));
         }
     }
 }

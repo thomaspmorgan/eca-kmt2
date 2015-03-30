@@ -48,6 +48,7 @@ namespace ECA.Data
         public DbSet<LanguageProficiency> LanguangeProficiencies { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<LocationType> LocationTypes { get; set; }
+        public DbSet<MaritalStatus> MaritalStatuses { get; set; }
         public DbSet<Membership> Memberships { get; set; }
         public DbSet<MoneyFlow> MoneyFlows { get; set; }
         public DbSet<Organization> Organizations { get; set; }

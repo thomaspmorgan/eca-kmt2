@@ -63,7 +63,7 @@ namespace ECA.Business.Queries.Programs
                         let goals = program.Goals
                         let contacts = program.Contacts
                         let focus = program.Focus
-                        let countries = countryQuery.Where(x => regions.Select(y => y.LocationId).Contains(x.Region.LocationId))
+                        let countries = countryQuery.Where(c => regions.Contains(c.Region))
 
                         select new ProgramDTO
                         {

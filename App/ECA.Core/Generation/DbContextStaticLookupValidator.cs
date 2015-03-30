@@ -7,8 +7,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Core.Generation
 {
@@ -41,6 +39,7 @@ namespace ECA.Core.Generation
         /// Creates a new validator.
         /// </summary>
         /// <param name="context">The context to validate against.</param>
+        /// <param name="logger">The logger.</param>
         public DbContextStaticLookupValidator(DbContext context, ILogger logger)
         {
             Contract.Requires(context != null, "The context must not be null.");

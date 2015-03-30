@@ -276,6 +276,7 @@
     <Compile Include="Controllers\Admin\GoalsController.cs" />
     <Compile Include="Controllers\Admin\LocationsController.cs" />
     <Compile Include="Controllers\Admin\OfficesController.cs" />
+    <Compile Include="Controllers\Admin\ProjectStatusesController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsController.cs" />
     <Compile Include="Controllers\Admin\ProjectsController.cs" />
@@ -300,6 +301,7 @@
     <Compile Include="Models\Programs\ProgramBindingModel.cs" />
     <Compile Include="Models\Programs\ProgramViewModel.cs" />
     <Compile Include="Models\Projects\DraftProjectBindingModel.cs" />
+    <Compile Include="Models\Projects\PublishedProjectBindingModel.cs" />
     <Compile Include="Models\Query\FilterBindingModelConverter.cs" />
     <Compile Include="Models\Query\KeywordAttribute.cs" />
     <Compile Include="Models\ProgramList.cs" />
@@ -339,6 +341,7 @@
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev-Web-Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\ecaapi-kmt-qa.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

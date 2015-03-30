@@ -1,0 +1,49 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using ECA.Business.Service.Admin;
+using ECA.WebApi.Controllers.Admin;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
+using System.Collections.Generic;
+using ECA.Business.Queries.Models.Admin;
+using ECA.WebApi.Models.Query;
+using System.Threading.Tasks;
+using System.Web.Http.Results;
+
+namespace ECA.WebApi.Test.Controllers.Admin
+{
+    [TestClass]
+    public class ProjectStatusControllerTest
+    {
+        private Mock<IProjectStatusService> serviceMock;
+        private ProjectStatusesController controller;
+
+        [TestInitialize]
+        public void TestInit()
+        {
+            serviceMock = new Mock<IProjectStatusService>();
+            serviceMock.Setup(x => x.GetAsync(It.IsAny<QueryableOperator<ProjectStatusDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<ProjectStatusDTO>(1, new List<ProjectStatusDTO>()));
+            controller = new ProjectStatusesController(serviceMock.Object);
+            ControllerHelper.InitializeController(controller);
+        }
+
+        #region Get
+        [TestMethod]
+        public async Task TestGetProjectStatiAsync()
+        {
+            var response = await controller.GetProjectStati(new PagingQueryBindingModel<ProjectStatusDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ProjectStatusDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectStatiAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetProjectStati(new PagingQueryBindingModel<ProjectStatusDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+        #endregion
+    }
+}

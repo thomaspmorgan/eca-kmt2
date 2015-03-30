@@ -3,9 +3,11 @@ using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
 using ECA.Business.Validation;
+using ECA.Core.Generation;
 using ECA.Core.Logging;
 using ECA.Data;
 using Microsoft.Practices.Unity;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Web.Http;
 using Unity.WebApi;
@@ -38,6 +40,7 @@ namespace ECA.WebApi
         {
             var connectionString = "EcaContext";
             container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
+            container.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
         }
 
         /// <summary>
@@ -64,10 +67,13 @@ namespace ECA.WebApi
             container.RegisterType<IMoneyFlowService, MoneyFlowService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOfficeService, OfficeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantService, ParticipantService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPersonService, PersonService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IProjectStatusService, ProjectStatusService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IPersonService, PersonService>(new HierarchicalLifetimeManager());
+                        
         }
 
         /// <summary>
@@ -76,7 +82,12 @@ namespace ECA.WebApi
         /// <param name="container">Registers business validations.</param>
         public static void RegisterValidations(IUnityContainer container)
         {
-            container.RegisterType<IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>, ProgramServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>, 
+                ProgramServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>, 
+                ProjectServiceValidator>();
         }
     }
 }

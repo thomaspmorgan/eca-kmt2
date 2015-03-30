@@ -15,14 +15,14 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="queryOperator">The query oprator.</param>
         /// <returns>The foci in the system.</returns>
-        PagedQueryResults<FocusDTO> GetFoci(QueryableOperator<FocusDTO> queryOperator);
+        PagedQueryResults<FocusDTO> Get(QueryableOperator<FocusDTO> queryOperator);
 
         /// <summary>
         /// Returns the foci currently in the system.
         /// </summary>
         /// <param name="queryOperator">The query oprator.</param>
         /// <returns>The foci in the system.</returns>
-        Task<PagedQueryResults<FocusDTO>> GetFociAsync(QueryableOperator<FocusDTO> queryOperator);
+        Task<PagedQueryResults<FocusDTO>> GetAsync(QueryableOperator<FocusDTO> queryOperator);
 
         /// <summary>
         /// Returns the focus with the given id or null if not found.

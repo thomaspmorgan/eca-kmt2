@@ -43,7 +43,7 @@ namespace ECA.WebApi.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetGoalsAsync(queryModel.ToQueryableOperator(DEFAULT_GOAL_DTO_SORTER));
+                var results = await this.service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_GOAL_DTO_SORTER));
                 return Ok(results);
             }
             else

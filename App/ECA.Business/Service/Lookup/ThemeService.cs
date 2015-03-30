@@ -17,7 +17,7 @@ namespace ECA.Business.Service.Lookup
     /// <summary>
     /// The ThemeService is capable of performing crud operations on Themes with the system using entity framework.
     /// </summary>
-    public class ThemeService : DbContextService<EcaContext>, ECA.Business.Service.Lookup.IThemeService
+    public class ThemeService : LookupService<ThemeDTO>, ECA.Business.Service.Lookup.IThemeService
     {
         /// <summary>
         /// Creates a new ThemeService.
@@ -31,27 +31,12 @@ namespace ECA.Business.Service.Lookup
         }
 
         #region Get
-
-        /// <summary>
-        /// Returns paged, filtered, and sorted themes in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The themes in the system.</returns>
-        public PagedQueryResults<ThemeDTO> GetThemes(QueryableOperator<ThemeDTO> queryOperator)
+        protected override IQueryable<ThemeDTO> GetSelectDTOQuery()
         {
-            return ThemeQueries.CreateGetThemesQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            return ThemeQueries.CreateGetThemesQuery(this.Context);
         }
-
-        /// <summary>
-        /// Returns paged, filtered, and sorted themes in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The themes in the system.</returns>
-        public Task<PagedQueryResults<ThemeDTO>> GetThemesAsync(QueryableOperator<ThemeDTO> queryOperator)
-        {
-            return ThemeQueries.CreateGetThemesQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-        }
-
         #endregion
+
+        
     }
 }

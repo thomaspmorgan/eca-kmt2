@@ -102,6 +102,7 @@ namespace ECA.Business.Test.Service.Persons
             var person = new Person
             {
                 PersonId = 1,
+                Gender = new Gender(),
             };
 
             person.CountriesOfCitizenship.Add(location);
@@ -118,6 +119,69 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.IsNotNull(serviceResult);
                 CollectionAssert.AreEqual(context.Locations.Select(x => x.LocationId).ToList(), serviceResult.CountriesOfCitizenship.Select(x => x.Id).ToList());
                 CollectionAssert.AreEqual(context.Locations.Select(x => x.LocationName).ToList(), serviceResult.CountriesOfCitizenship.Select(x => x.Value).ToList());
+            };
+            var result = this.service.GetPiiById(person.PersonId);
+            var resultAsync = await this.service.GetPiiByIdAsync(person.PersonId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetPiiById_CheckHomeAddresses()
+        {
+            var country = new Location
+            {
+                LocationId = 2,
+                LocationName = "country"
+            };
+
+            var location = new Location
+            {
+                LocationId = 1,
+                Street1 = "street1",
+                Street2 = "street2",
+                Street3 = "street3",
+                City = "city",
+                PostalCode = "postalCode",
+                CountryId = 2,
+                Country = country
+            };
+
+            var address = new Address
+            {
+                AddressId = 1,
+                AddressTypeId = AddressType.Home.Id,
+                Location = location
+            };
+
+
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = new Gender()
+            };
+
+            
+            person.Addresses.Add(address);
+
+            context.Locations.Add(country);
+            context.Locations.Add(location);
+            context.Addresses.Add(address);
+            context.People.Add(person);
+
+            Action<PiiDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                var homeAddresses = serviceResult.HomeAddresses;
+                Assert.AreEqual(1, homeAddresses.Count());
+                var homeAddress = homeAddresses.FirstOrDefault();
+                Assert.AreEqual(location.Street1, homeAddress.Street1);
+                Assert.AreEqual(location.Street2, homeAddress.Street2);
+                Assert.AreEqual(location.Street3, homeAddress.Street3);
+                Assert.AreEqual(location.City, homeAddress.City);
+                Assert.AreEqual(location.PostalCode, homeAddress.PostalCode);
+                Assert.AreEqual(country.LocationName, homeAddress.Country);
             };
             var result = this.service.GetPiiById(person.PersonId);
             var resultAsync = await this.service.GetPiiByIdAsync(person.PersonId);

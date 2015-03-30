@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="c4fabecb-5e77-45cb-bf1f-0f562c051c74" ChangeDateTime="03/27/2015 12:50:09">
+    <Property Name="ElementName" Value="[dbo].[MaritalStatus].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MaritalStatus]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MaritalStatusId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="98393857-76b1-49a9-afb0-b9b647161801" ChangeDateTime="03/27/2015 12:51:25">
+    <Property Name="ElementName" Value="[dbo].[MaritalStatus].[CreatedOn]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MaritalStatus]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_CreatedBy" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6a574496-7a8b-4871-b33f-b9a97d319853" ChangeDateTime="03/27/2015 12:57:38">
+    <Property Name="ElementName" Value="[dbo].[Participant].[SEVIS]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Participant]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SEVIS_Id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ce59844d-7685-4e12-be28-c23eedd5ac27" ChangeDateTime="03/27/2015 13:13:39">
+    <Property Name="ElementName" Value="[dbo].[Person].[MaritalStatus]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Person]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MaritalStatusId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f4a27cf2-c8b5-4fdc-9095-29ec9420747b" ChangeDateTime="03/27/2015 13:41:16">
+    <Property Name="ElementName" Value="[dbo].[Participant].[SEVIS_Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Participant]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SEVISId" />
+  </Operation>
+</Operations>

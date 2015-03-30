@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Logging;
 using ECA.Core.Query;
@@ -17,7 +18,7 @@ namespace ECA.Business.Service.Admin
     /// <summary>
     /// The GoalService is capable of performing crud operations against and entity framework context.
     /// </summary>
-    public class GoalService : DbContextService<EcaContext>, IGoalService
+    public class GoalService : LookupService<GoalDTO>, IGoalService
     {
         /// <summary>
         /// Creates a new GoalService with the context to operate against.
@@ -30,28 +31,11 @@ namespace ECA.Business.Service.Admin
             Contract.Requires(logger != null, "The logger must not be null.");
         }
 
-
         #region Get
-        /// <summary>
-        /// Returns the goals currently in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query oprator.</param>
-        /// <returns>The goals in the system.</returns>
-        public PagedQueryResults<GoalDTO> GetGoals(QueryableOperator<GoalDTO> queryOperator)
+        protected override IQueryable<GoalDTO> GetSelectDTOQuery()
         {
-            return GoalQueries.CreateGetGoalsQuery(this.Context, queryOperator).ToPagedQueryResults<GoalDTO>(queryOperator.Start, queryOperator.Limit);
-        }
-
-        /// <summary>
-        /// Returns the goals currently in the system.
-        /// </summary>
-        /// <param name="queryOperator">The query oprator.</param>
-        /// <returns>The goals in the system.</returns>
-        public Task<PagedQueryResults<GoalDTO>> GetGoalsAsync(QueryableOperator<GoalDTO> queryOperator)
-        {
-            return GoalQueries.CreateGetGoalsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync<GoalDTO>(queryOperator.Start, queryOperator.Limit);
+            return GoalQueries.CreateGetGoalDTOQuery(this.Context);
         }
         #endregion
-
     }
 }

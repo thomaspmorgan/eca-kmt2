@@ -457,6 +457,8 @@ angular
     });
 
     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+      // Prevent the transition from happening
+      event.preventDefault();
       if (error.authenticated === false) {
         $state.go('login');
       }
