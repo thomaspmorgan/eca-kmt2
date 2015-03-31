@@ -224,5 +224,152 @@ namespace ECA.Business.Test.Service.Persons
             tester(resultAsync);
         }
         #endregion
+
+        #region Get Contact Info By Id
+        [TestMethod]
+        public async Task TestGetContactInfoById_CheckProperties()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+                PermissionToContact = true
+            };
+
+            context.People.Add(person);
+
+            Action<ContactInfoDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(person.PermissionToContact, serviceResult.ContactAgreement);
+            };
+
+            var result = service.GetContactInfoById(person.PersonId);
+            var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+        }
+
+        [TestMethod]
+        public async Task TestGetContactInfoById_Emails()
+        {
+            var email = new EmailAddress
+            {
+                EmailAddressId = 1,
+                Address = "test@test.com"
+            };
+
+            var email2 = new EmailAddress
+            {
+                EmailAddressId = 2,
+                Address = "test1@test.com"
+
+            };
+            var email3 = new EmailAddress
+            {
+                EmailAddressId = 3,
+                Address = "test2@test.com"
+            };
+
+            var person = new Person
+            {
+                PersonId = 1
+            };
+
+            person.Emails.Add(email);
+
+            context.EmailAddresses.Add(email);
+            context.People.Add(person);
+
+            Action<ContactInfoDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(person.Emails.Count(), serviceResult.Emails.Count());
+                CollectionAssert.AreEqual(person.Emails.Select(x => x.EmailAddressId).ToList(), serviceResult.Emails.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(person.Emails.Select(x => x.Address).ToList(), serviceResult.Emails.Select(x => x.Value).ToList());
+            };
+            
+            var result = service.GetContactInfoById(person.PersonId);
+            var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+        }
+
+        [TestMethod]
+        public async Task TestGetContactInfoById_SocialMedias()
+        {
+            var socialMediaType = new SocialMediaType
+            {
+                SocialMediaTypeId = 1,
+                SocialMediaTypeName = "socialMediaTypeName"
+            };
+
+            var socialMedia = new SocialMedia
+            {
+                SocialMediaId = 1,
+                SocialMediaType = socialMediaType,
+                SocialMediaTypeId = SocialMediaType.Facebook.Id,
+                SocialMediaValue = "socialMediaValue"
+            };
+
+            var person = new Person
+            {
+                PersonId = 1
+            };
+
+            person.SocialMedias.Add(socialMedia);
+
+            context.SocialMediaTypes.Add(socialMediaType);
+            context.SocialMedias.Add(socialMedia);
+            context.People.Add(person);
+
+            Action<ContactInfoDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(person.SocialMedias.Count(), serviceResult.SocialMedias.Count());
+                CollectionAssert.AreEqual(person.SocialMedias.Select(x => x.SocialMediaId).ToList(), serviceResult.SocialMedias.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(person.SocialMedias.Select(x => x.SocialMediaType.SocialMediaTypeName).ToList(), serviceResult.SocialMedias.Select(x => x.Type).ToList());
+                CollectionAssert.AreEqual(person.SocialMedias.Select(x => x.SocialMediaValue).ToList(), serviceResult.SocialMedias.Select(x => x.Value).ToList());
+            };
+
+            var result = service.GetContactInfoById(person.PersonId);
+            var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+        }
+
+        [TestMethod]
+        public async Task TestGetContactInfoById_PhoneNumbers()
+        {
+            var phoneNumberType = new PhoneNumberType
+            {
+                PhoneNumberTypeId = 1,
+                PhoneNumberTypeName = PhoneNumberType.Home.Value
+            };
+
+            var phoneNumber = new PhoneNumber
+            {
+                PhoneNumberId = 1,
+                PhoneNumberTypeId  = phoneNumberType.PhoneNumberTypeId,
+                Number = "1234567890"
+            };
+
+            var person = new Person
+            {
+                PersonId = 1
+            };
+
+            person.PhoneNumbers.Add(phoneNumber);
+
+            context.PhoneNumberTypes.Add(phoneNumberType);
+            context.PhoneNumbers.Add(phoneNumber);
+            context.People.Add(person);
+
+            Action<ContactInfoDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(person.PhoneNumbers.Count(), serviceResult.PhoneNumbers.Count());
+                CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.PhoneNumberId).ToList(), serviceResult.PhoneNumbers.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.PhoneNumberType.PhoneNumberTypeName).ToList(), serviceResult.PhoneNumbers.Select(x => x.Type).ToList());
+                CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.Number).ToList(), serviceResult.PhoneNumbers.Select(x => x.Value).ToList());
+            };
+
+            var result = service.GetContactInfoById(person.PersonId);
+            var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+        }
+        #endregion
     }
 }

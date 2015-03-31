@@ -25,5 +25,19 @@ namespace ECA.Business.Service.Persons
         /// <param name="personId">The person id to lookup</param>
         /// <returns>Personally identifiable information for person</returns>
         Task<PiiDTO> GetPiiByIdAsync(int personId);
+
+        /// <summary>
+        /// Returns contact info related to a person
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Contact info related to person</returns>
+        ContactInfoDTO GetContactInfoById(int personId);
+
+        /// <summary>
+        /// Returns contact info related to a person asyncronously
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Contact info related to person</returns>
+        Task<ContactInfoDTO> GetContactInfoByIdAsync(int personId);
     }
 }

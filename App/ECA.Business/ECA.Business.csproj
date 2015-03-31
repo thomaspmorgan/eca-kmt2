@@ -100,6 +100,7 @@
     <Compile Include="Queries\Models\Admin\OrganizationProgramDTO.cs" />
     <Compile Include="Queries\Models\Admin\ProjectStatusDTO.cs" />
     <Compile Include="Queries\Models\Office\SimpleOfficeDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ContactInfoDTO.cs" />
     <Compile Include="Queries\Models\Persons\LocationDTO.cs" />
     <Compile Include="Queries\Models\Persons\PiiDTO.cs" />
     <Compile Include="Queries\Persons\PersonQueries.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Service\IAuditable.cs" />
     <Compile Include="Service\Lookup\ILookupService.cs" />
     <Compile Include="Service\Lookup\LookupService.cs" />
+    <Compile Include="Service\Lookup\SimpleTypeLookupDTO.cs" />
     <Compile Include="Service\Persons\IPersonService.cs" />
     <Compile Include="Service\Persons\PersonService.cs" />
     <Compile Include="Service\Programs\DraftProgram.cs" />

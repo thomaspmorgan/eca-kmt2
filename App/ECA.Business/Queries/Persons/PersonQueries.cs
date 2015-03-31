@@ -56,5 +56,28 @@ namespace ECA.Business.Queries.Persons
                         };
             return query;
         }
+
+        /// <summary>
+        /// Returns the contact information for a person 
+        /// </summary>
+        /// <param name="context">The context to query</param>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>The contact information for a person</returns>
+        public static IQueryable<ContactInfoDTO> CreateGetContactInfoByIdQuery(EcaContext context, int personId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+
+            var query = from person in context.People
+                        where person.PersonId == personId
+                        select new ContactInfoDTO
+                        {
+                            Emails = person.Emails.Select(x => new SimpleLookupDTO() { Id = x.EmailAddressId, Value = x.Address }),
+                            SocialMedias = person.SocialMedias.Select(x => new SimpleTypeLookupDTO() { Id = x.SocialMediaId, Type = x.SocialMediaType.SocialMediaTypeName, Value = x.SocialMediaValue }),
+                            PhoneNumbers = person.PhoneNumbers.Select(x => new SimpleTypeLookupDTO() { Id = x.PhoneNumberId, Type = x.PhoneNumberType.PhoneNumberTypeName, Value = x.Number }),
+                            ContactAgreement = person.PermissionToContact
+                        };
+            return query;
+        }
+
     }
 }
