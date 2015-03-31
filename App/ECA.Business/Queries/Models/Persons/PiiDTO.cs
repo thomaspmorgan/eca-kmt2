@@ -82,6 +82,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string Alias { get; set; }
 
         /// <summary>
+        /// Gets and sets marital status
+        /// </summary>
+        public string MaritalStatus { get; set; }
+
+        /// <summary>
         /// Gets and sets home addresses
         /// </summary>
         public IEnumerable<LocationDTO> HomeAddresses { get; set; }

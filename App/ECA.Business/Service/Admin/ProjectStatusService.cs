@@ -38,6 +38,10 @@ namespace ECA.Business.Service.Admin
         }
 
         #region Get
+        /// <summary>
+        /// Returns a query to retrieve project status dtos.
+        /// </summary>
+        /// <returns>A query to get project status dtos.</returns>
         protected override IQueryable<ProjectStatusDTO> GetSelectDTOQuery()
         {
             var query = this.Context.ProjectStatuses.Select(x => new ProjectStatusDTO

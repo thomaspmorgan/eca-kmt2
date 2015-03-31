@@ -103,6 +103,7 @@
     <Compile Include="Exceptions\UnknownStaticLookupException.cs" />
     <Compile Include="Generation\DbContextStaticLookupValidator.cs" />
     <Compile Include="Generation\IStaticGeneratorValidator.cs" />
+    <Compile Include="Generation\IStaticLookup.cs" />
     <Compile Include="Generation\StaticLookup.cs" />
     <Compile Include="Generation\StaticLookupConfig.cs" />
     <Compile Include="Generation\StaticDataGenerator.generated.cs">

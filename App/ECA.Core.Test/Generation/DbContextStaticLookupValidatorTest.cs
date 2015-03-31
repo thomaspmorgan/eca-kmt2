@@ -6,6 +6,7 @@ using ECA.Core.Data;
 using ECA.Core.Generation;
 using Moq;
 using System.Reflection;
+using ECA.Core.Logging;
 
 namespace ECA.Core.Test.Generation
 {
@@ -62,64 +63,12 @@ namespace ECA.Core.Test.Generation
 
         }
 
-        [TestMethod]
-        public void TestValidate_NoErrors()
-        {
-            var expectedInstance = new TestClass
-            {
-                TestClassId = TestClass.X.Id,
-                TestClassName = TestClass.X.Value
-            };
-
-            var simpleDbSet = new Mock<DbSet>();
-            simpleDbSet.Setup(x => x.Find(It.IsAny<object[]>())).Returns(expectedInstance);
-            mockContext.Setup(x => x.Set(It.IsAny<Type>())).Returns(simpleDbSet.Object);
-
-            validator = new DbContextStaticLookupValidator(mockContext.Object);
-            var errors = validator.Validate<TestClass>();
-            Assert.AreEqual(0, errors.Count);
-        }
-
-        [TestMethod]
-        public void TestValidate_ValueDoesNotMatch()
-        {
-            var expectedInstance = new TestClass
-            {
-                TestClassId = TestClass.X.Id,
-                TestClassName = "some other value"
-            };
-
-            var simpleDbSet = new Mock<DbSet>();
-            simpleDbSet.Setup(x => x.Find(It.IsAny<object[]>())).Returns(expectedInstance);
-            mockContext.Setup(x => x.Set(It.IsAny<Type>())).Returns(simpleDbSet.Object);
-
-            validator = new DbContextStaticLookupValidator(mockContext.Object);
-            var errors = validator.Validate<TestClass>();
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual(String.Format(DbContextStaticLookupValidator.LOOKUP_VALUES_DO_NOT_MATCH_FORMAT, TestClass.X.Value, expectedInstance.TestClassName), errors.First());
-        }
-
-        [TestMethod]
-        public void TestValidate_LookupDoesNotExistInDatabase()
-        {
-
-            var simpleDbSet = new Mock<DbSet>();
-            simpleDbSet.Setup(x => x.Find(It.IsAny<object[]>())).Returns(null);
-            mockContext.Setup(x => x.Set(It.IsAny<Type>())).Returns(simpleDbSet.Object);
-
-            validator = new DbContextStaticLookupValidator(mockContext.Object);
-            var errors = validator.Validate<TestClass>();
-            Assert.AreEqual(1, errors.Count);
-            Assert.AreEqual(String.Format(DbContextStaticLookupValidator.VALUE_DOES_NOT_EXIST_IN_DATABASE_FORMAT, TestClass.X.Value), errors.First());
-        }
-
-
         #region Dispose
         [TestMethod]
         public void TestDispose_Context()
         {
             var testContext = new TestDbContext();
-            var testService = new DbContextStaticLookupValidator(testContext);
+            var testService = new DbContextStaticLookupValidator(testContext, new TraceLogger());
 
             var contextField = typeof(DbContextStaticLookupValidator).GetField("context", BindingFlags.NonPublic | BindingFlags.Instance);
             var contextValue = contextField.GetValue(testService);

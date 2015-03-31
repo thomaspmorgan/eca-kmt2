@@ -31,6 +31,7 @@ namespace ECA.Business.Queries.Persons
                             ParticipantType = participantType.Name,
                             ParticipantTypeId = participantType.ParticipantTypeId,
                             PersonId = person.PersonId,
+                            SevisId = participant.SevisId,
                             RevisedOn = participant.History.RevisedOn
                         };
             return query;

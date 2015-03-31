@@ -45,6 +45,10 @@
 
 		WriteLine(String.Empty);
 		WriteGetStaticPropertyByIdMethod(config, connectionString);
+
+		WriteLine(String.Empty);
+		WriteGetConfigMethod(config);
+
 		PopIndent();
 		WriteLine("}");
 
@@ -68,7 +72,7 @@
 
 	public string GetClassDeclaration(string className)
 	{
-		return String.Format("public partial class {0}", className);
+		return String.Format("public partial class {0} : ECA.Core.Generation.IStaticLookup", className);
 	}
 
 	public void WriteStaticProperties(StaticLookupConfig config, string connectionString)
@@ -87,13 +91,35 @@
 					var value = reader[config.ValueColumnName].ToString();
 					var id = Int32.Parse(reader[config.IdColumnName].ToString());
 
-					WriteLine("///<summary>");
+					WriteLine("/// <summary>");
 					WriteLine(String.Format("/// Returns the {0} lookup with id {1}.", value, id));
-					WriteLine("///</summary>");
+					WriteLine("/// </summary>");
 					WriteLine(GetStaticPropertyDeclaration(propertyName, value, id));
 				}
 			}
 		}
+	}
+
+	public void WriteGetConfigMethod(StaticLookupConfig config)
+	{
+		WriteLine("/// <summary>");
+		WriteLine("/// Returns the static lookup config used to generate this type's static lookups.");
+		WriteLine("/// <returns>The static lookup config used to generate this type's static lookups.</returns>");
+		WriteLine("/// </summary>");
+		WriteLine(GetGetConfigMethodDeclaration());
+		WriteLine("{");
+		PushIndent("\t");
+
+		WriteLine(
+			String.Format("return new StaticLookupConfig {{ Namespace = \"{0}\", ClassName = \"{1}\", TableName = \"{2}\", IdColumnName = \"{3}\", ValueColumnName = \"{4}\" }};", 
+				config.Namespace, 
+				config.ClassName,
+				config.TableName,
+				config.IdColumnName,
+				config.ValueColumnName));
+
+		PopIndent();
+		WriteLine("}");
 	}
 
 	public void WriteGetStaticPropertyByIdMethod(StaticLookupConfig config, string connectionString)
@@ -118,13 +144,18 @@
 				{
 					var propertyName = Pascalize(reader[config.ValueColumnName]);
 					var id = Int32.Parse(reader[config.IdColumnName].ToString());
-					WriteLine(String.Format("if({0} == id) return {1}.{2};", id, config.ClassName,  propertyName));
+					WriteLine(String.Format("if ({0} == id) return {1}.{2};", id, config.ClassName,  propertyName));
 				}
 			}
 		}
 		WriteLine("return null;");
 		PopIndent();
 		WriteLine("}");
+	}
+
+	public string GetGetConfigMethodDeclaration()
+	{
+		return String.Format("public StaticLookupConfig GetConfig()");
 	}
 
 	public string GetGetStaticPropertyByIdMethodDeclaration()

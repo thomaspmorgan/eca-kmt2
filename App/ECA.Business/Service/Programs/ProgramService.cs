@@ -57,7 +57,7 @@ namespace ECA.Business.Service.Programs
             var stopwatch = Stopwatch.StartNew();
             var results = ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
             stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object>{{"queryOperator", queryOperator}});
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
             return results;
         }
 
@@ -222,7 +222,7 @@ namespace ECA.Business.Service.Programs
             var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
             var parentProgramId = updatedProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(updatedProgram.ParentProgramId.Value) : null;
-            
+
             if (programToUpdate != null)
             {
                 DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, focus, owner, parentProgram, regionTypeIds));
@@ -349,7 +349,7 @@ namespace ECA.Business.Service.Programs
         public void SetRegions(List<int> regionIds, Program programEntity)
         {
             Contract.Requires(regionIds != null, "The theme ids must not be null.");
-            Contract.Requires(programEntity != null, "The program entity must not be null.");            
+            Contract.Requires(programEntity != null, "The program entity must not be null.");
             programEntity.Regions.Clear();
             regionIds.ForEach(x =>
             {

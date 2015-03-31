@@ -1,6 +1,8 @@
-﻿using ECA.WebApi.Models;
+﻿using ECA.Core.Generation;
+using ECA.WebApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,6 +16,18 @@ namespace ECA.WebApi.Controllers
     /// </summary>
     public class AboutController : ApiController
     {
+        private IStaticGeneratorValidator validator;
+
+        /// <summary>
+        /// Creates a new controller with the given lookup validator.
+        /// </summary>
+        /// <param name="validator">The validator.</param>
+        public AboutController(IStaticGeneratorValidator validator)
+        {
+            Debug.Assert(validator != null, "The validator must not be null.");
+            this.validator = validator;
+        }
+
         /// <summary>
         /// Returns build and assembly information.
         /// </summary>
@@ -21,7 +35,7 @@ namespace ECA.WebApi.Controllers
         [ResponseType(typeof(AboutViewModel))]
         public IHttpActionResult Get()
         {
-            var model = new AboutViewModel();
+            var model = new AboutViewModel(this.validator);
             return Ok(model);
         }
     }

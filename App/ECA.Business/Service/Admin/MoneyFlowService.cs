@@ -11,6 +11,7 @@ using ECA.Core.Query;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Business.Queries.Admin;
+using System.Diagnostics;
 
 namespace ECA.Business.Service.Admin
 {
@@ -19,6 +20,9 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class MoneyFlowService : DbContextService<EcaContext>, IMoneyFlowService
     {
+        private static readonly string COMPONENT_NAME = typeof(MoneyFlowService).FullName;
+        private readonly ILogger logger;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -28,6 +32,7 @@ namespace ECA.Business.Service.Admin
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(logger != null, "The logger must not be null.");
+            this.logger = logger;
         }
 
         /// <summary>
@@ -38,7 +43,11 @@ namespace ECA.Business.Service.Admin
         /// <returns>List of moneyflows that are paged, sorted, and filtered</returns>
         public PagedQueryResults<MoneyFlowDTO> GetMoneyFlowsByProjectId(int projectId, QueryableOperator<MoneyFlowDTO> queryOperator)
         {
-            return MoneyFlowQueries.CreateGetMoneyFlowsByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            var stopwatch = Stopwatch.StartNew();
+            var moneyFlows = MoneyFlowQueries.CreateGetMoneyFlowsByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            return moneyFlows;
         }
 
         /// <summary>
@@ -47,9 +56,13 @@ namespace ECA.Business.Service.Admin
         /// <param name="projectId">The project id to find associated moneyflows</param>
         /// <param name="queryOperator"></param>
         /// <returns>List of moneyflows that are paged, sorted, and filtered</returns>
-        public Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByProjectIdAsync(int projectId, QueryableOperator<MoneyFlowDTO> queryOperator)
+        public async Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByProjectIdAsync(int projectId, QueryableOperator<MoneyFlowDTO> queryOperator)
         {
-            return MoneyFlowQueries.CreateGetMoneyFlowsByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            var stopwatch = Stopwatch.StartNew();
+            var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowsByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            return moneyFlows;
         }
     }
 }

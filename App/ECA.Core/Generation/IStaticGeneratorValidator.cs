@@ -16,7 +16,7 @@ namespace ECA.Core.Generation
         /// </summary>
         /// <typeparam name="T">The type of object to validate.</typeparam>
         /// <returns>The list of errors, or zero errors if there are no validation concerns.</returns>
-        List<string> Validate<T>() where T : class;
+        List<string> Validate<T>() where T : class, IStaticLookup;
     }
 
 

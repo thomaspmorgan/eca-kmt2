@@ -7,6 +7,7 @@ using ECA.Core.Service;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace ECA.Business.Service.Persons
     /// </summary>
     public class ContactService : DbContextService<EcaContext>, IContactService
     {
+        private static readonly string COMPONENT_NAME = typeof(ContactService).FullName;
+        private readonly ILogger logger;
 
         /// <summary>
         /// Creates a new ContactService with the given context to operate against.
@@ -29,6 +32,7 @@ namespace ECA.Business.Service.Persons
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(logger != null, "The logger must not be null.");
+            this.logger = logger;
         }
 
         #region Get
@@ -40,7 +44,11 @@ namespace ECA.Business.Service.Persons
         /// <returns>The sorted, filtered, and paged contacts.</returns>
         public PagedQueryResults<ContactDTO> GetContacts(QueryableOperator<ContactDTO> queryOperator)
         {
-            return ContactQueries.CreateContactDTOQuery(this.Context, queryOperator).ToPagedQueryResults<ContactDTO>(queryOperator.Start, queryOperator.Limit);
+            var stopwatch = Stopwatch.StartNew();
+            var contacts = ContactQueries.CreateContactDTOQuery(this.Context, queryOperator).ToPagedQueryResults<ContactDTO>(queryOperator.Start, queryOperator.Limit);
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            return contacts;
         }
 
         /// <summary>
@@ -48,9 +56,13 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The sorted, filtered, and paged contacts.</returns>
-        public Task<PagedQueryResults<ContactDTO>> GetContactsAsync(QueryableOperator<ContactDTO> queryOperator)
+        public async Task<PagedQueryResults<ContactDTO>> GetContactsAsync(QueryableOperator<ContactDTO> queryOperator)
         {
-            return ContactQueries.CreateContactDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync<ContactDTO>(queryOperator.Start, queryOperator.Limit);
+            var stopwatch = Stopwatch.StartNew();
+            var contacts = await ContactQueries.CreateContactDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync<ContactDTO>(queryOperator.Start, queryOperator.Limit);
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            return contacts;
         }
         #endregion
 

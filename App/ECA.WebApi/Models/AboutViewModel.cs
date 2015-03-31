@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ECA.Core.Generation;
+using ECA.Data;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,11 +17,12 @@ namespace ECA.WebApi.Models
         /// <summary>
         /// Creates and initializes a new instance of this model.
         /// </summary>
-        public AboutViewModel()
+        public AboutViewModel(IStaticGeneratorValidator validator)
         {
             var assembly = Assembly.GetExecutingAssembly();
             var fileVersion = FileVersionInfo.GetVersionInfo(assembly.Location);
             this.Version = fileVersion.FileVersion;
+            this.LookupErrors = EcaDataValidator.ValidateAll(validator);
 
             this.BuildConfiguration = "Release";
 #if DEBUG
@@ -36,5 +39,10 @@ namespace ECA.WebApi.Models
         /// Gets the build configuration.
         /// </summary>
         public string BuildConfiguration { get; private set; }
+
+        /// <summary>
+        /// Gets the lookups in code that do not align with database values and vice versa.
+        /// </summary>
+        public List<string> LookupErrors { get; private set; }
     }
 }

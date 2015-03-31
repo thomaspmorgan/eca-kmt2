@@ -189,6 +189,37 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             tester(resultAsync);
         }
+
+        [TestMethod]
+        public async Task TestGetPiiById_CheckMaritalStatus()
+        {
+            var maritalStatus = new MaritalStatus 
+            {
+                MaritalStatusId = 1,
+                Description = "description"
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = new Gender(),
+                MaritalStatusId = maritalStatus.MaritalStatusId,
+                MaritalStatus = maritalStatus
+            };
+
+            context.MaritalStatuses.Add(maritalStatus);
+            context.People.Add(person);
+
+            Action<PiiDTO> tester = (serviceResult) =>
+            {
+                Assert.AreEqual(maritalStatus.Description, serviceResult.MaritalStatus);
+            };
+            var result = this.service.GetPiiById(person.PersonId);
+            var resultAsync = await this.service.GetPiiByIdAsync(person.PersonId);
+
+            tester(result);
+            tester(resultAsync);
+        }
         #endregion
     }
 }

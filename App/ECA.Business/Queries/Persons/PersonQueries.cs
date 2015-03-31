@@ -41,6 +41,7 @@ namespace ECA.Business.Queries.Persons
                             MiddleName = person.MiddleName,
                             Patronym = person.Patronym,
                             Alias = person.Alias,
+                            MaritalStatus = person.MaritalStatus.Description,
                             HomeAddresses = person.Addresses.Where(x => x.AddressTypeId == AddressType.Home.Id)
                                                         .Select(x => new LocationDTO {
                                                             Street1 = x.Location.Street1, 

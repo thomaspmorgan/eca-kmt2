@@ -25,7 +25,7 @@ namespace ECA.Business.Service.Admin
         private static readonly string COMPONENT_NAME = typeof(ProjectService).FullName;
 
         private readonly ILogger logger;
-        private IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator;
+        private readonly IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator;
 
         /// <summary>
         /// Constructor
