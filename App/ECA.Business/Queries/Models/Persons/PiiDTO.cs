@@ -87,6 +87,16 @@ namespace ECA.Business.Queries.Models.Persons
         public string MaritalStatus { get; set; }
 
         /// <summary>
+        /// Gets and sets ethnicity
+        /// </summary>
+        public string Ethnicity { get; set; }
+
+        /// <summary>
+        /// Gets and sets medical conditions
+        /// </summary>
+        public string MedicalConditions { get; set; }
+
+        /// <summary>
         /// Gets and sets home addresses
         /// </summary>
         public IEnumerable<LocationDTO> HomeAddresses { get; set; }

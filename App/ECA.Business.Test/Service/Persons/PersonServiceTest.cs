@@ -48,8 +48,9 @@ namespace ECA.Business.Test.Service.Persons
                 FamilyName = "familyName",
                 MiddleName = "middleName",
                 Patronym = "patronym",
-                Alias = "alias"
-
+                Alias = "alias",
+                Ethnicity = "ethnicity",
+                MedicalConditions = "medical conditions"
             };
 
             context.Genders.Add(gender);
@@ -69,6 +70,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.MiddleName, serviceResult.MiddleName);
                 Assert.AreEqual(person.Patronym, serviceResult.Patronym);
                 Assert.AreEqual(person.Alias, serviceResult.Alias);
+                Assert.AreEqual(person.Ethnicity, serviceResult.Ethnicity);
+                Assert.AreEqual(person.MedicalConditions, serviceResult.MedicalConditions);
             };
 
             var result = this.service.GetPiiById(person.PersonId);
