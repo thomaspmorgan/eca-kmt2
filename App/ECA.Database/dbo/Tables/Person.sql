@@ -13,7 +13,6 @@
     [GenderId]            INT                NOT NULL,
     [DateOfBirth]         DATETIMEOFFSET (7) NOT NULL,
     [Ethnicity]           NVARCHAR (MAX)     NULL,
-    [PermissionToContact] BIT                NOT NULL,
     [EvaluationRetention] NVARCHAR (MAX)     NULL,
     [History_CreatedBy]   INT                NOT NULL,
     [History_CreatedOn]   DATETIMEOFFSET (7) NOT NULL,

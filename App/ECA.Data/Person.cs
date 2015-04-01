@@ -158,7 +158,6 @@ namespace ECA.Data
         public string Ethnicity { get; set; }
         public string Awards { get; set; }
         public ICollection<Publication> Publications { get; set; }
-        //public bool PermissionToContact { get; set; }
         public ICollection<SpecialStatus> SpecialStatuses { get; set; }
         public ICollection<Membership> Memberships { get; set; }
         public ICollection<InterestSpecialization> InterestsAndSpecializations { get; set; }

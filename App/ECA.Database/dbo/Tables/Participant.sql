@@ -7,7 +7,7 @@
     [History_CreatedOn] DATETIMEOFFSET (7) NOT NULL,
     [History_RevisedBy] INT                NOT NULL,
     [History_RevisedOn] DATETIMEOFFSET (7) NOT NULL,
-    [SEVISId] NVARCHAR(10) NULL, 
+    [SevisId] NVARCHAR(11) NULL, 
     [ContactAgreement] BIT NOT NULL DEFAULT 0, 
     CONSTRAINT [PK_dbo.Participant] PRIMARY KEY CLUSTERED ([ParticipantId] ASC),
     CONSTRAINT [FK_dbo.Participant_dbo.Organization_OrganizationId] FOREIGN KEY ([OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
