@@ -123,7 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
+    <Content Include="karma.conf.js" />
     <Content Include="scripts\controllers\project\overview.js" />
+    <Content Include="scripts\controllers\project\overview_test.js" />
     <Content Include="scripts\directives\datepickerpopup.js" />
     <Content Include="scripts\filters\highlight.js" />
     <Content Include="scripts\services\constantsservice.js">
