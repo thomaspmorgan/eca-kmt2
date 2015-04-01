@@ -110,9 +110,9 @@ namespace ECA.Data
 		/// </summary>
 		public static StaticLookup Other { get { return new StaticLookup("Other", 3); } }
 		/// <summary>
-		/// Returns the NotSpecified lookup with id 4.
+		/// Returns the Not Specified lookup with id 4.
 		/// </summary>
-		public static StaticLookup Notspecified { get { return new StaticLookup("NotSpecified", 4); } }
+		public static StaticLookup NotSpecified { get { return new StaticLookup("Not Specified", 4); } }
 
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
@@ -124,7 +124,7 @@ namespace ECA.Data
 			if (1 == id) return Gender.Male;
 			if (2 == id) return Gender.Female;
 			if (3 == id) return Gender.Other;
-			if (4 == id) return Gender.Notspecified;
+			if (4 == id) return Gender.NotSpecified;
 			return null;
 		}
 

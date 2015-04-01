@@ -49,5 +49,24 @@ namespace ECA.WebApi.Controllers.Persons
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Returns contact info associated with a person
+        /// </summary>
+        /// <param name="personId">The person id to find contact info for</param>
+        /// <returns>Contact info associated with person</returns>
+        public async Task<IHttpActionResult> GetContactInfoByIdAsync(int personId)
+        {
+            var contactInfo = await this.service.GetContactInfoByIdAsync(personId);
+            if (contactInfo != null)
+            {
+                return Ok(contactInfo);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
     }
 }

@@ -73,7 +73,7 @@ namespace ECA.Data
             PhoneNumbers = new HashSet<PhoneNumber>();
             Emails = new HashSet<EmailAddress>();
             ExternalIds = new HashSet<ExternalId>();
-            SocialMediaIds = new HashSet<SocialMedia>();
+            SocialMedias = new HashSet<SocialMedia>();
             Addresses = new HashSet<Address>();
             Events = new HashSet<Event>();
             Family = new HashSet<Person>();
@@ -169,7 +169,7 @@ namespace ECA.Data
         public ICollection<PhoneNumber> PhoneNumbers { get; set; }
         public ICollection<EmailAddress> Emails { get; set; }
         public ICollection<ExternalId> ExternalIds { get; set; }
-        public ICollection<SocialMedia> SocialMediaIds { get; set; }
+        public ICollection<SocialMedia> SocialMedias { get; set; }
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Event> Events { get; set; }
         public string EvaluationRetention { get; set; }

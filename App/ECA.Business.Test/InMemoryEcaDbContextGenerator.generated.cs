@@ -355,6 +355,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.LocationType>(this.SingleOrDefault(x => x.LocationTypeId.Equals(keyValues.First())));
 		}
 	}
+	public class MaritalStatusTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.MaritalStatus>
+	{
+		public override ECA.Data.MaritalStatus Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///MaritalStatusId
+			return this.SingleOrDefault(x => x.MaritalStatusId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.MaritalStatus> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///MaritalStatusId
+			return Task.FromResult<ECA.Data.MaritalStatus>(this.SingleOrDefault(x => x.MaritalStatusId.Equals(keyValues.First())));
+		}
+	}
 	public class MaterialTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Material>
 	{
 		public override ECA.Data.Material Find(params object[] keyValues)
@@ -670,6 +685,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.SocialMedia>(this.SingleOrDefault(x => x.SocialMediaId.Equals(keyValues.First())));
 		}
 	}
+	public class SocialMediaTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.SocialMediaType>
+	{
+		public override ECA.Data.SocialMediaType Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///SocialMediaTypeId
+			return this.SingleOrDefault(x => x.SocialMediaTypeId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.SocialMediaType> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///SocialMediaTypeId
+			return Task.FromResult<ECA.Data.SocialMediaType>(this.SingleOrDefault(x => x.SocialMediaTypeId.Equals(keyValues.First())));
+		}
+	}
 	public class SpecialStatusTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.SpecialStatus>
 	{
 		public override ECA.Data.SpecialStatus Find(params object[] keyValues)
@@ -742,6 +772,7 @@ namespace ECA.Business.Test
 			this.LanguangeProficiencies = new LanguageProficiencyTestDbSet();
 			this.Locations = new LocationTestDbSet();
 			this.LocationTypes = new LocationTypeTestDbSet();
+			this.MaritalStatuses = new MaritalStatusTestDbSet();
 			this.Materials = new MaterialTestDbSet();
 			this.Memberships = new MembershipTestDbSet();
 			this.MoneyFlows = new MoneyFlowTestDbSet();
@@ -763,6 +794,7 @@ namespace ECA.Business.Test
 			this.ProminentCategories = new ProminentCategoryTestDbSet();
 			this.Publications = new PublicationTestDbSet();
 			this.SocialMedias = new SocialMediaTestDbSet();
+			this.SocialMediaTypes = new SocialMediaTypeTestDbSet();
 			this.SpecialStatuses = new SpecialStatusTestDbSet();
 			this.Themes = new ThemeTestDbSet();
 			this.Transportations = new TransportationTestDbSet();

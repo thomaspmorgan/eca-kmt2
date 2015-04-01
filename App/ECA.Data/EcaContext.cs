@@ -58,6 +58,7 @@ namespace ECA.Data
         public DbSet<ParticipantType> ParticipantTypes { get; set; }
         public DbSet<Person> People { get; set; }
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
+        public DbSet<PhoneNumberType> PhoneNumberTypes { get; set; }
         public DbSet<ProfessionEducation> ProfessionEducations { get; set; }
         public DbSet<Program> Programs { get; set; }
         public DbSet<ProgramType> ProgramTypes { get; set; }
@@ -66,6 +67,7 @@ namespace ECA.Data
         public DbSet<ProminentCategory> ProminentCategories { get; set; }
         public DbSet<Publication> Publications { get; set; }
         public DbSet<SocialMedia> SocialMedias { get; set; }
+        public DbSet<SocialMediaType> SocialMediaTypes { get; set; }
         public DbSet<SpecialStatus> SpecialStatuses { get; set; }
         public DbSet<Theme> Themes { get; set; }
         public DbSet<Transportation> Transportations { get; set; }
