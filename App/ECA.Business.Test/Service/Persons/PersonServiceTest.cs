@@ -227,27 +227,6 @@ namespace ECA.Business.Test.Service.Persons
 
         #region Get Contact Info By Id
         [TestMethod]
-        public async Task TestGetContactInfoById_CheckProperties()
-        {
-            var person = new Person
-            {
-                PersonId = 1,
-                PermissionToContact = true
-            };
-
-            context.People.Add(person);
-
-            Action<ContactInfoDTO> tester = (serviceResult) =>
-            {
-                Assert.IsNotNull(serviceResult);
-                Assert.AreEqual(person.PermissionToContact, serviceResult.ContactAgreement);
-            };
-
-            var result = service.GetContactInfoById(person.PersonId);
-            var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
-        }
-
-        [TestMethod]
         public async Task TestGetContactInfoById_Emails()
         {
             var email = new EmailAddress

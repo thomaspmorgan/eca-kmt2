@@ -102,10 +102,10 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participantId to lookup</param>
         /// <returns>The participant</returns>
-        public SimpleParticipantDTO GetParticipantById(int participantId)
+        public ParticipantDTO GetParticipantById(int participantId)
         {
             var stopwatch = Stopwatch.StartNew();
-            var participant = ParticipantQueries.CreateGetSimpleParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
+            var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
             stopwatch.Stop();
             this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "participantId", participantId } });
             return participant;
@@ -116,10 +116,10 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participant</returns>
-        public Task<SimpleParticipantDTO> GetParticipantByIdAsync(int participantId)
+        public Task<ParticipantDTO> GetParticipantByIdAsync(int participantId)
         {
             var stopwatch = Stopwatch.StartNew();
-            var participant = ParticipantQueries.CreateGetSimpleParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
+            var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
             stopwatch.Stop();
             this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "participantId", participantId } });
             return participant;

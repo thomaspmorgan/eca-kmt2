@@ -107,14 +107,14 @@ namespace ECA.Business.Queries.Persons
         /// <param name="context">The context to query</param>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participant</returns>
-        public static IQueryable<SimpleParticipantDTO> CreateGetSimpleParticipantDTOByIdQuery(EcaContext context, int participantId)
+        public static IQueryable<ParticipantDTO> CreateGetParticipantDTOByIdQuery(EcaContext context, int participantId)
         {
             var query = from participant in context.Participants
                         let person = participant.Person
                         let participantType = participant.ParticipantType
                         where participant.ParticipantTypeId == ParticipantType.Individual.Id &&
                         participant.ParticipantId == participantId
-                        select new SimpleParticipantDTO
+                        select new ParticipantDTO
                         {
                             Name = (person.FirstName != null ? person.FirstName : String.Empty)
                                   + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
@@ -125,6 +125,7 @@ namespace ECA.Business.Queries.Persons
                             ParticipantTypeId = participantType.ParticipantTypeId,
                             PersonId = person.PersonId,
                             SevisId = participant.SevisId,
+                            ContactAgreement = participant.ContactAgreement,
                             RevisedOn = participant.History.RevisedOn
                         };
             return query;
