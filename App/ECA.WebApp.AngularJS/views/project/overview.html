@@ -4,8 +4,8 @@
 
 <div>
     <div class="pull-right" ng-show="editView.show">
-        <button ng-click="onSaveClick($event)" class="btn btn-success">Save</button>
-        <button ng-click="onCancelClick($event)" class="btn">Cancel</button>
+        <button ng-click="view.onSaveClick($event)" class="btn btn-success">Save</button>
+        <button ng-click="view.onCancelClick($event)" class="btn">Cancel</button>
     </div>
     <h2 class="project-color tab-header" ng-show="!view.isLoading && !view.isSaving">Overview</h2>
 </div>
@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col-md-6 title-label">Status</div>
                 <div class="col-md-6" ng-show="!editView.show">{{project.status}}</div>
-                <a href="#" ng-show="editView.show" editable-select="project.projectStatusId" onshow="editView.loadProjectStati()" onaftersave="updateStatusView()" e-ng-options="s.id as s.name for s in editView.projectStati">
+                <a href="#" ng-show="editView.show" editable-select="project.projectStatusId" onshow="editView.loadProjectStati()" onaftersave="view.updateStatusView()" e-ng-options="s.id as s.name for s in editView.projectStati">
                     {{ project.status }}
                 </a>
             </div>
@@ -80,7 +80,7 @@
             <div class="row">
                 <div class="col-md-6 title-label">Focus</div>
                 <div class="col-md-6" ng-show="!editView.show">{{project.focus}}</div>
-                <a href="#" editable-select="project.focusId" ng-show="editView.show" onshow="editView.loadFoci()" onaftersave="updateFocusView()" e-ng-options="s.id as s.name for s in editView.foci">
+                <a href="#" editable-select="project.focusId" ng-show="editView.show" onshow="editView.loadFoci()" onaftersave="view.updateFocusView()" e-ng-options="s.id as s.name for s in editView.foci">
                     {{ project.focus }}
                 </a>
             </div>
@@ -109,6 +109,7 @@
                                           helper-elements="filter none reset"
                                           max-height="250px"
                                           on-search-change="editView.searchPointsOfContact(data)"
+                                          on-open="editView.onOpenPointsOfContact()"
                                           on-select-none="editView.removePointsOfContact()">
                     </isteven-multi-select>
                 </div>
@@ -127,109 +128,14 @@
     </div>
 </div>
 
-
-<!--<modal-dialog show="updateProjectModal.show" dialog-title="Update Project" on-open="modalSetPristine()" before-close="modalClose()" on-close="modalClear()">
-    <div class="tip" ng-show="!isSavingProject">
-        <div class="required">* Marks required fields</div>
-    </div>
-    <div id="modal" class="row" ng-show="!updateProject.isSavingProject && !updateProject.isLoading" in-context-form>
-        <div class="col-md-10">
-            <form name="projectForm" ng-init="setFormScope(this)" novalidate>
-                <div class="form-group">
-                    <label>Project Title<span class="asterisk"> *</span></label>
-                    <input name="projectName" ng-model="project.name" form-element guidance="This is the name of your project. (e.g. ETA Fulbright 2015)" type="text" class="form-control" placeholder="Enter project title..." required>
-                    <div ng-show="projectForm.projectName.$dirty">
-                        <div class="error" ng-show="projectForm.projectTitle.$error.required">Please enter a project name.</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Project Description<span class="asterisk"> *</span></label>
-                    <textarea name="projectDescription" ng-model="project.description" form-element guidance="This briefly summarizes what this project is about." type="text" class="form-control" placeholder="Enter description..." required></textarea>
-                    <span class="error" ng-show="projectForm.projectDescription.$error.required && projectForm.projectDescription.$dirty">Project description is required.</span>
-                </div>
-                <div class="form-group">
-                    <label>Status<span class="asterisk"> *</span></label>
-                    <select name="status" ng-model="updateProjectModal.statusId" data-ng-options="p.id as p.name for p in updateProjectModal.projectStati" required form-element guidance="This status of the project."></select>
-                    <div ng-show="programForm.status.$dirty">
-                        <span class="error" ng-show="programForm.status.$error.required">Please select a status.</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Focus Area<span class="asterisk"> *</span></label>
-                    <select name="focus" ng-model="updateProjectModal.focusId" data-ng-options="p.id as p.name for p in updateProjectModal.foci" required form-element guidance="This main focus area for the project.">
-                        <option value="">-- Select a focus area --</option>
-                    </select>
-                    <div ng-show="programForm.focus.$dirty">
-                        <span class="error" ng-show="programForm.focus.$error.required">Please select a focus area.</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Start Date<span class="asterisk"> *</span></label>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p class="input-group">
-                                <input type="text"
-                                       class="form-control"
-                                       datepicker-popup="dd-MMMM-yyyy"
-                                       ng-model="project.startDate"
-                                       is-open="updateProject.startDateOpen"
-                                       ng-required="true"
-                                       close-text="Close" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="updateProject.openStartDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>End Date<span class="asterisk"> *</span></label>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p class="input-group">
-                                <input type="text"
-                                       class="form-control"
-                                       datepicker-popup="dd-MMMM-yyyy"
-                                       ng-model="project.endDate"
-                                       is-open="updateProject.endDateOpen"
-                                       ng-required="true"
-                                       close-text="Close" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="updateProject.openEndDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            </form>
-        </div>
-        <div class="col-md-2">
-            <guidance></guidance>
-        </div>
-    </div>
-    <div class="spinner" ng-show="updateProject.isSavingProject || updateProject.isLoading">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
-    </div>
-    <button class="btn btn-default" ng-show="!updateProject.isSavingProject || updateProject.isLoading" ng-click="createProject = !modalClose()">CANCEL</button>
-    <button type="submit" form="projectForm" ng-show="!updateProject.isSavingProject" ng-disabled="projectForm.projectDescription.$error.required" class="btn btn-success right" ng-click="updateProject()">UPDATE</button>
-</modal-dialog>-->
-<!--<modal-dialog show="saveSuccessfulModal.show" dialog-title="Program Created" before-close="confirmSaveYes()">
-    <p class="strong">The project was updated sucessfully!</p>
-    <button class="btn btn-default right" ng-click="onSaveOkClick()">OK</button>
-</modal-dialog>-->
-
-<modal-dialog show="view.saveFailed" dialog-title="Error Saving Project" before-close="confirmFailOk()">
+<modal-dialog show="view.saveFailed" dialog-title="Error Saving Project" before-close="view.confirmFailOk()">
     <p class="strong">There was an error updating the project.</p>
-    <p class="alert-warning">{{errorMessage}}</p>
+    <p class="alert-warning">{{view.errorMessage}}</p>
     <div>
         <ul>
-            <li class="alert-danger" ng-repeat="validation in validations">{{validation}}</li>
+            <li class="alert-danger" ng-repeat="validation in view.validations">{{validation}}</li>
         </ul>
     </div>
-    <button class="btn btn-default right" ng-click="confirmFailOk()">OK</button>
+    <button class="btn btn-default right" ng-click="view.confirmFailOk()">OK</button>
 </modal-dialog>
 
