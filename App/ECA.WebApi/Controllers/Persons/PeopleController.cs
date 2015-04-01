@@ -55,6 +55,8 @@ namespace ECA.WebApi.Controllers.Persons
         /// </summary>
         /// <param name="personId">The person id to find contact info for</param>
         /// <returns>Contact info associated with person</returns>
+        [ResponseType(typeof(ContactInfoDTO))]
+        [Route("People/{personId:int}/ContactInfo")]
         public async Task<IHttpActionResult> GetContactInfoByIdAsync(int personId)
         {
             var contactInfo = await this.service.GetContactInfoByIdAsync(personId);

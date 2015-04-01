@@ -52,5 +52,9 @@ angular.module('staticApp')
             .then(function (data) {
                 $scope.pii = data;
             });
+          PersonService.getContactInfoById(data.personId)
+            .then(function (data) {
+                $scope.contactInfo = data;
+            });
       });
   });
