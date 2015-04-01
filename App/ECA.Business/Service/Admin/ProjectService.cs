@@ -227,21 +227,31 @@ namespace ECA.Business.Service.Admin
 
         private Project GetProjectEntityById(int projectId)
         {
-            return Context.Projects.Find(projectId);
+            return CreateGetProjectByIdQuery(projectId).FirstOrDefault();
         }
 
         private Task<Project> GetProjectEntityByIdAsync(int projectId)
         {
-            return Context.Projects.FindAsync(projectId);
+            return CreateGetProjectByIdQuery(projectId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<Project> CreateGetProjectByIdQuery(int projectId)
+        {
+            return Context.Projects       
+                .Include(x => x.Themes)
+                .Include(x => x.Goals)
+                .Include(x => x.Contacts)
+                .Include(x => x.Regions)
+                .Where(x => x.ProjectId == projectId);
         }
 
         private IQueryable<Program> CreateGetProgramByIdQuery(int programId)
         {
             return this.Context.Programs
-                .Include("Themes")
-                .Include("Goals")
-                .Include("Contacts")
-                .Include("Regions")
+                .Include(x => x.Themes)
+                .Include(x => x.Goals)
+                .Include(x => x.Contacts)
+                .Include(x => x.Regions)
                 .Where(x => x.ProgramId == programId);
         }
 

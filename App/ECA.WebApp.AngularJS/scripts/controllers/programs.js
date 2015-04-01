@@ -82,10 +82,13 @@ angular.module('staticApp')
           };
 
           ProjectService.getProjectsByProgram($stateParams.programId, params)
-            .then(function (data) {
-                $scope.projects = data.results;
+            .then(function (response) {
+                $scope.projects = response.data.results;
                 var limit = TableService.getLimit();
-                tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
+                tableState.pagination.numberOfPages = Math.ceil(response.data.total / limit);
+                
+            })
+            .then(function(){
                 $scope.projectsLoading = false;
             });
       }

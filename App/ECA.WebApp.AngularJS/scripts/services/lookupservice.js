@@ -51,6 +51,9 @@ angular.module('staticApp')
                     defer.resolve(data);
                 });
               return defer.promise;
+          },
+          getAllProjectStati: function (params) {
+              return DragonBreath.get(params, 'projectstatuses');
           }
   };
 });

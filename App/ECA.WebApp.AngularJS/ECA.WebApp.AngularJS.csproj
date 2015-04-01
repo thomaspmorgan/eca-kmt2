@@ -123,6 +123,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gulpfile.js" />
+    <Content Include="scripts\controllers\project\overview.js" />
+    <Content Include="scripts\directives\datepickerpopup.js" />
     <Content Include="scripts\filters\highlight.js" />
     <Content Include="scripts\services\constantsservice.js">
       <AutoGen>True</AutoGen>

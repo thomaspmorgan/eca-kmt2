@@ -565,6 +565,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.PhoneNumber>(this.SingleOrDefault(x => x.PhoneNumberId.Equals(keyValues.First())));
 		}
 	}
+	public class PhoneNumberTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PhoneNumberType>
+	{
+		public override ECA.Data.PhoneNumberType Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///PhoneNumberTypeId
+			return this.SingleOrDefault(x => x.PhoneNumberTypeId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.PhoneNumberType> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///PhoneNumberTypeId
+			return Task.FromResult<ECA.Data.PhoneNumberType>(this.SingleOrDefault(x => x.PhoneNumberTypeId.Equals(keyValues.First())));
+		}
+	}
 	public class ProfessionEducationTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ProfessionEducation>
 	{
 		public override ECA.Data.ProfessionEducation Find(params object[] keyValues)
@@ -786,6 +801,7 @@ namespace ECA.Business.Test
 			this.ParticipantTypes = new ParticipantTypeTestDbSet();
 			this.People = new PersonTestDbSet();
 			this.PhoneNumbers = new PhoneNumberTestDbSet();
+			this.PhoneNumberTypes = new PhoneNumberTypeTestDbSet();
 			this.ProfessionEducations = new ProfessionEducationTestDbSet();
 			this.Programs = new ProgramTestDbSet();
 			this.ProgramTypes = new ProgramTypeTestDbSet();

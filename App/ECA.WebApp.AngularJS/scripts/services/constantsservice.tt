@@ -22,6 +22,7 @@
 	var otherConstants = new Dictionary<string, string>();
 	otherConstants["searchDelimiter"] = " ";
 	otherConstants["emptyGuid"] = Guid.Empty.ToString();
+	otherConstants["editProjectEventName"] = "EditProject";
 
 	WriteTypes(types, otherConstants);
 #>

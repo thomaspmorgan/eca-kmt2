@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.Infrastructure;
 
 namespace ECA.Data
 {
@@ -91,5 +92,26 @@ namespace ECA.Data
             items.Add(VALIDATABLE_CONTEXT_KEY, this);
             return base.ValidateEntity(entityEntry, items);
         }
+
+        public virtual DbEntityEntry GetEntry(object x)
+        {
+            return base.Entry(x);
+        }
+
+        public virtual DbEntityEntry<T> GetEntry<T>(T x) where T : class
+        {
+            return base.Entry<T>(x);
+        }
+
+        public virtual EntityState GetEntityState(object x)
+        {
+            return GetEntry(x).State;
+        }
+
+        public virtual EntityState GetEntityState<T>(T x) where T : class
+        {
+            return base.Entry<T>(x).State;
+        }
+
     }
 }

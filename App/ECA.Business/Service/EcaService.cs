@@ -47,7 +47,7 @@ namespace ECA.Business.Service
             else
             {
                 var distinctIds = contactIds.Distinct().ToList();
-                response = await CreateGetContactsByIdsQuery(contactIds).CountAsync() == distinctIds.Count();                
+                response = await CreateGetContactsByIdsQuery(contactIds).CountAsync() == distinctIds.Count();
             }
             stopWatch.Stop();
             logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
@@ -197,7 +197,8 @@ namespace ECA.Business.Service
         }
 
         /// <summary>
-        /// Updates the goals on the given program to the goals with the given ids.
+        /// Updates the goals on the given program to the goals with the given ids.  Ensure the goals
+        /// are already loaded via the context before calling this method.
         /// </summary>
         /// <param name="goalIds">The goal ids.</param>
         /// <param name="goalable">The program.</param>
@@ -205,35 +206,59 @@ namespace ECA.Business.Service
         {
             Contract.Requires(goalIds != null, "The goal ids must not be null.");
             Contract.Requires(goalable != null, "The goalable entity must not be null.");
-            goalable.Goals.Clear();
-            goalIds.ForEach(x =>
+            var goalsToRemove = goalable.Goals.Where(x => !goalIds.Contains(x.GoalId)).ToList();
+            var goalsToadd = new List<Goal>();
+            goalIds.Where(x => !goalable.Goals.Select(c => c.GoalId).ToList().Contains(x)).ToList()
+                .Select(x => new Goal { GoalId = x }).ToList()
+                .ForEach(x => goalsToadd.Add(x));
+
+            goalsToadd.ForEach(x =>
             {
-                var goal = new Goal { GoalId = x };
-                this.Context.Goals.Attach(goal);
-                goalable.Goals.Add(goal);
+                if (Context.GetEntityState(x) == EntityState.Detached)
+                {
+                    Context.Goals.Attach(x);
+                }
+                goalable.Goals.Add(x);
+            });
+            goalsToRemove.ForEach(x =>
+            {
+                goalable.Goals.Remove(x);
             });
         }
 
         /// <summary>
-        /// Updates the points of contacts on the given program to the pocs with the given ids.
+        /// Updates the points of contacts on the given program to the pocs with the given ids.  Ensure the contacts
+        /// are already loaded via the context before calling this method.
         /// </summary>
         /// <param name="pointOfContactIds">The points of contacts by id.</param>
-        /// <param name="contactable">The program to update.</param>
+        /// <param name="contactable">The entity to update.</param>
         public void SetPointOfContacts(List<int> pointOfContactIds, IContactable contactable)
         {
             Contract.Requires(pointOfContactIds != null, "The list of poc ids must not be null.");
             Contract.Requires(contactable != null, "The contactable entity must not be null.");
-            contactable.Contacts.Clear();
-            pointOfContactIds.ForEach(x =>
+            var contactsToRemove = contactable.Contacts.Where(x => !pointOfContactIds.Contains(x.ContactId)).ToList();
+            var contactsToAdd = new List<Contact>();
+            pointOfContactIds.Where(x => !contactable.Contacts.Select(c => c.ContactId).ToList().Contains(x)).ToList()
+                .Select(x => new Contact { ContactId = x }).ToList()
+                .ForEach(x => contactsToAdd.Add(x));
+
+            contactsToAdd.ForEach(x =>
             {
-                var contact = new Contact { ContactId = x };
-                this.Context.Contacts.Attach(contact);
-                contactable.Contacts.Add(contact);
+                if (Context.GetEntityState(x) == EntityState.Detached)
+                {
+                    Context.Contacts.Attach(x);
+                }
+                contactable.Contacts.Add(x);
+            });
+            contactsToRemove.ForEach(x =>
+            {
+                contactable.Contacts.Remove(x);
             });
         }
 
         /// <summary>
-        /// Updates the themes on the given program to the themes with the given ids.
+        /// Updates the themes on the given program to the themes with the given ids.  Ensure the themes
+        /// are already loaded via the context before calling this method.
         /// </summary>
         /// <param name="themeIds">The themes by id.</param>
         /// <param name="themeable">The program to update.</param>
@@ -241,12 +266,23 @@ namespace ECA.Business.Service
         {
             Contract.Requires(themeIds != null, "The theme ids must not be null.");
             Contract.Requires(themeable != null, "The themeable entity must not be null.");
-            themeable.Themes.Clear();
-            themeIds.ForEach(x =>
+            var themesToRemove = themeable.Themes.Where(x => !themeIds.Contains(x.ThemeId)).ToList();
+            var goalsToadd = new List<Theme>();
+            themeIds.Where(x => !themeable.Themes.Select(c => c.ThemeId).ToList().Contains(x)).ToList()
+                .Select(x => new Theme { ThemeId = x }).ToList()
+                .ForEach(x => goalsToadd.Add(x));
+
+            goalsToadd.ForEach(x =>
             {
-                var theme = new Theme { ThemeId = x };
-                this.Context.Themes.Attach(theme);
-                themeable.Themes.Add(theme);
+                if (Context.GetEntityState(x) == EntityState.Detached)
+                {
+                    Context.Themes.Attach(x);
+                }
+                themeable.Themes.Add(x);
+            });
+            themesToRemove.ForEach(x =>
+            {
+                themeable.Themes.Remove(x);
             });
         }
     }

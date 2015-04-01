@@ -7,7 +7,8 @@
 			city: 5,
 			building: 6,
 			post: 7,
-			place: 8
+			place: 8,
+			address: 9
 		},
 		organizationType: {
 			office: 1,
@@ -30,8 +31,7 @@
 			uSNonProfitOrganization501C3: 5,
 			individual: 6,
 			foreignNgoPvo: 7,
-			other: 8,
-			marc: 9
+			other: 8
 		},
 		projectStatus: {
 			active: 1,
@@ -42,7 +42,8 @@
 			other: 7
 		},
 		searchDelimiter: ' ',
-		emptyGuid: '00000000-0000-0000-0000-000000000000'
+		emptyGuid: '00000000-0000-0000-0000-000000000000',
+		editProjectEventName: 'EditProject'
 	};
 });
 

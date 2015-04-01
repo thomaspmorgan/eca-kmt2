@@ -110,7 +110,7 @@ namespace ECA.WebApi.Controllers.Admin
                 var userId = 0;
                 await projectService.UpdateAsync(model.ToPublishedProject(userId));
                 await projectService.SaveChangesAsync();
-                var dto = await projectService.GetProjectByIdAsync(model.ProjectId);
+                var dto = await projectService.GetProjectByIdAsync(model.Id);
                 return Ok(dto);
             }
             else

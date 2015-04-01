@@ -21,7 +21,7 @@ namespace ECA.WebApi.Test.Models.Projects
                 GoalIds = new List<int> { 1 },
                 Name = "name",
                 PointsOfContactIds = new List<int> { 2 },
-                ProjectId = 3,
+                Id = 3,
                 ProjectStatusId = ProjectStatus.Completed.Id,
                 StartDate = DateTimeOffset.UtcNow.AddDays(-1.0),
                 ThemeIds = new List<int> { 4 },
@@ -33,7 +33,7 @@ namespace ECA.WebApi.Test.Models.Projects
             Assert.AreEqual(model.EndDate, publishedProject.EndDate);
             Assert.AreEqual(model.FocusId, publishedProject.FocusId);
             Assert.AreEqual(model.Name, publishedProject.Name);
-            Assert.AreEqual(model.ProjectId, publishedProject.ProjectId);
+            Assert.AreEqual(model.Id, publishedProject.ProjectId);
             Assert.AreEqual(model.ProjectStatusId, publishedProject.ProjectStatusId);
             Assert.AreEqual(model.StartDate, publishedProject.StartDate);
 
