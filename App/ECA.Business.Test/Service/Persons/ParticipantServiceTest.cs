@@ -1001,7 +1001,7 @@ namespace ECA.Business.Test.Service.Persons
             context.ParticipantTypes.Add(participantType);
             context.Participants.Add(participant);
 
-            Action<SimpleParticipantDTO> tester = (result) =>
+            Action<ParticipantDTO> tester = (result) =>
             {
                 Assert.IsNotNull(result);
                 Assert.AreEqual(participant.ParticipantId, result.ParticipantId);
@@ -1011,6 +1011,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(participant.ParticipantType.Name, result.ParticipantType);
                 Assert.AreEqual(person.FirstName + " " + person.LastName, result.Name);
                 Assert.AreEqual(participant.SevisId, result.SevisId);
+                Assert.AreEqual(participant.ContactAgreement, result.ContactAgreement);
             };
 
             var serviceResult = service.GetParticipantById(participant.ParticipantId);

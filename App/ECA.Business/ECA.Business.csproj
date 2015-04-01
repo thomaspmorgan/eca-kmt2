@@ -102,6 +102,7 @@
     <Compile Include="Queries\Models\Office\SimpleOfficeDTO.cs" />
     <Compile Include="Queries\Models\Persons\ContactInfoDTO.cs" />
     <Compile Include="Queries\Models\Persons\LocationDTO.cs" />
+    <Compile Include="Queries\Models\Persons\ParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\PiiDTO.cs" />
     <Compile Include="Queries\Persons\PersonQueries.cs" />
     <Compile Include="Service\Admin\IProjectStatusService.cs" />
