@@ -10,49 +10,31 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace ViewOffices_ProgramsandBranches.Test
+namespace ViewOfficesOverview.Test
 {
     /// <summary>
-    /// View Offices Programs & Branches-- doesn't like navigate to Offices page from Content Menu--
+    /// Summary description for CodedUITest1
     /// </summary>
     [CodedUITest]
-    public class ViewOffices_ProgramsandBranchesCodedUITest1
+    public class ViewOfficesOverviewCodedUITest1
     {
-        public ViewOffices_ProgramsandBranchesCodedUITest1()
+        public ViewOfficesOverviewCodedUITest1()
         {
         }
 
         [TestMethod]
-        public void ViewOffices_ProgramsandBranchesCodedUITestMethod1()
+        public void ViewOfficesOverviewCodedUITestMethod1()
         {
-            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-            this.UIMap.RemoveExistingECAUser();
-            this.UIMap.LogintoQA();
-            this.UIMap.AssertContentMenuButton();
-            this.UIMap.SelectContentMenuButton();
-            this.UIMap.AssertOfficesContentMenuLink();
-            /*this.UIMap.SelectOfficesContentMenuLink();*/
-            this.UIMap.URLNav_ECAOfficeDirect();
-           /*this.UIMap.AssertOfficeName();
-            this.UIMap.SelectOfficeName();
-            this.UIMap.RefreshIndividualOfficePage();
-            this.UIMap.AssertIndividualOffice_BranchesandPrograms();
-            this.UIMap.SelectBranchesandProgramsTab();
-            //this.UIMap.RefreshBranchesandProgramsTab();
-            this.UIMap.AssertIndividualOffice_BranchList();
-            this.UIMap.AssertSearchProgramsTextBox();
-            this.UIMap.AssertIndividualOffice_Program();
-            this.UIMap.AssertIndividualOffice_ProgramNameDescription();
-            this.UIMap.NavigatetoOfficeDirectory();*/
-            this.UIMap.AssertSecondOffice();
-            this.UIMap.SelectSecondOffice();
-            this.UIMap.AssertSecondOffice_BranchesandPrograms();
-            this.UIMap.SelectSecondBranchesandPrograms();
-            this.UIMap.SearchBoxText_Input();
-            this.UIMap.AssertSearchBoxTextInputValue();
-            this.UIMap.ClearSearchProgramsBox();
-            this.UIMap.AssertSubProgramIndent();
+
+            this.UIMap.LogintoQA_existing();
+            this.UIMap.NavigatetoECAOfficeDirectory();
+            this.UIMap.AssertAllOfficesBanner();
+            this.UIMap.AssertSearchOfficesTextBox();
+            this.UIMap.SearchBox_textinput();
+            this.UIMap.AssertSearchShowingResults();
+            this.UIMap.AssertSearchResultTopList();
             this.UIMap.CloseBrowserWindow();
+            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
         #region Additional test attributes

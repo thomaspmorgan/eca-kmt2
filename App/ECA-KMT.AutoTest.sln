@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewOffices_ProgramsandBran
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewParticipant_PersonalInformation.Test", "ViewParticipant_PersonalInformation.Test\ViewParticipant_PersonalInformation.Test.csproj", "{0FF1D6FE-E4FB-4CC6-929E-7E5F9296B3C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewOfficesOverview.Test", "ViewOfficesOverview.Test\ViewOfficesOverview.Test.csproj", "{A3865399-6EAB-4576-9E3C-8B719E765748}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{0FF1D6FE-E4FB-4CC6-929E-7E5F9296B3C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FF1D6FE-E4FB-4CC6-929E-7E5F9296B3C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FF1D6FE-E4FB-4CC6-929E-7E5F9296B3C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3865399-6EAB-4576-9E3C-8B719E765748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3865399-6EAB-4576-9E3C-8B719E765748}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3865399-6EAB-4576-9E3C-8B719E765748}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3865399-6EAB-4576-9E3C-8B719E765748}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
