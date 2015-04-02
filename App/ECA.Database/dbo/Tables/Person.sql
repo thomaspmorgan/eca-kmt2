@@ -23,10 +23,12 @@
     [Awards]              NVARCHAR (MAX)     NULL,
     
     [MaritalStatusId] INT NULL, 
+    [PlaceOfBirth_LocationId] INT NULL, 
     CONSTRAINT [PK_dbo.Person] PRIMARY KEY CLUSTERED ([PersonId] ASC),
     CONSTRAINT [FK_dbo.Person_dbo.Location_Location_LocationId] FOREIGN KEY ([Location_LocationId]) REFERENCES [dbo].[Location] ([LocationId]), 
     CONSTRAINT [FK_Person_ToGender] FOREIGN KEY ([GenderId]) REFERENCES [Gender]([GenderId]), 
-    CONSTRAINT [FK_Person_ToMaritalStatus] FOREIGN KEY ([MaritalStatusId]) REFERENCES [MaritalStatus]([MaritalStatusId])
+    CONSTRAINT [FK_Person_ToMaritalStatus] FOREIGN KEY ([MaritalStatusId]) REFERENCES [MaritalStatus]([MaritalStatusId]),
+	CONSTRAINT [FK_Person_ToPlaceOfBirth] FOREIGN KEY ([PlaceOfBirth_LocationId]) REFERENCES [Location]([LocationId])
 );
 
 

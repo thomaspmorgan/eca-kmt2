@@ -146,10 +146,8 @@ namespace ECA.Data
         [MaxLength(ALIAS_NAME_MAX_LENGTH)]
         public string Alias { get; set; }
 
-        //public int? PlaceOfBirth_LocationId { get; set; }
-        //[InverseProperty("BirthPlacePeople")]
-        //[ForeignKey("PlaceOfBirth_LocationId")]
-        //public Location PlaceOfBirth { get; set; }
+        public int? PlaceOfBirthId { get; set; }
+        public Location PlaceOfBirth { get; set; }
        
         public string MedicalConditions { get; set; }
         

@@ -27,6 +27,9 @@ namespace ECA.Data.Configuration
                     p.MapRightKey("LocationId");
                     p.ToTable("CitizenCountry");
                 });
+
+            HasOptional(x => x.PlaceOfBirth).WithMany().HasForeignKey(x => x.PlaceOfBirthId).WillCascadeOnDelete(false);
+            Property(x => x.PlaceOfBirthId).HasColumnName("PlaceOfBirth_LocationId");
         }
     }
 }
