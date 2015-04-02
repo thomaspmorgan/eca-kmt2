@@ -52,7 +52,9 @@ namespace ECA.Business.Queries.Persons
                                                             City = x.Location.City,
                                                             PostalCode = x.Location.PostalCode,
                                                             Country = x.Location.Country.LocationName
-                                                        })
+                                                        }),
+                            CityOfBirth = person.PlaceOfBirth.LocationName,
+                            CountryOfBirth = person.PlaceOfBirth.Country.LocationName
                         };
             return query;
         }

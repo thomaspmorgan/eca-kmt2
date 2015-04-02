@@ -223,6 +223,49 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             tester(resultAsync);
         }
+
+                [TestMethod]
+        public async Task TestGetPiiById_PlaceOfBirth()
+        {
+            var country = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.Country.Id,
+                LocationName = "country"
+            };
+
+            var city = new Location
+            {
+               LocationId = 2, 
+               LocationTypeId = LocationType.City.Id,
+               Country = country,
+               CountryId = country.CountryId
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = new Gender(),
+                PlaceOfBirth = city,
+                PlaceOfBirthId = city.LocationId
+            };
+
+            context.Locations.Add(country);
+            context.Locations.Add(city);
+            context.People.Add(person);
+
+            Action<PiiDTO> tester = (serviceResult) =>
+            {
+                Assert.AreEqual(city.LocationName, serviceResult.CityOfBirth);
+                Assert.AreEqual(country.LocationName, serviceResult.CountryOfBirth);
+            };
+
+            var result = service.GetPiiById(person.PersonId);
+            var resultAsync = service.GetPiiById(person.PersonId);
+
+            tester(result);
+            tester(resultAsync);
+        }
         #endregion
 
         #region Get Contact Info By Id
@@ -349,6 +392,7 @@ namespace ECA.Business.Test.Service.Persons
             var result = service.GetContactInfoById(person.PersonId);
             var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
         }
+
         #endregion
     }
 }
