@@ -30,7 +30,6 @@
 
         <h5 class="col-md-6" ng-show="editView.show">Description</h5>
         <h5 class="col-md-6" ng-show="editView.show" editable-textarea="project.description" e-rows="5" e-cols="150">{{project.description}}</h5>
-        <!--<img class="right icon" ng-click="editDescription.$show()" ng-hide="editDescription.$visible" src="images/editA.png" alt="">-->
     </div>
     <div class="row tags">
         <span ng-repeat="tag in project.tags" class="tag">#{{tag}}</span>
@@ -128,8 +127,8 @@
                 <div class="col-md-6" ng-show="editView.show">
                     <isteven-multi-select input-model="editView.pointsOfContact"
                                           output-model="editView.out.pointsOfContact"
-                                          button-label="fullName"
-                                          item-label="fullName"
+                                          button-label="display"
+                                          item-label="display"
                                           tick-property="ticked"
                                           selection-mode="multiple"
                                           helper-elements="filter none reset"

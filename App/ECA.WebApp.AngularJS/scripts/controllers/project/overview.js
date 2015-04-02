@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc function
- * @name staticApp.controller:MainCtrl
- * @description
- * # MainCtrl
+ * @name staticApp.controller:ProjectOverviewCtrl
+ * @description The overview controller is used on the overview tab of a project.
+ * # ProjectOverviewCtrl
  * Controller of the staticApp
  */
 angular.module('staticApp')
@@ -263,17 +263,20 @@ angular.module('staticApp')
               start: 0,
               limit: maxLimit
           };
+          
           if (search && search.keyword) {
-              params.filter = {
-                  comparison: 'like',
-                  property: 'fullName',
-                  value: search.keyword
-              }
+              var delimiter = ConstantsService.searchDelimiter;
+              var keywords = search.keyword.split(delimiter);
+              params.keyword = keywords;
           }
           return LookupService.getAllContacts(params)
               .then(function (response) {
                   if (response.total > maxLimit) {
                       $log.error('There are more contacts in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                  }
+                  for(var i=0; i<response.results.length; i++) {
+                      var result = response.results[i];
+                      result.display = result.fullName + " (" + result.position + ")";
                   }
                   $scope.editView.pointsOfContact = response.results;
               });

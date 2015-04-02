@@ -1,29 +1,29 @@
-﻿//'use strict';
-//describe('staticApp.overview controller', function () {
-//    beforeEach(module('staticApp.overview'));
+﻿
 
-//    describe('overview controller', function () {
-//        it('should find focus by id', inject(function ($controller) {
-//            var controller = $controller('OverviewCtrl');
-//            expect(controller).toBeDefined();
-//        }));
-//    });
+describe('staticApp.overview controller', function () {
+    beforeEach(module('staticApp'));
+    if ('true should be true', function () {
+                expect(true).toBe(false);
+            });
 
-//});
+    var $controller;
 
-'use strict';
+    beforeEach(inject(function (_$controller_) {
+        // The injector unwraps the underscores (_) from around the parameter names when matching
+        $controller = _$controller_;
+    }));
 
-describe('myApp.view1 module', function () {
 
-    beforeEach(module('myApp.view1'));
+    //describe('overview controller', function () {
+    //    if ('true should be true', function () {
+    //        expect(true).toBe(true);
+    //    });
 
-    describe('view1 controller', function () {
+    //    it('should find focus by id', inject(function ($controller) {
+            
+    //        var controller = $controller('OverviewCtrl');
+    //        expect(controller).toBeDefined();
+    //    }));
+    //});
 
-        it('should ....', inject(function ($controller) {
-            //spec body
-            var view1Ctrl = $controller('View1Ctrl');
-            expect(view1Ctrl).toBeDefined();
-        }));
-
-    });
 });

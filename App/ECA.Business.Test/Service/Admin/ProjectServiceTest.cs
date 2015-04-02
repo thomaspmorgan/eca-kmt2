@@ -753,7 +753,8 @@ namespace ECA.Business.Test.Service.Admin
             var contact = new Contact
             {
                 ContactId = 1,
-                FullName = "fullName"
+                FullName = "fullName",
+                Position = "Position"
             };
 
             var project = new Project
@@ -812,6 +813,7 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(context.ProjectStatuses.Select(x => x.Status).FirstOrDefault(), serviceResult.Status);
                 
                 CollectionAssert.AreEqual(context.Contacts.Select(x => x.ContactId).ToList(), serviceResult.Contacts.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(context.Contacts.Select(x => x.FullName + " (" + x.Position + ")").ToList(), serviceResult.Contacts.Select(x => x.Value).ToList());
             };
 
             var result = service.GetProjectById(project.ProjectId);
