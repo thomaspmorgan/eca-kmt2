@@ -221,9 +221,13 @@ angular.module('staticApp')
           $scope.view.notifications = $scope.view.notifications.splice(index, 1);
       }
 
+      var maxLimit = 300;
       function loadProjectStati() {
-          return LookupService.getAllProjectStati({ start: 0, limit: 300 })
+          return LookupService.getAllProjectStati({ start: 0, limit: maxLimit })
             .then(function (response) {
+                if (response.data.total > maxLimit) {
+                    $log.error('There are more project stati in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                }
                 $scope.editView.projectStati = response.data.results;
             }, function (errorResponse) {
 
@@ -231,8 +235,11 @@ angular.module('staticApp')
       }
 
       function loadFoci() {
-          return LookupService.getAllFocusAreas({ start: 0, limit: 300 })
+          return LookupService.getAllFocusAreas({ start: 0, limit: maxLimit })
               .then(function (response) {
+                  if (response.total > maxLimit) {
+                      $log.error('There are more foci in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                  }
                   $scope.editView.foci = response.results;
               });
       }
@@ -250,7 +257,7 @@ angular.module('staticApp')
             })
       }
 
-      var maxLimit = 300;
+      
       function loadPointsOfContact(search) {
           var params = {
               start: 0,
@@ -265,6 +272,9 @@ angular.module('staticApp')
           }
           return LookupService.getAllContacts(params)
               .then(function (response) {
+                  if (response.total > maxLimit) {
+                      $log.error('There are more contacts in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                  }
                   $scope.editView.pointsOfContact = response.results;
               });
       }
@@ -283,6 +293,9 @@ angular.module('staticApp')
           }
           return LookupService.getAllThemes(params)
               .then(function (response) {
+                  if (response.total > maxLimit) {
+                      $log.error('There are more themes in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                  }
                   $scope.editView.themes = response.results;
               });
       }
@@ -301,6 +314,9 @@ angular.module('staticApp')
           }
           return LookupService.getAllGoals(params)
               .then(function (response) {
+                  if (response.total > maxLimit) {
+                      $log.error('There are more goals in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                  }
                   $scope.editView.goals = response.results;
               });
       }

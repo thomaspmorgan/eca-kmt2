@@ -17,7 +17,7 @@
                     <li><a href="#">DELETE PERMANENTLY</a></li>
                 </ul>
             </div>
-            <span class="detail">Last Updated 01/01/14</span>
+            <span class="detail">Last Updated {{(project.revisedOn | date:"MMM dd, yyyy") || 'No revised on date.'}}</span>
         </div>
         <div class="right">
             <img class="icon star" src="images/star.png" alt="">
