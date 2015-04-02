@@ -61,18 +61,44 @@
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Themes</div>
-                <div class="col-md-6">
+                <div class="col-md-6" ng-show="!editView.show">
                     <ul>
                         <li ng-repeat="theme in project.themes">{{theme.value}}</li>
                     </ul>
                 </div>
+                <div class="col-md-6" ng-show="editView.show">
+                    <isteven-multi-select input-model="editView.themes"
+                                          output-model="editView.out.themes"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="filter none reset"
+                                          max-height="250px"
+                                          on-search-change="editView.searchThemes(data)"
+                                          on-select-none="editView.removeThemes()">
+                    </isteven-multi-select>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Strategic Goals</div>
-                <div class="col-md-6">
+                <div class="col-md-6" ng-show="!editView.show">
                     <ul>
                         <li ng-repeat="goal in project.goals">{{goal.value}}</li>
                     </ul>
+                </div>
+                <div class="col-md-6" ng-show="editView.show">
+                    <isteven-multi-select input-model="editView.goals"
+                                          output-model="editView.out.goals"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="filter none reset"
+                                          max-height="250px"
+                                          on-search-change="editView.searchGoals(data)"
+                                          on-select-none="editView.removeGoals()">
+                    </isteven-multi-select>
                 </div>
             </div>
         </div>
@@ -101,7 +127,7 @@
                 </div>
                 <div class="col-md-6" ng-show="editView.show">
                     <isteven-multi-select input-model="editView.pointsOfContact"
-                                          output-model="project.pointsOfContact"
+                                          output-model="editView.out.pointsOfContact"
                                           button-label="fullName"
                                           item-label="fullName"
                                           tick-property="ticked"
@@ -109,7 +135,6 @@
                                           helper-elements="filter none reset"
                                           max-height="250px"
                                           on-search-change="editView.searchPointsOfContact(data)"
-                                          on-open="editView.onOpenPointsOfContact()"
                                           on-select-none="editView.removePointsOfContact()">
                     </isteven-multi-select>
                 </div>

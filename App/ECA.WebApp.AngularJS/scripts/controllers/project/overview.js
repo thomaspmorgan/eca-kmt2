@@ -22,28 +22,24 @@ angular.module('staticApp')
       $scope.view.isSaving = false;
 
       $scope.editView = {};
+      $scope.editView.out = {
+          themes: [],
+          goals: [],
+          pointsOfContact: []
+      };
       $scope.editView.show = false;
       $scope.editView.foci = [];
       $scope.editView.projectStati = [];
       $scope.editView.pointsOfContact = [];
+      $scope.editView.themes = [];
+      $scope.editView.goals = [];
 
       $scope.editView.loadProjectStati = function () {
-          LookupService.getAllProjectStati({ start: 0, limit: 300 })
-          .then(function (response) {
-              $scope.editView.projectStati = response.data.results;
-          }, function (errorResponse) {
-
-          })
-          .then(function () {
-
-          });
+          loadProjectStati();
       }
 
       $scope.editView.loadFoci = function () {
-          LookupService.getAllFocusAreas({ start: 0, limit: 300 })
-          .then(function (response) {
-              $scope.editView.foci = response.results;
-          });
+          loadFoci();
       }
 
       $scope.editView.removePointsOfContact = function () {
@@ -54,13 +50,37 @@ angular.module('staticApp')
           loadPointsOfContact(data);
       }
 
+      $scope.editView.searchThemes = function (data) {
+          loadThemes(data);
+      }
+
+      $scope.editView.removeThemes = function () {
+          $scope.$parent.project.themeIds = [];
+      }
+
+      $scope.editView.searchGoals = function (data) {
+          loadGoals(data);
+      }
+
+      $scope.editView.removeGoals = function () {
+          $scope.$parent.project.goalIds = [];
+      }
+
       $scope.view.confirmFailOk = function () {
           $scope.view.saveFailed = false;
       }
 
       $scope.view.onCancelClick = function () {
           $scope.editView.show = false;
-          loadProject();
+          $scope.view.isLoading = true;
+          loadProject()
+            .then(function () {
+
+            }, function () {
+
+            }).then(function () {
+                $scope.view.isLoading = false;
+            });
       }
 
       $scope.view.onSaveClick = function ($event) {
@@ -79,41 +99,41 @@ angular.module('staticApp')
       $scope.$on(editProjectEventName, function () {
           $log.info('Handling event [' + editProjectEventName + '] in overview.js controller.');
           setTickedPointsOfContact();
+          setTickedThemes();
+          setTickedGoals();
           $scope.editView.show = true;
       });
 
-      function loadPointsOfContact(search) {
-          var params = {
-              start: 0,
-              limit: 300
-          };
-          if (search && search.keyword) {
-              params.filter = {
-                  comparison: 'like',
-                  property: 'fullName',
-                  value: search.keyword
-              }
+      function setTickedItems(projectPropertyName, editViewInputModelName) {
+          
+          if (!$scope.$parent.project.hasOwnProperty(projectPropertyName)) {
+              $log.error('The $scope.project does not have a property named ' + projectPropertyName);
           }
-          LookupService.getAllContacts(params)
-          .then(function (response) {
-              $scope.editView.pointsOfContact = response.results;
-          });
-      }
-
-      loadPointsOfContact(null);
-
-
-      function setTickedPointsOfContact() {
-          var pointsOfContact = $scope.$parent.project.contacts;
-          for (var i = 0; i < pointsOfContact.length; i++) {
-              var projectPoc = pointsOfContact[i];
-              for (var j = 0; j < $scope.editView.pointsOfContact.length; j++) {
-                  var contact = $scope.editView.pointsOfContact[j];
-                  if (projectPoc.id === contact.id) {
-                      contact.ticked = true;
+          if (!$scope.editView.hasOwnProperty(editViewInputModelName)) {
+              $log.error('The $scope.editView does not have a property named ' + editViewInputModelName);
+          }
+          var inputModels = $scope.editView[editViewInputModelName];
+          for (var i = 0; i < inputModels.length; i++) {
+              var inputModel = inputModels[i];
+              for (var j = 0; j < $scope.$parent.project[projectPropertyName].length; j++) {
+                  var projectPropertyValue = $scope.$parent.project[projectPropertyName][j];
+                  if (inputModel.id === projectPropertyValue.id) {
+                      inputModel.ticked = true;
                   }
               }
           }
+      }
+
+      function setTickedPointsOfContact() {
+          setTickedItems('contacts', 'pointsOfContact');
+      }
+
+      function setTickedThemes() {
+          setTickedItems('themes', 'themes');
+      }
+
+      function setTickedGoals() {
+          setTickedItems('goals', 'goals');
       }
 
       function getStatusById(stati, id) {
@@ -134,35 +154,33 @@ angular.module('staticApp')
           return null;
       }
 
-      function loadProject() {
-          $scope.view.isLoading = true;
-          var projectId = $stateParams.projectId;
-          ProjectService.get(projectId)
-            .then(function (data) {
-                $scope.$parent.project = data.data;
-                $scope.$parent.project.startDate = new Date($scope.$parent.project.startDate);
-                $scope.$parent.project.endDate = new Date($scope.$parent.project.endDate);
-                $scope.$parent.project.countryIsos = $scope.$parent.project.countryIsos || [];
-            }, function (errorResponse) {
-                $log.error('Failed to load project with id ' + projectId);
-            })
-            .then(function () {
-                $scope.view.isLoading = false;
-            });
+      function mapOutModelToIds(outModelName, projectPropertyName, idPropertyName) {
+          $log.info('Mapping editView.out.' + outModelName + ' to project.' + projectPropertyName);
+          if (!$scope.editView.out.hasOwnProperty(outModelName)) {
+              $log.error("The editView.out does not have a property named " + outModelName);
+          }
+          if (!$scope.$parent.project.hasOwnProperty(projectPropertyName)) {
+              $log.debug('Creating array property on project model named ' + projectPropertyName);
+              $scope.$parent.project[projectPropertyName] = [];
+          }
+          if ($scope.editView.out[outModelName] && $scope.editView.out[outModelName].length > 0) {
+              $scope.$parent.project[projectPropertyName] = $scope.editView.out[outModelName].map(function (model) {
+                  if (!model.hasOwnProperty(idPropertyName)) {
+                      $log.error('The model does not have a property named ' + idPropertyName);
+                  }
+                  return model[idPropertyName];
+              });
+          }
       }
-      loadProject();
 
       function saveProject($event) {
           $scope.view.isSaving = true;
           $scope.view.saveFailed = false;
-          $scope.$parent.project.goalIds = $scope.$parent.project.goalIds || [];
-          $scope.$parent.project.themeIds = $scope.$parent.project.themeIds || [];
-          $scope.$parent.project.pointsOfContactIds = $scope.$parent.project.pointsOfContactIds || [];
 
-
-          if ($scope.$parent.project.pointsOfContact && $scope.$parent.project.pointsOfContact.length > 0) {
-              $scope.$parent.project.pointsOfContactIds = $scope.$parent.project.pointsOfContact.map(function (pointOfContact) { return pointOfContact.id; });
-          }
+          mapOutModelToIds('goals', 'goalIds', 'id');
+          mapOutModelToIds('pointsOfContact', 'pointsOfContactIds', 'id');
+          mapOutModelToIds('themes', 'themeIds', 'id');
+          mapOutModelToIds('goals', 'goalIds', 'id');
 
           ProjectService.update($scope.$parent.project, $stateParams.projectId)
             .then(function (response) {
@@ -202,4 +220,100 @@ angular.module('staticApp')
       function removeAlert(index) {
           $scope.view.notifications = $scope.view.notifications.splice(index, 1);
       }
+
+      function loadProjectStati() {
+          return LookupService.getAllProjectStati({ start: 0, limit: 300 })
+            .then(function (response) {
+                $scope.editView.projectStati = response.data.results;
+            }, function (errorResponse) {
+
+            });
+      }
+
+      function loadFoci() {
+          return LookupService.getAllFocusAreas({ start: 0, limit: 300 })
+              .then(function (response) {
+                  $scope.editView.foci = response.results;
+              });
+      }
+
+      function loadProject() {
+          var projectId = $stateParams.projectId;
+          return ProjectService.get(projectId)
+            .then(function (data) {
+                $scope.$parent.project = data.data;
+                $scope.$parent.project.startDate = new Date($scope.$parent.project.startDate);
+                $scope.$parent.project.endDate = new Date($scope.$parent.project.endDate);
+                $scope.$parent.project.countryIsos = $scope.$parent.project.countryIsos || [];
+            }, function (errorResponse) {
+                $log.error('Failed to load project with id ' + projectId);
+            })
+      }
+
+      var maxLimit = 300;
+      function loadPointsOfContact(search) {
+          var params = {
+              start: 0,
+              limit: maxLimit
+          };
+          if (search && search.keyword) {
+              params.filter = {
+                  comparison: 'like',
+                  property: 'fullName',
+                  value: search.keyword
+              }
+          }
+          return LookupService.getAllContacts(params)
+              .then(function (response) {
+                  $scope.editView.pointsOfContact = response.results;
+              });
+      }
+
+      function loadThemes(search) {
+          var params = {
+              start: 0,
+              limit: maxLimit
+          };
+          if (search && search.keyword) {
+              params.filter = {
+                  comparison: 'like',
+                  property: 'name',
+                  value: search.keyword
+              }
+          }
+          return LookupService.getAllThemes(params)
+              .then(function (response) {
+                  $scope.editView.themes = response.results;
+              });
+      }
+
+      function loadGoals(search) {
+          var params = {
+              start: 0,
+              limit: maxLimit
+          };
+          if (search && search.keyword) {
+              params.filter = {
+                  comparison: 'like',
+                  property: 'name',
+                  value: search.keyword
+              }
+          }
+          return LookupService.getAllGoals(params)
+              .then(function (response) {
+                  $scope.editView.goals = response.results;
+              });
+      }
+
+      $scope.view.isLoading = true;
+      $q.all([loadThemes(null), loadPointsOfContact(null), loadFoci(), loadProjectStati(), loadGoals(null), loadProject()])
+      .then(function (results) {
+          //results is an array
+
+      }, function (errorResponse) {
+          $log.error('Failed initial loading of project view.');
+      })
+      .then(function () {
+          $scope.view.isLoading = false;
+      });
   });
