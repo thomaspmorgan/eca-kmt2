@@ -248,6 +248,14 @@
     <Build Include="dbo\Stored Procedures\GetOffices.sql" />
     <Build Include="dbo\Stored Procedures\GetPrograms.sql" />
     <Build Include="dbo\Tables\MaritalStatus.sql" />
+    <Build Include="dbo\Tables\Category.sql" />
+    <Build Include="dbo\Tables\Justification.sql" />
+    <Build Include="dbo\Tables\Objective.sql" />
+    <Build Include="dbo\Tables\ProgramObjective.sql" />
+    <Build Include="dbo\Tables\ProgramCategory.sql" />
+    <Build Include="dbo\Tables\ProjectCategory.sql" />
+    <Build Include="dbo\Tables\ProjectObjective.sql" />
+    <Build Include="dbo\Tables\OfficeSettings.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />
