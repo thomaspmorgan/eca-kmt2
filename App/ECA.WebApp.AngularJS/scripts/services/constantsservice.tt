@@ -6,9 +6,11 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ assembly name="$(SolutionDir)ECA.Core/bin/Debug/ECA.Core.dll" #>
+<#@ assembly name="$(SolutionDir)ECA.Core.DynamicLinq/bin/Debug/ECA.Core.DynamicLinq.dll" #>
 <#@ assembly name="$(SolutionDir)ECA.Data/bin/Debug/ECA.Data.dll" #>
 <#@ import namespace="ECA.Core" #>
 <#@ import namespace="ECA.Data" #>
+<#@ import namespace="ECA.Core.DynamicLinq" #>
 <#@ import namespace="ECA.Core.Generation" #>
 <#@ output extension=".js" #>
 <#
@@ -17,12 +19,23 @@
 	types.Add(typeof(ProjectStatus));
 	types.Add(typeof(ParticipantType));
 	types.Add(typeof(OrganizationType));
+	types.Add(typeof(ComparisonType));
 
 	types = types.OrderBy(x => x.Name).ToList();
 	var otherConstants = new Dictionary<string, string>();
 	otherConstants["searchDelimiter"] = " ";
 	otherConstants["emptyGuid"] = Guid.Empty.ToString();
 	otherConstants["editProjectEventName"] = "EditProject";
+
+	otherConstants["inComparisonType"] = ComparisonType.In.Value;
+	otherConstants["likeComparisonType"] = ComparisonType.Like.Value;
+	otherConstants["lessThanComparisonType"] = ComparisonType.LessThan.Value;
+	otherConstants["greaterComparisonType"] = ComparisonType.GreaterThan.Value;
+	otherConstants["equalComparisonType"] = ComparisonType.Equal.Value;
+	otherConstants["isNullComparisonType"] = ComparisonType.Null.Value;
+	otherConstants["isNotNullComparisonType"] = ComparisonType.NotNull.Value;
+	
+	
 
 	WriteTypes(types, otherConstants);
 #>
