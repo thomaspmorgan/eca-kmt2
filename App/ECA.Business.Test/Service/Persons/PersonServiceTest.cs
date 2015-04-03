@@ -50,8 +50,13 @@ namespace ECA.Business.Test.Service.Persons
                 Patronym = "patronym",
                 Alias = "alias",
                 Ethnicity = "ethnicity",
-                MedicalConditions = "medical conditions"
+                MedicalConditions = "medical conditions",
+
+                MaritalStatus = new MaritalStatus(),
+                PlaceOfBirth = new Location()
             };
+
+            person.PlaceOfBirth.Country = new Location();
 
             context.Genders.Add(gender);
             context.People.Add(person);
@@ -106,7 +111,11 @@ namespace ECA.Business.Test.Service.Persons
             {
                 PersonId = 1,
                 Gender = new Gender(),
+                MaritalStatus = new MaritalStatus(),
+                PlaceOfBirth = new Location()
             };
+
+            person.PlaceOfBirth.Country = new Location();
 
             person.CountriesOfCitizenship.Add(location);
             person.CountriesOfCitizenship.Add(location2);
@@ -162,9 +171,12 @@ namespace ECA.Business.Test.Service.Persons
             var person = new Person
             {
                 PersonId = 1,
-                Gender = new Gender()
+                Gender = new Gender(),
+                MaritalStatus = new MaritalStatus(),
+                PlaceOfBirth = new Location()
             };
 
+            person.PlaceOfBirth.Country = new Location();
             
             person.Addresses.Add(address);
 
@@ -207,8 +219,11 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 1,
                 Gender = new Gender(),
                 MaritalStatusId = maritalStatus.MaritalStatusId,
-                MaritalStatus = maritalStatus
+                MaritalStatus = maritalStatus,
+                PlaceOfBirth = new Location()
             };
+
+            person.PlaceOfBirth.Country = new Location();
 
             context.MaritalStatuses.Add(maritalStatus);
             context.People.Add(person);
@@ -224,7 +239,7 @@ namespace ECA.Business.Test.Service.Persons
             tester(resultAsync);
         }
 
-                [TestMethod]
+        [TestMethod]
         public async Task TestGetPiiById_PlaceOfBirth()
         {
             var country = new Location
@@ -247,7 +262,8 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 1,
                 Gender = new Gender(),
                 PlaceOfBirth = city,
-                PlaceOfBirthId = city.LocationId
+                PlaceOfBirthId = city.LocationId,
+                MaritalStatus = new MaritalStatus()
             };
 
             context.Locations.Add(country);
@@ -261,7 +277,7 @@ namespace ECA.Business.Test.Service.Persons
             };
 
             var result = service.GetPiiById(person.PersonId);
-            var resultAsync = service.GetPiiById(person.PersonId);
+            var resultAsync = await service.GetPiiByIdAsync(person.PersonId);
 
             tester(result);
             tester(resultAsync);

@@ -80,7 +80,6 @@ namespace ECA.Data
             OtherFamily = new HashSet<Person>();
             Impacts = new HashSet<Impact>();
             History = new History();
-            MaritalStatus = new MaritalStatus();
         }
 
         [Key]
