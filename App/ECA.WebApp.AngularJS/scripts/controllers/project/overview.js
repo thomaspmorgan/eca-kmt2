@@ -22,17 +22,20 @@ angular.module('staticApp')
       $scope.view.isSaving = false;
 
       $scope.editView = {};
-      $scope.editView.out = {
-          themes: [],
-          goals: [],
-          pointsOfContact: []
-      };
+      //$scope.editView.out = {
+      //    themes: [],
+      //    goals: [],
+      //    pointsOfContact: []
+      //};
       $scope.editView.show = false;
       $scope.editView.foci = [];
       $scope.editView.projectStati = [];
       $scope.editView.pointsOfContact = [];
       $scope.editView.themes = [];
       $scope.editView.goals = [];
+      $scope.editView.selectedPointsOfContact = [];
+      $scope.editView.selectedGoals = [];
+      $scope.editView.selectedThemes = [];
 
       $scope.editView.loadProjectStati = function () {
           loadProjectStati();
@@ -98,43 +101,8 @@ angular.module('staticApp')
       var editProjectEventName = ConstantsService.editProjectEventName;
       $scope.$on(editProjectEventName, function () {
           $log.info('Handling event [' + editProjectEventName + '] in overview.js controller.');
-          setTickedPointsOfContact();
-          setTickedThemes();
-          setTickedGoals();
           $scope.editView.show = true;
       });
-
-      function setTickedItems(projectPropertyName, editViewInputModelName) {
-          
-          if (!$scope.$parent.project.hasOwnProperty(projectPropertyName)) {
-              $log.error('The $scope.project does not have a property named ' + projectPropertyName);
-          }
-          if (!$scope.editView.hasOwnProperty(editViewInputModelName)) {
-              $log.error('The $scope.editView does not have a property named ' + editViewInputModelName);
-          }
-          var inputModels = $scope.editView[editViewInputModelName];
-          for (var i = 0; i < inputModels.length; i++) {
-              var inputModel = inputModels[i];
-              for (var j = 0; j < $scope.$parent.project[projectPropertyName].length; j++) {
-                  var projectPropertyValue = $scope.$parent.project[projectPropertyName][j];
-                  if (inputModel.id === projectPropertyValue.id) {
-                      inputModel.ticked = true;
-                  }
-              }
-          }
-      }
-
-      function setTickedPointsOfContact() {
-          setTickedItems('contacts', 'pointsOfContact');
-      }
-
-      function setTickedThemes() {
-          setTickedItems('themes', 'themes');
-      }
-
-      function setTickedGoals() {
-          setTickedItems('goals', 'goals');
-      }
 
       function getStatusById(stati, id) {
           return getLookupById(stati, id);
@@ -154,33 +122,40 @@ angular.module('staticApp')
           return null;
       }
 
-      function mapOutModelToIds(outModelName, projectPropertyName, idPropertyName) {
-          $log.info('Mapping editView.out.' + outModelName + ' to project.' + projectPropertyName);
-          if (!$scope.editView.out.hasOwnProperty(outModelName)) {
-              $log.error("The editView.out does not have a property named " + outModelName);
-          }
-          if (!$scope.$parent.project.hasOwnProperty(projectPropertyName)) {
-              $log.debug('Creating array property on project model named ' + projectPropertyName);
-              $scope.$parent.project[projectPropertyName] = [];
-          }
-          if ($scope.editView.out[outModelName] && $scope.editView.out[outModelName].length > 0) {
-              $scope.$parent.project[projectPropertyName] = $scope.editView.out[outModelName].map(function (model) {
-                  if (!model.hasOwnProperty(idPropertyName)) {
-                      $log.error('The model does not have a property named ' + idPropertyName);
-                  }
-                  return model[idPropertyName];
-              });
-          }
+      function updateRelationshipIds(idsPropertyName, editViewSelectedPropertyName) {
+          console.assert($scope.$parent.project.hasOwnProperty(idsPropertyName), "The project must have the property named " + idsPropertyName);
+          console.assert($scope.editView.hasOwnProperty(editViewSelectedPropertyName), "The edit view must have the property named " + editViewSelectedPropertyName);
+          $scope.$parent.project[idsPropertyName] = [];
+          $scope.$parent.project[idsPropertyName] = $scope.editView[editViewSelectedPropertyName].map(function (c) {
+              return c.id;
+          });
+      }
+
+      function updatePointsOfContactIds() {
+          var propertyName = "pointsOfContactIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'selectedPointsOfContact');
+      }
+
+      function updateThemes() {
+          var propertyName = "themeIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'selectedThemes');
+      }
+
+      function updateGoals() {
+          var propertyName = "goalIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'selectedGoals');
       }
 
       function saveProject($event) {
           $scope.view.isSaving = true;
           $scope.view.saveFailed = false;
 
-          mapOutModelToIds('goals', 'goalIds', 'id');
-          mapOutModelToIds('pointsOfContact', 'pointsOfContactIds', 'id');
-          mapOutModelToIds('themes', 'themeIds', 'id');
-          mapOutModelToIds('goals', 'goalIds', 'id');
+          updatePointsOfContactIds();
+          updateThemes();
+          updateGoals();
 
           ProjectService.update($scope.$parent.project, $stateParams.projectId)
             .then(function (response) {
@@ -251,38 +226,77 @@ angular.module('staticApp')
                 $scope.$parent.project = data.data;
                 $scope.$parent.project.countryIsos = $scope.$parent.project.countryIsos || [];
                 var startDate = new Date($scope.$parent.project.startDate);
-                if(!isNaN(startDate.getTime())){
+                if (!isNaN(startDate.getTime())) {
                     $scope.$parent.project.startDate = startDate;
                 }
                 var endDate = new Date($scope.$parent.project.endDate);
                 if (!isNaN(endDate.getTime())) {
                     $scope.$parent.project.endDate = endDate;
                 }
+                setSelectedPointsOfContact();
+                setSelectedGoals();
+                setSelectedThemes();
+
             }, function (errorResponse) {
                 $log.error('Failed to load project with id ' + projectId);
             })
       }
 
-      
+      function setSelectedItems(projectPropertyName, editViewSelectedPropertyName) {
+          console.assert($scope.$parent.project.hasOwnProperty(projectPropertyName), "The project property " + projectPropertyName + " does not exist.");
+          console.assert($scope.editView.hasOwnProperty(editViewSelectedPropertyName), "The edit view " + editViewSelectedPropertyName + " property does not exist.");
+          console.assert(Array.isArray($scope.editView[editViewSelectedPropertyName]), "The edit view " + editViewSelectedPropertyName + " property must be an array.");
+
+          var projectItems = $scope.$parent.project[projectPropertyName];
+          $scope.editView[editViewSelectedPropertyName] = $scope.editView[editViewSelectedPropertyName].splice(0, $scope.editView[editViewSelectedPropertyName].length);
+          for (var i = 0; i < projectItems.length; i++) {
+              var projectItem = projectItems[i];
+              $scope.editView[editViewSelectedPropertyName].push(projectItem);
+          }
+      }
+
+      function setSelectedPointsOfContact() {
+          setSelectedItems('contacts', 'selectedPointsOfContact');
+      }
+
+      function setSelectedGoals() {
+          setSelectedItems('goals', 'selectedGoals');
+      }
+
+      function setSelectedThemes() {
+          setSelectedItems('themes', 'selectedThemes');
+      }
+
+      function normalizeLookupProperties(lookups) {
+          console.assert(Array.isArray(lookups), "The given value must be an array.");
+          for (var i = 0; i < lookups.length; i++) {
+              lookups[i].value = lookups[i].name;
+          }
+      }
+
       function loadPointsOfContact(search) {
           var params = {
               start: 0,
               limit: maxLimit
           };
-          
-          if (search && search.keyword) {
-              var delimiter = ConstantsService.searchDelimiter;
-              var keywords = search.keyword.split(delimiter);
-              params.keyword = keywords;
+          if (search) {
+              params.filter = [{
+                  comparison: ConstantsService.likeComparisonType,
+                  property: 'fullName',
+                  value: search
+              }]
           }
           return LookupService.getAllContacts(params)
               .then(function (response) {
                   if (response.total > maxLimit) {
                       $log.error('There are more contacts in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
                   }
-                  for(var i=0; i<response.results.length; i++) {
-                      var result = response.results[i];
-                      result.display = result.fullName + " (" + result.position + ")";
+                  for (var i = 0; i < response.results.length; i++) {
+                      var position = "";
+                      if (response.results[i].position) {
+                          position = " (" + response.results[i].position + ")";
+                      }
+                      response.results[i].value = response.results[i].fullName + position;
                   }
                   $scope.editView.pointsOfContact = response.results;
               });
@@ -293,18 +307,19 @@ angular.module('staticApp')
               start: 0,
               limit: maxLimit
           };
-          if (search && search.keyword) {
-              params.filter = {
-                  comparison: 'like',
+          if (search) {
+              params.filter = [{
+                  comparison: ConstantsService.likeComparisonType,
                   property: 'name',
-                  value: search.keyword
-              }
+                  value: search
+              }];
           }
           return LookupService.getAllThemes(params)
               .then(function (response) {
                   if (response.total > maxLimit) {
                       $log.error('There are more themes in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
                   }
+                  normalizeLookupProperties(response.results);
                   $scope.editView.themes = response.results;
               });
       }
@@ -314,18 +329,19 @@ angular.module('staticApp')
               start: 0,
               limit: maxLimit
           };
-          if (search && search.keyword) {
-              params.filter = {
-                  comparison: 'like',
+          if (search) {
+              params.filter = [{
+                  comparison: ConstantsService.likeComparisonType,
                   property: 'name',
-                  value: search.keyword
-              }
+                  value: search
+              }]
           }
           return LookupService.getAllGoals(params)
               .then(function (response) {
                   if (response.total > maxLimit) {
                       $log.error('There are more goals in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
                   }
+                  normalizeLookupProperties(response.results);
                   $scope.editView.goals = response.results;
               });
       }

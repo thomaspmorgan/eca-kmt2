@@ -17,9 +17,6 @@
 </div>
 
 <div ng-show="!view.isLoading && !view.isSaving">
-    <!--<div class="row">
-        <span class="right icon span" ng-click="editDescription.$show()" ng-hide="editDescription.$visible"></span>
-    </div>-->
     <div class="row" ng-show="editView.show">
         <h5 class="col-md-6">Project Name</h5>
 
@@ -66,17 +63,15 @@
                     </ul>
                 </div>
                 <div class="col-md-6" ng-show="editView.show">
-                    <isteven-multi-select input-model="editView.themes"
-                                          output-model="editView.out.themes"
-                                          button-label="name"
-                                          item-label="name"
-                                          tick-property="ticked"
-                                          selection-mode="multiple"
-                                          helper-elements="filter none reset"
-                                          max-height="250px"
-                                          on-search-change="editView.searchThemes(data)"
-                                          on-select-none="editView.removeThemes()">
-                    </isteven-multi-select>
+                    <ui-select multiple ng-model="editView.selectedThemes" ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a theme." style="min-width: 200px;">
+                        <ui-select-match placeholder="Select themes...">
+                            <div>{{$item.value}}</div>
+                        </ui-select-match>
+
+                        <ui-select-choices repeat="theme in editView.themes">
+                            <div ng-bind-html="theme.value | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
             <div class="row">
@@ -87,17 +82,15 @@
                     </ul>
                 </div>
                 <div class="col-md-6" ng-show="editView.show">
-                    <isteven-multi-select input-model="editView.goals"
-                                          output-model="editView.out.goals"
-                                          button-label="name"
-                                          item-label="name"
-                                          tick-property="ticked"
-                                          selection-mode="multiple"
-                                          helper-elements="filter none reset"
-                                          max-height="250px"
-                                          on-search-change="editView.searchGoals(data)"
-                                          on-select-none="editView.removeGoals()">
-                    </isteven-multi-select>
+                    <ui-select multiple ng-model="editView.selectedGoals" ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a goal." style="min-width: 200px;">
+                        <ui-select-match placeholder="Select goals...">
+                            <div>{{$item.value}}</div>
+                        </ui-select-match>
+
+                        <ui-select-choices repeat="goal in editView.goals">
+                            <div ng-bind-html="goal.value | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
         </div>
@@ -125,17 +118,16 @@
                     </ul>
                 </div>
                 <div class="col-md-6" ng-show="editView.show">
-                    <isteven-multi-select input-model="editView.pointsOfContact"
-                                          output-model="editView.out.pointsOfContact"
-                                          button-label="display"
-                                          item-label="display"
-                                          tick-property="ticked"
-                                          selection-mode="multiple"
-                                          helper-elements="filter none reset"
-                                          max-height="250px"
-                                          on-search-change="editView.searchPointsOfContact(data)"
-                                          on-select-none="editView.removePointsOfContact()">
-                    </isteven-multi-select>
+                    <ui-select multiple ng-model="editView.selectedPointsOfContact" ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a point of contact." style="min-width: 200px;">
+                        <ui-select-match placeholder="Select points of contact...">
+                            <div>{{$item.value}}</div>
+                        </ui-select-match>
+
+                        <ui-select-choices refresh="editView.searchPointsOfContact($select.search)" refresh-delay="250" repeat="person in editView.pointsOfContact">
+                            <div ng-bind-html="person.fullName | highlight: $select.search"></div>
+                            <div class="small">{{person.position}}</div>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
         </div>

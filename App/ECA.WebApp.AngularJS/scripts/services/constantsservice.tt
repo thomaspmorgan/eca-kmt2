@@ -28,6 +28,7 @@
 	otherConstants["editProjectEventName"] = "EditProject";
 
 	otherConstants["inComparisonType"] = ComparisonType.In.Value;
+	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;
 	otherConstants["likeComparisonType"] = ComparisonType.Like.Value;
 	otherConstants["lessThanComparisonType"] = ComparisonType.LessThan.Value;
 	otherConstants["greaterComparisonType"] = ComparisonType.GreaterThan.Value;
@@ -52,7 +53,7 @@ public void WriteTypes(List<Type> types, Dictionary<string, string> otherConstan
 
 	WriteLine("return {");
 	PushIndent(indent);
-
+	types = types.OrderBy(x => x.Name).ToList();
 	for(var typeCounter = 0; typeCounter < types.Count; typeCounter++)
 	{
 		var type = types[typeCounter];
@@ -81,7 +82,7 @@ public void WriteTypes(List<Type> types, Dictionary<string, string> otherConstan
 	}
 
 	var keyCounter = 0;
-	foreach(var key in otherConstants.Keys)
+	foreach(var key in otherConstants.Keys.OrderBy(x => x).ToList())
 	{
 		var value = otherConstants[key];
 		Write(String.Format("{0}: '{1}'", CamelCase(key), value));

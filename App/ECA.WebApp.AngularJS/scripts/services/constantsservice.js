@@ -43,16 +43,17 @@
 			canceled: 6,
 			other: 7
 		},
-		searchDelimiter: ' ',
-		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		editProjectEventName: 'EditProject',
-		inComparisonType: 'in',
-		likeComparisonType: 'like',
-		lessThanComparisonType: 'lt',
-		greaterComparisonType: 'gt',
+		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		equalComparisonType: 'eq',
+		greaterComparisonType: 'gt',
+		inComparisonType: 'in',
+		isNotNullComparisonType: 'notnull',
 		isNullComparisonType: 'null',
-		isNotNullComparisonType: 'notnull'
+		lessThanComparisonType: 'lt',
+		likeComparisonType: 'like',
+		notInComparisonType: 'notin',
+		searchDelimiter: ' '
 	};
 });
 

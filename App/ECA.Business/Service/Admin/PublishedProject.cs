@@ -52,6 +52,10 @@ namespace ECA.Business.Service.Admin
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.Audit = new Update(updatedBy);
+
+            this.GoalIds = this.GoalIds.Distinct();
+            this.ThemeIds = this.ThemeIds.Distinct();
+            this.PointsOfContactIds = this.PointsOfContactIds.Distinct();
         }
 
         /// <summary>

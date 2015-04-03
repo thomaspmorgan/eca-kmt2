@@ -120,6 +120,7 @@ namespace ECA.Core.DynamicLinq
         /// <returns>The sort direction.</returns>
         public static SortDirection ToSortDirection(string direction)
         {
+            Contract.Requires(direction != null, "The sort direction must not be null.");
             var dictionary = new Dictionary<string, SortDirection>();
             dictionary.Add(ASC.ToUpper(), SortDirection.Ascending);
             dictionary.Add(DESC.ToUpper(), SortDirection.Descending);
