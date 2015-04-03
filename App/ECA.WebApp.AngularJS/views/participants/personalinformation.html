@@ -90,7 +90,7 @@
                 <div class="col-md-6">
                     <ul>
                         <li ng-repeat="email in contactInfo.emails">
-                            {{email.value}}
+                            <a href="mailto:{{email.value}}">{{email.value}}</a>
                         </li>
                     </ul>
                 </div>
@@ -100,7 +100,7 @@
                 <div class="col-md-6">
                     <ul>
                         <li ng-repeat="socialMedia in contactInfo.socialMedias">
-                            {{socialMedia.type}}: {{socialMedia.value}}
+                            <a href="{{socialMedia.type == 'Facebook' ? 'http://facebook.com/' : 'http://linkedin.com/'}}{{socialMedia.value}}">{{socialMedia.type}}</a>
                         </li>
                     </ul>
                 </div>
