@@ -249,9 +249,15 @@ angular.module('staticApp')
           return ProjectService.get(projectId)
             .then(function (data) {
                 $scope.$parent.project = data.data;
-                $scope.$parent.project.startDate = new Date($scope.$parent.project.startDate);
-                $scope.$parent.project.endDate = new Date($scope.$parent.project.endDate);
                 $scope.$parent.project.countryIsos = $scope.$parent.project.countryIsos || [];
+                var startDate = new Date($scope.$parent.project.startDate);
+                if(!isNaN(startDate.getTime())){
+                    $scope.$parent.project.startDate = startDate;
+                }
+                var endDate = new Date($scope.$parent.project.endDate);
+                if (!isNaN(endDate.getTime())) {
+                    $scope.$parent.project.endDate = endDate;
+                }
             }, function (errorResponse) {
                 $log.error('Failed to load project with id ' + projectId);
             })
