@@ -6144,4 +6144,16 @@ ul {
 .program-pagination {
   padding-left: 60px; }
 
+.modal-dropdown {
+  border: 1px solid #c6c6c6;
+  height: 40px;
+  background-image: linear-gradient(#fff, #f7f7f7);
+  border-radius: 4px;
+  padding: 8px; }
+
+.loadingLabel p {
+  display: none;
+  font-size: 1.5em;
+  margin-left: 5px; }
+
 /*# sourceMappingURL=main.css.map */

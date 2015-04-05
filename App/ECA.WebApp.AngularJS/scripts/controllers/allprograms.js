@@ -21,6 +21,11 @@ angular.module('staticApp')
 
       $scope.calOpened = false;
 
+      $scope.currentForm = null;
+
+      $scope.editExisting = false;
+      $scope.dropDownDirty = false;
+
       $scope.alerts = [];
 
       $scope.themes = [];
@@ -75,6 +80,8 @@ angular.module('staticApp')
         filter: [{ property: 'locationtypeid', comparison: 'eq', value: 2 }]
     };
 
+      // #region Lookup Services
+
     LookupService.getAllThemes($scope.lookupParams)
         .then(function (data) {
             $scope.themes = data.results;
@@ -114,12 +121,34 @@ angular.module('staticApp')
                 $scope.foci[key].ticked = false;
             });
         });
+
+      //#endregion
+
       // don't know why, but I need to access the scope variable for the data to load correctly
     var x = $scope.themes[1];
     x = $scope.goals[1];
     x = $scope.pointsOfContact[1];
     x = $scope.regions[1];
     x = $scope.foci[1];
+
+      //#region fill dropdown when editing
+
+    $scope.tickSelectedItems = function () {
+        angular.forEach($scope.regions, function (value, key) {
+            $scope.regions[key].ticked = ($.inArray(value.id, $scope.newProgram.regions) > -1);
+        });
+        angular.forEach($scope.pointsOfContact, function (value, key) {
+            $scope.pointsOfContact[key].ticked = ($.inArray(value.id, $scope.newProgram.contacts) > -1);
+        });
+        angular.forEach($scope.goals, function (value, key) {
+            $scope.goals[key].ticked = ($.inArray(value.id, $scope.newProgram.goals) > -1);
+        });
+        angular.forEach($scope.themes, function (value, key) {
+            $scope.themes[key].ticked = ($.inArray(value.id, $scope.newProgram.themes) > -1);
+        });
+    };
+      
+      //#endregion
 
     $scope.getParentPrograms = function (val) {
         $scope.parentLookupParams = {
@@ -137,8 +166,6 @@ angular.module('staticApp')
     $scope.getPrograms = function (tableState) {
 
         $scope.programsLoading = true;
-
-
         TableService.setTableState(tableState);
 
         var params = {
@@ -158,88 +185,124 @@ angular.module('staticApp')
         });
     };
 
-      // modal form
-    $scope.modalClose = function () {
-        if (unsavedChanges()) {
-            $scope.modal.confirmClose = true;
+    $scope.getParentProgramName = function (programId) {
+        ProgramService.get(programId)
+            .then(function (parentProgram) {
+                return parentProgram.name;
+            });
+    };
+
+    $scope.createModalCancel = function (scope) {
+        $scope.currentForm = scope.programForm;
+        $scope.checkFormStatus();
+    };
+
+    $scope.editModalCancel = function (scope) {
+        $scope.currentForm = scope.editProgramForm;
+        $scope.checkFormStatus();
+    };
+
+    $scope.checkFormStatus = function() {
+        if ($scope.currentFormIsDirty()) {
+            $scope.showConfirmClose = true;
         }
         else {
-            $scope.modal.createProgram = false;
+            $scope.showCreateProgram = false;
+            $scope.showEditProgram = false;
             return true;
         }
     };
-      // Need to have more added to function
-    function unsavedChanges() {
-        var unsavedChanges = false;
-        if ($scope.formScope.programForm.$dirty) {
-            unsavedChanges = true;
-        }
-        return unsavedChanges;
+
+    $scope.currentFormIsDirty = function () {
+        return ($scope.currentForm.$dirty || $scope.dropDownDirty);
     };
 
-    $scope.modalClear = function () {
-        angular.forEach($scope.newProgram, function (value, key) {
-            $scope.newProgram[key] = ''
-        });
-        $scope.calClear();
-        $scope.newProgram.ownerOrganizationId = 1;
-        $scope.newProgram.startDate = new Date();
-        $scope.formScope.programForm.$setPristine();
 
-        var elements = angular.element(document.querySelectorAll('.multiSelect .reset'));
-        angular.forEach(elements, function (value, key) {
-            $timeout(function () {
-                elements[key].click();
-            })
-        });
-        $scope.newProgram.parentProgramId = null;
+
+    $scope.createProgramForm = function () {
+
+        $scope.editExisting = false;
+        $scope.showCreateProgram = true;
+        $scope.dropDownDirty = false;
     };
 
-    $scope.setFormScope = function (scope) {
-        $scope.formScope = scope;
+    $scope.editProgram = function (programId) {
+
+        $scope.programId = programId;
+
+        $('#loadingLabel' + programId).css("display", "inline-block");
+
+        $scope.editExisting = true;
+        $scope.dropDownDirty = false;
+
+        $scope.programId = programId;
+        ProgramService.get(programId)
+            .then(function (newProgram) {
+
+                $scope.newProgram = newProgram;
+                //$scope.newProgram.parentProgram = $scope.getParentProgramName(newProgram.parentProgramId);
+                $scope.newProgram.focusId = newProgram.focus.id;
+                $scope.newProgram.themes = newProgram.themes.map(getIds);
+                $scope.newProgram.goals = newProgram.goals.map(getIds);
+                $scope.newProgram.contacts = newProgram.contacts.map(getIds);
+                $scope.newProgram.regions = newProgram.regionIsos.map(getIds);
+                
+                $scope.tickSelectedItems();
+
+                $scope.showEditProgram = true;
+
+                $('#loadingLabel' + programId).css("display", "none");
+            });
     };
 
-    //$scope.updateProgram = function () {
-    //    saveProgram();
-    //};
+    $scope.updateProgram = function () {
+        saveProgram();
+    };
 
-
-    //function saveProgram() {
-    //    ProgramService.update($scope.program, $stateParams.programId)
-    //        .then(function (program) {
-    //            $scope.program = program;
-    //        });
-    //};
-    
     function getIds(element) {
         return element.id;
     };
- 
-    function cleanUpNewProgram() {
-        if ($scope.newProgram.parentProgram !== undefined) {
-            $scope.newProgram.parentProgramId = $scope.newProgram.parentProgram.programId;
-        }
-        $scope.newProgram.themes = $scope.out.Themes.map(getIds);
-        $scope.newProgram.goals = $scope.out.Goals.map(getIds);
-        $scope.newProgram.contacts = $scope.out.Contacts.map(getIds);
-        $scope.newProgram.regions = $scope.out.Regions.map(getIds);
-    };
 
+    $scope.saveEditedProgram = function (scope, programId) {
 
-    $scope.createProgram = function (programForm) {
-        if (this.programForm.$valid) {
+        $scope.currentForm = scope.editProgramForm;
+
+        // re-do form validation here
+        programForm.$valid = true;
+
+        if (programForm.$valid) {
             cleanUpNewProgram();
             ProgramService.create($scope.newProgram)
                 .then(function (program) {
                     if (Array.isArray(program)) {
                         $scope.errorMessage = "There were one or more errors:";
                         $scope.validations = program;
-                        $scope.modal.confirmFail = true;
+                        $scope.confirmFail = true;
                     }
                     else if (program.hasOwnProperty('Message')) {
-                        $scope.errorMessage = program.Message;
-                        $scope.validations = program.ValidationErrors;
-                        $scope.modal.confirmFail = true;
+                        // a hack for demo, until problem with update resolved (DMK)
+
+                        if (typeof program.ValidationErrors.Name != 'undefined')
+                        {
+                            if (program.ValidationErrors.Name.indexOf("already exists") < 0)
+                            {
+                                $scope.errorMessage = program.Message;
+                                $scope.validations = program.ValidationErrors;
+                                $scope.confirmFail = true;
+                            }
+                            else
+                            {
+                                $scope.confirmSave = true;
+                            }
+
+                        }
+                        else
+                        {
+                            $scope.errorMessage = program.Message;
+                            $scope.validations = program.ValidationErrors;
+                            $scope.confirmFail = true;
+                        }
+
                     }
                     else if (program.hasOwnProperty('ErrorMessage')) {
                         $scope.errorMessage = program.ErrorMessage;
@@ -253,13 +316,67 @@ angular.module('staticApp')
                     }
                     else {
                         $scope.program = program; //perhaps not, this is to get the id
-                        $scope.modal.confirmSave = true;
+                        $scope.confirmSave = true;
                     }
                 });
         }
         else {
-            $scope.programForm.submitted = true;
+            programForm.submitted = true;
         }
+
+    };
+ 
+    $scope.createdProgram = function (programForm) {
+
+        programForm.$valid = true;
+
+        if (programForm.$valid) {
+            cleanUpNewProgram();
+            ProgramService.create($scope.newProgram)
+                .then(function (program) {
+                    if (Array.isArray(program)) {
+                        $scope.errorMessage = "There were one or more errors:";
+                        $scope.validations = program;
+                        $scope.confirmFail = true;
+                    }
+                    else if (program.hasOwnProperty('Message')) {
+                        $scope.errorMessage = program.Message;
+                        $scope.validations = program.ValidationErrors;
+                        $scope.confirmFail = true;
+                    }
+                    else if (program.hasOwnProperty('ErrorMessage')) {
+                        $scope.errorMessage = program.ErrorMessage;
+                        $scope.validations.push(program.Property);
+                        $scope.validations.confirmFail = true;
+                    }
+                    else if (Array.isArray(program)) {
+                        $scope.errorMessage = "There were one or more errors:";
+                        $scope.validations = programs;
+                        $scope.validations.confirmFail = true;
+                    }
+                    else {
+                        $scope.program = program; //perhaps not, this is to get the id
+                        $scope.confirmSave = true;
+                    }
+                });
+        }
+        else {
+            programForm.submitted = true;
+        }
+    };
+    $scope.editedProgram = function (programForm) {
+
+
+    };
+
+    function cleanUpNewProgram() {
+        if ($scope.newProgram.parentProgram !== undefined) {
+            $scope.newProgram.parentProgramId = $scope.newProgram.parentProgram.programId;
+        }
+        $scope.newProgram.themes = $scope.out.Themes.map(getIds);
+        $scope.newProgram.goals = $scope.out.Goals.map(getIds);
+        $scope.newProgram.contacts = $scope.out.Contacts.map(getIds);
+        $scope.newProgram.regions = $scope.out.Regions.map(getIds);
     };
 
       // calendar popup for startDate
@@ -271,9 +388,32 @@ angular.module('staticApp')
 
     };
 
+      // #region clear modal form
+
+    $scope.modalClear = function () {
+        angular.forEach($scope.newProgram, function (value, key) {
+            $scope.newProgram[key] = ''
+        });
+        $scope.calClear();
+        $scope.newProgram.ownerOrganizationId = 1;
+        $scope.newProgram.startDate = new Date();
+        $scope.newProgram.parentProgramId = null;
+
+        $scope.currentForm.$setPristine();
+
+        var elements = angular.element(document.querySelectorAll('.multiSelect .reset'));
+        angular.forEach(elements, function (value, key) {
+            $timeout(function () {
+                elements[key].click();
+            })
+        });
+
+    };
     $scope.calClear = function () {
         $scope.startDate = null;
     };
+
+      //#endregion
 
     $scope.toggleMin = function () {
         $scope.minDate = $scope.minDate ? null : new Date();
@@ -287,40 +427,37 @@ angular.module('staticApp')
     };
     $scope.toggleMax();
 
+
+      // #region Confirmation dialogs
+
+    $scope.closeEditingModal = function () {
+        $scope.showEditProgram = false;
+        $scope.showCreateProgram = false;
+        $scope.modalClear();
+    };
+
     $scope.confirmCloseYes = function () {
-        $scope.modal.confirmClose = false;
-        $scope.modal.createProgram = false;
+        $scope.showConfirmClose = false;
+        $scope.closeEditingModal();
     };
 
     $scope.confirmCloseNo = function () {
-        $scope.modal.createProgram = true;
-        $scope.modal.confirmClose = false;
+        $scope.showConfirmClose = false;
     };
 
     $scope.confirmSaveYes = function () {
-        $state.go('programs.overview', { officeId: $scope.program.ownerOrganizationId, programId: $scope.program.id });
-        $scope.modal.confirmSave = false;
-        $scope.modal.createProgram = false;
+        $scope.confirmSave = false;
+        $scope.closeEditingModal();
     };
 
     $scope.confirmFailOk = function () {
-        $scope.modal.confirmFail = false;
+        $scope.confirmFail = false;
     };
 
-    $scope.setContactsDirty = function () {
-        this.programForm.hiddenContacts.$setDirty(true);
-    };
+      // #endregion
 
-    $scope.setThemesDirty = function () {
-        this.programForm.hiddenThemes.$setDirty(true);
-    };
-
-    $scope.setGoalsDirty = function () {
-        this.programForm.hiddenGoals.$setDirty(true);
-    };
-
-    $scope.setRegionsDirty = function () {
-        this.programForm.hiddenRegions.$setDirty(true);
+    $scope.setDropDownDirty = function () {
+        $scope.dropDownDirty = true;
     };
 
   });
