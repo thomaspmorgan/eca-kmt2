@@ -41,13 +41,13 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participant</returns>
-        ECA.Business.Queries.Models.Persons.SimpleParticipantDTO GetParticipantById(int participantId);
+        ECA.Business.Queries.Models.Persons.ParticipantDTO GetParticipantById(int participantId);
 
         /// <summary>
         /// Returns the participant by id asyncronously
         /// </summary>
         /// <param name="participantId">The participant id to lookup</param>
         /// <returns>The participant</returns>
-        System.Threading.Tasks.Task<ECA.Business.Queries.Models.Persons.SimpleParticipantDTO> GetParticipantByIdAsync(int participantId);
+        System.Threading.Tasks.Task<ECA.Business.Queries.Models.Persons.ParticipantDTO> GetParticipantByIdAsync(int participantId);
     }
 }

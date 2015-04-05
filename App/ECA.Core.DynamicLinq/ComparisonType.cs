@@ -16,6 +16,9 @@ namespace ECA.Core.DynamicLinq
         private const string IN = "in";
         private const string IN_DISPLAY = "In";
 
+        private const string NOT_IN = "notin";
+        private const string NOT_IN_DISPLAY = "Not In";
+
         private const string LIKE = "like";
         private const string LIKE_DISPLAY = "Like";
 
@@ -33,6 +36,18 @@ namespace ECA.Core.DynamicLinq
 
         private const string IS_NOT_NULL = "notnull";
         private const string IS_NOT_NULL_DISPLAY = "Not Null";
+
+
+        /// <summary>
+        /// Gets the not in comparison type.
+        /// </summary>
+        public static ComparisonType NotIn
+        {
+            get
+            {
+                return new ComparisonType(NOT_IN, NOT_IN_DISPLAY);
+            }
+        }
 
         /// <summary>
         /// Gets the in comparison type.
@@ -205,6 +220,7 @@ namespace ECA.Core.DynamicLinq
         /// <returns>The comparison type.</returns>
         public static ComparisonType ToComparisonType(string comparisonType)
         {
+            Contract.Requires(comparisonType != null, "The comparison type must not be null.");
             var dictionary = new Dictionary<string, ComparisonType>();
             dictionary.Add(LESS_THAN.ToUpper(), ComparisonType.LessThan);
             dictionary.Add(GREATER_THAN.ToUpper(), ComparisonType.GreaterThan);
@@ -213,6 +229,7 @@ namespace ECA.Core.DynamicLinq
             dictionary.Add(IS_NOT_NULL.ToUpper(), ComparisonType.NotNull);
             dictionary.Add(LIKE.ToUpper(), ComparisonType.Like);
             dictionary.Add(IN.ToUpper(), ComparisonType.In);
+            dictionary.Add(NOT_IN.ToUpper(), ComparisonType.NotIn);
 
             var cType = comparisonType.ToUpper().Trim();
             Contract.Assert(dictionary.ContainsKey(cType), String.Format("The comparison type [{0}] is not recognized.", comparisonType));

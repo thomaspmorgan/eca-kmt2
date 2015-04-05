@@ -45,5 +45,25 @@ namespace ECA.WebApi.Test.Controllers.Persons
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
         #endregion
+
+        #region Get Contact Info By Id
+        [TestMethod]
+        public async Task TestGetContactInfoById()
+        {
+            mock.Setup(x => x.GetContactInfoByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(new ContactInfoDTO());
+            var response = await controller.GetContactInfoByIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ContactInfoDTO>));
+        }
+
+        [TestMethod]
+        public async Task TestGetContactInfoById_InvalidModel()
+        {
+            mock.Setup(x => x.GetContactInfoByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(null);
+            var response = await controller.GetContactInfoByIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+        }
+        #endregion
     }
 }

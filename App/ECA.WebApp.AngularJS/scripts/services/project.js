@@ -69,33 +69,15 @@ angular.module('staticApp')
     }
 
     return {
-      get: function (id) {
-        var defer = $q.defer();
-        DragonBreath.get('projects', id)
-          .success(function (data) {
-            getProject(data);
-             defer.resolve(project);
-          });
-        return defer.promise;
+      get: function (id) {        
+        return DragonBreath.get('projects', id)
       },
       getProjectsByProgram: function (id, params) {
-        var defer = $q.defer();
         var path = 'programs/' + id + '/projects'
-        DragonBreath.get(params, path)
-          .success(function (data) {
-              defer.resolve(data);
-          });
-
-        return defer.promise;
+        return DragonBreath.get(params, path);
       },
       update: function (project, id) {
-        var defer = $q.defer();
-        DragonBreath.save(project, 'projects', id)
-          .success(function (data) {
-              getProject(data);
-              defer.resolve(project);
-          });
-        return defer.promise;
+        return DragonBreath.save(project, 'projects')
       },
       create: function (project) {
           return DragonBreath.create(project, 'projects');

@@ -3,24 +3,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #region ActorType
 namespace ECA.Data
 {
@@ -55,8 +37,8 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "ActorType", TableName = "ActorType", IdColumnName = "ActorTypeId", ValueColumnName = "ActorName" };
+		}
 	}
-}
 }
 #endregion
 
@@ -104,8 +86,8 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "AddressType", TableName = "AddressType", IdColumnName = "AddressTypeId", ValueColumnName = "AddressName" };
+		}
 	}
-}
 }
 #endregion
 
@@ -127,10 +109,10 @@ namespace ECA.Data
 		/// Returns the Other lookup with id 3.
 		/// </summary>
 		public static StaticLookup Other { get { return new StaticLookup("Other", 3); } }
-		///<summary>
-		/// Returns the NotSpecified lookup with id 4.
-		///</summary>
-		public static StaticLookup Notspecified { get { return new StaticLookup("NotSpecified", 4); } }
+		/// <summary>
+		/// Returns the Not Specified lookup with id 4.
+		/// </summary>
+		public static StaticLookup NotSpecified { get { return new StaticLookup("Not Specified", 4); } }
 
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
@@ -139,10 +121,10 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(int id)
 		{
-			if(1 == id) return Gender.Male;
-			if(2 == id) return Gender.Female;
-			if(3 == id) return Gender.Other;
-			if(4 == id) return Gender.Notspecified;
+			if (1 == id) return Gender.Male;
+			if (2 == id) return Gender.Female;
+			if (3 == id) return Gender.Other;
+			if (4 == id) return Gender.NotSpecified;
 			return null;
 		}
 
@@ -153,8 +135,8 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "Gender", TableName = "Gender", IdColumnName = "GenderId", ValueColumnName = "GenderName" };
+		}
 	}
-}
 }
 #endregion
 
@@ -197,8 +179,8 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "ItineraryStatus", TableName = "ItineraryStatus", IdColumnName = "ItineraryStatusId", ValueColumnName = "ItineraryStatusName" };
+		}
 	}
-}
 }
 #endregion
 
@@ -266,8 +248,8 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "LocationType", TableName = "LocationType", IdColumnName = "LocationTypeId", ValueColumnName = "LocationTypeName" };
+		}
 	}
-}
 }
 #endregion
 
@@ -340,8 +322,8 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "MoneyFlowSourceRecipientType", TableName = "MoneyFlowSourceRecipientType", IdColumnName = "MoneyFlowSourceRecipientTypeId", ValueColumnName = "TypeName" };
+		}
 	}
-}
 }
 #endregion
 
@@ -384,8 +366,8 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "MoneyFlowType", TableName = "MoneyFlowType", IdColumnName = "MoneyFlowTypeId", ValueColumnName = "MoneyFlowTypeName" };
+		}
 	}
-}
 }
 #endregion
 

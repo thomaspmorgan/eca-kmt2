@@ -6,6 +6,7 @@ using ECA.Core.Exceptions;
 using ECA.Core.Generation;
 using ECA.Data;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
@@ -76,6 +77,11 @@ namespace ECA.Business.Models.Programs
             this.ProgramStatusId = programStatusId;
             this.Audit = new Update(updatedBy);
             this.RowVersion = programRowVersion;
+
+            this.GoalIds = this.GoalIds.Distinct().ToList();
+            this.ContactIds = this.ContactIds.Distinct().ToList();
+            this.ThemeIds = this.ThemeIds.Distinct().ToList();
+            this.RegionIds = this.RegionIds.Distinct().ToList();
         }
 
         /// <summary>

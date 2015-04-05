@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.Infrastructure;
 
 namespace ECA.Data
 {
@@ -58,6 +59,7 @@ namespace ECA.Data
         public DbSet<ParticipantType> ParticipantTypes { get; set; }
         public DbSet<Person> People { get; set; }
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
+        public DbSet<PhoneNumberType> PhoneNumberTypes { get; set; }
         public DbSet<ProfessionEducation> ProfessionEducations { get; set; }
         public DbSet<Program> Programs { get; set; }
         public DbSet<ProgramType> ProgramTypes { get; set; }
@@ -66,6 +68,7 @@ namespace ECA.Data
         public DbSet<ProminentCategory> ProminentCategories { get; set; }
         public DbSet<Publication> Publications { get; set; }
         public DbSet<SocialMedia> SocialMedias { get; set; }
+        public DbSet<SocialMediaType> SocialMediaTypes { get; set; }
         public DbSet<SpecialStatus> SpecialStatuses { get; set; }
         public DbSet<Theme> Themes { get; set; }
         public DbSet<Transportation> Transportations { get; set; }
@@ -89,5 +92,26 @@ namespace ECA.Data
             items.Add(VALIDATABLE_CONTEXT_KEY, this);
             return base.ValidateEntity(entityEntry, items);
         }
+
+        public virtual DbEntityEntry GetEntry(object x)
+        {
+            return base.Entry(x);
+        }
+
+        public virtual DbEntityEntry<T> GetEntry<T>(T x) where T : class
+        {
+            return base.Entry<T>(x);
+        }
+
+        public virtual EntityState GetEntityState(object x)
+        {
+            return GetEntry(x).State;
+        }
+
+        public virtual EntityState GetEntityState<T>(T x) where T : class
+        {
+            return base.Entry<T>(x).State;
+        }
+
     }
 }

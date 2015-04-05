@@ -26,20 +26,24 @@ namespace ViewOffices_ProgramsandBranches.Test
         public void ViewOffices_ProgramsandBranchesCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
+            this.UIMap.RemoveExistingECAUser();
             this.UIMap.LogintoQA();
             this.UIMap.AssertContentMenuButton();
             this.UIMap.SelectContentMenuButton();
             this.UIMap.AssertOfficesContentMenuLink();
-            this.UIMap.SelectOfficesContentMenuLink();
-            this.UIMap.AssertOfficeName();
+            /*this.UIMap.SelectOfficesContentMenuLink();*/
+            this.UIMap.URLNav_ECAOfficeDirect();
+           /*this.UIMap.AssertOfficeName();
             this.UIMap.SelectOfficeName();
+            this.UIMap.RefreshIndividualOfficePage();
             this.UIMap.AssertIndividualOffice_BranchesandPrograms();
             this.UIMap.SelectBranchesandProgramsTab();
+            //this.UIMap.RefreshBranchesandProgramsTab();
             this.UIMap.AssertIndividualOffice_BranchList();
             this.UIMap.AssertSearchProgramsTextBox();
             this.UIMap.AssertIndividualOffice_Program();
             this.UIMap.AssertIndividualOffice_ProgramNameDescription();
-            this.UIMap.NavigatetoOfficeDirectory();
+            this.UIMap.NavigatetoOfficeDirectory();*/
             this.UIMap.AssertSecondOffice();
             this.UIMap.SelectSecondOffice();
             this.UIMap.AssertSecondOffice_BranchesandPrograms();

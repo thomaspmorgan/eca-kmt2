@@ -1,5 +1,7 @@
 ﻿angular.module('staticApp').factory('ConstantsService', function() {
 	return {
+		comparisonType: {
+		},
 		locationType: {
 			region: 2,
 			country: 3,
@@ -7,7 +9,8 @@
 			city: 5,
 			building: 6,
 			post: 7,
-			place: 8
+			place: 8,
+			address: 9
 		},
 		organizationType: {
 			office: 1,
@@ -30,8 +33,7 @@
 			uSNonProfitOrganization501C3: 5,
 			individual: 6,
 			foreignNgoPvo: 7,
-			other: 8,
-			marc: 9
+			other: 8
 		},
 		projectStatus: {
 			active: 1,
@@ -41,8 +43,17 @@
 			canceled: 6,
 			other: 7
 		},
-		searchDelimiter: ' ',
-		emptyGuid: '00000000-0000-0000-0000-000000000000'
+		editProjectEventName: 'EditProject',
+		emptyGuid: '00000000-0000-0000-0000-000000000000',
+		equalComparisonType: 'eq',
+		greaterComparisonType: 'gt',
+		inComparisonType: 'in',
+		isNotNullComparisonType: 'notnull',
+		isNullComparisonType: 'null',
+		lessThanComparisonType: 'lt',
+		likeComparisonType: 'like',
+		notInComparisonType: 'notin',
+		searchDelimiter: ' '
 	};
 });
 

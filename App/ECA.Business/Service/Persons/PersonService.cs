@@ -60,5 +60,33 @@ namespace ECA.Business.Service.Persons
             this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "personId", personId } });
             return pii;
         }
+
+        /// <summary>
+        /// Returns contact info related to a person
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Contact info related to person</returns>
+        public ContactInfoDTO GetContactInfoById(int personId)
+        {
+            var stopwatch = Stopwatch.StartNew();
+            var contactInfo = PersonQueries.CreateGetContactInfoByIdQuery(this.Context, personId).SingleOrDefault();
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "personId", personId } });
+            return contactInfo;
+        }
+
+        /// <summary>
+        /// Returns contact info related to a person asyncronously
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Contact info related to person</returns>
+        public Task<ContactInfoDTO> GetContactInfoByIdAsync(int personId)
+        {
+            var stopwatch = Stopwatch.StartNew();
+            var contactInfo = PersonQueries.CreateGetContactInfoByIdQuery(this.Context, personId).SingleOrDefaultAsync();
+            stopwatch.Stop();
+            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "personId", personId } });
+            return contactInfo;
+        }
     }
 }

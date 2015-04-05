@@ -16,7 +16,7 @@ namespace ECA.WebApi.Models.Projects
         /// <summary>
         /// The id.
         /// </summary>
-        public int ProjectId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// The name of the project.
@@ -77,7 +77,7 @@ namespace ECA.WebApi.Models.Projects
         {
             return new PublishedProject(
                 updatedBy: new User(userId),
-                projectId: this.ProjectId,
+                projectId: this.Id,
                 name: this.Name,
                 description: this.Description,
                 projectStatusId: this.ProjectStatusId,

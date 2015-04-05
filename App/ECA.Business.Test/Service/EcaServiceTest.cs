@@ -6,19 +6,24 @@ using System.Collections.Generic;
 using ECA.Business.Service;
 using ECA.Core.Logging;
 using ECA.Data;
+using Moq;
+using Microsoft.QualityTools.Testing.Fakes;
+using System.Data;
 
 namespace ECA.Business.Test.Service
 {
     [TestClass]
     public class EcaServiceTest
     {
+        private Mock<TestEcaContext> contextMock;
         private TestEcaContext context;
         private EcaService service;
 
         [TestInitialize]
         public void TestInit()
         {
-            context = new TestEcaContext();
+            contextMock = new Mock<TestEcaContext>();
+            context = contextMock.Object;
             service = new EcaService(context, new TraceLogger());
         }
 
@@ -234,8 +239,9 @@ namespace ECA.Business.Test.Service
         #endregion
 
         [TestMethod]
-        public void TestSetGoals()
+        public void TestSetGoals_IsDetached()
         {
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Detached; });
             var original = new Goal { GoalId = 1 };
 
             var program = new Program();
@@ -250,8 +256,43 @@ namespace ECA.Business.Test.Service
         }
 
         [TestMethod]
-        public void TestSetThemes()
+        public void TestSetGoals_IsAdded()
         {
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Added; });
+            var original = new Goal { GoalId = 1 };
+
+            var program = new Program();
+            program.Goals.Add(original);
+
+            var newGoal = new Goal { GoalId = 2 };
+            var newGoalIds = new List<int> { newGoal.GoalId };
+            service.SetGoals(newGoalIds, program);
+            Assert.AreEqual(1, program.Goals.Count);
+            Assert.AreEqual(newGoal.GoalId, program.Goals.First().GoalId);
+
+        }
+
+        [TestMethod]
+        public void TestSetThemes_IsDetached()
+        {
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Detached; });
+            var original = new Theme { ThemeId = 1 };
+
+            var program = new Program();
+            program.Themes.Add(original);
+
+            var newTheme = new Theme { ThemeId = 2 };
+            var newThemeIds = new List<int> { newTheme.ThemeId };
+            service.SetThemes(newThemeIds, program);
+            Assert.AreEqual(1, program.Themes.Count);
+            Assert.AreEqual(newTheme.ThemeId, program.Themes.First().ThemeId);
+
+        }
+
+        [TestMethod]
+        public void TestSetThemes_IsAdded()
+        {
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Detached; });
             var original = new Theme { ThemeId = 1 };
 
             var program = new Program();
@@ -267,8 +308,9 @@ namespace ECA.Business.Test.Service
 
 
         [TestMethod]
-        public void TestSetPointsOfContact()
+        public void TestSetPointsOfContact_IsDetached()
         {
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Detached; });
             var original = new Contact { ContactId = 1 };
 
             var program = new Program();
@@ -281,6 +323,20 @@ namespace ECA.Business.Test.Service
             Assert.AreEqual(newContact.ContactId, program.Contacts.First().ContactId);
         }
 
+        [TestMethod]
+        public void TestSetPointsOfContact_IsAdded()
+        {
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Added; });
+            var original = new Contact { ContactId = 1 };
 
+            var program = new Program();
+            program.Contacts.Add(original);
+
+            var newContact = new Contact { ContactId = 2 };
+            var newContactIds = new List<int> { newContact.ContactId };
+            service.SetPointOfContacts(newContactIds, program);
+            Assert.AreEqual(1, program.Contacts.Count);
+            Assert.AreEqual(newContact.ContactId, program.Contacts.First().ContactId);
+        }
     }
 }

@@ -48,9 +48,15 @@ namespace ECA.Business.Test.Service.Persons
                 FamilyName = "familyName",
                 MiddleName = "middleName",
                 Patronym = "patronym",
-                Alias = "alias"
+                Alias = "alias",
+                Ethnicity = "ethnicity",
+                MedicalConditions = "medical conditions",
 
+                MaritalStatus = new MaritalStatus(),
+                PlaceOfBirth = new Location()
             };
+
+            person.PlaceOfBirth.Country = new Location();
 
             context.Genders.Add(gender);
             context.People.Add(person);
@@ -69,6 +75,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.MiddleName, serviceResult.MiddleName);
                 Assert.AreEqual(person.Patronym, serviceResult.Patronym);
                 Assert.AreEqual(person.Alias, serviceResult.Alias);
+                Assert.AreEqual(person.Ethnicity, serviceResult.Ethnicity);
+                Assert.AreEqual(person.MedicalConditions, serviceResult.MedicalConditions);
             };
 
             var result = this.service.GetPiiById(person.PersonId);
@@ -103,7 +111,11 @@ namespace ECA.Business.Test.Service.Persons
             {
                 PersonId = 1,
                 Gender = new Gender(),
+                MaritalStatus = new MaritalStatus(),
+                PlaceOfBirth = new Location()
             };
+
+            person.PlaceOfBirth.Country = new Location();
 
             person.CountriesOfCitizenship.Add(location);
             person.CountriesOfCitizenship.Add(location2);
@@ -159,9 +171,12 @@ namespace ECA.Business.Test.Service.Persons
             var person = new Person
             {
                 PersonId = 1,
-                Gender = new Gender()
+                Gender = new Gender(),
+                MaritalStatus = new MaritalStatus(),
+                PlaceOfBirth = new Location()
             };
 
+            person.PlaceOfBirth.Country = new Location();
             
             person.Addresses.Add(address);
 
@@ -204,8 +219,11 @@ namespace ECA.Business.Test.Service.Persons
                 PersonId = 1,
                 Gender = new Gender(),
                 MaritalStatusId = maritalStatus.MaritalStatusId,
-                MaritalStatus = maritalStatus
+                MaritalStatus = maritalStatus,
+                PlaceOfBirth = new Location()
             };
+
+            person.PlaceOfBirth.Country = new Location();
 
             context.MaritalStatuses.Add(maritalStatus);
             context.People.Add(person);
@@ -220,6 +238,177 @@ namespace ECA.Business.Test.Service.Persons
             tester(result);
             tester(resultAsync);
         }
+
+        [TestMethod]
+        public async Task TestGetPiiById_PlaceOfBirth()
+        {
+            var country = new Location
+            {
+                LocationId = 1,
+                LocationTypeId = LocationType.Country.Id,
+                LocationName = "country"
+            };
+
+            var city = new Location
+            {
+               LocationId = 2, 
+               LocationTypeId = LocationType.City.Id,
+               Country = country,
+               CountryId = country.CountryId
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = new Gender(),
+                PlaceOfBirth = city,
+                PlaceOfBirthId = city.LocationId,
+                MaritalStatus = new MaritalStatus()
+            };
+
+            context.Locations.Add(country);
+            context.Locations.Add(city);
+            context.People.Add(person);
+
+            Action<PiiDTO> tester = (serviceResult) =>
+            {
+                Assert.AreEqual(city.LocationName, serviceResult.CityOfBirth);
+                Assert.AreEqual(country.LocationName, serviceResult.CountryOfBirth);
+            };
+
+            var result = service.GetPiiById(person.PersonId);
+            var resultAsync = await service.GetPiiByIdAsync(person.PersonId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+        #endregion
+
+        #region Get Contact Info By Id
+        [TestMethod]
+        public async Task TestGetContactInfoById_Emails()
+        {
+            var email = new EmailAddress
+            {
+                EmailAddressId = 1,
+                Address = "test@test.com"
+            };
+
+            var email2 = new EmailAddress
+            {
+                EmailAddressId = 2,
+                Address = "test1@test.com"
+
+            };
+            var email3 = new EmailAddress
+            {
+                EmailAddressId = 3,
+                Address = "test2@test.com"
+            };
+
+            var person = new Person
+            {
+                PersonId = 1
+            };
+
+            person.Emails.Add(email);
+
+            context.EmailAddresses.Add(email);
+            context.People.Add(person);
+
+            Action<ContactInfoDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(person.Emails.Count(), serviceResult.Emails.Count());
+                CollectionAssert.AreEqual(person.Emails.Select(x => x.EmailAddressId).ToList(), serviceResult.Emails.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(person.Emails.Select(x => x.Address).ToList(), serviceResult.Emails.Select(x => x.Value).ToList());
+            };
+            
+            var result = service.GetContactInfoById(person.PersonId);
+            var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+        }
+
+        [TestMethod]
+        public async Task TestGetContactInfoById_SocialMedias()
+        {
+            var socialMediaType = new SocialMediaType
+            {
+                SocialMediaTypeId = 1,
+                SocialMediaTypeName = "socialMediaTypeName"
+            };
+
+            var socialMedia = new SocialMedia
+            {
+                SocialMediaId = 1,
+                SocialMediaType = socialMediaType,
+                SocialMediaTypeId = SocialMediaType.Facebook.Id,
+                SocialMediaValue = "socialMediaValue"
+            };
+
+            var person = new Person
+            {
+                PersonId = 1
+            };
+
+            person.SocialMedias.Add(socialMedia);
+
+            context.SocialMediaTypes.Add(socialMediaType);
+            context.SocialMedias.Add(socialMedia);
+            context.People.Add(person);
+
+            Action<ContactInfoDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(person.SocialMedias.Count(), serviceResult.SocialMedias.Count());
+                CollectionAssert.AreEqual(person.SocialMedias.Select(x => x.SocialMediaId).ToList(), serviceResult.SocialMedias.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(person.SocialMedias.Select(x => x.SocialMediaType.SocialMediaTypeName).ToList(), serviceResult.SocialMedias.Select(x => x.Type).ToList());
+                CollectionAssert.AreEqual(person.SocialMedias.Select(x => x.SocialMediaValue).ToList(), serviceResult.SocialMedias.Select(x => x.Value).ToList());
+            };
+
+            var result = service.GetContactInfoById(person.PersonId);
+            var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+        }
+
+        [TestMethod]
+        public async Task TestGetContactInfoById_PhoneNumbers()
+        {
+            var phoneNumberType = new PhoneNumberType
+            {
+                PhoneNumberTypeId = 1,
+                PhoneNumberTypeName = PhoneNumberType.Home.Value
+            };
+
+            var phoneNumber = new PhoneNumber
+            {
+                PhoneNumberId = 1,
+                PhoneNumberTypeId  = phoneNumberType.PhoneNumberTypeId,
+                Number = "1234567890"
+            };
+
+            var person = new Person
+            {
+                PersonId = 1
+            };
+
+            person.PhoneNumbers.Add(phoneNumber);
+
+            context.PhoneNumberTypes.Add(phoneNumberType);
+            context.PhoneNumbers.Add(phoneNumber);
+            context.People.Add(person);
+
+            Action<ContactInfoDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(person.PhoneNumbers.Count(), serviceResult.PhoneNumbers.Count());
+                CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.PhoneNumberId).ToList(), serviceResult.PhoneNumbers.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.PhoneNumberType.PhoneNumberTypeName).ToList(), serviceResult.PhoneNumbers.Select(x => x.Type).ToList());
+                CollectionAssert.AreEqual(person.PhoneNumbers.Select(x => x.Number).ToList(), serviceResult.PhoneNumbers.Select(x => x.Value).ToList());
+            };
+
+            var result = service.GetContactInfoById(person.PersonId);
+            var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+        }
+
         #endregion
     }
 }

@@ -106,6 +106,24 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         }
 
         [TestMethod]
+        public void TestToClientFilter_NotInComparison()
+        {
+            var filter = new SimpleFilter
+            {
+                Comparison = ComparisonType.NotIn.Value,
+                Property = "I",
+                Value = new List<int> { 1 }
+            };
+
+            var linqFilter = filter.ToLinqFilter<SimpleFilterTestClass>();
+            Assert.IsInstanceOfType(linqFilter, typeof(NotInFilter<SimpleFilterTestClass>));
+
+            var typedLinqFilter = (NotInFilter<SimpleFilterTestClass>)linqFilter;
+            Assert.AreEqual(filter.Value, typedLinqFilter.Value);
+            Assert.AreEqual(filter.Property, typedLinqFilter.PropertyInfo.Name);
+        }
+
+        [TestMethod]
         public void TestToClientFilter_NullComparison()
         {
             var filter = new SimpleFilter

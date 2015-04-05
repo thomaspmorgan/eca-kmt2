@@ -297,7 +297,9 @@ angular
       })
       .state('projects.overview', {
         url: '/overview',
-        templateUrl: 'views/project/overview.html'
+        templateUrl: 'views/project/overview.html',
+        controller: 'ProjectOverviewCtrl',
+        retuireADLogin: true
       })
       .state('projects.participants', {
         url: '/participant',

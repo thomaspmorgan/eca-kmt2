@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $stateParams, ProjectService, ProgramService, ParticipantService, LocationService, MoneyFlowService, TableService) {
+  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, ProgramService, ParticipantService, LocationService, MoneyFlowService, TableService, ConstantsService) {
 
       $scope.project = {};
 
@@ -71,7 +71,7 @@ angular.module('staticApp')
 
       ProjectService.get($stateParams.projectId)
         .then(function (data) {
-            $scope.project = data;
+            $scope.project = data.data;
             if (angular.isArray($scope.project.participants)) {
                 $scope.tabs.participants.active = true;
             }
@@ -129,6 +129,12 @@ angular.module('staticApp')
                  tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
                  $scope.moneyFlowsLoading = false;
              });
+      };
+
+      $scope.onDraftButtonClick = function ($event) {
+          var eventName = ConstantsService.editProjectEventName;
+          $log.info('Firing event [' + eventName + '] in project.js controller.');
+          $scope.$broadcast(eventName);
       };
 
 

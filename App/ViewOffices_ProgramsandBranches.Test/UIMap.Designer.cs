@@ -44,56 +44,20 @@ namespace ViewOffices_ProgramsandBranches.Test
         }
         
         /// <summary>
-        /// Verify the Branches and Programs tab is available for selection; check innertext, check controltype.
+        /// Verify Branches & Programs tab is available for selection; check innertext; check control type for hyperlink.
         /// </summary>
         public void AssertIndividualOffice_BranchesandPrograms()
         {
             #region Variable Declarations
-            HtmlHyperlink uIBranchesProgramsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIBranchesProgramsHyperlink;
+            HtmlHyperlink uIBranchesProgramsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane1.UIBranchesProgramsHyperlink;
             #endregion
 
-            // Verify that the 'InnerText' property of 'Branches & Programs' link equals 'Branches & Programs'
-            Assert.AreEqual(this.AssertIndividualOffice_BranchesandProgramsExpectedValues.UIBranchesProgramsHyperlinkInnerText, uIBranchesProgramsHyperlink.InnerText, "No Branches and Programs InnerText on Office Page.");
+            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Branches & Programs' link contains 'Branches & Programs'
+            Playback.Wait(5000);
+            StringAssert.Contains(uIBranchesProgramsHyperlink.InnerText, this.AssertIndividualOffice_BranchesandProgramsExpectedValues.UIBranchesProgramsHyperlinkInnerText, "No branches and programs tab innertext available.");
 
-            // Verify that the 'ControlType' property of 'Branches & Programs' link equals 'Hyperlink'
-            Assert.AreEqual(this.AssertIndividualOffice_BranchesandProgramsExpectedValues.UIBranchesProgramsHyperlinkControlType, uIBranchesProgramsHyperlink.ControlType.ToString(), "No link available for Branches and Programs on individual office page.");
-        }
-        
-        /// <summary>
-        /// Verify the Branch list displays for the (ECA/A/E) individual office; check class; check innertext.
-        /// </summary>
-        public void AssertIndividualOffice_BranchList()
-        {
-            #region Variable Declarations
-            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane.UIItemCustom;
-            #endregion
-
-            // Verify that the 'Class' property of custom control contains 'branch-list'
-            StringAssert.Contains(uIItemCustom.Class, this.AssertIndividualOffice_BranchListExpectedValues.UIItemCustomClass, "No Class Branch list available for (ECA/A/E) office.");
-
-            // Verify that the 'InnerText' property of custom control contains ' 
-            //Branch
-            //ECA/A/E/AF 
-            // 
-            //Branch
-            //ECA/A/E/EAP 
-            // 
-            //Branch
-            //ECA/A/E/EUR 
-            // 
-            //Branch
-            //ECA/A/E/NEA 
-            // 
-            //Branch
-            //ECA/A/E/SCA 
-            // 
-            //Branch
-            //ECA/A/E/WHA 
-            // 
-            //Branch
-            //ECA/A/E/USS 
-            // '
-            StringAssert.Contains(uIItemCustom.InnerText, this.AssertIndividualOffice_BranchListExpectedValues.UIItemCustomInnerText, "No InnerText for Branch List available.");
+            // Verify that the 'ControlType' property of 'Branches & Programs' link contains 'Hyperlink'
+            StringAssert.Contains(uIBranchesProgramsHyperlink.ControlType.ToString(), this.AssertIndividualOffice_BranchesandProgramsExpectedValues.UIBranchesProgramsHyperlinkControlType, "No branches and programs tab control type hyperlink available.");
         }
         
         /// <summary>
@@ -131,19 +95,19 @@ namespace ViewOffices_ProgramsandBranches.Test
         }
         
         /// <summary>
-        /// Verify the (ECA/A/E) is available for selection from the All Offices list.
+        /// Verify the (Office of Academic Exchanges) control type and innertext are available.
         /// </summary>
         public void AssertOfficeName()
         {
             #region Variable Declarations
-            HtmlHyperlink uIECAAEHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIECAAEHyperlink;
+            HtmlHyperlink uIOfficeofAcademicExchHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument6.UISortlistPane.UIOfficeofAcademicExchHyperlink;
             #endregion
 
-            // Verify that the 'ControlType' property of 'ECA/A/E' link equals 'Hyperlink'
-            Assert.AreEqual(this.AssertOfficeNameExpectedValues.UIECAAEHyperlinkControlType, uIECAAEHyperlink.ControlType.ToString(), "No Hyperlink available for (ECA/A/E) office.");
+            // Verify that the 'ControlType' property of 'Office of Academic Exchange Programs' link contains 'Hyperlink'
+            StringAssert.Contains(uIOfficeofAcademicExchHyperlink.ControlType.ToString(), this.AssertOfficeNameExpectedValues.UIOfficeofAcademicExchHyperlinkControlType, "No (Office of Academic Exchange Programs) hyperlink control type.");
 
-            // Verify that the 'InnerText' property of 'ECA/A/E' link equals 'ECA/A/E'
-            Assert.AreEqual(this.AssertOfficeNameExpectedValues.UIECAAEHyperlinkInnerText, uIECAAEHyperlink.InnerText, "No InnerText available for (ECA/A/E) office.");
+            // Verify that the 'InnerText' property of 'Office of Academic Exchange Programs' link contains 'Office of Academic Exchange Programs'
+            StringAssert.Contains(uIOfficeofAcademicExchHyperlink.InnerText, this.AssertOfficeNameExpectedValues.UIOfficeofAcademicExchHyperlinkInnerText, "No (Office of Academic Exchange Programs) InnerText available.");
         }
         
         /// <summary>
@@ -266,7 +230,7 @@ namespace ViewOffices_ProgramsandBranches.Test
         }
         
         /// <summary>
-        /// Open browser; navigate to QA site; login with ECATest creds; click sign in.
+        /// Open browser; navigate to QA site; input ECATest creds; click sign in
         /// </summary>
         public void LogintoQA()
         {
@@ -274,22 +238,22 @@ namespace ViewOffices_ProgramsandBranches.Test
             WinEdit uIAddressandsearchusinEdit = this.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit;
             WinEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit;
             WinButton uIGotohttpsecakmtqaazuButton = this.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton;
-            HtmlEdit uIUseraccountEdit = this.UINewtabInternetExplorWindow.UISignintoAzureActiveDDocument.UIUseraccountEdit;
-            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoAzureActiveDDocument.UIPasswordEdit;
-            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoAzureActiveDDocument.UISigninPane;
+            HtmlEdit uIUseraccountEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIUseraccountEdit;
+            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
+            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
             #endregion
 
             // Go to web page 'about:Tabs' using new browser instance
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQAParams.UINewtabInternetExplorWindowUrl));
 
             // Click 'Address and search using Bing' text box
-            Mouse.Click(uIAddressandsearchusinEdit, new Point(31, 8));
+            Mouse.Click(uIAddressandsearchusinEdit, new Point(64, 12));
 
             // Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
             Keyboard.SendKeys(uIItemEdit, this.LogintoQAParams.UIItemEditSendKeys, ModifierKeys.None);
 
             // Click 'Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt...' button
-            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(9, 11));
+            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(6, 10));
 
             // Type 'ECATest1@statedept.us' in 'User account' text box
             uIUseraccountEdit.Text = this.LogintoQAParams.UIUseraccountEditText;
@@ -301,7 +265,7 @@ namespace ViewOffices_ProgramsandBranches.Test
             uIPasswordEdit.Password = this.LogintoQAParams.UIPasswordEditPassword;
 
             // Double-Click 'Sign in' pane
-            Mouse.DoubleClick(uISigninPane, new Point(45, 18));
+            Mouse.DoubleClick(uISigninPane, new Point(28, 6));
         }
         
         /// <summary>
@@ -319,6 +283,77 @@ namespace ViewOffices_ProgramsandBranches.Test
 
             // Click 'Offices' link
             Mouse.Click(uIOfficesHyperlink, new Point(49, 35));
+        }
+        
+        /// <summary>
+        /// Refresh/Reload the page for Branches and Programs for display.
+        /// </summary>
+        public void RefreshBranchesandProgramsTab()
+        {
+            #region Variable Declarations
+            HtmlDiv uIOverviewBranchesProgPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UIOverviewBranchesProgPane;
+            #endregion
+
+            // Click 'Overview Branches & Programs A' pane
+            Mouse.Click(uIOverviewBranchesProgPane, new Point(505, 63));
+
+            // Type '{F5}' in 'Overview Branches & Programs A' pane
+            Keyboard.SendKeys(uIOverviewBranchesProgPane, this.RefreshBranchesandProgramsTabParams.UIOverviewBranchesProgPaneSendKeys, ModifierKeys.None);
+        }
+        
+        /// <summary>
+        /// This removes any previous trace of prior sign ins to the ECA KMT QA site.
+        /// </summary>
+        public void RemoveExistingECAUser()
+        {
+            #region Variable Declarations
+            WinEdit uIAddressandsearchusinEdit = this.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit;
+            WinEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit;
+            WinButton uIGotohttpsecakmtqaazuButton = this.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton;
+            WinButton uIToolsButton = this.UINewtabInternetExplorWindow.UIFavoritesandToolsBarToolBar.UIToolsButton;
+            WinMenuItem uIInternetoptionsMenuItem = this.UIItemWindow.UIContextMenu.UIInternetoptionsMenuItem;
+            WinButton uIDeleteButton = this.UIInternetOptionsWindow.UIDeleteWindow.UIDeleteButton;
+            WinButton uIDeleteButton1 = this.UIDeleteBrowsingHistorWindow.UIDeleteWindow.UIDeleteButton;
+            WinButton uIApplyButton = this.UIInternetOptionsWindow.UIApplyWindow.UIApplyButton;
+            WinButton uIOKButton = this.UIInternetOptionsWindow.UIOKWindow.UIOKButton;
+            WinButton uICloseButton = this.UINewtabInternetExplorWindow.UISignintoECAClientIntTitleBar.UICloseButton;
+            #endregion
+
+            // Go to web page 'about:Tabs' using new browser instance
+            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.RemoveExistingECAUserParams.UINewtabInternetExplorWindowUrl));
+
+            // Click 'Address and search using Bing' text box
+            Mouse.Click(uIAddressandsearchusinEdit, new Point(38, 6));
+
+            // Type 'https{RShiftKey}://eca-kmt-qa.azurewebsites.net' in text box
+            Keyboard.SendKeys(uIItemEdit, this.RemoveExistingECAUserParams.UIItemEditSendKeys, ModifierKeys.None);
+
+            // Type '/' in text box
+            Keyboard.SendKeys(uIItemEdit, this.RemoveExistingECAUserParams.UIItemEditSendKeys1, ModifierKeys.None);
+
+            // Click 'Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt...' button
+            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(6, 11));
+
+            // Click 'Tools' button
+            Mouse.Click(uIToolsButton, new Point(8, 9));
+
+            // Click 'Internet options' menu item
+            Mouse.Click(uIInternetoptionsMenuItem, new Point(99, 13));
+
+            // Click '&Delete...' button
+            Mouse.Click(uIDeleteButton, new Point(55, 12));
+
+            // Click '&Delete' button
+            Mouse.Click(uIDeleteButton1, new Point(51, 10));
+
+            // Click '&Apply' button
+            Mouse.Click(uIApplyButton, new Point(41, 7));
+
+            // Click 'OK' button
+            Mouse.Click(uIOKButton, new Point(56, 6));
+
+            // Click 'Close' button
+            Mouse.Click(uICloseButton, new Point(26, 9));
         }
         
         /// <summary>
@@ -364,16 +399,16 @@ namespace ViewOffices_ProgramsandBranches.Test
         }
         
         /// <summary>
-        /// Click the (ECA/A/E) link to navigate to the office landing page.
+        /// Select the link (Office of Academic Exchanges) to navigate to the office landing page.
         /// </summary>
         public void SelectOfficeName()
         {
             #region Variable Declarations
-            HtmlHyperlink uIECAAEHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIECAAEHyperlink;
+            HtmlHyperlink uIOfficeofAcademicExchHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIOfficeofAcademicExchHyperlink;
             #endregion
 
-            // Click 'ECA/A/E' link
-            Mouse.Click(uIECAAEHyperlink, new Point(82, 16));
+            // Click 'Office of Academic Exchange Programs' link
+            Mouse.Click(uIOfficeofAcademicExchHyperlink, new Point(211, 13));
         }
         
         /// <summary>
@@ -415,6 +450,70 @@ namespace ViewOffices_ProgramsandBranches.Test
             Mouse.Click(uIECAIIPEXHyperlink, new Point(77, 7));
         }
         
+        /// <summary>
+        /// Enter URL for ECA Office Directory Page in address bar; navigate to; refresh page for display
+        /// </summary>
+        public void URLNav_ECAOfficeDirect()
+        {
+            #region Variable Declarations
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            HtmlButton uITogglenavigationButton1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton1;
+            #endregion
+
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top'
+            uINewtabInternetExplorWindow.NavigateToUrl(new System.Uri(this.URLNav_ECAOfficeDirectParams.UINewtabInternetExplorWindowUrl));
+
+            // Type '{F5}' in 'Toggle navigation' button
+            Keyboard.SendKeys(uITogglenavigationButton1, this.URLNav_ECAOfficeDirectParams.UITogglenavigationButton1SendKeys, ModifierKeys.None);
+        }
+        
+        /// <summary>
+        /// Refresh/reload individual office page. (Office of Academic Exchange Programs)
+        /// </summary>
+        public void RefreshIndividualOfficePage()
+        {
+            #region Variable Declarations
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            #endregion
+
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
+        }
+        
+        /// <summary>
+        /// Verify the branch list displays for the (Office of Academic Exchanges); check innertext
+        /// </summary>
+        public void AssertIndividualOffice_BranchList()
+        {
+            #region Variable Declarations
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UIItemCustom;
+            #endregion
+
+            // Verify that the 'InnerText' property of custom control contains ' 
+            //Branch
+            //AF Branch 
+            // 
+            //Branch
+            //EAP Branch 
+            // 
+            //Branch
+            //EUR Branch 
+            // 
+            //Branch
+            //NEA Branch 
+            // 
+            //Branch
+            //SCA Branch 
+            // 
+            //Branch
+            //WHA Branch 
+            // 
+            //Branch
+            //Study of the U.S. Branch 
+            // '
+            StringAssert.Contains(uIItemCustom.InnerText, this.AssertIndividualOffice_BranchListExpectedValues.UIItemCustomInnerText, "No innertext branch list available.");
+        }
+        
         #region Properties
         public virtual AssertContentMenuButtonExpectedValues AssertContentMenuButtonExpectedValues
         {
@@ -437,18 +536,6 @@ namespace ViewOffices_ProgramsandBranches.Test
                     this.mAssertIndividualOffice_BranchesandProgramsExpectedValues = new AssertIndividualOffice_BranchesandProgramsExpectedValues();
                 }
                 return this.mAssertIndividualOffice_BranchesandProgramsExpectedValues;
-            }
-        }
-        
-        public virtual AssertIndividualOffice_BranchListExpectedValues AssertIndividualOffice_BranchListExpectedValues
-        {
-            get
-            {
-                if ((this.mAssertIndividualOffice_BranchListExpectedValues == null))
-                {
-                    this.mAssertIndividualOffice_BranchListExpectedValues = new AssertIndividualOffice_BranchListExpectedValues();
-                }
-                return this.mAssertIndividualOffice_BranchListExpectedValues;
             }
         }
         
@@ -584,6 +671,30 @@ namespace ViewOffices_ProgramsandBranches.Test
             }
         }
         
+        public virtual RefreshBranchesandProgramsTabParams RefreshBranchesandProgramsTabParams
+        {
+            get
+            {
+                if ((this.mRefreshBranchesandProgramsTabParams == null))
+                {
+                    this.mRefreshBranchesandProgramsTabParams = new RefreshBranchesandProgramsTabParams();
+                }
+                return this.mRefreshBranchesandProgramsTabParams;
+            }
+        }
+        
+        public virtual RemoveExistingECAUserParams RemoveExistingECAUserParams
+        {
+            get
+            {
+                if ((this.mRemoveExistingECAUserParams == null))
+                {
+                    this.mRemoveExistingECAUserParams = new RemoveExistingECAUserParams();
+                }
+                return this.mRemoveExistingECAUserParams;
+            }
+        }
+        
         public virtual SearchBoxText_InputParams SearchBoxText_InputParams
         {
             get
@@ -593,6 +704,30 @@ namespace ViewOffices_ProgramsandBranches.Test
                     this.mSearchBoxText_InputParams = new SearchBoxText_InputParams();
                 }
                 return this.mSearchBoxText_InputParams;
+            }
+        }
+        
+        public virtual URLNav_ECAOfficeDirectParams URLNav_ECAOfficeDirectParams
+        {
+            get
+            {
+                if ((this.mURLNav_ECAOfficeDirectParams == null))
+                {
+                    this.mURLNav_ECAOfficeDirectParams = new URLNav_ECAOfficeDirectParams();
+                }
+                return this.mURLNav_ECAOfficeDirectParams;
+            }
+        }
+        
+        public virtual AssertIndividualOffice_BranchListExpectedValues AssertIndividualOffice_BranchListExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertIndividualOffice_BranchListExpectedValues == null))
+                {
+                    this.mAssertIndividualOffice_BranchListExpectedValues = new AssertIndividualOffice_BranchListExpectedValues();
+                }
+                return this.mAssertIndividualOffice_BranchListExpectedValues;
             }
         }
         
@@ -607,14 +742,48 @@ namespace ViewOffices_ProgramsandBranches.Test
                 return this.mUINewtabInternetExplorWindow;
             }
         }
+        
+        public UIItemWindow1 UIItemWindow
+        {
+            get
+            {
+                if ((this.mUIItemWindow == null))
+                {
+                    this.mUIItemWindow = new UIItemWindow1();
+                }
+                return this.mUIItemWindow;
+            }
+        }
+        
+        public UIInternetOptionsWindow UIInternetOptionsWindow
+        {
+            get
+            {
+                if ((this.mUIInternetOptionsWindow == null))
+                {
+                    this.mUIInternetOptionsWindow = new UIInternetOptionsWindow();
+                }
+                return this.mUIInternetOptionsWindow;
+            }
+        }
+        
+        public UIDeleteBrowsingHistorWindow UIDeleteBrowsingHistorWindow
+        {
+            get
+            {
+                if ((this.mUIDeleteBrowsingHistorWindow == null))
+                {
+                    this.mUIDeleteBrowsingHistorWindow = new UIDeleteBrowsingHistorWindow();
+                }
+                return this.mUIDeleteBrowsingHistorWindow;
+            }
+        }
         #endregion
         
         #region Fields
         private AssertContentMenuButtonExpectedValues mAssertContentMenuButtonExpectedValues;
         
         private AssertIndividualOffice_BranchesandProgramsExpectedValues mAssertIndividualOffice_BranchesandProgramsExpectedValues;
-        
-        private AssertIndividualOffice_BranchListExpectedValues mAssertIndividualOffice_BranchListExpectedValues;
         
         private AssertIndividualOffice_ProgramExpectedValues mAssertIndividualOffice_ProgramExpectedValues;
         
@@ -638,9 +807,23 @@ namespace ViewOffices_ProgramsandBranches.Test
         
         private LogintoQAParams mLogintoQAParams;
         
+        private RefreshBranchesandProgramsTabParams mRefreshBranchesandProgramsTabParams;
+        
+        private RemoveExistingECAUserParams mRemoveExistingECAUserParams;
+        
         private SearchBoxText_InputParams mSearchBoxText_InputParams;
         
+        private URLNav_ECAOfficeDirectParams mURLNav_ECAOfficeDirectParams;
+        
+        private AssertIndividualOffice_BranchListExpectedValues mAssertIndividualOffice_BranchListExpectedValues;
+        
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
+        
+        private UIItemWindow1 mUIItemWindow;
+        
+        private UIInternetOptionsWindow mUIInternetOptionsWindow;
+        
+        private UIDeleteBrowsingHistorWindow mUIDeleteBrowsingHistorWindow;
         #endregion
     }
     
@@ -668,57 +851,14 @@ namespace ViewOffices_ProgramsandBranches.Test
         
         #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of 'Branches & Programs' link equals 'Branches & Programs'
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Branches & Programs' link contains 'Branches & Programs'
         /// </summary>
         public string UIBranchesProgramsHyperlinkInnerText = "Branches & Programs";
         
         /// <summary>
-        /// Verify that the 'ControlType' property of 'Branches & Programs' link equals 'Hyperlink'
+        /// Verify that the 'ControlType' property of 'Branches & Programs' link contains 'Hyperlink'
         /// </summary>
         public string UIBranchesProgramsHyperlinkControlType = "Hyperlink";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertIndividualOffice_BranchList'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
-    public class AssertIndividualOffice_BranchListExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Verify that the 'Class' property of custom control contains 'branch-list'
-        /// </summary>
-        public string UIItemCustomClass = "branch-list";
-        
-        /// <summary>
-        /// Verify that the 'InnerText' property of custom control contains ' 
-        ///Branch
-        ///ECA/A/E/AF 
-        /// 
-        ///Branch
-        ///ECA/A/E/EAP 
-        /// 
-        ///Branch
-        ///ECA/A/E/EUR 
-        /// 
-        ///Branch
-        ///ECA/A/E/NEA 
-        /// 
-        ///Branch
-        ///ECA/A/E/SCA 
-        /// 
-        ///Branch
-        ///ECA/A/E/WHA 
-        /// 
-        ///Branch
-        ///ECA/A/E/USS 
-        /// '
-        /// </summary>
-        public string UIItemCustomInnerText = " \r\nBranch\r\nECA/A/E/AF \r\n \r\nBranch\r\nECA/A/E/EAP \r\n \r\nBranch\r\nECA/A/E/EUR \r\n \r\nBran" +
-            "ch\r\nECA/A/E/NEA \r\n \r\nBranch\r\nECA/A/E/SCA \r\n \r\nBranch\r\nECA/A/E/WHA \r\n \r\nBranch\r\nE" +
-            "CA/A/E/USS \r\n ";
         #endregion
     }
     
@@ -771,14 +911,14 @@ namespace ViewOffices_ProgramsandBranches.Test
         
         #region Fields
         /// <summary>
-        /// Verify that the 'ControlType' property of 'ECA/A/E' link equals 'Hyperlink'
+        /// Verify that the 'ControlType' property of 'Office of Academic Exchange Programs' link contains 'Hyperlink'
         /// </summary>
-        public string UIECAAEHyperlinkControlType = "Hyperlink";
+        public string UIOfficeofAcademicExchHyperlinkControlType = "Hyperlink";
         
         /// <summary>
-        /// Verify that the 'InnerText' property of 'ECA/A/E' link equals 'ECA/A/E'
+        /// Verify that the 'InnerText' property of 'Office of Academic Exchange Programs' link contains 'Office of Academic Exchange Programs'
         /// </summary>
-        public string UIECAAEHyperlinkInnerText = "ECA/A/E";
+        public string UIOfficeofAcademicExchHyperlinkInnerText = "Office of Academic Exchange Programs";
         #endregion
     }
     
@@ -939,7 +1079,47 @@ namespace ViewOffices_ProgramsandBranches.Test
         /// <summary>
         /// Type '********' in 'Password' text box
         /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7nq2IDxDyIPucvLUfiP5WCkCWyYApPZam4=";
+        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'RefreshBranchesandProgramsTab'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class RefreshBranchesandProgramsTabParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '{F5}' in 'Overview Branches & Programs A' pane
+        /// </summary>
+        public string UIOverviewBranchesProgPaneSendKeys = "{F5}";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'RemoveExistingECAUser'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class RemoveExistingECAUserParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Go to web page 'about:Tabs' using new browser instance
+        /// </summary>
+        public string UINewtabInternetExplorWindowUrl = "about:Tabs";
+        
+        /// <summary>
+        /// Type 'https{RShiftKey}://eca-kmt-qa.azurewebsites.net' in text box
+        /// </summary>
+        public string UIItemEditSendKeys = "https{RShiftKey}://eca-kmt-qa.azurewebsites.net";
+        
+        /// <summary>
+        /// Type '/' in text box
+        /// </summary>
+        public string UIItemEditSendKeys1 = "/";
         #endregion
     }
     
@@ -958,6 +1138,64 @@ namespace ViewOffices_ProgramsandBranches.Test
         #endregion
     }
     
+    /// <summary>
+    /// Parameters to be passed into 'URLNav_ECAOfficeDirect'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class URLNav_ECAOfficeDirectParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top'
+        /// </summary>
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top";
+        
+        /// <summary>
+        /// Type '{F5}' in 'Toggle navigation' button
+        /// </summary>
+        public string UITogglenavigationButton1SendKeys = "{F5}";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertIndividualOffice_BranchList'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class AssertIndividualOffice_BranchListExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of custom control contains ' 
+        ///Branch
+        ///AF Branch 
+        /// 
+        ///Branch
+        ///EAP Branch 
+        /// 
+        ///Branch
+        ///EUR Branch 
+        /// 
+        ///Branch
+        ///NEA Branch 
+        /// 
+        ///Branch
+        ///SCA Branch 
+        /// 
+        ///Branch
+        ///WHA Branch 
+        /// 
+        ///Branch
+        ///Study of the U.S. Branch 
+        /// '
+        /// </summary>
+        public string UIItemCustomInnerText = " \r\nBranch\r\nAF Branch \r\n \r\nBranch\r\nEAP Branch \r\n \r\nBranch\r\nEUR Branch \r\n \r\nBranch\r" +
+            "\nNEA Branch \r\n \r\nBranch\r\nSCA Branch \r\n \r\nBranch\r\nWHA Branch \r\n \r\nBranch\r\nStudy o" +
+            "f the U.S. Branch \r\n ";
+        #endregion
+    }
+    
     [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
     public class UINewtabInternetExplorWindow : BrowserWindow
     {
@@ -970,6 +1208,8 @@ namespace ViewOffices_ProgramsandBranches.Test
             this.WindowTitles.Add("New tab");
             this.WindowTitles.Add("Sign in to Azure Active Directory");
             this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            this.WindowTitles.Add("Sign in to ECA Client");
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top");
             #endregion
         }
         
@@ -1098,6 +1338,54 @@ namespace ViewOffices_ProgramsandBranches.Test
                 return this.mUIHttpsecakmtqaazureweDocument5;
             }
         }
+        
+        public UISignintoECAClientDocument UISignintoECAClientDocument
+        {
+            get
+            {
+                if ((this.mUISignintoECAClientDocument == null))
+                {
+                    this.mUISignintoECAClientDocument = new UISignintoECAClientDocument(this);
+                }
+                return this.mUISignintoECAClientDocument;
+            }
+        }
+        
+        public UIFavoritesandToolsBarToolBar UIFavoritesandToolsBarToolBar
+        {
+            get
+            {
+                if ((this.mUIFavoritesandToolsBarToolBar == null))
+                {
+                    this.mUIFavoritesandToolsBarToolBar = new UIFavoritesandToolsBarToolBar(this);
+                }
+                return this.mUIFavoritesandToolsBarToolBar;
+            }
+        }
+        
+        public UISignintoECAClientIntTitleBar UISignintoECAClientIntTitleBar
+        {
+            get
+            {
+                if ((this.mUISignintoECAClientIntTitleBar == null))
+                {
+                    this.mUISignintoECAClientIntTitleBar = new UISignintoECAClientIntTitleBar(this);
+                }
+                return this.mUISignintoECAClientIntTitleBar;
+            }
+        }
+        
+        public UIHttpsecakmtqaazureweDocument6 UIHttpsecakmtqaazureweDocument6
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument6 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument6 = new UIHttpsecakmtqaazureweDocument6(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument6;
+            }
+        }
         #endregion
         
         #region Fields
@@ -1120,6 +1408,14 @@ namespace ViewOffices_ProgramsandBranches.Test
         private UIHttpsecakmtqaazureweDocument4 mUIHttpsecakmtqaazureweDocument4;
         
         private UIHttpsecakmtqaazureweDocument5 mUIHttpsecakmtqaazureweDocument5;
+        
+        private UISignintoECAClientDocument mUISignintoECAClientDocument;
+        
+        private UIFavoritesandToolsBarToolBar mUIFavoritesandToolsBarToolBar;
+        
+        private UISignintoECAClientIntTitleBar mUISignintoECAClientIntTitleBar;
+        
+        private UIHttpsecakmtqaazureweDocument6 mUIHttpsecakmtqaazureweDocument6;
         #endregion
     }
     
@@ -1370,6 +1666,7 @@ namespace ViewOffices_ProgramsandBranches.Test
             this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
             this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/#/#top";
             this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top");
             #endregion
         }
         
@@ -1408,12 +1705,37 @@ namespace ViewOffices_ProgramsandBranches.Test
                 return this.mUICbpspmenus1Custom;
             }
         }
+        
+        public HtmlButton UITogglenavigationButton1
+        {
+            get
+            {
+                if ((this.mUITogglenavigationButton1 == null))
+                {
+                    this.mUITogglenavigationButton1 = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUITogglenavigationButton1.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUITogglenavigationButton1.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUITogglenavigationButton1.SearchProperties[HtmlButton.PropertyNames.DisplayText] = "Toggle navigation ";
+                    this.mUITogglenavigationButton1.SearchProperties[HtmlButton.PropertyNames.Type] = "button";
+                    this.mUITogglenavigationButton1.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUITogglenavigationButton1.FilterProperties[HtmlButton.PropertyNames.Class] = "navbar-toggle collapsed active";
+                    this.mUITogglenavigationButton1.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"navbar-toggle collapsed active\" t";
+                    this.mUITogglenavigationButton1.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "1";
+                    this.mUITogglenavigationButton1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top");
+                    #endregion
+                }
+                return this.mUITogglenavigationButton1;
+            }
+        }
         #endregion
         
         #region Fields
         private HtmlButton mUITogglenavigationButton;
         
         private UICbpspmenus1Custom mUICbpspmenus1Custom;
+        
+        private HtmlButton mUITogglenavigationButton1;
         #endregion
     }
     
@@ -1573,12 +1895,39 @@ namespace ViewOffices_ProgramsandBranches.Test
                 return this.mUIECAIIPEXHyperlink;
             }
         }
+        
+        public HtmlHyperlink UIOfficeofAcademicExchHyperlink
+        {
+            get
+            {
+                if ((this.mUIOfficeofAcademicExchHyperlink == null))
+                {
+                    this.mUIOfficeofAcademicExchHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIOfficeofAcademicExchHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIOfficeofAcademicExchHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIOfficeofAcademicExchHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIOfficeofAcademicExchHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "Office of Academic Exchange Programs";
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/offices/1414/overview";
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/offices/1414/";
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "2";
+                    this.mUIOfficeofAcademicExchHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIOfficeofAcademicExchHyperlink;
+            }
+        }
         #endregion
         
         #region Fields
         private HtmlHyperlink mUIECAAEHyperlink;
         
         private HtmlHyperlink mUIECAIIPEXHyperlink;
+        
+        private HtmlHyperlink mUIOfficeofAcademicExchHyperlink;
         #endregion
     }
     
@@ -1612,10 +1961,24 @@ namespace ViewOffices_ProgramsandBranches.Test
                 return this.mUITopPane;
             }
         }
+        
+        public UITopPane1 UITopPane1
+        {
+            get
+            {
+                if ((this.mUITopPane1 == null))
+                {
+                    this.mUITopPane1 = new UITopPane1(this);
+                }
+                return this.mUITopPane1;
+            }
+        }
         #endregion
         
         #region Fields
         private UITopPane mUITopPane;
+        
+        private UITopPane1 mUITopPane1;
         #endregion
     }
     
@@ -1630,6 +1993,57 @@ namespace ViewOffices_ProgramsandBranches.Test
             this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
             this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
             this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "ECA/A/E\r\n\r\n\r\n\r\nLast Updated Feb 11, 2015";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" ng-click=\"closeMenus()\" autoscroll=\"true\" ui-view=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "24";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIBranchesProgramsHyperlink
+        {
+            get
+            {
+                if ((this.mUIBranchesProgramsHyperlink == null))
+                {
+                    this.mUIBranchesProgramsHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIBranchesProgramsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIBranchesProgramsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIBranchesProgramsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIBranchesProgramsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "Branches & Programs";
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/offices/1414/branches";
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/offices/1414/";
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "2";
+                    this.mUIBranchesProgramsHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIBranchesProgramsHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIBranchesProgramsHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UITopPane1 : HtmlDiv
+    {
+        
+        public UITopPane1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Office of Academic Exchange Programs\r\n\r\n";
             this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
             this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
             this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" ng-click=\"closeMenus()\" autoscroll=\"true\" ui-view=\"\"";
@@ -1689,13 +2103,13 @@ namespace ViewOffices_ProgramsandBranches.Test
         }
         
         #region Properties
-        public UITopPane1 UITopPane
+        public UITopPane2 UITopPane
         {
             get
             {
                 if ((this.mUITopPane == null))
                 {
-                    this.mUITopPane = new UITopPane1(this);
+                    this.mUITopPane = new UITopPane2(this);
                 }
                 return this.mUITopPane;
             }
@@ -1747,24 +2161,38 @@ namespace ViewOffices_ProgramsandBranches.Test
                 return this.mUICbpspmenus1Custom;
             }
         }
+        
+        public UITopPane11 UITopPane1
+        {
+            get
+            {
+                if ((this.mUITopPane1 == null))
+                {
+                    this.mUITopPane1 = new UITopPane11(this);
+                }
+                return this.mUITopPane1;
+            }
+        }
         #endregion
         
         #region Fields
-        private UITopPane1 mUITopPane;
+        private UITopPane2 mUITopPane;
         
         private UISortlistPane1 mUISortlistPane;
         
         private HtmlButton mUITogglenavigationButton;
         
         private UICbpspmenus1Custom1 mUICbpspmenus1Custom;
+        
+        private UITopPane11 mUITopPane1;
         #endregion
     }
     
     [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
-    public class UITopPane1 : HtmlDiv
+    public class UITopPane2 : HtmlDiv
     {
         
-        public UITopPane1(UITestControl searchLimitContainer) : 
+        public UITopPane2(UITestControl searchLimitContainer) : 
                 base(searchLimitContainer)
         {
             #region Search Criteria
@@ -1960,6 +2388,77 @@ namespace ViewOffices_ProgramsandBranches.Test
     }
     
     [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UITopPane11 : HtmlDiv
+    {
+        
+        public UITopPane11(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Office of Academic Exchange Programs\r\n\r\n";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" ng-click=\"closeMenus()\" autoscroll=\"true\" ui-view=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "24";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlCustom UIItemCustom
+        {
+            get
+            {
+                if ((this.mUIItemCustom == null))
+                {
+                    this.mUIItemCustom = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIItemCustom.SearchProperties["TagName"] = "UL";
+                    this.mUIItemCustom.SearchProperties["Id"] = null;
+                    this.mUIItemCustom.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIItemCustom.FilterProperties["Class"] = "branch-list";
+                    this.mUIItemCustom.FilterProperties["ControlDefinition"] = "class=\"branch-list\" ng-show=\"!isLoadingB";
+                    this.mUIItemCustom.FilterProperties["TagInstance"] = "2";
+                    this.mUIItemCustom.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemCustom;
+            }
+        }
+        
+        public HtmlDiv UIOverviewBranchesProgPane
+        {
+            get
+            {
+                if ((this.mUIOverviewBranchesProgPane == null))
+                {
+                    this.mUIOverviewBranchesProgPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIOverviewBranchesProgPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIOverviewBranchesProgPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIOverviewBranchesProgPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Overview \r\n\r\n Branches & Programs \r\n\r\n A";
+                    this.mUIOverviewBranchesProgPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIOverviewBranchesProgPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "tabs ng-isolate-scope";
+                    this.mUIOverviewBranchesProgPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"tabs ng-isolate-scope\" tabs=\"tabs\"";
+                    this.mUIOverviewBranchesProgPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "31";
+                    this.mUIOverviewBranchesProgPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIOverviewBranchesProgPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlCustom mUIItemCustom;
+        
+        private HtmlDiv mUIOverviewBranchesProgPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
     public class UIHttpsecakmtqaazureweDocument4 : HtmlDocument
     {
         
@@ -1978,13 +2477,13 @@ namespace ViewOffices_ProgramsandBranches.Test
         }
         
         #region Properties
-        public UITopPane2 UITopPane
+        public UITopPane3 UITopPane
         {
             get
             {
                 if ((this.mUITopPane == null))
                 {
-                    this.mUITopPane = new UITopPane2(this);
+                    this.mUITopPane = new UITopPane3(this);
                 }
                 return this.mUITopPane;
             }
@@ -1992,15 +2491,15 @@ namespace ViewOffices_ProgramsandBranches.Test
         #endregion
         
         #region Fields
-        private UITopPane2 mUITopPane;
+        private UITopPane3 mUITopPane;
         #endregion
     }
     
     [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
-    public class UITopPane2 : HtmlDiv
+    public class UITopPane3 : HtmlDiv
     {
         
-        public UITopPane2(UITestControl searchLimitContainer) : 
+        public UITopPane3(UITestControl searchLimitContainer) : 
                 base(searchLimitContainer)
         {
             #region Search Criteria
@@ -2220,6 +2719,566 @@ namespace ViewOffices_ProgramsandBranches.Test
         
         #region Fields
         private HtmlEdit mUIItemEdit;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UISignintoECAClientDocument : HtmlDocument
+    {
+        
+        public UISignintoECAClientDocument(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = "Sign in to ECA Client";
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/statedept.us/oauth2/authorize";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = @"https://login.microsoftonline.com/statedept.us/oauth2/authorize?response_type=id_token&client_id=e0356e55-e124-452c-837d-aeb7504185ff&redirect_uri=https%3A%2F%2Feca-kmt-qa.azurewebsites.net%2F&state=eba5db5b-0de3-44e3-bc98-f585564b6a5f&x-client-SKU=Js&x-client-Ver=1.0.0&nonce=556837f7-700b-46a3-8275-6d1e405050b5";
+            this.WindowTitles.Add("Sign in to ECA Client");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlEdit UIUseraccountEdit
+        {
+            get
+            {
+                if ((this.mUIUseraccountEdit == null))
+                {
+                    this.mUIUseraccountEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIUseraccountEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = "cred_userid_inputtext";
+                    this.mUIUseraccountEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "login";
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.LabeledBy] = "User account";
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "login_textfield textfield required email field normaltext";
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"login\" tabindex=\"1\" class=\"login_t";
+                    this.mUIUseraccountEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "1";
+                    this.mUIUseraccountEdit.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUIUseraccountEdit;
+            }
+        }
+        
+        public HtmlEdit UIPasswordEdit
+        {
+            get
+            {
+                if ((this.mUIPasswordEdit == null))
+                {
+                    this.mUIPasswordEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = "cred_password_inputtext";
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "passwd";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.LabeledBy] = "Password";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Type] = "PASSWORD";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "login_textfield textfield required field normaltext";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"passwd\" tabindex=\"2\" class=\"login_";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "2";
+                    this.mUIPasswordEdit.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUIPasswordEdit;
+            }
+        }
+        
+        public HtmlSpan UISigninPane
+        {
+            get
+            {
+                if ((this.mUISigninPane == null))
+                {
+                    this.mUISigninPane = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUISigninPane.SearchProperties[HtmlDiv.PropertyNames.Id] = "cred_sign_in_button";
+                    this.mUISigninPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Sign in";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "button normaltext cred_sign_in_button refresh_domain_state control-button button-" +
+                        "two button_primary";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "tabindex=\"11\" class=\"button normaltext cred_sign_in_button refresh_domain_state c" +
+                        "ontrol-button button-two button_primary\" id=\"cred_sign_in_button\" role=\"button\" " +
+                        "style=\"opacity: 1;\"";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "11";
+                    this.mUISigninPane.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUISigninPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlEdit mUIUseraccountEdit;
+        
+        private HtmlEdit mUIPasswordEdit;
+        
+        private HtmlSpan mUISigninPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIFavoritesandToolsBarToolBar : WinToolBar
+    {
+        
+        public UIFavoritesandToolsBarToolBar(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinToolBar.PropertyNames.Name] = "Favorites and Tools Bar";
+            this.WindowTitles.Add("Sign in to ECA Client");
+            #endregion
+        }
+        
+        #region Properties
+        public WinButton UIToolsButton
+        {
+            get
+            {
+                if ((this.mUIToolsButton == null))
+                {
+                    this.mUIToolsButton = new WinButton(this);
+                    #region Search Criteria
+                    this.mUIToolsButton.SearchProperties[WinButton.PropertyNames.Name] = "Tools";
+                    this.mUIToolsButton.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUIToolsButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinButton mUIToolsButton;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UISignintoECAClientIntTitleBar : WinTitleBar
+    {
+        
+        public UISignintoECAClientIntTitleBar(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.WindowTitles.Add("Sign in to ECA Client");
+            #endregion
+        }
+        
+        #region Properties
+        public WinButton UICloseButton
+        {
+            get
+            {
+                if ((this.mUICloseButton == null))
+                {
+                    this.mUICloseButton = new WinButton(this);
+                    #region Search Criteria
+                    this.mUICloseButton.SearchProperties[WinButton.PropertyNames.Name] = "Close";
+                    this.mUICloseButton.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUICloseButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinButton mUICloseButton;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIHttpsecakmtqaazureweDocument6 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument6(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UISortlistPane3 UISortlistPane
+        {
+            get
+            {
+                if ((this.mUISortlistPane == null))
+                {
+                    this.mUISortlistPane = new UISortlistPane3(this);
+                }
+                return this.mUISortlistPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UISortlistPane3 mUISortlistPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UISortlistPane3 : HtmlDiv
+    {
+        
+        public UISortlistPane3(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Showing 1 - 25 of 56 offices\r\n\r\n \r\n\r\n\r\n ";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-isolate-scope\" id=\"sort-list\" st-table=\"offices\" st-pipe=\"getOffices\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "28";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIOfficeofAcademicExchHyperlink
+        {
+            get
+            {
+                if ((this.mUIOfficeofAcademicExchHyperlink == null))
+                {
+                    this.mUIOfficeofAcademicExchHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIOfficeofAcademicExchHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIOfficeofAcademicExchHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIOfficeofAcademicExchHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIOfficeofAcademicExchHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "Office of Academic Exchange Programs";
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/offices/1414/overview";
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/offices/1414/";
+                    this.mUIOfficeofAcademicExchHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "2";
+                    this.mUIOfficeofAcademicExchHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIOfficeofAcademicExchHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIOfficeofAcademicExchHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIItemWindow1 : WinWindow
+    {
+        
+        public UIItemWindow1()
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.AccessibleName] = "Context";
+            this.SearchProperties[WinWindow.PropertyNames.ClassName] = "#32768";
+            #endregion
+        }
+        
+        #region Properties
+        public UIContextMenu UIContextMenu
+        {
+            get
+            {
+                if ((this.mUIContextMenu == null))
+                {
+                    this.mUIContextMenu = new UIContextMenu(this);
+                }
+                return this.mUIContextMenu;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIContextMenu mUIContextMenu;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIContextMenu : WinMenu
+    {
+        
+        public UIContextMenu(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinMenu.PropertyNames.Name] = "Context";
+            #endregion
+        }
+        
+        #region Properties
+        public WinMenuItem UIInternetoptionsMenuItem
+        {
+            get
+            {
+                if ((this.mUIInternetoptionsMenuItem == null))
+                {
+                    this.mUIInternetoptionsMenuItem = new WinMenuItem(this);
+                    #region Search Criteria
+                    this.mUIInternetoptionsMenuItem.SearchProperties[WinMenuItem.PropertyNames.Name] = "Internet options";
+                    #endregion
+                }
+                return this.mUIInternetoptionsMenuItem;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinMenuItem mUIInternetoptionsMenuItem;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIInternetOptionsWindow : WinWindow
+    {
+        
+        public UIInternetOptionsWindow()
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.Name] = "Internet Options";
+            this.SearchProperties[WinWindow.PropertyNames.ClassName] = "#32770";
+            this.WindowTitles.Add("Internet Options");
+            #endregion
+        }
+        
+        #region Properties
+        public UIDeleteWindow UIDeleteWindow
+        {
+            get
+            {
+                if ((this.mUIDeleteWindow == null))
+                {
+                    this.mUIDeleteWindow = new UIDeleteWindow(this);
+                }
+                return this.mUIDeleteWindow;
+            }
+        }
+        
+        public UIApplyWindow UIApplyWindow
+        {
+            get
+            {
+                if ((this.mUIApplyWindow == null))
+                {
+                    this.mUIApplyWindow = new UIApplyWindow(this);
+                }
+                return this.mUIApplyWindow;
+            }
+        }
+        
+        public UIOKWindow UIOKWindow
+        {
+            get
+            {
+                if ((this.mUIOKWindow == null))
+                {
+                    this.mUIOKWindow = new UIOKWindow(this);
+                }
+                return this.mUIOKWindow;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIDeleteWindow mUIDeleteWindow;
+        
+        private UIApplyWindow mUIApplyWindow;
+        
+        private UIOKWindow mUIOKWindow;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIDeleteWindow : WinWindow
+    {
+        
+        public UIDeleteWindow(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.ControlId] = "5501";
+            this.WindowTitles.Add("Internet Options");
+            #endregion
+        }
+        
+        #region Properties
+        public WinButton UIDeleteButton
+        {
+            get
+            {
+                if ((this.mUIDeleteButton == null))
+                {
+                    this.mUIDeleteButton = new WinButton(this);
+                    #region Search Criteria
+                    this.mUIDeleteButton.SearchProperties[WinButton.PropertyNames.Name] = "Delete...";
+                    this.mUIDeleteButton.WindowTitles.Add("Internet Options");
+                    #endregion
+                }
+                return this.mUIDeleteButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinButton mUIDeleteButton;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIApplyWindow : WinWindow
+    {
+        
+        public UIApplyWindow(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.ControlId] = "12321";
+            this.WindowTitles.Add("Internet Options");
+            #endregion
+        }
+        
+        #region Properties
+        public WinButton UIApplyButton
+        {
+            get
+            {
+                if ((this.mUIApplyButton == null))
+                {
+                    this.mUIApplyButton = new WinButton(this);
+                    #region Search Criteria
+                    this.mUIApplyButton.SearchProperties[WinButton.PropertyNames.Name] = "Apply";
+                    this.mUIApplyButton.WindowTitles.Add("Internet Options");
+                    #endregion
+                }
+                return this.mUIApplyButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinButton mUIApplyButton;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIOKWindow : WinWindow
+    {
+        
+        public UIOKWindow(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.ControlId] = "1";
+            this.WindowTitles.Add("Internet Options");
+            #endregion
+        }
+        
+        #region Properties
+        public WinButton UIOKButton
+        {
+            get
+            {
+                if ((this.mUIOKButton == null))
+                {
+                    this.mUIOKButton = new WinButton(this);
+                    #region Search Criteria
+                    this.mUIOKButton.SearchProperties[WinButton.PropertyNames.Name] = "OK";
+                    this.mUIOKButton.WindowTitles.Add("Internet Options");
+                    #endregion
+                }
+                return this.mUIOKButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinButton mUIOKButton;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIDeleteBrowsingHistorWindow : WinWindow
+    {
+        
+        public UIDeleteBrowsingHistorWindow()
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.Name] = "Delete Browsing History";
+            this.SearchProperties[WinWindow.PropertyNames.ClassName] = "#32770";
+            this.WindowTitles.Add("Delete Browsing History");
+            #endregion
+        }
+        
+        #region Properties
+        public UIDeleteWindow1 UIDeleteWindow
+        {
+            get
+            {
+                if ((this.mUIDeleteWindow == null))
+                {
+                    this.mUIDeleteWindow = new UIDeleteWindow1(this);
+                }
+                return this.mUIDeleteWindow;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIDeleteWindow1 mUIDeleteWindow;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "14.0.22609.0")]
+    public class UIDeleteWindow1 : WinWindow
+    {
+        
+        public UIDeleteWindow1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.ControlId] = "5543";
+            this.WindowTitles.Add("Delete Browsing History");
+            #endregion
+        }
+        
+        #region Properties
+        public WinButton UIDeleteButton
+        {
+            get
+            {
+                if ((this.mUIDeleteButton == null))
+                {
+                    this.mUIDeleteButton = new WinButton(this);
+                    #region Search Criteria
+                    this.mUIDeleteButton.SearchProperties[WinButton.PropertyNames.Name] = "Delete";
+                    this.mUIDeleteButton.WindowTitles.Add("Delete Browsing History");
+                    #endregion
+                }
+                return this.mUIDeleteButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinButton mUIDeleteButton;
         #endregion
     }
 }

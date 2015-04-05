@@ -14,7 +14,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets the max length of the SEVIS Id.
         /// </summary>
-        private const int SEVIS_ID_MAX_LENGTH = 10;
+        private const int SEVIS_ID_MAX_LENGTH = 11;
 
         public Participant()
         {
