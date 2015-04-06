@@ -415,8 +415,8 @@ angular
     };
 
     $rootScope.closeMenu = function() {
-      document.body.classList.toggle('cbp-spmenu-push-toright');
-      document.getElementById('cbp-spmenu-s1').classList.toggle('cbp-spmenu-open');
+      document.body.classList.toggle('');
+      document.getElementById('cbp-spmenu-s1').classList.toggle('');
       leftOpen = false;
     };
 
