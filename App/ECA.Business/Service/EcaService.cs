@@ -35,6 +35,11 @@ namespace ECA.Business.Service
             return Context.Contacts.Where(x => contactIds.Distinct().Contains(x.ContactId)).Distinct();
         }
 
+        /// <summary>
+        /// A method to verify all contacts with the given ids exist in the system.
+        /// </summary>
+        /// <param name="contactIds">The contacts by Id to validate existence.</param>
+        /// <returns>True, if all contacts exist, otherwise false.</returns>
         public async Task<bool> CheckAllContactsExistAsync(IEnumerable<int> contactIds)
         {
             Contract.Requires(contactIds != null, "The contact ids must not be null.");
@@ -54,6 +59,11 @@ namespace ECA.Business.Service
             return response;
         }
 
+        /// <summary>
+        /// A method to verify all contacts with the given ids exist in the system.
+        /// </summary>
+        /// <param name="contactIds">The contacts by Id to validate existence.</param>
+        /// <returns>True, if all contacts exist, otherwise false.</returns>
         public bool CheckAllContactsExist(IEnumerable<int> contactIds)
         {
             Contract.Requires(contactIds != null, "The contact ids must not be null.");
@@ -82,6 +92,11 @@ namespace ECA.Business.Service
             return Context.Themes.Where(x => themeIds.Distinct().Contains(x.ThemeId)).Distinct();
         }
 
+        /// <summary>
+        /// A method to verify all themes with the given ids exist in the system.
+        /// </summary>
+        /// <param name="themeIds">The theme by Id to validate existence.</param>
+        /// <returns>True, if all themes exist, otherwise false.</returns>
         public async Task<bool> CheckAllThemesExistAsync(IEnumerable<int> themeIds)
         {
             Contract.Requires(themeIds != null, "The theme ids must not be null.");
@@ -101,6 +116,11 @@ namespace ECA.Business.Service
             return response;
         }
 
+        /// <summary>
+        /// A method to verify all themes with the given ids exist in the system.
+        /// </summary>
+        /// <param name="themeIds">The themes by Id to validate existence.</param>
+        /// <returns>True, if all themes exist, otherwise false.</returns>
         public bool CheckAllThemesExist(IEnumerable<int> themeIds)
         {
             Contract.Requires(themeIds != null, "The theme ids must not be null.");
@@ -129,6 +149,11 @@ namespace ECA.Business.Service
             return Context.Goals.Where(x => goalIds.Distinct().Contains(x.GoalId)).Distinct();
         }
 
+        /// <summary>
+        /// A method to verify all goals with the given ids exist in the system.
+        /// </summary>
+        /// <param name="goalIds">The goals by Id to validate existence.</param>
+        /// <returns>True, if all themes exist, otherwise false.</returns>
         public async Task<bool> CheckAllGoalsExistAsync(IEnumerable<int> goalIds)
         {
             Contract.Requires(goalIds != null, "The goal ids must not be null.");
@@ -148,6 +173,11 @@ namespace ECA.Business.Service
             return response;
         }
 
+        /// <summary>
+        /// A method to verify all goals with the given ids exist in the system.
+        /// </summary>
+        /// <param name="goalIds">The goals by Id to validate existence.</param>
+        /// <returns>True, if all themes exist, otherwise false.</returns>
         public bool CheckAllGoalsExist(IEnumerable<int> goalIds)
         {
             Contract.Requires(goalIds != null, "The goal ids must not be null.");
@@ -207,12 +237,12 @@ namespace ECA.Business.Service
             Contract.Requires(goalIds != null, "The goal ids must not be null.");
             Contract.Requires(goalable != null, "The goalable entity must not be null.");
             var goalsToRemove = goalable.Goals.Where(x => !goalIds.Contains(x.GoalId)).ToList();
-            var goalsToadd = new List<Goal>();
+            var goalsToAdd = new List<Goal>();
             goalIds.Where(x => !goalable.Goals.Select(c => c.GoalId).ToList().Contains(x)).ToList()
                 .Select(x => new Goal { GoalId = x }).ToList()
-                .ForEach(x => goalsToadd.Add(x));
+                .ForEach(x => goalsToAdd.Add(x));
 
-            goalsToadd.ForEach(x =>
+            goalsToAdd.ForEach(x =>
             {
                 if (Context.GetEntityState(x) == EntityState.Detached)
                 {
@@ -267,12 +297,12 @@ namespace ECA.Business.Service
             Contract.Requires(themeIds != null, "The theme ids must not be null.");
             Contract.Requires(themeable != null, "The themeable entity must not be null.");
             var themesToRemove = themeable.Themes.Where(x => !themeIds.Contains(x.ThemeId)).ToList();
-            var goalsToadd = new List<Theme>();
+            var themesToAdd = new List<Theme>();
             themeIds.Where(x => !themeable.Themes.Select(c => c.ThemeId).ToList().Contains(x)).ToList()
                 .Select(x => new Theme { ThemeId = x }).ToList()
-                .ForEach(x => goalsToadd.Add(x));
+                .ForEach(x => themesToAdd.Add(x));
 
-            goalsToadd.ForEach(x =>
+            themesToAdd.ForEach(x =>
             {
                 if (Context.GetEntityState(x) == EntityState.Detached)
                 {

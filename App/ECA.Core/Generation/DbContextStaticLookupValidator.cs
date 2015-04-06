@@ -33,7 +33,7 @@ namespace ECA.Core.Generation
         private static readonly string COMPONENT_NAME = typeof(DbContextStaticLookupValidator).Name;
 
         private DbContext context;
-        private ILogger logger;
+        private readonly ILogger logger;
 
         /// <summary>
         /// Creates a new validator.

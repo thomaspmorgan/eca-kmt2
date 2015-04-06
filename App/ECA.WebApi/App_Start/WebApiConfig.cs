@@ -30,7 +30,6 @@ namespace ECA.WebApi
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            // Remove the XML formatter and configure the JSON formatter.
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
             var formatters = GlobalConfiguration.Configuration.Formatters;
             var jsonFormatter = formatters.JsonFormatter;
@@ -39,12 +38,6 @@ namespace ECA.WebApi
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             settings.NullValueHandling = NullValueHandling.Ignore;
-
-            // Add custom formatters at the beginning.
-            //config.Formatters.Insert(0, new PlanCsvFormatter());
-            //config.Formatters.Insert(0, new PlanJsonFormatter());
-            //config.Formatters.Insert(0, new PlanHtmlFormatter());
-            //config.Formatters.Insert(0, new PlanXmlFormatter());
 
             var logger = config.DependencyResolver.GetService(typeof(ILogger)) as ILogger;
             Debug.Assert(logger != null, "The logger must not be null.");
@@ -56,15 +49,6 @@ namespace ECA.WebApi
             config.Filters.Add(new DbEntityValidationExceptionFilter());
 
             config.Filters.Add(new ECA.WebApi.Custom.Filters.TraceFilter(logger));
-
-            //var context = config.DependencyResolver.GetService(typeof(EcaContext)) as EcaContext;
-            //var validator = new DbContextStaticLookupValidator(context, logger);
-            //var errors = EcaDataValidator.ValidateAll(validator);
-            //foreach(var error in errors)
-            //{
-            //    logger.Warning(error);
-            //}
-
         }
     }
 }

@@ -241,7 +241,15 @@ namespace ECA.Business.Test.Service
         [TestMethod]
         public void TestSetGoals_IsDetached()
         {
-            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Detached; });
+            var state = System.Data.Entity.EntityState.Detached; 
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => 
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Goal>(It.IsAny<Goal>())).Returns(() =>
+            {
+                return state;
+            });
             var original = new Goal { GoalId = 1 };
 
             var program = new Program();
@@ -258,7 +266,15 @@ namespace ECA.Business.Test.Service
         [TestMethod]
         public void TestSetGoals_IsAdded()
         {
-            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Added; });
+            var state = System.Data.Entity.EntityState.Added;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Goal>(It.IsAny<Goal>())).Returns(() =>
+            {
+                return state;
+            });
             var original = new Goal { GoalId = 1 };
 
             var program = new Program();
@@ -275,7 +291,15 @@ namespace ECA.Business.Test.Service
         [TestMethod]
         public void TestSetThemes_IsDetached()
         {
-            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Detached; });
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Theme>(It.IsAny<Theme>())).Returns(() =>
+            {
+                return state;
+            });
             var original = new Theme { ThemeId = 1 };
 
             var program = new Program();
@@ -292,7 +316,15 @@ namespace ECA.Business.Test.Service
         [TestMethod]
         public void TestSetThemes_IsAdded()
         {
-            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Detached; });
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Theme>(It.IsAny<Theme>())).Returns(() =>
+            {
+                return state;
+            });
             var original = new Theme { ThemeId = 1 };
 
             var program = new Program();
@@ -310,7 +342,15 @@ namespace ECA.Business.Test.Service
         [TestMethod]
         public void TestSetPointsOfContact_IsDetached()
         {
-            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Detached; });
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Contact>(It.IsAny<Contact>())).Returns(() =>
+            {
+                return state;
+            });
             var original = new Contact { ContactId = 1 };
 
             var program = new Program();
@@ -326,7 +366,15 @@ namespace ECA.Business.Test.Service
         [TestMethod]
         public void TestSetPointsOfContact_IsAdded()
         {
-            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => { return System.Data.Entity.EntityState.Added; });
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Contact>(It.IsAny<Contact>())).Returns(() =>
+            {
+                return state;
+            });
             var original = new Contact { ContactId = 1 };
 
             var program = new Program();

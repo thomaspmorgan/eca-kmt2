@@ -290,6 +290,7 @@ namespace ECA.Business.Service.Programs
         /// <returns>The list of location type ids.</returns>
         public List<int> GetLocationTypeIds(List<int> locationIds)
         {
+            Contract.Requires(locationIds != null, "The location ids must not be null.");
             return LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, locationIds).ToList();
         }
 

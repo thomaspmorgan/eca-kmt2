@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
+    /// <summary>
+    /// The entity configuration for the Project class.
+    /// </summary>
     public class ProjectConfiguration : EntityTypeConfiguration<Project>
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
         public ProjectConfiguration()
         {
             HasRequired(a => a.Focus).WithMany().Map(m =>

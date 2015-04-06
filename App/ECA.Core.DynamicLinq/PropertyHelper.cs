@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ECA.Core.DynamicLinq
 {
+    /// <summary>
+    /// PropertyHelper provides some static methods to get names of object properties.
+    /// </summary>
     public static class PropertyHelper
     {
         /// <summary>

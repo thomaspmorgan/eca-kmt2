@@ -109,6 +109,7 @@ namespace ECA.Business.Queries.Persons
         /// <returns>The participant</returns>
         public static IQueryable<ParticipantDTO> CreateGetParticipantDTOByIdQuery(EcaContext context, int participantId)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             var query = from participant in context.Participants
                         let person = participant.Person
                         let participantType = participant.ParticipantType

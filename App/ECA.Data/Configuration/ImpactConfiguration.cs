@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
+    /// <summary>
+    /// The entity configuration for the Impace class.
+    /// </summary>
     public class ImpactConfiguration : EntityTypeConfiguration<Impact>
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
         public ImpactConfiguration()
         {
             HasOptional(e => e.Program).WithMany(e => e.Impacts).WillCascadeOnDelete(false);

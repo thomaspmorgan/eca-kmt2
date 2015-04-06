@@ -82,7 +82,7 @@ namespace ECA.Business.Test.Service.Lookup
         }
 
         [TestMethod]
-        public void TestGetHashCode()
+        public void TestGetHashCode_HasValue()
         {
             var dto = new SimpleLookupDTO
             {
@@ -90,6 +90,16 @@ namespace ECA.Business.Test.Service.Lookup
                 Value = "value"
             };
             Assert.AreEqual(dto.Value.GetHashCode(), dto.GetHashCode());
+        }
+
+        [TestMethod]
+        public void TestGetHashCode_HasIdOnly()
+        {
+            var dto = new SimpleLookupDTO
+            {
+                Id = 1
+            };
+            Assert.AreEqual(dto.Id.GetHashCode(), dto.GetHashCode());
         }
     }
 }

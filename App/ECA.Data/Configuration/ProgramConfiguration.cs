@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
+    /// <summary>
+    /// The entity configuration for the Program class.
+    /// </summary>
     public class ProgramConfiguration : EntityTypeConfiguration<Program>
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
         public ProgramConfiguration()
         {
             Property(x => x.OwnerId).HasColumnName("Owner_OrganizationId");

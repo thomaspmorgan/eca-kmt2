@@ -98,7 +98,6 @@ namespace ECA.WebApi.Test.Controllers.Programs
         }
         #endregion
 
-
         #region Put
         [TestMethod]
         public async Task TestPutProgramAsync()

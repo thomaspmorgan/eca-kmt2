@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
+    /// <summary>
+    /// The entity configuration for the Person class.
+    /// </summary>
     public class PersonConfiguration : EntityTypeConfiguration<Person>
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
         public PersonConfiguration()
         {
             HasMany(x => x.Family)

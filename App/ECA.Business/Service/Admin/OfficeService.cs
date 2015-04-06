@@ -155,7 +155,7 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Get list of offices in heirarchical list
         /// </summary>
-        /// <param name="officeId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
         /// <returns>The child offices, branches, and divisions.</returns>
         public PagedQueryResults<SimpleOfficeDTO> GetOffices(QueryableOperator<SimpleOfficeDTO> queryOperator)
         {
@@ -169,7 +169,7 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Returns the first level child offices/branches/divisions of the office with the given id.
         /// </summary>
-        /// <param name="officeId">The office id.</param>
+        /// <param name="queryOperator">The query operator.</param>
         /// <returns>The child offices, branches, and divisions.</returns>
         public async Task<PagedQueryResults<SimpleOfficeDTO>> GetOfficesAsync(QueryableOperator<SimpleOfficeDTO> queryOperator)
         {

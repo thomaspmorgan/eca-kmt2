@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
+    /// <summary>
+    /// The entity configuration for the Focus class.
+    /// </summary>
     public class FocusConfiguration : EntityTypeConfiguration<Focus>
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
         public FocusConfiguration()
         {
             ToTable("Focus");
