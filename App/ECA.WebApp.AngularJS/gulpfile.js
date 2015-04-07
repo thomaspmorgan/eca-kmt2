@@ -43,4 +43,3 @@ gulp.task('copy', ['clean'], function () {
 gulp.task('default', ['clean', 'styles', 'html', 'copy'], function () {
 
 });
-
