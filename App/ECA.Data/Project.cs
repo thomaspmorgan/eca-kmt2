@@ -83,6 +83,10 @@ namespace ECA.Data
         public int? EventId { get; set; }
         public ICollection<Contact> Contacts { get; set; }
 
+
+        public ICollection<Objective> JustificationObjectives { get; set; }
+        public ICollection<Category> FocusCategories { get; set; }
+
         public History History { get; set; }
 
         /// <summary>

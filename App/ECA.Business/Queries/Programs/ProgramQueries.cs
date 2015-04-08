@@ -24,7 +24,8 @@ namespace ECA.Business.Queries.Programs
                 Description = x.Description,
                 Name = x.Name,
                 OwnerId = x.Owner.OrganizationId,
-                ProgramId = x.ProgramId
+                ProgramId = x.ProgramId,
+                ProgramStatusId = x.ProgramStatusId
             });
             query = query.Apply(queryOperator);
             return query;
@@ -83,7 +84,8 @@ namespace ECA.Business.Queries.Programs
                             RegionIsos = regions.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
                             RowVersion = program.RowVersion,
                             StartDate = program.StartDate,
-                            Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName })
+                            Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
+                            ProgramStatusId = program.ProgramStatusId
                         };
             return query;
         }

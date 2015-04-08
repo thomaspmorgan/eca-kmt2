@@ -25,5 +25,7 @@ namespace ECA.Business.Queries.Models.Programs
         /// Gets or sets the Owner Id.
         /// </summary>
         public int OwnerId { get; set; }
+
+        public int ProgramStatusId { get; set; }
     }
 }

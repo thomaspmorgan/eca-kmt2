@@ -102,6 +102,10 @@ textarea {
         background-color: #fff0ef;
         border: 1px solid #dc413a;
     }
+    &.largerArea {
+        height: 120px;
+        width: 100%;
+    }
 }
 
 .error {

@@ -5218,6 +5218,9 @@ input, textarea {
   input.ng-invalid.ng-dirty, textarea.ng-invalid.ng-dirty {
     background-color: #fff0ef;
     border: 1px solid #dc413a; }
+  input.largerArea, textarea.largerArea {
+    height: 120px;
+    width: 100%; }
 
 .error {
   color: #dc413a; }
