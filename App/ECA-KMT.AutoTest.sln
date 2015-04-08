@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.22609.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Login.Test", "Login.Test\Login.Test\Login.Test.csproj", "{C22B5E80-AC42-49F7-A751-42DC3A0767F0}"
 EndProject
@@ -32,6 +32,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewParticipant_PersonalInformation.Test", "ViewParticipant_PersonalInformation.Test\ViewParticipant_PersonalInformation.Test.csproj", "{0FF1D6FE-E4FB-4CC6-929E-7E5F9296B3C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewOfficesOverview.Test", "ViewOfficesOverview.Test\ViewOfficesOverview.Test.csproj", "{A3865399-6EAB-4576-9E3C-8B719E765748}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9543D83F-E12D-4600-83E8-08CB085164A0}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
