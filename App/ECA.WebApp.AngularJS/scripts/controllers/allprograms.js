@@ -218,9 +218,7 @@ angular.module('staticApp')
     $scope.currentFormIsDirty = function () {
         return ($scope.currentForm.$dirty || $scope.dropDownDirty);
     };
-
-
-
+      
     $scope.createProgramForm = function () {
 
         $scope.editExisting = false;
@@ -242,7 +240,7 @@ angular.module('staticApp')
             .then(function (newProgram) {
 
                 $scope.newProgram = newProgram;
-                //$scope.newProgram.parentProgram = $scope.getParentProgramName(newProgram.parentProgramId);
+                $scope.newProgram.parentProgram = $scope.getParentProgramName(newProgram.parentProgramId);
                 $scope.newProgram.focusId = newProgram.focus.id;
                 $scope.newProgram.themes = newProgram.themes.map(getIds);
                 $scope.newProgram.goals = newProgram.goals.map(getIds);
@@ -272,9 +270,9 @@ angular.module('staticApp')
         // re-do form validation here
         programForm.$valid = true;
 
-        if (programForm.$valid) {
+        if ($scope.currentForm.$valid) {
             cleanUpNewProgram();
-            ProgramService.create($scope.newProgram)
+            ProgramService.update($scope.newProgram, $scope.programId)
                 .then(function (program) {
                     if (Array.isArray(program)) {
                         $scope.errorMessage = "There were one or more errors:";
@@ -282,28 +280,10 @@ angular.module('staticApp')
                         $scope.confirmFail = true;
                     }
                     else if (program.hasOwnProperty('Message')) {
-                        // a hack for demo, until problem with update resolved (DMK)
 
-                        if (typeof program.ValidationErrors.Name != 'undefined')
-                        {
-                            if (program.ValidationErrors.Name.indexOf("already exists") < 0)
-                            {
-                                $scope.errorMessage = program.Message;
-                                $scope.validations = program.ValidationErrors;
-                                $scope.confirmFail = true;
-                            }
-                            else
-                            {
-                                $scope.confirmSave = true;
-                            }
-
-                        }
-                        else
-                        {
-                            $scope.errorMessage = program.Message;
-                            $scope.validations = program.ValidationErrors;
-                            $scope.confirmFail = true;
-                        }
+                        $scope.errorMessage = program.Message;
+                        $scope.validations = program.ValidationErrors;
+                        $scope.confirmFail = true;
 
                     }
                     else if (program.hasOwnProperty('ErrorMessage')) {
@@ -322,15 +302,9 @@ angular.module('staticApp')
                     }
                 });
         }
-        else {
-            programForm.submitted = true;
-        }
-
     };
  
     $scope.createdProgram = function (programForm) {
-
-        programForm.$valid = true;
 
         if (programForm.$valid) {
             cleanUpNewProgram();
@@ -362,13 +336,6 @@ angular.module('staticApp')
                     }
                 });
         }
-        else {
-            programForm.submitted = true;
-        }
-    };
-    $scope.editedProgram = function (programForm) {
-
-
     };
 
     function cleanUpNewProgram() {
