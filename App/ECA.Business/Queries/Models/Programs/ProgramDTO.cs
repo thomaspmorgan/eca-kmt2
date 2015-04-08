@@ -106,5 +106,7 @@ namespace ECA.Business.Queries.Models.Programs
         /// Gets or sets the row version.
         /// </summary>
         public byte[] RowVersion { get; set; }
+
+        public int ProgramStatusId { get; set; }
     }
 }

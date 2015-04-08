@@ -33,15 +33,11 @@
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Ethnicity</div>
-                <div class="col-md-6">
-                    <ul>
-                        <li ng-repeat="goal in project.goals">{{goal.value}}</li>
-                    </ul>
-                </div>
+                <div class="col-md-6">{{pii.ethnicity}}</div>
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Place of Birth</div>
-                <div class="col-md-6"><span ng-repeat="theme in project.themes">{{theme.themeName}} </span></div>
+                <div class="col-md-6">{{pii.cityOfBirth}}, {{pii.countryOfBirth}}</div>
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Date of Birth</div>
@@ -49,41 +45,35 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-6 title-label">Countries of Citizenship</div>
-                    <div class="col-md-6">
-                        <ul>
-                            <li ng-repeat="country in pii.countriesOfCitizenship">{{country.value}}</li>
-                        </ul>
-                    </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Countries of Citizenship</div>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="country in pii.countriesOfCitizenship">{{country.value}}</li>
+                    </ul>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 title-label">Residence Address</div>
-                    <div class="col-md-6">
-                        <ul>
-                            <li ng-repeat="address in pii.homeAddresses">
-                                {{address.street1}} {{address.street2}} {{address.street3}} {{address.city}}, {{address.postalCode}} {{address.country}}
-                            </li>
-                        </ul>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Residence Address</div>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="address in pii.homeAddresses">
+                            {{address.street1}} {{address.street2}} {{address.street3}} {{address.city}}, {{address.postalCode}} {{address.country}}
+                        </li>
+                    </ul>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 title-label">Medical Conditions</div>
-                    <div class="col-md-6">
-                        <ul>
-                            <li ng-repeat="goal in project.goals">{{goal.value}}</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 title-label">Marital Status</div>
-                    <div class="col-md-6">{{pii.maritalStatus}}</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 title-label">Sevis Id</div>
-                    <div class="col-md-6">{{participant.sevisId}}</div>
-                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Medical Conditions</div>
+                <div class="col-md-6">{{pii.medicalConditions}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Marital Status</div>
+                <div class="col-md-6">{{pii.maritalStatus}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Sevis Id</div>
+                <div class="col-md-6">{{participant.sevisId}}</div>
             </div>
         </div>
     </div>
@@ -97,25 +87,43 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-6 title-label">Email(s)</div>
-                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="email in contactInfo.emails">
+                            <a href="mailto:{{email.value}}">{{email.value}}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Social Media</div>
-                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="socialMedia in contactInfo.socialMedias">
+                            <a href="{{socialMedia.type == 'Facebook' ? 'http://facebook.com/' : 'http://linkedin.com/'}}{{socialMedia.value}}">{{socialMedia.type}}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-6 title-label">Phone Number</div>
-                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="phoneNumber in contactInfo.phoneNumbers">
+                            {{phoneNumber.type}}: {{phoneNumber.value}}
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Contact Agreement</div>
-                <div class="col-md-6"></div>
+                <div class="col-md-6">{{participant.contactAgreement}}</div>
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Contact Agreements</div>
-                <div class="col-md-6"></div>
+                <div class="col-md-6">TODO</div>
             </div>
         </div>
     </div>

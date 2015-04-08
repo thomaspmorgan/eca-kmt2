@@ -42,6 +42,10 @@ angular.module('staticApp')
                 .success(function (data) {
                     getProgram(data);
                     defer.resolve(newProgram);
+                })
+                .error(function (data) {
+                    getProgram(data);
+                    defer.resolve(newProgram);
                 });
               return defer.promise;
           },

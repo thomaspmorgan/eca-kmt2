@@ -52,7 +52,9 @@ namespace ECA.Business.Queries.Persons
                                                             City = x.Location.City,
                                                             PostalCode = x.Location.PostalCode,
                                                             Country = x.Location.Country.LocationName
-                                                        })
+                                                        }),
+                            CityOfBirth = person.PlaceOfBirth.LocationName,
+                            CountryOfBirth = person.PlaceOfBirth.Country.LocationName
                         };
             return query;
         }
@@ -74,7 +76,6 @@ namespace ECA.Business.Queries.Persons
                             Emails = person.Emails.Select(x => new SimpleLookupDTO() { Id = x.EmailAddressId, Value = x.Address }),
                             SocialMedias = person.SocialMedias.Select(x => new SimpleTypeLookupDTO() { Id = x.SocialMediaId, Type = x.SocialMediaType.SocialMediaTypeName, Value = x.SocialMediaValue }),
                             PhoneNumbers = person.PhoneNumbers.Select(x => new SimpleTypeLookupDTO() { Id = x.PhoneNumberId, Type = x.PhoneNumberType.PhoneNumberTypeName, Value = x.Number }),
-                            ContactAgreement = person.PermissionToContact
                         };
             return query;
         }

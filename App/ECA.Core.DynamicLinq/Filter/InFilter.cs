@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ECA.Core.DynamicLinq.Filter
 {
     /// <summary>
-    /// An InFilter is used to filter objects whose property value is contained a collection of items.
+    /// An InFilter is used to filter objects whose property value is contained in a collection of items.
     /// </summary>
     /// <typeparam name="T">The type of object to filter.</typeparam>
     public class InFilter<T> : BinaryFilter<T> where T : class

@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
+    /// <summary>
+    /// The entity configuration for the Project class.
+    /// </summary>
     public class ItineraryStopConfiguration : EntityTypeConfiguration<ItineraryStop>
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
         public ItineraryStopConfiguration()
         {
             HasMany<Participant>(p => p.Participants)

@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
+    /// <summary>
+    /// The entity configuration for the Location class.
+    /// </summary>
     public class LocationConfiguration : EntityTypeConfiguration<Location>
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
         public LocationConfiguration()
         {
             ToTable("Location");

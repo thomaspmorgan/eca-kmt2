@@ -63,6 +63,7 @@
     <Compile Include="Filter\LessThanFilterTest.cs" />
     <Compile Include="Filter\LikeFilterTest.cs" />
     <Compile Include="Filter\LinqFilterTest.cs" />
+    <Compile Include="Filter\NotInFilterTest.cs" />
     <Compile Include="Filter\NullFilterTest.cs" />
     <Compile Include="Filter\SimpleFilterTest.cs" />
     <Compile Include="Filter\SimpleKeywordFilterTest.cs" />

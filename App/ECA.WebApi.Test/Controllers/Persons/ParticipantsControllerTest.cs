@@ -65,6 +65,24 @@ namespace ECA.WebApi.Test.Controllers.Programs
             var response = await controller.GetParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<SimpleParticipantDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
+
+        [TestMethod]
+        public async Task TestGetParticipantByIdAsync()
+        {
+            serviceMock.Setup(x => x.GetParticipantByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(new ParticipantDTO());
+            var response = await controller.GetParticipantByIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ParticipantDTO>));
+        }
+
+        [TestMethod]
+        public async Task TestGetParticipantByIdAsync_ParticipantDoesNotExist()
+        {
+            serviceMock.Setup(x => x.GetParticipantByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(null);
+            var response = await controller.GetParticipantByIdAsync(1);
+            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+        }
         #endregion
     }
 }

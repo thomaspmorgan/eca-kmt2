@@ -16,6 +16,9 @@ using System.Web.Http.Description;
 
 namespace ECA.WebApi.Controllers.Persons
 {
+    /// <summary>
+    /// The ContactsController is used for crud operations on points of contact in the eca system.
+    /// </summary>
     public class ContactsController : ApiController
     {
         /// <summary>
@@ -45,7 +48,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetContactsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await this.service.GetContactsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER, x => x.FullName, x => x.Position));
                 return Ok(results);
             }
             else

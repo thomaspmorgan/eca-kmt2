@@ -12,24 +12,19 @@ gulp.task('styles', ['clean'], function () {
         .pipe(gulp.dest('dist/styles'));
 });
 
-gulp.task('localStyles', ['clean'], function () {
-    var sass = require('gulp-sass');
-    gulp.src('styles/main.scss')
-        .pipe(sass())
-        .pipe(gulp.dest('styles'));
-});
-
 gulp.task('html', ['clean'], function () {
     var useref = require('gulp-useref');
     var gulpIf = require('gulp-if');
     var uglify = require('gulp-uglify');
     var minifyCss = require('gulp-minify-css');
+    var replace = require('gulp-replace');
 
     var assets = useref.assets();
 
     gulp.src('index.html')
         .pipe(assets)
         .pipe(gulpIf('*.js', uglify({mangle: false})))
+        .pipe(gulpIf('*.css', replace('select2.png', '../images/select2.png')))
         .pipe(gulpIf('*.css', minifyCss()))
         .pipe(assets.restore())
         .pipe(useref())
@@ -41,9 +36,10 @@ gulp.task('copy', ['clean'], function () {
         .pipe(gulp.dest('dist/images'));
     gulp.src('views/**/*.*')
         .pipe(gulp.dest('dist/views'));
+    gulp.src('bower_components/select2/*.png')
+        .pipe(gulp.dest('dist/images'));
 });
 
 gulp.task('default', ['clean', 'styles', 'html', 'copy'], function () {
 
 });
-

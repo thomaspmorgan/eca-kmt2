@@ -80,7 +80,6 @@ namespace ECA.Data
             OtherFamily = new HashSet<Person>();
             Impacts = new HashSet<Impact>();
             History = new History();
-            MaritalStatus = new MaritalStatus();
         }
 
         [Key]
@@ -146,10 +145,8 @@ namespace ECA.Data
         [MaxLength(ALIAS_NAME_MAX_LENGTH)]
         public string Alias { get; set; }
 
-        //public int? PlaceOfBirth_LocationId { get; set; }
-        //[InverseProperty("BirthPlacePeople")]
-        //[ForeignKey("PlaceOfBirth_LocationId")]
-        //public Location PlaceOfBirth { get; set; }
+        public int? PlaceOfBirthId { get; set; }
+        public Location PlaceOfBirth { get; set; }
        
         public string MedicalConditions { get; set; }
         
@@ -158,7 +155,6 @@ namespace ECA.Data
         public string Ethnicity { get; set; }
         public string Awards { get; set; }
         public ICollection<Publication> Publications { get; set; }
-        public bool PermissionToContact { get; set; }
         public ICollection<SpecialStatus> SpecialStatuses { get; set; }
         public ICollection<Membership> Memberships { get; set; }
         public ICollection<InterestSpecialization> InterestsAndSpecializations { get; set; }

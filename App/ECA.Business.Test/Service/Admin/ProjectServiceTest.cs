@@ -705,6 +705,10 @@ namespace ECA.Business.Test.Service.Admin
         [TestMethod]
         public async Task TestGetProjectById_CheckProperties()
         {
+            var now = DateTimeOffset.UtcNow;
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var revisedOn = DateTimeOffset.UtcNow.AddDays(-2.0);
+            var createdOn = DateTimeOffset.UtcNow.AddDays(-3.0);
             var theme = new Theme
             {
                 ThemeId = 1,
@@ -749,7 +753,8 @@ namespace ECA.Business.Test.Service.Admin
             var contact = new Contact
             {
                 ContactId = 1,
-                FullName = "fullName"
+                FullName = "fullName",
+                Position = "Position"
             };
 
             var project = new Project
@@ -759,11 +764,18 @@ namespace ECA.Business.Test.Service.Admin
                 Description = "description",
                 Focus = focus,
                 Themes = new HashSet<Theme>(),
+                StartDate = yesterday,
+                EndDate = now,
                 Locations = new HashSet<Location>(),
                 Regions = new HashSet<Location>(),
                 Goals = new HashSet<Goal>(),
                 Status = status,
-                Contacts = new HashSet<Contact>()
+                Contacts = new HashSet<Contact>(),
+                History = new History
+                {
+                    RevisedOn = revisedOn,
+                    CreatedOn = createdOn
+                }
             };
 
             project.Themes.Add(theme);
@@ -785,6 +797,13 @@ namespace ECA.Business.Test.Service.Admin
             {
                 Assert.AreEqual(project.Name, serviceResult.Name);
                 Assert.AreEqual(project.Description, serviceResult.Description);
+                Assert.AreEqual(status.ProjectStatusId, serviceResult.ProjectStatusId);
+                Assert.AreEqual(yesterday, serviceResult.StartDate);
+                Assert.AreEqual(now, serviceResult.EndDate);
+                Assert.AreEqual(context.Foci.Select(x => x.FocusName).FirstOrDefault(), serviceResult.Focus);
+                Assert.AreEqual(context.Foci.Select(x => x.FocusId).FirstOrDefault(), serviceResult.FocusId);
+                Assert.AreEqual(revisedOn, serviceResult.RevisedOn);
+
                 CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),
                     serviceResult.Themes.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Locations.Where(x => x.LocationTypeId == LocationType.Country.Id).Select(x => x.LocationIso).ToList(),
@@ -792,8 +811,9 @@ namespace ECA.Business.Test.Service.Admin
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(),
                     serviceResult.Goals.Select(x => x.Value).ToList());
                 Assert.AreEqual(context.ProjectStatuses.Select(x => x.Status).FirstOrDefault(), serviceResult.Status);
-                Assert.AreEqual(context.Foci.Select(x => x.FocusName).FirstOrDefault(), serviceResult.Focus);
+                
                 CollectionAssert.AreEqual(context.Contacts.Select(x => x.ContactId).ToList(), serviceResult.Contacts.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(context.Contacts.Select(x => x.FullName + " (" + x.Position + ")").ToList(), serviceResult.Contacts.Select(x => x.Value).ToList());
             };
 
             var result = service.GetProjectById(project.ProjectId);
@@ -868,7 +888,7 @@ namespace ECA.Business.Test.Service.Admin
         }
         #endregion
 
-        #region Update        
+        #region Update
 
         [TestMethod]
         [ExpectedException(typeof(ModelNotFoundException))]

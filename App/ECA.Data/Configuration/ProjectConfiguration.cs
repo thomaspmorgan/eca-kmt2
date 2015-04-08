@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
+    /// <summary>
+    /// The entity configuration for the Project class.
+    /// </summary>
     public class ProjectConfiguration : EntityTypeConfiguration<Project>
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
         public ProjectConfiguration()
         {
             HasRequired(a => a.Focus).WithMany().Map(m =>
@@ -71,6 +77,20 @@ namespace ECA.Data.Configuration
                     p.MapRightKey("ContactId");
                     p.ToTable("ProjectContact");
                 });
+            HasMany(p => p.FocusCategories).WithMany(t => t.Projects)
+                .Map(p =>
+                {
+                    p.MapLeftKey("ProgramId");
+                    p.MapRightKey("CategoryId");
+                    p.ToTable("ProjectCategory");
+                });
+            HasMany(p => p.JustificationObjectives).WithMany(t => t.Projects)
+              .Map(p =>
+              {
+                  p.MapLeftKey("ProgramId");
+                  p.MapRightKey("ObjectiveId");
+                  p.ToTable("ProjectObjective");
+              });
         }
     }
 }

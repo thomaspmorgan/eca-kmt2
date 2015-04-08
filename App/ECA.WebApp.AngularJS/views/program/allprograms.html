@@ -5,7 +5,7 @@
     </div>
 </div>
 <div class="row">
-    <button ng-click="modal.createProgram = true" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
+    <button ng-click="createProgramForm()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
 </div>
 
 <div st-pipe="getPrograms" st-table="programs" id="sort-list">
@@ -18,8 +18,9 @@
                 </td>
                 <td class="col-md-3 tools">
                     <div class="right">
+                        <p class="loadingLabel" style="display:none;" id="loadingLabel{{program.programId}}">Loading....</p>
                         <img class="icon small" src="images/duplicateA.png" alt="">
-                        <img class="icon small" src="images/editA.png" alt="">
+                        <img class="icon small" src="images/editA.png" ng-click="editProgram(program.programId)" alt="">
                         <img class="icon small" src="images/trash.png" alt="">
                     </div>
                 </td>
@@ -38,14 +39,144 @@
     <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="programs.length > 0" class="program-pagination"></div>
 </div>
 
-<modal-dialog show="modal.createProgram" dialog-title="Create Program" before-close="modalClose()" on-close="modalClear()">
+<modal-dialog show="showEditProgram" dialog-title="Edit program - {{ newProgram.name }}" before-close="editModalClose(this)" on-close="modalClear(this)">
+    <div class="tip">
+        <img src="images/tip.png"><span class="strong">Please note!</span> Any changes you make to the program will be live after saving.
+        <div class="required">* Marks required fields</div>
+    </div>
+    <div id="modal" class="row" in-context-form>
+        <div class="col-md-10">
+            <form name="editProgramForm">
+                <div class="form-group">
+                    <label>Program Name<span class="asterisk"> *</span></label>
+                    <input name="name" ng-model="newProgram.name" form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" type="text" class="form-control" placeholder="Enter program title..." required>
+                    <div ng-show="editProgramForm.name.$dirty">
+                        <div class="error" ng-show="editProgramForm.name.$error.required">Please enter a program name.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Program Description<span class="asterisk"> *</span></label>
+                    <textarea name="description" ng-model="newProgram.description" form-element guidance="This briefly summarizes what this program is about." type="text" class="form-control" placeholder="Enter description..." required></textarea>
+                    <span class="error" ng-show="editProgramForm.description.$error.required">Program description is required.</span>
+                </div>
+                <div class="form-group">
+                    <label>Parent Program</label>
+                    <input name="parentProgram" ng-model="newProgram.parentProgram" form-element guidance="This is the parent program of your new program, if needed." type="text" placeholder="Enter Parent Program name..."
+                           typeahead="p as p.name for p in getParentPrograms($viewValue)" typeahead-loading="loadingPrograms" typeahead-on-select="model=$item.value"
+                           typeahead-editable="false" class="form-control" /><i ng-show="loadingPrograms" class="glyphicon glyphicon-refresh"></i>
+                </div>
+                <div class="form-group">
+                    <label>Program Inception<span class="asterisk"> *</span></label>
+                    <p class="input-group">
+                        <input name="start" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="newProgram.startDate" is-open="calOpened"
+                               min-date="minDate" max-date="maxDate" close-text="Close" placeholder="Enter start date..." required />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="calOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                    <div ng-show="editProgramForm.start.$dirty">
+                        <div class="error" ng-show="editProgramForm.start.$error.required">Please enter a start date.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Related Regions<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="regions"
+                                          output-model="out.Regions"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="none reset"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="regionsInvalid">
+                        <span class="error">Please select at least one related region.</span>
+                    </div>
+                </div>
+
+                <div class="form-group" form-element guidance="This lists the themes for the program (at least one required).">
+                    <label>Themes<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="themes"
+                                          output-model="out.Themes"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="filter none reset"
+                                          max-height="250px"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="themesInvalid">
+                        <span class="error">Please select at least one theme.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Goals<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="goals"
+                                          output-model="out.Goals"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="none reset"
+                                          max-height="250px"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="goalsInvalid">
+                        <span class="error">Please select at least one goal.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Focus Area<span class="asterisk"> *</span></label>
+                    <select name="focus" class="modal-dropdown" ng-model="newProgram.focusId" data-ng-options="p.id as p.name for p in foci" required form-element guidance="This selects the main focus area for the program.">
+                        <option value="">--Select a focus area --</option>
+                    </select>
+                    <div ng-show="editProgramForm.focus.$dirty">
+                        <span class="error" ng-show="editProgramForm.focus.$error.required">Please select a focus area.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Points Of Contact<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="pointsOfContact"
+                                          output-model="out.Contacts"
+                                          button-label="fullName"
+                                          item-label="fullName"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="filter none reset"
+                                          max-height="250px"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="contactsInvalid">
+                        <span class="error">Please select at least one point of contact.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>External Website</label>
+                    <input type="url" name="programWebsite" ng-model="newProgram.website" class="form-control" placeholder="Enter website address (e.g. http://somesite.com)..." form-element guidance="If the program has a website URL, you can enter it here." />
+                    <div ng-show="editProgramForm.programWebsite.$dirty">
+                        <span class="error" ng-show="editProgramForm.programWebsite.$error.url">Not a valid website address.</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <guidance></guidance>
+        </div>
+    </div>
+    <button class="btn btn-default" ng-click="editModalCancel(this)">CANCEL</button>
+    <button class="btn btn-success right" ng-click="saveEditedProgram(this, program.programId)">SAVE AND CLOSE</button>
+
+</modal-dialog>
+
+<modal-dialog show="showCreateProgram" dialog-title="Create Program" before-close="createModalClose()">
     <div class="tip">
         <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
         <div class="required">* Marks required fields</div>
     </div>
     <div id="modal" class="row" in-context-form>
         <div class="col-md-10">
-            <form name="programForm" ng-init="setFormScope(this)">
+            <form name="programForm">
                 <div class="form-group">
                     <label>Program Name<span class="asterisk"> *</span></label>
                     <input name="name" ng-model="newProgram.name" form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" type="text" class="form-control" placeholder="Enter program title..." required>
@@ -86,26 +217,12 @@
                                           tick-property="ticked"
                                           selection-mode="multiple"
                                           helper-elements="none reset"
-                                          on-select-none="setRegionsDirty()">
+                                          on-item-click="setDropDownDirty()">
                     </isteven-multi-select>
-                    <div ng-show="programForm.hiddenRegions.$dirty">
-                        <input name="hiddenRegions" ng-model="out.Regions.length" style="display: none" type="number" min="1" form-element guidance="These are the regions of your new program, at least one required." />
-                        <span class="error" ng-show="programForm.hiddenRegions.$invalid">Please select as least one region.</span>
+                    <div ng-show="regionsInvalid">
+                        <span class="error">Please select at least one region.</span>
                     </div>
                 </div>
-                <!--<div>
-                    <label>Related Regions<span class="asterisk"> *</span></label>
-                    <ui-select multiple theme="bootstrap" title="Related Regions" ng-model="outRegions" search-enabled="false">
-                        <ui-select-match placeholder="Choose one or more regions...">{{$item.name}}</ui-select-match>
-                        <ui-select-choices repeat="region in regions | filter: $select.search track by region.id">
-                            <div ng-bind-html="region.name"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                    <div ng-show="programForm.hiddenRegions.$dirty">
-                        <input name="hiddenRegions" ng-model="outRegions.length" style="display: none" type="number" min="1" form-element guidance="These are the regions of your new program, at least one required." />
-                        <span class="error" ng-show="programForm.hiddenRegions.$invalid">Please select as least one region.</span>
-                    </div>
-                </div>-->
                 <div class="form-group" form-element guidance="This lists the themes for the program (at least one required).">
                     <label>Themes<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="themes"
@@ -116,11 +233,10 @@
                                           selection-mode="multiple"
                                           helper-elements="filter none reset"
                                           max-height="250px"
-                                          on-select-none="setThemesDirty()">
+                                          on-item-click="setDropDownDirty()">
                     </isteven-multi-select>
-                    <div ng-show="programForm.hiddenThemes.$dirty">
-                        <input name="hiddenThemes" ng-model="out.Themes.length" style="display: none" type="number" min="1" />
-                        <span class="error" ng-show="programForm.hiddenThemes.$invalid">Please select as least one theme.</span>
+                    <div ng-show="themesInvalid">
+                        <span class="error">Please select at least one theme.</span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -133,16 +249,15 @@
                                           selection-mode="multiple"
                                           helper-elements="none reset"
                                           max-height="250px"
-                                          on-select-none="setGoalsDirty()">
+                                          on-item-click="setDropDownDirty()">
                     </isteven-multi-select>
-                    <div ng-show="programForm.hiddenGoals.$dirty">
-                        <input name="hiddenGoals" ng-model="out.Goals.length" style="display: none" type="number" min="1" />
-                        <span class="error" ng-show="programForm.hiddenGoals.$invalid">Please select as least one goal.</span>
+                    <div ng-show="goalsInvalid">
+                        <span class="error">Please select at least one goal.</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Focus Area<span class="asterisk"> *</span></label>
-                    <select name="focus" ng-model="newProgram.focusId" data-ng-options="p.id as p.name for p in foci" required form-element guidance="This selects the main focus area for the program.">
+                    <select name="focus" class="modal-dropdown" ng-model="newProgram.focusId" data-ng-options="p.id as p.name for p in foci" required form-element guidance="This selects the main focus area for the program.">
                         <option value="">--Select a focus area --</option>
                     </select>
                     <div ng-show="programForm.focus.$dirty">
@@ -159,11 +274,10 @@
                                           selection-mode="multiple"
                                           helper-elements="filter none reset"
                                           max-height="250px"
-                                          on-select-none="setContactsDirty()">
+                                          on-item-click="setDropDownDirty()">
                     </isteven-multi-select>
-                    <div ng-show="programForm.hiddenContacts.$dirty">
-                        <input name="hiddenContacts" ng-model="out.Contacts.length" style="display: none" type="number" min="1" />
-                        <span class="error" ng-show="programForm.hiddenContacts.$invalid">Please select as least one point of contact.</span>
+                    <div ng-show="contactsInvalid">
+                        <span class="error">Please select at least one point of contact.</span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -179,21 +293,24 @@
             <guidance></guidance>
         </div>
     </div>
-    <button class="btn btn-default" ng-click="modal.createProgram = !modalClose()">CANCEL</button>
+    <button class="btn btn-default" ng-click="createModalCancel(this)">CANCEL</button>
     <button ng-disabled="programForm.$invalid" class="btn btn-success right" ng-click="modal.createProgram = !createProgram(programForm)">CREATE</button>
 </modal-dialog>
-<modal-dialog show="modal.confirmClose" dialog-title="Confirm Close" before-close="confirmCloseNo()">
-    <p class="strong">There is unsaved data.  Are you sure you want to close?</p>
+
+
+<!-- dialog boxes for confirming -->
+<modal-dialog show="showConfirmClose" dialog-title="Confirm Close" before-close="confirmCloseNo()">
+    <p class="strong">There is unsaved data.  Are you sure you want to cancel?</p>
     <button class="btn btn-default right" ng-click="confirmCloseYes()">YES</button>
     &nbsp;
     <button class="btn btn-success right" ng-click="confirmCloseNo()">NO</button>
 </modal-dialog>
-<modal-dialog show="modal.confirmSave" dialog-title="Program Created" before-close="confirmSaveYes()">
-    <p class="strong">The program was created sucessfully!</p>
+<modal-dialog show="confirmSave" dialog-title="Program Created">
+    <p class="strong">The program was saved sucessfully!</p>
     <button class="btn btn-default right" ng-click="confirmSaveYes()">OK</button>
 </modal-dialog>
-<modal-dialog show="modal.confirmFail" dialog-title="Error Saving Program" before-close="confirmFailOk()">
-    <p class="strong">There was an error saving the new program.</p>
+<modal-dialog show="confirmFail" dialog-title="Error Saving Program" before-close="confirmFailOk()">
+    <p class="strong">There was an error saving the program.</p>
     <p class="alert-warning">{{errorMessage}}</p>
     <div>
         <ul>

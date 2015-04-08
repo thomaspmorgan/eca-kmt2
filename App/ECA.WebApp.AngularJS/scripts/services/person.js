@@ -18,6 +18,14 @@ angular.module('staticApp')
                     defer.resolve(data);
                 })
               return defer.promise;
+          },
+          getContactInfoById: function (id) {
+              var defer = $q.defer();
+              DragonBreath.get('people/' + id + '/contactInfo')
+                .success(function (data) {
+                    defer.resolve(data);
+                })
+              return defer.promise;
           }
       };
   });

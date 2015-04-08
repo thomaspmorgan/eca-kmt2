@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Core", "ECA.Core\ECA.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Data", "ECA.Data\ECA.Data.csproj", "{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Core.DynamicLinq", "ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj", "{2FFE2C53-412A-43AE-840D-470901649ED8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FFE2C53-412A-43AE-840D-470901649ED8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,6 @@
 ﻿using ECA.Core.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -68,16 +69,16 @@ namespace ECA.WebApi.Custom.Filters
                     sb.AppendFormat("Action Arguments:  {0}", actionArgumentsJson);
                     sb.AppendLine(String.Empty);
                 }
-
             }
-            
             sb.Append(context.Exception.ToString());
             return sb.ToString();
         }
 
         private string Jsonify(Dictionary<string, object> actionArguments)
         {
-            return JsonConvert.SerializeObject(actionArguments);
+            var json = JsonConvert.SerializeObject(actionArguments);
+            var prettyJson = JValue.Parse(json).ToString(Formatting.Indented);
+            return prettyJson;
         }
 
         private string GetUser(ExceptionLoggerContext context)

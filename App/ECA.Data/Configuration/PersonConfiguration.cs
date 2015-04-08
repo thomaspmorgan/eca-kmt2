@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
+    /// <summary>
+    /// The entity configuration for the Person class.
+    /// </summary>
     public class PersonConfiguration : EntityTypeConfiguration<Person>
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
         public PersonConfiguration()
         {
             HasMany(x => x.Family)
@@ -27,6 +33,9 @@ namespace ECA.Data.Configuration
                     p.MapRightKey("LocationId");
                     p.ToTable("CitizenCountry");
                 });
+
+            HasOptional(x => x.PlaceOfBirth).WithMany().HasForeignKey(x => x.PlaceOfBirthId).WillCascadeOnDelete(false);
+            Property(x => x.PlaceOfBirthId).HasColumnName("PlaceOfBirth_LocationId");
         }
     }
 }

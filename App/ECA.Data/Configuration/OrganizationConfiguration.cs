@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Data.Configuration
 {
+    /// <summary>
+    /// The entity configuration for the Organization class.
+    /// </summary>
     public class OrganizationConfiguration : EntityTypeConfiguration<Organization>
     {
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
         public OrganizationConfiguration()
         {
             Property(a => a.OfficeSymbol).IsOptional().HasMaxLength(Organization.OFFICE_SYMBOL_MAX_LENGTH);

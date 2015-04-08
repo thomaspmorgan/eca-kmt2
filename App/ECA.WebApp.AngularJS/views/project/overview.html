@@ -1,68 +1,157 @@
-<h2 class="project-color tab-header">Overview</h2>
-<div class="row">
-    <span class="right icon span" ng-click="editDescription.$show()" ng-hide="editDescription.$visible"></span>
+<div collapse="view.areAlertsCollapsed">
+    <alert ng-repeat="notification in view.notifications" type="{{notification.type}}">{{notification.msg}}</alert>
 </div>
-<div class="row">
-    <h5 editable-textarea="project.description" e-form="editDescription" e-rows="5" e-cols="150" onaftersave="updateProject()">{{project.description}}</h5>
-    <img class="right icon" ng-click="editDescription.$show()" ng-hide="editDescription.$visible" src="images/editA.png" alt="">
+
+<div>
+    <div class="pull-right" ng-show="editView.show">
+        <button ng-click="view.onSaveClick($event)" class="btn btn-success">Save</button>
+        <button ng-click="view.onCancelClick($event)" class="btn">Cancel</button>
+    </div>
+    <h2 class="project-color tab-header" ng-show="!view.isLoading && !view.isSaving">Overview</h2>
 </div>
-<div class="row tags">
-    <span ng-repeat="tag in project.tags" class="tag">#{{tag}}</span>
+
+<div class="spinner" ng-show="view.isLoading || view.isSaving">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
 </div>
-<div class="row table">
-    <h4 class="tab-subheader">Details</h4>
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-6 title-label">Status</div>
-            <div class="col-md-6">{{project.status}}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 title-label">Themes</div>
-            <div class="col-md-6">
-                <ul>
-                    <li ng-repeat="theme in project.themes">{{theme.value}}</li>
-                </ul>
+
+<div ng-show="!view.isLoading && !view.isSaving">
+    <div class="row" ng-show="editView.show">
+        <h5 class="col-md-6">Project Name</h5>
+
+        <h5 class="col-md-6" ng-show="editView.show"><a href="#" editable-text="project.name">{{ project.name || 'NO PROJECT NAME' }}</a></h5>
+    </div>
+    <div class="row">
+        <h5 ng-show="!editView.show">{{project.description}}</h5>
+
+        <h5 class="col-md-6" ng-show="editView.show">Description</h5>
+        <h5 class="col-md-6" ng-show="editView.show" editable-textarea="project.description" e-rows="5" e-cols="150">{{project.description}}</h5>
+    </div>
+    <div class="row tags">
+        <span ng-repeat="tag in project.tags" class="tag">#{{tag}}</span>
+    </div>
+    <div class="row table">
+        <h4 class="tab-subheader">Details</h4>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6 title-label">Status</div>
+                <div class="col-md-6" ng-show="!editView.show">{{project.status}}</div>
+                <a href="#" ng-show="editView.show" editable-select="project.projectStatusId" onshow="editView.loadProjectStati()" onaftersave="view.updateStatusView()" e-ng-options="s.id as s.name for s in editView.projectStati">
+                    {{ project.status }}
+                </a>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Start Date</div>
+                <div class="col-md-6" ng-show="!editView.show">{{(project.startDate | date:"MMMM dd, yyyy") || 'No start date.'}}</div>
+                <a href="#" ng-show="editView.show" editable-date="project.startDate">
+                    {{(project.startDate | date:"MMMM dd, yyyy") || 'No start date.'}}
+                </a>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">End Date</div>
+                <div class="col-md-6" ng-show="!editView.show">{{(project.endDate | date:"MMMM dd, yyyy") || 'No end date.'}}</div>
+                <a href="#" ng-show="editView.show" editable-date="project.endDate">
+                    {{(project.endDate | date:"MMMM dd, yyyy") || 'No end date.'}}
+                </a>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Themes</div>
+                <div class="col-md-6" ng-show="!editView.show">
+                    <ul>
+                        <li ng-repeat="theme in project.themes">{{theme.value}}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6" ng-show="editView.show">
+                    <ui-select multiple ng-model="editView.selectedThemes" ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a theme." style="min-width: 200px;">
+                        <ui-select-match placeholder="Select themes...">
+                            <div>{{$item.value}}</div>
+                        </ui-select-match>
+
+                        <ui-select-choices repeat="theme in editView.themes">
+                            <div ng-bind-html="theme.value | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Strategic Goals</div>
+                <div class="col-md-6" ng-show="!editView.show">
+                    <ul>
+                        <li ng-repeat="goal in project.goals">{{goal.value}}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6" ng-show="editView.show">
+                    <ui-select multiple ng-model="editView.selectedGoals" ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a goal." style="min-width: 200px;">
+                        <ui-select-match placeholder="Select goals...">
+                            <div>{{$item.value}}</div>
+                        </ui-select-match>
+
+                        <ui-select-choices repeat="goal in editView.goals">
+                            <div ng-bind-html="goal.value | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6 title-label">Strategic Goals</div>
-            <div class="col-md-6">
-                <ul>
-                    <li ng-repeat="goal in project.goals">{{goal.value}}</li>
-                </ul>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6 title-label">Focus</div>
+                <div class="col-md-6" ng-show="!editView.show">{{project.focus}}</div>
+                <a href="#" editable-select="project.focusId" ng-show="editView.show" onshow="editView.loadFoci()" onaftersave="view.updateFocusView()" e-ng-options="s.id as s.name for s in editView.foci">
+                    {{ project.focus }}
+                </a>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Office</div>
+                <div class="col-md-6"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">Program</div>
+                <div class="col-md-6"><a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a></div>
+            </div>
+            <div class="row" ng-show="project.contacts">
+                <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                <div class="col-md-6" ng-show="!editView.show">
+                    <ul>
+                        <li ng-repeat="contact in project.contacts">{{contact.value}}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6" ng-show="editView.show">
+                    <ui-select multiple ng-model="editView.selectedPointsOfContact" ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a point of contact." style="min-width: 200px;">
+                        <ui-select-match placeholder="Select points of contact...">
+                            <div>{{$item.value}}</div>
+                        </ui-select-match>
+
+                        <ui-select-choices refresh="editView.searchPointsOfContact($select.search)" refresh-delay="250" repeat="person in editView.pointsOfContact">
+                            <div ng-bind-html="person.fullName | highlight: $select.search"></div>
+                            <div class="small">{{person.position}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-6 title-label">Focus</div>
-            <div class="col-md-6">{{project.focus}}</div>
+    <div class="row">
+        <h4 class="tab-subheader">Snapshot</h4>
+        <div class="col-md-4">
+            <p class="stat text-center">{{project.countryIsos.length}}</p>
+            <p class="title-label text-center">Locations</p>
         </div>
-        <div class="row">
-            <div class="col-md-6 title-label">Office</div>
-            <div class="col-md-6"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 title-label">Program</div>
-            <div class="col-md-6"><a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a></div>
-        </div>
-        <div class="row" ng-show="project.contacts">
-            <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
-            <div class="col-md-6">
-                <ul>
-                    <li ng-repeat="contact in project.contacts">{{contact.value}}</li>
-                </ul>
-            </div>
+        <div class="col-md-8">
+            <map width="600" height="300" activecolor="5cb9dd" countries="project.countryIsos"></map>
         </div>
     </div>
 </div>
-<div class="row">
-    <h4 class="tab-subheader">Snapshot</h4>
-    <div class="col-md-4">
-        <p class="stat text-center">{{project.countryIsos.length}}</p>
-        <p class="title-label text-center">Locations</p>
+
+<modal-dialog show="view.saveFailed" dialog-title="Error Saving Project" before-close="view.confirmFailOk()">
+    <p class="strong">There was an error updating the project.</p>
+    <p class="alert-warning">{{view.errorMessage}}</p>
+    <div>
+        <ul>
+            <li class="alert-danger" ng-repeat="validation in view.validations">{{validation}}</li>
+        </ul>
     </div>
-    <div class="col-md-8">
-        <map width="600" height="300" activecolor="5cb9dd" countries="project.countryIsos"></map>
-    </div>
-</div>
+    <button class="btn btn-default right" ng-click="view.confirmFailOk()">OK</button>
+</modal-dialog>
+

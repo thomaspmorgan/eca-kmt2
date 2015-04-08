@@ -37,6 +37,7 @@ namespace ECA.Core.DynamicLinq.Filter
         public LinqFilter<T> ToLinqFilter<T>() where T : class
         {
             var comparisonType = ComparisonType.ToComparisonType(this.Comparison);
+            Contract.Assert(comparisonType != null, "The comparison type must not be null.");
             if (comparisonType == ComparisonType.Equal)
             {
                 return new EqualFilter<T>(this.Property, this.Value);
@@ -64,6 +65,10 @@ namespace ECA.Core.DynamicLinq.Filter
             if (comparisonType == ComparisonType.In)
             {
                 return new InFilter<T>(this.Property, this.Value);
+            }
+            if (comparisonType == ComparisonType.NotIn)
+            {
+                return new NotInFilter<T>(this.Property, this.Value);
             }
             throw new NotSupportedException("The client filter is not supported.");
         }

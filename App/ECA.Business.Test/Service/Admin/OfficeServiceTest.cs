@@ -392,7 +392,7 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(childOffice.OrganizationTypeId, testChildOffice.OrganizationTypeId);
                 Assert.AreEqual(1, testChildOffice.OfficeLevel);
                 Assert.AreEqual(parentOffice.OrganizationId, testChildOffice.ParentOrganization_OrganizationId);
-                
+
             };
 
             var serviceResults = service.GetChildOffices(parentOfficeId);
@@ -886,6 +886,363 @@ namespace ECA.Business.Test.Service.Admin
 
                 var serviceResults = service.GetPrograms(officeId, queryOperator);
                 var serviceResultsAsync = await service.GetProgramsAsync(officeId, queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+        #endregion
+
+        #region Get Offices
+        [TestMethod]
+        public async Task TestGetOffices_DefaultSorter()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<SimpleOfficeDTO>();
+                var dto1 = new SimpleOfficeDTO
+                {
+                    Description = "A",
+                    Name = "A",
+                    OfficeLevel = 1,
+                    OfficeSymbol = "symbol",
+                    OrganizationId = 2,
+                    OrganizationType = "org",
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    ParentOrganization_OrganizationId = 1
+
+                };
+                var dto2 = new SimpleOfficeDTO
+                {
+                    Description = "A",
+                    Name = "G",
+                    OfficeLevel = 1,
+                    OfficeSymbol = "symbol",
+                    OrganizationId = 2,
+                    OrganizationType = "org",
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    ParentOrganization_OrganizationId = 1
+
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list = list.OrderBy(x => x.Name).ToList();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<SimpleOfficeDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<SimpleOfficeDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<SimpleOfficeDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Action<PagedQueryResults<SimpleOfficeDTO>> tester = (results) =>
+                {
+                    Assert.AreEqual(2, results.Total);
+                    Assert.AreEqual(2, results.Results.Count);
+                    Assert.AreEqual(dto2.OrganizationId, results.Results.First().OrganizationId);
+                    Assert.AreEqual(dto1.OrganizationId, results.Results.First().OrganizationId);
+                };
+
+                var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.Name, SortDirection.Descending);
+                var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 10, defaultSorter);
+
+                var serviceResults = service.GetOffices(queryOperator);
+                var serviceResultsAsync = await service.GetOfficesAsync(queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetOffices_Sorter()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<SimpleOfficeDTO>();
+                var dto1 = new SimpleOfficeDTO
+                {
+                    Description = "A",
+                    Name = "A",
+                    OfficeLevel = 1,
+                    OfficeSymbol = "symbol",
+                    OrganizationId = 2,
+                    OrganizationType = "org",
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    ParentOrganization_OrganizationId = 1
+
+                };
+                var dto2 = new SimpleOfficeDTO
+                {
+                    Description = "A",
+                    Name = "G",
+                    OfficeLevel = 1,
+                    OfficeSymbol = "symbol",
+                    OrganizationId = 2,
+                    OrganizationType = "org",
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    ParentOrganization_OrganizationId = 1
+
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list = list.OrderBy(x => x.Name).ToList();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<SimpleOfficeDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<SimpleOfficeDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<SimpleOfficeDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Action<PagedQueryResults<SimpleOfficeDTO>> tester = (results) =>
+                {
+                    Assert.AreEqual(2, results.Total);
+                    Assert.AreEqual(2, results.Results.Count);
+                    Assert.AreEqual(dto2.OrganizationId, results.Results.First().OrganizationId);
+                    Assert.AreEqual(dto1.OrganizationId, results.Results.First().OrganizationId);
+                };
+
+                var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.Name, SortDirection.Ascending);
+                var sorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.Name, SortDirection.Descending);
+                var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 10, defaultSorter, null, new List<ISorter> { sorter });
+
+                var serviceResults = service.GetOffices(queryOperator);
+                var serviceResultsAsync = await service.GetOfficesAsync(queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetOffices_Filter()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<SimpleOfficeDTO>();
+                var dto1 = new SimpleOfficeDTO
+                {
+                    Description = "A",
+                    Name = "A",
+                    OfficeLevel = 1,
+                    OfficeSymbol = "symbol",
+                    OrganizationId = 2,
+                    OrganizationType = "org",
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    ParentOrganization_OrganizationId = 1
+
+                };
+                var dto2 = new SimpleOfficeDTO
+                {
+                    Description = "A",
+                    Name = "G",
+                    OfficeLevel = 1,
+                    OfficeSymbol = "symbol",
+                    OrganizationId = 2,
+                    OrganizationType = "org",
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    ParentOrganization_OrganizationId = 1
+
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list = list.OrderBy(x => x.Name).ToList();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<SimpleOfficeDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<SimpleOfficeDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<SimpleOfficeDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Action<PagedQueryResults<SimpleOfficeDTO>> tester = (results) =>
+                {
+                    Assert.AreEqual(1, results.Total);
+                    Assert.AreEqual(1, results.Results.Count);
+                    Assert.AreEqual(dto1.OrganizationId, results.Results.First().OrganizationId);
+                };
+
+                var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.Name, SortDirection.Ascending);
+                var filter = new ExpressionFilter<SimpleOfficeDTO>(x => x.Name, ComparisonType.Equal, dto1.Name);
+                var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 10, defaultSorter, new List<IFilter> { filter }, null);
+
+                var serviceResults = service.GetOffices(queryOperator);
+                var serviceResultsAsync = await service.GetOfficesAsync(queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetOffices_Keyword()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<SimpleOfficeDTO>();
+                var dto1 = new SimpleOfficeDTO
+                {
+                    Description = "A",
+                    Name = "A",
+                    OfficeLevel = 1,
+                    OfficeSymbol = "symbol",
+                    OrganizationId = 2,
+                    OrganizationType = "org",
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    ParentOrganization_OrganizationId = 1
+
+                };
+                var dto2 = new SimpleOfficeDTO
+                {
+                    Description = "A",
+                    Name = "G",
+                    OfficeLevel = 1,
+                    OfficeSymbol = "symbol",
+                    OrganizationId = 2,
+                    OrganizationType = "org",
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    ParentOrganization_OrganizationId = 1
+
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list = list.OrderBy(x => x.Name).ToList();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<SimpleOfficeDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<SimpleOfficeDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<SimpleOfficeDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Action<PagedQueryResults<SimpleOfficeDTO>> tester = (results) =>
+                {
+                    Assert.AreEqual(1, results.Total);
+                    Assert.AreEqual(1, results.Results.Count);
+                    Assert.AreEqual(dto1.OrganizationId, results.Results.First().OrganizationId);
+                };
+
+                var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.Name, SortDirection.Ascending);
+                var filter = new SimpleKeywordFilter<SimpleOfficeDTO>(new HashSet<string> { dto1.Name }, x => x.Name);
+                var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 10, defaultSorter, new List<IFilter> { filter }, null);
+
+                var serviceResults = service.GetOffices(queryOperator);
+                var serviceResultsAsync = await service.GetOfficesAsync(queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestGetOffices_Paging()
+        {
+            using (ShimsContext.Create())
+            {
+                var list = new List<SimpleOfficeDTO>();
+                var dto1 = new SimpleOfficeDTO
+                {
+                    Description = "A",
+                    Name = "A",
+                    OfficeLevel = 1,
+                    OfficeSymbol = "symbol",
+                    OrganizationId = 2,
+                    OrganizationType = "org",
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    ParentOrganization_OrganizationId = 1
+
+                };
+                var dto2 = new SimpleOfficeDTO
+                {
+                    Description = "A",
+                    Name = "G",
+                    OfficeLevel = 1,
+                    OfficeSymbol = "symbol",
+                    OrganizationId = 2,
+                    OrganizationType = "org",
+                    OrganizationTypeId = OrganizationType.Office.Id,
+                    ParentOrganization_OrganizationId = 1
+
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list = list.OrderBy(x => x.Name).ToList();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<SimpleOfficeDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<SimpleOfficeDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<SimpleOfficeDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<SimpleOfficeDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Action<PagedQueryResults<SimpleOfficeDTO>> tester = (results) =>
+                {
+                    Assert.AreEqual(2, results.Total);
+                    Assert.AreEqual(1, results.Results.Count);
+                    Assert.AreEqual(dto1.OrganizationId, results.Results.First().OrganizationId);
+                };
+
+                var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.Name, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 1, defaultSorter);
+
+                var serviceResults = service.GetOffices(queryOperator);
+                var serviceResultsAsync = await service.GetOfficesAsync(queryOperator);
                 tester(serviceResults);
                 tester(serviceResultsAsync);
             }

@@ -80,6 +80,11 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        /// <summary>
+        /// Retrieves the participant with the given id.
+        /// </summary>
+        /// <param name="participantId">The id of the participant.</param>
+        /// <returns>The participant with the given id.</returns>
         [ResponseType(typeof(SimpleParticipantDTO))]
         [Route("Participants/{participantId:int}")]
         public async Task<IHttpActionResult> GetParticipantByIdAsync(int participantId) 

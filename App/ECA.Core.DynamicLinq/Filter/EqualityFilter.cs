@@ -95,6 +95,11 @@ namespace ECA.Core.DynamicLinq.Filter
     [ContractClassFor(typeof(EqualityFilter<>))]
     public abstract class EqualityFilterContract<T> : EqualityFilter<T> where T : class
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="property"></param>
+        /// <param name="value"></param>
         public EqualityFilterContract(string property, object value)
             : base(property, value)
         {

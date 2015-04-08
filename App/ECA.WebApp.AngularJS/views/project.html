@@ -5,7 +5,7 @@
     <div class="toolbar" sticky offset="50">
         <div class="left2">
             <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-danger">DRAFT</button>
+                <button type="button" class="btn btn-danger" ng-click="onDraftButtonClick($event)">{{project.status}}</button>
                 <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle>
                     <span class="caret"></span>
                     <span class="sr-only">Split button!</span>
@@ -17,7 +17,7 @@
                     <li><a href="#">DELETE PERMANENTLY</a></li>
                 </ul>
             </div>
-            <span class="detail">Last Updated 01/01/14</span>
+            <span class="detail">Last Updated {{(project.revisedOn | date:"MMM dd, yyyy") || 'No revised on date.'}}</span>
         </div>
         <div class="right">
             <img class="icon star" src="images/star.png" alt="">
