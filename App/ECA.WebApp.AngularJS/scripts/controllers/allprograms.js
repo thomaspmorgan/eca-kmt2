@@ -80,7 +80,9 @@ angular.module('staticApp')
         filter: [{ property: 'locationtypeid', comparison: 'eq', value: 2 }]
     };
 
-      // #region Lookup Services
+
+
+     // #region Lookup Services
 
     LookupService.getAllThemes($scope.lookupParams)
         .then(function (data) {
@@ -155,7 +157,8 @@ angular.module('staticApp')
             start: null,
             limit: 25,
             sort: null,
-            filter: [{ property: 'name', comparison: 'like', value: val }]
+            filter: [{ property: 'name', comparison: 'like', value: val },
+                    { property: 'programstatusid', comparison: 'eq', value: 1 }]
         };
         return ProgramService.getAllPrograms($scope.parentLookupParams)
             .then(function (data) {
@@ -168,15 +171,14 @@ angular.module('staticApp')
         $scope.programsLoading = true;
         TableService.setTableState(tableState);
 
-        var params = {
-            start: TableService.getStart(),
-            limit: TableService.getLimit(),
-            sort: TableService.getSort(),
-            filter: TableService.getFilter()
-
+        $scope.activeProgramParams = {
+            start: null,
+            limit: 25,
+            sort: null,
+            filter: [{ property: 'programstatusid', comparison: 'eq', value: 1 }]
         };
 
-        ProgramService.getAllPrograms(params)
+        ProgramService.getAllPrograms($scope.activeProgramParams)
         .then(function (data) {
             $scope.programs = data.results;
             var limit = TableService.getLimit();
