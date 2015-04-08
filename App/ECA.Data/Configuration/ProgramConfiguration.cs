@@ -67,6 +67,20 @@ namespace ECA.Data.Configuration
                 p.MapRightKey("ContactId");
                 p.ToTable("ProgramContact");
             });
+            HasMany(p => p.FocusCategories).WithMany(t => t.Programs)
+                .Map(p =>
+                {
+                    p.MapLeftKey("ProgramId");
+                    p.MapRightKey("CategoryId");
+                    p.ToTable("ProgramCategory");
+                });
+            HasMany(p => p.JustificationObjectives).WithMany(t => t.Programs)
+              .Map(p =>
+             {
+                 p.MapLeftKey("ProgramId");
+                  p.MapRightKey("ObjectiveId");
+                  p.ToTable("ProgramObjective");
+               });
         }
     }
 }

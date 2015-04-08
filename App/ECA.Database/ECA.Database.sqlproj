@@ -256,6 +256,7 @@
     <Build Include="dbo\Tables\ProjectCategory.sql" />
     <Build Include="dbo\Tables\ProjectObjective.sql" />
     <Build Include="dbo\Tables\OfficeSettings.sql" />
+    <Build Include="dbo\Stored Procedures\GetProgramsByOffice.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />

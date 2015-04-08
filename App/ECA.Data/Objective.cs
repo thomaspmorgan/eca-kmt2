@@ -11,46 +11,48 @@ namespace ECA.Data
     /// <summary>
     /// A Focus is a concentration that a project encompasses.
     /// </summary>
-    public class Focus : IHistorical
+    public class Objective : IHistorical
     {
         /// <summary>
         /// The max length of the focus.
         /// </summary>
-        public const int NAME_MAX_LENGTH = 255;
+        public const int NAME_MAX_LENGTH = 50;
 
         /// <summary>
         /// Creates a new Focus.
         /// </summary>
-        public Focus()
+        public Objective()
         {
             this.History = new History();
-            this.Office = new Organization();
+            this.Justification = new Justification();
         }
 
         /// <summary>
         /// Gets or set the Id.
         /// </summary>
-        public int FocusId { get; set; }
+        public int ObjectiveId { get; set; }
 
         /// <summary>
         /// Gets or sets the Name.
         /// </summary>
         ///
         [MaxLength(NAME_MAX_LENGTH)]
-        public string FocusName { get; set; }
+        public string ObjectiveName { get; set; }
 
         /// <summary>
         /// Office for the Focus area
         /// </summary>
-        public int? OfficeId { get; set;}
+        public int JustificationId { get; set; }
 
         /// <summary>
         /// Office of the Focus Area
         /// </summary>
         ///
+        public Justification Justification { get; set; }
 
-        [ForeignKey("OfficeId")]
-        public Organization Office { get; set; }
+        public ICollection<Program> Programs { get; set; }
+
+        public ICollection<Project> Projects { get; set; }
 
         /// <summary>
         /// Gets or sets the history.
@@ -58,3 +60,5 @@ namespace ECA.Data
         public History History { get; set; }
     }
 }
+
+

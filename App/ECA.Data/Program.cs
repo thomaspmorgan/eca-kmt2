@@ -137,6 +137,9 @@ namespace ECA.Data
         public ICollection<Impact> Impacts { get; set; }
         public ICollection<Contact> Contacts { get; set; }
 
+        public ICollection<Objective> JustificationObjectives { get; set; }
+        public ICollection<Category> FocusCategories { get; set; }
+
         public History History { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -104,6 +104,7 @@
     <Compile Include="AddressType.cs" />
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
+    <Compile Include="Category.cs" />
     <Compile Include="Configuration\FocusConfiguration.cs" />
     <Compile Include="Configuration\ImpactConfiguration.cs" />
     <Compile Include="Configuration\ItineraryStop.cs" />
@@ -125,11 +126,14 @@
     <Compile Include="IHistorical.cs" />
     <Compile Include="IThemeable.cs" />
     <Compile Include="ItineraryStatus.cs" />
+    <Compile Include="Justification.cs" />
     <Compile Include="MaritalStatus.cs" />
     <Compile Include="Method.cs" />
     <Compile Include="MoneyFlowSourceRecipientType.cs" />
     <Compile Include="MoneyFlowStatus.cs" />
     <Compile Include="MoneyFlowType.cs" />
+    <Compile Include="Objective.cs" />
+    <Compile Include="OfficeSetting.cs" />
     <Compile Include="Participant.cs" />
     <Compile Include="PersonStatus.cs" />
     <Compile Include="PhoneNumberType.cs" />
