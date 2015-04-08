@@ -154,7 +154,7 @@ namespace ViewOfficesOverview.Test
             BrowserWindow uIHttpsecakmtqaazureweWindow = this.UIHttpsecakmtqaazureweWindow;
             #endregion
 
-            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices/'
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top'
             uIHttpsecakmtqaazureweWindow.NavigateToUrl(new System.Uri(this.NavigatetoECAOfficeDirectoryParams.UIHttpsecakmtqaazureweWindowUrl));
         }
         
@@ -489,9 +489,9 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
         
         #region Fields
         /// <summary>
-        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices/'
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top'
         /// </summary>
-        public string UIHttpsecakmtqaazureweWindowUrl = "https://eca-kmt-qa.azurewebsites.net/#/alloffices/";
+        public string UIHttpsecakmtqaazureweWindowUrl = "https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top";
         #endregion
     }
     
