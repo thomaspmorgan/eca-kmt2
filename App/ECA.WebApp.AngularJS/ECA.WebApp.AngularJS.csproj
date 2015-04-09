@@ -149,6 +149,9 @@
     <Content Include="styles\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>
+    <Content Include="styles\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <Content Include="styles\_footer.scss" />
     <Content Include="styles\_form.scss" />
     <Content Include="styles\_hero.scss" />
