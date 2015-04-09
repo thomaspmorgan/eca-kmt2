@@ -1,0 +1,936 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/5/2015 5:49:28 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{50126CE5-8891-4856-AC2C-DDE3C0C1769F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import IVLP_Address Source"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{EDD59B89-7DAA-42BB-9781-5CE19754C356}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{9C89348C-B989-4C78-B34C-1A8213B08CEF}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.IVLP.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=IVLP;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABjxljclK6mD9IwtMjYb+69xuQCpx9l+4CAowcbzUw9wwAAAAAOgAAAAAIAACAAAADf01PgysejBaDX/PGIt1HY7PnybFZ+QYG3pO/f6dQPYyAAAADWzlrXCjCQWeE4NCz77R67p3isArusgd4p0N2x2bbJr0AAAAB6xLW83Qp748zahEfa8lWj2NI5tUHXS4txcGiX+8g+eIrS0eLez+4PtY7CHuhUD+3dbNJQqNHhvBJ4JkUkTT2J</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{9F6C3C8A-D8A6-4032-B887-6D5663E2540E}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_ADDRESS.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import IVLP_Address Excel Source"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{8C4D4295-6C78-45B8-B0CB-A8F13DCF7A2E}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import IVLP_Address Excel Source"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel IVLP_Address Pilot Data"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">'Sheet 1$'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_ID]"
+                      name="ADDRESS_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[PERSON_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[PERSON_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[PERSON_ID]"
+                      name="PERSON_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ORG_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ORG_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ORG_ID]"
+                      name="ORG_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[APPOINTMENT_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[APPOINTMENT_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[APPOINTMENT_ID]"
+                      name="APPOINTMENT_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_PRIMARY_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_PRIMARY_IND]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_PRIMARY_IND]"
+                      name="ADDRESS_PRIMARY_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_LINE1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_LINE1]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_LINE1]"
+                      name="ADDRESS_LINE1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_LINE2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_LINE2]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_LINE2]"
+                      name="ADDRESS_LINE2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_LINE3]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_LINE3]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_LINE3]"
+                      name="ADDRESS_LINE3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[CITY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[CITY]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[CITY]"
+                      name="CITY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[STATE_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[STATE_CD]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[STATE_CD]"
+                      name="STATE_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[PROVINCE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[PROVINCE]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[PROVINCE]"
+                      name="PROVINCE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[COUNTRY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[COUNTRY]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[COUNTRY]"
+                      name="COUNTRY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[POSTAL_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[POSTAL_CD]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[POSTAL_CD]"
+                      name="POSTAL_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[LOCATION_TYPE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[LOCATION_TYPE]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[LOCATION_TYPE]"
+                      name="LOCATION_TYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_CREATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_CREATE_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_CREATE_ID]"
+                      name="ADDRESS_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_CREATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_CREATE_DT]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_CREATE_DT]"
+                      name="ADDRESS_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_UPDATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_UPDATE_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_UPDATE_ID]"
+                      name="ADDRESS_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_UPDATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_UPDATE_DT]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_UPDATE_DT]"
+                      name="ADDRESS_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[APPOINTMENT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="APPOINTMENT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_PRIMARY_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_PRIMARY_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_LINE1]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_LINE1" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_LINE2]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_LINE2" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_LINE3]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_LINE3" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[CITY]"
+                      dataType="wstr"
+                      length="255"
+                      name="CITY" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[STATE_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="STATE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[PROVINCE]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROVINCE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      name="COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[POSTAL_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="POSTAL_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[LOCATION_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      name="LOCATION_TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_CREATE_DT]"
+                      dataType="date"
+                      name="ADDRESS_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].ExternalColumns[ADDRESS_UPDATE_DT]"
+                      dataType="date"
+                      name="ADDRESS_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_ID]"
+                      name="ADDRESS_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[PERSON_ID]"
+                      name="PERSON_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ORG_ID]"
+                      name="ORG_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[APPOINTMENT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[APPOINTMENT_ID]"
+                      name="APPOINTMENT_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_PRIMARY_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_PRIMARY_IND]"
+                      name="ADDRESS_PRIMARY_IND" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_LINE1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_LINE1]"
+                      name="ADDRESS_LINE1" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_LINE2]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_LINE2]"
+                      name="ADDRESS_LINE2" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_LINE3]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_LINE3]"
+                      name="ADDRESS_LINE3" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[CITY]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[CITY]"
+                      name="CITY" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[STATE_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[STATE_CD]"
+                      name="STATE_CD" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[PROVINCE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[PROVINCE]"
+                      name="PROVINCE" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[COUNTRY]"
+                      name="COUNTRY" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[POSTAL_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[POSTAL_CD]"
+                      name="POSTAL_CD" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[LOCATION_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[LOCATION_TYPE]"
+                      name="LOCATION_TYPE" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_CREATE_ID]"
+                      name="ADDRESS_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_CREATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_CREATE_DT]"
+                      name="ADDRESS_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_UPDATE_ID]"
+                      name="ADDRESS_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_UPDATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ADDRESS_UPDATE_DT]"
+                      name="ADDRESS_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import IVLP_Address Excel Source\IVLP_Address"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="IVLP_Address"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[IVLP_Address]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[ADDRESS_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_ID]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[PERSON_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PERSON_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_ID]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[PERSON_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[ORG_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ORG_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ORG_ID]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[APPOINTMENT_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="APPOINTMENT_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[APPOINTMENT_ID]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[APPOINTMENT_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[ADDRESS_PRIMARY_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_PRIMARY_IND"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_PRIMARY_IND]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_PRIMARY_IND]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[ADDRESS_LINE1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_LINE1"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_LINE1]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_LINE1]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[ADDRESS_LINE2]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_LINE2"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_LINE2]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_LINE2]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[ADDRESS_LINE3]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_LINE3"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_LINE3]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_LINE3]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[CITY]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CITY"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[CITY]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[CITY]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[STATE_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STATE_CD"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[STATE_CD]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[STATE_CD]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[PROVINCE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROVINCE"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[PROVINCE]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[PROVINCE]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[COUNTRY]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="COUNTRY"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[COUNTRY]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[POSTAL_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="POSTAL_CD"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[POSTAL_CD]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[POSTAL_CD]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[LOCATION_TYPE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LOCATION_TYPE"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[LOCATION_TYPE]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[LOCATION_TYPE]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[ADDRESS_CREATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_CREATE_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_CREATE_ID]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[ADDRESS_CREATE_DT]"
+                      cachedDataType="date"
+                      cachedName="ADDRESS_CREATE_DT"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_CREATE_DT]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[ADDRESS_UPDATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_UPDATE_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_UPDATE_ID]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].Columns[ADDRESS_UPDATE_DT]"
+                      cachedDataType="date"
+                      cachedName="ADDRESS_UPDATE_DT"
+                      externalMetadataColumnId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_UPDATE_DT]"
+                      lineageId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output].Columns[ADDRESS_UPDATE_DT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[APPOINTMENT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="APPOINTMENT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_PRIMARY_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_PRIMARY_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_LINE1]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_LINE1" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_LINE2]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_LINE2" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_LINE3]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_LINE3" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[CITY]"
+                      dataType="wstr"
+                      length="255"
+                      name="CITY" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[STATE_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="STATE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[PROVINCE]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROVINCE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      name="COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[POSTAL_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="POSTAL_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[LOCATION_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      name="LOCATION_TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="ADDRESS_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="ADDRESS_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Address Excel Source\IVLP_Address.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Address Excel Source\IVLP_Address.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Address Excel Source\IVLP_Address.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import IVLP_Address Excel Source.Paths[Excel Source Output]"
+              endId="Package\Import IVLP_Address Excel Source\IVLP_Address.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="242,42"
+          Id="Package\Import IVLP_Address Excel Source"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import IVLP_Address Excel Source">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Import IVLP_Address Excel Source\IVLP_Address"
+          TopLeft="124.5,165.5" />
+        <EdgeLayout
+          Id="Package\Import IVLP_Address Excel Source.Paths[Excel Source Output]"
+          TopLeft="115.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="81,118"
+              Start="0,0"
+              End="81,110.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,55" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,55"
+                    Point2="0,59"
+                    Point3="4,59" />
+                  <mssgle:LineSegment
+                    End="77,59" />
+                  <mssgle:CubicBezierSegment
+                    Point1="77,59"
+                    Point2="81,59"
+                    Point3="81,63" />
+                  <mssgle:LineSegment
+                    End="81,110.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Address Excel Source\Excel IVLP_Address Pilot Data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Address Excel Source\IVLP_Address">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,1402 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/2/2015 7:35:19 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{EC7C13DF-BF02-4BEB-BEAD-D9D2925FB64B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load IVLP_Project to ECA-Project"
+  DTS:PackageType="5"
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{D05D1749-670A-4487-92B8-6B4AEBC30C2C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{5F11E421-A942-44E8-9B8F-494E75BE6BC6}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.ECA_Dev_Test.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=ECA_Dev_Test;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABl1N4AXYpU5CFrMMRgQH1JsbzfvUNQCczv0XQvzwOQsQAAAAAOgAAAAAIAACAAAABOh08q/LRs6NhLtJsfsmu8fIClvgZsahF0MAt9LNsK1CAAAACn+XeRGOG9Rbp2KS/uD1J+6kyrGrn6tohdpfx0wUN0YUAAAADCBgtK45oViZaQRqD4fQ/wevk46e4YeEoU/QousCXZSxXnRo+Xh3HxLHZorCDzCn+m0gJIZVTIVtnc8JtpY54H</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{9EC68559-A1AB-40E5-B266-3E873C85A9BF}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.IVLP.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=IVLP;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABp6T8W5ACHsmUZ1WtE5JJI82estke/Ow47JnO+e0QnUwAAAAAOgAAAAAIAACAAAADM+H43jMJNH003etpQqy2coTt/D02yEqadlyGutOMeMyAAAADgpPCsPnlOZoVU8wKzDueWfvmpXW/0RIDa/YKylFpP80AAAABDavZo6egRuSWLijK+EttJqNdEBDU+MdBYqE1qoS28FUmiU1hSiqJfYbFsXUGeRum0Ah81g8QLl0Bd/Lq4pKtF</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ECA_Dev]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{7F1FE0B2-D18F-4CA3-917F-F1B80FD2BC4F}"
+      DTS:ObjectName="ECA_Dev">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABHJavDPsZzF8HC66qQM+ck4Fa0ZgAExLgIrtQBrpWZDAAAAAAOgAAAAAIAACAAAACiUcvLFydRm+VEdjyiSTKSwYU3y153j4o+lfjCP5ZgkyAAAABenj4fqTBxq1yRsSZkb5G7VwelhBiXv2dWsHSof7dwvEAAAAA6mPqUkvmOKoAcOn2iG2yTfWFKrgGMVm4HL+D2w2S3u6E8Rb4pm9y1ft/fanhtcipgEDxbjqz4BR31mbm8kC+Q</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load IVLP_Projects to ECA-KMT Database"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{8639294C-37C5-4CC2-B2DC-1C0522430A34}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load IVLP_Projects to ECA-KMT Database"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Missing Columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Inputs[Derived Column Input].Columns[ProjectStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ProjectStatus"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[ProjectStatus]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[ProjectTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[ProjectTypeId]"
+                      name="ProjectTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[FocusArea]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="10"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[FocusArea]"
+                      name="FocusArea"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Journalism"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Journalism"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[FocusId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[FocusId]"
+                      name="FocusId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">5</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">5</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[EventId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[EventId]"
+                      name="EventId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_I4)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_I4)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[ProgramId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[ProgramId]"
+                      name="ProgramId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">165</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">165</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[ProjectStatusECA]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[ProjectStatusECA]"
+                      name="ProjectStatusECA"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[ProjectStatus]} == "Closed" ? "Completed" : #{Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[ProjectStatus]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ProjectStatus == "Closed" ? "Completed" : ProjectStatus</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ECA_Dev-Project"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Project]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[ECA_Dev]"
+                  connectionManagerRefId="Package.ConnectionManagers[ECA_Dev]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="556"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[StartDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="StartDate"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[StartDate]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[EndDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="EndDate"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[EndDate]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[Language]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Language"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[Language]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[AudienceReach]"
+                      cachedDataType="r8"
+                      cachedName="AudienceReach"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[AudienceReach]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[AudienceReach]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[NominationSource_OrganizationId]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NominationSource_OrganizationId"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[NominationSource_OrganizationId]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[NominationSource_OrganizationId]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[ProjectTypeId]"
+                      cachedDataType="i4"
+                      cachedName="ProjectTypeId"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectTypeId]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[ProjectTypeId]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[FocusArea]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="FocusArea"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[FocusArea]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[FocusArea]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[FocusId]"
+                      cachedDataType="i4"
+                      cachedName="FocusId"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[FocusId]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[FocusId]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[EventId]"
+                      cachedDataType="i4"
+                      cachedName="EventId"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[EventId]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[EventId]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[ProgramId]"
+                      cachedDataType="i4"
+                      cachedName="ProgramId"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[ProgramId]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[ProgramId]" />
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].Columns[ProjectStatusId]"
+                      cachedDataType="i4"
+                      cachedName="ProjectStatusId"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectStatusId]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Outputs[Lookup Match Output].Columns[ProjectStatusId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectId]"
+                      dataType="i4"
+                      name="ProjectId" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="nText"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="nText"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectTypeId]"
+                      dataType="i4"
+                      name="ProjectTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[FocusArea]"
+                      dataType="nText"
+                      name="FocusArea" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[FocusId]"
+                      dataType="i4"
+                      name="FocusId" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      dataType="dbTimeStampOffset"
+                      name="StartDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                      dataType="dbTimeStampOffset"
+                      name="EndDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      dataType="nText"
+                      name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[AudienceReach]"
+                      dataType="i4"
+                      name="AudienceReach" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[EventId]"
+                      dataType="i4"
+                      name="EventId" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[NominationSource_OrganizationId]"
+                      dataType="i4"
+                      name="NominationSource_OrganizationId" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[ProgramId]"
+                      dataType="i4"
+                      name="ProgramId" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectStatusId]"
+                      dataType="i4"
+                      name="ProjectStatusId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Find ProjectStatusId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[ProjectStatus]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[ProjectStatus]) [refTable]
+where [refTable].[Status] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProjectStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Status" dataType="DT_WSTR" length="20" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[ProjectStatusECA]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[ECA_Dev]"
+                  connectionManagerRefId="Package.ConnectionManagers[ECA_Dev]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Inputs[Lookup Input].Columns[ProjectStatusECA]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ProjectStatusECA"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output].Columns[ProjectStatusECA]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Status</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Outputs[Lookup Match Output].Columns[ProjectStatusId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Outputs[Lookup Match Output].Columns[ProjectStatusId]"
+                      name="ProjectStatusId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProjectStatusId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="IVLP_Project"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[IVLP_Project]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[ProjectNameNew]"
+                      length="556"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_TITLE]"
+                      length="255"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[Description]"
+                      name="Description"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[StartDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[START_DATE]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[StartDate]"
+                      name="StartDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[EndDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[END_DATE]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[EndDate]"
+                      name="EndDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[Language]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_LANGUAGE]"
+                      length="255"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[Language]"
+                      name="Language"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[AudienceReach]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[EST_PARTICIPANT_CNT]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[AudienceReach]"
+                      name="AudienceReach"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_CREATE_DT]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_UPDATE_DT]"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[NominationSource_OrganizationId]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[NOMINATED_BY_ORG_ID]"
+                      length="255"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[NominationSource_OrganizationId]"
+                      name="NominationSource_OrganizationId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[ProjectStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STATUS]"
+                      length="255"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].Columns[ProjectStatus]"
+                      name="ProjectStatus"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROGRAM" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_NUMBER]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_NUMBER" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_TITLE]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_TITLE" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[FISCAL_YEAR]"
+                      dataType="wstr"
+                      length="255"
+                      name="FISCAL_YEAR" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[START_DATE]"
+                      dataType="dbTimeStamp"
+                      name="START_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[END_DATE]"
+                      dataType="dbTimeStamp"
+                      name="END_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[EST_PARTICIPANT_CNT]"
+                      dataType="r8"
+                      name="EST_PARTICIPANT_CNT" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[EST_ARRIVAL_DATE]"
+                      dataType="dbTimeStamp"
+                      name="EST_ARRIVAL_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[EST_DEPARTURE_DATE]"
+                      dataType="dbTimeStamp"
+                      name="EST_DEPARTURE_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_STATUS" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_LANGUAGE]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_LANGUAGE" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[FUNDING_SOURCE]"
+                      dataType="wstr"
+                      length="255"
+                      name="FUNDING_SOURCE" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[FUNDING_COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      name="FUNDING_COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[NOMINATED_BY_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="NOMINATED_BY_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      name="COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[REGION]"
+                      dataType="wstr"
+                      length="255"
+                      name="REGION" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[NPA_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="NPA_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[NPA_PGM_OFFICER_PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="NPA_PGM_OFFICER_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[NPA_PGM_ASSOCIATE_PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="NPA_PGM_ASSOCIATE_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[DOS_PGM_OFFICE_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS_PGM_OFFICE_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[DOS_PGM_OFFICER_PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS_PGM_OFFICER_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[DOS_PGM_COORDINATOR_PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS_PGM_COORDINATOR_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_UPDATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[ProjectNameNew]"
+                      dataType="wstr"
+                      length="556"
+                      name="ProjectNameNew" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[OwnerOfficeSymbol]"
+                      dataType="wstr"
+                      length="255"
+                      name="OwnerOfficeSymbol" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="ORG_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[PARENT_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PARENT_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[WEB_ADDRESS]"
+                      dataType="wstr"
+                      length="255"
+                      name="WEB_ADDRESS" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[ORG_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="ORG_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[ORG_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="ORG_UPDATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[Copy of ProjectNameNew]"
+                      dataType="wstr"
+                      length="255"
+                      name="Copy of ProjectNameNew" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output].ExternalColumns[Copy of OwnerOfficeSymbol]"
+                      dataType="wstr"
+                      length="255"
+                      name="Copy of OwnerOfficeSymbol" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[ProjectNameNew]"
+                      dataType="wstr"
+                      length="556"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[ProjectNameNew]"
+                      name="ProjectNameNew" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_TITLE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_TITLE]"
+                      name="PROJECT_TITLE" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[START_DATE]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[START_DATE]"
+                      name="START_DATE" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[END_DATE]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[END_DATE]"
+                      name="END_DATE" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_LANGUAGE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_LANGUAGE]"
+                      name="PROJECT_LANGUAGE" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[EST_PARTICIPANT_CNT]"
+                      dataType="r8"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[EST_PARTICIPANT_CNT]"
+                      name="EST_PARTICIPANT_CNT" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_CREATE_DT]"
+                      name="PROJECT_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_UPDATE_DT]"
+                      name="PROJECT_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[NOMINATED_BY_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[NOMINATED_BY_ORG_ID]"
+                      name="NOMINATED_BY_ORG_ID" />
+                    <outputColumn
+                      refId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_STATUS]"
+                      name="PROJECT_STATUS" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load IVLP_Projects to ECA-KMT Database.Paths[Derived Column Output]"
+              endId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load IVLP_Projects to ECA-KMT Database.Paths[Lookup Match Output]"
+              endId="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP_Projects to ECA-KMT Database.Paths[OLE DB Source Output]"
+              endId="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="276,42"
+          Id="Package\Load IVLP_Projects to ECA-KMT Database"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load IVLP_Projects to ECA-KMT Database">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project"
+          TopLeft="90.5,283.5" />
+        <NodeLayout
+          Size="139,42"
+          Id="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Load IVLP_Projects to ECA-KMT Database\Add Missing Columns"
+          TopLeft="147.5,118.5" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId"
+          TopLeft="323.5,206.5" />
+        <EdgeLayout
+          Id="Package\Load IVLP_Projects to ECA-KMT Database.Paths[OLE DB Source Output]"
+          TopLeft="75,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="162,71"
+              Start="0,0"
+              End="162,63.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.5"
+                    Point2="0,35.5"
+                    Point3="4,35.5" />
+                  <mssgle:LineSegment
+                    End="158,35.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="158,35.5"
+                    Point2="162,35.5"
+                    Point3="162,39.5" />
+                  <mssgle:LineSegment
+                    End="162,63.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load IVLP_Projects to ECA-KMT Database.Paths[Lookup Match Output]"
+          TopLeft="410.5,248.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-241,35"
+              Start="0,0"
+              End="-241,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.5"
+                    Point2="0,17.5"
+                    Point3="-4,17.5" />
+                  <mssgle:LineSegment
+                    End="-237,17.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-237,17.5"
+                    Point2="-241,17.5"
+                    Point3="-241,21.5" />
+                  <mssgle:LineSegment
+                    End="-241,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-168.69138671875,22.5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load IVLP_Projects to ECA-KMT Database.Paths[Derived Column Output]"
+          TopLeft="237,160.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="173.5,46"
+              Start="0,0"
+              End="173.5,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19"
+                    Point2="0,23"
+                    Point3="4,23" />
+                  <mssgle:LineSegment
+                    End="169.5,23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="169.5,23"
+                    Point2="173.5,23"
+                    Point3="173.5,27" />
+                  <mssgle:LineSegment
+                    End="173.5,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load IVLP_Projects to ECA-KMT Database\ECA_Dev-Project">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load IVLP_Projects to ECA-KMT Database\IVLP_Project">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load IVLP_Projects to ECA-KMT Database\Find ProjectStatusId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[ProjectStatus]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
