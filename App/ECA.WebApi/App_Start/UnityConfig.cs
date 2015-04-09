@@ -6,6 +6,7 @@ using ECA.Business.Validation;
 using ECA.Core.Generation;
 using ECA.Core.Logging;
 using ECA.Data;
+using ECA.WebApi.Security;
 using Microsoft.Practices.Unity;
 using System.Data.Entity;
 using System.Diagnostics;
@@ -73,6 +74,7 @@ namespace ECA.WebApi
             container.RegisterType<IProjectStatusService, ProjectStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
                         
         }
 
