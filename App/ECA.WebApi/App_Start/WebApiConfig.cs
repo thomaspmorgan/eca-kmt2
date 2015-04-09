@@ -2,6 +2,8 @@
 using ECA.Core.Logging;
 using ECA.Data;
 using ECA.WebApi.Custom.Filters;
+using ECA.WebApi.Custom.Handlers;
+using ECA.WebApi.Security;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Diagnostics;
@@ -39,8 +41,13 @@ namespace ECA.WebApi
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             settings.NullValueHandling = NullValueHandling.Ignore;
 
+            var userProvider = config.DependencyResolver.GetService(typeof(IUserProvider)) as IUserProvider;
+            Debug.Assert(userProvider != null, "The user provider must not be null.");
+
             var logger = config.DependencyResolver.GetService(typeof(ILogger)) as ILogger;
             Debug.Assert(logger != null, "The logger must not be null.");
+            
+
             config.Services.Add(typeof(IExceptionLogger), new LoggerExceptionHandler(logger));
 
             config.Filters.Add(new ModelNotFoundExceptionFilter());
@@ -48,7 +55,10 @@ namespace ECA.WebApi
             config.Filters.Add(new ValidationExceptionFilter());
             config.Filters.Add(new DbEntityValidationExceptionFilter());
 
-            config.Filters.Add(new ECA.WebApi.Custom.Filters.TraceFilter(logger));
+            config.Filters.Add(new ECA.WebApi.Custom.Filters.TraceFilter(logger, userProvider));
+#if DEBUG
+            config.MessageHandlers.Add(new DebugWebApiUserHandler());
+#endif
         }
     }
 }
