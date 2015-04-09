@@ -24,7 +24,6 @@ namespace ECA.Data
         public Objective()
         {
             this.History = new History();
-            this.Justification = new Justification();
         }
 
         /// <summary>

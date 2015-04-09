@@ -23,7 +23,7 @@ namespace ECA.Data
         /// </summary>
         public OfficeSetting()
         {
-            this.Office = new Organization();
+            //this.Office = new Organization();
         }
 
         /// <summary>

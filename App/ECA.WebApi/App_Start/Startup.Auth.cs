@@ -19,20 +19,20 @@ namespace ECA.WebApi
                 {
                     TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidAudience = AppSettings.AdAudience
+                        ValidAudience = AppSettings.AdClientId
                     },
-                    Tenant = AppSettings.AdTenantId
+                    Tenant = AppSettings.AdTenantId,
                 });
         }
 
-        public void ConfigureActiveDirectory()
-        {
-            var ad = AdGraph.Instance;
-            ad.CreateGroup(SecurityGroups.GlobalAdministrator, "Administer all users and data.");
-            ad.CreateGroup(SecurityGroups.PostAdministrator, "Administer local users and data.");
-            ad.CreateGroup(SecurityGroups.Approver, "Read, write, and approve for publication.");
-            ad.CreateGroup(SecurityGroups.StandardUser, "Read and write application data.");
-            ad.CreateGroup(SecurityGroups.Guest, "Read application data.");
-        }
+        //public void ConfigureActiveDirectory()
+        //{
+        //    var ad = AdGraph.Instance;
+        //    ad.CreateGroup(SecurityGroups.GlobalAdministrator, "Administer all users and data.");
+        //    ad.CreateGroup(SecurityGroups.PostAdministrator, "Administer local users and data.");
+        //    ad.CreateGroup(SecurityGroups.Approver, "Read, write, and approve for publication.");
+        //    ad.CreateGroup(SecurityGroups.StandardUser, "Read and write application data.");
+        //    ad.CreateGroup(SecurityGroups.Guest, "Read application data.");
+        //}
     }
 }

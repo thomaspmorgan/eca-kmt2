@@ -24,7 +24,6 @@ namespace ECA.Data
         public Focus()
         {
             this.History = new History();
-            this.Office = new Organization();
         }
 
         /// <summary>

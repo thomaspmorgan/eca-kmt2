@@ -1,0 +1,2123 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/6/2015 2:17:17 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{858D7CD5-91FC-4AA2-911B-4A9A9EB57049}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import ECA_Programs Source"
+  DTS:PackageType="5"
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{820D6D47-11B2-4599-88EC-28FA5D5534D3}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{A2AA7DC4-0790-4365-ADC9-A0585EA9F23D}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.ECA_Data_Migration.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=ECA_Data_Migration;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABMSAZOtbFu1J4AFPmwHEYUhF0zgKbaYomgcc1gdG6Z5wAAAAAOgAAAAAIAACAAAAB81uUCApw4lB1FJCRkbUgQdF1mWURZ32MudXtVkXz3AiAAAADtmhPNpFas8OsHr08Oo6aMYWIghYJskI9IpPI3Iqr4W0AAAAAITP5VmP11Ljywbp4RbReZJg0+3XMMDvzXSjvto/HagESXLoMGbce0v8xIkzsIzh56uwwMkNBFsclFbgG2sUXC</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{BEFBA3F1-D376-400A-8812-77B0DECAA764}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\ECA\ECA Program Directory.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import ECA_Sample Data Excel"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{915D876A-1196-485A-82D8-B1234CE81CF4}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import ECA_Sample Data Excel"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import ECA_Sample Data Excel\ECA_Programs"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ECA_Programs"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[ECA_Programs]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Program Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Program Name"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Program Name]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Program Name]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[POC]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="POC"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[POC]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[POC]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Phone]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Phone"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Phone]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Phone]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Email]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Email"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Email]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Office Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Office Name"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Office Name]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Office Name]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Office Symbol]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Office Symbol"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Office Symbol]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Office Symbol]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Program Country]"
+                      cachedDataType="nText"
+                      cachedName="Program Country"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Program Country]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Program Country]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Internal Webpage]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Internal Webpage"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Internal Webpage]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Internal Webpage]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[AF]"
+                      cachedDataType="bool"
+                      cachedName="AF"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[AF]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[AF]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[EAP]"
+                      cachedDataType="bool"
+                      cachedName="EAP"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[EAP]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[EAP]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[EUR]"
+                      cachedDataType="bool"
+                      cachedName="EUR"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[EUR]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[EUR]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[NEA]"
+                      cachedDataType="bool"
+                      cachedName="NEA"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[NEA]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[NEA]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[SCA]"
+                      cachedDataType="bool"
+                      cachedName="SCA"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[SCA]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[SCA]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[WHA]"
+                      cachedDataType="bool"
+                      cachedName="WHA"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[WHA]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[WHA]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Civil Society]"
+                      cachedDataType="bool"
+                      cachedName="Civil Society"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Civil Society]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Civil Society]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Civilian Security]"
+                      cachedDataType="bool"
+                      cachedName="Civilian Security"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Civilian Security]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Civilian Security]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Combating Weapons of Mass Destruction &amp; Destabilizing Convention]"
+                      cachedDataType="bool"
+                      cachedName="Combating Weapons of Mass Destruction &amp; Destabilizing Convention"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Combating Weapons of Mass Destruction &amp; Destabilizing Convention]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Combating Weapons of Mass Destruction &amp; Destabilizing Convention]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Conflict Prevention, Mitigation, and Response]"
+                      cachedDataType="bool"
+                      cachedName="Conflict Prevention, Mitigation, and Response"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Conflict Prevention, Mitigation, and Response]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Conflict Prevention, Mitigation, and Response]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Consular Services]"
+                      cachedDataType="bool"
+                      cachedName="Consular Services"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Consular Services]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Consular Services]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Content Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Content Type"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Content Type]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Content Type]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Culture/Sports/American Society]"
+                      cachedDataType="bool"
+                      cachedName="Culture/Sports/American Society"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Culture/Sports/American Society]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Culture/Sports/American Society]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[CVE/Counterterrorism]"
+                      cachedDataType="bool"
+                      cachedName="CVE/Counterterrorism"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[CVE/Counterterrorism]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[CVE/Counterterrorism]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Democracy/Good Governance/Rule of Law]"
+                      cachedDataType="bool"
+                      cachedName="Democracy/Good Governance/Rule of Law"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Democracy/Good Governance/Rule of Law]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Democracy/Good Governance/Rule of Law]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Diversity]"
+                      cachedDataType="bool"
+                      cachedName="Diversity"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Diversity]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Diversity]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Economic Statecraft]"
+                      cachedDataType="bool"
+                      cachedName="Economic Statecraft"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Economic Statecraft]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Economic Statecraft]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Education]"
+                      cachedDataType="bool"
+                      cachedName="Education"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Education]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Education]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Energy Security]"
+                      cachedDataType="bool"
+                      cachedName="Energy Security"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Energy Security]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Energy Security]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Entrepreneurship/Job Creation]"
+                      cachedDataType="bool"
+                      cachedName="Entrepreneurship/Job Creation"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Entrepreneurship/Job Creation]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Entrepreneurship/Job Creation]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Environment]"
+                      cachedDataType="bool"
+                      cachedName="Environment"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Environment]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Environment]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Financial Sector]"
+                      cachedDataType="bool"
+                      cachedName="Financial Sector"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Financial Sector]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Financial Sector]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Folder Child Count]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Folder Child Count"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Folder Child Count]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Folder Child Count]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Food Security/Agriculture]"
+                      cachedDataType="bool"
+                      cachedName="Food Security/Agriculture"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Food Security/Agriculture]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Food Security/Agriculture]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Global Health]"
+                      cachedDataType="bool"
+                      cachedName="Global Health"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Global Health]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Global Health]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Human Rights]"
+                      cachedDataType="bool"
+                      cachedName="Human Rights"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Human Rights]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Human Rights]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Humanitarian Assistance, Disaster Mitigation]"
+                      cachedDataType="bool"
+                      cachedName="Humanitarian Assistance, Disaster Mitigation"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Humanitarian Assistance, Disaster Mitigation]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Humanitarian Assistance, Disaster Mitigation]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Innovation]"
+                      cachedDataType="bool"
+                      cachedName="Innovation"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Innovation]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Innovation]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Intellectual Property Rights (IPR)/Anti-Piracy]"
+                      cachedDataType="bool"
+                      cachedName="Intellectual Property Rights (IPR)/Anti-Piracy"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Intellectual Property Rights (IPR)/Anti-Piracy]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Intellectual Property Rights (IPR)/Anti-Piracy]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Item Child Count]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Item Child Count"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Item Child Count]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Item Child Count]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Markets and Competitiveness]"
+                      cachedDataType="bool"
+                      cachedName="Markets and Competitiveness"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Markets and Competitiveness]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Markets and Competitiveness]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Military and Security Cooperation/Reform]"
+                      cachedDataType="bool"
+                      cachedName="Military and Security Cooperation/Reform"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Military and Security Cooperation/Reform]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Military and Security Cooperation/Reform]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Muslim Engagement]"
+                      cachedDataType="bool"
+                      cachedName="Muslim Engagement"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Muslim Engagement]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Muslim Engagement]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Regional Economic Integration]"
+                      cachedDataType="bool"
+                      cachedName="Regional Economic Integration"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Regional Economic Integration]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Regional Economic Integration]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Religious Engagement]"
+                      cachedDataType="bool"
+                      cachedName="Religious Engagement"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Religious Engagement]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Religious Engagement]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Science and Technology]"
+                      cachedDataType="bool"
+                      cachedName="Science and Technology"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Science and Technology]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Science and Technology]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Smart Sanctions]"
+                      cachedDataType="bool"
+                      cachedName="Smart Sanctions"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Smart Sanctions]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Smart Sanctions]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Sustainable Economic Growth &amp; Well-Being]"
+                      cachedDataType="bool"
+                      cachedName="Sustainable Economic Growth &amp; Well-Being"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Sustainable Economic Growth &amp; Well-Being]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Sustainable Economic Growth &amp; Well-Being]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Trade &amp; Investment]"
+                      cachedDataType="bool"
+                      cachedName="Trade &amp; Investment"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Trade &amp; Investment]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Trade &amp; Investment]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Transitions in Frontline States]"
+                      cachedDataType="bool"
+                      cachedName="Transitions in Frontline States"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Transitions in Frontline States]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Transitions in Frontline States]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Transnational Threats - Crime, Narcotics, Trafficking in Person]"
+                      cachedDataType="bool"
+                      cachedName="Transnational Threats - Crime, Narcotics, Trafficking in Person"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Transnational Threats - Crime, Narcotics, Trafficking in Person]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Transnational Threats - Crime, Narcotics, Trafficking in Person]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Travel and Tourism]"
+                      cachedDataType="bool"
+                      cachedName="Travel and Tourism"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Travel and Tourism]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Travel and Tourism]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Women's Empowerment]"
+                      cachedDataType="bool"
+                      cachedName="Women's Empowerment"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Women's Empowerment]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Women's Empowerment]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Youth Engagement]"
+                      cachedDataType="bool"
+                      cachedName="Youth Engagement"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Youth Engagement]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Youth Engagement]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[PE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PE"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[PE]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[PE]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[A]"
+                      cachedDataType="bool"
+                      cachedName="A"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[A]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[A]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[EC]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="EC"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[EC]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[EC]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Description]"
+                      cachedDataType="nText"
+                      cachedName="Description"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[RapidResponse]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="RapidResponse"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[RapidResponse]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[RapidResponse]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[P]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="P"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[P]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[P]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Item Type]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Item Type"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Item Type]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Item Type]" />
+                    <inputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].Columns[Path]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Path"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Path]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Path]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Program Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Program Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[POC]"
+                      dataType="wstr"
+                      length="255"
+                      name="POC" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Phone]"
+                      dataType="wstr"
+                      length="255"
+                      name="Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
+                      dataType="wstr"
+                      length="255"
+                      name="Email" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Office Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Office Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Office Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      name="Office Symbol" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Program Country]"
+                      dataType="nText"
+                      name="Program Country" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Internal Webpage]"
+                      dataType="wstr"
+                      length="255"
+                      name="Internal Webpage" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[External Webpage]"
+                      dataType="wstr"
+                      length="255"
+                      name="External Webpage" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[AF]"
+                      dataType="bool"
+                      name="AF" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[EAP]"
+                      dataType="bool"
+                      name="EAP" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[EUR]"
+                      dataType="bool"
+                      name="EUR" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[NEA]"
+                      dataType="bool"
+                      name="NEA" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[SCA]"
+                      dataType="bool"
+                      name="SCA" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[WHA]"
+                      dataType="bool"
+                      name="WHA" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Civil Society]"
+                      dataType="bool"
+                      name="Civil Society" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Civilian Security]"
+                      dataType="bool"
+                      name="Civilian Security" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Combating Weapons of Mass Destruction &amp; Destabilizing Convention]"
+                      dataType="bool"
+                      name="Combating Weapons of Mass Destruction &amp; Destabilizing Convention" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Conflict Prevention, Mitigation, and Response]"
+                      dataType="bool"
+                      name="Conflict Prevention, Mitigation, and Response" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Consular Services]"
+                      dataType="bool"
+                      name="Consular Services" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Content Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Content Type" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Culture/Sports/American Society]"
+                      dataType="bool"
+                      name="Culture/Sports/American Society" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[CVE/Counterterrorism]"
+                      dataType="bool"
+                      name="CVE/Counterterrorism" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Democracy/Good Governance/Rule of Law]"
+                      dataType="bool"
+                      name="Democracy/Good Governance/Rule of Law" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Diversity]"
+                      dataType="bool"
+                      name="Diversity" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Economic Statecraft]"
+                      dataType="bool"
+                      name="Economic Statecraft" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Education]"
+                      dataType="bool"
+                      name="Education" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Energy Security]"
+                      dataType="bool"
+                      name="Energy Security" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Entrepreneurship/Job Creation]"
+                      dataType="bool"
+                      name="Entrepreneurship/Job Creation" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Environment]"
+                      dataType="bool"
+                      name="Environment" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Financial Sector]"
+                      dataType="bool"
+                      name="Financial Sector" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Folder Child Count]"
+                      dataType="wstr"
+                      length="255"
+                      name="Folder Child Count" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Food Security/Agriculture]"
+                      dataType="bool"
+                      name="Food Security/Agriculture" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Global Health]"
+                      dataType="bool"
+                      name="Global Health" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Human Rights]"
+                      dataType="bool"
+                      name="Human Rights" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Humanitarian Assistance, Disaster Mitigation]"
+                      dataType="bool"
+                      name="Humanitarian Assistance, Disaster Mitigation" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Innovation]"
+                      dataType="bool"
+                      name="Innovation" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Intellectual Property Rights (IPR)/Anti-Piracy]"
+                      dataType="bool"
+                      name="Intellectual Property Rights (IPR)/Anti-Piracy" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Item Child Count]"
+                      dataType="wstr"
+                      length="255"
+                      name="Item Child Count" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Markets and Competitiveness]"
+                      dataType="bool"
+                      name="Markets and Competitiveness" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Military and Security Cooperation/Reform]"
+                      dataType="bool"
+                      name="Military and Security Cooperation/Reform" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Muslim Engagement]"
+                      dataType="bool"
+                      name="Muslim Engagement" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Regional Economic Integration]"
+                      dataType="bool"
+                      name="Regional Economic Integration" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Religious Engagement]"
+                      dataType="bool"
+                      name="Religious Engagement" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Science and Technology]"
+                      dataType="bool"
+                      name="Science and Technology" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Smart Sanctions]"
+                      dataType="bool"
+                      name="Smart Sanctions" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Sustainable Economic Growth &amp; Well-Being]"
+                      dataType="bool"
+                      name="Sustainable Economic Growth &amp; Well-Being" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Trade &amp; Investment]"
+                      dataType="bool"
+                      name="Trade &amp; Investment" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Transitions in Frontline States]"
+                      dataType="bool"
+                      name="Transitions in Frontline States" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Transnational Threats - Crime, Narcotics, Trafficking in Person]"
+                      dataType="bool"
+                      name="Transnational Threats - Crime, Narcotics, Trafficking in Person" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Travel and Tourism]"
+                      dataType="bool"
+                      name="Travel and Tourism" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Women's Empowerment]"
+                      dataType="bool"
+                      name="Women's Empowerment" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Youth Engagement]"
+                      dataType="bool"
+                      name="Youth Engagement" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[PE]"
+                      dataType="wstr"
+                      length="255"
+                      name="PE" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[A]"
+                      dataType="bool"
+                      name="A" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[EC]"
+                      dataType="wstr"
+                      length="255"
+                      name="EC" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="nText"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[RapidResponse]"
+                      dataType="wstr"
+                      length="255"
+                      name="RapidResponse" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[P]"
+                      dataType="wstr"
+                      length="255"
+                      name="P" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Item Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Item Type" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input].ExternalColumns[Path]"
+                      dataType="wstr"
+                      length="255"
+                      name="Path" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import ECA_Sample Data Excel\ECA_Programs.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\ECA_Programs.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import ECA_Sample Data Excel\ECA_Programs.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel ECA_Programs"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">'owssvr(1)$'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Program Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Program Name]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Program Name]"
+                      name="Program Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[POC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[POC]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[POC]"
+                      name="POC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Phone]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Phone]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Phone]"
+                      name="Phone"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Email]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Email]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Email]"
+                      name="Email"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Office Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Office Name]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Office Name]"
+                      name="Office Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Office Symbol]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Office Symbol]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Office Symbol]"
+                      name="Office Symbol"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Program Country]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Program Country]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Program Country]"
+                      name="Program Country"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Internal Webpage]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Internal Webpage]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Internal Webpage]"
+                      name="Internal Webpage"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[AF]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[AF]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[AF]"
+                      name="AF"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[EAP]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[EAP]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[EAP]"
+                      name="EAP"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[EUR]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[EUR]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[EUR]"
+                      name="EUR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[NEA]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[NEA]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[NEA]"
+                      name="NEA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[SCA]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[SCA]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[SCA]"
+                      name="SCA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[WHA]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[WHA]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[WHA]"
+                      name="WHA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Civil Society]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Civil Society]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Civil Society]"
+                      name="Civil Society"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Civilian Security]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Civilian Security]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Civilian Security]"
+                      name="Civilian Security"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Combating Weapons of Mass Destruction &amp; Destabilizing Convention]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Combating Weapons of Mass Destruction &amp; Destabilizing Convention]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Combating Weapons of Mass Destruction &amp; Destabilizing Convention]"
+                      name="Combating Weapons of Mass Destruction &amp; Destabilizing Convention"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Conflict Prevention, Mitigation, and Response]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Conflict Prevention, Mitigation, and Response]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Conflict Prevention, Mitigation, and Response]"
+                      name="Conflict Prevention, Mitigation, and Response"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Consular Services]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Consular Services]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Consular Services]"
+                      name="Consular Services"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Content Type]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Content Type]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Content Type]"
+                      name="Content Type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Culture/Sports/American Society]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Culture/Sports/American Society]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Culture/Sports/American Society]"
+                      name="Culture/Sports/American Society"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[CVE/Counterterrorism]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[CVE/Counterterrorism]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[CVE/Counterterrorism]"
+                      name="CVE/Counterterrorism"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Democracy/Good Governance/Rule of Law]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Democracy/Good Governance/Rule of Law]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Democracy/Good Governance/Rule of Law]"
+                      name="Democracy/Good Governance/Rule of Law"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Diversity]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Diversity]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Diversity]"
+                      name="Diversity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Economic Statecraft]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Economic Statecraft]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Economic Statecraft]"
+                      name="Economic Statecraft"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Education]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Education]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Education]"
+                      name="Education"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Energy Security]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Energy Security]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Energy Security]"
+                      name="Energy Security"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Entrepreneurship/Job Creation]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Entrepreneurship/Job Creation]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Entrepreneurship/Job Creation]"
+                      name="Entrepreneurship/Job Creation"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Environment]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Environment]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Environment]"
+                      name="Environment"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Financial Sector]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Financial Sector]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Financial Sector]"
+                      name="Financial Sector"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Folder Child Count]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Folder Child Count]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Folder Child Count]"
+                      name="Folder Child Count"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Food Security/Agriculture]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Food Security/Agriculture]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Food Security/Agriculture]"
+                      name="Food Security/Agriculture"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Global Health]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Global Health]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Global Health]"
+                      name="Global Health"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Human Rights]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Human Rights]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Human Rights]"
+                      name="Human Rights"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Humanitarian Assistance, Disaster Mitigation]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Humanitarian Assistance, Disaster Mitigation]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Humanitarian Assistance, Disaster Mitigation]"
+                      name="Humanitarian Assistance, Disaster Mitigation"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Innovation]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Innovation]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Innovation]"
+                      name="Innovation"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Intellectual Property Rights (IPR)/Anti-Piracy]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Intellectual Property Rights (IPR)/Anti-Piracy]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Intellectual Property Rights (IPR)/Anti-Piracy]"
+                      name="Intellectual Property Rights (IPR)/Anti-Piracy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Item Child Count]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Item Child Count]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Item Child Count]"
+                      name="Item Child Count"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Markets and Competitiveness]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Markets and Competitiveness]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Markets and Competitiveness]"
+                      name="Markets and Competitiveness"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Military and Security Cooperation/Reform]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Military and Security Cooperation/Reform]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Military and Security Cooperation/Reform]"
+                      name="Military and Security Cooperation/Reform"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Muslim Engagement]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Muslim Engagement]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Muslim Engagement]"
+                      name="Muslim Engagement"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Regional Economic Integration]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Regional Economic Integration]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Regional Economic Integration]"
+                      name="Regional Economic Integration"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Religious Engagement]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Religious Engagement]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Religious Engagement]"
+                      name="Religious Engagement"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Science and Technology]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Science and Technology]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Science and Technology]"
+                      name="Science and Technology"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Smart Sanctions]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Smart Sanctions]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Smart Sanctions]"
+                      name="Smart Sanctions"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Sustainable Economic Growth &amp; Well-Being]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Sustainable Economic Growth &amp; Well-Being]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Sustainable Economic Growth &amp; Well-Being]"
+                      name="Sustainable Economic Growth &amp; Well-Being"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Trade &amp; Investment]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Trade &amp; Investment]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Trade &amp; Investment]"
+                      name="Trade &amp; Investment"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Transitions in Frontline States]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Transitions in Frontline States]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Transitions in Frontline States]"
+                      name="Transitions in Frontline States"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Transnational Threats - Crime, Narcotics, Trafficking in Person]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Transnational Threats - Crime, Narcotics, Trafficking in Person]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Transnational Threats - Crime, Narcotics, Trafficking in Person]"
+                      name="Transnational Threats - Crime, Narcotics, Trafficking in Person"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Travel and Tourism]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Travel and Tourism]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Travel and Tourism]"
+                      name="Travel and Tourism"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Women's Empowerment]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Women's Empowerment]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Women's Empowerment]"
+                      name="Women's Empowerment"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Youth Engagement]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Youth Engagement]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Youth Engagement]"
+                      name="Youth Engagement"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[PE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[PE]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[PE]"
+                      name="PE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[A]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[A]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[A]"
+                      name="A"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[EC]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[EC]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[EC]"
+                      name="EC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Description]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Description]"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Description]"
+                      name="Description"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[RapidResponse]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[RapidResponse]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[RapidResponse]"
+                      name="RapidResponse"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[P]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[P]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[P]"
+                      name="P"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Item Type]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Item Type]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Item Type]"
+                      name="Item Type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Path]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Path]"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].Columns[Path]"
+                      name="Path"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Program Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Program Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[POC]"
+                      dataType="wstr"
+                      length="255"
+                      name="POC" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Phone]"
+                      dataType="wstr"
+                      length="255"
+                      name="Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Email]"
+                      dataType="wstr"
+                      length="255"
+                      name="Email" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Office Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Office Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Office Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      name="Office Symbol" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Program Country]"
+                      dataType="nText"
+                      name="Program Country" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Internal Webpage]"
+                      dataType="wstr"
+                      length="255"
+                      name="Internal Webpage" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[External Webpage]"
+                      dataType="wstr"
+                      length="255"
+                      name="External Webpage" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[AF]"
+                      dataType="bool"
+                      name="AF" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[EAP]"
+                      dataType="bool"
+                      name="EAP" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[EUR]"
+                      dataType="bool"
+                      name="EUR" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[NEA]"
+                      dataType="bool"
+                      name="NEA" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[SCA]"
+                      dataType="bool"
+                      name="SCA" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[WHA]"
+                      dataType="bool"
+                      name="WHA" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Civil Society]"
+                      dataType="bool"
+                      name="Civil Society" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Civilian Security]"
+                      dataType="bool"
+                      name="Civilian Security" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Combating Weapons of Mass Destruction &amp; Destabilizing Convention]"
+                      dataType="bool"
+                      name="Combating Weapons of Mass Destruction &amp; Destabilizing Convention" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Conflict Prevention, Mitigation, and Response]"
+                      dataType="bool"
+                      name="Conflict Prevention, Mitigation, and Response" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Consular Services]"
+                      dataType="bool"
+                      name="Consular Services" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Content Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Content Type" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Culture/Sports/American Society]"
+                      dataType="bool"
+                      name="Culture/Sports/American Society" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[CVE/Counterterrorism]"
+                      dataType="bool"
+                      name="CVE/Counterterrorism" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Democracy/Good Governance/Rule of Law]"
+                      dataType="bool"
+                      name="Democracy/Good Governance/Rule of Law" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Diversity]"
+                      dataType="bool"
+                      name="Diversity" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Economic Statecraft]"
+                      dataType="bool"
+                      name="Economic Statecraft" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Education]"
+                      dataType="bool"
+                      name="Education" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Energy Security]"
+                      dataType="bool"
+                      name="Energy Security" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Entrepreneurship/Job Creation]"
+                      dataType="bool"
+                      name="Entrepreneurship/Job Creation" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Environment]"
+                      dataType="bool"
+                      name="Environment" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Financial Sector]"
+                      dataType="bool"
+                      name="Financial Sector" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Folder Child Count]"
+                      dataType="wstr"
+                      length="255"
+                      name="Folder Child Count" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Food Security/Agriculture]"
+                      dataType="bool"
+                      name="Food Security/Agriculture" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Global Health]"
+                      dataType="bool"
+                      name="Global Health" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Human Rights]"
+                      dataType="bool"
+                      name="Human Rights" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Humanitarian Assistance, Disaster Mitigation]"
+                      dataType="bool"
+                      name="Humanitarian Assistance, Disaster Mitigation" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Innovation]"
+                      dataType="bool"
+                      name="Innovation" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Intellectual Property Rights (IPR)/Anti-Piracy]"
+                      dataType="bool"
+                      name="Intellectual Property Rights (IPR)/Anti-Piracy" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Item Child Count]"
+                      dataType="wstr"
+                      length="255"
+                      name="Item Child Count" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Markets and Competitiveness]"
+                      dataType="bool"
+                      name="Markets and Competitiveness" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Military and Security Cooperation/Reform]"
+                      dataType="bool"
+                      name="Military and Security Cooperation/Reform" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Muslim Engagement]"
+                      dataType="bool"
+                      name="Muslim Engagement" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Regional Economic Integration]"
+                      dataType="bool"
+                      name="Regional Economic Integration" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Religious Engagement]"
+                      dataType="bool"
+                      name="Religious Engagement" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Science and Technology]"
+                      dataType="bool"
+                      name="Science and Technology" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Smart Sanctions]"
+                      dataType="bool"
+                      name="Smart Sanctions" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Sustainable Economic Growth &amp; Well-Being]"
+                      dataType="bool"
+                      name="Sustainable Economic Growth &amp; Well-Being" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Trade &amp; Investment]"
+                      dataType="bool"
+                      name="Trade &amp; Investment" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Transitions in Frontline States]"
+                      dataType="bool"
+                      name="Transitions in Frontline States" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Transnational Threats - Crime, Narcotics, Trafficking in Person]"
+                      dataType="bool"
+                      name="Transnational Threats - Crime, Narcotics, Trafficking in Person" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Travel and Tourism]"
+                      dataType="bool"
+                      name="Travel and Tourism" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Women's Empowerment]"
+                      dataType="bool"
+                      name="Women's Empowerment" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Youth Engagement]"
+                      dataType="bool"
+                      name="Youth Engagement" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[PE]"
+                      dataType="wstr"
+                      length="255"
+                      name="PE" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[A]"
+                      dataType="bool"
+                      name="A" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[EC]"
+                      dataType="wstr"
+                      length="255"
+                      name="EC" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Description]"
+                      dataType="nText"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[RapidResponse]"
+                      dataType="wstr"
+                      length="255"
+                      name="RapidResponse" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[P]"
+                      dataType="wstr"
+                      length="255"
+                      name="P" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Item Type]"
+                      dataType="wstr"
+                      length="255"
+                      name="Item Type" />
+                    <externalMetadataColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output].ExternalColumns[Path]"
+                      dataType="wstr"
+                      length="255"
+                      name="Path" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Program Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Program Name]"
+                      name="Program Name" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[POC]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[POC]"
+                      name="POC" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Phone]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Phone]"
+                      name="Phone" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Email]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Email]"
+                      name="Email" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Office Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Office Name]"
+                      name="Office Name" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Office Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Office Symbol]"
+                      name="Office Symbol" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Program Country]"
+                      dataType="nText"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Program Country]"
+                      name="Program Country" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Internal Webpage]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Internal Webpage]"
+                      name="Internal Webpage" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[AF]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[AF]"
+                      name="AF" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[EAP]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[EAP]"
+                      name="EAP" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[EUR]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[EUR]"
+                      name="EUR" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[NEA]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[NEA]"
+                      name="NEA" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[SCA]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[SCA]"
+                      name="SCA" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[WHA]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[WHA]"
+                      name="WHA" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Civil Society]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Civil Society]"
+                      name="Civil Society" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Civilian Security]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Civilian Security]"
+                      name="Civilian Security" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Combating Weapons of Mass Destruction &amp; Destabilizing Convention]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Combating Weapons of Mass Destruction &amp; Destabilizing Convention]"
+                      name="Combating Weapons of Mass Destruction &amp; Destabilizing Convention" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Conflict Prevention, Mitigation, and Response]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Conflict Prevention, Mitigation, and Response]"
+                      name="Conflict Prevention, Mitigation, and Response" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Consular Services]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Consular Services]"
+                      name="Consular Services" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Content Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Content Type]"
+                      name="Content Type" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Culture/Sports/American Society]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Culture/Sports/American Society]"
+                      name="Culture/Sports/American Society" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[CVE/Counterterrorism]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[CVE/Counterterrorism]"
+                      name="CVE/Counterterrorism" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Democracy/Good Governance/Rule of Law]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Democracy/Good Governance/Rule of Law]"
+                      name="Democracy/Good Governance/Rule of Law" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Diversity]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Diversity]"
+                      name="Diversity" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Economic Statecraft]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Economic Statecraft]"
+                      name="Economic Statecraft" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Education]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Education]"
+                      name="Education" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Energy Security]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Energy Security]"
+                      name="Energy Security" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Entrepreneurship/Job Creation]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Entrepreneurship/Job Creation]"
+                      name="Entrepreneurship/Job Creation" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Environment]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Environment]"
+                      name="Environment" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Financial Sector]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Financial Sector]"
+                      name="Financial Sector" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Folder Child Count]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Folder Child Count]"
+                      name="Folder Child Count" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Food Security/Agriculture]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Food Security/Agriculture]"
+                      name="Food Security/Agriculture" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Global Health]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Global Health]"
+                      name="Global Health" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Human Rights]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Human Rights]"
+                      name="Human Rights" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Humanitarian Assistance, Disaster Mitigation]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Humanitarian Assistance, Disaster Mitigation]"
+                      name="Humanitarian Assistance, Disaster Mitigation" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Innovation]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Innovation]"
+                      name="Innovation" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Intellectual Property Rights (IPR)/Anti-Piracy]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Intellectual Property Rights (IPR)/Anti-Piracy]"
+                      name="Intellectual Property Rights (IPR)/Anti-Piracy" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Item Child Count]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Item Child Count]"
+                      name="Item Child Count" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Markets and Competitiveness]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Markets and Competitiveness]"
+                      name="Markets and Competitiveness" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Military and Security Cooperation/Reform]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Military and Security Cooperation/Reform]"
+                      name="Military and Security Cooperation/Reform" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Muslim Engagement]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Muslim Engagement]"
+                      name="Muslim Engagement" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Regional Economic Integration]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Regional Economic Integration]"
+                      name="Regional Economic Integration" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Religious Engagement]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Religious Engagement]"
+                      name="Religious Engagement" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Science and Technology]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Science and Technology]"
+                      name="Science and Technology" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Smart Sanctions]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Smart Sanctions]"
+                      name="Smart Sanctions" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Sustainable Economic Growth &amp; Well-Being]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Sustainable Economic Growth &amp; Well-Being]"
+                      name="Sustainable Economic Growth &amp; Well-Being" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Trade &amp; Investment]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Trade &amp; Investment]"
+                      name="Trade &amp; Investment" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Transitions in Frontline States]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Transitions in Frontline States]"
+                      name="Transitions in Frontline States" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Transnational Threats - Crime, Narcotics, Trafficking in Person]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Transnational Threats - Crime, Narcotics, Trafficking in Person]"
+                      name="Transnational Threats - Crime, Narcotics, Trafficking in Person" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Travel and Tourism]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Travel and Tourism]"
+                      name="Travel and Tourism" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Women's Empowerment]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Women's Empowerment]"
+                      name="Women's Empowerment" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Youth Engagement]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Youth Engagement]"
+                      name="Youth Engagement" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[PE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[PE]"
+                      name="PE" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[A]"
+                      dataType="bool"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[A]"
+                      name="A" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[EC]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[EC]"
+                      name="EC" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Description]"
+                      dataType="nText"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Description]"
+                      name="Description" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[RapidResponse]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[RapidResponse]"
+                      name="RapidResponse" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[P]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[P]"
+                      name="P" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Item Type]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Item Type]"
+                      name="Item Type" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Path]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[Path]"
+                      name="Path" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import ECA_Sample Data Excel.Paths[Excel Source Output]"
+              endId="Package\Import ECA_Sample Data Excel\ECA_Programs.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import ECA_Sample Data Excel\Excel ECA_Programs.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="226,42"
+          Id="Package\Import ECA_Sample Data Excel"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import ECA_Sample Data Excel">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="176,42"
+          Id="Package\Import ECA_Sample Data Excel\Excel ECA_Programs"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="148,42"
+          Id="Package\Import ECA_Sample Data Excel\ECA_Programs"
+          TopLeft="59.5,164.5" />
+        <EdgeLayout
+          Id="Package\Import ECA_Sample Data Excel.Paths[Excel Source Output]"
+          TopLeft="93.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="40,117"
+              Start="0,0"
+              End="40,109.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,54.5"
+                    Point2="0,58.5"
+                    Point3="4,58.5" />
+                  <mssgle:LineSegment
+                    End="36,58.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="36,58.5"
+                    Point2="40,58.5"
+                    Point3="40,62.5" />
+                  <mssgle:LineSegment
+                    End="40,109.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import ECA_Sample Data Excel\ECA_Programs">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import ECA_Sample Data Excel\Excel ECA_Programs">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,607 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/8/2015 10:52:05 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{ED934379-4AF9-4E84-9D78-92DBA5CBB786}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import CE_Project_Org Source"
+  DTS:PackageType="5"
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{4CA2ECA2-AD4D-43DA-B50F-536E06448E2B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{D8FB62C4-5ED3-42CA-A3CE-5D499F2DA882}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.CE.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=CE;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB/k5fgXjWOiaH79X7TNnecmOYbuVcEYaYgAzrc0IRoqwAAAAAOgAAAAAIAACAAAABNOW6DRMFNpzEORlICL0seQiavktRI9sSmMMvrK3N+5SAAAADwK6e5pW2hTWbldQpT6Ey/b8Jtgrf+/Ua9jWlnB0pCukAAAAAUBrZl2R0BRkPM9v9ZNy2Oz4jwMbpkP5Q9urYrJK3MbOSyKU4vFRzEvBYkxCQ6JinjPxPpSZ2P31juB7gSeao2</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{7B926F24-A7E5-43AA-9AD6-D335EA16B0A5}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\CE - FLEX\CE_PILOT_DATA_PROJECT_ORG.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import CE_Project_Org"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{5890EF4A-1AF6-41F4-BC5F-EF9CF927CAE1}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import CE_Project_Org"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import CE_Project_Org\CE_Project_Org"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="CE_Project_Org"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[CE_Project_Org]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import CE_Project_Org\CE_Project_Org.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].Columns[PROJECT_ORG_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROJECT_ORG_ID"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ORG_ID]"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].Columns[PROJECT_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROJECT_ID"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ID]"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].Columns[ORG_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ORG_ID"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[ORG_ID]"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].Columns[ROLE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ROLE"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[ROLE]"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[ROLE]" />
+                    <inputColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].Columns[PROJECT_ORG_CREATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROJECT_ORG_CREATE_ID"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ORG_CREATE_ID]"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].Columns[PROJECT_ORG_CREATE_DT]"
+                      cachedDataType="date"
+                      cachedName="PROJECT_ORG_CREATE_DT"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ORG_CREATE_DT]"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].Columns[PROJECT_ORG_UPDATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROJECT_ORG_UPDATE_ID"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ORG_UPDATE_ID]"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].Columns[PROJECT_ORG_UPDATE_DT]"
+                      cachedDataType="date"
+                      cachedName="PROJECT_ORG_UPDATE_DT"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ORG_UPDATE_DT]"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_UPDATE_DT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[ROLE]"
+                      dataType="wstr"
+                      length="255"
+                      name="ROLE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ORG_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ORG_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ORG_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_ORG_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ORG_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ORG_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ORG_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_ORG_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import CE_Project_Org\CE_Project_Org.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Project_Org\CE_Project_Org.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\CE_Project_Org.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Project_Org\CE_Project_Org.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel CE_Project_Org Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">'Sheet 1$'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ORG_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_ID]"
+                      name="PROJECT_ORG_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ID]"
+                      name="PROJECT_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[ORG_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[ORG_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[ORG_ID]"
+                      name="ORG_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[ROLE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[ROLE]"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[ROLE]"
+                      name="ROLE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_CREATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ORG_CREATE_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_CREATE_ID]"
+                      name="PROJECT_ORG_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_CREATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ORG_CREATE_DT]"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_CREATE_DT]"
+                      name="PROJECT_ORG_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_UPDATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ORG_UPDATE_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_UPDATE_ID]"
+                      name="PROJECT_ORG_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_UPDATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ORG_UPDATE_DT]"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].Columns[PROJECT_ORG_UPDATE_DT]"
+                      name="PROJECT_ORG_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[ROLE]"
+                      dataType="wstr"
+                      length="255"
+                      name="ROLE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ORG_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ORG_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ORG_CREATE_DT]"
+                      dataType="date"
+                      name="PROJECT_ORG_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ORG_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ORG_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ORG_UPDATE_DT]"
+                      dataType="date"
+                      name="PROJECT_ORG_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ORG_ID]"
+                      name="PROJECT_ORG_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ID]"
+                      name="PROJECT_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[ORG_ID]"
+                      name="ORG_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[ROLE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[ROLE]"
+                      name="ROLE" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ORG_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ORG_CREATE_ID]"
+                      name="PROJECT_ORG_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ORG_CREATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ORG_CREATE_DT]"
+                      name="PROJECT_ORG_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ORG_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ORG_UPDATE_ID]"
+                      name="PROJECT_ORG_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ORG_UPDATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[PROJECT_ORG_UPDATE_DT]"
+                      name="PROJECT_ORG_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import CE_Project_Org.Paths[Excel Source Output]"
+              endId="Package\Import CE_Project_Org\CE_Project_Org.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import CE_Project_Org\Excel CE_Project_Org Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Import CE_Project_Org"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import CE_Project_Org">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="216,42"
+          Id="Package\Import CE_Project_Org\Excel CE_Project_Org Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Import CE_Project_Org\CE_Project_Org"
+          TopLeft="61.5,142.5" />
+        <EdgeLayout
+          Id="Package\Import CE_Project_Org.Paths[Excel Source Output]"
+          TopLeft="113.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="24.5,95"
+              Start="0,0"
+              End="24.5,87.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,43.5"
+                    Point2="0,47.5"
+                    Point3="4,47.5" />
+                  <mssgle:LineSegment
+                    End="20.5,47.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="20.5,47.5"
+                    Point2="24.5,47.5"
+                    Point3="24.5,51.5" />
+                  <mssgle:LineSegment
+                    End="24.5,87.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import CE_Project_Org\CE_Project_Org">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import CE_Project_Org\Excel CE_Project_Org Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

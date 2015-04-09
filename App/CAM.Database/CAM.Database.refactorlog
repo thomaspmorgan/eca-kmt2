@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="22512a22-8598-4438-bd71-435000f691b5" ChangeDateTime="04/09/2015 13:23:38">
+    <Property Name="ElementName" Value="[dbo].[UserAccount].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserAccount]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PermissionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="57420e0a-779c-4b21-9651-f4f1ae0825dd" ChangeDateTime="04/09/2015 13:23:56">
+    <Property Name="ElementName" Value="[dbo].[UserAccount].[PermissionNmae]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserAccount]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PermissionName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9fdedfde-d629-4d3b-9912-d528a4ee0baf" ChangeDateTime="04/09/2015 13:31:58">
+    <Property Name="ElementName" Value="[dbo].[UserAccount].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserAccount]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UserAccountId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="14ad909b-d612-4d9e-a1de-62bae40d182f" ChangeDateTime="04/09/2015 13:35:40">
+    <Property Name="ElementName" Value="[dbo].[UserAccount].[History_CreatedBY]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserAccount]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_CreatedBy" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e61b3615-6c84-4940-9361-857b3f78f938" ChangeDateTime="04/09/2015 13:38:31">
+    <Property Name="ElementName" Value="[dbo].[UserAccount].[ADGuid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserAccount]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AdGuid" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a15ceb8c-6f0e-4718-a245-4bf540805cdd" ChangeDateTime="04/09/2015 13:38:38">
+    <Property Name="ElementName" Value="[dbo].[UserAccount].[UserAccountId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserAccount]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PrincipalId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0a7d5a10-c067-48c3-9c3f-724bcb68fa28" ChangeDateTime="04/09/2015 13:46:49">
+    <Property Name="ElementName" Value="[cam].[Principal].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[Principal]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PrincipalId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e3db237c-7764-4503-b3a9-15447e7d0fba" ChangeDateTime="04/09/2015 13:49:12">
+    <Property Name="ElementName" Value="[cam].[PrincipalType].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[PrincipalType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PrincipalTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="00a0e819-801a-42f8-8c40-bb81b6ef3832" ChangeDateTime="04/09/2015 13:52:37">
+    <Property Name="ElementName" Value="[cam].[Resource].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[Resource]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ResourceId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c07155fb-f940-4f3d-adca-c130942e5a79" ChangeDateTime="04/09/2015 13:53:46">
+    <Property Name="ElementName" Value="[cam].[ResourceType].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[ResourceType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ResourceTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fa58de96-cd3f-4a49-8e04-3dcba3f44df3" ChangeDateTime="04/09/2015 13:54:36">
+    <Property Name="ElementName" Value="[cam].[ResourceType].[History_CreatedON]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[ResourceType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_CreatedOn" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ac59baa7-b0bd-43cc-b3a8-6c427a81b905" ChangeDateTime="04/09/2015 13:55:19">
+    <Property Name="ElementName" Value="[cam].[ResourceType].[History_RevisedBy]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[ResourceType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_RevisedOn" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2f24c514-359f-4a9f-b6a3-06a18d27825c" ChangeDateTime="04/09/2015 13:55:23">
+    <Property Name="ElementName" Value="[cam].[ResourceType].[History_RevisedOn]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[ResourceType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_RevisedBy" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fd46610b-f1e6-471a-8fa0-233984b7dd76" ChangeDateTime="04/09/2015 13:56:15">
+    <Property Name="ElementName" Value="[cam].[PrincipalType].[PrincipayTypeDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[PrincipalType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PrincipalTypeDescription" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7050f37d-81b7-4997-80de-644a061fc352" ChangeDateTime="04/09/2015 14:00:59">
+    <Property Name="ElementName" Value="[cam].[Role].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[Role]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RoleId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4510fd23-ef22-4a7b-959b-8db60a4b6ef9" ChangeDateTime="04/09/2015 14:05:23">
+    <Property Name="ElementName" Value="[cam].[Role].[History_CreatedOn]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[Role]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CreatedOn" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="707954d2-e296-48e8-8f15-ce762bcf9710" ChangeDateTime="04/09/2015 14:09:08">
+    <Property Name="ElementName" Value="[cam].[PrincipleRole].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[PrincipleRole]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PrincipalId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="711db24a-335a-438c-ae9b-2eb745d95171" ChangeDateTime="04/09/2015 14:11:27">
+    <Property Name="ElementName" Value="[cam].[PermissionAssignment].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[PermissionAssignment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PrincipalId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="72e4c9e2-c4e1-44e9-ad4c-a4a57ae9f1d3" ChangeDateTime="04/09/2015 14:14:13">
+    <Property Name="ElementName" Value="[cam].[RoleResourcePermission].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[RoleResourcePermission]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RoleId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="516ca163-7cb2-43d8-80cc-f106870df9b5" ChangeDateTime="04/09/2015 14:25:15">
+    <Property Name="ElementName" Value="[cam].[Application].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[Application]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ResourceId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="343fc9bd-6c25-43fd-a4bb-b56b4baf5d15" ChangeDateTime="04/09/2015 14:25:45">
+    <Property Name="ElementName" Value="[cam].[Application].[RevisedON]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[Application]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RevisedOn" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7ed0ff92-8fdf-4296-97a3-a39ead4b20a0" ChangeDateTime="04/09/2015 14:28:37">
+    <Property Name="ElementName" Value="[cam].[ResourceOffice].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[ResourceOffice]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ResourceId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4b9e6592-a963-425f-a344-e286bc57dc1b" ChangeDateTime="04/09/2015 14:31:22">
+    <Property Name="ElementName" Value="[cam].[ResourceProgram].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[ResourceProgram]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ResourceId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="38c262ea-3101-42d8-afbd-5a9d5ea8c451" ChangeDateTime="04/09/2015 14:32:33">
+    <Property Name="ElementName" Value="[cam].[ResourceProject].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[cam].[ResourceProject]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ResourceId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="99b4405b-a8ce-4193-97a5-6bd2b4c1289a" ChangeDateTime="04/09/2015 14:58:23">
+    <Property Name="ElementName" Value="[cam].[FK_PermissionAssignment_ToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[cam].[PermissionAssignment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_PermissionAssignment_ToPrincipal]" />
+  </Operation>
+</Operations>
