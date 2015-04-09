@@ -1,0 +1,3 @@
+﻿Create Schema CAM
+
+Go

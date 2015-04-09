@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2a0a84e7d4dc44a7981befcf5895aa1a" Name="Diagram1">
+        <EntityTypeShape EntityType="CAM.Data.Application" Width="1.5" PointX="0.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.Permission" Width="1.5" PointX="15.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.PermissionAssignment" Width="2.25" PointX="9.375" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.Principal" Width="1.5" PointX="8.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.PrincipalType" Width="1.5" PointX="6" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.PrincipleRole" Width="1.5" PointX="10.625" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.Resource" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.ResourceType" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.Role" Width="1.5" PointX="2.875" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.RoleResourcePermission" Width="2.125" PointX="13.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.UserAccount" Width="1.5" PointX="16.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.C__RefactorLog" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="CAM.Data.FK_Application_ToResource" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_Permission_ToResource" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_Permission_ToResourceType" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_PermissionAssignment_ToPermission" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_RoleResourcePermission_ToPermission" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_PermissionAssignment_ToPrincipal" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_PermissionAssignment_ToResource" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_Principal_ToPrincipal" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_PrincipleRole_ToPrincipal" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_UserAccount_ToPrincipal" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_PrincipleRole_ToRole" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_Resource_ToResourceType" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_Role_ToResource" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_RoleResourcePermission_ToResource" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_Role_ToResourceType" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_RoleResourcePermission_ToRole" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

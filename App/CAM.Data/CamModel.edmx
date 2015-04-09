@@ -1,0 +1,1047 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CAM.Data.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Name="ResourceId" Type="int" Nullable="false" />
+          <Property Name="ApplicationName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="RevisedBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="PermissionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PermissionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="History_CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="History_CreatedBy" Type="int" Nullable="false" />
+          <Property Name="History_RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="History_RevisedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ResourceTypeId" Type="int" />
+          <Property Name="ResourceId" Type="int" />
+          <Property Name="PermissionDescription" Type="nchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="PermissionAssignment">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+            <PropertyRef Name="ResourceId" />
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="PrincipalId" Type="int" Nullable="false" />
+          <Property Name="ResourceId" Type="int" Nullable="false" />
+          <Property Name="PermissionId" Type="int" Nullable="false" />
+          <Property Name="AssignedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="AssignedBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Principal">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+          </Key>
+          <Property Name="PrincipalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PrincipalTypeId" Type="int" />
+        </EntityType>
+        <EntityType Name="PrincipalType">
+          <Key>
+            <PropertyRef Name="PrincipalTypeId" />
+          </Key>
+          <Property Name="PrincipalTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PrincipalTypeName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="PrincipalTypeDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="History_CreatedBy" Type="int" Nullable="false" />
+          <Property Name="History_CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="History_RevisedBy" Type="int" Nullable="false" />
+          <Property Name="History_RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PrincipleRole">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="PrincipalId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="AssignedBy" Type="int" Nullable="false" />
+          <Property Name="AssignedOn" Type="datetimeoffset" Precision="7" />
+        </EntityType>
+        <EntityType Name="Resource">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Name="ResourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResourceTypeId" Type="int" Nullable="false" />
+          <Property Name="ForeignResourceId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResourceType">
+          <Key>
+            <PropertyRef Name="ResourceTypeId" />
+          </Key>
+          <Property Name="ResourceTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResourceTypeName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ResourceTypeDescription" Type="nvarchar" MaxLength="255" />
+          <Property Name="History_CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="History_CreatedBy" Type="int" Nullable="false" />
+          <Property Name="History_RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="History_RevisedBy" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoleDescription" Type="nchar" MaxLength="255" />
+          <Property Name="CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="RevisedBy" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ResourceId" Type="int" />
+          <Property Name="ResourceTypeId" Type="int" />
+        </EntityType>
+        <EntityType Name="RoleResourcePermission">
+          <Key>
+            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="ResourceId" />
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="ResourceId" Type="int" Nullable="false" />
+          <Property Name="PermissionId" Type="int" Nullable="false" />
+          <Property Name="AssignedOn" Type="int" Nullable="false" />
+          <Property Name="AssignedBy" Type="int" Nullable="false" />
+          <Property Name="IsAllowed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserAccount">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+          </Key>
+          <Property Name="PrincipalId" Type="int" Nullable="false" />
+          <Property Name="AdGuid" Type="uniqueidentifier" />
+          <Property Name="LastAccessed" Type="datetimeoffset" Precision="7" />
+          <Property Name="History_CreatedOn" Type="datetimeoffset" Precision="7" />
+          <Property Name="History_CreatedBy" Type="int" />
+          <Property Name="History_RevisedOn" Type="datetimeoffset" Precision="7" />
+          <Property Name="History_RevisedBy" Type="int" />
+          <Property Name="AccountStatusId" Type="int" />
+          <Property Name="PermissionsRevisedOn" Type="datetimeoffset" Precision="7" />
+          <Property Name="Note" Type="nvarchar" MaxLength="2000" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="101" />
+          <Property Name="EmalAddress" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Application_ToResource">
+          <End Role="Resource" Type="Self.Resource" Multiplicity="1" />
+          <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permission_ToResource">
+          <End Role="Resource" Type="Self.Resource" Multiplicity="0..1" />
+          <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permission_ToResourceType">
+          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="0..1" />
+          <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="ResourceTypeId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="ResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionAssignment_ToPermission">
+          <End Role="Permission" Type="Self.Permission" Multiplicity="1" />
+          <End Role="PermissionAssignment" Type="Self.PermissionAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="PermissionId" />
+            </Principal>
+            <Dependent Role="PermissionAssignment">
+              <PropertyRef Name="PermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionAssignment_ToPrincipal">
+          <End Role="Principal" Type="Self.Principal" Multiplicity="1" />
+          <End Role="PermissionAssignment" Type="Self.PermissionAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="PermissionAssignment">
+              <PropertyRef Name="PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionAssignment_ToResource">
+          <End Role="Resource" Type="Self.Resource" Multiplicity="1" />
+          <End Role="PermissionAssignment" Type="Self.PermissionAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="PermissionAssignment">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Principal_ToPrincipal">
+          <End Role="PrincipalType" Type="Self.PrincipalType" Multiplicity="0..1" />
+          <End Role="Principal" Type="Self.Principal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PrincipalType">
+              <PropertyRef Name="PrincipalTypeId" />
+            </Principal>
+            <Dependent Role="Principal">
+              <PropertyRef Name="PrincipalTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrincipleRole_ToPrincipal">
+          <End Role="Principal" Type="Self.Principal" Multiplicity="1" />
+          <End Role="PrincipleRole" Type="Self.PrincipleRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="PrincipleRole">
+              <PropertyRef Name="PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrincipleRole_ToRole">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="PrincipleRole" Type="Self.PrincipleRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="PrincipleRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Resource_ToResourceType">
+          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="1" />
+          <End Role="Resource" Type="Self.Resource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="ResourceTypeId" />
+            </Principal>
+            <Dependent Role="Resource">
+              <PropertyRef Name="ResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Role_ToResource">
+          <End Role="Resource" Type="Self.Resource" Multiplicity="0..1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="Role">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Role_ToResourceType">
+          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="0..1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="ResourceTypeId" />
+            </Principal>
+            <Dependent Role="Role">
+              <PropertyRef Name="ResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleResourcePermission_ToPermission">
+          <End Role="Permission" Type="Self.Permission" Multiplicity="1" />
+          <End Role="RoleResourcePermission" Type="Self.RoleResourcePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="PermissionId" />
+            </Principal>
+            <Dependent Role="RoleResourcePermission">
+              <PropertyRef Name="PermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleResourcePermission_ToResource">
+          <End Role="Resource" Type="Self.Resource" Multiplicity="1" />
+          <End Role="RoleResourcePermission" Type="Self.RoleResourcePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="RoleResourcePermission">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleResourcePermission_ToRole">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="RoleResourcePermission" Type="Self.RoleResourcePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="RoleResourcePermission">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAccount_ToPrincipal">
+          <End Role="Principal" Type="Self.Principal" Multiplicity="1" />
+          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="UserAccount">
+              <PropertyRef Name="PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CAMDataStoreContainer">
+          <EntitySet Name="Application" EntityType="Self.Application" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="Permission" EntityType="Self.Permission" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="PermissionAssignment" EntityType="Self.PermissionAssignment" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="Principal" EntityType="Self.Principal" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="PrincipalType" EntityType="Self.PrincipalType" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="PrincipleRole" EntityType="Self.PrincipleRole" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="Resource" EntityType="Self.Resource" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="ResourceType" EntityType="Self.ResourceType" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="RoleResourcePermission" EntityType="Self.RoleResourcePermission" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="UserAccount" EntityType="Self.UserAccount" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Application_ToResource" Association="Self.FK_Application_ToResource">
+            <End Role="Resource" EntitySet="Resource" />
+            <End Role="Application" EntitySet="Application" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permission_ToResource" Association="Self.FK_Permission_ToResource">
+            <End Role="Resource" EntitySet="Resource" />
+            <End Role="Permission" EntitySet="Permission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permission_ToResourceType" Association="Self.FK_Permission_ToResourceType">
+            <End Role="ResourceType" EntitySet="ResourceType" />
+            <End Role="Permission" EntitySet="Permission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionAssignment_ToPermission" Association="Self.FK_PermissionAssignment_ToPermission">
+            <End Role="Permission" EntitySet="Permission" />
+            <End Role="PermissionAssignment" EntitySet="PermissionAssignment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionAssignment_ToPrincipal" Association="Self.FK_PermissionAssignment_ToPrincipal">
+            <End Role="Principal" EntitySet="Principal" />
+            <End Role="PermissionAssignment" EntitySet="PermissionAssignment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionAssignment_ToResource" Association="Self.FK_PermissionAssignment_ToResource">
+            <End Role="Resource" EntitySet="Resource" />
+            <End Role="PermissionAssignment" EntitySet="PermissionAssignment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Principal_ToPrincipal" Association="Self.FK_Principal_ToPrincipal">
+            <End Role="PrincipalType" EntitySet="PrincipalType" />
+            <End Role="Principal" EntitySet="Principal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrincipleRole_ToPrincipal" Association="Self.FK_PrincipleRole_ToPrincipal">
+            <End Role="Principal" EntitySet="Principal" />
+            <End Role="PrincipleRole" EntitySet="PrincipleRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrincipleRole_ToRole" Association="Self.FK_PrincipleRole_ToRole">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="PrincipleRole" EntitySet="PrincipleRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Resource_ToResourceType" Association="Self.FK_Resource_ToResourceType">
+            <End Role="ResourceType" EntitySet="ResourceType" />
+            <End Role="Resource" EntitySet="Resource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_ToResource" Association="Self.FK_Role_ToResource">
+            <End Role="Resource" EntitySet="Resource" />
+            <End Role="Role" EntitySet="Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_ToResourceType" Association="Self.FK_Role_ToResourceType">
+            <End Role="ResourceType" EntitySet="ResourceType" />
+            <End Role="Role" EntitySet="Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleResourcePermission_ToPermission" Association="Self.FK_RoleResourcePermission_ToPermission">
+            <End Role="Permission" EntitySet="Permission" />
+            <End Role="RoleResourcePermission" EntitySet="RoleResourcePermission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleResourcePermission_ToResource" Association="Self.FK_RoleResourcePermission_ToResource">
+            <End Role="Resource" EntitySet="Resource" />
+            <End Role="RoleResourcePermission" EntitySet="RoleResourcePermission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleResourcePermission_ToRole" Association="Self.FK_RoleResourcePermission_ToRole">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RoleResourcePermission" EntitySet="RoleResourcePermission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAccount_ToPrincipal" Association="Self.FK_UserAccount_ToPrincipal">
+            <End Role="Principal" EntitySet="Principal" />
+            <End Role="UserAccount" EntitySet="UserAccount" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CAM.Data" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Name="ResourceId" Type="Int32" Nullable="false" />
+          <Property Name="ApplicationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="RevisedBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Resource" Relationship="Self.FK_Application_ToResource" FromRole="Application" ToRole="Resource" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="PermissionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PermissionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="History_CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="History_CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="History_RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="History_RevisedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ResourceTypeId" Type="Int32" />
+          <Property Name="ResourceId" Type="Int32" />
+          <Property Name="PermissionDescription" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Resource" Relationship="Self.FK_Permission_ToResource" FromRole="Permission" ToRole="Resource" />
+          <NavigationProperty Name="ResourceType" Relationship="Self.FK_Permission_ToResourceType" FromRole="Permission" ToRole="ResourceType" />
+          <NavigationProperty Name="PermissionAssignments" Relationship="Self.FK_PermissionAssignment_ToPermission" FromRole="Permission" ToRole="PermissionAssignment" />
+          <NavigationProperty Name="RoleResourcePermissions" Relationship="Self.FK_RoleResourcePermission_ToPermission" FromRole="Permission" ToRole="RoleResourcePermission" />
+        </EntityType>
+        <EntityType Name="PermissionAssignment">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+            <PropertyRef Name="ResourceId" />
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="PrincipalId" Type="Int32" Nullable="false" />
+          <Property Name="ResourceId" Type="Int32" Nullable="false" />
+          <Property Name="PermissionId" Type="Int32" Nullable="false" />
+          <Property Name="AssignedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="AssignedBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Permission" Relationship="Self.FK_PermissionAssignment_ToPermission" FromRole="PermissionAssignment" ToRole="Permission" />
+          <NavigationProperty Name="Principal" Relationship="Self.FK_PermissionAssignment_ToPrincipal" FromRole="PermissionAssignment" ToRole="Principal" />
+          <NavigationProperty Name="Resource" Relationship="Self.FK_PermissionAssignment_ToResource" FromRole="PermissionAssignment" ToRole="Resource" />
+        </EntityType>
+        <EntityType Name="Principal">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+          </Key>
+          <Property Name="PrincipalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PrincipalTypeId" Type="Int32" />
+          <NavigationProperty Name="PermissionAssignments" Relationship="Self.FK_PermissionAssignment_ToPrincipal" FromRole="Principal" ToRole="PermissionAssignment" />
+          <NavigationProperty Name="PrincipalType" Relationship="Self.FK_Principal_ToPrincipal" FromRole="Principal" ToRole="PrincipalType" />
+          <NavigationProperty Name="PrincipleRoles" Relationship="Self.FK_PrincipleRole_ToPrincipal" FromRole="Principal" ToRole="PrincipleRole" />
+          <NavigationProperty Name="UserAccount" Relationship="Self.FK_UserAccount_ToPrincipal" FromRole="Principal" ToRole="UserAccount" />
+        </EntityType>
+        <EntityType Name="PrincipalType">
+          <Key>
+            <PropertyRef Name="PrincipalTypeId" />
+          </Key>
+          <Property Name="PrincipalTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PrincipalTypeName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="PrincipalTypeDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="History_CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="History_CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="History_RevisedBy" Type="Int32" Nullable="false" />
+          <Property Name="History_RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Principals" Relationship="Self.FK_Principal_ToPrincipal" FromRole="PrincipalType" ToRole="Principal" />
+        </EntityType>
+        <EntityType Name="PrincipleRole">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="PrincipalId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="AssignedBy" Type="Int32" Nullable="false" />
+          <Property Name="AssignedOn" Type="DateTimeOffset" Precision="7" />
+          <NavigationProperty Name="Principal" Relationship="Self.FK_PrincipleRole_ToPrincipal" FromRole="PrincipleRole" ToRole="Principal" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_PrincipleRole_ToRole" FromRole="PrincipleRole" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Resource">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Name="ResourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResourceTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ForeignResourceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Application" Relationship="Self.FK_Application_ToResource" FromRole="Resource" ToRole="Application" />
+          <NavigationProperty Name="Permissions" Relationship="Self.FK_Permission_ToResource" FromRole="Resource" ToRole="Permission" />
+          <NavigationProperty Name="PermissionAssignments" Relationship="Self.FK_PermissionAssignment_ToResource" FromRole="Resource" ToRole="PermissionAssignment" />
+          <NavigationProperty Name="ResourceType" Relationship="Self.FK_Resource_ToResourceType" FromRole="Resource" ToRole="ResourceType" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_Role_ToResource" FromRole="Resource" ToRole="Role" />
+          <NavigationProperty Name="RoleResourcePermissions" Relationship="Self.FK_RoleResourcePermission_ToResource" FromRole="Resource" ToRole="RoleResourcePermission" />
+        </EntityType>
+        <EntityType Name="ResourceType">
+          <Key>
+            <PropertyRef Name="ResourceTypeId" />
+          </Key>
+          <Property Name="ResourceTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResourceTypeName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ResourceTypeDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="History_CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="History_CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="History_RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="History_RevisedBy" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Permissions" Relationship="Self.FK_Permission_ToResourceType" FromRole="ResourceType" ToRole="Permission" />
+          <NavigationProperty Name="Resources" Relationship="Self.FK_Resource_ToResourceType" FromRole="ResourceType" ToRole="Resource" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_Role_ToResourceType" FromRole="ResourceType" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleDescription" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="RevisedBy" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ResourceId" Type="Int32" />
+          <Property Name="ResourceTypeId" Type="Int32" />
+          <NavigationProperty Name="PrincipleRoles" Relationship="Self.FK_PrincipleRole_ToRole" FromRole="Role" ToRole="PrincipleRole" />
+          <NavigationProperty Name="Resource" Relationship="Self.FK_Role_ToResource" FromRole="Role" ToRole="Resource" />
+          <NavigationProperty Name="ResourceType" Relationship="Self.FK_Role_ToResourceType" FromRole="Role" ToRole="ResourceType" />
+          <NavigationProperty Name="RoleResourcePermissions" Relationship="Self.FK_RoleResourcePermission_ToRole" FromRole="Role" ToRole="RoleResourcePermission" />
+        </EntityType>
+        <EntityType Name="RoleResourcePermission">
+          <Key>
+            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="ResourceId" />
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="ResourceId" Type="Int32" Nullable="false" />
+          <Property Name="PermissionId" Type="Int32" Nullable="false" />
+          <Property Name="AssignedOn" Type="Int32" Nullable="false" />
+          <Property Name="AssignedBy" Type="Int32" Nullable="false" />
+          <Property Name="IsAllowed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Permission" Relationship="Self.FK_RoleResourcePermission_ToPermission" FromRole="RoleResourcePermission" ToRole="Permission" />
+          <NavigationProperty Name="Resource" Relationship="Self.FK_RoleResourcePermission_ToResource" FromRole="RoleResourcePermission" ToRole="Resource" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_RoleResourcePermission_ToRole" FromRole="RoleResourcePermission" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="UserAccount">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+          </Key>
+          <Property Name="PrincipalId" Type="Int32" Nullable="false" />
+          <Property Name="AdGuid" Type="Guid" />
+          <Property Name="LastAccessed" Type="DateTimeOffset" Precision="7" />
+          <Property Name="History_CreatedOn" Type="DateTimeOffset" Precision="7" />
+          <Property Name="History_CreatedBy" Type="Int32" />
+          <Property Name="History_RevisedOn" Type="DateTimeOffset" Precision="7" />
+          <Property Name="History_RevisedBy" Type="Int32" />
+          <Property Name="AccountStatusId" Type="Int32" />
+          <Property Name="PermissionsRevisedOn" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Note" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayName" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="EmalAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Principal" Relationship="Self.FK_UserAccount_ToPrincipal" FromRole="UserAccount" ToRole="Principal" />
+        </EntityType>
+        <EntityType Name="C__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="Guid" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Application_ToResource">
+          <End Role="Resource" Type="Self.Resource" Multiplicity="1" />
+          <End Role="Application" Type="Self.Application" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permission_ToResource">
+          <End Role="Resource" Type="Self.Resource" Multiplicity="0..1" />
+          <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permission_ToResourceType">
+          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="0..1" />
+          <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="ResourceTypeId" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="ResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionAssignment_ToPermission">
+          <End Role="Permission" Type="Self.Permission" Multiplicity="1" />
+          <End Role="PermissionAssignment" Type="Self.PermissionAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="PermissionId" />
+            </Principal>
+            <Dependent Role="PermissionAssignment">
+              <PropertyRef Name="PermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleResourcePermission_ToPermission">
+          <End Role="Permission" Type="Self.Permission" Multiplicity="1" />
+          <End Role="RoleResourcePermission" Type="Self.RoleResourcePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="PermissionId" />
+            </Principal>
+            <Dependent Role="RoleResourcePermission">
+              <PropertyRef Name="PermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionAssignment_ToPrincipal">
+          <End Role="Principal" Type="Self.Principal" Multiplicity="1" />
+          <End Role="PermissionAssignment" Type="Self.PermissionAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="PermissionAssignment">
+              <PropertyRef Name="PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PermissionAssignment_ToResource">
+          <End Role="Resource" Type="Self.Resource" Multiplicity="1" />
+          <End Role="PermissionAssignment" Type="Self.PermissionAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="PermissionAssignment">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Principal_ToPrincipal">
+          <End Role="PrincipalType" Type="Self.PrincipalType" Multiplicity="0..1" />
+          <End Role="Principal" Type="Self.Principal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PrincipalType">
+              <PropertyRef Name="PrincipalTypeId" />
+            </Principal>
+            <Dependent Role="Principal">
+              <PropertyRef Name="PrincipalTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrincipleRole_ToPrincipal">
+          <End Role="Principal" Type="Self.Principal" Multiplicity="1" />
+          <End Role="PrincipleRole" Type="Self.PrincipleRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="PrincipleRole">
+              <PropertyRef Name="PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAccount_ToPrincipal">
+          <End Role="Principal" Type="Self.Principal" Multiplicity="1" />
+          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="UserAccount">
+              <PropertyRef Name="PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrincipleRole_ToRole">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="PrincipleRole" Type="Self.PrincipleRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="PrincipleRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Resource_ToResourceType">
+          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="1" />
+          <End Role="Resource" Type="Self.Resource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="ResourceTypeId" />
+            </Principal>
+            <Dependent Role="Resource">
+              <PropertyRef Name="ResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Role_ToResource">
+          <End Role="Resource" Type="Self.Resource" Multiplicity="0..1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="Role">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleResourcePermission_ToResource">
+          <End Role="Resource" Type="Self.Resource" Multiplicity="1" />
+          <End Role="RoleResourcePermission" Type="Self.RoleResourcePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="RoleResourcePermission">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Role_ToResourceType">
+          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="0..1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResourceType">
+              <PropertyRef Name="ResourceTypeId" />
+            </Principal>
+            <Dependent Role="Role">
+              <PropertyRef Name="ResourceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleResourcePermission_ToRole">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="RoleResourcePermission" Type="Self.RoleResourcePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="RoleResourcePermission">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CamModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Applications" EntityType="Self.Application" />
+          <EntitySet Name="Permissions" EntityType="Self.Permission" />
+          <EntitySet Name="PermissionAssignments" EntityType="Self.PermissionAssignment" />
+          <EntitySet Name="Principals" EntityType="Self.Principal" />
+          <EntitySet Name="PrincipalTypes" EntityType="Self.PrincipalType" />
+          <EntitySet Name="PrincipleRoles" EntityType="Self.PrincipleRole" />
+          <EntitySet Name="Resources" EntityType="Self.Resource" />
+          <EntitySet Name="ResourceTypes" EntityType="Self.ResourceType" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="RoleResourcePermissions" EntityType="Self.RoleResourcePermission" />
+          <EntitySet Name="UserAccounts" EntityType="Self.UserAccount" />
+          <EntitySet Name="C__RefactorLog" EntityType="Self.C__RefactorLog" />
+          <AssociationSet Name="FK_Application_ToResource" Association="Self.FK_Application_ToResource">
+            <End Role="Resource" EntitySet="Resources" />
+            <End Role="Application" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permission_ToResource" Association="Self.FK_Permission_ToResource">
+            <End Role="Resource" EntitySet="Resources" />
+            <End Role="Permission" EntitySet="Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permission_ToResourceType" Association="Self.FK_Permission_ToResourceType">
+            <End Role="ResourceType" EntitySet="ResourceTypes" />
+            <End Role="Permission" EntitySet="Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionAssignment_ToPermission" Association="Self.FK_PermissionAssignment_ToPermission">
+            <End Role="Permission" EntitySet="Permissions" />
+            <End Role="PermissionAssignment" EntitySet="PermissionAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleResourcePermission_ToPermission" Association="Self.FK_RoleResourcePermission_ToPermission">
+            <End Role="Permission" EntitySet="Permissions" />
+            <End Role="RoleResourcePermission" EntitySet="RoleResourcePermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionAssignment_ToPrincipal" Association="Self.FK_PermissionAssignment_ToPrincipal">
+            <End Role="Principal" EntitySet="Principals" />
+            <End Role="PermissionAssignment" EntitySet="PermissionAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PermissionAssignment_ToResource" Association="Self.FK_PermissionAssignment_ToResource">
+            <End Role="Resource" EntitySet="Resources" />
+            <End Role="PermissionAssignment" EntitySet="PermissionAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Principal_ToPrincipal" Association="Self.FK_Principal_ToPrincipal">
+            <End Role="PrincipalType" EntitySet="PrincipalTypes" />
+            <End Role="Principal" EntitySet="Principals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrincipleRole_ToPrincipal" Association="Self.FK_PrincipleRole_ToPrincipal">
+            <End Role="Principal" EntitySet="Principals" />
+            <End Role="PrincipleRole" EntitySet="PrincipleRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAccount_ToPrincipal" Association="Self.FK_UserAccount_ToPrincipal">
+            <End Role="Principal" EntitySet="Principals" />
+            <End Role="UserAccount" EntitySet="UserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrincipleRole_ToRole" Association="Self.FK_PrincipleRole_ToRole">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="PrincipleRole" EntitySet="PrincipleRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Resource_ToResourceType" Association="Self.FK_Resource_ToResourceType">
+            <End Role="ResourceType" EntitySet="ResourceTypes" />
+            <End Role="Resource" EntitySet="Resources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_ToResource" Association="Self.FK_Role_ToResource">
+            <End Role="Resource" EntitySet="Resources" />
+            <End Role="Role" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleResourcePermission_ToResource" Association="Self.FK_RoleResourcePermission_ToResource">
+            <End Role="Resource" EntitySet="Resources" />
+            <End Role="RoleResourcePermission" EntitySet="RoleResourcePermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Role_ToResourceType" Association="Self.FK_Role_ToResourceType">
+            <End Role="ResourceType" EntitySet="ResourceTypes" />
+            <End Role="Role" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleResourcePermission_ToRole" Association="Self.FK_RoleResourcePermission_ToRole">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="RoleResourcePermission" EntitySet="RoleResourcePermissions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CAMDataStoreContainer" CdmEntityContainer="CamModel">
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="CAM.Data.Application">
+              <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="RevisedOn" ColumnName="RevisedOn" />
+                <ScalarProperty Name="RevisedBy" ColumnName="RevisedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="CAM.Data.Permission">
+              <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
+                <ScalarProperty Name="PermissionName" ColumnName="PermissionName" />
+                <ScalarProperty Name="History_CreatedOn" ColumnName="History_CreatedOn" />
+                <ScalarProperty Name="History_CreatedBy" ColumnName="History_CreatedBy" />
+                <ScalarProperty Name="History_RevisedOn" ColumnName="History_RevisedOn" />
+                <ScalarProperty Name="History_RevisedBy" ColumnName="History_RevisedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ResourceTypeId" ColumnName="ResourceTypeId" />
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="PermissionDescription" ColumnName="PermissionDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PermissionAssignments">
+            <EntityTypeMapping TypeName="CAM.Data.PermissionAssignment">
+              <MappingFragment StoreEntitySet="PermissionAssignment">
+                <ScalarProperty Name="PrincipalId" ColumnName="PrincipalId" />
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
+                <ScalarProperty Name="AssignedOn" ColumnName="AssignedOn" />
+                <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Principals">
+            <EntityTypeMapping TypeName="CAM.Data.Principal">
+              <MappingFragment StoreEntitySet="Principal">
+                <ScalarProperty Name="PrincipalId" ColumnName="PrincipalId" />
+                <ScalarProperty Name="PrincipalTypeId" ColumnName="PrincipalTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrincipalTypes">
+            <EntityTypeMapping TypeName="CAM.Data.PrincipalType">
+              <MappingFragment StoreEntitySet="PrincipalType">
+                <ScalarProperty Name="PrincipalTypeId" ColumnName="PrincipalTypeId" />
+                <ScalarProperty Name="PrincipalTypeName" ColumnName="PrincipalTypeName" />
+                <ScalarProperty Name="PrincipalTypeDescription" ColumnName="PrincipalTypeDescription" />
+                <ScalarProperty Name="History_CreatedBy" ColumnName="History_CreatedBy" />
+                <ScalarProperty Name="History_CreatedOn" ColumnName="History_CreatedOn" />
+                <ScalarProperty Name="History_RevisedBy" ColumnName="History_RevisedBy" />
+                <ScalarProperty Name="History_RevisedOn" ColumnName="History_RevisedOn" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrincipleRoles">
+            <EntityTypeMapping TypeName="CAM.Data.PrincipleRole">
+              <MappingFragment StoreEntitySet="PrincipleRole">
+                <ScalarProperty Name="PrincipalId" ColumnName="PrincipalId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
+                <ScalarProperty Name="AssignedOn" ColumnName="AssignedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resources">
+            <EntityTypeMapping TypeName="CAM.Data.Resource">
+              <MappingFragment StoreEntitySet="Resource">
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="ResourceTypeId" ColumnName="ResourceTypeId" />
+                <ScalarProperty Name="ForeignResourceId" ColumnName="ForeignResourceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceTypes">
+            <EntityTypeMapping TypeName="CAM.Data.ResourceType">
+              <MappingFragment StoreEntitySet="ResourceType">
+                <ScalarProperty Name="ResourceTypeId" ColumnName="ResourceTypeId" />
+                <ScalarProperty Name="ResourceTypeName" ColumnName="ResourceTypeName" />
+                <ScalarProperty Name="ResourceTypeDescription" ColumnName="ResourceTypeDescription" />
+                <ScalarProperty Name="History_CreatedOn" ColumnName="History_CreatedOn" />
+                <ScalarProperty Name="History_CreatedBy" ColumnName="History_CreatedBy" />
+                <ScalarProperty Name="History_RevisedOn" ColumnName="History_RevisedOn" />
+                <ScalarProperty Name="History_RevisedBy" ColumnName="History_RevisedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="CAM.Data.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="RevisedOn" ColumnName="RevisedOn" />
+                <ScalarProperty Name="RevisedBy" ColumnName="RevisedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="ResourceTypeId" ColumnName="ResourceTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleResourcePermissions">
+            <EntityTypeMapping TypeName="CAM.Data.RoleResourcePermission">
+              <MappingFragment StoreEntitySet="RoleResourcePermission">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
+                <ScalarProperty Name="AssignedOn" ColumnName="AssignedOn" />
+                <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
+                <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAccounts">
+            <EntityTypeMapping TypeName="CAM.Data.UserAccount">
+              <MappingFragment StoreEntitySet="UserAccount">
+                <ScalarProperty Name="PrincipalId" ColumnName="PrincipalId" />
+                <ScalarProperty Name="AdGuid" ColumnName="AdGuid" />
+                <ScalarProperty Name="LastAccessed" ColumnName="LastAccessed" />
+                <ScalarProperty Name="History_CreatedOn" ColumnName="History_CreatedOn" />
+                <ScalarProperty Name="History_CreatedBy" ColumnName="History_CreatedBy" />
+                <ScalarProperty Name="History_RevisedOn" ColumnName="History_RevisedOn" />
+                <ScalarProperty Name="History_RevisedBy" ColumnName="History_RevisedBy" />
+                <ScalarProperty Name="AccountStatusId" ColumnName="AccountStatusId" />
+                <ScalarProperty Name="PermissionsRevisedOn" ColumnName="PermissionsRevisedOn" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="EmalAddress" ColumnName="EmalAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C__RefactorLog">
+            <EntityTypeMapping TypeName="CAM.Data.C__RefactorLog">
+              <MappingFragment StoreEntitySet="__RefactorLog">
+                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
