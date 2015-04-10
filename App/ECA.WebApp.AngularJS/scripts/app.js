@@ -256,7 +256,7 @@ angular
       })
       
       .state('allprograms',{
-        url: '/allprograms/:page',
+        url: '/allprograms',
         templateUrl: 'views/program/allprograms.html',
         controller: 'AllProgramsCtrl',
         requireADLogin: true
@@ -362,13 +362,13 @@ angular
       })
 
       .state('alloffices',{
-        url: '/alloffices/:page',
+        url: '/alloffices',
         templateUrl: 'views/office/alloffices.html',
         controller: 'AllOfficesCtrl',
         requireADLogin: true
       })
       .state('allparticipants', {
-        url: '/allparticipants/:page',
+        url: '/allparticipants',
         templateUrl: 'views/participants/allparticipants.html',
         controller: 'AllParticipantsCtrl',
         requireADLogin: true

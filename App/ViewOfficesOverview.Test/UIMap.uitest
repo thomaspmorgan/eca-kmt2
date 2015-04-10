@@ -198,7 +198,7 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
     </TestStepMarkerAction>
     <NavigateToUrlAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow">
       <ParameterName />
-      <Url>https://eca-kmt-qa.azurewebsites.net/#/alloffices/</Url>
+      <Url>https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top</Url>
       <NewInstance>false</NewInstance>
     </NavigateToUrlAction>
     <TestStepMarkerAction Comment="Edit URL in address bar to (/#/alloffices/) and navigate to all offices page. " MarkerInformation="NavigatetoECAOfficeDirectory">

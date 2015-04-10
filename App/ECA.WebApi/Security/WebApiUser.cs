@@ -16,6 +16,41 @@ namespace ECA.WebApi.Security
 
     public class ResourcePermission
     {
+        public int ResourceId { get; set; }
+
+        public string ResourceType { get; set; }
+
+        public string PermissionName { get; set; }
+
+        /// <summary>
+        /// Returns true if the given object equals this object.
+        /// </summary>
+        /// <param name="obj">The object to test.</param>
+        /// <returns>True if the given object equals this object.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            var otherType = obj as ResourcePermission;
+            if (otherType == null)
+            {
+                return false;
+            }
+            return this.ResourceId == otherType.ResourceId
+                && this.ResourceType == otherType.ResourceType
+                && this.PermissionName == otherType.PermissionName;
+
+        }
+
+        public override int GetHashCode()
+        {
+            var hash = ResourceId * 27;
+            hash += ResourceType.GetHashCode() * 27;
+            hash += PermissionName.GetHashCode();
+            return hash;
+        }
 
     }
 
@@ -39,35 +74,7 @@ namespace ECA.WebApi.Security
         }
     }
 
-    public class AnonymousUser : WebApiUserBase
-    {
-        public const string ANONYMOUS_USER_NAME = "Anonymous";
 
-        public AnonymousUser()
-        {
-
-        }
-
-        public Guid Id
-        {
-            get { return Guid.Empty; }
-        }
-
-        public override Business.Service.User ToBusinessUser()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool HasPermission(ResourcePermission requestedPermission, IEnumerable<ResourcePermission> allUserPermissions)
-        {
-            return false;
-        }
-
-        public override string GetUsername()
-        {
-            return ANONYMOUS_USER_NAME;
-        }
-    }
 
     public class WebApiUser : WebApiUserBase
     {
@@ -96,7 +103,7 @@ namespace ECA.WebApi.Security
         private readonly ILogger logger;
         private readonly IEnumerable<Claim> claims;
 
-        internal WebApiUser(ILogger logger, IEnumerable<Claim> claims) 
+        internal WebApiUser(ILogger logger, IEnumerable<Claim> claims)
         {
             Contract.Requires(logger != null, "The logger must not be null.");
             this.logger = logger;
@@ -111,13 +118,15 @@ namespace ECA.WebApi.Security
             SetUserId(claims);
         }
 
-        internal WebApiUser(ILogger logger, ClaimsPrincipal principal) : this(logger, principal.Claims)
+        internal WebApiUser(ILogger logger, ClaimsPrincipal principal)
+            : this(logger, principal.Claims)
         {
             Contract.Requires(logger != null, "The logger must not be null.");
             Contract.Requires(principal != null, "The principal must not be null.");
         }
 
-        public WebApiUser(ILogger logger, IPrincipal principal) : this(logger, (principal as ClaimsPrincipal))
+        public WebApiUser(ILogger logger, IPrincipal principal)
+            : this(logger, (principal as ClaimsPrincipal))
         {
             Contract.Requires(logger != null, "The logger must not be null.");
             Contract.Requires(principal is ClaimsPrincipal, "The IPrincipal instance must be a ClaimsPrincipal.");
@@ -171,7 +180,7 @@ namespace ECA.WebApi.Security
             else
             {
                 LogMissingClaimError(key);
-            }            
+            }
         }
 
         public void SetUserEmail(IEnumerable<Claim> claims)
@@ -186,7 +195,7 @@ namespace ECA.WebApi.Security
             else
             {
                 LogMissingClaimWarning(key);
-            }            
+            }
         }
 
         public void SetGivenName(IEnumerable<Claim> claims)
@@ -201,7 +210,7 @@ namespace ECA.WebApi.Security
             else
             {
                 LogMissingClaimWarning(key);
-            }            
+            }
         }
 
         public void SetSurname(IEnumerable<Claim> claims)
@@ -216,7 +225,7 @@ namespace ECA.WebApi.Security
             else
             {
                 LogMissingClaimWarning(key);
-            }            
+            }
         }
 
         public void SetFullName(IEnumerable<Claim> claims)
