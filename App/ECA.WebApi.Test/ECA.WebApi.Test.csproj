@@ -43,6 +43,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core">
+      <HintPath>..\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
     </Reference>
@@ -63,6 +69,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -77,6 +85,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ContextUtil.cs" />
     <Compile Include="Controllers\Admin\FocusControllerTest.cs" />
     <Compile Include="Controllers\Admin\GoalsControllerTest.cs" />
     <Compile Include="Controllers\Admin\OfficesControllerTest.cs" />
@@ -101,7 +110,10 @@
     <Compile Include="Models\Query\PagingQueryBindingModelTest.cs" />
     <Compile Include="Models\Query\SorterBindingModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\UserPermissionsServiceTest.cs" />
+    <Compile Include="Security\ActionPermissionTest.cs" />
+    <Compile Include="Security\ResourceAuthorizeAttributeTest.cs" />
+    <Compile Include="Security\UserCacheServiceTest.cs" />
+    <Compile Include="Security\UserCacheTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">

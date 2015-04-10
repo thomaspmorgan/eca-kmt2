@@ -10,6 +10,7 @@ using ECA.WebApi.Security;
 using Microsoft.Practices.Unity;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Runtime.Caching;
 using System.Web.Http;
 using Unity.WebApi;
 
@@ -26,6 +27,7 @@ namespace ECA.WebApi
         public static void RegisterComponents()
         {
             var container = new UnityContainer();
+            RegisterSecurityConcerns(container);
             RegisterLogging(container);
             RegisterContexts(container);
             RegisterServices(container);
@@ -74,7 +76,7 @@ namespace ECA.WebApi
             container.RegisterType<IProjectStatusService, ProjectStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
+            
                         
         }
 
@@ -90,6 +92,26 @@ namespace ECA.WebApi
             container.RegisterType<
                 IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>, 
                 ProjectServiceValidator>();
+        }
+
+        public static void RegisterSecurityConcerns(IUnityContainer container)
+        {
+            container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
+            container.RegisterType<IBusinessUserService, TestBusinessUserService>();
+            container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
+            {
+                return MemoryCache.Default;
+            }));
+            container.RegisterType<IUserCacheService>(new InjectionFactory((c) =>
+            {
+                return new UserCacheService(c.Resolve<ILogger>(), c.Resolve<IBusinessUserService>(), c.Resolve<ObjectCache>());
+            }));
+            ResourceAuthorizeAttribute.CacheServiceFactory = () => container.Resolve<IUserCacheService>();
+            ResourceAuthorizeAttribute.LoggerFactory = () => container.Resolve<ILogger>();
+            ResourceAuthorizeAttribute.GetWebApiUser = () =>
+            {
+                return container.Resolve<IUserProvider>().GetCurrentUser();
+            };
         }
     }
 }

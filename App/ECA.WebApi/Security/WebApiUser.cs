@@ -15,8 +15,13 @@ namespace ECA.WebApi.Security
 {
 
     public class ResourcePermission
-    {
+    {   
         public int ResourceId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the id of the actual resource, i.e. the primary key.
+        /// </summary>
+        public int ObjectId { get; set; }
 
         public string ResourceType { get; set; }
 

@@ -321,12 +321,15 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
+    <Compile Include="Security\ActionPermission.cs" />
     <Compile Include="Security\AnonymousUser.cs" />
     <Compile Include="Security\BearerTokenUserProvider.cs" />
     <Compile Include="Security\DebugWebApiUser.cs" />
+    <Compile Include="Security\IUserCacheService.cs" />
     <Compile Include="Security\IUserProvider.cs" />
     <Compile Include="Security\ResourceAuthorizeAttribute.cs" />
-    <Compile Include="Security\UserPermissionsService.cs" />
+    <Compile Include="Security\UserCache.cs" />
+    <Compile Include="Security\UserCacheService.cs" />
     <Compile Include="Security\WebApiUser.cs" />
     <Compile Include="Common\HttpForm.cs" />
     <Compile Include="Common\SecurityGroups.cs" />

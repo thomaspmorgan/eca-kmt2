@@ -10,27 +10,34 @@ using ECA.WebApi.Security;
 using System.Diagnostics;
 using System.Web.Http.Description;
 using Swashbuckle.Swagger;
+using System.Diagnostics.Contracts;
 
 namespace ECA.WebApi.Controllers
 {
+
 
     [Authorize]
     public class AuthController : ApiController
     {
         private IUserProvider provider;
+        private IUserCacheService cacheService;
 
-        public AuthController(IUserProvider provider)
+        public AuthController(IUserProvider provider, IUserCacheService cacheService)
         {
-            Debug.Assert(provider != null, "The provider must not be null.");
+            Contract.Requires(provider != null, "The provider must not be null.");
+            Contract.Requires(cacheService != null, "The cache service must not be null.");
             this.provider = provider;
+            this.cacheService = cacheService;
         }
 
-        [HttpGet]
         [Route("api/auth/user")]
         [ResponseType(typeof(IWebApiUser))]
-        //[ResourceAuthorize(PermissionName="Edit", ResourceType="Object", ArgumentName="id")]
-        public IHttpActionResult GetUser()
+        [ResourceAuthorize("Read:Program(programId), Edit:Project(programId)")]
+        //[ResourceAuthorize("Read", "Program", "programId")]
+        public async Task<IHttpActionResult> GetUserAsync(int programId)
         {
+            var user = provider.GetCurrentUser();
+            var userCache = await cacheService.GetUserCacheAsync(user);
             return Ok(provider.GetCurrentUser());
         }
 
