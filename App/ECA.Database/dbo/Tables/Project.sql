@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Project] (
     [ProjectId]                       INT                IDENTITY (1, 1) NOT NULL,
-    [Name]                            NVARCHAR (MAX)     NOT NULL,
+    [Name]                            NVARCHAR (500)     NOT NULL,
     [Description]                     NVARCHAR (MAX)     NOT NULL,
     [ProjectTypeId]                   INT                NOT NULL,
 	[FocusArea]                       NVARCHAR (MAX)     NULL,
