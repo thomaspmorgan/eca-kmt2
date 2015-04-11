@@ -313,6 +313,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Common\AdGraph.cs" />
     <Compile Include="Common\TicketMaster.cs" />
+    <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Custom\Handlers\DebugWebApiUserHandler.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddDefaultResponse.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddFileUploadParams.cs" />

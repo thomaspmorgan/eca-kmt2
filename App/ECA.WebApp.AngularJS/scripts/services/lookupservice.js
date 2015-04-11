@@ -54,6 +54,14 @@ angular.module('staticApp')
           },
           getAllProjectStati: function (params) {
               return DragonBreath.get(params, 'projectstatuses');
+          },
+          getAllGenders: function (params) {
+              var defer = $q.defer();
+              DragonBreath.get(params, 'genders')
+                .success(function (data) {
+                    defer.resolve(data);
+                });
+              return defer.promise;
           }
   };
 });

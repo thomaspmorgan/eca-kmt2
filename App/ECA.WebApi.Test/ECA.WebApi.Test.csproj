@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="ContextUtil.cs" />
     <Compile Include="Controllers\Admin\FocusControllerTest.cs" />
+    <Compile Include="Controllers\Admin\GendersControllerTest.cs" />
     <Compile Include="Controllers\Admin\GoalsControllerTest.cs" />
     <Compile Include="Controllers\Admin\OfficesControllerTest.cs" />
     <Compile Include="Controllers\Admin\ThemesControllerTest.cs" />
