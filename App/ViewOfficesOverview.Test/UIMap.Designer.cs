@@ -82,7 +82,8 @@ namespace ViewOfficesOverview.Test
             HtmlDiv uIShowing15of5officesPane = this.UIHttpsecakmtqaazureweWindow2.UIHttpsecakmtqaazureweDocument.UISortlistPane.UIShowing15of5officesPane;
             #endregion
 
-            // Verify that the 'InnerText' property of 'Showing 1 - 5 of 5 offices' pane contains 'Showing 1 - 5 of 5 offices'
+            // Wait for 15 seconds for user delay between actions; Verify that the 'InnerText' property of 'Showing 1 - 5 of 5 offices' pane contains 'Showing 1 - 5 of 5 offices'
+            Playback.Wait(15000);
             StringAssert.Contains(uIShowing15of5officesPane.InnerText, this.AssertSearchShowingResultsExpectedValues.UIShowing15of5officesPaneInnerText, "Verify (Showing 1 - 5 of 5 offices). Check innertext.");
         }
         
@@ -154,7 +155,8 @@ namespace ViewOfficesOverview.Test
             BrowserWindow uIHttpsecakmtqaazureweWindow = this.UIHttpsecakmtqaazureweWindow;
             #endregion
 
-            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top'
+            // Wait for 10 seconds for user delay between actions; Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices#top'
+            Playback.Wait(10000);
             uIHttpsecakmtqaazureweWindow.NavigateToUrl(new System.Uri(this.NavigatetoECAOfficeDirectoryParams.UIHttpsecakmtqaazureweWindowUrl));
         }
         
@@ -168,10 +170,12 @@ namespace ViewOfficesOverview.Test
             HtmlHyperlink uIOfficesHyperlink = this.UIHttpsecakmtqaazureweWindow4.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink;
             #endregion
 
-            // Click 'Toggle navigation' button
+            // Wait for 10 seconds for user delay between actions; Click 'Toggle navigation' button
+            Playback.Wait(10000);
             Mouse.Click(uITogglenavigationButton, new Point(18, 11));
 
-            // Click 'Offices' link
+            // Wait for 10 seconds for user delay between actions; Click 'Offices' link
+            Playback.Wait(10000);
             Mouse.Click(uIOfficesHyperlink, new Point(45, 33));
         }
         
@@ -449,7 +453,7 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
         
         #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of 'Showing 1 - 5 of 5 offices' pane contains 'Showing 1 - 5 of 5 offices'
+        /// Wait for 15 seconds for user delay between actions; Verify that the 'InnerText' property of 'Showing 1 - 5 of 5 offices' pane contains 'Showing 1 - 5 of 5 offices'
         /// </summary>
         public string UIShowing15of5officesPaneInnerText = "Showing 1 - 5 of 5 offices";
         #endregion
@@ -489,9 +493,9 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
         
         #region Fields
         /// <summary>
-        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top'
+        /// Wait for 10 seconds for user delay between actions; Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices#top'
         /// </summary>
-        public string UIHttpsecakmtqaazureweWindowUrl = "https://eca-kmt-qa.azurewebsites.net/#/alloffices/#top";
+        public string UIHttpsecakmtqaazureweWindowUrl = "https://eca-kmt-qa.azurewebsites.net/#/alloffices#top";
         #endregion
     }
     

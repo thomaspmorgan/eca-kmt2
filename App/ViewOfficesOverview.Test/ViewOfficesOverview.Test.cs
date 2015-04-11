@@ -27,8 +27,8 @@ namespace ViewOfficesOverview.Test
         {
 
             this.UIMap.LogintoQA_existing();
-            //this.UIMap.NavigatetoECAOfficeDirectory_viaContentMenu();
-            this.UIMap.NavigatetoECAOfficeDirectory();
+            this.UIMap.NavigatetoECAOfficeDirectory_viaContentMenu();
+            //this.UIMap.NavigatetoECAOfficeDirectory();
             this.UIMap.AssertAllOfficesBanner();
             this.UIMap.AssertSearchOfficesTextBox();
             this.UIMap.SearchBox_textinput();

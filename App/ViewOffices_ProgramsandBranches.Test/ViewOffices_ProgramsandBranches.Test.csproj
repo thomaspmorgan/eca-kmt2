@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="UIMap.uitest" />
+    <None Include="ViewOffices_ProgramsandBranches.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

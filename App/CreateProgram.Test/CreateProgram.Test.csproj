@@ -61,6 +61,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="CreateProgram.config" />
     <None Include="CreateProgramData.csv" />
     <None Include="UIMap.uitest" />
   </ItemGroup>
