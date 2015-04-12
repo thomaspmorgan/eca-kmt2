@@ -1,0 +1,1019 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/11/2015 8:27:54 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{7D42F2F6-FBE2-4D6D-8E83-F5F278A24E73}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import CE_Person Source"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{D7D18534-F806-4F82-985E-A8EF73BEACAF}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{7D623C29-475A-4EF5-BCD1-76235D8430F7}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.CE.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=CE;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABgTByrQKX9hOSZV4JQntWWzLV/SDuQMLlz++e9mQ8pzAAAAAAOgAAAAAIAACAAAAD+SJ38q7Rm5bjOb3KhG7IVl1oqGzEBiIItLrdTklQlRyAAAAAyEveMcnc8hQ67f2Oo9yHhmZQB1A9tINtrHqRG63TGs0AAAABjz6cAg0g0T8/T1xGLjuYIBEhjmddPP/6nalkE0Z/B//HLnknAD263QWBgFFPlyBGkTBtXBJrQES6fR5GRIjnc</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{4AA98E02-DB35-46AB-AE0D-3CACD5A06258}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\CE - FLEX\CE_PILOT_DATA_PERSON.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import CE_Person Source"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{293A1EB3-2BB7-4686-A28A-0459CECCFD85}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import CE_Person Source"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import CE_Person Source\CE_Person"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="CE_Person"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[CE_Person]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import CE_Person Source\CE_Person.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[PERSON_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PERSON_ID"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_ID]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[GENDER_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="GENDER_CD"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[GENDER_CD]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[GENDER_CD]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[MARITAL_STATUS]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="MARITAL_STATUS"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[MARITAL_STATUS]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[MARITAL_STATUS]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[PREFIX_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PREFIX_CD"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PREFIX_CD]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PREFIX_CD]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[FIRST_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="FIRST_NAME"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[FIRST_NAME]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[FIRST_NAME]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[MIDDLE_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="MIDDLE_NAME"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[MIDDLE_NAME]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[MIDDLE_NAME]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[LAST_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LAST_NAME"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[LAST_NAME]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[LAST_NAME]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[SUFFIX_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SUFFIX_CD"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[SUFFIX_CD]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[SUFFIX_CD]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[NICK_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NICK_NAME"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[NICK_NAME]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[NICK_NAME]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[TITLE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="TITLE"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[TITLE]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[TITLE]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[BIRTH_DATE]"
+                      cachedDataType="date"
+                      cachedName="BIRTH_DATE"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[BIRTH_DATE]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_DATE]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[BIRTH_CITY]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="BIRTH_CITY"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[BIRTH_CITY]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_CITY]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[BIRTH_STATE_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="BIRTH_STATE_CD"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[BIRTH_STATE_CD]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_STATE_CD]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[BIRTH_PROVINCE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="BIRTH_PROVINCE"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[BIRTH_PROVINCE]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_PROVINCE]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[BIRTH_COUNTRY]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="BIRTH_COUNTRY"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[BIRTH_COUNTRY]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_COUNTRY]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[DECEASED_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DECEASED_IND"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[DECEASED_IND]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[DECEASED_IND]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[WEB_ADDRESS]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="WEB_ADDRESS"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[WEB_ADDRESS]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[WEB_ADDRESS]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[PERSON_CREATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PERSON_CREATE_ID"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_CREATE_ID]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[PERSON_CREATE_DT]"
+                      cachedDataType="date"
+                      cachedName="PERSON_CREATE_DT"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_CREATE_DT]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[PERSON_UPDATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PERSON_UPDATE_ID"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_UPDATE_ID]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].Columns[PERSON_UPDATE_DT]"
+                      cachedDataType="date"
+                      cachedName="PERSON_UPDATE_DT"
+                      externalMetadataColumnId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_UPDATE_DT]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_UPDATE_DT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[GENDER_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="GENDER_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[MARITAL_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      name="MARITAL_STATUS" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PREFIX_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="PREFIX_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[FIRST_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="FIRST_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[MIDDLE_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="MIDDLE_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[LAST_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="LAST_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[SUFFIX_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="SUFFIX_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[NICK_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="NICK_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[TITLE]"
+                      dataType="wstr"
+                      length="255"
+                      name="TITLE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[BIRTH_DATE]"
+                      dataType="dbTimeStamp"
+                      name="BIRTH_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[BIRTH_CITY]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_CITY" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[BIRTH_STATE_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_STATE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[BIRTH_PROVINCE]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_PROVINCE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[BIRTH_COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[DECEASED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="DECEASED_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[WEB_ADDRESS]"
+                      dataType="wstr"
+                      length="255"
+                      name="WEB_ADDRESS" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PERSON_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PERSON_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import CE_Person Source\CE_Person.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Person Source\CE_Person.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\CE_Person.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Person Source\CE_Person.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import CE_Person Source\Excel CE_Person Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel CE_Person Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">'Sheet 1$'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import CE_Person Source\Excel CE_Person Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PERSON_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_ID]"
+                      name="PERSON_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[GENDER_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[GENDER_CD]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[GENDER_CD]"
+                      name="GENDER_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[MARITAL_STATUS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[MARITAL_STATUS]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[MARITAL_STATUS]"
+                      name="MARITAL_STATUS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PREFIX_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PREFIX_CD]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PREFIX_CD]"
+                      name="PREFIX_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[FIRST_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[FIRST_NAME]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[FIRST_NAME]"
+                      name="FIRST_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[MIDDLE_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[MIDDLE_NAME]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[MIDDLE_NAME]"
+                      name="MIDDLE_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[LAST_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[LAST_NAME]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[LAST_NAME]"
+                      name="LAST_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[SUFFIX_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[SUFFIX_CD]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[SUFFIX_CD]"
+                      name="SUFFIX_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[NICK_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[NICK_NAME]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[NICK_NAME]"
+                      name="NICK_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[TITLE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[TITLE]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[TITLE]"
+                      name="TITLE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[BIRTH_DATE]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_DATE]"
+                      name="BIRTH_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_CITY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[BIRTH_CITY]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_CITY]"
+                      name="BIRTH_CITY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_STATE_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[BIRTH_STATE_CD]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_STATE_CD]"
+                      name="BIRTH_STATE_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_PROVINCE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[BIRTH_PROVINCE]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_PROVINCE]"
+                      name="BIRTH_PROVINCE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_COUNTRY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[BIRTH_COUNTRY]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[BIRTH_COUNTRY]"
+                      name="BIRTH_COUNTRY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[DECEASED_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[DECEASED_IND]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[DECEASED_IND]"
+                      name="DECEASED_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[WEB_ADDRESS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[WEB_ADDRESS]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[WEB_ADDRESS]"
+                      name="WEB_ADDRESS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_CREATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PERSON_CREATE_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_CREATE_ID]"
+                      name="PERSON_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_CREATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PERSON_CREATE_DT]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_CREATE_DT]"
+                      name="PERSON_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_UPDATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PERSON_UPDATE_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_UPDATE_ID]"
+                      name="PERSON_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_UPDATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PERSON_UPDATE_DT]"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].Columns[PERSON_UPDATE_DT]"
+                      name="PERSON_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[GENDER_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="GENDER_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[MARITAL_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      name="MARITAL_STATUS" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PREFIX_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="PREFIX_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[FIRST_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="FIRST_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[MIDDLE_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="MIDDLE_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[LAST_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="LAST_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[SUFFIX_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="SUFFIX_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[NICK_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="NICK_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[TITLE]"
+                      dataType="wstr"
+                      length="255"
+                      name="TITLE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[BIRTH_DATE]"
+                      dataType="date"
+                      name="BIRTH_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[BIRTH_CITY]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_CITY" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[BIRTH_STATE_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_STATE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[BIRTH_PROVINCE]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_PROVINCE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[BIRTH_COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      name="BIRTH_COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[DECEASED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="DECEASED_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[WEB_ADDRESS]"
+                      dataType="wstr"
+                      length="255"
+                      name="WEB_ADDRESS" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PERSON_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PERSON_CREATE_DT]"
+                      dataType="date"
+                      name="PERSON_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PERSON_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output].ExternalColumns[PERSON_UPDATE_DT]"
+                      dataType="date"
+                      name="PERSON_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PERSON_ID]"
+                      name="PERSON_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[GENDER_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[GENDER_CD]"
+                      name="GENDER_CD" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[MARITAL_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[MARITAL_STATUS]"
+                      name="MARITAL_STATUS" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PREFIX_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PREFIX_CD]"
+                      name="PREFIX_CD" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[FIRST_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[FIRST_NAME]"
+                      name="FIRST_NAME" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[MIDDLE_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[MIDDLE_NAME]"
+                      name="MIDDLE_NAME" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[LAST_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[LAST_NAME]"
+                      name="LAST_NAME" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[SUFFIX_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[SUFFIX_CD]"
+                      name="SUFFIX_CD" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[NICK_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[NICK_NAME]"
+                      name="NICK_NAME" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[TITLE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[TITLE]"
+                      name="TITLE" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[BIRTH_DATE]"
+                      dataType="date"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[BIRTH_DATE]"
+                      name="BIRTH_DATE" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[BIRTH_CITY]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[BIRTH_CITY]"
+                      name="BIRTH_CITY" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[BIRTH_STATE_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[BIRTH_STATE_CD]"
+                      name="BIRTH_STATE_CD" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[BIRTH_PROVINCE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[BIRTH_PROVINCE]"
+                      name="BIRTH_PROVINCE" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[BIRTH_COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[BIRTH_COUNTRY]"
+                      name="BIRTH_COUNTRY" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[DECEASED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[DECEASED_IND]"
+                      name="DECEASED_IND" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[WEB_ADDRESS]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[WEB_ADDRESS]"
+                      name="WEB_ADDRESS" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PERSON_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PERSON_CREATE_ID]"
+                      name="PERSON_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PERSON_CREATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PERSON_CREATE_DT]"
+                      name="PERSON_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PERSON_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PERSON_UPDATE_ID]"
+                      name="PERSON_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PERSON_UPDATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[PERSON_UPDATE_DT]"
+                      name="PERSON_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import CE_Person Source.Paths[Excel Source Output]"
+              endId="Package\Import CE_Person Source\CE_Person.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import CE_Person Source\Excel CE_Person Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="200,42"
+          Id="Package\Import CE_Person Source"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import CE_Person Source">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="192,42"
+          Id="Package\Import CE_Person Source\Excel CE_Person Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="129,42"
+          Id="Package\Import CE_Person Source\CE_Person"
+          TopLeft="40.5,139.5" />
+        <EdgeLayout
+          Id="Package\Import CE_Person Source.Paths[Excel Source Output]"
+          TopLeft="103.25,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,92"
+              Start="0,0"
+              End="0,84.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,84.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import CE_Person Source\Excel CE_Person Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import CE_Person Source\CE_Person">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

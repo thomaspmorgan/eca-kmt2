@@ -1,0 +1,1397 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/10/2015 5:15:26 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{4BF0BEB5-7572-4B2E-9930-6B589A0BA7A9}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load CE Projects"
+  DTS:PackageType="5"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{47D7A82B-A34F-4A61-AD2E-D76C63273E84}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{4843856A-3133-4D0D-BFE4-0D7F54EB5698}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.CE.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=CE;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA4TCczq7UO9agB2gYzBTwpGxjjyTcarms92oq+MXBt6wAAAAAOgAAAAAIAACAAAAAhbOWKIHt7jDqUDOBVkYvqpjmTE0ckyAUNHybTrElrhiAAAAB4XZJA7G6R2Ztcpx7y5w3QEmgqBTnA3Szfi+edIRnNwUAAAABbh9p+E+0vw/V6blcXaGq8DhFk0ybicmS1q6DFN0HBiZu2OL6tzy3Z2ulTRegUpx3ZU9FU76byOr5mTkHI4Tuk</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Local_Copy.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{906CC26F-9088-4BDB-97BD-75BEEF70A836}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.ECA_Dev_Local_Copy.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=ECA_Dev_Local_Copy;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAiTk6UhZVUEz3gCgaYeDq3ZEIA75ZAhuD5i1BXZHQYrgAAAAAOgAAAAAIAACAAAABnPEihHj2R8ZbfzOwCd/YnLuH9IZ/upPCtJZSt0I1f5CAAAADtMeMW669l1Ffsnl7yfwzoc8NYsm6ufQQ1WHNjr2hVl0AAAAAYZNqE0I4Fc9W2zDtdiFNUh61Oa3FbL0bnELYNU6xfA/DgYVR93OYIoNTVbKMfEunT1aEktFhW6qEZpvRQggo0</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{1F3FFA79-5BED-4D6E-9684-51BF4EA9D98E}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADIALshmi2GwznUcLSZCEIIrmL845X+nBjHyJdpDVIuygAAAAAOgAAAAAIAACAAAABOZmrxT+KERh57wU4QPbmoPRfodMl6fHT8RfAexK/x0CAAAAArADIC7OsZEVOi6Ahy9SSwWBkD4Cz6AWEYQwjoDkWzDkAAAAD44gJbsnNqeBdZV1ViwPdg5+W6/0IokJXS93+rvpKxljHTBZQ2ij8UvcTAAq2wq6+3GLqRKekg+3ioicJFNXMI</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load CE Projects"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{A00043C6-7F79-44C2-A95F-A1B3109240DE}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load CE Projects"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load CE Projects\Add Required Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Required Columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load CE Projects\Add Required Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CE Projects\Add Required Columns.Inputs[Derived Column Input].Columns[ProjectName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ProjectName"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProjectName]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load CE Projects\Add Required Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[FocusId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[FocusId]"
+                      name="FocusId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">10</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">10</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[AudienceReach]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[AudienceReach]"
+                      name="AudienceReach"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectTypeId]"
+                      name="ProjectTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[Description]"
+                      name="Description"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProjectName]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">ProjectName</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load CE Projects\Add Required Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CE Projects\CE_Project"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="CE_Project"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CE_Project]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CE Projects\CE_Project.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProjectName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT]"
+                      length="255"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProjectName]"
+                      name="ProjectName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProgramName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM]"
+                      length="255"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProgramName]"
+                      name="ProgramName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProjectStatus]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STATUS]"
+                      length="255"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProjectStatus]"
+                      name="ProjectStatus"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[StartDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[START_DATE]"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[StartDate]"
+                      name="StartDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[EndDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[END_DATE]"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[EndDate]"
+                      name="EndDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_CREATE_DT]"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_UPDATE_DT]"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROGRAM" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PARENT_PROGRAM]"
+                      dataType="wstr"
+                      length="255"
+                      name="PARENT_PROGRAM" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_STATUS" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[START_DATE]"
+                      dataType="dbTimeStamp"
+                      name="START_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[END_DATE]"
+                      dataType="dbTimeStamp"
+                      name="END_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[SENSITIVE_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="SENSITIVE_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[COMMENT]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMMENT" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PURPOSE]"
+                      dataType="wstr"
+                      length="255"
+                      name="PURPOSE" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT]"
+                      name="PROJECT" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[PROGRAM]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[PROGRAM]"
+                      name="PROGRAM" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_STATUS]"
+                      name="PROJECT_STATUS" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[START_DATE]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[START_DATE]"
+                      name="START_DATE" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[END_DATE]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[END_DATE]"
+                      name="END_DATE" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_CREATE_DT]"
+                      name="PROJECT_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Error Output].Columns[PROJECT_UPDATE_DT]"
+                      name="PROJECT_UPDATE_DT" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CE Projects\ECA_Dev Project"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ECA_Dev Project"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Project]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CE Projects\ECA_Dev Project.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[StartDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="StartDate"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[StartDate]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[EndDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="EndDate"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[EndDate]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[ProgramId]"
+                      cachedDataType="i4"
+                      cachedName="ProgramId"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[ProgramId]"
+                      lineageId="Package\Load CE Projects\Lookup Project-ProgramId.Outputs[Lookup Match Output].Columns[ProgramId]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[ProjectStatusId]"
+                      cachedDataType="i4"
+                      cachedName="ProjectStatusId"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectStatusId]"
+                      lineageId="Package\Load CE Projects\Lookup Project StatusId.Outputs[Lookup Match Output].Columns[ProjectStatusId]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[FocusId]"
+                      cachedDataType="i4"
+                      cachedName="FocusId"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[FocusId]"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[FocusId]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[AudienceReach]"
+                      cachedDataType="i4"
+                      cachedName="AudienceReach"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[AudienceReach]"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[AudienceReach]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[ProjectName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ProjectName"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProjectName]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].Columns[ProjectTypeId]"
+                      cachedDataType="i4"
+                      cachedName="ProjectTypeId"
+                      externalMetadataColumnId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectTypeId]"
+                      lineageId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output].Columns[ProjectTypeId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectId]"
+                      dataType="i4"
+                      name="ProjectId" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="500"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="nText"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectTypeId]"
+                      dataType="i4"
+                      name="ProjectTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[FocusArea]"
+                      dataType="nText"
+                      name="FocusArea" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[FocusId]"
+                      dataType="i4"
+                      name="FocusId" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      dataType="dbTimeStampOffset"
+                      name="StartDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[EndDate]"
+                      dataType="dbTimeStampOffset"
+                      name="EndDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      dataType="nText"
+                      name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[AudienceReach]"
+                      dataType="i4"
+                      name="AudienceReach" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[EventId]"
+                      dataType="i4"
+                      name="EventId" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[NominationSource_OrganizationId]"
+                      dataType="i4"
+                      name="NominationSource_OrganizationId" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[ProgramId]"
+                      dataType="i4"
+                      name="ProgramId" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input].ExternalColumns[ProjectStatusId]"
+                      dataType="i4"
+                      name="ProjectStatusId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CE Projects\ECA_Dev Project.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Projects\ECA_Dev Project.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\ECA_Dev Project.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Projects\ECA_Dev Project.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CE Projects\Lookup Project StatusId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Project StatusId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[ProjectStatus]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[ProjectStatus]) [refTable]
+where [refTable].[Status] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProjectStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Status" dataType="DT_WSTR" length="20" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProjectStatus]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CE Projects\Lookup Project StatusId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load CE Projects\Lookup Project StatusId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CE Projects\Lookup Project StatusId.Inputs[Lookup Input].Columns[ProjectStatus]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ProjectStatus"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProjectStatus]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Status</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CE Projects\Lookup Project StatusId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load CE Projects\Lookup Project StatusId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Projects\Lookup Project StatusId.Outputs[Lookup Match Output].Columns[ProjectStatusId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load CE Projects\Lookup Project StatusId.Outputs[Lookup Match Output].Columns[ProjectStatusId]"
+                      name="ProjectStatusId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProjectStatusId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CE Projects\Lookup Project StatusId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load CE Projects\Lookup Project StatusId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CE Projects\Lookup Project StatusId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load CE Projects\Lookup Project StatusId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Projects\Lookup Project StatusId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Projects\Lookup Project StatusId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\Lookup Project StatusId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Projects\Lookup Project StatusId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CE Projects\Lookup Project-ProgramId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Project-ProgramId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Program]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Program]) [refTable]
+where [refTable].[Name] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FocusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Website" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="ParentProgram_ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Owner_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="RowVersion" dataType="DT_BYTES" length="8" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProgramName]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CE Projects\Lookup Project-ProgramId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load CE Projects\Lookup Project-ProgramId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CE Projects\Lookup Project-ProgramId.Inputs[Lookup Input].Columns[ProgramName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ProgramName"
+                      lineageId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output].Columns[ProgramName]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Name</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CE Projects\Lookup Project-ProgramId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load CE Projects\Lookup Project-ProgramId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Projects\Lookup Project-ProgramId.Outputs[Lookup Match Output].Columns[ProgramId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load CE Projects\Lookup Project-ProgramId.Outputs[Lookup Match Output].Columns[ProgramId]"
+                      name="ProgramId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProgramId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CE Projects\Lookup Project-ProgramId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load CE Projects\Lookup Project-ProgramId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CE Projects\Lookup Project-ProgramId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load CE Projects\Lookup Project-ProgramId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Projects\Lookup Project-ProgramId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Projects\Lookup Project-ProgramId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CE Projects\Lookup Project-ProgramId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Projects\Lookup Project-ProgramId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load CE Projects.Paths[Derived Column Output]"
+              endId="Package\Load CE Projects\ECA_Dev Project.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load CE Projects\Add Required Columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load CE Projects.Paths[Lookup Match Output]"
+              endId="Package\Load CE Projects\Lookup Project StatusId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load CE Projects\Lookup Project-ProgramId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load CE Projects.Paths[Lookup Match Output1]"
+              endId="Package\Load CE Projects\Add Required Columns.Inputs[Derived Column Input]"
+              name="Lookup Match Output"
+              startId="Package\Load CE Projects\Lookup Project StatusId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load CE Projects.Paths[OLE DB Source Output]"
+              endId="Package\Load CE Projects\Lookup Project-ProgramId.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load CE Projects\CE_Project.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Load CE Projects"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load CE Projects">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Load CE Projects\CE_Project"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Load CE Projects\Lookup Project-ProgramId"
+          TopLeft="102.5,75.5" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Load CE Projects\Add Required Columns"
+          TopLeft="488.5,230.5" />
+        <NodeLayout
+          Size="192,42"
+          Id="Package\Load CE Projects\Lookup Project StatusId"
+          TopLeft="319.5,152.5" />
+        <EdgeLayout
+          Id="Package\Load CE Projects.Paths[OLE DB Source Output]"
+          TopLeft="70.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="133.5,28"
+              Start="0,0"
+              End="133.5,20.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10"
+                    Point2="0,14"
+                    Point3="4,14" />
+                  <mssgle:LineSegment
+                    End="129.5,14" />
+                  <mssgle:CubicBezierSegment
+                    Point1="129.5,14"
+                    Point2="133.5,14"
+                    Point3="133.5,18" />
+                  <mssgle:LineSegment
+                    End="133.5,20.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load CE Projects.Paths[Lookup Match Output1]"
+          TopLeft="415.5,194.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="166,36"
+              Start="0,0"
+              End="166,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14"
+                    Point2="0,18"
+                    Point3="4,18" />
+                  <mssgle:LineSegment
+                    End="162,18" />
+                  <mssgle:CubicBezierSegment
+                    Point1="162,18"
+                    Point2="166,18"
+                    Point3="166,22" />
+                  <mssgle:LineSegment
+                    End="166,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="34.80861328125,23,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load CE Projects.Paths[Lookup Match Output]"
+          TopLeft="204,117.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="211.5,35"
+              Start="0,0"
+              End="211.5,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.5"
+                    Point2="0,17.5"
+                    Point3="4,17.5" />
+                  <mssgle:LineSegment
+                    End="207.5,17.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="207.5,17.5"
+                    Point2="211.5,17.5"
+                    Point3="211.5,21.5" />
+                  <mssgle:LineSegment
+                    End="211.5,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="57.55861328125,22.5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Load CE Projects\ECA_Dev Project"
+          TopLeft="694.5,304.5" />
+        <EdgeLayout
+          Id="Package\Load CE Projects.Paths[Derived Column Output]"
+          TopLeft="581.5,272.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="192,32"
+              Start="0,0"
+              End="192,24.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12"
+                    Point2="0,16"
+                    Point3="4,16" />
+                  <mssgle:LineSegment
+                    End="188,16" />
+                  <mssgle:CubicBezierSegment
+                    Point1="188,16"
+                    Point2="192,16"
+                    Point3="192,20" />
+                  <mssgle:LineSegment
+                    End="192,24.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CE Projects\CE_Project">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CE Projects\Lookup Project StatusId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[ProjectStatus]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CE Projects\Lookup Project-ProgramId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Program]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CE Projects\ECA_Dev Project">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
