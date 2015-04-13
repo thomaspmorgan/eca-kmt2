@@ -25,6 +25,13 @@ namespace CreateProject.Test
         [TestMethod]
         public void CreateProjectCodedUITestMethod1()
         {
+
+            this.UIMap.LogintoQA_ExistingUser();
+            this.UIMap.AssertContentMenuButton();
+            this.UIMap.SelectContentMenuButton();
+            this.UIMap.AssertProgramsLink_ContentMenu();
+            this.UIMap.SelectProgramsLink_ContentMenu();
+
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
@@ -64,5 +71,20 @@ namespace CreateProject.Test
             }
         }
         private TestContext testContextInstance;
+
+        public UIMap UIMap
+        {
+            get
+            {
+                if ((this.map == null))
+                {
+                    this.map = new UIMap();
+                }
+
+                return this.map;
+            }
+        }
+
+        private UIMap map;
     }
 }

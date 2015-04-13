@@ -25,13 +25,18 @@ namespace ProjectMoneyFlow.Test
         [TestMethod]
         public void ProjectMoneyFlowCodedUITestMethod1()
         {
-            this.UIMap.LogintoQA();
+            //this.UIMap.LogintoQA();
+            this.UIMap.LogintoQA_ExistingUser();
             this.UIMap.AssertContentMenuButton();
             this.UIMap.SelectContentMenuButton();
             this.UIMap.AssertProgramsLink_ContentMenu();
             this.UIMap.SelectProgramsLink_ContentMenu();
+            //select programs link breaks here-- refresh page and then toggle the menu and select programs again
             this.UIMap.RefreshAllProgramsPage();
+            this.UIMap.SelectContentMenuButton();
+            this.UIMap.SelectProgramsLink_ContentMenu();
             //this.UIMap.ScrollDownAllProgramsPage();
+            //needs wait- for load of individual program
             this.UIMap.AssertLinkforIndividualProgram();
             this.UIMap.SelectIndividualProgramLink();
             this.UIMap.RefreshIndividualProgramPage();
@@ -46,7 +51,7 @@ namespace ProjectMoneyFlow.Test
             this.UIMap.RefreshMoneyFlow();
             //this.UIMap.ScrollDownMoneyFlowList();
             this.UIMap.AssertMoneyFlowList();
-            
+
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
