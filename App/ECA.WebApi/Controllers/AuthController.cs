@@ -14,7 +14,16 @@ using System.Diagnostics.Contracts;
 
 namespace ECA.WebApi.Controllers
 {
+    public class AuthBindingModel
+    {
+        public int ProgramId { get; set; }
+        public OtherBindingModel Other { get; set; }
+    }
 
+    public class OtherBindingModel
+    {
+        public int OfficeId { get; set; }
+    }
 
     [Authorize]
     public class AuthController : ApiController
@@ -32,9 +41,17 @@ namespace ECA.WebApi.Controllers
 
         [Route("api/auth/user")]
         [ResponseType(typeof(IWebApiUser))]
-        [ResourceAuthorize("Read:Program(programId), Edit:Project(programId)")]
+        //[ResourceAuthorize("Read:Program(programId), Edit:Project(programId)")]
         //[ResourceAuthorize("Read", "Program", "programId")]
-        public async Task<IHttpActionResult> GetUserAsync(int programId)
+        //[ResourceAuthorize("Read", "Program", 1)]
+        //[ResourceAuthorize("Read:Program(programId), Edit:Project(1)")]
+        //[ResourceAuthorize("Read", "Program", "model.ProgramId")]
+        
+
+        //[ResourceAuthorize("model.OwnerOrganizationId", typeof(ECA.WebApi.Models.Programs.DraftProgramBindingModel), "Edit", "Office")]
+        [ResourceAuthorize("Edit", "Program", typeof(AuthBindingModel), "model.Other.OfficeId")]
+        //[ResourceAuthorize("Edit:Office(DraftProgramBindingModel#model.OwnerOrganizationId")]
+        public async Task<IHttpActionResult> GetUserAsync([FromUri] AuthBindingModel model)
         {
             var user = provider.GetCurrentUser();
             var userCache = await cacheService.GetUserCacheAsync(user);

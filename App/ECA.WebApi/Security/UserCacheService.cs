@@ -168,31 +168,5 @@ namespace ECA.WebApi.Security
             policy.AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds((double)this.timeToLiveInSeconds);
             return policy;
         }
-
-        //#region IDispose
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //public void Dispose()
-        //{
-        //    Dispose(true);
-        //    GC.SuppressFinalize(this);
-        //}
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="disposing"></param>
-        //protected virtual void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        this.cache.Dispose();
-        //        this.cache = null;
-        //    }
-        //}
-
-        //#endregion
     }
 }

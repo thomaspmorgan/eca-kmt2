@@ -62,7 +62,7 @@ namespace ECA.WebApi
         public static void RegisterServices(IUnityContainer container)
         {
             Debug.Assert(container.IsRegistered<EcaContext>(), "The EcaContext is a dependency.  It should be registered.");
-            
+
             container.RegisterType<IContactService, ContactService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusService, FocusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IGoalService, GoalService>(new HierarchicalLifetimeManager());
@@ -79,7 +79,7 @@ namespace ECA.WebApi
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<IGenderService, GenderService>(new HierarchicalLifetimeManager());
 
-                        
+
         }
 
         /// <summary>
@@ -89,10 +89,10 @@ namespace ECA.WebApi
         public static void RegisterValidations(IUnityContainer container)
         {
             container.RegisterType<
-                IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>, 
+                IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>,
                 ProgramServiceValidator>();
             container.RegisterType<
-                IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>, 
+                IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>,
                 ProjectServiceValidator>();
         }
 
@@ -100,10 +100,11 @@ namespace ECA.WebApi
         {
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<IBusinessUserService, TestBusinessUserService>();
-            container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
-            {
-                return MemoryCache.Default;
-            }));
+            container.RegisterType<ObjectCache>(new HierarchicalLifetimeManager(),
+                new InjectionFactory((c) =>
+                {
+                    return MemoryCache.Default;
+                }));
             container.RegisterType<IUserCacheService>(new InjectionFactory((c) =>
             {
                 return new UserCacheService(c.Resolve<ILogger>(), c.Resolve<IBusinessUserService>(), c.Resolve<ObjectCache>());

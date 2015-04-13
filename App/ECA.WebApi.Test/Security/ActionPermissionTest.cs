@@ -1,67 +1,81 @@
 ﻿using System;
+using FluentAssertions;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.WebApi.Security;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace ECA.WebApi.Test.Security
 {
     [TestClass]
     public class ActionPermissionTest
     {
-        private string actionPermissionStringFormat = "{0}:{1}({2})";
 
         [TestMethod]
-        public void TestParse_SingleActionPermission()
+        public void TestGetResourceId()
         {
-            var actionArgument = "id";
-            var permissionName = "Read";
-            var resourceType = "Program";
-            var permissionAsString = String.Format(actionPermissionStringFormat, permissionName, resourceType, actionArgument);
+            var value = 1;
+            var argumentName = "id";
+            var resourceType = "type";
+            var permissionName = "name";
 
-            var actionPermissions = ActionPermission.Parse(permissionAsString);
-            Assert.AreEqual(1, actionPermissions.Count());
-            var actionPermission = actionPermissions.First();
-            Assert.AreEqual(actionArgument, actionPermission.ArgumentName);
-            Assert.AreEqual(permissionName, actionPermission.PermissionName);
-            Assert.AreEqual(resourceType, actionPermission.ResourceType);
+            var actionPermission = new ActionPermission
+            {
+                ArgumentName = argumentName,
+                ResourceType = resourceType,
+                PermissionName = permissionName
+            };
+
+            var dictionary = new Dictionary<string, object>
+            {
+                {argumentName, value}
+            };
+            Assert.AreEqual(value, actionPermission.GetResourceId(dictionary));
         }
 
         [TestMethod]
-        public void TestParse_TwoActionPermissions()
+        public void TestGetResourceId_ValueIsNotAnInt()
         {
-            var actionArgument1 = "id";
-            var permissionName1 = "Read";
-            var resourceType1 = "Program";
-            var permissionAsString1 = String.Format(actionPermissionStringFormat, permissionName1, resourceType1, actionArgument1);
+            var value = "S";
+            var argumentName = "id";
+            var resourceType = "type";
+            var permissionName = "name";
 
-            var actionArgument2 = "projectId";
-            var permissionName2 = "Edit";
-            var resourceType2 = "Project";
-            var permissionAsString2 = String.Format(actionPermissionStringFormat, permissionName2, resourceType2, actionArgument2);
+            var actionPermission = new ActionPermission
+            {
+                ArgumentName = argumentName,
+                ResourceType = resourceType,
+                PermissionName = permissionName
+            };
 
-            var parsedPermissions = ActionPermission.Parse(String.Join(", ", permissionAsString1, permissionAsString2));
-            Assert.AreEqual(2, parsedPermissions.Count());
-
-            var parsedPermission1 = parsedPermissions.First();
-            Assert.AreEqual(actionArgument1, parsedPermission1.ArgumentName);
-            Assert.AreEqual(permissionName1, parsedPermission1.PermissionName);
-            Assert.AreEqual(resourceType1, parsedPermission1.ResourceType);
-
-            var parsedPermission2 = parsedPermissions.Last();
-            Assert.AreEqual(actionArgument2, parsedPermission2.ArgumentName);
-            Assert.AreEqual(permissionName2, parsedPermission2.PermissionName);
-            Assert.AreEqual(resourceType2, parsedPermission2.ResourceType);
+            var dictionary = new Dictionary<string, object>
+            {
+                {argumentName, value}
+            };
+            actionPermission.Invoking(x => x.GetResourceId(dictionary))
+                .ShouldThrow<NotSupportedException>()
+                .WithMessage("The action argument must be an integer.");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
-        public void TestParse_InvalidFormattedPermission()
+        public void TestGetResourceId_ToString()
         {
-            var actionArgument1 = "id";
-            var permissionName1 = "Read";
-            var resourceType1 = "Program";
-            var permissionAsString1 = String.Format("{0},{1}-{2}", permissionName1, resourceType1, actionArgument1);
-            ActionPermission.Parse(permissionAsString1).ToList();
+            var value = 1;
+            var argumentName = "id";
+            var resourceType = "type";
+            var permissionName = "name";
+
+            var actionPermission = new ActionPermission
+            {
+                ArgumentName = argumentName,
+                ResourceType = resourceType,
+                PermissionName = permissionName
+            };
+
+            var expectedString = String.Format("{0}:{1}({2})", permissionName, resourceType, argumentName);
+            Assert.AreEqual(expectedString, actionPermission.ToString());
         }
+
     }
 }
