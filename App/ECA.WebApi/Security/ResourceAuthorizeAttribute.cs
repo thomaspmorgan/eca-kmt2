@@ -106,7 +106,9 @@ namespace ECA.WebApi.Security
 
         /// <summary>
         /// Creates a new ResourceAuthorizeAttribute where the action binds to a model and resource id's are
-        /// within the model.  The properties may be within subproperties.
+        /// within the model.  The properties may be within subproperties.  If the web api has more than one action argument, then 
+        /// the name of the variable is required in the property path.  Otherwise the name of the binding model is assumed and the property path
+        /// does not have to have the name of the one action argument.
         /// </summary>
         /// <param name="property">The child property of the model the resource id is bound to.  This property may be a child property of another property 
         /// and seperated by a [.] e.g. modelVariable.MyOtherModel.Id where modelVariable is the name of the method variable, MyOtherModel is a
