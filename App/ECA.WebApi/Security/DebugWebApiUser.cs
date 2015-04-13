@@ -15,7 +15,7 @@ namespace ECA.WebApi.Security
         public DebugWebApiUser(ILogger logger)
             : base(logger, new List<Claim>
             {
-                new Claim(WebApiUser.EMAIL_ID_KEY, "ECATest1@statedept.us"),
+                new Claim(WebApiUser.EMAIL_KEY, "ECATest1@statedept.us"),
                 new Claim(WebApiUser.EXPIRATION_DATE_KEY, ((int)((DateTime.UtcNow - EPOCH).TotalSeconds) + (60 * 10)).ToString()), //expires in 10 mins
                 new Claim(WebApiUser.GIVEN_NAME_KEY, "Debug"),
                 new Claim(WebApiUser.ISSUED_AT_TIME_KEY, ((int)((DateTime.UtcNow - EPOCH).TotalSeconds) - 60).ToString()), //issued one minute ago

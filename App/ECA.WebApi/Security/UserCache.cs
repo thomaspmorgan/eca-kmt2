@@ -33,6 +33,5 @@ namespace ECA.WebApi.Security
         /// Gets the user's permissions.
         /// </summary>
         public IEnumerable<ResourcePermission> Permissions { get; private set; }
-
     }
 }

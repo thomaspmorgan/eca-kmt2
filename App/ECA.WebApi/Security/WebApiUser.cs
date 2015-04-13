@@ -79,24 +79,51 @@ namespace ECA.WebApi.Security
     }
 
 
-
+    /// <summary>
+    /// The WebApiUser is a user that user that has been validated by Microsoft Azure.
+    /// </summary>
     public class WebApiUser : WebApiUserBase
     {
+        /// <summary>
+        /// Azure's token issued at date key.
+        /// </summary>
         public const string ISSUED_AT_TIME_KEY = "iat";
 
+        /// <summary>
+        /// Azure's token valid not before date key.  
+        /// </summary>
         public const string VALID_NOT_BEFORE_DATE_KEY = "nbf";
 
+        /// <summary>
+        /// Azure's token expiration date key.
+        /// </summary>
         public const string EXPIRATION_DATE_KEY = "exp";
 
+        /// <summary>
+        /// Azure's user id token key.
+        /// </summary>
         public const string USER_ID_KEY = "http://schemas.microsoft.com/identity/claims/objectidentifier";
 
-        public const string EMAIL_ID_KEY = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+        /// <summary>
+        /// Azure's email id token key.
+        /// </summary>
+        public const string EMAIL_KEY = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
 
+        /// <summary>
+        /// Azure's given name token key.
+        /// </summary>
         public const string GIVEN_NAME_KEY = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname";
 
+        /// <summary>
+        /// Azure's surname token key.
+        /// </summary>
         public const string SURNAME_KEY = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname";
 
+        /// <summary>
+        /// Azure's full name key.
+        /// </summary>
         public const string FULL_NAME_KEY = "name";
+
 
         private const string MISSING_CLAIM_ERROR_MESSAGE = "The bearer token does not contain a claim with the key [{0}].";
 
@@ -107,6 +134,11 @@ namespace ECA.WebApi.Security
         private readonly ILogger logger;
         private readonly IEnumerable<Claim> claims;
 
+        /// <summary>
+        /// Initializes this user with the given logger and claims.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        /// <param name="claims">The user's claims.</param>
         internal WebApiUser(ILogger logger, IEnumerable<Claim> claims)
         {
             Contract.Requires(logger != null, "The logger must not be null.");
@@ -129,6 +161,12 @@ namespace ECA.WebApi.Security
             Contract.Requires(principal != null, "The principal must not be null.");
         }
 
+        /// <summary>
+        /// Initializes a new user with the given logger and IPrincipal.  Currently, the IPrincipal must
+        /// be a ClaimsPrincipal.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        /// <param name="principal">The claims principal as an IPrincipal instance.</param>
         public WebApiUser(ILogger logger, IPrincipal principal)
             : this(logger, (principal as ClaimsPrincipal))
         {
@@ -136,14 +174,45 @@ namespace ECA.WebApi.Security
             Contract.Requires(principal is ClaimsPrincipal, "The IPrincipal instance must be a ClaimsPrincipal.");
         }
 
+        /// <summary>
+        /// Gets the user's email.
+        /// </summary>
         public string Email { get; protected set; }
+
+        /// <summary>
+        /// Gets the user's given name.
+        /// </summary>
         public string GivenName { get; protected set; }
+
+        /// <summary>
+        /// Gets the user's surname.
+        /// </summary>
         public string SurName { get; protected set; }
+
+        /// <summary>
+        /// Gets the user's full name.
+        /// </summary>
         public string FullName { get; protected set; }
-        public DateTime TokenExpiration { get; protected set; }
+
+        /// <summary>
+        /// Gets this user's token expiration date.
+        /// </summary>
+        public DateTime TokenExpirationDate { get; protected set; }
+
+        /// <summary>
+        /// Gets this user's token issued date.
+        /// </summary>
         public DateTime TokenIssuedDate { get; protected set; }
+
+        /// <summary>
+        /// Gets this user's earliest date the token is valid.
+        /// </summary>
         public DateTime TokenValidAfterDate { get; protected set; }
 
+        /// <summary>
+        /// Returns the claims of this user.
+        /// </summary>
+        /// <returns>The user's claims.</returns>
         public IEnumerable<Claim> GetClaims()
         {
             return this.claims;
@@ -164,6 +233,10 @@ namespace ECA.WebApi.Security
             this.logger.Warning(MISSING_CLAIM_ERROR_MESSAGE, claimType);
         }
 
+        /// <summary>
+        /// Sets the user id given the claims.
+        /// </summary>
+        /// <param name="claims">The user claims.</param>
         public void SetUserId(IEnumerable<Claim> claims)
         {
             Contract.Requires(claims != null, "The claims must not be null.");
@@ -187,10 +260,14 @@ namespace ECA.WebApi.Security
             }
         }
 
+        /// <summary>
+        /// Sets the user's email given the claims.
+        /// </summary>
+        /// <param name="claims">The user's claims.</param>
         public void SetUserEmail(IEnumerable<Claim> claims)
         {
             Contract.Requires(claims != null, "The claims must not be null.");
-            var key = EMAIL_ID_KEY;
+            var key = EMAIL_KEY;
             var claim = GetClaimByType(claims, key);
             if (claim != null)
             {
@@ -202,6 +279,10 @@ namespace ECA.WebApi.Security
             }
         }
 
+        /// <summary>
+        /// Sets the user's given name.
+        /// </summary>
+        /// <param name="claims">The user claims.</param>
         public void SetGivenName(IEnumerable<Claim> claims)
         {
             Contract.Requires(claims != null, "The claims must not be null.");
@@ -217,6 +298,10 @@ namespace ECA.WebApi.Security
             }
         }
 
+        /// <summary>
+        /// Sets the user's surname.
+        /// </summary>
+        /// <param name="claims">The user claims.</param>
         public void SetSurname(IEnumerable<Claim> claims)
         {
             Contract.Requires(claims != null, "The claims must not be null.");
@@ -232,6 +317,10 @@ namespace ECA.WebApi.Security
             }
         }
 
+        /// <summary>
+        /// Sets the user's full name.
+        /// </summary>
+        /// <param name="claims">The user claims.</param>
         public void SetFullName(IEnumerable<Claim> claims)
         {
             Contract.Requires(claims != null, "The claims must not be null.");
@@ -247,6 +336,10 @@ namespace ECA.WebApi.Security
             }
         }
 
+        /// <summary>
+        /// Sets the token issue date.
+        /// </summary>
+        /// <param name="claims">The user claims.</param>
         public void SetTokenIssueDate(IEnumerable<Claim> claims)
         {
             Contract.Requires(claims != null, "The claims must not be null.");
@@ -270,6 +363,10 @@ namespace ECA.WebApi.Security
             }
         }
 
+        /// <summary>
+        /// Sets the token expiration date.
+        /// </summary>
+        /// <param name="claims">The user claims.</param>
         public void SetTokenExpirationDate(IEnumerable<Claim> claims)
         {
             Contract.Requires(claims != null, "The claims must not be null.");
@@ -280,7 +377,7 @@ namespace ECA.WebApi.Security
                 int secondsAfterEpoc;
                 if (Int32.TryParse(claim.Value, out secondsAfterEpoc))
                 {
-                    this.TokenExpiration = GetUTCDate(secondsAfterEpoc);
+                    this.TokenExpirationDate = GetUTCDate(secondsAfterEpoc);
                 }
                 else
                 {
@@ -293,6 +390,10 @@ namespace ECA.WebApi.Security
             }
         }
 
+        /// <summary>
+        /// Sets the token valid date, i.e. the earliest date the token is valid.
+        /// </summary>
+        /// <param name="claims">The user token.</param>
         public void SetTokenValidAfterDate(IEnumerable<Claim> claims)
         {
             Contract.Requires(claims != null, "The claims must not be null.");
@@ -316,21 +417,40 @@ namespace ECA.WebApi.Security
             }
         }
 
+        /// <summary>
+        /// Returns a business layer user from this user.
+        /// </summary>
+        /// <returns>The business layer user.</returns>
         public override ECA.Business.Service.User ToBusinessUser()
         {
             return new Business.Service.User(-1);
         }
 
+        /// <summary>
+        /// Returns true if the user has permission given all permissions.
+        /// </summary>
+        /// <param name="requestedPermission">The permission to check.</param>
+        /// <param name="allUserPermissions">All user permissions.</param>
+        /// <returns>True, if the user has the requested permission.</returns>
         public override bool HasPermission(ResourcePermission requestedPermission, IEnumerable<ResourcePermission> allUserPermissions)
         {
             return true;
         }
 
+        /// <summary>
+        /// Returns the date given the number of seconds elapsed since the Unix Epoch.
+        /// </summary>
+        /// <param name="secondsAfterEpoch">The number of seconds elapsed since Jan, 1, 1970.</param>
+        /// <returns>The date.</returns>
         public DateTime GetUTCDate(int secondsAfterEpoch)
         {
             return EPOCH.AddSeconds((double)secondsAfterEpoch);
         }
 
+        /// <summary>
+        /// Returns the user's email.
+        /// </summary>
+        /// <returns>The user's email.</returns>
         public override string GetUsername()
         {
             return this.Email;

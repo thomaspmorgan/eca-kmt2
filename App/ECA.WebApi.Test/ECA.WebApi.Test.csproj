@@ -115,8 +115,10 @@
     <Compile Include="Security\ModelPermissionTest.cs" />
     <Compile Include="Security\PermissionBaseTest.cs" />
     <Compile Include="Security\ResourceAuthorizeAttributeTest.cs" />
+    <Compile Include="Security\StaticPermissionTest.cs" />
     <Compile Include="Security\UserCacheServiceTest.cs" />
     <Compile Include="Security\UserCacheTest.cs" />
+    <Compile Include="Security\WebApiUserTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
