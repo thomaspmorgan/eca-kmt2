@@ -10,6 +10,7 @@ using System.Threading;
 using System.Security.Claims;
 using System.Web.Http;
 using System.Net;
+using ECA.WebApi.Models.Query;
 
 namespace ECA.WebApi.Test.Security
 {
@@ -54,6 +55,24 @@ namespace ECA.WebApi.Test.Security
         }
 
         [TestMethod]
+        public void TestConstructor_SingleModelPermission()
+        {
+            var modelType = typeof(SorterBindingModel);
+            var property = "direction";
+            var permissionName = "Read";
+            var resourceType = "Program";
+
+            var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, modelType, property);
+            Assert.AreEqual(1, attribute.Permissions.Count());
+            Assert.IsInstanceOfType(attribute.Permissions.First(), typeof(ModelPermission));
+            var modelPermission = (ModelPermission)attribute.Permissions.First();
+            Assert.AreEqual(modelType, modelPermission.ModelType);
+            Assert.AreEqual(property, modelPermission.Property);
+            Assert.AreEqual(permissionName, modelPermission.PermissionName);
+            Assert.AreEqual(resourceType, modelPermission.ResourceType);
+        }
+
+        [TestMethod]
         public void TestConstructor_SingleActionPermission()
         {
             var actionArgument = "id";
@@ -61,8 +80,9 @@ namespace ECA.WebApi.Test.Security
             var resourceType = "Program";
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
-            Assert.AreEqual(1, attribute.ActionPermissions.Count());
-            var firstPermission = attribute.ActionPermissions.First();
+            Assert.AreEqual(1, attribute.Permissions.Count());
+            Assert.IsInstanceOfType(attribute.Permissions.First(), typeof(ActionPermission));
+            var firstPermission = (ActionPermission)attribute.Permissions.First();
             Assert.AreEqual(actionArgument, firstPermission.ArgumentName);
             Assert.AreEqual(permissionName, firstPermission.PermissionName);
             Assert.AreEqual(resourceType, firstPermission.ResourceType);
@@ -75,8 +95,9 @@ namespace ECA.WebApi.Test.Security
             var resourceType = "Program";
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType);
-            Assert.AreEqual(1, attribute.ActionPermissions.Count());
-            var firstPermission = attribute.ActionPermissions.First();
+            Assert.AreEqual(1, attribute.Permissions.Count());
+            Assert.IsInstanceOfType(attribute.Permissions.First(), typeof(ActionPermission));
+            var firstPermission = (ActionPermission)attribute.Permissions.First();
             Assert.AreEqual(ResourceAuthorizeAttribute.DEFAULT_ID_ARGUMENT_NAME, firstPermission.ArgumentName);
         }
 
@@ -95,24 +116,38 @@ namespace ECA.WebApi.Test.Security
             var permissionAsString2 = String.Format(actionPermissionStringFormat, permissionName2, resourceType2, actionArgument2);
 
             var attribute = new ResourceAuthorizeAttribute(String.Join(", ", permissionAsString1, permissionAsString2));
-            Assert.AreEqual(2, attribute.ActionPermissions.Count());
+            Assert.AreEqual(2, attribute.Permissions.Count());
+        }
+
+        [TestMethod]
+        public void TestConstructor_StaticPermission()
+        {
+            var permissionName = "read";
+            var resourceType = "program";
+            var id = 1;
+            var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
+            Assert.AreEqual(1, attribute.Permissions.Count());
+            Assert.IsInstanceOfType(attribute.Permissions.First(), typeof(StaticPermission));
+            var staticPermission = (StaticPermission)attribute.Permissions.First();
+            Assert.AreEqual(permissionName, staticPermission.PermissionName);
+            Assert.AreEqual(resourceType, staticPermission.ResourceType);
+            Assert.AreEqual(id, staticPermission.ResourceId);
+
         }
 
         [TestMethod]
         public async Task TestConstructor_OnActionExecutingAsync_CheckPermissionsIterated()
         {
             var id = 1;
-            var actionArgument = "id";
             var permissionName = "Read";
             var resourceType = "Program";
             var user = SetDebugUser();
             user.UserHasPermission = true;
             cacheService.Setup(x => x.GetUserCacheAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(new UserCache(user));
 
-            var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
+            var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
             var actionContext = ContextUtil.CreateActionContext();
             actionContext.RequestContext.Principal = Thread.CurrentPrincipal;
-            actionContext.ActionArguments.Add(actionArgument, id);
 
             var cts = new CancellationTokenSource();
             Assert.AreEqual(0, user.HasPermissionCount);
@@ -124,17 +159,15 @@ namespace ECA.WebApi.Test.Security
         public async Task TestConstructor_OnActionExecutingAsync_UserHasPermission()
         {
             var id = 1;
-            var actionArgument = "id";
             var permissionName = "Read";
             var resourceType = "Program";
             var user = SetDebugUser();
             user.UserHasPermission = true;
             cacheService.Setup(x => x.GetUserCacheAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(new UserCache(user));
 
-            var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
+            var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
             var actionContext = ContextUtil.CreateActionContext();
             actionContext.RequestContext.Principal = Thread.CurrentPrincipal;
-            actionContext.ActionArguments.Add(actionArgument, id);
 
             var cts = new CancellationTokenSource();            
             await attribute.OnActionExecutingAsync(actionContext, cts.Token);
@@ -147,17 +180,15 @@ namespace ECA.WebApi.Test.Security
             try
             {
                 var id = 1;
-                var actionArgument = "id";
                 var permissionName = "Read";
                 var resourceType = "Program";
                 var user = SetDebugUser();
                 user.UserHasPermission = false;
                 cacheService.Setup(x => x.GetUserCacheAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(new UserCache(user));
 
-                var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
+                var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
                 var actionContext = ContextUtil.CreateActionContext();
                 actionContext.RequestContext.Principal = Thread.CurrentPrincipal;
-                actionContext.ActionArguments.Add(actionArgument, id);
 
                 var cts = new CancellationTokenSource();
                 await attribute.OnActionExecutingAsync(actionContext, cts.Token);

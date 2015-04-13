@@ -13,7 +13,6 @@ using System.Diagnostics.Contracts;
 
 namespace ECA.WebApi.Security
 {
-
     public class ResourcePermission
     {   
         public int ResourceId { get; set; }

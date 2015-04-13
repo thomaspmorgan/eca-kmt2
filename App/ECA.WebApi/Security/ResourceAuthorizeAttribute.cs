@@ -1,5 +1,6 @@
 ﻿using ECA.Core.Logging;
 using ECA.WebApi.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -48,10 +49,10 @@ namespace ECA.WebApi.Security
         /// <summary>
         /// Creates a new ResourceAuthorizeAttribute with the action permissions.
         /// </summary>
-        /// <param name="actionPermissions">The action permissions.</param>
-        public ResourceAuthorizeAttribute(params ActionPermission[] actionPermissions)
+        /// <param name="permissions">The action permissions.</param>
+        internal ResourceAuthorizeAttribute(params PermissionBase[] permissions)
         {
-            this.ActionPermissions = actionPermissions;
+            this.Permissions = permissions;
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace ECA.WebApi.Security
         /// </summary>
         /// <param name="actionPermissions">The formatted string containing 1 or more permissions.</param>
         public ResourceAuthorizeAttribute(string actionPermissions)
-            : this(ActionPermission.Parse(actionPermissions).ToArray())
+            : this(PermissionBase.Parse(actionPermissions).ToArray())
         {
 
         }
@@ -85,9 +86,47 @@ namespace ECA.WebApi.Security
         }
 
         /// <summary>
+        /// Creates a new ResourceAuthorizeAttribute where only the permission name and resource type need to be defined, i.e. the resource id
+        /// is not coming from the client.  The resource Id in this case never changes, such as the application resource id.
+        /// </summary>
+        /// <param name="permissionName">The name of the permission.</param>
+        /// <param name="resourceType">The resource type.</param>
+        /// <param name="resourceId">The resource id.</param>
+        public ResourceAuthorizeAttribute(string permissionName, string resourceType, int resourceId)
+            : this(new StaticPermission
+            {
+                ResourceId = resourceId,
+                PermissionName = permissionName,
+                ResourceType = resourceType
+            })
+        {
+            Contract.Requires(permissionName != null, "The permission name must not be null.");
+            Contract.Requires(resourceType != null, "The resource type must not be null.");
+        }
+
+        /// <summary>
+        /// Creates a new ResourceAuthorizeAttribute where the action binds to a model and resource id's are
+        /// within the model.  The properties may be within subproperties.
+        /// </summary>
+        /// <param name="property">The child property of the model the resource id is bound to.  This property may be a child property of another property 
+        /// and seperated by a [.] e.g. modelVariable.MyOtherModel.Id where modelVariable is the name of the method variable, MyOtherModel is a
+        /// class property of the modelVariableType, and Id is a property of the MyOtherModel type.</param>
+        /// <param name="modelType">The model type that is bound in the action method.</param>
+        /// <param name="permissionName">The name of the permission.</param>
+        /// <param name="resourceType">The resource type.</param>
+        public ResourceAuthorizeAttribute(string permissionName, string resourceType, Type modelType, string property)
+            :this(new ModelPermission(property, modelType, permissionName, resourceType))
+        {
+            Contract.Requires(permissionName != null, "The permission name must not be null.");
+            Contract.Requires(resourceType != null, "The resource type must not be null.");
+            Contract.Requires(modelType != null, "The model type must not be null.");
+            Contract.Requires(property != null, "The property must not be null.");
+        }
+
+        /// <summary>
         /// Gets the permissions required of this attribute.
         /// </summary>
-        public IEnumerable<ActionPermission> ActionPermissions { get; private set; }
+        public IEnumerable<PermissionBase> Permissions { get; private set; }
 
         /// <summary>
         /// 
@@ -104,21 +143,14 @@ namespace ECA.WebApi.Security
 
             var userCache = await cacheService.GetUserCacheAsync(webApiUser);
             Contract.Assert(userCache != null, "The user cache must not be null.");
-            foreach (var actionPermission in ActionPermissions)
+            foreach (var permission in Permissions)
             {
-                Contract.Assert(actionArguments.ContainsKey(actionPermission.ArgumentName),
-                    String.Format("The argument named [{0}] does not exist in the action arguments.", actionPermission.ArgumentName));
-                logger.Information("Validating {0} action permission {1} with user's cached permissions.", actionContext.ActionDescriptor.ActionName, actionPermission.ToString());
-                var actionArgumentValue = actionArguments[actionPermission.ArgumentName];
-                if (actionArgumentValue.GetType() != typeof(int))
-                {
-                    throw new NotSupportedException(String.Format("The action argument must be an integer."));
-                }
+                logger.Information("Validating {0} action permission {1} with user's cached permissions.", actionContext.ActionDescriptor.ActionName, permission.ToString());
                 var requestedPermission = new ResourcePermission
                 {
-                    PermissionName = actionPermission.PermissionName,
-                    ResourceType = actionPermission.ResourceType,
-                    ResourceId = (int)actionArgumentValue
+                    PermissionName = permission.PermissionName,
+                    ResourceType = permission.ResourceType,
+                    ResourceId = permission.GetResourceId(actionArguments)
                 };
                 if (!webApiUser.HasPermission(requestedPermission, userCache.Permissions))
                 {

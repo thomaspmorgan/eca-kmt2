@@ -112,6 +112,8 @@
     <Compile Include="Models\Query\SorterBindingModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ActionPermissionTest.cs" />
+    <Compile Include="Security\ModelPermissionTest.cs" />
+    <Compile Include="Security\PermissionBaseTest.cs" />
     <Compile Include="Security\ResourceAuthorizeAttributeTest.cs" />
     <Compile Include="Security\UserCacheServiceTest.cs" />
     <Compile Include="Security\UserCacheTest.cs" />

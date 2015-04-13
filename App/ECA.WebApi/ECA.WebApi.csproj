@@ -328,7 +328,10 @@
     <Compile Include="Security\DebugWebApiUser.cs" />
     <Compile Include="Security\IUserCacheService.cs" />
     <Compile Include="Security\IUserProvider.cs" />
+    <Compile Include="Security\ModelPermission.cs" />
+    <Compile Include="Security\PermissionBase.cs" />
     <Compile Include="Security\ResourceAuthorizeAttribute.cs" />
+    <Compile Include="Security\StaticPermission.cs" />
     <Compile Include="Security\UserCache.cs" />
     <Compile Include="Security\UserCacheService.cs" />
     <Compile Include="Security\WebApiUser.cs" />
