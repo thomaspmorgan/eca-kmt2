@@ -61,7 +61,9 @@ angular.module('staticApp')
             filter: TableService.getFilter(),
             keyword: TableService.getKeywords()
         };
+
         $scope.officeFilter = params.keyword;
+
         getOfficesFiltered(params)
           .then(function (data) {
               var offices = data.results;
