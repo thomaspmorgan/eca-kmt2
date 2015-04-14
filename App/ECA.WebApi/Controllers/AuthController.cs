@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Web.Http.Description;
 using Swashbuckle.Swagger;
 using System.Diagnostics.Contracts;
+using ECA.WebApi.Models.Security;
 
 namespace ECA.WebApi.Controllers
 {
@@ -28,34 +29,42 @@ namespace ECA.WebApi.Controllers
     [Authorize]
     public class AuthController : ApiController
     {
-        private IUserProvider provider;
-        private IUserCacheService cacheService;
+        private IUserProvider provider;        
 
-        public AuthController(IUserProvider provider, IUserCacheService cacheService)
+        public AuthController(IUserProvider provider)
         {
             Contract.Requires(provider != null, "The provider must not be null.");
-            Contract.Requires(cacheService != null, "The cache service must not be null.");
             this.provider = provider;
-            this.cacheService = cacheService;
         }
 
-        [Route("api/auth/user")]
-        [ResponseType(typeof(IWebApiUser))]
+        [Route("api/auth/user/")]
+        [ResponseType(typeof(UserViewModel))]
         //[ResourceAuthorize("Read:Program(programId), Edit:Project(programId)")]
         //[ResourceAuthorize("Read", "Program", "programId")]
         //[ResourceAuthorize("Read", "Program", 1)]
         //[ResourceAuthorize("Read:Program(programId), Edit:Project(1)")]
         //[ResourceAuthorize("Read", "Program", "model.ProgramId")]
-        
-
         //[ResourceAuthorize("model.OwnerOrganizationId", typeof(ECA.WebApi.Models.Programs.DraftProgramBindingModel), "Edit", "Office")]
-        [ResourceAuthorize("Edit", "Program", typeof(AuthBindingModel), "model.Other.OfficeId")]
+        //[ResourceAuthorize("Edit", "Program", typeof(AuthBindingModel), "model.Other.OfficeId")]
         //[ResourceAuthorize("Edit:Office(DraftProgramBindingModel#model.OwnerOrganizationId")]
-        public async Task<IHttpActionResult> GetUserAsync([FromUri] AuthBindingModel model)
+        public async Task<IHttpActionResult> GetUserAsync(int programId)
         {
-            var user = provider.GetCurrentUser();
-            var userCache = await cacheService.GetUserCacheAsync(user);
-            return Ok(provider.GetCurrentUser());
+            var currentUser = this.provider.GetCurrentUser();
+            var businessUser = this.provider.GetBusinessUser(currentUser);
+            var userPermissions = await this.provider.GetPermissionsAsync(currentUser);
+            //var userPermissionViewModels = userPermissions.Select(x => new ResourcePermissionViewModel
+            //{
+            //    PermissionName = x..PermissionName,
+            //    ResourceId = x.ResourceId
+            //}).ToList();
+            var viewModel = new UserViewModel
+            {
+                CamPrincipalId = businessUser.Id,
+                //ResourcePermissions = userPermissionViewModels,
+                UserId = currentUser.Id,
+                UserName = currentUser.GetUsername()
+            };
+            return Ok(viewModel);
         }
 
         //[HttpGet]

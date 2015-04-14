@@ -322,6 +322,8 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
+    <Compile Include="Models\Security\ResourcePermissionViewModel.cs" />
+    <Compile Include="Models\Security\UserViewModel.cs" />
     <Compile Include="Security\ActionPermission.cs" />
     <Compile Include="Security\AnonymousUser.cs" />
     <Compile Include="Security\BearerTokenUserProvider.cs" />
@@ -418,6 +420,14 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CAM.Business\CAM.Business.csproj">
+      <Project>{237e7109-5c66-4d4f-8ef3-f343e9897ac4}</Project>
+      <Name>CAM.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CAM.Data\CAM.Data.csproj">
+      <Project>{b1d42987-aee5-431a-bdbf-480f6d8822e1}</Project>
+      <Name>CAM.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>

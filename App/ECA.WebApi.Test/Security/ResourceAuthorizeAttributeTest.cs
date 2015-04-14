@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Web.Http;
 using System.Net;
 using ECA.WebApi.Models.Query;
+using CAM.Business.Service;
 
 namespace ECA.WebApi.Test.Security
 {
@@ -22,9 +23,8 @@ namespace ECA.WebApi.Test.Security
 
         public bool UserHasPermission { get; set; }
 
-        public override bool HasPermission(ResourcePermission requestedPermission, System.Collections.Generic.IEnumerable<ResourcePermission> allUserPermissions)
+        public override bool HasPermission(CAM.Business.Service.IPermission requestedPermission, System.Collections.Generic.IEnumerable<CAM.Business.Service.IPermission> allUserPermissions)
         {
-            this.HasPermissionCount++;
             return UserHasPermission;
         }
     }
@@ -32,25 +32,26 @@ namespace ECA.WebApi.Test.Security
     [TestClass]
     public class ResourceAuthorizeAttributeTest
     {
-        private Mock<IUserCacheService> cacheService;
-        private WebApiUserBase user;
+        private Mock<IUserProvider> userProvider;
+        private Mock<IPermissionStore<IPermission>> permissionStore;
 
         [TestInitialize]
         public void TestInit()
         {
-            cacheService = new Mock<IUserCacheService>();
+            userProvider = new Mock<IUserProvider>();
+            permissionStore = new Mock<IPermissionStore<IPermission>>();
 
-            ResourceAuthorizeAttribute.CacheServiceFactory = () =>
-            {
-                return cacheService.Object;
-            };
             ResourceAuthorizeAttribute.LoggerFactory = () =>
             {
                 return new TraceLogger();
             };
-            ResourceAuthorizeAttribute.GetWebApiUser = () =>
+            ResourceAuthorizeAttribute.UserProviderFactory = () =>
             {
-                return user;
+                return userProvider.Object;
+            };
+            ResourceAuthorizeAttribute.PermissionLookupFactory = () =>
+            {
+                return permissionStore.Object;
             };
         }
 
@@ -141,9 +142,9 @@ namespace ECA.WebApi.Test.Security
             var id = 1;
             var permissionName = "Read";
             var resourceType = "Program";
-            var user = SetDebugUser();
+            var user = GetTestUser();
             user.UserHasPermission = true;
-            cacheService.Setup(x => x.GetUserCacheAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(new UserCache(user));
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
             var actionContext = ContextUtil.CreateActionContext();
@@ -161,15 +162,15 @@ namespace ECA.WebApi.Test.Security
             var id = 1;
             var permissionName = "Read";
             var resourceType = "Program";
-            var user = SetDebugUser();
+            var user = GetTestUser();
             user.UserHasPermission = true;
-            cacheService.Setup(x => x.GetUserCacheAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(new UserCache(user));
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
             var actionContext = ContextUtil.CreateActionContext();
             actionContext.RequestContext.Principal = Thread.CurrentPrincipal;
 
-            var cts = new CancellationTokenSource();            
+            var cts = new CancellationTokenSource();
             await attribute.OnActionExecutingAsync(actionContext, cts.Token);
         }
 
@@ -182,9 +183,9 @@ namespace ECA.WebApi.Test.Security
                 var id = 1;
                 var permissionName = "Read";
                 var resourceType = "Program";
-                var user = SetDebugUser();
+                var user = GetTestUser();
                 user.UserHasPermission = false;
-                cacheService.Setup(x => x.GetUserCacheAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(new UserCache(user));
+                userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
 
                 var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
                 var actionContext = ContextUtil.CreateActionContext();
@@ -199,7 +200,7 @@ namespace ECA.WebApi.Test.Security
                 Assert.AreEqual(HttpStatusCode.Unauthorized, e.Response.StatusCode);
             }
             Assert.IsTrue(exceptionCaught);
-            
+
         }
 
         [TestMethod]
@@ -210,9 +211,9 @@ namespace ECA.WebApi.Test.Security
             var actionArgument = "id";
             var permissionName = "Read";
             var resourceType = "Program";
-            var user = SetDebugUser();
+            var user = GetTestUser();
             user.UserHasPermission = false;
-            cacheService.Setup(x => x.GetUserCacheAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(new UserCache(user));
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
             var actionContext = ContextUtil.CreateActionContext();
@@ -223,12 +224,11 @@ namespace ECA.WebApi.Test.Security
             await attribute.OnActionExecutingAsync(actionContext, cts.Token);
         }
 
-        private TestUser SetDebugUser()
+        private TestUser GetTestUser()
         {
             var debugUser = new TestUser(new TraceLogger());
             var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(debugUser.GetClaims(), "Bearer"));
             Thread.CurrentPrincipal = claimsPrincipal;
-            this.user = debugUser;
             return debugUser;
         }
     }

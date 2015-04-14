@@ -232,6 +232,7 @@ namespace ECA.WebApi.Test.Security
             user.SetUserEmail(claims);
             Assert.AreEqual(email, user.GetUsername());
         }
+
         #region Setters with no claims
         [TestMethod]
         public void TestSetFullName_NoClaims_ShouldNotThrowAnyExceptions()

@@ -9,39 +9,29 @@ using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.DynamicLinq.Filter;
+using CAM.Business.Service;
 
 namespace ECA.WebApi.Test.Security
 {
     public class SimpleUser : IWebApiUser
     {
+        public string Username { get; set; }
+
         public Guid Id { get; set; }
+
+        public string GetUsername()
+        {
+            return this.Username;
+        }
     }
-
-    //public class SimpleBusinessUserService : IBusinessUserService
-    //{
-    //    public SimpleBusinessUserService()
-    //    {
-    //        this.ResourcePermissions = new List<ResourcePermission>();
-    //    }
-
-    //    public List<ResourcePermission> ResourcePermissions { get; set; }
-
-    //    public Task<List<ResourcePermission>> GetResourcePermissionsAsync(Guid userId)
-    //    {
-    //        return Task.FromResult<List<ResourcePermission>>(this.ResourcePermissions);
-    //    }
-
-    //    List<ResourcePermission> IBusinessUserService.GetResourcePermissions(Guid userId)
-    //    {
-    //        return this.ResourcePermissions;
-    //    }
-    //}
 
     [TestClass]
     public class UserCacheServiceTest
     {
         private Mock<ObjectCache> cache;
-        private Mock<IBusinessUserService> userService;
         private IDictionary<string, object> cacheDictionary;
         private int expectedTimeToLive = 10;
 
@@ -50,7 +40,6 @@ namespace ECA.WebApi.Test.Security
         {
             cacheDictionary = new Dictionary<string, object>();
             cache = new Mock<ObjectCache>();
-            userService = new Mock<IBusinessUserService>();
             Action<CacheItem, CacheItemPolicy> setAction = (c, p) =>
             {
                 cacheDictionary.Add(c.Key, c.Value);
@@ -75,78 +64,53 @@ namespace ECA.WebApi.Test.Security
         }
 
         [TestMethod]
-        public async Task TestGetUserCache_MustLoad()
+        public void TestGetUserCache()
         {
-            userService.Setup(x => x.GetResourcePermissions(It.IsAny<Guid>())).Returns(new List<ResourcePermission>());
-            userService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>())).ReturnsAsync(new List<ResourcePermission>());
             var user = new SimpleUser
             {
                 Id = Guid.NewGuid()
             };
 
             var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, userService.Object, cache.Object, expectedTimeToLive);
-
-            Assert.AreEqual(0, testService.GetCount());
-            userService.Verify(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>()), Times.Never);
-            userService.Verify(x => x.GetResourcePermissions(It.IsAny<Guid>()), Times.Never);
-            
-            var userCacheAsync = await testService.GetUserCacheAsync(user);
-            Assert.AreEqual(1, testService.GetCount());
-            cacheDictionary.Clear();
-            var userCache = testService.GetUserCache(user);
-            Assert.AreEqual(1, testService.GetCount());
-            
-            userService.Verify(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>()), Times.Once);
-            userService.Verify(x => x.GetResourcePermissions(It.IsAny<Guid>()), Times.Once);
-            
-        }
-
-        [TestMethod]
-        public async Task TestGetUserCache_UserCacheAlreadyExists()
-        {
-            userService.Setup(x => x.GetResourcePermissions(It.IsAny<Guid>())).Returns(new List<ResourcePermission>());
-            userService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>())).ReturnsAsync(new List<ResourcePermission>());
-            var user = new SimpleUser
-            {
-                Id = Guid.NewGuid()
-            };
-
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, userService.Object, cache.Object, expectedTimeToLive);
-            cacheDictionary.Add(testService.GetKey(user), new UserCache(user, null));
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            cacheDictionary.Add(testService.GetKey(user), new UserCache(user, 1, null));
 
             Assert.AreEqual(1, testService.GetCount());
-            userService.Verify(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>()), Times.Never);
-            userService.Verify(x => x.GetResourcePermissions(It.IsAny<Guid>()), Times.Never);
-
             Action<UserCache> tester = (c) =>
             {
                 Assert.IsNotNull(c);
-                Assert.AreEqual(user.Id, c.User.Id);                
+                Assert.AreEqual(user.Id, c.UserId);
             };
 
-            var userCacheAsync = await testService.GetUserCacheAsync(user);
-            var userCache = testService.GetUserCache(user);
-            tester(userCacheAsync);
+            var userCache = testService.GetUserCache(user); ;
             tester(userCache);
 
             Assert.AreEqual(1, testService.GetCount());
-            userService.Verify(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>()), Times.Never);
-            userService.Verify(x => x.GetResourcePermissions(It.IsAny<Guid>()), Times.Never);
         }
 
 
         [TestMethod]
-        public void TestGetCacheKey()
+        public void TestGetCacheKey_User()
         {
             var user = new SimpleUser
             {
                 Id = Guid.NewGuid()
             };
             var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, userService.Object, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
             Assert.AreEqual(user.Id.ToString(), testService.GetKey(user));
+        }
+
+        [TestMethod]
+        public void TestGetCacheKey_UserId()
+        {
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var logger = new TraceLogger();
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            Assert.AreEqual(user.Id.ToString(), testService.GetKey(user.Id));
         }
 
         [TestMethod]
@@ -157,11 +121,11 @@ namespace ECA.WebApi.Test.Security
                 Id = Guid.NewGuid()
             };
             var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, userService.Object, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
 
-            var userCache = new UserCache(user, new List<ResourcePermission>());
+            var userCache = new UserCache(user, 1, new List<IPermission>());
             testService.Add(userCache);
             Assert.AreEqual(1, testService.GetCount());
             Assert.AreEqual(1, cacheDictionary.Count);
@@ -172,10 +136,68 @@ namespace ECA.WebApi.Test.Security
         public void TestGetCacheItemPolicy()
         {
             var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, userService.Object, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
             var policy = testService.GetCacheItemPolicy();
             Assert.IsNotNull(policy);
             policy.AbsoluteExpiration.Should().BeCloseTo(DateTimeOffset.UtcNow.AddSeconds((double)expectedTimeToLive));
+        }
+
+        [TestMethod]
+        public void TestIsUserCached_NoUserCached()
+        {
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var logger = new TraceLogger();
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+            Assert.IsFalse(testService.IsUserCached(user));
+        }
+
+        [TestMethod]
+        public void TestIsUserCached_MultipleUsersCached_RequestedUserNotCached()
+        {
+            var user1 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var user2 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var testUser = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var logger = new TraceLogger();
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+            testService.Add(new UserCache(user1, 1));
+            testService.Add(new UserCache(user2, 2));
+            Assert.IsFalse(testService.IsUserCached(testUser));
+        }
+
+        [TestMethod]
+        public void TestIsUserCached_MultipleUsersCached_UserIsCached()
+        {
+            var user1 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var user2 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var logger = new TraceLogger();
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+            testService.Add(new UserCache(user1, 1));
+            testService.Add(new UserCache(user2, 2));
+            Assert.IsTrue(testService.IsUserCached(user1));
         }
     }
 }

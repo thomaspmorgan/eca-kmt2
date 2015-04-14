@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CAM.Business.Service;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -16,22 +17,42 @@ namespace ECA.WebApi.Security
         /// Creates a new user cache.  If the permissions are not provided, the Permissions will be initialized with an empty list.
         /// </summary>
         /// <param name="user">The user.</param>
+        /// <param name="camPrincipalId">The commom access module principal id of the user.</param>
         /// <param name="permissions">The permissions of the user.</param>
-        public UserCache(IWebApiUser user, IEnumerable<ResourcePermission> permissions = null)
+        public UserCache(IWebApiUser user, int camPrincipalId, IEnumerable<IPermission> permissions = null)
         {
             Contract.Requires(user != null, "The user must not be null.");
-            this.User = user;
-            this.Permissions = permissions ?? new List<ResourcePermission>();
+            this.UserId = user.Id;
+            this.Permissions = permissions ?? new List<IPermission>();
+            this.DateCached = DateTime.UtcNow;
+            this.UserName = user.GetUsername();
+            this.CamPrincipalId = camPrincipalId;
+
         }
+
+        /// <summary>
+        /// Gets the Common Access Module principal id.
+        /// </summary>
+        public int CamPrincipalId { get; private set; }
 
         /// <summary>
         /// Gets the user.
         /// </summary>
-        public IWebApiUser User { get; private set; }
+        public Guid UserId { get; private set; }
 
         /// <summary>
         /// Gets the user's permissions.
         /// </summary>
-        public IEnumerable<ResourcePermission> Permissions { get; private set; }
+        public IEnumerable<IPermission> Permissions { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the date this item was cached.
+        /// </summary>
+        public DateTime DateCached { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the username.
+        /// </summary>
+        public string UserName { get; private set; }
     }
 }

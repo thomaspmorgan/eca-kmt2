@@ -1,4 +1,5 @@
-﻿using ECA.Core.Logging;
+﻿using CAM.Business.Service;
+using ECA.Core.Logging;
 using ECA.WebApi.Models;
 using Newtonsoft.Json;
 using System;
@@ -32,11 +33,6 @@ namespace ECA.WebApi.Security
         private static readonly string COMPONENT_NAME = typeof(ResourceAuthorizeAttribute).FullName;
 
         /// <summary>
-        /// The factory to create a cache factory.
-        /// </summary>
-        public static Func<IUserCacheService> CacheServiceFactory { get; set; }
-
-        /// <summary>
         /// The factory to create a logger.
         /// </summary>
         public static Func<ILogger> LoggerFactory { get; set; }
@@ -44,7 +40,12 @@ namespace ECA.WebApi.Security
         /// <summary>
         /// A Function to return to the WebApiUserBase.
         /// </summary>
-        public static Func<WebApiUserBase> GetWebApiUser { get; set; }
+        public static Func<IUserProvider> UserProviderFactory { get; set; }
+
+        /// <summary>
+        /// A Function to return a permission store.
+        /// </summary>
+        public static Func<IPermissionStore<IPermission>> PermissionLookupFactory { get; set; }
 
         /// <summary>
         /// Creates a new ResourceAuthorizeAttribute with the action permissions.
@@ -138,23 +139,49 @@ namespace ECA.WebApi.Security
         /// <returns></returns>
         public override async Task OnActionExecutingAsync(System.Web.Http.Controllers.HttpActionContext actionContext, System.Threading.CancellationToken cancellationToken)
         {
-            var webApiUser = GetWebApiUser();
+            var permissionStore = PermissionLookupFactory();
+            var webApiUserProvider = UserProviderFactory();
+            var currentUser = webApiUserProvider.GetCurrentUser();
             var logger = LoggerFactory();
-            var cacheService = CacheServiceFactory();
             var actionArguments = actionContext.ActionArguments;
 
-            var userCache = await cacheService.GetUserCacheAsync(webApiUser);
-            Contract.Assert(userCache != null, "The user cache must not be null.");
+            var userPermissions = await webApiUserProvider.GetPermissionsAsync(currentUser);
+            Contract.Assert(userPermissions != null, "The user permissions must not be null.");
             foreach (var permission in Permissions)
             {
                 logger.Information("Validating {0} action permission {1} with user's cached permissions.", actionContext.ActionDescriptor.ActionName, permission.ToString());
-                var requestedPermission = new ResourcePermission
+                //var requestedPermission = new ResourcePermission
+                //{
+                //    PermissionName = permission.PermissionName,
+                //    ResourceType = permission.ResourceType,
+                //    ResourceId = permission.GetResourceId(actionArguments)
+                //};
+                var requestedPermissionId = permissionStore.GetPermissionIdByName(permission.PermissionName);
+                var resourceType = permission.ResourceType;                
+                var resourceId = permission.GetResourceId(actionArguments);
+                var principalId = await webApiUserProvider.GetPrincipalIdAsync(currentUser);
+
+                var requestedPermission = new Permission
                 {
-                    PermissionName = permission.PermissionName,
-                    ResourceType = permission.ResourceType,
-                    ResourceId = permission.GetResourceId(actionArguments)
+                    PermissionId = requestedPermissionId,
+                    ResourceId = resourceId,
                 };
-                if (!webApiUser.HasPermission(requestedPermission, userCache.Permissions))
+                
+
+                
+                //var requestedPermission = new Permission
+                //{
+                //  PermissionId = requestedPermissionId,
+                //  PrincipalId = principalId,
+                //  ResourceId = 
+                //};
+                //requestedPermission.HasPermission()
+
+
+                //stopped here, I'm not sure what to do with principal id in the IPermission interface, and i started
+                //modifying the WebApiUser to check permissions for real
+
+                if (!currentUser.HasPermission(requestedPermission, userPermissions))
                 {
                     throw new HttpResponseException(HttpStatusCode.Unauthorized);
                 }

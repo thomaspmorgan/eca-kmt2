@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CAM.Business.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,12 +20,7 @@ namespace ECA.WebApi.Security
             get { return Guid.Empty; }
         }
 
-        public override Business.Service.User ToBusinessUser()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool HasPermission(ResourcePermission requestedPermission, IEnumerable<ResourcePermission> allUserPermissions)
+        public override bool HasPermission(IPermission requestedPermission, IEnumerable<IPermission> allUserPermissions)
         {
             return false;
         }
