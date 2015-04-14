@@ -5,25 +5,34 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="2a0a84e7d4dc44a7981befcf5895aa1a" Name="Diagram1">
-        <EntityTypeShape EntityType="CAM.Data.Application" Width="1.5" PointX="0.75" PointY="12.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CAM.Data.Permission" Width="2.25" PointX="15.25" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="CAM.Data.PermissionAssignment" Width="2.25" PointX="9.375" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CAM.Data.Principal" Width="1.5" PointX="8.25" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CAM.Data.PrincipalType" Width="1.5" PointX="6" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CAM.Data.PrincipleRole" Width="1.5" PointX="10.625" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CAM.Data.Resource" Width="2.625" PointX="3.5" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CAM.Data.ResourceType" Width="2.125" PointX="0.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CAM.Data.Role" Width="1.5" PointX="3.75" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CAM.Data.RoleResourcePermission" Width="2.125" PointX="13.75" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CAM.Data.UserAccount" Width="2.625" PointX="16.875" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.Application" Width="1.5" PointX="1.25" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.Permission" Width="2.25" PointX="9.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.PermissionAssignment" Width="2.25" PointX="14" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.Principal" Width="1.5" PointX="11" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.PrincipalType" Width="1.5" PointX="8.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.PrincipleRole" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.Resource" Width="2.625" PointX="5.125" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.ResourceType" Width="2.125" PointX="5.625" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.Role" Width="1.5" PointX="4.125" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.RoleResourcePermission" Width="2.125" PointX="1.5" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CAM.Data.UserAccount" Width="2.625" PointX="13.5" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CAM.Data.C__RefactorLog" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="CAM.Data.FK_Application_ToResource" ManuallyRouted="false" />
         <AssociationConnector Association="CAM.Data.FK_Permission_ToResource" ManuallyRouted="false" />
-        <AssociationConnector Association="CAM.Data.FK_Permission_ToResourceType" ManuallyRouted="false" />
+        <AssociationConnector ManuallyRouted="true" Association="CAM.Data.FK_Permission_ToResourceType">
+          <ConnectorPoint PointX="7.75" PointY="7.170621875" />
+          <ConnectorPoint PointX="11.602968233017471" PointY="7.170621875" />
+          <ConnectorPoint PointX="11.602968233017471" PointY="9.375" />
+        </AssociationConnector>
         <AssociationConnector Association="CAM.Data.FK_PermissionAssignment_ToPermission" ManuallyRouted="false" />
         <AssociationConnector Association="CAM.Data.FK_RoleResourcePermission_ToPermission" ManuallyRouted="false" />
         <AssociationConnector Association="CAM.Data.FK_PermissionAssignment_ToPrincipal" ManuallyRouted="false" />
-        <AssociationConnector Association="CAM.Data.FK_PermissionAssignment_ToResource" ManuallyRouted="false" />
+        <AssociationConnector Association="CAM.Data.FK_PermissionAssignment_ToResource" ManuallyRouted="true" >
+          <ConnectorPoint PointX="6.2928105094668521" PointY="11.7494921875" />
+          <ConnectorPoint PointX="6.2928105094668521" PointY="13.335999348958332" />
+          <ConnectorPoint PointX="14.916210019023964" PointY="13.335999348958332" />
+          <ConnectorPoint PointX="14.916210019023964" PointY="12.3744921875" />
+        </AssociationConnector>
         <AssociationConnector Association="CAM.Data.FK_Principal_ToPrincipal" ManuallyRouted="false" />
         <AssociationConnector Association="CAM.Data.FK_PrincipleRole_ToPrincipal" ManuallyRouted="false" />
         <AssociationConnector Association="CAM.Data.FK_UserAccount_ToPrincipal" ManuallyRouted="false" />

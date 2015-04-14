@@ -99,7 +99,7 @@
             <PropertyRef Name="ResourceTypeId" />
           </Key>
           <Property Name="ResourceTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ResourceTypeName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ResourceTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ResourceTypeDescription" Type="nvarchar" MaxLength="255" />
           <Property Name="CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
@@ -131,7 +131,7 @@
           <Property Name="RoleId" Type="int" Nullable="false" />
           <Property Name="ResourceId" Type="int" Nullable="false" />
           <Property Name="PermissionId" Type="int" Nullable="false" />
-          <Property Name="AssignedOn" Type="int" Nullable="false" />
+          <Property Name="AssignedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
           <Property Name="AssignedBy" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="UserAccount">
@@ -557,7 +557,7 @@
             <PropertyRef Name="ResourceTypeId" />
           </Key>
           <Property Name="ResourceTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ResourceTypeName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ResourceTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ResourceTypeDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Permissions" Relationship="Self.FK_Permission_ToResourceType" FromRole="ResourceType" ToRole="Permission" />
@@ -596,7 +596,7 @@
           <Property Name="RoleId" Type="Int32" Nullable="false" />
           <Property Name="ResourceId" Type="Int32" Nullable="false" />
           <Property Name="PermissionId" Type="Int32" Nullable="false" />
-          <Property Name="AssignedOn" Type="Int32" Nullable="false" />
+          <Property Name="AssignedOn" Type="DateTimeOffset" Nullable="false" />
           <Property Name="AssignedBy" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Permission" Relationship="Self.FK_RoleResourcePermission_ToPermission" FromRole="RoleResourcePermission" ToRole="Permission" />
           <NavigationProperty Name="Resource" Relationship="Self.FK_RoleResourcePermission_ToResource" FromRole="RoleResourcePermission" ToRole="Resource" />
@@ -658,8 +658,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Permission_ToResourceType">
-          <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="0..1" />
-          <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+          <End Type="Self.ResourceType" Multiplicity="0..1" Role="ResourceType" />
+          <End Type="Self.Permission" Multiplicity="*" Role="Permission" />
           <ReferentialConstraint>
             <Principal Role="ResourceType">
               <PropertyRef Name="ResourceTypeId" />
@@ -847,8 +847,8 @@
             <End Role="Permission" EntitySet="Permissions" />
           </AssociationSet>
           <AssociationSet Name="FK_Permission_ToResourceType" Association="Self.FK_Permission_ToResourceType">
-            <End Role="ResourceType" EntitySet="ResourceTypes" />
-            <End Role="Permission" EntitySet="Permissions" />
+            <End EntitySet="ResourceTypes" Role="ResourceType" />
+            <End EntitySet="Permissions" Role="Permission" />
           </AssociationSet>
           <AssociationSet Name="FK_PermissionAssignment_ToPermission" Association="Self.FK_PermissionAssignment_ToPermission">
             <End Role="Permission" EntitySet="Permissions" />
