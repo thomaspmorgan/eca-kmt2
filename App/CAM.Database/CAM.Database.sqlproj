@@ -63,12 +63,16 @@
     <Folder Include="CAM\Schema" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\PostDeploy" />
+    <Folder Include="Scripts\PostDeploy\StaticData" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="CAM\Schema\CamSchema.sql" />
     <Build Include="CAM\Tables\Application.sql" />
     <Build Include="CAM\Tables\AccountStatus.sql" />
     <Build Include="CAM\Tables\Permission.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.AccountStatus.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.ResourceType.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.PrincipalType.staticdata.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CAM.Database.refactorlog" />
@@ -86,6 +90,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ECA_Local.publish.xml" />
-    <None Include="Scripts\PostDeploy\CAM.ResourceType.staticdata.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\PostDeploy\CAM.PostDeployment.sql" />
   </ItemGroup>
 </Project>
