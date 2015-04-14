@@ -169,10 +169,25 @@ angular.module('staticApp')
           saveProject();
       }
 
-      LookupService.getAllGenders({limit: 300})
+      LookupService.getAllGenders({ limit: 300 })
         .then(function (data) {
             $scope.genders = data.results;
         });
+
+      LocationService.get({ limit: 300, filter: {property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country}})
+        .then(function (data) {
+            $scope.countries = data.results;
+        });
+
+      $scope.birthCountrySelected = function (data) {
+          LocationService.get({
+              limit: 300,
+              filter: [{ property: 'countryId', comparison: 'eq', value: data.id },
+                       { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city}]
+          }).then(function (data) {
+                $scope.cities = data.results;
+            });
+      }
 
       $scope.addParticipant = function () {
           $scope.newParticipant.id = Date.now().toString();

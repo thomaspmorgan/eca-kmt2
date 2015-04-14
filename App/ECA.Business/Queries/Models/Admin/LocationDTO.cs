@@ -24,5 +24,15 @@
         /// Gets or sets the type name.
         /// </summary>
         public string LocationTypeName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the region id
+        /// </summary>
+        public int? RegionId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country id
+        /// </summary>
+        public int? CountryId { get; set; }
     }
 }
