@@ -37,5 +37,6 @@ namespace CAM.Data
         public virtual DbSet<RoleResourcePermission> RoleResourcePermissions { get; set; }
         public virtual DbSet<UserAccount> UserAccounts { get; set; }
         public virtual DbSet<C__RefactorLog> C__RefactorLog { get; set; }
+        public virtual DbSet<AccountStatus> AccountStatus { get; set; }
     }
 }

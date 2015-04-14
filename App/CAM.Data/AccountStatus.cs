@@ -12,22 +12,21 @@ namespace CAM.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class PrincipalType
+    public partial class AccountStatus
     {
-        public PrincipalType()
+        public AccountStatus()
         {
-            this.Principals = new HashSet<Principal>();
+            this.UserAccounts = new HashSet<UserAccount>();
         }
     
-        public int PrincipalTypeId { get; set; }
-        public string PrincipalTypeName { get; set; }
-        public string PrincipalTypeDescription { get; set; }
-        public bool IsActive { get; set; }
+        public int AccountStatusId { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTimeOffset CreatedOn { get; set; }
         public int RevisedBy { get; set; }
         public System.DateTimeOffset RevisedOn { get; set; }
+        public bool IsActive { get; set; }
+        public string Status { get; set; }
     
-        public virtual ICollection<Principal> Principals { get; set; }
+        public virtual ICollection<UserAccount> UserAccounts { get; set; }
     }
 }

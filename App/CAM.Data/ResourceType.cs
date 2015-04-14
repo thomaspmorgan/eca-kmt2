@@ -24,11 +24,11 @@ namespace CAM.Data
         public int ResourceTypeId { get; set; }
         public string ResourceTypeName { get; set; }
         public string ResourceTypeDescription { get; set; }
-        public System.DateTimeOffset History_CreatedOn { get; set; }
-        public int History_CreatedBy { get; set; }
-        public System.DateTimeOffset History_RevisedOn { get; set; }
-        public int History_RevisedBy { get; set; }
         public bool IsActive { get; set; }
+        public System.DateTimeOffset CreatedOn { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTimeOffset RevisedOn { get; set; }
+        public int RevisedBy { get; set; }
     
         public virtual ICollection<Permission> Permissions { get; set; }
         public virtual ICollection<Resource> Resources { get; set; }

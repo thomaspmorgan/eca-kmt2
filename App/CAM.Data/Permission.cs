@@ -22,14 +22,14 @@ namespace CAM.Data
     
         public int PermissionId { get; set; }
         public string PermissionName { get; set; }
-        public System.DateTimeOffset History_CreatedOn { get; set; }
-        public int History_CreatedBy { get; set; }
-        public System.DateTimeOffset History_RevisedOn { get; set; }
-        public string History_RevisedBy { get; set; }
         public bool IsActive { get; set; }
         public Nullable<int> ResourceTypeId { get; set; }
         public Nullable<int> ResourceId { get; set; }
         public string PermissionDescription { get; set; }
+        public System.DateTimeOffset CreatedOn { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTimeOffset RevisedOn { get; set; }
+        public string RevisedBy { get; set; }
     
         public virtual Resource Resource { get; set; }
         public virtual ResourceType ResourceType { get; set; }
