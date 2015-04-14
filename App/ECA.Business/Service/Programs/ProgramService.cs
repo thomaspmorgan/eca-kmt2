@@ -2,6 +2,7 @@
 using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Queries.Programs;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Validation;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
@@ -12,6 +13,7 @@ using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -24,6 +26,7 @@ namespace ECA.Business.Service.Programs
     /// </summary>
     public class ProgramService : EcaService, IProgramService
     {
+        private const string GET_PROGRAMS_SPROC_NAME = "GetPrograms";
         private static readonly string COMPONENT_NAME = typeof(ProgramService).FullName;
 
         private readonly ILogger logger;
@@ -75,6 +78,31 @@ namespace ECA.Business.Service.Programs
             return results;
         }
 
+        public PagedQueryResults<OrganizationProgramDTO> GetProgramsHierarchy(QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            var stopWatch = Stopwatch.StartNew();
+            var results = CreateGetProgramsHierarchySqlQuery().ToArray();
+            var pagedResults = GetPagedQueryResults(results, queryOperator);
+            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            return pagedResults;
+        }
+
+        public async Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsHierarchyAsync(QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            var stopWatch = Stopwatch.StartNew();
+            var results = (await CreateGetProgramsHierarchySqlQuery().ToArrayAsync());
+            var pagedResults = GetPagedQueryResults(results, queryOperator);
+            stopWatch.Stop();
+            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            return pagedResults;
+        }
+
+        private PagedQueryResults<T> GetPagedQueryResults<T>(IEnumerable<T> enumerable, QueryableOperator<T> queryOperator) where T : class
+        {
+            var queryable = enumerable.AsQueryable<T>();
+            queryable = queryable.Apply(queryOperator);
+            return queryable.ToPagedQueryResults<T>(queryOperator.Start, queryOperator.Limit);
+        }
         /// <summary>
         /// Returns the program with the given id, or null if it does not exist.
         /// </summary>
@@ -358,6 +386,11 @@ namespace ECA.Business.Service.Programs
                 this.Context.Locations.Attach(location);
                 programEntity.Regions.Add(location);
             });
+        }
+
+        private DbRawSqlQuery<OrganizationProgramDTO> CreateGetProgramsHierarchySqlQuery()
+        {
+            return this.Context.Database.SqlQuery<OrganizationProgramDTO>(GET_PROGRAMS_SPROC_NAME);
         }
     }
 }

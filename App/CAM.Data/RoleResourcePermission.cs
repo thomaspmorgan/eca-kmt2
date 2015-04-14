@@ -19,7 +19,6 @@ namespace CAM.Data
         public int PermissionId { get; set; }
         public int AssignedOn { get; set; }
         public int AssignedBy { get; set; }
-        public bool IsAllowed { get; set; }
     
         public virtual Permission Permission { get; set; }
         public virtual Resource Resource { get; set; }

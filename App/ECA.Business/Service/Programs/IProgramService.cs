@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
@@ -28,6 +29,10 @@ namespace ECA.Business.Service.Programs
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
         Task<PagedQueryResults<SimpleProgramDTO>> GetProgramsAsync(QueryableOperator<SimpleProgramDTO> queryOperator);
 
+        PagedQueryResults<OrganizationProgramDTO> GetProgramsHierarchy(QueryableOperator<OrganizationProgramDTO> queryOperator);
+
+        Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsHierarchyAsync(QueryableOperator<OrganizationProgramDTO> queryOperator);
+       
         /// <summary>
         /// Returns the program with the given id, or null if it does not exist.
         /// </summary>
@@ -86,7 +91,12 @@ namespace ECA.Business.Service.Programs
             Contract.Ensures(Contract.Result<PagedQueryResults<SimpleProgramDTO>>() != null, "The value returned must not be null.");
             return null;
         }
-
+        public PagedQueryResults<OrganizationProgramDTO> GetProgramsHierarchy(QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            Contract.Ensures(Contract.Result<PagedQueryResults<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
+            return null;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -98,7 +108,12 @@ namespace ECA.Business.Service.Programs
             Contract.Ensures(Contract.Result<PagedQueryResults<SimpleProgramDTO>>() != null, "The value returned must not be null.");
             return Task.FromResult<PagedQueryResults<SimpleProgramDTO>>(null);
         }
-
+        public Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsHierarchyAsync(QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            Contract.Ensures(Contract.Result<PagedQueryResults<SimpleProgramDTO>>() != null, "The value returned must not be null.");
+            return Task.FromResult<PagedQueryResults<OrganizationProgramDTO>>(null);
+        }
         /// <summary>
         /// 
         /// </summary>

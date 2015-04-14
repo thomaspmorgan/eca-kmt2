@@ -169,10 +169,25 @@ angular.module('staticApp')
           saveProject();
       }
 
-      LookupService.getAllGenders({limit: 300})
+      LookupService.getAllGenders({ limit: 300 })
         .then(function (data) {
             $scope.genders = data.results;
         });
+
+      LocationService.get({ limit: 300, filter: {property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country}})
+        .then(function (data) {
+            $scope.countries = data.results;
+        });
+
+      $scope.birthCountrySelected = function (data) {
+          LocationService.get({
+              limit: 300,
+              filter: [{ property: 'countryId', comparison: 'eq', value: data.id },
+                       { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city}]
+          }).then(function (data) {
+                $scope.cities = data.results;
+            });
+      }
 
       $scope.addParticipant = function () {
           $scope.newParticipant.id = Date.now().toString();
@@ -252,8 +267,31 @@ angular.module('staticApp')
 
       $scope.modalClear = function () {
           $scope.modal.addParticipant = false;
-          angular.forEach($scope.newParticipant, function (value, key) {
-              $scope.newParticipant[key] = '';
+
+          $scope.newParticipant.firstName = '';
+          $scope.newParticipant.lastName = '';
+          $scope.newParticipant.dateOfBirth = '';
+
+          angular.forEach($scope.genders, function (value, key) {
+              if ($scope.genders[key].ticked === undefined) {
+                  $scope.genders[key].ticked = false;
+              } else {
+                  delete $scope.genders[key].ticked;
+              }
+          });
+          angular.forEach($scope.countries, function (value, key) {
+              if ($scope.countries[key].ticked === undefined) {
+                  $scope.countries[key].ticked = false;
+              } else {
+                  delete $scope.countries[key].ticked;
+              }
+          });
+          angular.forEach($scope.cities, function (value, key) {
+              if ($scope.cities[key].ticked === undefined) {
+                  $scope.cities[key].ticked = false;
+              } else {
+                  delete $scope.cities[key].ticked;
+              }
           });
       };
 

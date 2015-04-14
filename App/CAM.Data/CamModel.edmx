@@ -4,7 +4,19 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CAM.Data.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CAM.Data.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccountStatus">
+          <Key>
+            <PropertyRef Name="AccountStatusId" />
+          </Key>
+          <Property Name="AccountStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="RevisedBy" Type="int" Nullable="false" />
+          <Property Name="RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Application">
           <Key>
             <PropertyRef Name="ResourceId" />
@@ -22,10 +34,10 @@
           </Key>
           <Property Name="PermissionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PermissionName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="History_CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
-          <Property Name="History_CreatedBy" Type="int" Nullable="false" />
-          <Property Name="History_RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
-          <Property Name="History_RevisedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="RevisedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="ResourceTypeId" Type="int" />
           <Property Name="ResourceId" Type="int" />
@@ -42,6 +54,7 @@
           <Property Name="PermissionId" Type="int" Nullable="false" />
           <Property Name="AssignedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
           <Property Name="AssignedBy" Type="int" Nullable="false" />
+          <Property Name="IsAllowed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Principal">
           <Key>
@@ -57,10 +70,10 @@
           <Property Name="PrincipalTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PrincipalTypeName" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="PrincipalTypeDescription" Type="nvarchar" MaxLength="255" />
-          <Property Name="History_CreatedBy" Type="int" Nullable="false" />
-          <Property Name="History_CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
-          <Property Name="History_RevisedBy" Type="int" Nullable="false" />
-          <Property Name="History_RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="RevisedBy" Type="int" Nullable="false" />
+          <Property Name="RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PrincipleRole">
@@ -88,10 +101,10 @@
           <Property Name="ResourceTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ResourceTypeName" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="ResourceTypeDescription" Type="nvarchar" MaxLength="255" />
-          <Property Name="History_CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
-          <Property Name="History_CreatedBy" Type="int" Nullable="false" />
-          <Property Name="History_RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
-          <Property Name="History_RevisedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="RevisedBy" Type="int" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Role">
@@ -120,26 +133,29 @@
           <Property Name="PermissionId" Type="int" Nullable="false" />
           <Property Name="AssignedOn" Type="int" Nullable="false" />
           <Property Name="AssignedBy" Type="int" Nullable="false" />
-          <Property Name="IsAllowed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserAccount">
           <Key>
             <PropertyRef Name="PrincipalId" />
           </Key>
           <Property Name="PrincipalId" Type="int" Nullable="false" />
-          <Property Name="AdGuid" Type="uniqueidentifier" />
+          <Property Name="AdGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="LastAccessed" Type="datetimeoffset" Precision="7" />
-          <Property Name="History_CreatedOn" Type="datetimeoffset" Precision="7" />
-          <Property Name="History_CreatedBy" Type="int" />
-          <Property Name="History_RevisedOn" Type="datetimeoffset" Precision="7" />
-          <Property Name="History_RevisedBy" Type="int" />
-          <Property Name="AccountStatusId" Type="int" />
+          <Property Name="CreatedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="RevisedBy" Type="int" Nullable="false" />
+          <Property Name="AccountStatusId" Type="int" Nullable="false" />
           <Property Name="PermissionsRevisedOn" Type="datetimeoffset" Precision="7" />
           <Property Name="Note" Type="nvarchar" MaxLength="2000" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
-          <Property Name="DisplayName" Type="nvarchar" MaxLength="101" />
-          <Property Name="EmalAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="101" Nullable="false" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExpiredDate" Type="datetimeoffset" Precision="7" />
+          <Property Name="SuspendedDate" Type="datetimeoffset" Precision="7" />
+          <Property Name="RevokedDate" Type="datetimeoffset" Precision="7" />
+          <Property Name="RestoredDate" Type="datetimeoffset" Precision="7" />
         </EntityType>
         <EntityType Name="__RefactorLog">
           <Key>
@@ -327,6 +343,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserAccount_ToAccountStatus">
+          <End Role="AccountStatus" Type="Self.AccountStatus" Multiplicity="1" />
+          <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountStatus">
+              <PropertyRef Name="AccountStatusId" />
+            </Principal>
+            <Dependent Role="UserAccount">
+              <PropertyRef Name="AccountStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserAccount_ToPrincipal">
           <End Role="Principal" Type="Self.Principal" Multiplicity="1" />
           <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
@@ -340,6 +368,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CAMDataStoreContainer">
+          <EntitySet Name="AccountStatus" EntityType="Self.AccountStatus" Schema="CAM" store:Type="Tables" />
           <EntitySet Name="Application" EntityType="Self.Application" Schema="CAM" store:Type="Tables" />
           <EntitySet Name="Permission" EntityType="Self.Permission" Schema="CAM" store:Type="Tables" />
           <EntitySet Name="PermissionAssignment" EntityType="Self.PermissionAssignment" Schema="CAM" store:Type="Tables" />
@@ -412,13 +441,16 @@
             <End Role="Role" EntitySet="Role" />
             <End Role="RoleResourcePermission" EntitySet="RoleResourcePermission" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserAccount_ToAccountStatus" Association="Self.FK_UserAccount_ToAccountStatus">
+            <End Role="AccountStatus" EntitySet="AccountStatus" />
+            <End Role="UserAccount" EntitySet="UserAccount" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserAccount_ToPrincipal" Association="Self.FK_UserAccount_ToPrincipal">
             <End Role="Principal" EntitySet="Principal" />
             <End Role="UserAccount" EntitySet="UserAccount" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CAM.Data" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -440,10 +472,6 @@
           </Key>
           <Property Name="PermissionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PermissionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="History_CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="History_CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="History_RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="History_RevisedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="ResourceTypeId" Type="Int32" />
           <Property Name="ResourceId" Type="Int32" />
@@ -452,6 +480,10 @@
           <NavigationProperty Name="ResourceType" Relationship="Self.FK_Permission_ToResourceType" FromRole="Permission" ToRole="ResourceType" />
           <NavigationProperty Name="PermissionAssignments" Relationship="Self.FK_PermissionAssignment_ToPermission" FromRole="Permission" ToRole="PermissionAssignment" />
           <NavigationProperty Name="RoleResourcePermissions" Relationship="Self.FK_RoleResourcePermission_ToPermission" FromRole="Permission" ToRole="RoleResourcePermission" />
+          <Property Name="CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="RevisedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PermissionAssignment">
           <Key>
@@ -467,6 +499,7 @@
           <NavigationProperty Name="Permission" Relationship="Self.FK_PermissionAssignment_ToPermission" FromRole="PermissionAssignment" ToRole="Permission" />
           <NavigationProperty Name="Principal" Relationship="Self.FK_PermissionAssignment_ToPrincipal" FromRole="PermissionAssignment" ToRole="Principal" />
           <NavigationProperty Name="Resource" Relationship="Self.FK_PermissionAssignment_ToResource" FromRole="PermissionAssignment" ToRole="Resource" />
+          <Property Name="IsAllowed" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Principal">
           <Key>
@@ -486,12 +519,12 @@
           <Property Name="PrincipalTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PrincipalTypeName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="PrincipalTypeDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="History_CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="History_CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="History_RevisedBy" Type="Int32" Nullable="false" />
-          <Property Name="History_RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Principals" Relationship="Self.FK_Principal_ToPrincipal" FromRole="PrincipalType" ToRole="Principal" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="RevisedBy" Type="Int32" Nullable="false" />
+          <Property Name="RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
         </EntityType>
         <EntityType Name="PrincipleRole">
           <Key>
@@ -526,14 +559,14 @@
           <Property Name="ResourceTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ResourceTypeName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="ResourceTypeDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="History_CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="History_CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="History_RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="History_RevisedBy" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Permissions" Relationship="Self.FK_Permission_ToResourceType" FromRole="ResourceType" ToRole="Permission" />
           <NavigationProperty Name="Resources" Relationship="Self.FK_Resource_ToResourceType" FromRole="ResourceType" ToRole="Resource" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Role_ToResourceType" FromRole="ResourceType" ToRole="Role" />
+          <Property Name="CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="RevisedBy" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -565,7 +598,6 @@
           <Property Name="PermissionId" Type="Int32" Nullable="false" />
           <Property Name="AssignedOn" Type="Int32" Nullable="false" />
           <Property Name="AssignedBy" Type="Int32" Nullable="false" />
-          <Property Name="IsAllowed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Permission" Relationship="Self.FK_RoleResourcePermission_ToPermission" FromRole="RoleResourcePermission" ToRole="Permission" />
           <NavigationProperty Name="Resource" Relationship="Self.FK_RoleResourcePermission_ToResource" FromRole="RoleResourcePermission" ToRole="Resource" />
           <NavigationProperty Name="Role" Relationship="Self.FK_RoleResourcePermission_ToRole" FromRole="RoleResourcePermission" ToRole="Role" />
@@ -575,20 +607,25 @@
             <PropertyRef Name="PrincipalId" />
           </Key>
           <Property Name="PrincipalId" Type="Int32" Nullable="false" />
-          <Property Name="AdGuid" Type="Guid" />
+          <Property Name="AdGuid" Type="Guid" Nullable="false" />
           <Property Name="LastAccessed" Type="DateTimeOffset" Precision="7" />
-          <Property Name="History_CreatedOn" Type="DateTimeOffset" Precision="7" />
-          <Property Name="History_CreatedBy" Type="Int32" />
-          <Property Name="History_RevisedOn" Type="DateTimeOffset" Precision="7" />
-          <Property Name="History_RevisedBy" Type="Int32" />
-          <Property Name="AccountStatusId" Type="Int32" />
+          <Property Name="AccountStatusId" Type="Int32" Nullable="false" />
           <Property Name="PermissionsRevisedOn" Type="DateTimeOffset" Precision="7" />
           <Property Name="Note" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DisplayName" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
-          <Property Name="EmalAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Principal" Relationship="Self.FK_UserAccount_ToPrincipal" FromRole="UserAccount" ToRole="Principal" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="RevisedBy" Type="Int32" Nullable="false" />
+          <Property Name="ExpiredDate" Type="DateTimeOffset" Precision="7" />
+          <Property Name="SuspendedDate" Type="DateTimeOffset" Precision="7" />
+          <Property Name="RevokedDate" Type="DateTimeOffset" Precision="7" />
+          <NavigationProperty Name="AccountStatus" Relationship="CAM.Data.FK_UserAccount_ToAccountStatus" FromRole="UserAccount" ToRole="AccountStatus" />
+          <Property Name="RestoredDate" Type="DateTimeOffset" Precision="7" />
         </EntityType>
         <EntityType Name="C__RefactorLog">
           <Key>
@@ -865,7 +902,37 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="RoleResourcePermission" EntitySet="RoleResourcePermissions" />
           </AssociationSet>
+          <EntitySet Name="AccountStatus" EntityType="CAM.Data.AccountStatus" />
+          <AssociationSet Name="FK_UserAccount_ToAccountStatus" Association="CAM.Data.FK_UserAccount_ToAccountStatus">
+            <End Role="AccountStatus" EntitySet="AccountStatus" />
+            <End Role="UserAccount" EntitySet="UserAccounts" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="AccountStatus">
+          <Key>
+            <PropertyRef Name="AccountStatusId" />
+          </Key>
+          <Property Name="AccountStatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="RevisedBy" Type="Int32" Nullable="false" />
+          <Property Name="RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserAccounts" Relationship="CAM.Data.FK_UserAccount_ToAccountStatus" FromRole="AccountStatus" ToRole="UserAccount" />
+        </EntityType>
+        <Association Name="FK_UserAccount_ToAccountStatus">
+          <End Type="CAM.Data.AccountStatus" Role="AccountStatus" Multiplicity="1" />
+          <End Type="CAM.Data.UserAccount" Role="UserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountStatus">
+              <PropertyRef Name="AccountStatusId" />
+            </Principal>
+            <Dependent Role="UserAccount">
+              <PropertyRef Name="AccountStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -887,12 +954,12 @@
           <EntitySetMapping Name="Permissions">
             <EntityTypeMapping TypeName="CAM.Data.Permission">
               <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="RevisedBy" ColumnName="RevisedBy" />
+                <ScalarProperty Name="RevisedOn" ColumnName="RevisedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
                 <ScalarProperty Name="PermissionName" ColumnName="PermissionName" />
-                <ScalarProperty Name="History_CreatedOn" ColumnName="History_CreatedOn" />
-                <ScalarProperty Name="History_CreatedBy" ColumnName="History_CreatedBy" />
-                <ScalarProperty Name="History_RevisedOn" ColumnName="History_RevisedOn" />
-                <ScalarProperty Name="History_RevisedBy" ColumnName="History_RevisedBy" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ResourceTypeId" ColumnName="ResourceTypeId" />
                 <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
@@ -903,6 +970,7 @@
           <EntitySetMapping Name="PermissionAssignments">
             <EntityTypeMapping TypeName="CAM.Data.PermissionAssignment">
               <MappingFragment StoreEntitySet="PermissionAssignment">
+                <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
                 <ScalarProperty Name="PrincipalId" ColumnName="PrincipalId" />
                 <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
                 <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
@@ -922,13 +990,13 @@
           <EntitySetMapping Name="PrincipalTypes">
             <EntityTypeMapping TypeName="CAM.Data.PrincipalType">
               <MappingFragment StoreEntitySet="PrincipalType">
+                <ScalarProperty Name="RevisedOn" ColumnName="RevisedOn" />
+                <ScalarProperty Name="RevisedBy" ColumnName="RevisedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="PrincipalTypeId" ColumnName="PrincipalTypeId" />
                 <ScalarProperty Name="PrincipalTypeName" ColumnName="PrincipalTypeName" />
                 <ScalarProperty Name="PrincipalTypeDescription" ColumnName="PrincipalTypeDescription" />
-                <ScalarProperty Name="History_CreatedBy" ColumnName="History_CreatedBy" />
-                <ScalarProperty Name="History_CreatedOn" ColumnName="History_CreatedOn" />
-                <ScalarProperty Name="History_RevisedBy" ColumnName="History_RevisedBy" />
-                <ScalarProperty Name="History_RevisedOn" ColumnName="History_RevisedOn" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -955,13 +1023,13 @@
           <EntitySetMapping Name="ResourceTypes">
             <EntityTypeMapping TypeName="CAM.Data.ResourceType">
               <MappingFragment StoreEntitySet="ResourceType">
+                <ScalarProperty Name="RevisedBy" ColumnName="RevisedBy" />
+                <ScalarProperty Name="RevisedOn" ColumnName="RevisedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="ResourceTypeId" ColumnName="ResourceTypeId" />
                 <ScalarProperty Name="ResourceTypeName" ColumnName="ResourceTypeName" />
                 <ScalarProperty Name="ResourceTypeDescription" ColumnName="ResourceTypeDescription" />
-                <ScalarProperty Name="History_CreatedOn" ColumnName="History_CreatedOn" />
-                <ScalarProperty Name="History_CreatedBy" ColumnName="History_CreatedBy" />
-                <ScalarProperty Name="History_RevisedOn" ColumnName="History_RevisedOn" />
-                <ScalarProperty Name="History_RevisedBy" ColumnName="History_RevisedBy" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -990,27 +1058,30 @@
                 <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
                 <ScalarProperty Name="AssignedOn" ColumnName="AssignedOn" />
                 <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
-                <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAccounts">
             <EntityTypeMapping TypeName="CAM.Data.UserAccount">
               <MappingFragment StoreEntitySet="UserAccount">
+                <ScalarProperty Name="RestoredDate" ColumnName="RestoredDate" />
+                <ScalarProperty Name="RevokedDate" ColumnName="RevokedDate" />
+                <ScalarProperty Name="SuspendedDate" ColumnName="SuspendedDate" />
+                <ScalarProperty Name="ExpiredDate" ColumnName="ExpiredDate" />
+                <ScalarProperty Name="RevisedBy" ColumnName="RevisedBy" />
+                <ScalarProperty Name="RevisedOn" ColumnName="RevisedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
                 <ScalarProperty Name="PrincipalId" ColumnName="PrincipalId" />
                 <ScalarProperty Name="AdGuid" ColumnName="AdGuid" />
                 <ScalarProperty Name="LastAccessed" ColumnName="LastAccessed" />
-                <ScalarProperty Name="History_CreatedOn" ColumnName="History_CreatedOn" />
-                <ScalarProperty Name="History_CreatedBy" ColumnName="History_CreatedBy" />
-                <ScalarProperty Name="History_RevisedOn" ColumnName="History_RevisedOn" />
-                <ScalarProperty Name="History_RevisedBy" ColumnName="History_RevisedBy" />
                 <ScalarProperty Name="AccountStatusId" ColumnName="AccountStatusId" />
                 <ScalarProperty Name="PermissionsRevisedOn" ColumnName="PermissionsRevisedOn" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
-                <ScalarProperty Name="EmalAddress" ColumnName="EmalAddress" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1018,6 +1089,19 @@
             <EntityTypeMapping TypeName="CAM.Data.C__RefactorLog">
               <MappingFragment StoreEntitySet="__RefactorLog">
                 <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountStatus">
+            <EntityTypeMapping TypeName="CAM.Data.AccountStatus">
+              <MappingFragment StoreEntitySet="AccountStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="RevisedOn" ColumnName="RevisedOn" />
+                <ScalarProperty Name="RevisedBy" ColumnName="RevisedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="AccountStatusId" ColumnName="AccountStatusId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,4 +1,5 @@
-﻿/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+﻿@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -6154,9 +6155,32 @@ ul {
   border-radius: 4px;
   padding: 8px; }
 
-.loadingLabel p {
+.loadingEditLabel p {
   display: none;
   font-size: 1.5em;
   margin-left: 5px; }
+
+.modalFormButtons {
+  padding-bottom: 15px; }
+
+.programOptions {
+  display: inline-block;
+  border: 1px lightGray solid;
+  border-radius: 5px;
+  padding: 5px; }
+
+.programOptions div:hover {
+  background-color: red; }
+
+.programOption {
+  cursor: pointer; }
+
+.programTypeRadio {
+  margin-left: 10px;
+  padding: 10px; }
+
+.programTypeRadio input {
+  margin-right: 5px;
+  margin-left: 10px; }
 
 /*# sourceMappingURL=main.css.map */
