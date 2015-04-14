@@ -30,7 +30,6 @@ namespace CAM.Data
         public virtual DbSet<PermissionAssignment> PermissionAssignments { get; set; }
         public virtual DbSet<Principal> Principals { get; set; }
         public virtual DbSet<PrincipalType> PrincipalTypes { get; set; }
-        public virtual DbSet<PrincipleRole> PrincipleRoles { get; set; }
         public virtual DbSet<Resource> Resources { get; set; }
         public virtual DbSet<ResourceType> ResourceTypes { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
@@ -38,5 +37,6 @@ namespace CAM.Data
         public virtual DbSet<UserAccount> UserAccounts { get; set; }
         public virtual DbSet<C__RefactorLog> C__RefactorLog { get; set; }
         public virtual DbSet<AccountStatus> AccountStatus { get; set; }
+        public virtual DbSet<PrincipalRole> PrincipalRoles { get; set; }
     }
 }

@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="CAM.Data.PermissionAssignment" Width="2.25" PointX="14" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CAM.Data.Principal" Width="1.5" PointX="11" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CAM.Data.PrincipalType" Width="1.5" PointX="8.25" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="CAM.Data.PrincipleRole" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CAM.Data.Resource" Width="2.625" PointX="5.125" PointY="9" IsExpanded="true" />
         <EntityTypeShape EntityType="CAM.Data.ResourceType" Width="2.125" PointX="5.625" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CAM.Data.Role" Width="1.5" PointX="4.125" PointY="0.875" IsExpanded="true" />
@@ -34,9 +33,7 @@
           <ConnectorPoint PointX="14.916210019023964" PointY="12.3744921875" />
         </AssociationConnector>
         <AssociationConnector Association="CAM.Data.FK_Principal_ToPrincipal" ManuallyRouted="false" />
-        <AssociationConnector Association="CAM.Data.FK_PrincipleRole_ToPrincipal" ManuallyRouted="false" />
         <AssociationConnector Association="CAM.Data.FK_UserAccount_ToPrincipal" ManuallyRouted="false" />
-        <AssociationConnector Association="CAM.Data.FK_PrincipleRole_ToRole" ManuallyRouted="false" />
         <AssociationConnector Association="CAM.Data.FK_Resource_ToResourceType" ManuallyRouted="false" />
         <AssociationConnector Association="CAM.Data.FK_Role_ToResource" ManuallyRouted="false" />
         <AssociationConnector Association="CAM.Data.FK_RoleResourcePermission_ToResource" ManuallyRouted="false" />
@@ -44,6 +41,9 @@
         <AssociationConnector Association="CAM.Data.FK_RoleResourcePermission_ToRole" ManuallyRouted="false" />
         <EntityTypeShape EntityType="CAM.Data.AccountStatus" Width="1.5" PointX="10.375" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="CAM.Data.FK_UserAccount_ToAccountStatus" />
+        <EntityTypeShape EntityType="CAM.Data.PrincipalRole" Width="1.5" PointX="6.875" PointY="1" />
+        <AssociationConnector Association="CAM.Data.FK_PrincipalRole_ToPrincipal" />
+        <AssociationConnector Association="CAM.Data.FK_PrincipalRole_ToRole" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

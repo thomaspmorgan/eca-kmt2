@@ -63,6 +63,16 @@
           <Property Name="PrincipalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PrincipalTypeId" Type="int" />
         </EntityType>
+        <EntityType Name="PrincipalRole">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="PrincipalId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="AssignedBy" Type="int" Nullable="false" />
+          <Property Name="AssignedOn" Type="datetimeoffset" Precision="7" />
+        </EntityType>
         <EntityType Name="PrincipalType">
           <Key>
             <PropertyRef Name="PrincipalTypeId" />
@@ -75,16 +85,6 @@
           <Property Name="RevisedBy" Type="int" Nullable="false" />
           <Property Name="RevisedOn" Type="datetimeoffset" Precision="7" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PrincipleRole">
-          <Key>
-            <PropertyRef Name="PrincipalId" />
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="PrincipalId" Type="int" Nullable="false" />
-          <Property Name="RoleId" Type="int" Nullable="false" />
-          <Property Name="AssignedBy" Type="int" Nullable="false" />
-          <Property Name="AssignedOn" Type="datetimeoffset" Precision="7" />
         </EntityType>
         <EntityType Name="Resource">
           <Key>
@@ -247,26 +247,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PrincipleRole_ToPrincipal">
+        <Association Name="FK_PrincipalRole_ToPrincipal">
           <End Role="Principal" Type="Self.Principal" Multiplicity="1" />
-          <End Role="PrincipleRole" Type="Self.PrincipleRole" Multiplicity="*" />
+          <End Role="PrincipalRole" Type="Self.PrincipalRole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Principal">
               <PropertyRef Name="PrincipalId" />
             </Principal>
-            <Dependent Role="PrincipleRole">
+            <Dependent Role="PrincipalRole">
               <PropertyRef Name="PrincipalId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PrincipleRole_ToRole">
+        <Association Name="FK_PrincipalRole_ToRole">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
-          <End Role="PrincipleRole" Type="Self.PrincipleRole" Multiplicity="*" />
+          <End Role="PrincipalRole" Type="Self.PrincipalRole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="RoleId" />
             </Principal>
-            <Dependent Role="PrincipleRole">
+            <Dependent Role="PrincipalRole">
               <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
@@ -373,8 +373,8 @@
           <EntitySet Name="Permission" EntityType="Self.Permission" Schema="CAM" store:Type="Tables" />
           <EntitySet Name="PermissionAssignment" EntityType="Self.PermissionAssignment" Schema="CAM" store:Type="Tables" />
           <EntitySet Name="Principal" EntityType="Self.Principal" Schema="CAM" store:Type="Tables" />
+          <EntitySet Name="PrincipalRole" EntityType="Self.PrincipalRole" Schema="CAM" store:Type="Tables" />
           <EntitySet Name="PrincipalType" EntityType="Self.PrincipalType" Schema="CAM" store:Type="Tables" />
-          <EntitySet Name="PrincipleRole" EntityType="Self.PrincipleRole" Schema="CAM" store:Type="Tables" />
           <EntitySet Name="Resource" EntityType="Self.Resource" Schema="CAM" store:Type="Tables" />
           <EntitySet Name="ResourceType" EntityType="Self.ResourceType" Schema="CAM" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="CAM" store:Type="Tables" />
@@ -409,13 +409,13 @@
             <End Role="PrincipalType" EntitySet="PrincipalType" />
             <End Role="Principal" EntitySet="Principal" />
           </AssociationSet>
-          <AssociationSet Name="FK_PrincipleRole_ToPrincipal" Association="Self.FK_PrincipleRole_ToPrincipal">
+          <AssociationSet Name="FK_PrincipalRole_ToPrincipal" Association="Self.FK_PrincipalRole_ToPrincipal">
             <End Role="Principal" EntitySet="Principal" />
-            <End Role="PrincipleRole" EntitySet="PrincipleRole" />
+            <End Role="PrincipalRole" EntitySet="PrincipalRole" />
           </AssociationSet>
-          <AssociationSet Name="FK_PrincipleRole_ToRole" Association="Self.FK_PrincipleRole_ToRole">
+          <AssociationSet Name="FK_PrincipalRole_ToRole" Association="Self.FK_PrincipalRole_ToRole">
             <End Role="Role" EntitySet="Role" />
-            <End Role="PrincipleRole" EntitySet="PrincipleRole" />
+            <End Role="PrincipalRole" EntitySet="PrincipalRole" />
           </AssociationSet>
           <AssociationSet Name="FK_Resource_ToResourceType" Association="Self.FK_Resource_ToResourceType">
             <End Role="ResourceType" EntitySet="ResourceType" />
@@ -509,8 +509,8 @@
           <Property Name="PrincipalTypeId" Type="Int32" />
           <NavigationProperty Name="PermissionAssignments" Relationship="Self.FK_PermissionAssignment_ToPrincipal" FromRole="Principal" ToRole="PermissionAssignment" />
           <NavigationProperty Name="PrincipalType" Relationship="Self.FK_Principal_ToPrincipal" FromRole="Principal" ToRole="PrincipalType" />
-          <NavigationProperty Name="PrincipleRoles" Relationship="Self.FK_PrincipleRole_ToPrincipal" FromRole="Principal" ToRole="PrincipleRole" />
           <NavigationProperty Name="UserAccount" Relationship="Self.FK_UserAccount_ToPrincipal" FromRole="Principal" ToRole="UserAccount" />
+          <NavigationProperty Name="PrincipalRoles" Relationship="CAM.Data.FK_PrincipalRole_ToPrincipal" FromRole="Principal" ToRole="PrincipalRole" />
         </EntityType>
         <EntityType Name="PrincipalType">
           <Key>
@@ -525,18 +525,6 @@
           <Property Name="CreatedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="RevisedBy" Type="Int32" Nullable="false" />
           <Property Name="RevisedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
-        </EntityType>
-        <EntityType Name="PrincipleRole">
-          <Key>
-            <PropertyRef Name="PrincipalId" />
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="PrincipalId" Type="Int32" Nullable="false" />
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <Property Name="AssignedBy" Type="Int32" Nullable="false" />
-          <Property Name="AssignedOn" Type="DateTimeOffset" Precision="7" />
-          <NavigationProperty Name="Principal" Relationship="Self.FK_PrincipleRole_ToPrincipal" FromRole="PrincipleRole" ToRole="Principal" />
-          <NavigationProperty Name="Role" Relationship="Self.FK_PrincipleRole_ToRole" FromRole="PrincipleRole" ToRole="Role" />
         </EntityType>
         <EntityType Name="Resource">
           <Key>
@@ -582,10 +570,10 @@
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="ResourceId" Type="Int32" />
           <Property Name="ResourceTypeId" Type="Int32" />
-          <NavigationProperty Name="PrincipleRoles" Relationship="Self.FK_PrincipleRole_ToRole" FromRole="Role" ToRole="PrincipleRole" />
           <NavigationProperty Name="Resource" Relationship="Self.FK_Role_ToResource" FromRole="Role" ToRole="Resource" />
           <NavigationProperty Name="ResourceType" Relationship="Self.FK_Role_ToResourceType" FromRole="Role" ToRole="ResourceType" />
           <NavigationProperty Name="RoleResourcePermissions" Relationship="Self.FK_RoleResourcePermission_ToRole" FromRole="Role" ToRole="RoleResourcePermission" />
+          <NavigationProperty Name="PrincipalRoles" Relationship="CAM.Data.FK_PrincipalRole_ToRole" FromRole="Role" ToRole="PrincipalRole" />
         </EntityType>
         <EntityType Name="RoleResourcePermission">
           <Key>
@@ -596,7 +584,7 @@
           <Property Name="RoleId" Type="Int32" Nullable="false" />
           <Property Name="ResourceId" Type="Int32" Nullable="false" />
           <Property Name="PermissionId" Type="Int32" Nullable="false" />
-          <Property Name="AssignedOn" Type="DateTimeOffset" Nullable="false" />
+          <Property Name="AssignedOn" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="AssignedBy" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Permission" Relationship="Self.FK_RoleResourcePermission_ToPermission" FromRole="RoleResourcePermission" ToRole="Permission" />
           <NavigationProperty Name="Resource" Relationship="Self.FK_RoleResourcePermission_ToResource" FromRole="RoleResourcePermission" ToRole="Resource" />
@@ -729,18 +717,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PrincipleRole_ToPrincipal">
-          <End Role="Principal" Type="Self.Principal" Multiplicity="1" />
-          <End Role="PrincipleRole" Type="Self.PrincipleRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Principal">
-              <PropertyRef Name="PrincipalId" />
-            </Principal>
-            <Dependent Role="PrincipleRole">
-              <PropertyRef Name="PrincipalId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UserAccount_ToPrincipal">
           <End Role="Principal" Type="Self.Principal" Multiplicity="1" />
           <End Role="UserAccount" Type="Self.UserAccount" Multiplicity="0..1" />
@@ -750,18 +726,6 @@
             </Principal>
             <Dependent Role="UserAccount">
               <PropertyRef Name="PrincipalId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PrincipleRole_ToRole">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
-          <End Role="PrincipleRole" Type="Self.PrincipleRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleId" />
-            </Principal>
-            <Dependent Role="PrincipleRole">
-              <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -831,7 +795,6 @@
           <EntitySet Name="PermissionAssignments" EntityType="Self.PermissionAssignment" />
           <EntitySet Name="Principals" EntityType="Self.Principal" />
           <EntitySet Name="PrincipalTypes" EntityType="Self.PrincipalType" />
-          <EntitySet Name="PrincipleRoles" EntityType="Self.PrincipleRole" />
           <EntitySet Name="Resources" EntityType="Self.Resource" />
           <EntitySet Name="ResourceTypes" EntityType="Self.ResourceType" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
@@ -870,17 +833,9 @@
             <End Role="PrincipalType" EntitySet="PrincipalTypes" />
             <End Role="Principal" EntitySet="Principals" />
           </AssociationSet>
-          <AssociationSet Name="FK_PrincipleRole_ToPrincipal" Association="Self.FK_PrincipleRole_ToPrincipal">
-            <End Role="Principal" EntitySet="Principals" />
-            <End Role="PrincipleRole" EntitySet="PrincipleRoles" />
-          </AssociationSet>
           <AssociationSet Name="FK_UserAccount_ToPrincipal" Association="Self.FK_UserAccount_ToPrincipal">
             <End Role="Principal" EntitySet="Principals" />
             <End Role="UserAccount" EntitySet="UserAccounts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PrincipleRole_ToRole" Association="Self.FK_PrincipleRole_ToRole">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="PrincipleRole" EntitySet="PrincipleRoles" />
           </AssociationSet>
           <AssociationSet Name="FK_Resource_ToResourceType" Association="Self.FK_Resource_ToResourceType">
             <End Role="ResourceType" EntitySet="ResourceTypes" />
@@ -907,6 +862,15 @@
             <End Role="AccountStatus" EntitySet="AccountStatus" />
             <End Role="UserAccount" EntitySet="UserAccounts" />
           </AssociationSet>
+          <EntitySet Name="PrincipalRoles" EntityType="CAM.Data.PrincipalRole" />
+          <AssociationSet Name="FK_PrincipalRole_ToPrincipal" Association="CAM.Data.FK_PrincipalRole_ToPrincipal">
+            <End Role="Principal" EntitySet="Principals" />
+            <End Role="PrincipalRole" EntitySet="PrincipalRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrincipalRole_ToRole" Association="CAM.Data.FK_PrincipalRole_ToRole">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="PrincipalRole" EntitySet="PrincipalRoles" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AccountStatus">
           <Key>
@@ -930,6 +894,42 @@
             </Principal>
             <Dependent Role="UserAccount">
               <PropertyRef Name="AccountStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PrincipalRole">
+          <Key>
+            <PropertyRef Name="PrincipalId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="PrincipalId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="AssignedBy" Type="Int32" Nullable="false" />
+          <Property Name="AssignedOn" Type="DateTimeOffset" Precision="7" />
+          <NavigationProperty Name="Principal" Relationship="CAM.Data.FK_PrincipalRole_ToPrincipal" FromRole="PrincipalRole" ToRole="Principal" />
+          <NavigationProperty Name="Role" Relationship="CAM.Data.FK_PrincipalRole_ToRole" FromRole="PrincipalRole" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_PrincipalRole_ToPrincipal">
+          <End Type="CAM.Data.Principal" Role="Principal" Multiplicity="1" />
+          <End Type="CAM.Data.PrincipalRole" Role="PrincipalRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Principal">
+              <PropertyRef Name="PrincipalId" />
+            </Principal>
+            <Dependent Role="PrincipalRole">
+              <PropertyRef Name="PrincipalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrincipalRole_ToRole">
+          <End Type="CAM.Data.Role" Role="Role" Multiplicity="1" />
+          <End Type="CAM.Data.PrincipalRole" Role="PrincipalRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="PrincipalRole">
+              <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -998,16 +998,6 @@
                 <ScalarProperty Name="PrincipalTypeName" ColumnName="PrincipalTypeName" />
                 <ScalarProperty Name="PrincipalTypeDescription" ColumnName="PrincipalTypeDescription" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PrincipleRoles">
-            <EntityTypeMapping TypeName="CAM.Data.PrincipleRole">
-              <MappingFragment StoreEntitySet="PrincipleRole">
-                <ScalarProperty Name="PrincipalId" ColumnName="PrincipalId" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
-                <ScalarProperty Name="AssignedOn" ColumnName="AssignedOn" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1102,6 +1092,16 @@
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="AccountStatusId" ColumnName="AccountStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrincipalRoles">
+            <EntityTypeMapping TypeName="CAM.Data.PrincipalRole">
+              <MappingFragment StoreEntitySet="PrincipalRole">
+                <ScalarProperty Name="AssignedOn" ColumnName="AssignedOn" />
+                <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="PrincipalId" ColumnName="PrincipalId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
