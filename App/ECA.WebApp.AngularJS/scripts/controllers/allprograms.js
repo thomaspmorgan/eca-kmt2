@@ -19,9 +19,15 @@ angular.module('staticApp')
       };
       $scope.today();
 
+      $scope.totalNumberOfPrograms = -1;
+      $scope.skippedNumberOfPrograms = -1;
+      $scope.numberOfPrograms = -1;
+
       $scope.calOpened = false;
 
       $scope.currentForm = null;
+
+      $scope.editProgramLoading = false;
 
       $scope.editExisting = false;
       $scope.dropDownDirty = false;
@@ -33,6 +39,10 @@ angular.module('staticApp')
       $scope.regions = [];
       $scope.pointsOfContact = [];
       $scope.foci = [];
+
+      $scope.programList = {
+          type: 'alpha'
+      };
 
       // initialize new Program record
       $scope.newProgram = {
@@ -79,7 +89,6 @@ angular.module('staticApp')
         sort: null,
         filter: [{ property: 'locationtypeid', comparison: 'eq', value: 2 }]
     };
-
 
 
      // #region Lookup Services
@@ -136,6 +145,9 @@ angular.module('staticApp')
       //#region fill dropdown when editing
 
     $scope.tickSelectedItems = function () {
+
+        // use javascript native foreach? 
+
         angular.forEach($scope.regions, function (value, key) {
             $scope.regions[key].ticked = ($.inArray(value.id, $scope.newProgram.regions) > -1);
         });
@@ -151,6 +163,11 @@ angular.module('staticApp')
     };
       
       //#endregion
+
+
+    $scope.getProgramList = function () {
+        alert($scope.programList.type);
+    };
 
     $scope.getParentPrograms = function (val) {
         $scope.parentLookupParams = {
@@ -172,15 +189,24 @@ angular.module('staticApp')
         TableService.setTableState(tableState);
 
         $scope.activeProgramParams = {
-            start: null,
+            start: 0,
             limit: 25,
             sort: null,
             filter: [{ property: 'programstatusid', comparison: 'eq', value: 1 }]
         };
 
-        ProgramService.getAllPrograms($scope.activeProgramParams)
+        ProgramService.getAllProgramsHierarchy($scope.activeProgramParams)
         .then(function (data) {
-            $scope.programs = data.results;
+
+            var programs = data.results;
+            var total = data.total;
+            var start = 0;
+            if (programs.length > 0) {
+               start = $scope.activeProgramParams.start + 1;
+            };
+            updatePagingDetails(total, start, programs.length);
+
+            $scope.programs = programs;
             var limit = TableService.getLimit();
             tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
             $scope.programsLoading = false;
@@ -230,7 +256,9 @@ angular.module('staticApp')
 
         $scope.programId = programId;
 
-        $('#loadingLabel' + programId).css("display", "inline-block");
+        $('#loadingEditLabel' + programId).css("display", "inline-block");
+
+        $scope.editProgramLoading = true;
 
         $scope.editExisting = true;
         $scope.dropDownDirty = false;
@@ -249,9 +277,11 @@ angular.module('staticApp')
                 
                 $scope.tickSelectedItems();
 
+                $scope.editProgramLoading = false;
+
                 $scope.showEditProgram = true;
 
-                $('#loadingLabel' + programId).css("display", "none");
+                $('#loadingEditLabel' + programId).css("display", "none");
             });
     };
 
@@ -263,14 +293,11 @@ angular.module('staticApp')
         return element.id;
     };
 
-    $scope.saveEditedProgram = function (scope, programId) {
+    $scope.saveEditedProgram = function (editProgramForm) {
 
-        $scope.currentForm = scope.editProgramForm;
+        var programId = $scope.programId;
 
-        // re-do form validation here
-        programForm.$valid = true;
-
-        if ($scope.currentForm.$valid) {
+        if (editProgramForm.$valid) {
             cleanUpNewProgram();
             ProgramService.update($scope.newProgram, $scope.programId)
                 .then(function (program) {
@@ -304,7 +331,7 @@ angular.module('staticApp')
         }
     };
  
-    $scope.createdProgram = function (programForm) {
+    $scope.saveCreatedProgram = function (programForm) {
 
         if (programForm.$valid) {
             cleanUpNewProgram();
@@ -336,6 +363,12 @@ angular.module('staticApp')
                     }
                 });
         }
+    };
+
+    function updatePagingDetails(total, start, count) {
+        $scope.totalNumberOfPrograms = total;
+        $scope.skippedNumberOfPrograms = start;
+        $scope.numberOfPrograms = count;
     };
 
     function cleanUpNewProgram() {

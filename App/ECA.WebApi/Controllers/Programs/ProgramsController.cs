@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
@@ -24,7 +25,9 @@ namespace ECA.WebApi.Controllers.Programs
         /// <summary>
         /// The default sorter for a list of programs.
         /// </summary>
-        private static readonly ExpressionSorter<SimpleProgramDTO> DEFAULT_PROGRAM_SORTER = new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Ascending);
+        private static readonly ExpressionSorter<SimpleProgramDTO> ALPHA_PROGRAM_SORTER = new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Ascending);
+
+        private static readonly ExpressionSorter<OrganizationProgramDTO> HIERARCHY_PROGRAM_SORTER = new ExpressionSorter<OrganizationProgramDTO>(x => x.OfficeSymbol, SortDirection.Ascending);
 
         private IProgramService programService;
 
@@ -50,9 +53,28 @@ namespace ECA.WebApi.Controllers.Programs
             {
                 var results = await this.programService.GetProgramsAsync(
                     queryModel.ToQueryableOperator(
-                    DEFAULT_PROGRAM_SORTER, 
+                    ALPHA_PROGRAM_SORTER, 
                     x => x.Name, 
                     x=> x.Description));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [ResponseType(typeof(PagedQueryResults<OrganizationProgramDTO>))]
+        [Route("Programs/Hierarchy")]
+        public async Task<IHttpActionResult> GetProgramsHierarchyAsync([FromUri]PagingQueryBindingModel<OrganizationProgramDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await this.programService.GetProgramsHierarchyAsync(
+                    queryModel.ToQueryableOperator(
+                    HIERARCHY_PROGRAM_SORTER,
+                    x => x.Name,
+                    x => x.Description));
                 return Ok(results);
             }
             else
