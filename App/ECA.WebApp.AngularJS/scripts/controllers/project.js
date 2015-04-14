@@ -267,8 +267,31 @@ angular.module('staticApp')
 
       $scope.modalClear = function () {
           $scope.modal.addParticipant = false;
-          angular.forEach($scope.newParticipant, function (value, key) {
-              $scope.newParticipant[key] = '';
+
+          $scope.newParticipant.firstName = '';
+          $scope.newParticipant.lastName = '';
+          $scope.newParticipant.dateOfBirth = '';
+
+          angular.forEach($scope.genders, function (value, key) {
+              if ($scope.genders[key].ticked === undefined) {
+                  $scope.genders[key].ticked = false;
+              } else {
+                  delete $scope.genders[key].ticked;
+              }
+          });
+          angular.forEach($scope.countries, function (value, key) {
+              if ($scope.countries[key].ticked === undefined) {
+                  $scope.countries[key].ticked = false;
+              } else {
+                  delete $scope.countries[key].ticked;
+              }
+          });
+          angular.forEach($scope.cities, function (value, key) {
+              if ($scope.cities[key].ticked === undefined) {
+                  $scope.cities[key].ticked = false;
+              } else {
+                  delete $scope.cities[key].ticked;
+              }
           });
       };
 
