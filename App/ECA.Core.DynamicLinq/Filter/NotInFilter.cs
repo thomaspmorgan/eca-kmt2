@@ -89,7 +89,7 @@ namespace ECA.Core.DynamicLinq.Filter
             {
                 var hasValueProperty = Expression.Property(xProperty, "HasValue");
                 var valueProperty = Expression.Property(xProperty, "Value");
-                var hasValueExpression = Expression.IsTrue(hasValueProperty);
+                var hasValueExpression = Expression.Equal(Expression.Constant(true), hasValueProperty);
                 var callContainsMethod = Expression.Call(containsMethod, list, valueProperty);
                 where = Expression.AndAlso(hasValueExpression, Expression.Not(callContainsMethod));
                 where = Expression.Or(Expression.IsFalse(hasValueExpression), where);

@@ -61,6 +61,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Login.config" />
     <None Include="UIMap.uitest" />
   </ItemGroup>
   <Choose>

@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Program] (
     [ProgramId]               INT                IDENTITY (1, 1) NOT NULL,
 	[ProgramStatusId]	INT NOT NULL DEFAULT 1,
-    [Name]                    NVARCHAR (MAX)     NOT NULL,
+    [Name]                    NVARCHAR (255)     NOT NULL,
     [Description]             NVARCHAR (MAX)     NOT NULL,
 	[FocusId]             INT     NOT NULL DEFAULT 0,
 	[Website]             NVARCHAR (MAX)     NULL,

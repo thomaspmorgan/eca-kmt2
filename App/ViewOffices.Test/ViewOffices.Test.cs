@@ -10,33 +10,37 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace ViewParticipant_PersonalInformation.Test
+namespace ViewOffices.Test
 {
     /// <summary>
-    /// View Participant Personal Information fields-- doesn't like the content menu link for participant-- 
+    /// View Offices --under construction-- doesn't like the Offices Link, won't navigate to All Offices
     /// </summary>
     [CodedUITest]
-    public class ViewParticipant_PersonalInformationCodedUITest1
+    public class ViewOfficesCodedUITest1
     {
-        public ViewParticipant_PersonalInformationCodedUITest1()
+        public ViewOfficesCodedUITest1()
         {
         }
 
         [TestMethod]
-        public void ViewParticipant_PersonalInformationCodedUITestMethod1()
+        public void ViewOfficesCodedUITestMethod1()
         {
-            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-            this.UIMap.LogintoQA();
+
+            this.UIMap.LogintoQA_ExistingUser();
+            //this.UIMap.LogintoQA();
             this.UIMap.AssertContentMenuButton();
             this.UIMap.SelectContentMenuButton();
-            this.UIMap.AssertParticipantsLink();
-            this.UIMap.SelectContentMenu_ParticipantsLink();
-            this.UIMap.AssertParticipantsBanner();
-            this.UIMap.AssertParticipantsNameLink();
-            this.UIMap.SelectParticipant();
-            this.UIMap.AssertParticipantsPersonalInfo();
-            this.UIMap.AssertParticipantNameHeading();
-            this.UIMap.CloseBrowser();
+            this.UIMap.AssertOfficesContentMenuLink();
+            /*this.UIMap.SelectOfficesContentMenuLink();*/
+            this.UIMap.SelectOfficesContentMenu_Link();
+            this.UIMap.RefreshAllOffices_ECAOfficeDirectoryPage();
+            this.UIMap.AssertECAOfficeDirectoryPage();
+            this.UIMap.AssertSearchOffices();
+            this.UIMap.AssertAvailableOfficeinList();
+            this.UIMap.AssertOfficeAvailableinList();
+            this.UIMap.CloseBrowserWindow();
+
+            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
         #region Additional test attributes

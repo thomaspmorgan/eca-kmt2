@@ -22,11 +22,6 @@ angular.module('staticApp')
       $scope.view.isSaving = false;
 
       $scope.editView = {};
-      //$scope.editView.out = {
-      //    themes: [],
-      //    goals: [],
-      //    pointsOfContact: []
-      //};
       $scope.editView.show = false;
       $scope.editView.foci = [];
       $scope.editView.projectStati = [];

@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, ProgramService, ParticipantService, LocationService, MoneyFlowService, TableService, ConstantsService) {
+  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, ProgramService, ParticipantService, LocationService, MoneyFlowService, TableService, ConstantsService, LookupService) {
 
       $scope.project = {};
 
@@ -169,9 +169,10 @@ angular.module('staticApp')
           saveProject();
       }
 
-      $scope.participants = {
-          gender: [{ name: 'Male' }, { name: 'Female' }, { name: 'Other' }]
-      };
+      LookupService.getAllGenders({limit: 300})
+        .then(function (data) {
+            $scope.genders = data.results;
+        });
 
       $scope.addParticipant = function () {
           $scope.newParticipant.id = Date.now().toString();
@@ -244,6 +245,10 @@ angular.module('staticApp')
                 $scope.project = project;
             });
       }
+
+      $scope.modalClose = function () {
+          $scope.modal.addParticipant = false;
+      };
 
       $scope.modalClear = function () {
           $scope.modal.addParticipant = false;

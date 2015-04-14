@@ -1,0 +1,1985 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/4/2015 5:33:30 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{5FB3F403-E202-4A3F-A37E-71C534021BBE}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import IVLP_Participant_Sevis Source"
+  DTS:PackageType="5"
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{295C0F22-AB5F-42B5-81EC-E8CCABBE2D63}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{197B7CA9-8886-450F-8608-05CED51AC281}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.IVLP.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=IVLP;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACQXr1YxHsmi5miVhQ1DUb4a40cZJT9S9D42s5DMTkEoQAAAAAOgAAAAAIAACAAAAAHjo5vZga66QWemPw54J7k1Vc8eJfI+NmkRkRgDMU3JiAAAADg1QfBrKALiK17MLiT9ZDLeEq6PKSlggp17XrYejB1b0AAAABvIzKtCMpVVocmJOVzVIjyz2KDBZaXk8ICHWWf4Gw3eck02OkQufw5U5PTATXRR1/Wm9ZOyL2pQcXBCtcNF/km</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{D98273AC-BF78-42EC-9475-6DC87BCB1A21}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PARTICIPANT_SEVIS.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import IVLP_Participant_Sevis"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{A1A10979-9659-4D84-BF1C-F2C95E90616A}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import IVLP_Participant_Sevis"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel IVLP_Participant_Sevis"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">'Sheet 1$'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_SEVIS_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_ID]"
+                      name="PARTICIPANT_SEVIS_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_ID]"
+                      name="PARTICIPANT_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VALIDATED_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[VALIDATED_IND]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VALIDATED_IND]"
+                      name="VALIDATED_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VALIDATED_SENT_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[VALIDATED_SENT_DATE]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VALIDATED_SENT_DATE]"
+                      name="VALIDATED_SENT_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[CANCELLED_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[CANCELLED_IND]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[CANCELLED_IND]"
+                      name="CANCELLED_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[CANCELLED_DATE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[CANCELLED_DATE]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[CANCELLED_DATE]"
+                      name="CANCELLED_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[I515_FORM_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[I515_FORM_IND]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[I515_FORM_IND]"
+                      name="I515_FORM_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_PRINT_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[DS2019_PRINT_IND]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_PRINT_IND]"
+                      name="DS2019_PRINT_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_PRINT_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[DS2019_PRINT_DATE]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_PRINT_DATE]"
+                      name="DS2019_PRINT_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_SIGN_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[DS2019_SIGN_IND]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_SIGN_IND]"
+                      name="DS2019_SIGN_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_SIGN_DT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[DS2019_SIGN_DT]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_SIGN_DT]"
+                      name="DS2019_SIGN_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_BIRTH_REASON]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_BIRTH_REASON]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_BIRTH_REASON]"
+                      name="US_BIRTH_REASON"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_CATEGORY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SEVIS_CATEGORY]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_CATEGORY]"
+                      name="SEVIS_CATEGORY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_FIELD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SEVIS_FIELD]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_FIELD]"
+                      name="SEVIS_FIELD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_POSITION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SEVIS_POSITION]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_POSITION]"
+                      name="SEVIS_POSITION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SPONSOR_AMOUNT]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SPONSOR_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SPONSOR_AMOUNT]"
+                      name="SPONSOR_AMOUNT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY1_ORG_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY1_ORG_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY1_ORG_ID]"
+                      name="US_GOVT_AGENCY1_ORG_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY1_ORG_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY1_ORG_NAME]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY1_ORG_NAME]"
+                      name="US_GOVT_AGENCY1_ORG_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY1_AMOUNT]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY1_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY1_AMOUNT]"
+                      name="US_GOVT_AGENCY1_AMOUNT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY2_ORG_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY2_ORG_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY2_ORG_ID]"
+                      name="US_GOVT_AGENCY2_ORG_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY2_ORG_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY2_ORG_NAME]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY2_ORG_NAME]"
+                      name="US_GOVT_AGENCY2_ORG_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY2_AMOUNT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY2_AMOUNT]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY2_AMOUNT]"
+                      name="US_GOVT_AGENCY2_AMOUNT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG1_ORG_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG1_ORG_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG1_ORG_ID]"
+                      name="INTL_ORG1_ORG_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG1_ORG_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG1_ORG_NAME]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG1_ORG_NAME]"
+                      name="INTL_ORG1_ORG_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG1_ORG_AMOUNT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG1_ORG_AMOUNT]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG1_ORG_AMOUNT]"
+                      name="INTL_ORG1_ORG_AMOUNT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG2_ORG_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG2_ORG_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG2_ORG_ID]"
+                      name="INTL_ORG2_ORG_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG2_ORG_NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG2_ORG_NAME]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG2_ORG_NAME]"
+                      name="INTL_ORG2_ORG_NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG2_ORG_AMOUNT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG2_ORG_AMOUNT]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG2_ORG_AMOUNT]"
+                      name="INTL_ORG2_ORG_AMOUNT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VISITOR_GOVT_AMOUNT]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[VISITOR_GOVT_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VISITOR_GOVT_AMOUNT]"
+                      name="VISITOR_GOVT_AMOUNT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VISITOR_BNC_AMOUNT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[VISITOR_BNC_AMOUNT]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VISITOR_BNC_AMOUNT]"
+                      name="VISITOR_BNC_AMOUNT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[OTHER_ORG_NM]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[OTHER_ORG_NM]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[OTHER_ORG_NM]"
+                      name="OTHER_ORG_NM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[OTHER_ORG_AMOUNT]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[OTHER_ORG_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[OTHER_ORG_AMOUNT]"
+                      name="OTHER_ORG_AMOUNT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PERSONAL_AMOUNT]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PERSONAL_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PERSONAL_AMOUNT]"
+                      name="PERSONAL_AMOUNT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[BATCH_REQUEST_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[BATCH_REQUEST_IND]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[BATCH_REQUEST_IND]"
+                      name="BATCH_REQUEST_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[BATCH_SENT_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[BATCH_SENT_IND]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[BATCH_SENT_IND]"
+                      name="BATCH_SENT_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[BATCH_SENT_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[BATCH_SENT_DATE]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[BATCH_SENT_DATE]"
+                      name="BATCH_SENT_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_VALIDATED_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[RTI_VALIDATED_IND]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_VALIDATED_IND]"
+                      name="RTI_VALIDATED_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_VALIDATED_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[RTI_VALIDATED_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_VALIDATED_ID]"
+                      name="RTI_VALIDATED_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_SENT_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[RTI_SENT_IND]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_SENT_IND]"
+                      name="RTI_SENT_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_SENT_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[RTI_SENT_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_SENT_ID]"
+                      name="RTI_SENT_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_REQUEST_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SEVIS_REQUEST_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_REQUEST_ID]"
+                      name="SEVIS_REQUEST_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_DHS_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SEVIS_DHS_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_DHS_ID]"
+                      name="SEVIS_DHS_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RESIDENCE_ADDRESS_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[RESIDENCE_ADDRESS_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RESIDENCE_ADDRESS_ID]"
+                      name="RESIDENCE_ADDRESS_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[HOST_ADDRESS_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[HOST_ADDRESS_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[HOST_ADDRESS_ID]"
+                      name="HOST_ADDRESS_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[ACTIVITY_ADDRESS_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[ACTIVITY_ADDRESS_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[ACTIVITY_ADDRESS_ID]"
+                      name="ACTIVITY_ADDRESS_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[NEEDS_UPDATE_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[NEEDS_UPDATE_IND]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[NEEDS_UPDATE_IND]"
+                      name="NEEDS_UPDATE_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[ERROR_DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[ERROR_DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[ERROR_DESCRIPTION]"
+                      name="ERROR_DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_CREATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_SEVIS_CREATE_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_CREATE_ID]"
+                      name="PARTICIPANT_SEVIS_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_CREATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_SEVIS_CREATE_DT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_CREATE_DT]"
+                      name="PARTICIPANT_SEVIS_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_UPDATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_SEVIS_UPDATE_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_UPDATE_ID]"
+                      name="PARTICIPANT_SEVIS_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_UPDATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_SEVIS_UPDATE_DT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_UPDATE_DT]"
+                      name="PARTICIPANT_SEVIS_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_SEVIS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PARTICIPANT_SEVIS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PARTICIPANT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[VALIDATED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="VALIDATED_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[VALIDATED_SENT_DATE]"
+                      dataType="date"
+                      name="VALIDATED_SENT_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[CANCELLED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="CANCELLED_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[CANCELLED_DATE]"
+                      dataType="wstr"
+                      length="255"
+                      name="CANCELLED_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[I515_FORM_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="I515_FORM_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[DS2019_PRINT_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="DS2019_PRINT_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[DS2019_PRINT_DATE]"
+                      dataType="date"
+                      name="DS2019_PRINT_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[DS2019_SIGN_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="DS2019_SIGN_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[DS2019_SIGN_DT]"
+                      dataType="wstr"
+                      length="255"
+                      name="DS2019_SIGN_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_BIRTH_REASON]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_BIRTH_REASON" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SEVIS_CATEGORY]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEVIS_CATEGORY" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SEVIS_FIELD]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEVIS_FIELD" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SEVIS_POSITION]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEVIS_POSITION" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SPONSOR_AMOUNT]"
+                      dataType="r8"
+                      name="SPONSOR_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY1_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_GOVT_AGENCY1_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY1_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_GOVT_AGENCY1_ORG_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY1_AMOUNT]"
+                      dataType="r8"
+                      name="US_GOVT_AGENCY1_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY2_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_GOVT_AGENCY2_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY2_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_GOVT_AGENCY2_ORG_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[US_GOVT_AGENCY2_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_GOVT_AGENCY2_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG1_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG1_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG1_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG1_ORG_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG1_ORG_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG1_ORG_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG2_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG2_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG2_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG2_ORG_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[INTL_ORG2_ORG_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG2_ORG_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[VISITOR_GOVT_AMOUNT]"
+                      dataType="r8"
+                      name="VISITOR_GOVT_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[VISITOR_BNC_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      name="VISITOR_BNC_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[OTHER_ORG_NM]"
+                      dataType="wstr"
+                      length="255"
+                      name="OTHER_ORG_NM" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[OTHER_ORG_AMOUNT]"
+                      dataType="r8"
+                      name="OTHER_ORG_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PERSONAL_AMOUNT]"
+                      dataType="r8"
+                      name="PERSONAL_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[BATCH_REQUEST_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="BATCH_REQUEST_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[BATCH_SENT_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="BATCH_SENT_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[BATCH_SENT_DATE]"
+                      dataType="date"
+                      name="BATCH_SENT_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[RTI_VALIDATED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="RTI_VALIDATED_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[RTI_VALIDATED_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="RTI_VALIDATED_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[RTI_SENT_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="RTI_SENT_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[RTI_SENT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="RTI_SENT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SEVIS_REQUEST_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEVIS_REQUEST_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[SEVIS_DHS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEVIS_DHS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[RESIDENCE_ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="RESIDENCE_ADDRESS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[HOST_ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="HOST_ADDRESS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[ACTIVITY_ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ACTIVITY_ADDRESS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[NEEDS_UPDATE_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="NEEDS_UPDATE_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[ERROR_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="ERROR_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_SEVIS_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PARTICIPANT_SEVIS_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_SEVIS_CREATE_DT]"
+                      dataType="date"
+                      name="PARTICIPANT_SEVIS_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_SEVIS_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PARTICIPANT_SEVIS_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].ExternalColumns[PARTICIPANT_SEVIS_UPDATE_DT]"
+                      dataType="date"
+                      name="PARTICIPANT_SEVIS_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_SEVIS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_SEVIS_ID]"
+                      name="PARTICIPANT_SEVIS_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_ID]"
+                      name="PARTICIPANT_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[VALIDATED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[VALIDATED_IND]"
+                      name="VALIDATED_IND" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[VALIDATED_SENT_DATE]"
+                      dataType="date"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[VALIDATED_SENT_DATE]"
+                      name="VALIDATED_SENT_DATE" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[CANCELLED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[CANCELLED_IND]"
+                      name="CANCELLED_IND" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[CANCELLED_DATE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[CANCELLED_DATE]"
+                      name="CANCELLED_DATE" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[I515_FORM_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[I515_FORM_IND]"
+                      name="I515_FORM_IND" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[DS2019_PRINT_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[DS2019_PRINT_IND]"
+                      name="DS2019_PRINT_IND" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[DS2019_PRINT_DATE]"
+                      dataType="date"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[DS2019_PRINT_DATE]"
+                      name="DS2019_PRINT_DATE" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[DS2019_SIGN_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[DS2019_SIGN_IND]"
+                      name="DS2019_SIGN_IND" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[DS2019_SIGN_DT]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[DS2019_SIGN_DT]"
+                      name="DS2019_SIGN_DT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_BIRTH_REASON]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_BIRTH_REASON]"
+                      name="US_BIRTH_REASON" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SEVIS_CATEGORY]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SEVIS_CATEGORY]"
+                      name="SEVIS_CATEGORY" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SEVIS_FIELD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SEVIS_FIELD]"
+                      name="SEVIS_FIELD" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SEVIS_POSITION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SEVIS_POSITION]"
+                      name="SEVIS_POSITION" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SPONSOR_AMOUNT]"
+                      dataType="r8"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SPONSOR_AMOUNT]"
+                      name="SPONSOR_AMOUNT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY1_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY1_ORG_ID]"
+                      name="US_GOVT_AGENCY1_ORG_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY1_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY1_ORG_NAME]"
+                      name="US_GOVT_AGENCY1_ORG_NAME" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY1_AMOUNT]"
+                      dataType="r8"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY1_AMOUNT]"
+                      name="US_GOVT_AGENCY1_AMOUNT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY2_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY2_ORG_ID]"
+                      name="US_GOVT_AGENCY2_ORG_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY2_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY2_ORG_NAME]"
+                      name="US_GOVT_AGENCY2_ORG_NAME" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY2_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[US_GOVT_AGENCY2_AMOUNT]"
+                      name="US_GOVT_AGENCY2_AMOUNT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG1_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG1_ORG_ID]"
+                      name="INTL_ORG1_ORG_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG1_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG1_ORG_NAME]"
+                      name="INTL_ORG1_ORG_NAME" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG1_ORG_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG1_ORG_AMOUNT]"
+                      name="INTL_ORG1_ORG_AMOUNT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG2_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG2_ORG_ID]"
+                      name="INTL_ORG2_ORG_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG2_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG2_ORG_NAME]"
+                      name="INTL_ORG2_ORG_NAME" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG2_ORG_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[INTL_ORG2_ORG_AMOUNT]"
+                      name="INTL_ORG2_ORG_AMOUNT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[VISITOR_GOVT_AMOUNT]"
+                      dataType="r8"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[VISITOR_GOVT_AMOUNT]"
+                      name="VISITOR_GOVT_AMOUNT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[VISITOR_BNC_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[VISITOR_BNC_AMOUNT]"
+                      name="VISITOR_BNC_AMOUNT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[OTHER_ORG_NM]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[OTHER_ORG_NM]"
+                      name="OTHER_ORG_NM" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[OTHER_ORG_AMOUNT]"
+                      dataType="r8"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[OTHER_ORG_AMOUNT]"
+                      name="OTHER_ORG_AMOUNT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PERSONAL_AMOUNT]"
+                      dataType="r8"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PERSONAL_AMOUNT]"
+                      name="PERSONAL_AMOUNT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[BATCH_REQUEST_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[BATCH_REQUEST_IND]"
+                      name="BATCH_REQUEST_IND" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[BATCH_SENT_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[BATCH_SENT_IND]"
+                      name="BATCH_SENT_IND" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[BATCH_SENT_DATE]"
+                      dataType="date"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[BATCH_SENT_DATE]"
+                      name="BATCH_SENT_DATE" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[RTI_VALIDATED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[RTI_VALIDATED_IND]"
+                      name="RTI_VALIDATED_IND" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[RTI_VALIDATED_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[RTI_VALIDATED_ID]"
+                      name="RTI_VALIDATED_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[RTI_SENT_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[RTI_SENT_IND]"
+                      name="RTI_SENT_IND" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[RTI_SENT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[RTI_SENT_ID]"
+                      name="RTI_SENT_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SEVIS_REQUEST_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SEVIS_REQUEST_ID]"
+                      name="SEVIS_REQUEST_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SEVIS_DHS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[SEVIS_DHS_ID]"
+                      name="SEVIS_DHS_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[RESIDENCE_ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[RESIDENCE_ADDRESS_ID]"
+                      name="RESIDENCE_ADDRESS_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[HOST_ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[HOST_ADDRESS_ID]"
+                      name="HOST_ADDRESS_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[ACTIVITY_ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[ACTIVITY_ADDRESS_ID]"
+                      name="ACTIVITY_ADDRESS_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[NEEDS_UPDATE_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[NEEDS_UPDATE_IND]"
+                      name="NEEDS_UPDATE_IND" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[ERROR_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[ERROR_DESCRIPTION]"
+                      name="ERROR_DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_SEVIS_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_SEVIS_CREATE_ID]"
+                      name="PARTICIPANT_SEVIS_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_SEVIS_CREATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_SEVIS_CREATE_DT]"
+                      name="PARTICIPANT_SEVIS_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_SEVIS_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_SEVIS_UPDATE_ID]"
+                      name="PARTICIPANT_SEVIS_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_SEVIS_UPDATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[PARTICIPANT_SEVIS_UPDATE_DT]"
+                      name="PARTICIPANT_SEVIS_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="IVLP_Participant_Sevis"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[IVLP_Participant_Sevis]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[PARTICIPANT_SEVIS_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PARTICIPANT_SEVIS_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_SEVIS_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[PARTICIPANT_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PARTICIPANT_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[VALIDATED_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="VALIDATED_IND"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[VALIDATED_IND]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VALIDATED_IND]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[VALIDATED_SENT_DATE]"
+                      cachedDataType="date"
+                      cachedName="VALIDATED_SENT_DATE"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[VALIDATED_SENT_DATE]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VALIDATED_SENT_DATE]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[CANCELLED_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CANCELLED_IND"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[CANCELLED_IND]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[CANCELLED_IND]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[CANCELLED_DATE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CANCELLED_DATE"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[CANCELLED_DATE]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[CANCELLED_DATE]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[I515_FORM_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="I515_FORM_IND"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[I515_FORM_IND]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[I515_FORM_IND]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[DS2019_PRINT_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DS2019_PRINT_IND"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[DS2019_PRINT_IND]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_PRINT_IND]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[DS2019_PRINT_DATE]"
+                      cachedDataType="date"
+                      cachedName="DS2019_PRINT_DATE"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[DS2019_PRINT_DATE]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_PRINT_DATE]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[DS2019_SIGN_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DS2019_SIGN_IND"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[DS2019_SIGN_IND]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_SIGN_IND]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[DS2019_SIGN_DT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DS2019_SIGN_DT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[DS2019_SIGN_DT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[DS2019_SIGN_DT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[US_BIRTH_REASON]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US_BIRTH_REASON"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_BIRTH_REASON]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_BIRTH_REASON]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[SEVIS_CATEGORY]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SEVIS_CATEGORY"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SEVIS_CATEGORY]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_CATEGORY]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[SEVIS_FIELD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SEVIS_FIELD"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SEVIS_FIELD]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_FIELD]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[SEVIS_POSITION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SEVIS_POSITION"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SEVIS_POSITION]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_POSITION]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[SPONSOR_AMOUNT]"
+                      cachedDataType="r8"
+                      cachedName="SPONSOR_AMOUNT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SPONSOR_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SPONSOR_AMOUNT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[US_GOVT_AGENCY1_ORG_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US_GOVT_AGENCY1_ORG_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY1_ORG_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY1_ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[US_GOVT_AGENCY1_ORG_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US_GOVT_AGENCY1_ORG_NAME"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY1_ORG_NAME]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY1_ORG_NAME]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[US_GOVT_AGENCY1_AMOUNT]"
+                      cachedDataType="r8"
+                      cachedName="US_GOVT_AGENCY1_AMOUNT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY1_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY1_AMOUNT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[US_GOVT_AGENCY2_ORG_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US_GOVT_AGENCY2_ORG_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY2_ORG_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY2_ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[US_GOVT_AGENCY2_ORG_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US_GOVT_AGENCY2_ORG_NAME"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY2_ORG_NAME]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY2_ORG_NAME]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[US_GOVT_AGENCY2_AMOUNT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="US_GOVT_AGENCY2_AMOUNT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY2_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[US_GOVT_AGENCY2_AMOUNT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[INTL_ORG1_ORG_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="INTL_ORG1_ORG_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG1_ORG_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG1_ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[INTL_ORG1_ORG_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="INTL_ORG1_ORG_NAME"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG1_ORG_NAME]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG1_ORG_NAME]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[INTL_ORG1_ORG_AMOUNT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="INTL_ORG1_ORG_AMOUNT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG1_ORG_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG1_ORG_AMOUNT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[INTL_ORG2_ORG_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="INTL_ORG2_ORG_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG2_ORG_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG2_ORG_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[INTL_ORG2_ORG_NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="INTL_ORG2_ORG_NAME"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG2_ORG_NAME]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG2_ORG_NAME]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[INTL_ORG2_ORG_AMOUNT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="INTL_ORG2_ORG_AMOUNT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG2_ORG_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[INTL_ORG2_ORG_AMOUNT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[VISITOR_GOVT_AMOUNT]"
+                      cachedDataType="r8"
+                      cachedName="VISITOR_GOVT_AMOUNT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[VISITOR_GOVT_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VISITOR_GOVT_AMOUNT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[VISITOR_BNC_AMOUNT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="VISITOR_BNC_AMOUNT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[VISITOR_BNC_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[VISITOR_BNC_AMOUNT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[OTHER_ORG_NM]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="OTHER_ORG_NM"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[OTHER_ORG_NM]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[OTHER_ORG_NM]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[OTHER_ORG_AMOUNT]"
+                      cachedDataType="r8"
+                      cachedName="OTHER_ORG_AMOUNT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[OTHER_ORG_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[OTHER_ORG_AMOUNT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[PERSONAL_AMOUNT]"
+                      cachedDataType="r8"
+                      cachedName="PERSONAL_AMOUNT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PERSONAL_AMOUNT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PERSONAL_AMOUNT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[BATCH_REQUEST_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="BATCH_REQUEST_IND"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[BATCH_REQUEST_IND]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[BATCH_REQUEST_IND]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[BATCH_SENT_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="BATCH_SENT_IND"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[BATCH_SENT_IND]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[BATCH_SENT_IND]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[BATCH_SENT_DATE]"
+                      cachedDataType="date"
+                      cachedName="BATCH_SENT_DATE"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[BATCH_SENT_DATE]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[BATCH_SENT_DATE]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[RTI_VALIDATED_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="RTI_VALIDATED_IND"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[RTI_VALIDATED_IND]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_VALIDATED_IND]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[RTI_VALIDATED_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="RTI_VALIDATED_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[RTI_VALIDATED_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_VALIDATED_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[RTI_SENT_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="RTI_SENT_IND"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[RTI_SENT_IND]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_SENT_IND]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[RTI_SENT_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="RTI_SENT_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[RTI_SENT_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RTI_SENT_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[SEVIS_REQUEST_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SEVIS_REQUEST_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SEVIS_REQUEST_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_REQUEST_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[SEVIS_DHS_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SEVIS_DHS_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SEVIS_DHS_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[SEVIS_DHS_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[RESIDENCE_ADDRESS_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="RESIDENCE_ADDRESS_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[RESIDENCE_ADDRESS_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[RESIDENCE_ADDRESS_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[HOST_ADDRESS_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="HOST_ADDRESS_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[HOST_ADDRESS_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[HOST_ADDRESS_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[ACTIVITY_ADDRESS_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ACTIVITY_ADDRESS_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[ACTIVITY_ADDRESS_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[ACTIVITY_ADDRESS_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[NEEDS_UPDATE_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NEEDS_UPDATE_IND"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[NEEDS_UPDATE_IND]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[NEEDS_UPDATE_IND]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[ERROR_DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ERROR_DESCRIPTION"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[ERROR_DESCRIPTION]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[ERROR_DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[PARTICIPANT_SEVIS_CREATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PARTICIPANT_SEVIS_CREATE_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_SEVIS_CREATE_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[PARTICIPANT_SEVIS_CREATE_DT]"
+                      cachedDataType="date"
+                      cachedName="PARTICIPANT_SEVIS_CREATE_DT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_SEVIS_CREATE_DT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[PARTICIPANT_SEVIS_UPDATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PARTICIPANT_SEVIS_UPDATE_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_SEVIS_UPDATE_ID]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].Columns[PARTICIPANT_SEVIS_UPDATE_DT]"
+                      cachedDataType="date"
+                      cachedName="PARTICIPANT_SEVIS_UPDATE_DT"
+                      externalMetadataColumnId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_SEVIS_UPDATE_DT]"
+                      lineageId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output].Columns[PARTICIPANT_SEVIS_UPDATE_DT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_SEVIS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PARTICIPANT_SEVIS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PARTICIPANT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[VALIDATED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="VALIDATED_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[VALIDATED_SENT_DATE]"
+                      dataType="dbTimeStamp"
+                      name="VALIDATED_SENT_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[CANCELLED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="CANCELLED_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[CANCELLED_DATE]"
+                      dataType="wstr"
+                      length="255"
+                      name="CANCELLED_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[I515_FORM_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="I515_FORM_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[DS2019_PRINT_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="DS2019_PRINT_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[DS2019_PRINT_DATE]"
+                      dataType="dbTimeStamp"
+                      name="DS2019_PRINT_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[DS2019_SIGN_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="DS2019_SIGN_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[DS2019_SIGN_DT]"
+                      dataType="wstr"
+                      length="255"
+                      name="DS2019_SIGN_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_BIRTH_REASON]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_BIRTH_REASON" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SEVIS_CATEGORY]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEVIS_CATEGORY" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SEVIS_FIELD]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEVIS_FIELD" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SEVIS_POSITION]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEVIS_POSITION" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SPONSOR_AMOUNT]"
+                      dataType="r8"
+                      name="SPONSOR_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY1_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_GOVT_AGENCY1_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY1_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_GOVT_AGENCY1_ORG_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY1_AMOUNT]"
+                      dataType="r8"
+                      name="US_GOVT_AGENCY1_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY2_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_GOVT_AGENCY2_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY2_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_GOVT_AGENCY2_ORG_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[US_GOVT_AGENCY2_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      name="US_GOVT_AGENCY2_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG1_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG1_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG1_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG1_ORG_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG1_ORG_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG1_ORG_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG2_ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG2_ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG2_ORG_NAME]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG2_ORG_NAME" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[INTL_ORG2_ORG_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      name="INTL_ORG2_ORG_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[VISITOR_GOVT_AMOUNT]"
+                      dataType="r8"
+                      name="VISITOR_GOVT_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[VISITOR_BNC_AMOUNT]"
+                      dataType="wstr"
+                      length="255"
+                      name="VISITOR_BNC_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[OTHER_ORG_NM]"
+                      dataType="wstr"
+                      length="255"
+                      name="OTHER_ORG_NM" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[OTHER_ORG_AMOUNT]"
+                      dataType="r8"
+                      name="OTHER_ORG_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PERSONAL_AMOUNT]"
+                      dataType="r8"
+                      name="PERSONAL_AMOUNT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[BATCH_REQUEST_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="BATCH_REQUEST_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[BATCH_SENT_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="BATCH_SENT_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[BATCH_SENT_DATE]"
+                      dataType="dbTimeStamp"
+                      name="BATCH_SENT_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[RTI_VALIDATED_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="RTI_VALIDATED_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[RTI_VALIDATED_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="RTI_VALIDATED_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[RTI_SENT_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="RTI_SENT_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[RTI_SENT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="RTI_SENT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SEVIS_REQUEST_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEVIS_REQUEST_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[SEVIS_DHS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEVIS_DHS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[RESIDENCE_ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="RESIDENCE_ADDRESS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[HOST_ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="HOST_ADDRESS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[ACTIVITY_ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ACTIVITY_ADDRESS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[NEEDS_UPDATE_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="NEEDS_UPDATE_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[ERROR_DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="ERROR_DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_SEVIS_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PARTICIPANT_SEVIS_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_SEVIS_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PARTICIPANT_SEVIS_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_SEVIS_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PARTICIPANT_SEVIS_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input].ExternalColumns[PARTICIPANT_SEVIS_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PARTICIPANT_SEVIS_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import IVLP_Participant_Sevis.Paths[Excel Source Output]"
+              endId="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="221,42"
+          Id="Package\Import IVLP_Participant_Sevis"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import IVLP_Participant_Sevis">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="214,42"
+          Id="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis"
+          TopLeft="65.5,176.5" />
+        <EdgeLayout
+          Id="Package\Import IVLP_Participant_Sevis.Paths[Excel Source Output]"
+          TopLeft="112.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="46,129"
+              Start="0,0"
+              End="46,121.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,60.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,60.5"
+                    Point2="0,64.5"
+                    Point3="4,64.5" />
+                  <mssgle:LineSegment
+                    End="42,64.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="42,64.5"
+                    Point2="46,64.5"
+                    Point3="46,68.5" />
+                  <mssgle:LineSegment
+                    End="46,121.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Participant_Sevis\Excel IVLP_Participant_Sevis">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Participant_Sevis\IVLP_Participant_Sevis">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

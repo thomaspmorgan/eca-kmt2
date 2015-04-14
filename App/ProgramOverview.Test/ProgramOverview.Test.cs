@@ -26,7 +26,8 @@ namespace ProgramOverview.Test
         public void ProgramOverviewCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-            this.UIMap.LogintoQA();
+            this.UIMap.LogintoQA_ExisitingUser();
+            //this.UIMap.LogintoQA();
             this.UIMap.ContentMenuButton();
             this.UIMap.SelectContentMenuButton();
             this.UIMap.ContentMenu_ProgramsLink();

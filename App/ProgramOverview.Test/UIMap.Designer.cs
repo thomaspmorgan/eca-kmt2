@@ -31,6 +31,38 @@ namespace ProgramOverview.Test
     {
         
         /// <summary>
+        /// Check for Page 3 to navigate to in the All Programs List
+        /// </summary>
+        public void AllProgramsPageNavigationButton()
+        {
+            #region Variable Declarations
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom;
+            #endregion
+
+            // Verify that the 'InnerText' property of custom control equals '3'
+            Assert.AreEqual(this.AllProgramsPageNavigationButtonExpectedValues.UIItemCustomInnerText, uIItemCustom.InnerText, "No Page 3 button to navigate to ");
+        }
+        
+        /// <summary>
+        /// Scroll down to view page numbers
+        /// </summary>
+        public void AllProgsListScrollDowntoPageNumbers()
+        {
+            #region Variable Declarations
+            HtmlDocument uIHttpsecakmtqaazureweDocument1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1;
+            #endregion
+
+            // Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.Click(uIHttpsecakmtqaazureweDocument1, new Point(1358, 654));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument1, new Point(1358, 654));
+
+            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+            Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument1, new Point(1358, 654));
+        }
+        
+        /// <summary>
         /// Close browser by clicking the (X) button
         /// </summary>
         public void CloserBrowser()
@@ -129,6 +161,122 @@ namespace ProgramOverview.Test
         }
         
         /// <summary>
+        /// Open browser; navigate to QA site; select ECATest user; enter password; click sign in.
+        /// </summary>
+        public void LogintoQA_ExisitingUser()
+        {
+            #region Variable Declarations
+            WinEdit uIAddressandsearchusinEdit1 = this.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit1;
+            WinEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIItemWindow1.UIItemEdit;
+            WinButton uIGotohttpsecakmtqaazuButton = this.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton;
+            HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIECATest1statedeptusHyperlink;
+            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
+            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
+            #endregion
+
+            // Go to web page 'about:Tabs' using new browser instance
+            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExisitingUserParams.UINewtabInternetExplorWindowUrl));
+
+            // Click 'Address and search using Bing' text box
+            Mouse.Click(uIAddressandsearchusinEdit1, new Point(16, 9));
+
+            // Type 'https://eca-kmt-qa-azurewebsites.net/' in text box
+            Keyboard.SendKeys(uIItemEdit, this.LogintoQA_ExisitingUserParams.UIItemEditSendKeys, ModifierKeys.None);
+
+            // Click 'Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt...' button
+            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(6, 16));
+
+            // Click 'ECATest1@statedept.us •••' link
+            Mouse.Click(uIECATest1statedeptusHyperlink, new Point(84, 35));
+
+            // Click 'Password' text box
+            Mouse.Click(uIPasswordEdit, new Point(29, 17));
+
+            // Type '********' in 'Password' text box
+            uIPasswordEdit.Password = this.LogintoQA_ExisitingUserParams.UIPasswordEditPassword;
+
+            // Click 'Sign in' pane
+            Mouse.Click(uISigninPane, new Point(39, 19));
+        }
+        
+        /// <summary>
+        /// Verify the Program Overview section is displayed properly.
+        /// </summary>
+        public void ProgramOverviewSection()
+        {
+            #region Variable Declarations
+            HtmlDiv uIOverviewPlacesrecentPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIOverviewPlacesrecentPane;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Overview Places recent U.S. college' pane contains 'Overview
+            //
+            //
+            //Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign studentsâ€™ English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country. 
+            //
+            // 
+            //
+            //
+            //Details
+            //
+            //
+            //
+            //Themes
+            //
+            //Culture/Sports/American Society
+            //Education
+            //Markets and Competitiveness
+            //Youth Engagement
+            // 
+            //
+            //Public Diplomacy Goals
+            //
+            // 
+            //
+            //Strategic Goals
+            //
+            // 
+            //
+            //Regions
+            //
+            //AF
+            //EAP
+            //EUR
+            //NEA
+            //SCA
+            //WHA
+            // 
+            //
+            //
+            //Focus
+            //
+            //None Selected
+            //
+            //
+            //Office
+            //
+            //Office of the Executive Director
+            //
+            //
+            //Points of Contact
+            //
+            // 
+            //
+            //Websites
+            //
+            // 
+            //
+            //Snapshot
+            //
+            //
+            //
+            // 
+            //
+            //
+            // '
+            StringAssert.Contains(uIOverviewPlacesrecentPane.InnerText, this.ProgramOverviewSectionExpectedValues.UIOverviewPlacesrecentPaneInnerText, "No Overview Section Available");
+        }
+        
+        /// <summary>
         /// Refresh/Reload All Programs Page for display
         /// </summary>
         public void RefreshAllProgramsPage()
@@ -209,51 +357,6 @@ namespace ProgramOverview.Test
         }
         
         /// <summary>
-        /// Click Programs Link in Content Menu
-        /// </summary>
-        public void SelectProgramsLink()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIProgramsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIProgramsHyperlink;
-            #endregion
-
-            // Click 'Programs' link
-            Mouse.Click(uIProgramsHyperlink, new Point(87, 41));
-        }
-        
-        /// <summary>
-        /// Check for Page 3 to navigate to in the All Programs List
-        /// </summary>
-        public void AllProgramsPageNavigationButton()
-        {
-            #region Variable Declarations
-            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom;
-            #endregion
-
-            // Verify that the 'InnerText' property of custom control equals '3'
-            Assert.AreEqual(this.AllProgramsPageNavigationButtonExpectedValues.UIItemCustomInnerText, uIItemCustom.InnerText, "No Page 3 button to navigate to ");
-        }
-        
-        /// <summary>
-        /// Scroll down to view page numbers
-        /// </summary>
-        public void AllProgsListScrollDowntoPageNumbers()
-        {
-            #region Variable Declarations
-            HtmlDocument uIHttpsecakmtqaazureweDocument1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1;
-            #endregion
-
-            // Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
-            //Mouse.Click(uIHttpsecakmtqaazureweDocument1, new Point(1358, 654));
-
-            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
-            //Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument1, new Point(1358, 654));
-
-            // Double-Click 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
-            //Mouse.DoubleClick(uIHttpsecakmtqaazureweDocument1, new Point(1358, 654));
-        }
-        
-        /// <summary>
         /// Select Page Number 3 for All Programs List to display
         /// </summary>
         public void SelectPageNumberAllProgsList()
@@ -267,83 +370,31 @@ namespace ProgramOverview.Test
         }
         
         /// <summary>
-        /// Verify the Program Overview section is displayed properly.
+        /// Click Programs Link in Content Menu
         /// </summary>
-        public void ProgramOverviewSection()
+        public void SelectProgramsLink()
         {
             #region Variable Declarations
-            HtmlDiv uIOverviewPlacesrecentPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIOverviewPlacesrecentPane;
+            HtmlHyperlink uIProgramsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIProgramsHyperlink;
             #endregion
 
-            // Verify that the 'InnerText' property of 'Overview Places recent U.S. college' pane contains 'Overview
-            //
-            //
-            //Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign studentsâ€™ English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country. 
-            //
-            // 
-            //
-            //
-            //Details
-            //
-            //
-            //
-            //Themes
-            //
-            //Culture/Sports/American Society
-            //Education
-            //Markets and Competitiveness
-            //Youth Engagement
-            // 
-            //
-            //Public Diplomacy Goals
-            //
-            // 
-            //
-            //Strategic Goals
-            //
-            // 
-            //
-            //Regions
-            //
-            //AF
-            //EAP
-            //EUR
-            //NEA
-            //SCA
-            //WHA
-            // 
-            //
-            //
-            //Focus
-            //
-            //None Selected
-            //
-            //
-            //Office
-            //
-            //Office of the Executive Director
-            //
-            //
-            //Points of Contact
-            //
-            // 
-            //
-            //Websites
-            //
-            // 
-            //
-            //Snapshot
-            //
-            //
-            //
-            // 
-            //
-            //
-            // '
-            StringAssert.Contains(uIOverviewPlacesrecentPane.InnerText, this.ProgramOverviewSectionExpectedValues.UIOverviewPlacesrecentPaneInnerText, "No Overview Section Available");
+            // Click 'Programs' link
+            Mouse.Click(uIProgramsHyperlink, new Point(87, 41));
         }
         
         #region Properties
+        public virtual AllProgramsPageNavigationButtonExpectedValues AllProgramsPageNavigationButtonExpectedValues
+        {
+            get
+            {
+                if ((this.mAllProgramsPageNavigationButtonExpectedValues == null))
+                {
+                    this.mAllProgramsPageNavigationButtonExpectedValues = new AllProgramsPageNavigationButtonExpectedValues();
+                }
+                return this.mAllProgramsPageNavigationButtonExpectedValues;
+            }
+        }
+        
         public virtual ContentMenu_ProgramsLinkExpectedValues ContentMenu_ProgramsLinkExpectedValues
         {
             get
@@ -392,6 +443,30 @@ namespace ProgramOverview.Test
             }
         }
         
+        public virtual LogintoQA_ExisitingUserParams LogintoQA_ExisitingUserParams
+        {
+            get
+            {
+                if ((this.mLogintoQA_ExisitingUserParams == null))
+                {
+                    this.mLogintoQA_ExisitingUserParams = new LogintoQA_ExisitingUserParams();
+                }
+                return this.mLogintoQA_ExisitingUserParams;
+            }
+        }
+        
+        public virtual ProgramOverviewSectionExpectedValues ProgramOverviewSectionExpectedValues
+        {
+            get
+            {
+                if ((this.mProgramOverviewSectionExpectedValues == null))
+                {
+                    this.mProgramOverviewSectionExpectedValues = new ProgramOverviewSectionExpectedValues();
+                }
+                return this.mProgramOverviewSectionExpectedValues;
+            }
+        }
+        
         public virtual RefreshAllProgramsPageParams RefreshAllProgramsPageParams
         {
             get
@@ -416,30 +491,6 @@ namespace ProgramOverview.Test
             }
         }
         
-        public virtual AllProgramsPageNavigationButtonExpectedValues AllProgramsPageNavigationButtonExpectedValues
-        {
-            get
-            {
-                if ((this.mAllProgramsPageNavigationButtonExpectedValues == null))
-                {
-                    this.mAllProgramsPageNavigationButtonExpectedValues = new AllProgramsPageNavigationButtonExpectedValues();
-                }
-                return this.mAllProgramsPageNavigationButtonExpectedValues;
-            }
-        }
-        
-        public virtual ProgramOverviewSectionExpectedValues ProgramOverviewSectionExpectedValues
-        {
-            get
-            {
-                if ((this.mProgramOverviewSectionExpectedValues == null))
-                {
-                    this.mProgramOverviewSectionExpectedValues = new ProgramOverviewSectionExpectedValues();
-                }
-                return this.mProgramOverviewSectionExpectedValues;
-            }
-        }
-        
         public UINewtabInternetExplorWindow UINewtabInternetExplorWindow
         {
             get
@@ -454,6 +505,8 @@ namespace ProgramOverview.Test
         #endregion
         
         #region Fields
+        private AllProgramsPageNavigationButtonExpectedValues mAllProgramsPageNavigationButtonExpectedValues;
+        
         private ContentMenu_ProgramsLinkExpectedValues mContentMenu_ProgramsLinkExpectedValues;
         
         private ContentMenuButtonExpectedValues mContentMenuButtonExpectedValues;
@@ -462,15 +515,30 @@ namespace ProgramOverview.Test
         
         private LogintoQAParams mLogintoQAParams;
         
+        private LogintoQA_ExisitingUserParams mLogintoQA_ExisitingUserParams;
+        
+        private ProgramOverviewSectionExpectedValues mProgramOverviewSectionExpectedValues;
+        
         private RefreshAllProgramsPageParams mRefreshAllProgramsPageParams;
         
         private RefreshIndividualProgramPageParams mRefreshIndividualProgramPageParams;
         
-        private AllProgramsPageNavigationButtonExpectedValues mAllProgramsPageNavigationButtonExpectedValues;
-        
-        private ProgramOverviewSectionExpectedValues mProgramOverviewSectionExpectedValues;
-        
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AllProgramsPageNavigationButton'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AllProgramsPageNavigationButtonExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of custom control equals '3'
+        /// </summary>
+        public string UIItemCustomInnerText = "3";
         #endregion
     }
     
@@ -550,47 +618,27 @@ namespace ProgramOverview.Test
     }
     
     /// <summary>
-    /// Parameters to be passed into 'RefreshAllProgramsPage'
+    /// Parameters to be passed into 'LogintoQA_ExisitingUser'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class RefreshAllProgramsPageParams
+    public class LogintoQA_ExisitingUserParams
     {
         
         #region Fields
         /// <summary>
-        /// Type '{F5}' in 'Programs' link
+        /// Go to web page 'about:Tabs' using new browser instance
         /// </summary>
-        public string UIProgramsHyperlinkSendKeys = "{F5}";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'RefreshIndividualProgramPage'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class RefreshIndividualProgramPageParams
-    {
+        public string UINewtabInternetExplorWindowUrl = "about:Tabs";
         
-        #region Fields
         /// <summary>
-        /// Type '{F5}' in 'https://eca-kmt-qa.azurewebsites.net/#/offices/1/p...' document
+        /// Type 'https://eca-kmt-qa-azurewebsites.net/' in text box
         /// </summary>
-        public string UIHttpsecakmtqaazureweDocument2SendKeys = "{F5}";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AllProgramsPageNavigationButton'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AllProgramsPageNavigationButtonExpectedValues
-    {
+        public string UIItemEditSendKeys = "https://eca-kmt-qa-azurewebsites.net/";
         
-        #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of custom control equals '3'
+        /// Type '********' in 'Password' text box
         /// </summary>
-        public string UIItemCustomInnerText = "3";
+        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
         #endregion
     }
     
@@ -737,6 +785,36 @@ Snapshot
         #endregion
     }
     
+    /// <summary>
+    /// Parameters to be passed into 'RefreshAllProgramsPage'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class RefreshAllProgramsPageParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '{F5}' in 'Programs' link
+        /// </summary>
+        public string UIProgramsHyperlinkSendKeys = "{F5}";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'RefreshIndividualProgramPage'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class RefreshIndividualProgramPageParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '{F5}' in 'https://eca-kmt-qa.azurewebsites.net/#/offices/1/p...' document
+        /// </summary>
+        public string UIHttpsecakmtqaazureweDocument2SendKeys = "{F5}";
+        #endregion
+    }
+    
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
     public class UINewtabInternetExplorWindow : BrowserWindow
     {
@@ -749,6 +827,7 @@ Snapshot
             this.WindowTitles.Add("New tab");
             this.WindowTitles.Add("Sign in to Azure Active Directory");
             this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            this.WindowTitles.Add("Sign in to ECA Client");
             #endregion
         }
         
@@ -841,6 +920,42 @@ Snapshot
                 return this.mUIHttpsecakmtqaazureweDocument2;
             }
         }
+        
+        public UIItemWindow1 UIItemWindow1
+        {
+            get
+            {
+                if ((this.mUIItemWindow1 == null))
+                {
+                    this.mUIItemWindow1 = new UIItemWindow1(this);
+                }
+                return this.mUIItemWindow1;
+            }
+        }
+        
+        public UIItemWindow2 UIItemWindow2
+        {
+            get
+            {
+                if ((this.mUIItemWindow2 == null))
+                {
+                    this.mUIItemWindow2 = new UIItemWindow2(this);
+                }
+                return this.mUIItemWindow2;
+            }
+        }
+        
+        public UISignintoECAClientDocument UISignintoECAClientDocument
+        {
+            get
+            {
+                if ((this.mUISignintoECAClientDocument == null))
+                {
+                    this.mUISignintoECAClientDocument = new UISignintoECAClientDocument(this);
+                }
+                return this.mUISignintoECAClientDocument;
+            }
+        }
         #endregion
         
         #region Fields
@@ -857,6 +972,12 @@ Snapshot
         private UIHttpsecakmtqaazureweDocument1 mUIHttpsecakmtqaazureweDocument1;
         
         private UIHttpsecakmtqaazureweDocument2 mUIHttpsecakmtqaazureweDocument2;
+        
+        private UIItemWindow1 mUIItemWindow1;
+        
+        private UIItemWindow2 mUIItemWindow2;
+        
+        private UISignintoECAClientDocument mUISignintoECAClientDocument;
         #endregion
     }
     
@@ -889,10 +1010,28 @@ Snapshot
                 return this.mUIAddressandsearchusinEdit;
             }
         }
+        
+        public WinEdit UIAddressandsearchusinEdit1
+        {
+            get
+            {
+                if ((this.mUIAddressandsearchusinEdit1 == null))
+                {
+                    this.mUIAddressandsearchusinEdit1 = new WinEdit(this);
+                    #region Search Criteria
+                    this.mUIAddressandsearchusinEdit1.SearchProperties[WinEdit.PropertyNames.Name] = "Address and search using Bing";
+                    this.mUIAddressandsearchusinEdit1.WindowTitles.Add("New tab");
+                    #endregion
+                }
+                return this.mUIAddressandsearchusinEdit1;
+            }
+        }
         #endregion
         
         #region Fields
         private WinEdit mUIAddressandsearchusinEdit;
+        
+        private WinEdit mUIAddressandsearchusinEdit1;
         #endregion
     }
     
@@ -1353,7 +1492,7 @@ Snapshot
             #region Search Criteria
             this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
             this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "All Programs\r\nECA \r\n\r\n \r\n\r\nAcademic Exch";
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "All Programs\nECA \n\n \n\nAcademic Exch";
             this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
             this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
             this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" ng-click=\"closeMenus()\" autoscroll=\"true\" ui-view=\"\"";
@@ -1404,7 +1543,7 @@ Snapshot
             #region Search Criteria
             this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
             this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Academic Exchange Programs\r\n\r\nAcademic E";
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Academic Exchange Programs\n\nAcademic E";
             this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
             this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope ng-isolate-scope";
             this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope ng-isolate-scope\" id=\"sort-list\" st-table=\"programs\" st-pipe=\"get" +
@@ -1509,7 +1648,7 @@ Snapshot
                     #region Search Criteria
                     this.mUIOverviewPlacesrecentPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
                     this.mUIOverviewPlacesrecentPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-                    this.mUIOverviewPlacesrecentPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Overview\r\n\r\n\r\nPlaces recent U.S. college";
+                    this.mUIOverviewPlacesrecentPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Overview\n\n\nPlaces recent U.S. college";
                     this.mUIOverviewPlacesrecentPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
                     this.mUIOverviewPlacesrecentPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "container ng-scope";
                     this.mUIOverviewPlacesrecentPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"container ng-scope\" ui-view=\"\"";
@@ -1531,7 +1670,7 @@ Snapshot
                     #region Search Criteria
                     this.mUIDetailsThemesCulturePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
                     this.mUIDetailsThemesCulturePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-                    this.mUIDetailsThemesCulturePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Details\r\n\r\n\r\n\r\nThemes\r\n\r\nCulture/Sports/";
+                    this.mUIDetailsThemesCulturePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Details\n\n\n\nThemes\n\nCulture/Sports/";
                     this.mUIDetailsThemesCulturePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
                     this.mUIDetailsThemesCulturePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row table ng-scope";
                     this.mUIDetailsThemesCulturePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row table ng-scope\"";
@@ -1548,6 +1687,180 @@ Snapshot
         private HtmlDiv mUIOverviewPlacesrecentPane;
         
         private HtmlDiv mUIDetailsThemesCulturePane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIItemWindow1 : WinWindow
+    {
+        
+        public UIItemWindow1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.AccessibleName] = "Address and search using Bing";
+            this.SearchProperties[WinWindow.PropertyNames.ClassName] = "Edit";
+            this.WindowTitles.Add("New tab");
+            #endregion
+        }
+        
+        #region Properties
+        public WinEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new WinEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.WindowTitles.Add("New tab");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinEdit mUIItemEdit;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIItemWindow2 : WinWindow
+    {
+        
+        public UIItemWindow2(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.AccessibleName] = "Address and search using Bing";
+            this.SearchProperties[WinWindow.PropertyNames.ClassName] = "Edit";
+            this.WindowTitles.Add("New tab");
+            #endregion
+        }
+        
+        #region Properties
+        public WinEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new WinEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.WindowTitles.Add("New tab");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinEdit mUIItemEdit;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISignintoECAClientDocument : HtmlDocument
+    {
+        
+        public UISignintoECAClientDocument(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = "Sign in to ECA Client";
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/statedept.us/oauth2/authorize";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = @"https://login.microsoftonline.com/statedept.us/oauth2/authorize?response_type=id_token&client_id=e0356e55-e124-452c-837d-aeb7504185ff&redirect_uri=https%3A%2F%2Feca-kmt-qa.azurewebsites.net%2F&state=fc3d67d1-6508-465a-a305-8b1ddd67f456&x-client-SKU=Js&x-client-Ver=1.0.0&nonce=ace8db3d-2c9e-428a-aa61-50922c2ed13c";
+            this.WindowTitles.Add("Sign in to ECA Client");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIECATest1statedeptusHyperlink
+        {
+            get
+            {
+                if ((this.mUIECATest1statedeptusHyperlink == null))
+                {
+                    this.mUIECATest1statedeptusHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = "ecatest1_statedept_us_link";
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "\r\nECATest1@statedept.us\r\n\r\n\r\n\r\n•••";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "tile_link tooltip";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "tabindex=\"1\" class=\"tile_link tooltip\" i";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "2";
+                    this.mUIECATest1statedeptusHyperlink.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUIECATest1statedeptusHyperlink;
+            }
+        }
+        
+        public HtmlEdit UIPasswordEdit
+        {
+            get
+            {
+                if ((this.mUIPasswordEdit == null))
+                {
+                    this.mUIPasswordEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = "cred_password_inputtext";
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "passwd";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.LabeledBy] = "Password";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Type] = "PASSWORD";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "login_textfield textfield required field normaltext";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"passwd\" tabindex=\"2\" class=\"login_";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "2";
+                    this.mUIPasswordEdit.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUIPasswordEdit;
+            }
+        }
+        
+        public HtmlSpan UISigninPane
+        {
+            get
+            {
+                if ((this.mUISigninPane == null))
+                {
+                    this.mUISigninPane = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUISigninPane.SearchProperties[HtmlDiv.PropertyNames.Id] = "cred_sign_in_button";
+                    this.mUISigninPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Sign in";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "button normaltext cred_sign_in_button refresh_domain_state control-button button-" +
+                        "two button_primary";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "tabindex=\"11\" class=\"button normaltext cred_sign_in_button refresh_domain_state c" +
+                        "ontrol-button button-two button_primary\" id=\"cred_sign_in_button\" role=\"button\" " +
+                        "style=\"opacity: 1;\"";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "11";
+                    this.mUISigninPane.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUISigninPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIECATest1statedeptusHyperlink;
+        
+        private HtmlEdit mUIPasswordEdit;
+        
+        private HtmlSpan mUISigninPane;
         #endregion
     }
 }

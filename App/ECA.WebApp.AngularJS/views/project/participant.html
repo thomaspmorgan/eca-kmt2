@@ -149,7 +149,7 @@
             </table>
             <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="project.participants.length > 0"></div>
         </div>
-        <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" on-close="modalClear()" main-model="newParticipant">
+        <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="modalClose()" on-close="modalClear()" main-model="newParticipant">
             <h5>Fill out the required information below for each participant.</h5>
             <div class="required2">* Marks required fields</div>
             <div id="modal-tab" class="tabs">
@@ -171,19 +171,19 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">GENDER<span class="asterisk"> *</span></label>
-                                    <multi-select input-model="participants.gender" output-model="newParticipant.gender" button-label="name" item-label="name" tick-property="ticked" selection-mode="single" helper-elements=""></multi-select>
+                                    <isteven-multi-select input-model="genders" output-model="newParticipant.gender" button-label="value" item-label="value" tick-property="ticked" selection-mode="single" helper-elements=""></isteven-multi-select>
                                 </div>
                                 <div class="form-group">
                                     <label for="">PLACE OF BIRTH - COUNTRY<span class="asterisk"> *</span></label>
-                                    <multi-select input-model="locations.countries" output-model="newParticipant.countryOfBirth" button-label="countryLong" item-label="countryLong" tick-property="tickedPOB" selection-mode="single"></multi-select>
+                                    <isteven-multi-select input-model="locations.countries" output-model="newParticipant.countryOfBirth" button-label="countryLong" item-label="countryLong" tick-property="tickedPOB" selection-mode="single"></isteven-multi-select>
                                 </div>
                                 <div class="form-group">
                                     <label for="">COUNTRY OF CITIZENSHIP<span class="asterisk"> *</span></label>
-                                    <multi-select input-model="locations.countries" output-model="newParticipant.countryOfCititzenship" button-label="countryLong" item-label="countryLong" tick-property="tickedCOC" selection-mode="single"></multi-select>
+                                    <isteven-multi-select input-model="locations.countries" output-model="newParticipant.countryOfCititzenship" button-label="countryLong" item-label="countryLong" tick-property="tickedCOC" selection-mode="single"></isteven-multi-select>
                                 </div>
                                 <div class="form-group">
                                     <label for="">ORIGINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                    <multi-select input-model="locations.countries" output-model="newParticipant.countryOfOrigination" button-label="countryLong" item-label="countryLong" tick-property="tickedOC" selection-mode="single"></multi-select>
+                                    <isteven-multi-select input-model="locations.countries" output-model="newParticipant.countryOfOrigination" button-label="countryLong" item-label="countryLong" tick-property="tickedOC" selection-mode="single"></isteven-multi-select>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -197,15 +197,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">PLACE OF BIRTH - CITY<span class="asterisk"> *</span></label>
-                                    <multi-select input-model="locations.cities" output-model="newParticipant.birthCity" button-label="city" item-label="city" tick-property="ticked" selection-mode="single"></multi-select>
+                                    <isteven-multi-select input-model="locations.cities" output-model="newParticipant.birthCity" button-label="city" item-label="city" tick-property="ticked" selection-mode="single"></isteven-multi-select>
                                 </div>
                                 <div class="form-group">
                                     <label for="">COUNTRY OF RESIDENCE<span class="asterisk"> *</span></label>
-                                    <multi-select input-model="locations.countries" output-model="newParticipant.countryOfResidence" button-label="countryLong" item-label="countryLong" tick-property="tickedCOR" selection-mode="single"></multi-select>
+                                    <isteven-multi-select input-model="locations.countries" output-model="newParticipant.countryOfResidence" button-label="countryLong" item-label="countryLong" tick-property="tickedCOR" selection-mode="single"></isteven-multi-select>
                                 </div>
                                 <div class="form-group">
                                     <label for="">DESTINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                    <multi-select input-model="locations.countries" output-model="newParticipant.destinationCountry" button-label="countryLong" item-label="countryLong" tick-property="tickedDC" selection-mode="single"></multi-select>
+                                    <isteven-multi-select input-model="locations.countries" output-model="newParticipant.destinationCountry" button-label="countryLong" item-label="countryLong" tick-property="tickedDC" selection-mode="single"></isteven-multi-select>
                                 </div>
                             </div>
                         </div>

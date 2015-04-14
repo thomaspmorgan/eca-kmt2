@@ -95,6 +95,7 @@
     <Compile Include="Service\Admin\ProjectServiceValidatorTest.cs" />
     <Compile Include="Service\Admin\ProjectServiceCreateValidationEntityTest.cs" />
     <Compile Include="Service\Admin\ProjectStatusServiceTest.cs" />
+    <Compile Include="Service\Admin\GenderServiceTest.cs" />
     <Compile Include="Service\CreateTest.cs" />
     <Compile Include="Service\Lookup\SimpleLookupDTOTest.cs" />
     <Compile Include="Service\Lookup\LookupServiceTest.cs" />

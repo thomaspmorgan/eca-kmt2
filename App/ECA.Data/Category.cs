@@ -24,7 +24,6 @@ namespace ECA.Data
         public Category()
         {
             this.History = new History();
-            this.Focus = new Focus();
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 namespace CreateProgram.Test
 {
     /// <summary>
-    /// Create Program -under construction
+    /// Create Program -under construction- redo select from CM method(selectprogrammenuitem x2 for reloading page- works)
     /// </summary>
     [CodedUITest]
     public class CreateProgram
@@ -26,12 +26,15 @@ namespace CreateProgram.Test
         public void CreateProgramCodedUITestMethod1()
         {
 
-            this.UIMap.LogintoQA();
+            this.UIMap.LogintoQA_ExistingUser();
+            //this.UIMap.LogintoQA();
             this.UIMap.AssertContentMenuButton();
             this.UIMap.SelectContentMenuButton();
             this.UIMap.AssertProgramsMenuItemLink();
             this.UIMap.SelectProgramsMenuItem();
             this.UIMap.RefreshAllProgramsPage();
+            this.UIMap.SelectContentMenuButton();
+            this.UIMap.SelectProgramsMenuItem();
             this.UIMap.AssertCreateProgramButton();
             this.UIMap.SelectCreateProgramButton();
             this.UIMap.AssertCreateProgramModal();

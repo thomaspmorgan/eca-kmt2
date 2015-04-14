@@ -26,7 +26,9 @@ namespace Login.Test
         public void LoginCodedUITestMethod1()
         {
             // loginQA will take you to the homepage of QA. Add more depth after UIMap.LoginQA
-            this.UIMap.LoginQA();
+            this.UIMap.LogintoQA_ExistingUser();
+            //this.UIMap.LoginQA();
+
         }
 
         #region Additional test attributes

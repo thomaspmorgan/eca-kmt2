@@ -95,7 +95,7 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <StringAssertAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow2.UIHttpsecakmtqaazureweDocument.UISortlistPane.UIShowing15of5officesPane">
+    <StringAssertAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow2.UIHttpsecakmtqaazureweDocument.UISortlistPane.UIShowing15of5officesPane" ThinkTime="15000">
       <ParameterName />
       <PropertyName>InnerText</PropertyName>
       <ExpectedValue>Showing 1 - 5 of 5 offices</ExpectedValue>
@@ -196,9 +196,9 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <NavigateToUrlAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow">
+    <NavigateToUrlAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow" ThinkTime="10000">
       <ParameterName />
-      <Url>https://eca-kmt-qa.azurewebsites.net/#/alloffices/</Url>
+      <Url>https://eca-kmt-qa.azurewebsites.net/#/alloffices#top</Url>
       <NewInstance>false</NewInstance>
     </NavigateToUrlAction>
     <TestStepMarkerAction Comment="Edit URL in address bar to (/#/alloffices/) and navigate to all offices page. " MarkerInformation="NavigatetoECAOfficeDirectory">
@@ -210,7 +210,7 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow4.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton">
+    <MouseAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow4.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton" ThinkTime="10000">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
@@ -219,7 +219,7 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <MouseAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow4.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink">
+    <MouseAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow4.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink" ThinkTime="10000">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>

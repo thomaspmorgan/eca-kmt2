@@ -1,0 +1,2890 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/1/2015 5:05:27 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{612574F5-73D1-46EB-8715-9D0A44E7450A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load State Data to Location Table"
+  DTS:PackageType="5"
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{D54BD520-8CF0-41FC-904B-35896ED85F24}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{46E15AE8-6689-4404-9454-A06240BDDB00}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.ECA_Dev_Test.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=ECA_Dev_Test;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAKyKcZzWU0Jz7IwbJZ8PK5WDkRDvc//yBhZMcZ1SiaLAAAAAAOgAAAAAIAACAAAAD0kGhUIqv+hNkY9qVQeJb3WxNn6LjAzfFTZmdhB8krXCAAAACanhQ/e7EwgkoXhDtaHBLfC3D4HTRj7qUEdkv9S2Uc/kAAAABOZStA9r63gMnhpu6VvyYbQqpLA56b6v6ADyVWLEkQcXZ2QT6+16tlst4/Qjz2BtEhTWgmgUFKVbQFondkrEET</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{1FC3E889-678F-4746-A084-B8C768A4C94D}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\MigrationScripts\ECA\State Code List.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{F9B45336-F077-43CC-9AB4-4C138C3846F5}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABIdTOgc1mqkBNtJBNmh0Z7eUyUboid+3ekp2bqc0DHcwAAAAAOgAAAAAIAACAAAADUCDbzAlH+c0OSEOUIHRgdjt7LSq61n00hMZEvkopmlCAAAACTRF8mradHZp4JzKWmmEw6fQ8j2UjlVhyEXZahh+VKWEAAAACVk/N+XwkXvXjTQVBX6Yuxce8hvdjsvb5rCWrDDyBv3cjHewalUYglDsHZS+i+UWitegXurzfOvghMR8lhnR4B</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{7FC92D4C-1C67-4C0B-A9BA-D486D41C355C}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACCpCsmXbFYsW9aES+A5GXnyxwFgIk0XKhqhI8X7orekgAAAAAOgAAAAAIAACAAAACfLfU/PGyivNGSCWfNM9MVDydXirCBVrn26tfPYH62RiAAAADgK6PWSjULpV9pH4kChYElDFol9Ax42ytgosGSxvkHiEAAAAAwcsO2Dcvhc/sU3FHJferRFqEg1jN5T9/a9Sa9TltsAECbZYFiw/C7Ix/gJ5t5F5VC1229ex7oxrXy3oiUQYP/</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 2]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{8D323C62-4E68-4924-86E3-D27579C57278}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 2">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACbfLbge8TTEkKrwN4w5Lr/SI6s0Ra3IfYnrAZg9qpBmgAAAAAOgAAAAAIAACAAAAAVvR7uumT2osQx9vxRz7cI5Yfe8p8uixSr26BNgoYjqCAAAAC64JGkDNB2cHDbHBaaSJuNTcCE6sL+ER2FVrP+8PzkoEAAAAA33GP8+klpVSzGGmNf9n8Qh6cP80UMIJviT/552Iag3eBbQSo5jvrJAsfVMXgGSj+9q5riIDrhlJUK/UcmgUf4</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Create Location Data for Lookup"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{33D6018C-4668-48AD-B3AD-591EA30B9FB3}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create Location Data for Lookup"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Create Location Data for Lookup\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Create Location Data for Lookup\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create Location Data for Lookup\Data Conversion.Inputs[Data Conversion Input].Columns[LocationName]"
+                      cachedDataType="nText"
+                      cachedName="LocationName"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationName]" />
+                    <inputColumn
+                      refId="Package\Create Location Data for Lookup\Data Conversion.Inputs[Data Conversion Input].Columns[LocationIso]"
+                      cachedDataType="nText"
+                      cachedName="LocationIso"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationIso]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Create Location Data for Lookup\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of LocationName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of LocationName]"
+                      name="Copy of LocationName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationName]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of LocationIso]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of LocationIso]"
+                      name="Copy of LocationIso"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationIso]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Create Location Data for Lookup\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create Location Data for Lookup\Location table"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Location table"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Location]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create Location Data for Lookup\Location table.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[LocationId]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationId]"
+                      name="LocationId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[LocationTypeId]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationTypeId]"
+                      name="LocationTypeId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationName]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[LocationName]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationName]"
+                      name="LocationName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationIso]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[LocationIso]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationIso]"
+                      name="LocationIso"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[Region_LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[Region_LocationId]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[Region_LocationId]"
+                      name="Region_LocationId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[Country_LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[Country_LocationId]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[Country_LocationId]"
+                      name="Country_LocationId"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[LocationId]"
+                      dataType="i4"
+                      name="LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[LocationTypeId]"
+                      dataType="i4"
+                      name="LocationTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[Latitude]"
+                      dataType="r4"
+                      name="Latitude" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[Longitude]"
+                      dataType="r4"
+                      name="Longitude" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[Street1]"
+                      dataType="nText"
+                      name="Street1" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[Street2]"
+                      dataType="nText"
+                      name="Street2" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[Street3]"
+                      dataType="nText"
+                      name="Street3" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[City]"
+                      dataType="nText"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[Division]"
+                      dataType="nText"
+                      name="Division" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[PostalCode]"
+                      dataType="nText"
+                      name="PostalCode" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[LocationName]"
+                      dataType="nText"
+                      name="LocationName" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[LocationIso]"
+                      dataType="nText"
+                      name="LocationIso" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[Region_LocationId]"
+                      dataType="i4"
+                      name="Region_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].ExternalColumns[Country_LocationId]"
+                      dataType="i4"
+                      name="Country_LocationId" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[LocationId]"
+                      dataType="i4"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[LocationId]"
+                      name="LocationId" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[LocationTypeId]"
+                      dataType="i4"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[LocationTypeId]"
+                      name="LocationTypeId" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[LocationName]"
+                      dataType="nText"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[LocationName]"
+                      name="LocationName" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[LocationIso]"
+                      dataType="nText"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[LocationIso]"
+                      name="LocationIso" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[Region_LocationId]"
+                      dataType="i4"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[Region_LocationId]"
+                      name="Region_LocationId" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[Country_LocationId]"
+                      dataType="i4"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[Country_LocationId]"
+                      name="Country_LocationId" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create Location Data for Lookup\Location_Lookup"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Location_Lookup"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Location_Lookup]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create Location Data for Lookup\Location_Lookup.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].Columns[LocationId]"
+                      cachedDataType="i4"
+                      cachedName="LocationId"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationId]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationId]" />
+                    <inputColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].Columns[LocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="LocationTypeId"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationTypeId]" />
+                    <inputColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].Columns[LocationName]"
+                      cachedDataType="nText"
+                      cachedName="LocationName"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationName]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationName]" />
+                    <inputColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].Columns[LocationIso]"
+                      cachedDataType="nText"
+                      cachedName="LocationIso"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationIso]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[LocationIso]" />
+                    <inputColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].Columns[Region_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Region_LocationId"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[Region_LocationId]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[Region_LocationId]" />
+                    <inputColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].Columns[Country_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Country_LocationId"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[Country_LocationId]"
+                      lineageId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output].Columns[Country_LocationId]" />
+                    <inputColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].Columns[Copy of LocationName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Copy of LocationName"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[Copy of LocationName]"
+                      lineageId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of LocationName]" />
+                    <inputColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].Columns[Copy of LocationIso]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Copy of LocationIso"
+                      externalMetadataColumnId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[Copy of LocationIso]"
+                      lineageId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of LocationIso]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationId]"
+                      dataType="i4"
+                      name="LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      dataType="i4"
+                      name="LocationTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationName]"
+                      dataType="nText"
+                      name="LocationName" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationIso]"
+                      dataType="nText"
+                      name="LocationIso" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[Region_LocationId]"
+                      dataType="i4"
+                      name="Region_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[Country_LocationId]"
+                      dataType="i4"
+                      name="Country_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[Copy of LocationName]"
+                      dataType="wstr"
+                      length="255"
+                      name="Copy of LocationName" />
+                    <externalMetadataColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input].ExternalColumns[Copy of LocationIso]"
+                      dataType="wstr"
+                      length="255"
+                      name="Copy of LocationIso" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create Location Data for Lookup\Location_Lookup.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create Location Data for Lookup\Location_Lookup.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create Location Data for Lookup\Location_Lookup.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create Location Data for Lookup\Location_Lookup.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Create Location Data for Lookup.Paths[Data Conversion Output]"
+              endId="Package\Create Location Data for Lookup\Location_Lookup.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Create Location Data for Lookup\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Create Location Data for Lookup.Paths[OLE DB Source Output]"
+              endId="Package\Create Location Data for Lookup\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Create Location Data for Lookup\Location table.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create LocationType Data for Lookup"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{0ABC5570-2BCA-486D-93D1-6E702554B780}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create LocationType Data for Lookup"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Create LocationType Data for Lookup\Data Conversion 1"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Create LocationType Data for Lookup\Data Conversion 1.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create LocationType Data for Lookup\Data Conversion 1.Inputs[Data Conversion Input].Columns[LocationTypeName]"
+                      cachedDataType="nText"
+                      cachedName="LocationTypeName"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[LocationTypeName]" />
+                    <inputColumn
+                      refId="Package\Create LocationType Data for Lookup\Data Conversion 1.Inputs[Data Conversion Input].Columns[LocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="LocationTypeId"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[LocationTypeId]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Create LocationType Data for Lookup\Data Conversion 1.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of LocationTypeName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of LocationTypeName]"
+                      name="Copy of LocationTypeName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[LocationTypeName]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of LocationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of LocationTypeId]"
+                      name="Copy of LocationTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[LocationTypeId]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Create LocationType Data for Lookup\Data Conversion 1.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create LocationType Data for Lookup\LocationType table"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="LocationType table"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[LocationType]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create LocationType Data for Lookup\LocationType table.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[LocationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[LocationTypeId]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[LocationTypeId]"
+                      name="LocationTypeId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[LocationTypeName]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[LocationTypeName]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[LocationTypeName]"
+                      name="LocationTypeName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[LocationTypeId]"
+                      dataType="i4"
+                      name="LocationTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[LocationTypeName]"
+                      dataType="nText"
+                      name="LocationTypeName" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[LocationTypeId]"
+                      dataType="i4"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[LocationTypeId]"
+                      name="LocationTypeId" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[LocationTypeName]"
+                      dataType="nText"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[LocationTypeName]"
+                      name="LocationTypeName" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create LocationType Data for Lookup\LocationTypeLookup"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="LocationTypeLookup"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[LocationTypeLookup]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].Columns[LocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="LocationTypeId"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[LocationTypeId]" />
+                    <inputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].Columns[LocationTypeName]"
+                      cachedDataType="nText"
+                      cachedName="LocationTypeName"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeName]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[LocationTypeName]" />
+                    <inputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="History_CreatedOn"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="History_RevisedOn"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].Columns[Copy of LocationTypeName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Copy of LocationTypeName"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[Copy of LocationTypeName]"
+                      lineageId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of LocationTypeName]" />
+                    <inputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].Columns[Copy of LocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="Copy of LocationTypeId"
+                      externalMetadataColumnId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[Copy of LocationTypeId]"
+                      lineageId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of LocationTypeId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      dataType="i4"
+                      name="LocationTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeName]"
+                      dataType="nText"
+                      name="LocationTypeName" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[Copy of LocationTypeName]"
+                      dataType="wstr"
+                      length="255"
+                      name="Copy of LocationTypeName" />
+                    <externalMetadataColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input].ExternalColumns[Copy of LocationTypeId]"
+                      dataType="i4"
+                      name="Copy of LocationTypeId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Create LocationType Data for Lookup.Paths[Data Conversion Output]"
+              endId="Package\Create LocationType Data for Lookup\LocationTypeLookup.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Create LocationType Data for Lookup\Data Conversion 1.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Create LocationType Data for Lookup.Paths[OLE DB Source Output]"
+              endId="Package\Create LocationType Data for Lookup\Data Conversion 1.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Create LocationType Data for Lookup\LocationType table.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load States to Location Table"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{0745EB5E-BEDE-4076-9C08-B7A029EDCE31}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load States to Location Table"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load States to Location Table\Add Required Location Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Required Location Columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load States to Location Table\Add Required Location Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load States to Location Table\Add Required Location Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETUTCDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETUTCDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETUTCDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETUTCDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[CountryName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="3"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[CountryName]"
+                      name="CountryName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"USA"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"USA"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[CountryLocationType]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="7"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[CountryLocationType]"
+                      name="CountryLocationType"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Country"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Country"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[StateLocationType]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[StateLocationType]"
+                      name="StateLocationType"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"State"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"State"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load States to Location Table\Add Required Location Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load States to Location Table\CountryLocationLookup"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="CountryLocationLookup"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Location_Lookup]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Location_Lookup]) [refTable]
+where [refTable].[Copy of LocationIso] = ? and [refTable].[LocationTypeId] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Copy of LocationName" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Copy of LocationIso" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[CountryName]};#{Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load States to Location Table\CountryLocationLookup.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load States to Location Table\CountryLocationLookup.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load States to Location Table\CountryLocationLookup.Inputs[Lookup Input].Columns[CountryLocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="CountryLocationTypeId"
+                      lineageId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationTypeId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load States to Location Table\CountryLocationLookup.Inputs[Lookup Input].Columns[CountryName]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="CountryName"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[CountryName]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Copy of LocationIso</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load States to Location Table\CountryLocationLookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[CountryLocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[CountryLocationId]"
+                      name="CountryLocationId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationId</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[Region_LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[Region_LocationId]"
+                      name="Region_LocationId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Region_LocationId</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[Country_LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[Country_LocationId]"
+                      name="Country_LocationId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Country_LocationId</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[LocationName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="255"
+                      lineageId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[LocationName]"
+                      name="LocationName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Copy of LocationName</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[LocationIso]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="255"
+                      lineageId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[LocationIso]"
+                      name="LocationIso"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Copy of LocationIso</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load States to Location Table\CountryLocationLookup.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load States to Location Table\CountryLocationLookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load States to Location Table\CountryTypeLookup"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="CountryTypeLookup"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[LocationTypeLookup]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[LocationTypeLookup]) [refTable]
+where [refTable].[Copy of LocationTypeName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeName" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Copy of LocationTypeName" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Copy of LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[CountryLocationType]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load States to Location Table\CountryTypeLookup.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load States to Location Table\CountryTypeLookup.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load States to Location Table\CountryTypeLookup.Inputs[Lookup Input].Columns[CountryLocationType]"
+                      cachedDataType="wstr"
+                      cachedLength="7"
+                      cachedName="CountryLocationType"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[CountryLocationType]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Copy of LocationTypeName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load States to Location Table\CountryTypeLookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]"
+                      name="CountryLocationTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationTypeId</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Match Output].Columns[CountryLocationTypeName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="255"
+                      lineageId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Match Output].Columns[CountryLocationTypeName]"
+                      name="CountryLocationTypeName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Copy of LocationTypeName</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load States to Location Table\CountryTypeLookup.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load States to Location Table\CountryTypeLookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load States to Location Table\Location - States"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Location - States"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Location]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load States to Location Table\Location - States.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 2]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 2]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].Columns[Region_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Region_LocationId"
+                      externalMetadataColumnId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[Region_LocationId]"
+                      lineageId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[Region_LocationId]" />
+                    <inputColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].Columns[StateName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="StateName"
+                      externalMetadataColumnId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[LocationName]"
+                      lineageId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].Columns[StateName]" />
+                    <inputColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].Columns[StateCode]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="StateCode"
+                      externalMetadataColumnId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[LocationIso]"
+                      lineageId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].Columns[StateCode]" />
+                    <inputColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].Columns[StateLocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="StateLocationTypeId"
+                      externalMetadataColumnId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      lineageId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Match Output].Columns[StateLocationTypeId]" />
+                    <inputColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].Columns[CountryLocationId]"
+                      cachedDataType="i4"
+                      cachedName="CountryLocationId"
+                      externalMetadataColumnId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[Country_LocationId]"
+                      lineageId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output].Columns[CountryLocationId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[LocationId]"
+                      dataType="i4"
+                      name="LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      dataType="i4"
+                      name="LocationTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[Latitude]"
+                      dataType="r4"
+                      name="Latitude" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[Longitude]"
+                      dataType="r4"
+                      name="Longitude" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[Street1]"
+                      dataType="nText"
+                      name="Street1" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[Street2]"
+                      dataType="nText"
+                      name="Street2" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[Street3]"
+                      dataType="nText"
+                      name="Street3" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      dataType="nText"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[Division]"
+                      dataType="nText"
+                      name="Division" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[PostalCode]"
+                      dataType="nText"
+                      name="PostalCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[LocationName]"
+                      dataType="nText"
+                      name="LocationName" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[LocationIso]"
+                      dataType="nText"
+                      name="LocationIso" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[Region_LocationId]"
+                      dataType="i4"
+                      name="Region_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input].ExternalColumns[Country_LocationId]"
+                      dataType="i4"
+                      name="Country_LocationId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load States to Location Table\Location - States.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\Location - States.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\Location - States.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load States to Location Table\Location - States.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\Location - States.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load States to Location Table\State List"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="State List"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Sheet1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load States to Location Table\State List.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load States to Location Table\State List.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].Columns[StateCode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].ExternalColumns[Code]"
+                      length="255"
+                      lineageId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].Columns[StateCode]"
+                      name="StateCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].Columns[StateName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].ExternalColumns[Subdivision name]"
+                      length="255"
+                      lineageId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].Columns[StateName]"
+                      name="StateName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].Columns[Subdivision category]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].ExternalColumns[Subdivision category]"
+                      length="255"
+                      lineageId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].Columns[Subdivision category]"
+                      name="Subdivision category"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].ExternalColumns[Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].ExternalColumns[Subdivision name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Subdivision name" />
+                    <externalMetadataColumn
+                      refId="Package\Load States to Location Table\State List.Outputs[Excel Source Output].ExternalColumns[Subdivision category]"
+                      dataType="wstr"
+                      length="255"
+                      name="Subdivision category" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load States to Location Table\State List.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\State List.Outputs[Excel Source Error Output].Columns[Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load States to Location Table\State List.Outputs[Excel Source Error Output].Columns[Code]"
+                      name="Code" />
+                    <outputColumn
+                      refId="Package\Load States to Location Table\State List.Outputs[Excel Source Error Output].Columns[Subdivision name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load States to Location Table\State List.Outputs[Excel Source Error Output].Columns[Subdivision name]"
+                      name="Subdivision name" />
+                    <outputColumn
+                      refId="Package\Load States to Location Table\State List.Outputs[Excel Source Error Output].Columns[Subdivision category]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load States to Location Table\State List.Outputs[Excel Source Error Output].Columns[Subdivision category]"
+                      name="Subdivision category" />
+                    <outputColumn
+                      refId="Package\Load States to Location Table\State List.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\State List.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load States to Location Table\State List.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\State List.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load States to Location Table\StateTypeLookup"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="StateTypeLookup"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[LocationTypeLookup]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[LocationTypeLookup]) [refTable]
+where [refTable].[Copy of LocationTypeName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeName" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Copy of LocationTypeName" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Copy of LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[StateLocationType]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load States to Location Table\StateTypeLookup.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Test.msetien]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load States to Location Table\StateTypeLookup.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load States to Location Table\StateTypeLookup.Inputs[Lookup Input].Columns[StateLocationType]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="StateLocationType"
+                      lineageId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output].Columns[StateLocationType]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Copy of LocationTypeName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load States to Location Table\StateTypeLookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Match Output].Columns[StateLocationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Match Output].Columns[StateLocationTypeId]"
+                      name="StateLocationTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationTypeId</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Match Output].Columns[StateLocationTypeName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="255"
+                      lineageId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Match Output].Columns[StateLocationTypeName]"
+                      name="StateLocationTypeName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Copy of LocationTypeName</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load States to Location Table\StateTypeLookup.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load States to Location Table\StateTypeLookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load States to Location Table.Paths[Derived Column Output]"
+              endId="Package\Load States to Location Table\CountryTypeLookup.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\Load States to Location Table\Add Required Location Columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load States to Location Table.Paths[Excel Source Output]"
+              endId="Package\Load States to Location Table\Add Required Location Columns.Inputs[Derived Column Input]"
+              name="Excel Source Output"
+              startId="Package\Load States to Location Table\State List.Outputs[Excel Source Output]" />
+            <path
+              refId="Package\Load States to Location Table.Paths[Lookup Match Output]"
+              endId="Package\Load States to Location Table\StateTypeLookup.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load States to Location Table\CountryTypeLookup.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load States to Location Table.Paths[Lookup Match Output1]"
+              endId="Package\Load States to Location Table\CountryLocationLookup.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load States to Location Table\StateTypeLookup.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load States to Location Table.Paths[Lookup Match Output2]"
+              endId="Package\Load States to Location Table\Location - States.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Load States to Location Table\CountryLocationLookup.Outputs[Lookup Match Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{7D9F9C03-B9AD-4CAB-B54A-97FE92854DC0}"
+      DTS:From="Package\Create Location Data for Lookup"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Create LocationType Data for Lookup" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{2874C799-9DF6-43DB-8FD2-4D6F5F6A42E2}"
+      DTS:From="Package\Create LocationType Data for Lookup"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load States to Location Table" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="231,42"
+          Id="Package\Create Location Data for Lookup"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="254,42"
+          Id="Package\Create LocationType Data for Lookup"
+          TopLeft="118.5,118.5" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Load States to Location Table"
+          TopLeft="271.5,243.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="121,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="124.5,71"
+              Start="0,0"
+              End="124.5,63.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.5"
+                    Point2="0,35.5"
+                    Point3="4,35.5" />
+                  <mssgle:LineSegment
+                    End="120.5,35.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="120.5,35.5"
+                    Point2="124.5,35.5"
+                    Point3="124.5,39.5" />
+                  <mssgle:LineSegment
+                    End="124.5,63.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="245.5,160.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="135,83"
+              Start="0,0"
+              End="135,75.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,37.5"
+                    Point2="0,41.5"
+                    Point3="4,41.5" />
+                  <mssgle:LineSegment
+                    End="131,41.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="131,41.5"
+                    Point2="135,41.5"
+                    Point3="135,45.5" />
+                  <mssgle:LineSegment
+                    End="135,75.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Create Location Data for Lookup">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Create Location Data for Lookup\Location_Lookup"
+          TopLeft="192.5,225.444444444444" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Create Location Data for Lookup\Data Conversion"
+          TopLeft="132.5,119.444444444444" />
+        <EdgeLayout
+          Id="Package\Create Location Data for Lookup.Paths[Data Conversion Output]"
+          TopLeft="210.5,161.444444444444">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="61,64"
+              Start="0,0"
+              End="61,56.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28"
+                    Point2="0,32"
+                    Point3="4,32" />
+                  <mssgle:LineSegment
+                    End="57,32" />
+                  <mssgle:CubicBezierSegment
+                    Point1="57,32"
+                    Point2="61,32"
+                    Point3="61,36" />
+                  <mssgle:LineSegment
+                    End="61,56.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Create Location Data for Lookup\Location table"
+          TopLeft="31.5,23.5" />
+        <EdgeLayout
+          Id="Package\Create Location Data for Lookup.Paths[OLE DB Source Output]"
+          TopLeft="104,65.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="106.5,53.9444444444445"
+              Start="0,0"
+              End="106.5,46.4444444444445">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.9722222222222" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.9722222222222"
+                    Point2="0,26.9722222222222"
+                    Point3="4,26.9722222222222" />
+                  <mssgle:LineSegment
+                    End="102.5,26.9722222222222" />
+                  <mssgle:CubicBezierSegment
+                    Point1="102.5,26.9722222222222"
+                    Point2="106.5,26.9722222222222"
+                    Point3="106.5,30.9722222222222" />
+                  <mssgle:LineSegment
+                    End="106.5,46.4444444444445" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Location Data for Lookup\Location_Lookup">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create Location Data for Lookup\Location table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Create LocationType Data for Lookup">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Create LocationType Data for Lookup\LocationType table"
+          TopLeft="180,75" />
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Create LocationType Data for Lookup\Data Conversion 1"
+          TopLeft="184,163" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\Create LocationType Data for Lookup\LocationTypeLookup"
+          TopLeft="186,252" />
+        <EdgeLayout
+          Id="Package\Create LocationType Data for Lookup.Paths[OLE DB Source Output]"
+          TopLeft="265.25,117">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create LocationType Data for Lookup.Paths[Data Conversion Output]"
+          TopLeft="270,205">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47"
+              Start="0,0"
+              End="0,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create LocationType Data for Lookup\LocationType table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load States to Location Table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="123,42"
+          Id="Package\Load States to Location Table\State List"
+          TopLeft="37,61" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Load States to Location Table\Add Required Location Columns"
+          TopLeft="98,137" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Load States to Location Table\CountryTypeLookup"
+          TopLeft="424,141.944444444445" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Load States to Location Table\StateTypeLookup"
+          TopLeft="437,232.222222222222" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\Load States to Location Table\CountryLocationLookup"
+          TopLeft="429,313.944444444444" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Load States to Location Table\Location - States"
+          TopLeft="663,391" />
+        <EdgeLayout
+          Id="Package\Load States to Location Table.Paths[Excel Source Output]"
+          TopLeft="98.5,103">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="114,34"
+              Start="0,0"
+              End="114,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13"
+                    Point2="0,17"
+                    Point3="4,17" />
+                  <mssgle:LineSegment
+                    End="110,17" />
+                  <mssgle:CubicBezierSegment
+                    Point1="110,17"
+                    Point2="114,17"
+                    Point3="114,21" />
+                  <mssgle:LineSegment
+                    End="114,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load States to Location Table.Paths[Derived Column Output]"
+          TopLeft="327,160.472222222222">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="97,0"
+              Start="0,0"
+              End="89.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="89.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load States to Location Table.Paths[Lookup Match Output]"
+          TopLeft="513.75,183.944444444445">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.2777777777775"
+              Start="0,0"
+              End="0,40.7777777777775">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.7777777777775" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,14.5842013888887,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load States to Location Table.Paths[Lookup Match Output1]"
+          TopLeft="520.25,274.222222222222">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.722222222222"
+              Start="0,0"
+              End="0,32.222222222222">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.222222222222" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,10.306423611111,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load States to Location Table.Paths[Lookup Match Output2]"
+          TopLeft="523.5,355.944444444444">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="218.5,35.055555555556"
+              Start="0,0"
+              End="218.5,27.555555555556">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.527777777778" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.527777777778"
+                    Point2="0,17.527777777778"
+                    Point3="4,17.527777777778" />
+                  <mssgle:LineSegment
+                    End="214.5,17.527777777778" />
+                  <mssgle:CubicBezierSegment
+                    Point1="214.5,17.527777777778"
+                    Point2="218.5,17.527777777778"
+                    Point3="218.5,21.527777777778" />
+                  <mssgle:LineSegment
+                    End="218.5,27.555555555556" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="61.05861328125,22.527777777778,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load States to Location Table\CountryLocationLookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load States to Location Table\Location - States">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

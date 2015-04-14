@@ -6,9 +6,11 @@ using ECA.Business.Validation;
 using ECA.Core.Generation;
 using ECA.Core.Logging;
 using ECA.Data;
+using ECA.WebApi.Security;
 using Microsoft.Practices.Unity;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Runtime.Caching;
 using System.Web.Http;
 using Unity.WebApi;
 
@@ -25,6 +27,7 @@ namespace ECA.WebApi
         public static void RegisterComponents()
         {
             var container = new UnityContainer();
+            RegisterSecurityConcerns(container);
             RegisterLogging(container);
             RegisterContexts(container);
             RegisterServices(container);
@@ -59,7 +62,7 @@ namespace ECA.WebApi
         public static void RegisterServices(IUnityContainer container)
         {
             Debug.Assert(container.IsRegistered<EcaContext>(), "The EcaContext is a dependency.  It should be registered.");
-            
+
             container.RegisterType<IContactService, ContactService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusService, FocusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IGoalService, GoalService>(new HierarchicalLifetimeManager());
@@ -73,7 +76,10 @@ namespace ECA.WebApi
             container.RegisterType<IProjectStatusService, ProjectStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
-                        
+            container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
+            container.RegisterType<IGenderService, GenderService>(new HierarchicalLifetimeManager());
+
+
         }
 
         /// <summary>
@@ -83,11 +89,32 @@ namespace ECA.WebApi
         public static void RegisterValidations(IUnityContainer container)
         {
             container.RegisterType<
-                IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>, 
+                IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>,
                 ProgramServiceValidator>();
             container.RegisterType<
-                IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>, 
+                IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>,
                 ProjectServiceValidator>();
+        }
+
+        public static void RegisterSecurityConcerns(IUnityContainer container)
+        {
+            container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
+            container.RegisterType<IBusinessUserService, TestBusinessUserService>();
+            container.RegisterType<ObjectCache>(new HierarchicalLifetimeManager(),
+                new InjectionFactory((c) =>
+                {
+                    return MemoryCache.Default;
+                }));
+            container.RegisterType<IUserCacheService>(new InjectionFactory((c) =>
+            {
+                return new UserCacheService(c.Resolve<ILogger>(), c.Resolve<IBusinessUserService>(), c.Resolve<ObjectCache>());
+            }));
+            ResourceAuthorizeAttribute.CacheServiceFactory = () => container.Resolve<IUserCacheService>();
+            ResourceAuthorizeAttribute.LoggerFactory = () => container.Resolve<ILogger>();
+            ResourceAuthorizeAttribute.GetWebApiUser = () =>
+            {
+                return container.Resolve<IUserProvider>().GetCurrentUser();
+            };
         }
     }
 }
