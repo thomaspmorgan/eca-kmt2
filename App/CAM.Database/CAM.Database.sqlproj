@@ -61,6 +61,8 @@
     <Folder Include="CAM" />
     <Folder Include="CAM\Tables" />
     <Folder Include="CAM\Schema" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\PostDeploy" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="CAM\Schema\CamSchema.sql" />
@@ -84,5 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ECA_Local.publish.xml" />
+    <None Include="Scripts\PostDeploy\CAM.ResourceType.staticdata.sql" />
   </ItemGroup>
 </Project>
