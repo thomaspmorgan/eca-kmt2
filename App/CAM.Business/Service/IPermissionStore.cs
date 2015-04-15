@@ -18,8 +18,8 @@ namespace CAM.Business.Service
         int GetPermissionIdByName(string permissionName);
         string GetPermissionNameById(int permissionId);
         int GetResourceIdForApplicationId(int applicationId);
-        public int? GetResourceIdByForeignResourceId(int foreignResourceId, int resourceTypeId);
-        int GetResourceTypeId(string resourceTypeName);
+        int? GetResourceIdByForeignResourceId(int foreignResourceId, int resourceTypeId);
+        int? GetResourceTypeId(string resourceTypeName);
 
         void LoadUserPermissionsForResource(int principleId, int resourceId);
         void LoadUserPermissions(int principalId);

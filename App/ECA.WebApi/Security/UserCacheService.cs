@@ -1,4 +1,6 @@
-﻿using ECA.Core.Logging;
+﻿using ECA.Core.DynamicLinq;
+using ECA.Core.Logging;
+using ECA.Core.Query;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,36 +12,6 @@ using System.Web;
 
 namespace ECA.WebApi.Security
 {
-    public interface IBusinessUserService
-    {
-        Task<List<ResourcePermission>> GetResourcePermissionsAsync(Guid userId);
-        List<ResourcePermission> GetResourcePermissions(Guid userId);
-    }
-
-    public class TestBusinessUserService : IBusinessUserService
-    {
-
-        private List<ResourcePermission> permissions = new List<ResourcePermission>
-        {
-            new ResourcePermission
-            {
-                PermissionName = "Edit",
-                ResourceId = 1,
-                ResourceType = "Project"
-            }
-        };
-
-        public Task<List<ResourcePermission>> GetResourcePermissionsAsync(Guid userId)
-        {
-            return Task.FromResult<List<ResourcePermission>>(permissions);
-        }
-
-        public List<ResourcePermission> GetResourcePermissions(Guid userId)
-        {
-            return permissions;
-        }
-    }
-
     /// <summary>
     /// The UserCacheService is a service to handle caching user details in the web api application.
     /// </summary>
@@ -48,12 +20,11 @@ namespace ECA.WebApi.Security
         /// <summary>
         /// The default amount of time to cache a user's details equal to 5 minutes.
         /// </summary>
-        public const int DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS = 180;
+        public const int DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS = 5 * 60;
 
         private static readonly string COMPONENT_NAME = typeof(UserCacheService).FullName;
         private ObjectCache cache;
         private readonly int timeToLiveInSeconds;
-        private readonly IBusinessUserService service;
         private readonly ILogger logger;
 
         /// <summary>
@@ -61,15 +32,13 @@ namespace ECA.WebApi.Security
         /// in seconds is null, the default value is used.
         /// </summary>
         /// <param name="logger">The logger instance.</param>
-        /// <param name="service">The user service.</param>
         /// <param name="cache">The cache object to store user cache details to.</param>
         /// <param name="timeToLiveInSeconds">The time a cache item is valid before it is invalidated.</param>
-        public UserCacheService(ILogger logger, IBusinessUserService service, ObjectCache cache = null, int timeToLiveInSeconds = DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS)
+        public UserCacheService(ILogger logger, ObjectCache cache = null, int timeToLiveInSeconds = DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS)
         {
             Contract.Requires(logger != null, "The logger must not be null.");
             this.cache = cache ?? MemoryCache.Default;
             this.timeToLiveInSeconds = timeToLiveInSeconds;
-            this.service = service;
             this.logger = logger;
         }
 
@@ -80,8 +49,7 @@ namespace ECA.WebApi.Security
         /// <returns>The cacheitem.</returns>
         public CacheItem Add(UserCache userCache)
         {
-            Contract.Requires(userCache != null, "The user cache item must not be null.");
-            var cacheItem = new CacheItem(GetKey(userCache.User), userCache);
+            var cacheItem = new CacheItem(GetKey(userCache.UserId), userCache);
             cache.Set(cacheItem, GetCacheItemPolicy());
             return cacheItem;
         }
@@ -91,50 +59,14 @@ namespace ECA.WebApi.Security
         /// </summary>
         /// <param name="user">The user to get the cache for.</param>
         /// <returns>The UserCache instance.</returns>
-        public async Task<UserCache> GetUserCacheAsync(IWebApiUser user)
-        {
-            Contract.Requires(user != null, "The user must not be null.");
-            var stopWatch = Stopwatch.StartNew();
-            var cachedObject = cache.Get(GetKey(user));
-            UserCache userCache;
-            if (cachedObject == null)
-            {
-                var permissions = await service.GetResourcePermissionsAsync(user.Id);
-                userCache = new UserCache(user, permissions);
-                Add(userCache);
-            }
-            else
-            {
-                userCache = (UserCache)cachedObject;
-            }
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
-            return userCache;
-        }
-
-        /// <summary>
-        /// Returns the user's cache item.  If the cache item does not exist or has expired it is reloaded.
-        /// </summary>
-        /// <param name="user">The user to get the cache for.</param>
-        /// <returns>The UserCache instance.</returns>
         public UserCache GetUserCache(IWebApiUser user)
         {
-            Contract.Requires(user != null, "The user must not be null.");
-            var stopWatch = Stopwatch.StartNew();
             var cachedObject = cache.Get(GetKey(user));
-            UserCache userCache;
             if (cachedObject == null)
             {
-                var permissions = service.GetResourcePermissions(user.Id);
-                userCache = new UserCache(user, permissions);
-                Add(userCache);
+                throw new NotSupportedException("The user should have a cached object in the system cache.  Be sure use to the IsUserCached method and Add method for user cache logic.");
             }
-            else
-            {
-                userCache = (UserCache)cachedObject;
-            }
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            UserCache userCache = userCache = (UserCache)cachedObject;
             return userCache;
         }
 
@@ -146,7 +78,17 @@ namespace ECA.WebApi.Security
         public string GetKey(IWebApiUser user)
         {
             Contract.Requires(user != null, "The user must not be null.");
-            return user.Id.ToString();
+            return GetKey(user.Id);
+        }
+
+        /// <summary>
+        /// Returns the string key to use for the cache.
+        /// </summary>
+        /// <param name="userId">The guid of the user.</param>
+        /// <returns>The user id as a string to be used as a key for the cache.</returns>
+        public string GetKey(Guid userId)
+        {
+            return userId.ToString();
         }
 
         /// <summary>
@@ -168,5 +110,43 @@ namespace ECA.WebApi.Security
             policy.AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds((double)this.timeToLiveInSeconds);
             return policy;
         }
+
+        /// <summary>
+        /// Returns true if the user has a cache item.
+        /// </summary>
+        /// <param name="user">The user to check.</param>
+        /// <returns>True, if a UserCache exists for the given user.</returns>
+        public bool IsUserCached(IWebApiUser user)
+        {
+            return IsUserCached(user.Id);
+        }
+
+        /// <summary>
+        /// Returns true if the user has a cache item.
+        /// </summary>
+        /// <param name="userId">The user id to check.</param>
+        /// <returns>True, if a UserCache exists for the given user.</returns>
+        public bool IsUserCached(Guid userId)
+        {
+            return this.cache.Get(GetKey(userId)) != null;
+        }
+
+        /// <summary>
+        /// Removes the user from the cache.
+        /// </summary>
+        /// <param name="user">The user to remove.</param>
+        public void Remove(IWebApiUser user)
+        {
+            Remove(user.Id);
+        }
+        /// <summary>
+        /// Removes the user from the cache.
+        /// </summary>
+        /// <param name="user">The user id of the user to remove.</param>
+        public void Remove(Guid userId)
+        {
+            this.cache.Remove(GetKey(userId));
+        }
+
     }
 }

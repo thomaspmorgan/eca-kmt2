@@ -124,7 +124,7 @@
 		}
 		else
 		{
-			WriteLine(String.Format("throw new NotSupportedException();"));
+			WriteLine(String.Format("throw new System.NotSupportedException();"));
 		}
 		PopIndent();
 		WriteLine("}");
@@ -146,7 +146,7 @@
 		}
 		else
 		{
-			WriteLine(String.Format("throw new NotSupportedException();"));
+			WriteLine(String.Format("throw new System.NotSupportedException();"));
 		}
 		PopIndent();
 		WriteLine("}");

@@ -13,8 +13,6 @@ namespace CAM.Business.Service
     public class User
     {
 
-        private CamModel cam = new CamModel();
-
         public int PrincipalId { get; set; }
         public string DisplayName { get; set; }
         public String AccountStatusText { get; set; }
@@ -37,7 +35,7 @@ namespace CAM.Business.Service
 
         }
 
-        public bool AuthenticateUserWithGuid(Guid userGuid)
+        public virtual bool AuthenticateUserWithGuid(Guid userGuid, CamModel cam)
         {
                 var results = (from r in cam.UserAccounts
                                where r.AdGuid == userGuid

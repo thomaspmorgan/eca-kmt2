@@ -1,3 +1,5 @@
+using CAM.Business.Service;
+using CAM.Data;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
@@ -44,6 +46,7 @@ namespace ECA.WebApi
             var connectionString = "EcaContext";
             container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
+            container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor("CamModel"));
         }
 
         /// <summary>
@@ -98,22 +101,24 @@ namespace ECA.WebApi
 
         public static void RegisterSecurityConcerns(IUnityContainer container)
         {
+            container.RegisterType<IPermissionStore<IPermission>, PermissionStoreCached>(new HierarchicalLifetimeManager(), new InjectionConstructor());
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
-            container.RegisterType<IBusinessUserService, TestBusinessUserService>();
-            container.RegisterType<ObjectCache>(new HierarchicalLifetimeManager(),
-                new InjectionFactory((c) =>
-                {
-                    return MemoryCache.Default;
-                }));
+            container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
+            {
+                return MemoryCache.Default;
+            }));
             container.RegisterType<IUserCacheService>(new InjectionFactory((c) =>
             {
-                return new UserCacheService(c.Resolve<ILogger>(), c.Resolve<IBusinessUserService>(), c.Resolve<ObjectCache>());
+                return new UserCacheService(c.Resolve<ILogger>(), c.Resolve<ObjectCache>());
             }));
-            ResourceAuthorizeAttribute.CacheServiceFactory = () => container.Resolve<IUserCacheService>();
             ResourceAuthorizeAttribute.LoggerFactory = () => container.Resolve<ILogger>();
-            ResourceAuthorizeAttribute.GetWebApiUser = () =>
+            ResourceAuthorizeAttribute.UserProviderFactory = () =>
             {
-                return container.Resolve<IUserProvider>().GetCurrentUser();
+                return container.Resolve<IUserProvider>();
+            };
+            ResourceAuthorizeAttribute.PermissionLookupFactory = () =>
+            {
+                return container.Resolve<IPermissionStore<IPermission>>();
             };
         }
     }

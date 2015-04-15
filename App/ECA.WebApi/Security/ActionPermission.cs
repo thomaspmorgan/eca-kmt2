@@ -24,7 +24,7 @@ namespace ECA.WebApi.Security
         /// <returns>The formatted string.</returns>
         public override string ToString()
         {
-            return String.Format("{0}:{1}({2})", PermissionName, ResourceType, ArgumentName);
+            return String.Format("Permission Name:  [{0}], Resource Type:  [{1}],  Action Argument:  [{2}]", PermissionName, ResourceType, ArgumentName);
         }
 
         /// <summary>

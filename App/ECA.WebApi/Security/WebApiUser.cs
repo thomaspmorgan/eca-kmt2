@@ -10,72 +10,28 @@ using System.Security.Principal;
 using System.Linq.Expressions;
 using ECA.Core.Logging;
 using System.Diagnostics.Contracts;
+using CAM.Business.Service;
 
 namespace ECA.WebApi.Security
 {
-    public class ResourcePermission
-    {   
-        public int ResourceId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the id of the actual resource, i.e. the primary key.
-        /// </summary>
-        public int ObjectId { get; set; }
-
-        public string ResourceType { get; set; }
-
-        public string PermissionName { get; set; }
-
-        /// <summary>
-        /// Returns true if the given object equals this object.
-        /// </summary>
-        /// <param name="obj">The object to test.</param>
-        /// <returns>True if the given object equals this object.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-            {
-                return false;
-            }
-            var otherType = obj as ResourcePermission;
-            if (otherType == null)
-            {
-                return false;
-            }
-            return this.ResourceId == otherType.ResourceId
-                && this.ResourceType == otherType.ResourceType
-                && this.PermissionName == otherType.PermissionName;
-
-        }
-
-        public override int GetHashCode()
-        {
-            var hash = ResourceId * 27;
-            hash += ResourceType.GetHashCode() * 27;
-            hash += PermissionName.GetHashCode();
-            return hash;
-        }
-
-    }
-
     public interface IWebApiUser
     {
         Guid Id { get; }
+
+        string GetUsername();
     }
 
     public abstract class WebApiUserBase : IWebApiUser
     {
-        public abstract string GetUsername();
-
-        public abstract ECA.Business.Service.User ToBusinessUser();
-
-        public abstract bool HasPermission(ResourcePermission requestedPermission, IEnumerable<ResourcePermission> allUserPermissions);
+        public abstract bool HasPermission(IPermission requestedPermission, IEnumerable<IPermission> allUserPermissions);
 
         public Guid Id
         {
             get;
             protected set;
         }
+
+        public abstract string GetUsername();
     }
 
 
@@ -418,23 +374,15 @@ namespace ECA.WebApi.Security
         }
 
         /// <summary>
-        /// Returns a business layer user from this user.
-        /// </summary>
-        /// <returns>The business layer user.</returns>
-        public override ECA.Business.Service.User ToBusinessUser()
-        {
-            return new Business.Service.User(-1);
-        }
-
-        /// <summary>
         /// Returns true if the user has permission given all permissions.
         /// </summary>
         /// <param name="requestedPermission">The permission to check.</param>
         /// <param name="allUserPermissions">All user permissions.</param>
         /// <returns>True, if the user has the requested permission.</returns>
-        public override bool HasPermission(ResourcePermission requestedPermission, IEnumerable<ResourcePermission> allUserPermissions)
+        public override bool HasPermission(IPermission requestedPermission, IEnumerable<IPermission> allUserPermissions)
         {
-            return true;
+            var hasPermission = allUserPermissions.Contains(requestedPermission);
+            return hasPermission;
         }
 
         /// <summary>
