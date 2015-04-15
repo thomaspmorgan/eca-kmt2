@@ -163,6 +163,14 @@ namespace ECA.WebApi.Security
             return Task.FromResult<User>(GetCamUser(user, out isValid));
         }
 
+        public void Clear(IWebApiUser user)
+        {
+            if (this.cacheService.IsUserCached(user))
+            {
+                this.cacheService.Remove(user);
+            }
+        }
+
         #region IDispose
 
         /// <summary>
@@ -188,5 +196,8 @@ namespace ECA.WebApi.Security
         }
 
         #endregion
+
+
+        
     }
 }

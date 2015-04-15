@@ -33,6 +33,12 @@ namespace ECA.WebApi.Security
         /// <returns>True, if a UserCache exists for the given user.</returns>
         bool IsUserCached(IWebApiUser user);
 
+        /// <summary>
+        /// Removes all cached items for the given user.
+        /// </summary>
+        /// <param name="user">The user to remove cache for.</param>
+        void Remove(IWebApiUser user);
+
     }
 
     /// <summary>
@@ -87,6 +93,15 @@ namespace ECA.WebApi.Security
         {
             Contract.Requires(user != null, "The user must not be null.");
             return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        public void Remove(IWebApiUser user)
+        {
+            Contract.Requires(user != null, "The user must not be null.");
         }
     }
 }

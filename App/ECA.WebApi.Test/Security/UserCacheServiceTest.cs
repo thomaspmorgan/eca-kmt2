@@ -40,6 +40,10 @@ namespace ECA.WebApi.Test.Security
         {
             cacheDictionary = new Dictionary<string, object>();
             cache = new Mock<ObjectCache>();
+            Action<string, string> removeAction = (id, region) =>
+            {
+                cacheDictionary.Remove(id);
+            };
             Action<CacheItem, CacheItemPolicy> setAction = (c, p) =>
             {
                 cacheDictionary.Add(c.Key, c.Value);
@@ -61,6 +65,7 @@ namespace ECA.WebApi.Test.Security
             {
                 return cacheDictionary.Count;
             });
+            cache.Setup(x => x.Remove(It.IsAny<string>(), It.IsAny<string>())).Callback(removeAction);
         }
 
         [TestMethod]
@@ -142,6 +147,90 @@ namespace ECA.WebApi.Test.Security
             Assert.AreEqual(1, testService.GetCount());
             Assert.AreEqual(1, cacheDictionary.Count);
             Assert.IsInstanceOfType(cacheDictionary[testService.GetKey(user)], typeof(UserCache));
+        }
+
+        [TestMethod]
+        public void TestRemove()
+        {
+            var camId = 1;
+            var camUser = new TestCamUser
+            {
+                PrincipalId = camId,
+                IsValid = true
+            };
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var logger = new TraceLogger();
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+
+            var userCache = new UserCache(user, camUser, camUser.IsValid, new List<IPermission>());
+            testService.Add(userCache);
+            Assert.AreEqual(1, testService.GetCount());
+            Assert.AreEqual(1, cacheDictionary.Count);
+
+            testService.Remove(user);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+        }
+
+        [TestMethod]
+        public void TestRemove_MultipleUsers()
+        {
+            var camId1 = 1;
+            var camId2 = 2;
+            var camUser1 = new TestCamUser
+            {
+                PrincipalId = camId1,
+                IsValid = true
+            };
+            var camUser2 = new TestCamUser
+            {
+                PrincipalId = camId2,
+                IsValid = true
+            };
+            var user1 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var user2 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var logger = new TraceLogger();
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+
+            var userCache1 = new UserCache(user1, camUser1, camUser1.IsValid, new List<IPermission>());
+            var userCache2 = new UserCache(user2, camUser2, camUser2.IsValid, new List<IPermission>());
+            testService.Add(userCache1);
+            testService.Add(userCache2);
+            Assert.AreEqual(2, testService.GetCount());
+            Assert.AreEqual(2, cacheDictionary.Count);
+
+            testService.Remove(user1);
+            Assert.AreEqual(1, testService.GetCount());
+            Assert.AreEqual(1, cacheDictionary.Count);
+            Assert.IsTrue(cacheDictionary.ContainsKey(testService.GetKey(user2)));
+            Assert.AreEqual(1, testService.GetCount());
+        }
+
+        [TestMethod]
+        public void TestRemove_NoUsers()
+        {
+
+            var logger = new TraceLogger();
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+
+            testService.Remove(new SimpleUser { Id = Guid.NewGuid() });
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
         }
 
         [TestMethod]

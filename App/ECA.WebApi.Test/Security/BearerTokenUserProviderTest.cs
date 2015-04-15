@@ -256,6 +256,53 @@ namespace ECA.WebApi.Test.Security
             tester(await provider.GetPrincipalIdAsync(user));
         }
 
+        [TestMethod]
+        public async Task TestClear_UserCacheIsPresent()
+        {
+            var camId = 1;
+            var camUser = new TestCamUser
+            {
+                PrincipalId = camId,
+                IsValid = false
+            };
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var permissions = new List<IPermission>();
+            var userCache = new UserCache(user, camUser, camUser.IsValid, permissions);
+            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(true);
+            cacheService.Setup(x => x.Remove(It.IsAny<IWebApiUser>()));
+
+            permissionStore.SetupProperty(x => x.Permissions, permissions);
+            var provider = new BearerTokenUserProvider(logger, camModel, cacheService.Object, permissionStore.Object);
+            provider.Clear(user);
+            cacheService.Verify(x => x.Remove(It.IsAny<IWebApiUser>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestClear_UserCacheIsNotPresent()
+        {
+            var camId = 1;
+            var camUser = new TestCamUser
+            {
+                PrincipalId = camId,
+                IsValid = false
+            };
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var permissions = new List<IPermission>();
+            var userCache = new UserCache(user, camUser, camUser.IsValid, permissions);
+            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
+            cacheService.Setup(x => x.Remove(It.IsAny<IWebApiUser>()));
+
+            permissionStore.SetupProperty(x => x.Permissions, permissions);
+            var provider = new BearerTokenUserProvider(logger, camModel, cacheService.Object, permissionStore.Object);
+            provider.Clear(user);
+            cacheService.Verify(x => x.Remove(It.IsAny<IWebApiUser>()), Times.Never());
+        }
 
         #region Dispose
         [TestMethod]

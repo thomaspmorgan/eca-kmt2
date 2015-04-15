@@ -120,5 +120,14 @@ namespace ECA.WebApi.Security
         {
             return this.cache.Get(GetKey(user)) != null;
         }
+
+        /// <summary>
+        /// Removes the user from the cache.
+        /// </summary>
+        /// <param name="user">The user to remove.</param>
+        public void Remove(IWebApiUser user)
+        {
+            this.cache.Remove(GetKey(user));
+        }
     }
 }

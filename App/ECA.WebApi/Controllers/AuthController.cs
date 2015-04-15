@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using Swashbuckle.Swagger;
 using System.Diagnostics.Contracts;
 using ECA.WebApi.Models.Security;
+using ECA.Data;
 
 namespace ECA.WebApi.Controllers
 {
@@ -26,7 +27,7 @@ namespace ECA.WebApi.Controllers
         public int OfficeId { get; set; }
     }
 
-    [Authorize]
+    
     public class AuthController : ApiController
     {
         private IUserProvider provider;        
@@ -37,6 +38,7 @@ namespace ECA.WebApi.Controllers
             this.provider = provider;
         }
 
+        [Authorize]
         [Route("api/auth/user/")]
         [ResponseType(typeof(UserViewModel))]
         //[ResourceAuthorize("Read:Program(programId), Edit:Project(programId)")]
@@ -60,6 +62,15 @@ namespace ECA.WebApi.Controllers
                 UserName = currentUser.GetUsername()
             };
             return Ok(viewModel);
+        }
+
+        [Authorize]
+        [Route("api/auth/logout/")]
+        public async Task<IHttpActionResult> PostLogout()
+        {
+            var currentUser = this.provider.GetCurrentUser();
+            this.provider.Clear(currentUser);
+            return Ok();
         }
 
         //[HttpGet]
