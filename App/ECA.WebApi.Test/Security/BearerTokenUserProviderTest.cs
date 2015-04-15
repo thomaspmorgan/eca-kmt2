@@ -272,12 +272,15 @@ namespace ECA.WebApi.Test.Security
             var permissions = new List<IPermission>();
             var userCache = new UserCache(user, camUser, camUser.IsValid, permissions);
             cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(true);
+            cacheService.Setup(x => x.IsUserCached(It.IsAny<Guid>())).Returns(true);
             cacheService.Setup(x => x.Remove(It.IsAny<IWebApiUser>()));
+            cacheService.Setup(x => x.Remove(It.IsAny<Guid>()));
 
             permissionStore.SetupProperty(x => x.Permissions, permissions);
             var provider = new BearerTokenUserProvider(logger, camModel, cacheService.Object, permissionStore.Object);
             provider.Clear(user);
-            cacheService.Verify(x => x.Remove(It.IsAny<IWebApiUser>()), Times.Once());
+            cacheService.Verify(x => x.Remove(It.IsAny<IWebApiUser>()), Times.Never());
+            cacheService.Verify(x => x.Remove(It.IsAny<Guid>()), Times.Once());
         }
 
         [TestMethod]

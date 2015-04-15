@@ -64,7 +64,7 @@ namespace ECA.WebApi.Security
         public ResourceAuthorizeAttribute(string actionPermissions)
             : this(PermissionBase.Parse(actionPermissions).ToArray())
         {
-
+            Contract.Requires(actionPermissions != null, "The action permissions must not be null.");
         }
 
         /// <summary>
@@ -144,16 +144,9 @@ namespace ECA.WebApi.Security
             var currentUser = webApiUserProvider.GetCurrentUser();
             var logger = LoggerFactory();
             var actionArguments = actionContext.ActionArguments;
-
             var actionName = actionContext.ActionDescriptor.ActionName;
             var controllerName = actionContext.ControllerContext.ControllerDescriptor.ControllerName;
-
-            logger.Information("User [{0}] requesting authorization to resource on action [{1}].[{2}].",
-                currentUser.GetUsername(),
-                controllerName,
-                actionName);
-            var isUserValid = await webApiUserProvider.IsUserValidAsync(currentUser);
-            if (!isUserValid)
+            if (!(await webApiUserProvider.IsUserValidAsync(currentUser)))
             {
                 logger.Information("User [{0}] denied authorization to resource because user is not valid in CAM.");
                 throw new HttpResponseException(HttpStatusCode.Unauthorized);
@@ -188,15 +181,8 @@ namespace ECA.WebApi.Security
                         foreignResourceId);
                 }
                 else
-                {
-                    var requestedPermission = new Permission
-                    {
-                        PermissionId = requestedPermissionId,
-                        ResourceId = resourceId.Value,
-                        PrincipalId = principalId,
-                        IsAllowed = true
-                    };
-                    var hasPermission = currentUser.HasPermission(requestedPermission, userPermissions);
+                {   
+                    var hasPermission = currentUser.HasPermission(GetRequestedPermission(requestedPermissionId, resourceId.Value, principalId), userPermissions);
                     if (!hasPermission)
                     {
                         logger.Information("User [{0}] denied access to resource [{1}] with foreign key of [{2}] because the user do not have the [{3}] permission.",
@@ -213,6 +199,18 @@ namespace ECA.WebApi.Security
                 controllerName,
                 actionName);
             base.OnActionExecuting(actionContext);
+        }
+
+        private Permission GetRequestedPermission(int requestedPermissionId, int resourceId, int principalId)
+        {
+            var requestedPermission = new Permission
+            {
+                PermissionId = requestedPermissionId,
+                ResourceId = resourceId,
+                PrincipalId = principalId,
+                IsAllowed = true
+            };
+            return requestedPermission;
         }
     }
 }

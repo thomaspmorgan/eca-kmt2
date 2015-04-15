@@ -165,9 +165,14 @@ namespace ECA.WebApi.Security
 
         public void Clear(IWebApiUser user)
         {
-            if (this.cacheService.IsUserCached(user))
+            Clear(user.Id);
+        }
+
+        public void Clear(Guid userId)
+        {
+            if (this.cacheService.IsUserCached(userId))
             {
-                this.cacheService.Remove(user);
+                this.cacheService.Remove(userId);
             }
         }
 
@@ -196,6 +201,9 @@ namespace ECA.WebApi.Security
         }
 
         #endregion
+
+
+
 
 
         

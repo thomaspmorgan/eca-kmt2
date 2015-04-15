@@ -9,6 +9,8 @@ namespace ECA.WebApi.Models.Security
     {
         public int ResourceId { get; set; }
 
-        public string PermissionName { get; set; }
+        public int PermissionId { get; set; }
+
+
     }
 }

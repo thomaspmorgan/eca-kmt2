@@ -26,5 +26,7 @@ namespace ECA.WebApi.Security
         Task<bool> IsUserValidAsync(IWebApiUser user);
 
         void Clear(IWebApiUser user);
+
+        void Clear(Guid userId);
     }
 }

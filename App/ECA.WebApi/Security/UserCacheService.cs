@@ -118,7 +118,17 @@ namespace ECA.WebApi.Security
         /// <returns>True, if a UserCache exists for the given user.</returns>
         public bool IsUserCached(IWebApiUser user)
         {
-            return this.cache.Get(GetKey(user)) != null;
+            return IsUserCached(user.Id);
+        }
+
+        /// <summary>
+        /// Returns true if the user has a cache item.
+        /// </summary>
+        /// <param name="userId">The user id to check.</param>
+        /// <returns>True, if a UserCache exists for the given user.</returns>
+        public bool IsUserCached(Guid userId)
+        {
+            return this.cache.Get(GetKey(userId)) != null;
         }
 
         /// <summary>
@@ -127,7 +137,16 @@ namespace ECA.WebApi.Security
         /// <param name="user">The user to remove.</param>
         public void Remove(IWebApiUser user)
         {
-            this.cache.Remove(GetKey(user));
+            Remove(user.Id);
         }
+        /// <summary>
+        /// Removes the user from the cache.
+        /// </summary>
+        /// <param name="user">The user id of the user to remove.</param>
+        public void Remove(Guid userId)
+        {
+            this.cache.Remove(GetKey(userId));
+        }
+
     }
 }

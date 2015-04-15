@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -16,20 +17,10 @@ using ECA.Data;
 
 namespace ECA.WebApi.Controllers
 {
-    public class AuthBindingModel
-    {
-        public int ProgramId { get; set; }
-        public OtherBindingModel Other { get; set; }
-    }
-
-    public class OtherBindingModel
-    {
-        public int OfficeId { get; set; }
-    }
-
-    
     public class AuthController : ApiController
     {
+        public const int APPLICATION_RESOURCE_ID = 7;
+
         private IUserProvider provider;        
 
         public AuthController(IUserProvider provider)
@@ -42,7 +33,9 @@ namespace ECA.WebApi.Controllers
         [Route("api/auth/user/")]
         [ResponseType(typeof(UserViewModel))]
         //[ResourceAuthorize("Read:Program(programId), Edit:Project(programId)")]
-        [ResourceAuthorize("EditProgram", "Program", "programId")]
+        [ResourceAuthorize("EditProgram", "Program", 1008)]
+        [ResourceAuthorize("EditProgram", "Program", 1009)]
+        [ResourceAuthorize("EditProgram", "Program", 10)]
         //[ResourceAuthorize("Read", "Program", 1)]
         //[ResourceAuthorize("Read:Program(programId), Edit:Project(1)")]
         //[ResourceAuthorize("Read", "Program", "model.ProgramId")]
@@ -53,11 +46,16 @@ namespace ECA.WebApi.Controllers
         {
             var currentUser = this.provider.GetCurrentUser();
             var businessUser = this.provider.GetBusinessUser(currentUser);
-            var userPermissions = await this.provider.GetPermissionsAsync(currentUser);
+            var userPermissions = (await this.provider.GetPermissionsAsync(currentUser))
+                .ToList()
+                .Select(x => new ResourcePermissionViewModel{
+                    PermissionId = x.PermissionId,
+                    ResourceId = x.ResourceId
+                }).ToList();
             var viewModel = new UserViewModel
             {
                 CamPrincipalId = businessUser.Id,
-                //ResourcePermissions = userPermissionViewModels,
+                ResourcePermissions = userPermissions,
                 UserId = currentUser.Id,
                 UserName = currentUser.GetUsername()
             };
@@ -72,6 +70,15 @@ namespace ECA.WebApi.Controllers
             this.provider.Clear(currentUser);
             return Ok();
         }
+
+        //[Authorize]
+        //[Route("api/auth/logout/{id}")]
+        //[ResourceAuthorize("Admin", "Application", APPLICATION_RESOURCE_ID)]
+        //public async Task<IHttpActionResult> PostLogout(Guid id)
+        //{
+        //    this.provider.Clear(id);
+        //    return Ok();
+        //}
 
         //[HttpGet]
         //[Route("api/auth/token")]
