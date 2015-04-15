@@ -12,7 +12,7 @@ namespace CAM.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class PrincipleRole
+    public partial class PrincipalRole
     {
         public int PrincipalId { get; set; }
         public int RoleId { get; set; }
