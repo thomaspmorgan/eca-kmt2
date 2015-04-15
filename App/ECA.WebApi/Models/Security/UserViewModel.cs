@@ -14,10 +14,11 @@ namespace ECA.WebApi.Models.Security
 
         public Guid UserId { get; set; }
 
-        public int CamPrincipalId { get; set; }
+        public int PrincipalId { get; set; }
 
         public string UserName { get; set; }
 
         public IEnumerable<ResourcePermissionViewModel> ResourcePermissions { get; set; }
+
     }
 }

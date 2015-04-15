@@ -60,7 +60,7 @@ namespace ECA.WebApi.Test.Security
         }
 
         [TestMethod]
-        public void TestConstructor_SingleModelPermission()
+        public void TestConstructor_ModelPermission()
         {
             var modelType = typeof(SorterBindingModel);
             var property = "direction";
@@ -68,60 +68,42 @@ namespace ECA.WebApi.Test.Security
             var resourceType = "Program";
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, modelType, property);
-            Assert.AreEqual(1, attribute.Permissions.Count());
-            Assert.IsInstanceOfType(attribute.Permissions.First(), typeof(ModelPermission));
-            var modelPermission = (ModelPermission)attribute.Permissions.First();
-            Assert.AreEqual(modelType, modelPermission.ModelType);
-            Assert.AreEqual(property, modelPermission.Property);
-            Assert.AreEqual(permissionName, modelPermission.PermissionName);
-            Assert.AreEqual(resourceType, modelPermission.ResourceType);
+            Assert.IsNotNull(attribute.Permission);
+            Assert.IsInstanceOfType(attribute.Permission, typeof(ModelPermission));
+            var permission = (ModelPermission)attribute.Permission;
+            Assert.AreEqual(modelType, permission.ModelType);
+            Assert.AreEqual(property, permission.Property);
+            Assert.AreEqual(permissionName, permission.PermissionName);
+            Assert.AreEqual(resourceType, permission.ResourceType);
         }
 
         [TestMethod]
-        public void TestConstructor_SingleActionPermission()
+        public void TestConstructor_ActionPermission()
         {
             var actionArgument = "id";
             var permissionName = "Read";
             var resourceType = "Program";
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
-            Assert.AreEqual(1, attribute.Permissions.Count());
-            Assert.IsInstanceOfType(attribute.Permissions.First(), typeof(ActionPermission));
-            var firstPermission = (ActionPermission)attribute.Permissions.First();
-            Assert.AreEqual(actionArgument, firstPermission.ArgumentName);
-            Assert.AreEqual(permissionName, firstPermission.PermissionName);
-            Assert.AreEqual(resourceType, firstPermission.ResourceType);
+            Assert.IsNotNull(attribute.Permission);
+            Assert.IsInstanceOfType(attribute.Permission, typeof(ActionPermission));
+            var permission = (ActionPermission)attribute.Permission;
+            Assert.AreEqual(actionArgument, permission.ArgumentName);
+            Assert.AreEqual(permissionName, permission.PermissionName);
+            Assert.AreEqual(resourceType, permission.ResourceType);
         }
 
         [TestMethod]
-        public void TestConstructor_SingleActionPermission_DefaultIdActionArgument()
+        public void TestConstructor_ActionPermission_DefaultIdActionArgument()
         {
             var permissionName = "Read";
             var resourceType = "Program";
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType);
-            Assert.AreEqual(1, attribute.Permissions.Count());
-            Assert.IsInstanceOfType(attribute.Permissions.First(), typeof(ActionPermission));
-            var firstPermission = (ActionPermission)attribute.Permissions.First();
-            Assert.AreEqual(ResourceAuthorizeAttribute.DEFAULT_ID_ARGUMENT_NAME, firstPermission.ArgumentName);
-        }
-
-        [TestMethod]
-        public void TestConstructor_MultipleActionPermissions()
-        {
-            var actionPermissionStringFormat = "{0}:{1}({2})";
-            var actionArgument1 = "id";
-            var permissionName1 = "Read";
-            var resourceType1 = "Program";
-            var permissionAsString1 = String.Format(actionPermissionStringFormat, permissionName1, resourceType1, actionArgument1);
-
-            var actionArgument2 = "projectId";
-            var permissionName2 = "Edit";
-            var resourceType2 = "Project";
-            var permissionAsString2 = String.Format(actionPermissionStringFormat, permissionName2, resourceType2, actionArgument2);
-
-            var attribute = new ResourceAuthorizeAttribute(String.Join(", ", permissionAsString1, permissionAsString2));
-            Assert.AreEqual(2, attribute.Permissions.Count());
+            Assert.IsNotNull(attribute.Permission);
+            Assert.IsInstanceOfType(attribute.Permission, typeof(ActionPermission));
+            var permission = (ActionPermission)attribute.Permission;
+            Assert.AreEqual(ResourceAuthorizeAttribute.DEFAULT_ID_ARGUMENT_NAME, permission.ArgumentName);
         }
 
         [TestMethod]
@@ -131,12 +113,12 @@ namespace ECA.WebApi.Test.Security
             var resourceType = "program";
             var id = 1;
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
-            Assert.AreEqual(1, attribute.Permissions.Count());
-            Assert.IsInstanceOfType(attribute.Permissions.First(), typeof(StaticPermission));
-            var staticPermission = (StaticPermission)attribute.Permissions.First();
+            Assert.IsNotNull(attribute.Permission);
+            Assert.IsInstanceOfType(attribute.Permission, typeof(StaticPermission));
+            var staticPermission = (StaticPermission)attribute.Permission;
             Assert.AreEqual(permissionName, staticPermission.PermissionName);
             Assert.AreEqual(resourceType, staticPermission.ResourceType);
-            Assert.AreEqual(id, staticPermission.ResourceId);
+            Assert.AreEqual(id, staticPermission.ForeignResourceId);
 
         }
 

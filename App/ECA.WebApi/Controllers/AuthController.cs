@@ -17,6 +17,11 @@ using ECA.Data;
 
 namespace ECA.WebApi.Controllers
 {
+    public class TestBindingModel
+    {
+        public int ProgramId { get; set; }
+    }
+
     public class AuthController : ApiController
     {
         public const int APPLICATION_RESOURCE_ID = 7;
@@ -32,17 +37,7 @@ namespace ECA.WebApi.Controllers
         [Authorize]
         [Route("api/auth/user/")]
         [ResponseType(typeof(UserViewModel))]
-        //[ResourceAuthorize("Read:Program(programId), Edit:Project(programId)")]
-        [ResourceAuthorize("EditProgram", "Program", 1008)]
-        [ResourceAuthorize("EditProgram", "Program", 1009)]
-        [ResourceAuthorize("EditProgram", "Program", 10)]
-        //[ResourceAuthorize("Read", "Program", 1)]
-        //[ResourceAuthorize("Read:Program(programId), Edit:Project(1)")]
-        //[ResourceAuthorize("Read", "Program", "model.ProgramId")]
-        //[ResourceAuthorize("model.OwnerOrganizationId", typeof(ECA.WebApi.Models.Programs.DraftProgramBindingModel), "Edit", "Office")]
-        //[ResourceAuthorize("Edit", "Program", typeof(AuthBindingModel), "model.Other.OfficeId")]
-        //[ResourceAuthorize("Edit:Office(DraftProgramBindingModel#model.OwnerOrganizationId")]
-        public async Task<IHttpActionResult> GetUserAsync(int programId)
+        public async Task<IHttpActionResult> GetUserAsync()
         {
             var currentUser = this.provider.GetCurrentUser();
             var businessUser = this.provider.GetBusinessUser(currentUser);
@@ -54,7 +49,7 @@ namespace ECA.WebApi.Controllers
                 }).ToList();
             var viewModel = new UserViewModel
             {
-                CamPrincipalId = businessUser.Id,
+                PrincipalId = businessUser.Id,
                 ResourcePermissions = userPermissions,
                 UserId = currentUser.Id,
                 UserName = currentUser.GetUsername()
@@ -68,6 +63,17 @@ namespace ECA.WebApi.Controllers
         {
             var currentUser = this.provider.GetCurrentUser();
             this.provider.Clear(currentUser);
+            return Ok();
+        }
+
+        [Authorize]
+        [Route("api/auth/user/{id}")]
+        [ResourceAuthorize("EditProgram", "Program", 1009)]
+        [ResourceAuthorize("EditProgram", "Program", "id")]
+        [ResourceAuthorize("EditProgram", "Program")]
+        [ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
+        public IHttpActionResult PostTestResourceAuthorizeModelType([FromBody]TestBindingModel model, int id)
+        {
             return Ok();
         }
 

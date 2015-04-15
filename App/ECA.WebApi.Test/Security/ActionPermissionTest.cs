@@ -73,7 +73,7 @@ namespace ECA.WebApi.Test.Security
                 PermissionName = permissionName
             };
 
-            var expectedString = String.Format("{0}:{1}({2})", permissionName, resourceType, argumentName);
+            var expectedString = String.Format("Permission Name:  [{0}], Resource Type:  [{1}],  Action Argument:  [{2}]", permissionName, resourceType, argumentName);
             Assert.AreEqual(expectedString, actionPermission.ToString());
         }
 

@@ -101,7 +101,7 @@ namespace ECA.WebApi
 
         public static void RegisterSecurityConcerns(IUnityContainer container)
         {
-            container.RegisterType<IPermissionStore<IPermission>, PermissionStore>(new HierarchicalLifetimeManager(), new InjectionConstructor());
+            container.RegisterType<IPermissionStore<IPermission>, PermissionStoreCached>(new HierarchicalLifetimeManager(), new InjectionConstructor());
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
             {
@@ -118,7 +118,7 @@ namespace ECA.WebApi
             };
             ResourceAuthorizeAttribute.PermissionLookupFactory = () =>
             {
-                return new PermissionStoreCached();
+                return container.Resolve<IPermissionStore<IPermission>>();
             };
         }
     }
