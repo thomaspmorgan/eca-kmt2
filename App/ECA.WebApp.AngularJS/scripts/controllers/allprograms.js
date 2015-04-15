@@ -166,7 +166,7 @@ angular.module('staticApp')
 
 
     $scope.getProgramList = function () {
-        alert($scope.programList.type);
+        changeProgramList();
     };
 
     $scope.getParentPrograms = function (val) {
@@ -185,8 +185,16 @@ angular.module('staticApp')
 
     $scope.getPrograms = function (tableState) {
 
-        $scope.programsLoading = true;
         TableService.setTableState(tableState);
+
+        // initial list always the alphabetical
+        $scope.refreshProgramsAlpha(tableState);
+
+    };
+
+
+    $scope.refreshProgramsAlpha = function (tableState) {
+        $scope.programsLoading = true;
 
         $scope.activeProgramParams = {
             start: 0,
@@ -195,14 +203,14 @@ angular.module('staticApp')
             filter: [{ property: 'programstatusid', comparison: 'eq', value: 1 }]
         };
 
-        ProgramService.getAllProgramsHierarchy($scope.activeProgramParams)
+        ProgramService.getAllProgramsAlpha($scope.activeProgramParams)
         .then(function (data) {
 
             var programs = data.results;
             var total = data.total;
             var start = 0;
             if (programs.length > 0) {
-               start = $scope.activeProgramParams.start + 1;
+                start = $scope.activeProgramParams.start + 1;
             };
             updatePagingDetails(total, start, programs.length);
 
@@ -212,6 +220,28 @@ angular.module('staticApp')
             $scope.programsLoading = false;
         });
     };
+
+    $scope.refreshProgramsHierarchy = function () {
+        $scope.programsLoading = true;
+
+        ProgramService.getAllProgramsHierarchy($scope.activeProgramParams)
+        .then(function (data) {
+
+            var programs = data.results;
+            var total = data.total;
+            var start = 0;
+            if (programs.length > 0) {
+                start = $scope.activeProgramParams.start + 1;
+            };
+            updatePagingDetails(total, start, programs.length);
+
+            $scope.programs = programs;
+            var limit = TableService.getLimit();
+            tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
+            $scope.programsLoading = false;
+        });
+    };
+
 
     $scope.getParentProgramName = function (programId) {
         ProgramService.get(programId)
@@ -364,6 +394,18 @@ angular.module('staticApp')
                 });
         }
     };
+
+    function changeProgramList() {
+        if ($scope.programList.type == "alpha")
+        {
+            $scope.refreshProgramsAlpha();
+        }
+        else {
+            $scope.refreshProgramsHierarchy();
+        }
+    };
+
+
 
     function updatePagingDetails(total, start, count) {
         $scope.totalNumberOfPrograms = total;
