@@ -5204,6 +5204,13 @@ button.close {
   .btn-success:hover {
     background-color: #339246; }
 
+.btn-cancel {
+  color: #333;
+  background-color: #f7f7f7; }
+  .btn-cancel:hover {
+    background-color: #a0a9ab;
+    color: #fff; }
+
 .btn-default {
   background-color: #e7e7e7;
   color: #415358; }

@@ -69,6 +69,7 @@
     &:disabled {
         opacity: .5;
     }
+        
 }
 
 .btn-success {
@@ -76,6 +77,16 @@
 
     &:hover {
         background-color: $greenactive;
+    }
+}
+
+.btn-cancel {
+    color: #333;
+    background-color: $lightgray;
+
+    &:hover {
+        background-color: $mediumgray;
+        color: #fff;
     }
 }
 

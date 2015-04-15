@@ -5,7 +5,7 @@
 <div>
     <div class="pull-right" ng-show="editView.show">
         <button ng-click="view.onSaveClick($event)" class="btn btn-success">Save</button>
-        <button ng-click="view.onCancelClick($event)" class="btn">Cancel</button>
+        <button ng-click="view.onCancelClick($event)" class="btn btn-cancel">Cancel</button>
     </div>
     <h2 class="project-color tab-header" ng-show="!view.isLoading && !view.isSaving">Overview</h2>
 </div>
@@ -62,11 +62,12 @@
                     </ul>
                 </div>
                 <div class="col-md-6" ng-show="editView.show">
-                    <ui-select multiple ng-model="editView.selectedThemes" ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a theme." style="min-width: 200px;">
+                    <ui-select multiple ng-model="editView.selectedThemes"  ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a theme." style="min-width: 200px;">
                         <ui-select-match placeholder="Select themes...">
                             <div>{{$item.value}}</div>
                         </ui-select-match>
 
+                        
                         <ui-select-choices repeat="theme in editView.themes">
                             <div ng-bind-html="theme.value | highlight: $select.search"></div>
                         </ui-select-choices>
