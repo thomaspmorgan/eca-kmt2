@@ -76,10 +76,10 @@ namespace ECA.WebApi.Security
         public ResourceAuthorizeAttribute(string permissionName, string resourceType, string argumentName = DEFAULT_ID_ARGUMENT_NAME)
             : this(new ActionPermission
             {
-            ArgumentName = argumentName,
-            PermissionName = permissionName,
-            ResourceType = resourceType
-        })
+                ArgumentName = argumentName,
+                PermissionName = permissionName,
+                ResourceType = resourceType
+            })
         {
             Contract.Requires(permissionName != null, "The permission name must not be null.");
             Contract.Requires(resourceType != null, "The resource type must not be null.");
@@ -118,7 +118,7 @@ namespace ECA.WebApi.Security
         /// <param name="permissionName">The name of the permission.</param>
         /// <param name="resourceType">The resource type.</param>
         public ResourceAuthorizeAttribute(string permissionName, string resourceType, Type modelType, string property)
-            :this(new ModelPermission(property, modelType, permissionName, resourceType))
+            : this(new ModelPermission(property, modelType, permissionName, resourceType))
         {
             Contract.Requires(permissionName != null, "The permission name must not be null.");
             Contract.Requires(resourceType != null, "The resource type must not be null.");
@@ -145,47 +145,73 @@ namespace ECA.WebApi.Security
             var logger = LoggerFactory();
             var actionArguments = actionContext.ActionArguments;
 
-            var userPermissions = await webApiUserProvider.GetPermissionsAsync(currentUser);
+            var actionName = actionContext.ActionDescriptor.ActionName;
+            var controllerName = actionContext.ControllerContext.ControllerDescriptor.ControllerName;
+
+            logger.Information("User [{0}] requesting authorization to resource on action [{1}].[{2}].",
+                currentUser.GetUsername(),
+                controllerName,
+                actionName);
+            var isUserValid = await webApiUserProvider.IsUserValidAsync(currentUser);
+            if (!isUserValid)
+            {
+                logger.Information("User [{0}] denied authorization to resource because user is not valid in CAM.");
+                throw new HttpResponseException(HttpStatusCode.Unauthorized);
+            }
+
+            var userPermissions = (await webApiUserProvider.GetPermissionsAsync(currentUser)).ToList();
+            var principalId = await webApiUserProvider.GetPrincipalIdAsync(currentUser);
             Contract.Assert(userPermissions != null, "The user permissions must not be null.");
             foreach (var permission in Permissions)
             {
-                logger.Information("Validating {0} action permission {1} with user's cached permissions.", actionContext.ActionDescriptor.ActionName, permission.ToString());
-                //var requestedPermission = new ResourcePermission
-                //{
-                //    PermissionName = permission.PermissionName,
-                //    ResourceType = permission.ResourceType,
-                //    ResourceId = permission.GetResourceId(actionArguments)
-                //};
-                var requestedPermissionId = permissionStore.GetPermissionIdByName(permission.PermissionName);
-                var resourceType = permission.ResourceType;                
-                var resourceId = permission.GetResourceId(actionArguments);
-                var principalId = await webApiUserProvider.GetPrincipalIdAsync(currentUser);
+                var permissionName = permission.PermissionName;
+                var resourceTypeName = permission.ResourceType;
+                var foreignResourceId = permission.GetResourceId(actionArguments);
 
-                var requestedPermission = new Permission
+                var requestedPermissionId = permissionStore.GetPermissionIdByName(permissionName);
+                if (requestedPermissionId == 0)
                 {
-                    PermissionId = requestedPermissionId,
-                    ResourceId = resourceId,
-                };
-                
-
-                
-                //var requestedPermission = new Permission
-                //{
-                //  PermissionId = requestedPermissionId,
-                //  PrincipalId = principalId,
-                //  ResourceId = 
-                //};
-                //requestedPermission.HasPermission()
-
-
-                //stopped here, I'm not sure what to do with principal id in the IPermission interface, and i started
-                //modifying the WebApiUser to check permissions for real
-
-                if (!currentUser.HasPermission(requestedPermission, userPermissions))
+                    throw new NotSupportedException(String.Format("The requested permission [{0}] does not exist in CAM.", permissionName));
+                }
+                var resourceTypeId = permissionStore.GetResourceTypeId(resourceTypeName);
+                if (!resourceTypeId.HasValue)
                 {
-                    throw new HttpResponseException(HttpStatusCode.Unauthorized);
+                    throw new NotSupportedException(String.Format("The resource type name [{0}] does not have a matching resource id in CAM.", resourceTypeName));
+                }
+
+                var resourceId = permissionStore.GetResourceIdByForeignResourceId(foreignResourceId, resourceTypeId.Value);
+                if (!resourceId.HasValue)
+                {
+                    logger.Warning("User [{0}] granted access to resource of type [{1}] with foreign key of [{2}] because the object is in the CAM resources.",
+                        currentUser.GetUsername(),
+                        resourceTypeName,
+                        foreignResourceId);
+                }
+                else
+                {
+                    var requestedPermission = new Permission
+                    {
+                        PermissionId = requestedPermissionId,
+                        ResourceId = resourceId.Value,
+                        PrincipalId = principalId,
+                        IsAllowed = true
+                    };
+                    var hasPermission = currentUser.HasPermission(requestedPermission, userPermissions);
+                    if (!hasPermission)
+                    {
+                        logger.Information("User [{0}] denied access to resource [{1}] with foreign key of [{2}] because the user do not have the [{3}] permission.",
+                            currentUser.GetUsername(),
+                            resourceTypeName,
+                            foreignResourceId,
+                            permission);
+                        throw new HttpResponseException(HttpStatusCode.Unauthorized);
+                    }
                 }
             }
+            logger.Information("User [{0}] granted access to resource on action [{1}].[{2}].",
+                currentUser.GetUsername(),
+                controllerName,
+                actionName);
             base.OnActionExecuting(actionContext);
         }
     }

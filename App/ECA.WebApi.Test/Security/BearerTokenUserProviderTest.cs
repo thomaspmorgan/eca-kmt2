@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using CAM.Business.Service;
 using CAM.Data;
+using System.Reflection;
 
 namespace ECA.WebApi.Test.Security
 {
@@ -18,6 +19,7 @@ namespace ECA.WebApi.Test.Security
     public class BearerTokenUserProviderTest
     {
         private ILogger logger;
+        private InMemoryCamModel camModel;
         private Mock<IUserCacheService> cacheService;
         private Mock<IPermissionStore<IPermission>> permissionStore;
         
@@ -26,6 +28,7 @@ namespace ECA.WebApi.Test.Security
         public void TestInit()
         {
             logger = new TraceLogger();
+            camModel = new InMemoryCamModel();
             cacheService = new Mock<IUserCacheService>();
             permissionStore = new Mock<IPermissionStore<IPermission>>();
 
@@ -38,7 +41,7 @@ namespace ECA.WebApi.Test.Security
         [TestMethod]
         public void TestGetCurrentUser_NoCurrentUser()
         {
-            var provider = new BearerTokenUserProvider(new TraceLogger(), cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(new TraceLogger(), camModel, cacheService.Object, permissionStore.Object);
             var user = provider.GetCurrentUser();
             Assert.IsInstanceOfType(user, typeof(AnonymousUser));
         }
@@ -47,7 +50,7 @@ namespace ECA.WebApi.Test.Security
         public void TestGetCurrentUser_HasCurrentUser()
         {
             var debugUser = SetDebugUser();
-            var provider = new BearerTokenUserProvider(new TraceLogger(), cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(new TraceLogger(), camModel, cacheService.Object, permissionStore.Object);
             var user = provider.GetCurrentUser();
             Assert.IsInstanceOfType(user, typeof(WebApiUser));
             Assert.AreEqual(debugUser.Id, user.Id);
@@ -57,15 +60,20 @@ namespace ECA.WebApi.Test.Security
         public async Task TestGetBusinessUser()
         {
             var camId = 1;
+            var camUser = new TestCamUser
+            {
+                PrincipalId = camId,
+                IsValid = true
+            };
             var user = new SimpleUser
             {
                 Id = Guid.NewGuid()
             };
-            var userCache = new UserCache(user, camId);
+            var userCache = new UserCache(user, camUser, camUser.IsValid);
             cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(true);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
 
-            var provider = new BearerTokenUserProvider(logger, cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(logger, camModel, cacheService.Object, permissionStore.Object);
             Action<ECA.Business.Service.User> tester = (testUser) =>
             {
                 Assert.AreEqual(camId, testUser.Id);
@@ -79,16 +87,21 @@ namespace ECA.WebApi.Test.Security
         public async Task TestGetPermissions()
         {
             var camId = 1;
+            var camUser = new TestCamUser
+            {
+                PrincipalId = camId,
+                IsValid = true
+            };
             var user = new SimpleUser
             {
                 Id = Guid.NewGuid()
             };
             var permissions = new List<IPermission>();
-            var userCache = new UserCache(user, camId, permissions);
+            var userCache = new UserCache(user, camUser, camUser.IsValid, permissions);
             cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(true);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
 
-            var provider = new BearerTokenUserProvider(logger, cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(logger, camModel, cacheService.Object, permissionStore.Object);
             Action<IEnumerable<IPermission>> tester = (testPermissions) =>
             {
                 Assert.IsTrue(Object.ReferenceEquals(permissions, testPermissions));
@@ -102,12 +115,17 @@ namespace ECA.WebApi.Test.Security
         public async Task TestGetUserCache_UserIsCached()
         {
             var camId = 1;
+            var camUser = new TestCamUser
+            {
+                PrincipalId = camId,
+                IsValid = true
+            };
             var user = new SimpleUser
             {
                 Id = Guid.NewGuid()
             };
             var permissions = new List<IPermission>();
-            var userCache = new UserCache(user, camId, permissions);
+            var userCache = new UserCache(user, camUser, camUser.IsValid, permissions);
             cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(true);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
 
@@ -115,7 +133,7 @@ namespace ECA.WebApi.Test.Security
             {
                 Assert.IsTrue(Object.ReferenceEquals(userCache, testCache));
             };
-            var provider = new BearerTokenUserProvider(logger, cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(logger, camModel, cacheService.Object, permissionStore.Object);
             tester(provider.GetUserCache(user));
             tester(await provider.GetUserCacheAsync(user));
         }
@@ -124,16 +142,17 @@ namespace ECA.WebApi.Test.Security
         public async Task TestGetUserCache_UserIsNotCached_UserExistsInCam()
         {
             var camId = 1;
-            var camUser = new User
+            var camUser = new TestCamUser
             {
-                PrincipalId = camId
+                PrincipalId = camId,
+                IsValid = true
             };
             var user = new SimpleUser
             {
                 Id = Guid.NewGuid()
             };
             var permissions = new List<IPermission>();
-            var userCache = new UserCache(user, camId, permissions);
+            var userCache = new UserCache(user, camUser, camUser.IsValid, permissions);
             cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
             cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
 
@@ -143,12 +162,120 @@ namespace ECA.WebApi.Test.Security
             {
                 Assert.IsTrue(Object.ReferenceEquals(userCache, testCache));
             };
-            var provider = new BearerTokenUserProvider(logger, cacheService.Object, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(logger, camModel, cacheService.Object, permissionStore.Object);
             tester(provider.GetUserCache(user));
             tester(await provider.GetUserCacheAsync(user));
 
             permissionStore.Verify(x => x.LoadUserPermissions(It.IsAny<int>()), Times.Exactly(2));
         }
+
+        [TestMethod]
+        public async Task TestIsUserValid_UserIsValid()
+        {
+            var camId = 1;
+            var camUser = new TestCamUser
+            {
+                PrincipalId = camId,
+                IsValid = true
+            };
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var permissions = new List<IPermission>();
+            var userCache = new UserCache(user, camUser, camUser.IsValid, permissions);
+            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
+            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
+
+            permissionStore.SetupProperty(x => x.Permissions, permissions);
+            var provider = new BearerTokenUserProvider(logger, camModel, cacheService.Object, permissionStore.Object);
+
+            Action<bool> tester = (userValidatity) =>
+            {
+                Assert.AreEqual(camUser.IsValid, userValidatity);
+            };
+            tester(provider.IsUserValid(user));
+            tester(await provider.IsUserValidAsync(user));
+        }
+
+        [TestMethod]
+        public async Task TestIsUserValid_UserIsNotValid()
+        {
+            var camId = 1;
+            var camUser = new TestCamUser
+            {
+                PrincipalId = camId,
+                IsValid = false
+            };
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var permissions = new List<IPermission>();
+            var userCache = new UserCache(user, camUser, camUser.IsValid, permissions);
+            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
+            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
+
+            permissionStore.SetupProperty(x => x.Permissions, permissions);
+            var provider = new BearerTokenUserProvider(logger, camModel, cacheService.Object, permissionStore.Object);
+
+            Action<bool> tester = (userValidatity) =>
+            {
+                Assert.AreEqual(camUser.IsValid, userValidatity);
+            };
+            tester(provider.IsUserValid(user));
+            tester(await provider.IsUserValidAsync(user));
+        }
+
+        [TestMethod]
+        public async Task TestGetPrincipalId()
+        {
+            var camId = 1;
+            var camUser = new TestCamUser
+            {
+                PrincipalId = camId,
+                IsValid = false
+            };
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var permissions = new List<IPermission>();
+            var userCache = new UserCache(user, camUser, camUser.IsValid, permissions);
+            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
+            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(userCache);
+
+            permissionStore.SetupProperty(x => x.Permissions, permissions);
+            var provider = new BearerTokenUserProvider(logger, camModel, cacheService.Object, permissionStore.Object);
+
+            Action<int> tester = (testId) =>
+            {
+                Assert.AreEqual(camId, testId);
+            };
+            tester(provider.GetPrincipalId(user));
+            tester(await provider.GetPrincipalIdAsync(user));
+        }
+
+
+        #region Dispose
+        [TestMethod]
+        public void TestDispose_Context()
+        {
+            var testContext = new InMemoryCamModel();
+            var testService = new BearerTokenUserProvider(logger, testContext, cacheService.Object, permissionStore.Object);
+
+            var contextField = typeof(BearerTokenUserProvider).GetField("camContext", BindingFlags.Instance | BindingFlags.NonPublic);
+            var contextValue = contextField.GetValue(testService);
+            Assert.IsNotNull(contextField);
+            Assert.IsNotNull(contextValue);
+
+            testService.Dispose();
+            contextValue = contextField.GetValue(testService);
+            Assert.IsNull(contextValue);
+            
+
+        }
+        #endregion
 
         private TestUser SetDebugUser()
         {

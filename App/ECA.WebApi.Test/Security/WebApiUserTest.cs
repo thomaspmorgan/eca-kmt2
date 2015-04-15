@@ -188,7 +188,7 @@ namespace ECA.WebApi.Test.Security
         public void TestSetTokenExpirationDate_InvalidTime()
         {
             var claims = new List<Claim>();
-            claims.Add(new Claim(WebApiUser.ISSUED_AT_TIME_KEY, "abc"));
+            claims.Add(new Claim(WebApiUser.EXPIRATION_DATE_KEY, "abc"));
 
             var claimsPrincipal = new ClaimsPrincipal();
             var user = new WebApiUser(logger.Object, claimsPrincipal);
@@ -213,7 +213,7 @@ namespace ECA.WebApi.Test.Security
         public void TestSetTokenValidAfterDate_InvalidTime()
         {
             var claims = new List<Claim>();
-            claims.Add(new Claim(WebApiUser.ISSUED_AT_TIME_KEY, "abc"));
+            claims.Add(new Claim(WebApiUser.VALID_NOT_BEFORE_DATE_KEY, "abc"));
 
             var claimsPrincipal = new ClaimsPrincipal();
             var user = new WebApiUser(logger.Object, claimsPrincipal);

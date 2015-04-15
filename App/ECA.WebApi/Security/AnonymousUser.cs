@@ -12,12 +12,7 @@ namespace ECA.WebApi.Security
 
         public AnonymousUser()
         {
-
-        }
-
-        public Guid Id
-        {
-            get { return Guid.Empty; }
+            this.Id = Guid.Empty;
         }
 
         public override bool HasPermission(IPermission requestedPermission, IEnumerable<IPermission> allUserPermissions)

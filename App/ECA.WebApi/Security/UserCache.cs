@@ -17,17 +17,18 @@ namespace ECA.WebApi.Security
         /// Creates a new user cache.  If the permissions are not provided, the Permissions will be initialized with an empty list.
         /// </summary>
         /// <param name="user">The user.</param>
-        /// <param name="camPrincipalId">The commom access module principal id of the user.</param>
+        /// <param name="camUser">The cam business layer user.</param>
+        /// <param name="isValidCamUser">True, if the user is valid according to CAM.</param>
         /// <param name="permissions">The permissions of the user.</param>
-        public UserCache(IWebApiUser user, int camPrincipalId, IEnumerable<IPermission> permissions = null)
+        public UserCache(IWebApiUser user, User camUser, bool isValidCamUser, IEnumerable<IPermission> permissions = null)
         {
             Contract.Requires(user != null, "The user must not be null.");
             this.UserId = user.Id;
             this.Permissions = permissions ?? new List<IPermission>();
             this.DateCached = DateTime.UtcNow;
             this.UserName = user.GetUsername();
-            this.CamPrincipalId = camPrincipalId;
-
+            this.CamPrincipalId = camUser.PrincipalId;
+            this.IsValidCamUser = isValidCamUser;
         }
 
         /// <summary>
@@ -54,5 +55,10 @@ namespace ECA.WebApi.Security
         /// Gets or sets the username.
         /// </summary>
         public string UserName { get; private set; }
+
+        /// <summary>
+        /// Gets whether or not the user is valid according to CAM.
+        /// </summary>
+        public bool IsValidCamUser { get; private set; }
     }
 }

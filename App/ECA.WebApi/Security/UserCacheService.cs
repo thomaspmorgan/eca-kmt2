@@ -12,76 +12,6 @@ using System.Web;
 
 namespace ECA.WebApi.Security
 {
-    //public class CamUser
-    //{
-    //    public int Id { get; set; }
-    //}
-
-    //public interface IBusinessUserService
-    //{
-    //    Task<List<ResourcePermission>> GetResourcePermissionsAsync(Guid userId);
-    //    List<ResourcePermission> GetResourcePermissions(Guid userId);
-    //    CamUser GetUserById(Guid id);
-    //    Task<CamUser> GetUserByIdAsync(Guid id);
-    //    CamUser CreateUser(IWebApiUser newUser);
-    //    Task<CamUser> CreateUserAsync(IWebApiUser newUser);
-
-    //}
-
-    //public class TestBusinessUserService : IBusinessUserService
-    //{
-    //    private CamUser user;
-
-    //    public TestBusinessUserService()
-    //    {
-    //        this.user = new CamUser
-    //        {
-    //            Id = 1
-    //        };
-    //    }
-
-    //    private List<ResourcePermission> permissions = new List<ResourcePermission>
-    //    {
-    //        new ResourcePermission
-    //        {
-    //            PermissionName = "Edit",
-    //            ResourceId = 1,
-    //            ResourceType = "Project"
-    //        }
-    //    };
-
-    //    public Task<List<ResourcePermission>> GetResourcePermissionsAsync(Guid userId)
-    //    {
-    //        return Task.FromResult<List<ResourcePermission>>(permissions);
-    //    }
-
-    //    public List<ResourcePermission> GetResourcePermissions(Guid userId)
-    //    {
-    //        return permissions;
-    //    }
-
-
-    //    public CamUser GetUserById(Guid id)
-    //    {
-    //        return this.user;
-    //    }
-
-    //    public Task<CamUser> GetUserByIdAsync(Guid id)
-    //    {
-    //        return Task.FromResult<CamUser>(user);
-    //    }
-
-    //    public CamUser CreateUser(IWebApiUser newUser)
-    //    {
-    //        return this.user;
-    //    }
-
-    //    public Task<CamUser> CreateUserAsync(IWebApiUser newUser)
-    //    {
-    //        return Task.FromResult<CamUser>(user);
-    //    }
-    //}
-
     /// <summary>
     /// The UserCacheService is a service to handle caching user details in the web api application.
     /// </summary>
@@ -131,15 +61,12 @@ namespace ECA.WebApi.Security
         /// <returns>The UserCache instance.</returns>
         public UserCache GetUserCache(IWebApiUser user)
         {
-            var stopWatch = Stopwatch.StartNew();
             var cachedObject = cache.Get(GetKey(user));
             if (cachedObject == null)
             {
                 throw new NotSupportedException("The user should have a cached object in the system cache.  Be sure use to the IsUserCached method and Add method for user cache logic.");
             }
             UserCache userCache = userCache = (UserCache)cachedObject;
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
             return userCache;
         }
 

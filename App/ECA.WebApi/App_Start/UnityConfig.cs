@@ -1,4 +1,5 @@
 using CAM.Business.Service;
+using CAM.Data;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
@@ -45,6 +46,7 @@ namespace ECA.WebApi
             var connectionString = "EcaContext";
             container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
+            container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor("CamModel"));
         }
 
         /// <summary>
@@ -99,12 +101,12 @@ namespace ECA.WebApi
 
         public static void RegisterSecurityConcerns(IUnityContainer container)
         {
-            container.RegisterType<IPermissionStore<IPermission>, PermissionStore>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPermissionStore<IPermission>, PermissionStore>(new HierarchicalLifetimeManager(), new InjectionConstructor());
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
-                {
-                    return MemoryCache.Default;
-                }));
+            {
+                return MemoryCache.Default;
+            }));
             container.RegisterType<IUserCacheService>(new InjectionFactory((c) =>
             {
                 return new UserCacheService(c.Resolve<ILogger>(), c.Resolve<ObjectCache>());
@@ -113,6 +115,10 @@ namespace ECA.WebApi
             ResourceAuthorizeAttribute.UserProviderFactory = () =>
             {
                 return container.Resolve<IUserProvider>();
+            };
+            ResourceAuthorizeAttribute.PermissionLookupFactory = () =>
+            {
+                return new PermissionStoreCached();
             };
         }
     }

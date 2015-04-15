@@ -20,5 +20,9 @@ namespace ECA.WebApi.Security
         Task<int> GetPrincipalIdAsync(IWebApiUser user);
 
         int GetPrincipalId(IWebApiUser user);
+
+        bool IsUserValid(IWebApiUser user);
+
+        Task<bool> IsUserValidAsync(IWebApiUser user);
     }
 }

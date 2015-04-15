@@ -40,7 +40,7 @@ namespace ECA.WebApi.Controllers
         [Route("api/auth/user/")]
         [ResponseType(typeof(UserViewModel))]
         //[ResourceAuthorize("Read:Program(programId), Edit:Project(programId)")]
-        //[ResourceAuthorize("Read", "Program", "programId")]
+        [ResourceAuthorize("EditProgram", "Program", "programId")]
         //[ResourceAuthorize("Read", "Program", 1)]
         //[ResourceAuthorize("Read:Program(programId), Edit:Project(1)")]
         //[ResourceAuthorize("Read", "Program", "model.ProgramId")]
@@ -52,11 +52,6 @@ namespace ECA.WebApi.Controllers
             var currentUser = this.provider.GetCurrentUser();
             var businessUser = this.provider.GetBusinessUser(currentUser);
             var userPermissions = await this.provider.GetPermissionsAsync(currentUser);
-            //var userPermissionViewModels = userPermissions.Select(x => new ResourcePermissionViewModel
-            //{
-            //    PermissionName = x..PermissionName,
-            //    ResourceId = x.ResourceId
-            //}).ToList();
             var viewModel = new UserViewModel
             {
                 CamPrincipalId = businessUser.Id,

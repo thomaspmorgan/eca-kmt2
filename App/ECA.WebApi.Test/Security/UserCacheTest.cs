@@ -15,10 +15,16 @@ namespace ECA.WebApi.Test.Security
         [TestMethod]
         public void TestConstructor_NullPermissons()
         {
-            var camId = 1;
+            var principalId = 1;
+            var isValidUser = true;
+            var camUser = new TestCamUser();
+            camUser.PrincipalId = principalId;
+            camUser.IsValid = isValidUser;
+
             var user = new DebugWebApiUser(new TraceLogger());
-            var userCache = new UserCache(user, camId);
-            Assert.AreEqual(camId, userCache.CamPrincipalId);
+            var userCache = new UserCache(user, camUser, isValidUser);
+            Assert.AreEqual(principalId, userCache.CamPrincipalId);
+            Assert.AreEqual(isValidUser, userCache.IsValidCamUser);
             Assert.AreEqual(user.Id, userCache.UserId);
             Assert.AreEqual(user.GetUsername(), userCache.UserName);
             Assert.IsNotNull(userCache.Permissions);
@@ -29,10 +35,9 @@ namespace ECA.WebApi.Test.Security
         [TestMethod]
         public void TestConstructor_NonNullPermissions()
         {
-            var camId = 1;
             var permissions = new List<IPermission>();
             var user = new DebugWebApiUser(new TraceLogger());
-            var userCache = new UserCache(user, camId, permissions);
+            var userCache = new UserCache(user, new TestCamUser(), true, permissions);
             Assert.IsTrue(Object.ReferenceEquals(permissions, userCache.Permissions));
             DateTime.UtcNow.Should().BeCloseTo(userCache.DateCached, 1000);
         }
