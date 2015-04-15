@@ -201,7 +201,7 @@ namespace CAM.Business.Service
         {
             int? result = (from p in cam.Resources
                            where
-                               p.ResourceType.ResourceTypeId == resourceTypeId &&
+                               p.ResourceTypeId == resourceTypeId &&
                                p.ForeignResourceId == foreignResourceId
                            select p.ResourceId).FirstOrDefault();
             if (!result.HasValue)

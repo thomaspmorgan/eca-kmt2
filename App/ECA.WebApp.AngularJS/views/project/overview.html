@@ -18,14 +18,14 @@
 
 <div ng-show="!view.isLoading && !view.isSaving">
     <div class="row" ng-show="editView.show">
-        <h5 class="col-md-6">Project Name</h5>
-        <h5 class="col-md-6" ng-show="editView.show"><a href="#" editable-text="project.name">{{ project.name || 'NO PROJECT NAME' }}</a></h5>
+        <h5 class="col-md-3">Project Name</h5>
+        <h5 class="col-md-9" ng-show="editView.show"><a href="#" editable-text="project.name">{{ project.name || 'NO PROJECT NAME' }}</a></h5>
     </div>
     <div class="row">
         <h5 ng-show="!editView.show">{{project.description}}</h5>
 
-        <h5 class="col-md-6" ng-show="editView.show">Description</h5>
-        <h5 class="col-md-6" ng-show="editView.show" editable-textarea="project.description" e-rows="5" e-cols="150">{{project.description}}</h5>
+        <h5 class="col-md-3" ng-show="editView.show">Description</h5>
+        <h5 class="col-md-9 canEdit" ng-show="editView.show" editable-textarea="project.description" e-rows="5" e-cols="150">{{project.description}}</h5>
     </div>
     <div class="row tags">
         <span ng-repeat="tag in project.tags" class="tag">#{{tag}}</span>
