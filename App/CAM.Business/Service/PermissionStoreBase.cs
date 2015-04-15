@@ -201,7 +201,7 @@ namespace CAM.Business.Service
         {
             int? result = (from p in cam.Resources
                            where
-                               p.ResourceType.ResourceTypeId == resourceTypeId &&
+                               p.ResourceTypeId == resourceTypeId &&
                                p.ForeignResourceId == foreignResourceId
                            select p.ResourceId).FirstOrDefault();
             if (!result.HasValue)
@@ -230,7 +230,7 @@ namespace CAM.Business.Service
         {
             var stopwatch = Stopwatch.StartNew();
             IEnumerable<IPermission> rolePermissions = (from p in cam.RoleResourcePermissions
-                                                    join r in cam.PrincipleRoles on p.RoleId equals r.RoleId
+                                                    join r in cam.PrincipalRoles on p.RoleId equals r.RoleId
                                                     where r.PrincipalId == principalId && p.ResourceId== resourceId
                                                     select new CAM.Business.Service.Permission
                                                     {
@@ -278,7 +278,7 @@ namespace CAM.Business.Service
         {
             var stopwatch = Stopwatch.StartNew();
             IEnumerable<IPermission> rolePermissions = (from p in cam.RoleResourcePermissions
-                                                    join r in cam.PrincipleRoles on p.RoleId equals r.RoleId
+                                                    join r in cam.PrincipalRoles on p.RoleId equals r.RoleId
                                                     where r.PrincipalId == principalId 
                                                     select new CAM.Business.Service.Permission
                                                     {

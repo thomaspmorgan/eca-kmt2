@@ -17,7 +17,7 @@ namespace CAM.Data
         public int RoleId { get; set; }
         public int ResourceId { get; set; }
         public int PermissionId { get; set; }
-        public int AssignedOn { get; set; }
+        public System.DateTimeOffset AssignedOn { get; set; }
         public int AssignedBy { get; set; }
     
         public virtual Permission Permission { get; set; }

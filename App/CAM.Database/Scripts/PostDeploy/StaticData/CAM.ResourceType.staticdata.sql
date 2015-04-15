@@ -39,10 +39,10 @@ DECLARE @tblTempTable TABLE (
 -- removed entries. If you remove an entry then it will no longer
 -- be added to new databases based on your schema, but the entry
 -- will not be deleted from databases in which the value already exists.
-INSERT INTO @tblTempTable ([ResourceTypeId], [ResourceTypeName], [CreatedBy], [CreatedOn], [RevisedBy], [RevisedOn], [IsActive]) VALUES (1, 'Application', 0, getdate(), 0, getdate(),1)
-INSERT INTO @tblTempTable ([ResourceTypeId], [ResourceTypeName], [CreatedBy], [CreatedOn], [RevisedBy], [RevisedOn], [IsActive]) VALUES (2, 'Office', 0, getdate(), 0, getdate(),1)
-INSERT INTO @tblTempTable ([ResourceTypeId], [ResourceTypeName], [CreatedBy], [CreatedOn], [RevisedBy], [RevisedOn], [IsActive]) VALUES (3, 'Program', 0, getdate(), 0, getdate(),1)
-INSERT INTO @tblTempTable ([ResourceTypeId], [ResourceTypeName], [CreatedBy], [CreatedOn], [RevisedBy], [RevisedOn], [IsActive]) VALUES (4, 'Project', 0, getdate(), 0, getdate(),1)
+INSERT INTO @tblTempTable ([ResourceTypeId], [ResourceTypeName], [CreatedBy], [CreatedOn], [RevisedBy], [RevisedOn], [IsActive]) VALUES (1, 'Application', 0, '4/14/2015 12:00:00 AM -05:00', 0, '4/14/2015 12:00:00 AM -05:00',1)
+INSERT INTO @tblTempTable ([ResourceTypeId], [ResourceTypeName], [CreatedBy], [CreatedOn], [RevisedBy], [RevisedOn], [IsActive]) VALUES (2, 'Office', 0, '4/14/2015 12:00:00 AM -05:00', 0, '4/14/2015 12:00:00 AM -05:00',1)
+INSERT INTO @tblTempTable ([ResourceTypeId], [ResourceTypeName], [CreatedBy], [CreatedOn], [RevisedBy], [RevisedOn], [IsActive]) VALUES (3, 'Program', 0, '4/14/2015 12:00:00 AM -05:00', 0, '4/14/2015 12:00:00 AM -05:00',1)
+INSERT INTO @tblTempTable ([ResourceTypeId], [ResourceTypeName], [CreatedBy], [CreatedOn], [RevisedBy], [RevisedOn], [IsActive]) VALUES (4, 'Project', 0, '4/14/2015 12:00:00 AM -05:00', 0, '4/14/2015 12:00:00 AM -05:00',1)
 
 
 

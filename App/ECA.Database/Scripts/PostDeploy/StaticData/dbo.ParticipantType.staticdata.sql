@@ -41,6 +41,10 @@ INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('5', 'U.S. Non-P
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('6', 'Individual')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('7', 'Foreign NGO/PVO')
 INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('8', 'Other')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('9'	,'Foreign Non Traveling Participant')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('10','U.S. Non Traveling Participant')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('11','Foreign Traveling Participant')
+INSERT INTO @tblTempTable ([ParticipantTypeId], [Name]) VALUES ('12','U.S. Traveling Participant')
 
 
 -- 3: Insert any new items into the table from the table variable

@@ -16,8 +16,8 @@ namespace CAM.Data
     {
         public Role()
         {
-            this.PrincipleRoles = new HashSet<PrincipleRole>();
             this.RoleResourcePermissions = new HashSet<RoleResourcePermission>();
+            this.PrincipalRoles = new HashSet<PrincipalRole>();
         }
     
         public int RoleId { get; set; }
@@ -31,9 +31,9 @@ namespace CAM.Data
         public Nullable<int> ResourceId { get; set; }
         public Nullable<int> ResourceTypeId { get; set; }
     
-        public virtual ICollection<PrincipleRole> PrincipleRoles { get; set; }
         public virtual Resource Resource { get; set; }
         public virtual ResourceType ResourceType { get; set; }
         public virtual ICollection<RoleResourcePermission> RoleResourcePermissions { get; set; }
+        public virtual ICollection<PrincipalRole> PrincipalRoles { get; set; }
     }
 }

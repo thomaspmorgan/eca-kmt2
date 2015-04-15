@@ -83,10 +83,10 @@
     <Compile Include="Principal.cs">
       <DependentUpon>Model2.tt</DependentUpon>
     </Compile>
-    <Compile Include="PrincipalType.cs">
+    <Compile Include="PrincipalRole.cs">
       <DependentUpon>Model2.tt</DependentUpon>
     </Compile>
-    <Compile Include="PrincipleRole.cs">
+    <Compile Include="PrincipalType.cs">
       <DependentUpon>Model2.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
