@@ -224,6 +224,13 @@ angular.module('staticApp')
     $scope.refreshProgramsHierarchy = function () {
         $scope.programsLoading = true;
 
+        $scope.activeProgramParams = {
+            start: 0,
+            limit: 25,
+            sort: null,
+            filter: null
+        };
+
         ProgramService.getAllProgramsHierarchy($scope.activeProgramParams)
         .then(function (data) {
 
@@ -237,7 +244,7 @@ angular.module('staticApp')
 
             $scope.programs = programs;
             var limit = TableService.getLimit();
-            tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
+            //tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
             $scope.programsLoading = false;
         });
     };
