@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Core.Logging;
 using ECA.WebApi.Security;
@@ -22,7 +23,7 @@ namespace ECA.WebApi.Test.Security
         private InMemoryCamModel camModel;
         private Mock<IUserCacheService> cacheService;
         private Mock<IPermissionStore<IPermission>> permissionStore;
-        
+
 
         [TestInitialize]
         public void TestInit()
@@ -307,6 +308,7 @@ namespace ECA.WebApi.Test.Security
             cacheService.Verify(x => x.Remove(It.IsAny<IWebApiUser>()), Times.Never());
         }
 
+
         #region Dispose
         [TestMethod]
         public void TestDispose_Context()
@@ -322,7 +324,7 @@ namespace ECA.WebApi.Test.Security
             testService.Dispose();
             contextValue = contextField.GetValue(testService);
             Assert.IsNull(contextValue);
-            
+
 
         }
         #endregion

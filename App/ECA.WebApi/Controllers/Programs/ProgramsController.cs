@@ -22,7 +22,7 @@ namespace ECA.WebApi.Controllers.Programs
     /// The ProgramsController is capable of handling program requests from a client.
     /// </summary>
     [RoutePrefix("api")]
-    [Authorize]
+    //[Authorize]
     public class ProgramsController : ApiController
     {
         /// <summary>

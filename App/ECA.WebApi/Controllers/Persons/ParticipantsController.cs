@@ -21,7 +21,7 @@ namespace ECA.WebApi.Controllers.Persons
     /// The Participants controller handles crud operations on ECA participants.
     /// </summary>
     [RoutePrefix("api")]
-    [Authorize]
+    //[Authorize]
     public class ParticipantsController : ApiController
     {
         /// <summary>
