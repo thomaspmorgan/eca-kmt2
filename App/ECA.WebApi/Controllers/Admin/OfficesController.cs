@@ -22,7 +22,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// The OfficesController is capable of performing crud operations for an office.
     /// </summary>
     [RoutePrefix("api")]
-    [Authorize]
+    //[Authorize]
     public class OfficesController : ApiController
     {
         private static readonly ExpressionSorter<OrganizationProgramDTO> DEFAULT_ORGANIZATION_PROGRAM_SORTER =

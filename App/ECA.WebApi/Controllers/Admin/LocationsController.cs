@@ -20,7 +20,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// <summary>
     /// The LocationsController is capable of performing crud operations on locations.
     /// </summary>
-    [Authorize]
+    //[Authorize]
     public class LocationsController : ApiController
     {
         /// <summary>

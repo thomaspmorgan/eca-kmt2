@@ -15,7 +15,7 @@ namespace ECA.WebApi.Controllers.Programs
     /// <summary>
     /// The ThemeseController handles returning program themes.
     /// </summary>
-    [Authorize]
+    //[Authorize]
     public class ThemesController : ApiController
     {
         /// <summary>

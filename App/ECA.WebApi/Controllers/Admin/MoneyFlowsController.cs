@@ -19,7 +19,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// Controller for managing moneyflows
     /// </summary>
     [RoutePrefix("api")]
-    [Authorize]
+    //[Authorize]
     public class MoneyFlowsController : ApiController
     {
         /// <summary>

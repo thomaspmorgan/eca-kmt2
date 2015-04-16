@@ -17,7 +17,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// <summary>
     /// Controller for genders
     /// </summary>
-    [Authorize]
+    //[Authorize]
     public class GendersController: ApiController
     {
         private static readonly ExpressionSorter<SimpleLookupDTO> DEFAULT_GENDER_DTO_SORTER =

@@ -28,5 +28,9 @@ namespace ECA.WebApi.Security
         void Clear(IWebApiUser user);
 
         void Clear(Guid userId);
+
+        void Impersonate(IWebApiUser impersonator, Guid idOfUserToImpersonate);
+
+        Task ImpersonateAsync(IWebApiUser impersonator, Guid idOfUserToImpersonate);
     }
 }

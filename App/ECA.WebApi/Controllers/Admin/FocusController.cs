@@ -20,7 +20,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// <summary>
     /// The Focus Controller provides lookup and crud operations for a focus.
     /// </summary>
-    [Authorize]
+    //[Authorize]
     public class FocusController : ApiController
     {
         /// <summary>

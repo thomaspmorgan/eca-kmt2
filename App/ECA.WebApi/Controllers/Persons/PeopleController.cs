@@ -17,7 +17,7 @@ namespace ECA.WebApi.Controllers.Persons
     /// Controller for people
     /// </summary>
     [RoutePrefix("api")]
-    [Authorize]
+    //[Authorize]
     public class PeopleController : ApiController
     {
         private IPersonService service;

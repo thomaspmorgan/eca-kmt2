@@ -17,7 +17,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// The ProjectsController is used for managing projects in the ECA system.
     /// </summary>
     [RoutePrefix("api")]
-    [Authorize]
+    //[Authorize]
     public class ProjectsController : ApiController
     {
         /// <summary>
