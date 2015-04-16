@@ -190,20 +190,15 @@ angular.module('staticApp')
             keyword: TableService.getKeywords()
         };
 
-        $scope.refreshProgramsHierarchy(params, tableState);
-
-    };
-
-    $scope.changeProgramList = function() {
         if ($scope.programList.type == "alpha") {
-            $scope.refreshProgramsAlpha();
+            $scope.refreshProgramsAlpha(params, tableState);
         }
         else {
-            $scope.refreshProgramsHierarchy();
-        }
+            $scope.refreshProgramsHierarchy(params, tableState);
+        };
     };
 
-    $scope.refreshProgramsAlpha = function () {
+    $scope.refreshProgramsAlpha = function (params, tableState) {
         $scope.programsLoading = true;
 
         $scope.activeProgramParams = {
@@ -217,15 +212,17 @@ angular.module('staticApp')
         .then(function (data) {
 
             var programs = data.results;
-            $scope.totalRecords = data.total;
+            var total = data.total;
             var start = 0;
             if (programs.length > 0) {
-                start = $scope.activeProgramParams.start + 1;
+                start = params.start + 1;
             };
-            updatePagingDetails($scope.totalRecords, start, programs.length);
+            updatePagingDetails(start, programs.length);
+
+            var limit = TableService.getLimit();
+            tableState.pagination.numberOfPages = Math.ceil(total / limit);
 
             $scope.programs = programs;
-
             $scope.programsLoading = false;
         });
     };
