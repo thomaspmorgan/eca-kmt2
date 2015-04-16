@@ -79,7 +79,6 @@ namespace ECA.WebApi
             container.RegisterType<IProjectStatusService, ProjectStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<IGenderService, GenderService>(new HierarchicalLifetimeManager());
 
 

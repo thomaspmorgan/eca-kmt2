@@ -66,10 +66,37 @@ namespace ECA.WebApi.Controllers
         [Authorize]
         [Route("api/auth/user/permissions")]
         [ResponseType(typeof(List<ResourcePermissionViewModel>))]
-        public async Task<IHttpActionResult> GetUserPermissionsForResource(string type, int id)
+        public async Task<IHttpActionResult> GetUserPermissionsForResourceAsync(string type, int id)
         {
             var currentUser = this.provider.GetCurrentUser();
             return Ok(await GetUserPermissionsAsync(currentUser, type, id));
+        }
+
+        /// <summary>
+        /// Allows a user with permissions to impersonate another user's premissions.  All other
+        /// attributes about the user are still from the impersonator, only permissions are retrieved for
+        /// the user.
+        /// </summary>
+        /// <param name="id">The id of the user to impersonate.</param>
+        /// <returns>An Ok result to start impersonating.</returns>
+        [Authorize]
+        [Route("api/auth/user/impersonate/start")]
+        public async Task<IHttpActionResult> PostStartImpersonationAsync(Guid id)
+        {
+            var currentUser = this.provider.GetCurrentUser();
+            await provider.ImpersonateAsync(currentUser, id);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Stops all impersonation of the current user.
+        /// </summary>
+        /// <returns>An Ok result..</returns>
+        [Authorize]
+        [Route("api/auth/user/impersonate/stop")]
+        public async Task<IHttpActionResult> PostStopImpersonationAsync()
+        {
+            return this.PostLogout();
         }
 
         /// <summary>

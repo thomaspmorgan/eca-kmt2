@@ -11,6 +11,8 @@ namespace ECA.WebApi.Test.Security
     {
         public bool IsValid { get; set; }
 
+
+
         public override bool AuthenticateUserWithGuid(Guid userGuid, CamModel cam)
         {
             this.AdGuid = userGuid;

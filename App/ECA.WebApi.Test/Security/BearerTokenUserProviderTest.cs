@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Core.Logging;
 using ECA.WebApi.Security;
@@ -307,44 +308,6 @@ namespace ECA.WebApi.Test.Security
             cacheService.Verify(x => x.Remove(It.IsAny<IWebApiUser>()), Times.Never());
         }
 
-        [TestMethod]
-        public void TestImpersonate()
-        {
-            Guid impersonatorId = Guid.NewGuid();
-            var isImpersonatorCamUserValid = true;            
-            var impersonatorCamUser = new TestCamUser
-            {
-                PrincipalId = 1,
-                IsValid = isImpersonatorCamUserValid,
-            };
-            var impersonator = new SimpleUser{
-                Id = impersonatorId
-            };
-            var impersonatorUserCache = new UserCache(impersonator, impersonatorCamUser, isImpersonatorCamUserValid);
-
-            Guid impersonatedId = Guid.NewGuid();
-            var isImpersonatedCamUserValid = true;
-            var impersonatedUserPermissions = new List<IPermission>
-            {
-
-            };
-            var impersonatededCamUser = new TestCamUser
-            {
-                PrincipalId = 2,
-                IsValid = isImpersonatedCamUserValid
-            };
-            var impersonatedUser = new SimpleUser{
-                Id = impersonatedId,
-                Username = "impersonated"
-            };
-            var impersonatedUserCache = new UserCache(impersonatedUser, impersonatededCamUser, isImpersonatedCamUserValid, impersonatedUserPermissions);
-            permissionStore.SetupProperty(x => x.Permissions, impersonatedUserPermissions);
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<Guid>())).Returns(false);
-            cacheService.Setup(x => x.GetUserCache(It.Is<IWebApiUser>(y => y.Id == impersonatedId))).Returns(impersonatedUserCache);
-            cacheService.Setup(x => x.GetUserCache(It.Is<IWebApiUser>(y => y.Id == impersonatorId))).Returns(impersonatorUserCache);
-            var provider = new BearerTokenUserProvider(logger, camModel, cacheService.Object, permissionStore.Object);
-            provider.Impersonate(impersonator, impersonatedId);
-        }
 
         #region Dispose
         [TestMethod]

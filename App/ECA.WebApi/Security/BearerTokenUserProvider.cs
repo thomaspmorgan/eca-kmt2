@@ -20,6 +20,8 @@ namespace ECA.WebApi.Security
     {
         private static readonly string COMPONENT_NAME = typeof(BearerTokenUserProvider).FullName;
 
+        public static Func<Guid, User> UserFactory = (userId) => { return new User(); };
+
         private readonly ILogger logger;
         private readonly IUserCacheService cacheService;
         private readonly IPermissionStore<IPermission> permissionStore;
@@ -163,7 +165,7 @@ namespace ECA.WebApi.Security
 
         private User GetCamUser(Guid userId, out bool isValid)
         {
-            var camUser = new User();
+            var camUser = UserFactory(userId);
             isValid = camUser.AuthenticateUserWithGuid(userId, this.camContext);
             return camUser;
         }
@@ -222,7 +224,7 @@ namespace ECA.WebApi.Security
             var impersonatedCamUser = GetCamUser(impersonatedUser, out isImpersonatedUserValid);
             var impersonatorCamUser = GetCamUser(impersonator.Id, out isImpersonatorValid);
             var impersonatedUserPermissions = GetPermissions(impersonatedUser);
-            CacheImpersonatedUser(impersonator, impersonatorCamUser, isImpersonatedUserValid, impersonatedUserPermissions);
+            CacheImpersonatedUser(impersonator, impersonatorCamUser, isImpersonatedUserValid, impersonatedUserPermissions.ToList());
         }
 
         public async Task ImpersonateAsync(IWebApiUser impersonator, Guid idOfUserToImpersonate)
@@ -234,7 +236,7 @@ namespace ECA.WebApi.Security
             var impersonatedCamUser = await GetCamUserAsync(impersonatedUser, out isImpersonatedUserValid);
             var impersonatorCamUser = await GetCamUserAsync(impersonator.Id, out isImpersonatorValid);
             var impersonatedUserPermissions = await GetPermissionsAsync(impersonatedUser);
-            CacheImpersonatedUser(impersonator, impersonatorCamUser, isImpersonatedUserValid, impersonatedUserPermissions);
+            CacheImpersonatedUser(impersonator, impersonatorCamUser, isImpersonatedUserValid, impersonatedUserPermissions.ToList());
 
         }
 

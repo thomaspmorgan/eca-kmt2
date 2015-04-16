@@ -1,4 +1,5 @@
 ﻿using CAM.Business.Service;
+using ECA.Core.Logging;
 using ECA.WebApi.Controllers;
 using ECA.WebApi.Models.Security;
 using ECA.WebApi.Security;
@@ -27,6 +28,24 @@ namespace ECA.WebApi.Test.Controllers
             permissionStore = new Mock<IPermissionStore<IPermission>>();
             userProvider = new Mock<IUserProvider>();
             controller = new AuthController(userProvider.Object, permissionStore.Object);
+        }
+
+        [TestMethod]
+        public async Task TestPostStopImpersonationAsync()
+        {
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser(new TraceLogger()));
+            var response = await controller.PostStopImpersonationAsync();
+            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+            userProvider.Verify(x => x.Clear(It.IsAny<IWebApiUser>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostStartImpersonationAsync()
+        {
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser(new TraceLogger()));
+            var response = await controller.PostStartImpersonationAsync(Guid.NewGuid());
+            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+            userProvider.Verify(x => x.ImpersonateAsync(It.IsAny<IWebApiUser>(), It.IsAny<Guid>()), Times.Once());
         }
 
         [TestMethod]
@@ -66,7 +85,7 @@ namespace ECA.WebApi.Test.Controllers
         }
 
         [TestMethod]
-        public async Task TestGetUserPermissionsForResource()
+        public async Task TestGetUserPermissionsForResourceAsync()
         {
             var resourceId = 1;
             var resourceType = "Program";
@@ -94,7 +113,7 @@ namespace ECA.WebApi.Test.Controllers
             userProvider.Setup(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(principalId);
             userProvider.Setup(x => x.GetCurrentUser()).Returns(simpleUser);
 
-            var results = await controller.GetUserPermissionsForResource(resourceType, resourceId);
+            var results = await controller.GetUserPermissionsForResourceAsync(resourceType, resourceId);
             Assert.IsInstanceOfType(results, typeof(OkNegotiatedContentResult<List<ResourcePermissionViewModel>>));
             var okResult = (OkNegotiatedContentResult<List<ResourcePermissionViewModel>>)results;
 

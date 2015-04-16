@@ -126,6 +126,8 @@
     <Compile Include="Security\ActionPermissionTest.cs" />
     <Compile Include="Security\AnonymousUserTest.cs" />
     <Compile Include="Security\BearerTokenUserProviderTest.cs" />
+    <Compile Include="Security\BearerTokenUserProviderTest_Impersonation.cs" />
+    <Compile Include="Security\ImpersonatedUserTest.cs" />
     <Compile Include="Security\ModelPermissionTest.cs" />
     <Compile Include="Security\ResourceAuthorizeAttributeTest.cs" />
     <Compile Include="Security\StaticPermissionTest.cs" />
