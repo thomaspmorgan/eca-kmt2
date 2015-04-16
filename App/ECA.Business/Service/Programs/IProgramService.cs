@@ -111,7 +111,7 @@ namespace ECA.Business.Service.Programs
         public Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsHierarchyAsync(QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            Contract.Ensures(Contract.Result<PagedQueryResults<SimpleProgramDTO>>() != null, "The value returned must not be null.");
+            Contract.Ensures(Contract.Result<PagedQueryResults<OrganizationProgramDTO>>() != null, "The value returned must not be null.");
             return Task.FromResult<PagedQueryResults<OrganizationProgramDTO>>(null);
         }
         /// <summary>

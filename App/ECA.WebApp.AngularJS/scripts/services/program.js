@@ -36,7 +36,7 @@ angular.module('staticApp')
                 });
               return defer.promise;
           },          
-          getAllProgramsHierarchy: function (params) {
+          getAllProgramsHierarchy: function () {
               var defer = $q.defer();
               var path = 'programs/Hierarchy';
               DragonBreath.get(path)

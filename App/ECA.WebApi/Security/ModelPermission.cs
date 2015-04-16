@@ -135,7 +135,7 @@ namespace ECA.WebApi.Security
         /// <returns>A formatted string of this permission.</returns>
         public override string ToString()
         {
-            return String.Format("{0}:{1}({2}#{3})", PermissionName, ResourceType, this.ModelType.Name, this.Property);
+            return String.Format("Permission Name:  [{0}], Resource Type:  [{1}], Model Type:  [{2}], Property:  [{3}]", PermissionName, ResourceType, this.ModelType.Name, this.Property);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace CAM.Data
         public Principal()
         {
             this.PermissionAssignments = new HashSet<PermissionAssignment>();
-            this.PrincipleRoles = new HashSet<PrincipleRole>();
+            this.PrincipalRoles = new HashSet<PrincipalRole>();
         }
     
         public int PrincipalId { get; set; }
@@ -25,7 +25,7 @@ namespace CAM.Data
     
         public virtual ICollection<PermissionAssignment> PermissionAssignments { get; set; }
         public virtual PrincipalType PrincipalType { get; set; }
-        public virtual ICollection<PrincipleRole> PrincipleRoles { get; set; }
         public virtual UserAccount UserAccount { get; set; }
+        public virtual ICollection<PrincipalRole> PrincipalRoles { get; set; }
     }
 }
