@@ -1,0 +1,3010 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/13/2015 11:48:18 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{B2F234E7-6384-4876-A4B0-A447C711D36F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load CE Goals to ECA_DB"
+  DTS:PackageType="5"
+  DTS:VersionBuild="28"
+  DTS:VersionGUID="{574E5423-175B-49D1-B51E-B270B9B10FED}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E09AC12A-BAA7-4F50-8BC0-869BFF3FDF22}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.CE.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=CE;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACDcia3m3u/bI4ZIcvv2MIgRaKyJnrFruA3574fQpOgJgAAAAAOgAAAAAIAACAAAACcitJciozAzcmaR/WFvzAHZhXNn+qXAJGw8CJ/Jm7ZYSAAAABSnx2qbBZeUxboIDDfllRUMEZw4C6TxJdzsPJIs2INKkAAAADdH9ww140yoidNQbMHTMprEk4wpMWZ8Gts0VdvvQ4b/rK/XGykJpWvtcIsFaZA9pjxFoZ3mrlQqPc2pTBq69KG</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Local_Copy.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{2CFA5C16-4DB1-47CC-944D-3E52C8F5AB27}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.ECA_Dev_Local_Copy.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=ECA_Dev_Local_Copy;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABKRLAsdbkDwD8RiYL8fp5Xk/C4d62coWnSOcEjPDq2PQAAAAAOgAAAAAIAACAAAAABYxfDOo228WScqM2W9souh1FjJ1Gv1eHGSWCNCsiuOCAAAABn2jSc6NkillVTVzKRkXUbhteTamWPack1Ya2rMGs5C0AAAADSWQp1s7m/brY++ADySJsKTGb1P7JhXy6UV4xZdwkdyh/PYuOOlwiJNrZBmUMGtrP7q962FSnrTiZJXS4GmeYu</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{C72D073B-C391-4A09-8F67-DD299664DD21}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAM2kqzDWyhVJxG/YPJSXcvN2ct3X0yK5QkdCoPWI3whgAAAAAOgAAAAAIAACAAAACrJ1FtLrHvPx3uy6Y9LGKZRubADODPteHh15LFibR6+SAAAAAq9C3hp86C0AwrAbcqIEIP1ss/O6ECs+p2JONLuzECt0AAAABRLHCd97Zg7vQIerZf/S44OAx1zeJl9YYyHXmBeZxN58/cs434WFCdzcl4r9qlXadA8bLjkrpiNU/TVneaTzBG</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Create CE Goals"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{16BE6494-A771-4805-BFDF-3A850591234F}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create CE Goals"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Create CE Goals\Add Required Goal table columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Required Goal table columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Create CE Goals\Add Required Goal table columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Create CE Goals\Add Required Goal table columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Create CE Goals\Add Required Goal table columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create CE Goals\Aggregate GoalName"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
+              description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
+              name="Aggregate GoalName"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of distinct values in a column that the aggregation counts distinctly. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no CountDistinctScale value is used."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of distinct values in a column that the aggregation counts distinctly. If a CountDistinctScale value is specified, the value in CountDistinctKeys takes precedence."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage by which memory can be extended during the aggregation. Valid values are between 1 and 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Create CE Goals\Aggregate GoalName.Inputs[Aggregate Input 1]"
+                  name="Aggregate Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create CE Goals\Aggregate GoalName.Inputs[Aggregate Input 1].Columns[STRATEGIC_GOAL]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STRATEGIC_GOAL"
+                      lineageId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[STRATEGIC_GOAL]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create CE Goals\Aggregate GoalName.Outputs[Aggregate Output 1]"
+                  name="Aggregate Output 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Goals\Aggregate GoalName.Outputs[Aggregate Output 1].Columns[STRATEGIC_GOAL]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create CE Goals\Aggregate GoalName.Outputs[Aggregate Output 1].Columns[STRATEGIC_GOAL]"
+                      name="STRATEGIC_GOAL">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[STRATEGIC_GOAL]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create CE Goals\CE_Project_Strategic_Goal"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="CE_Project_Strategic_Goal"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CE_Project_Strategic_Goal]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRATEGIC_GOAL_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRATEGIC_GOAL_ID]"
+                      length="255"
+                      lineageId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRATEGIC_GOAL_ID]"
+                      name="PROJECT_STRATEGIC_GOAL_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[STRATEGIC_GOAL]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[STRATEGIC_GOAL]"
+                      length="255"
+                      lineageId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[STRATEGIC_GOAL]"
+                      name="STRATEGIC_GOAL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      length="255"
+                      lineageId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      name="PROJECT_STRAT_GOAL_PRIMARY_IND"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRATEGIC_GOAL_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_STRATEGIC_GOAL_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[STRATEGIC_GOAL]"
+                      dataType="wstr"
+                      length="255"
+                      name="STRATEGIC_GOAL" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_STRAT_GOAL_PRIMARY_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_STRAT_GOAL_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_STRAT_GOAL_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_STRAT_GOAL_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_STRAT_GOAL_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRATEGIC_GOAL_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRATEGIC_GOAL_ID]"
+                      name="PROJECT_STRATEGIC_GOAL_ID" />
+                    <outputColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[STRATEGIC_GOAL]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[STRATEGIC_GOAL]"
+                      name="STRATEGIC_GOAL" />
+                    <outputColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      name="PROJECT_STRAT_GOAL_PRIMARY_IND" />
+                    <outputColumn
+                      refId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison"
+              componentClassID="Microsoft.CharacterMap"
+              contactInfo="Character Map;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Applies string functions to character data. For example, convert from data that is in upper case to lower case. Operates only on column data with a string data type."
+              name="Convert Strategic_Goal to Uppercase for comparison"
+              usesDispositions="true"
+              version="2">
+              <inputs>
+                <input
+                  refId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Inputs[Character Map Input]"
+                  name="Character Map Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Inputs[Character Map Input].Columns[STRATEGIC_GOAL]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STRATEGIC_GOAL"
+                      lineageId="Package\Create CE Goals\Aggregate GoalName.Outputs[Aggregate Output 1].Columns[STRATEGIC_GOAL]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Outputs[Character Map Output]"
+                  exclusionGroup="1"
+                  name="Character Map Output"
+                  synchronousInputId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Inputs[Character Map Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Outputs[Character Map Output].Columns[Upper_STRATEGIC_GOAL]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Map Column"
+                      length="255"
+                      lineageId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Outputs[Character Map Output].Columns[Upper_STRATEGIC_GOAL]"
+                      name="Upper_STRATEGIC_GOAL"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.UInt32"
+                          description="Specifies the string operations to apply."
+                          name="MapFlags"
+                          typeConverter="LCMappingType">512</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column to which operations apply."
+                          name="InputColumnLineageID">#{Package\Create CE Goals\Aggregate GoalName.Outputs[Aggregate Output 1].Columns[STRATEGIC_GOAL]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Outputs[Character Map Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Character Map Error Output"
+                  synchronousInputId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Inputs[Character Map Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Outputs[Character Map Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Outputs[Character Map Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Outputs[Character Map Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Outputs[Character Map Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create CE Goals\ECA_DB Goal table"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ECA_DB Goal table"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Goal]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create CE Goals\ECA_DB Goal table.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].Columns[STRATEGIC_GOAL]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STRATEGIC_GOAL"
+                      externalMetadataColumnId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].ExternalColumns[GoalName]"
+                      lineageId="Package\Create CE Goals\Aggregate GoalName.Outputs[Aggregate Output 1].Columns[STRATEGIC_GOAL]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].ExternalColumns[GoalId]"
+                      dataType="i4"
+                      name="GoalId" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input].ExternalColumns[GoalName]"
+                      dataType="wstr"
+                      length="300"
+                      name="GoalName" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create CE Goals\ECA_DB Goal table.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Goals\ECA_DB Goal table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create CE Goals\ECA_DB Goal table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Goals\ECA_DB Goal table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup - Determine if Strategic Goal exists"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Goal]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Goal]) [refTable]
+where [refTable].[GoalName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="GoalId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="GoalName" dataType="DT_WSTR" length="300" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Outputs[Character Map Output].Columns[Upper_STRATEGIC_GOAL]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Inputs[Lookup Input].Columns[Upper_STRATEGIC_GOAL]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Upper_STRATEGIC_GOAL"
+                      lineageId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Outputs[Character Map Output].Columns[Upper_STRATEGIC_GOAL]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">GoalName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup Match Output].Columns[GoalName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="300"
+                      lineageId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup Match Output].Columns[GoalName]"
+                      name="GoalName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">GoalName</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup Match Output].Columns[GoalId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup Match Output].Columns[GoalId]"
+                      name="GoalId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">GoalId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Create CE Goals.Paths[Aggregate Output 1]"
+              endId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Inputs[Character Map Input]"
+              name="Aggregate Output 1"
+              startId="Package\Create CE Goals\Aggregate GoalName.Outputs[Aggregate Output 1]" />
+            <path
+              refId="Package\Create CE Goals.Paths[Character Map Output]"
+              endId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Inputs[Lookup Input]"
+              name="Character Map Output"
+              startId="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison.Outputs[Character Map Output]" />
+            <path
+              refId="Package\Create CE Goals.Paths[Derived Column Output]"
+              endId="Package\Create CE Goals\ECA_DB Goal table.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Create CE Goals\Add Required Goal table columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Create CE Goals.Paths[Lookup No Match Output]"
+              endId="Package\Create CE Goals\Add Required Goal table columns.Inputs[Derived Column Input]"
+              name="Lookup No Match Output"
+              startId="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\Create CE Goals.Paths[OLE DB Source Output]"
+              endId="Package\Create CE Goals\Aggregate GoalName.Inputs[Aggregate Input 1]"
+              name="OLE DB Source Output"
+              startId="Package\Create CE Goals\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create ProjectGoal and ProgramGoal Mappings"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{BBE11222-5F43-478E-8944-F7CA6161A55A}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create ProjectGoal and ProgramGoal Mappings"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
+              description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
+              name="Aggregate ProgramId and GoalId to Remove duplicates"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of distinct values in a column that the aggregation counts distinctly. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no CountDistinctScale value is used."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of distinct values in a column that the aggregation counts distinctly. If a CountDistinctScale value is specified, the value in CountDistinctKeys takes precedence."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage by which memory can be extended during the aggregation. Valid values are between 1 and 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Inputs[Aggregate Input 1]"
+                  name="Aggregate Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Inputs[Aggregate Input 1].Columns[ProgramId]"
+                      cachedDataType="i4"
+                      cachedName="ProgramId"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProgramId]" />
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Inputs[Aggregate Input 1].Columns[GoalId]"
+                      cachedDataType="i4"
+                      cachedName="GoalId"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Match Output].Columns[GoalId]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Outputs[Aggregate Output 1]"
+                  name="Aggregate Output 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProgramId]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProgramId]"
+                      name="ProgramId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProgramId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[GoalId]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[GoalId]"
+                      name="GoalId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Match Output].Columns[GoalId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
+              description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
+              name="Aggregate ProjectId and GoalId to Remove duplicates"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of distinct values in a column that the aggregation counts distinctly. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no CountDistinctScale value is used."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of distinct values in a column that the aggregation counts distinctly. If a CountDistinctScale value is specified, the value in CountDistinctKeys takes precedence."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage by which memory can be extended during the aggregation. Valid values are between 1 and 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Inputs[Aggregate Input 1]"
+                  name="Aggregate Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Inputs[Aggregate Input 1].Columns[ProjectId]"
+                      cachedDataType="i4"
+                      cachedName="ProjectId"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProjectId]" />
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Inputs[Aggregate Input 1].Columns[GoalId]"
+                      cachedDataType="i4"
+                      cachedName="GoalId"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Match Output].Columns[GoalId]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Outputs[Aggregate Output 1]"
+                  name="Aggregate Output 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProjectId]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProjectId]"
+                      name="ProjectId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProjectId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[GoalId]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[GoalId]"
+                      name="GoalId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Match Output].Columns[GoalId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="CE_Project_Strategic_Goal"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CE_Project_Strategic_Goal]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_ID]"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_ID]"
+                      name="PROJECT_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRATEGIC_GOAL_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRATEGIC_GOAL_ID]"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRATEGIC_GOAL_ID]"
+                      name="PROJECT_STRATEGIC_GOAL_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[STRATEGIC_GOAL]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[STRATEGIC_GOAL]"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[STRATEGIC_GOAL]"
+                      name="STRATEGIC_GOAL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      name="PROJECT_STRAT_GOAL_PRIMARY_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_CREATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_CREATE_ID]"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_CREATE_ID]"
+                      name="PROJECT_STRAT_GOAL_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_CREATE_DT]"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_CREATE_DT]"
+                      name="PROJECT_STRAT_GOAL_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_UPDATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_UPDATE_ID]"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_UPDATE_ID]"
+                      name="PROJECT_STRAT_GOAL_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_UPDATE_DT]"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_STRAT_GOAL_UPDATE_DT]"
+                      name="PROJECT_STRAT_GOAL_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRATEGIC_GOAL_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_STRATEGIC_GOAL_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[STRATEGIC_GOAL]"
+                      dataType="wstr"
+                      length="255"
+                      name="STRATEGIC_GOAL" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_STRAT_GOAL_PRIMARY_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_STRAT_GOAL_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_STRAT_GOAL_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_STRAT_GOAL_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_STRAT_GOAL_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_STRAT_GOAL_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRATEGIC_GOAL_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRATEGIC_GOAL_ID]"
+                      name="PROJECT_STRATEGIC_GOAL_ID" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[STRATEGIC_GOAL]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[STRATEGIC_GOAL]"
+                      name="STRATEGIC_GOAL" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_PRIMARY_IND]"
+                      name="PROJECT_STRAT_GOAL_PRIMARY_IND" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_CREATE_ID]"
+                      name="PROJECT_STRAT_GOAL_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_CREATE_DT]"
+                      name="PROJECT_STRAT_GOAL_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_UPDATE_ID]"
+                      name="PROJECT_STRAT_GOAL_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_STRAT_GOAL_UPDATE_DT]"
+                      name="PROJECT_STRAT_GOAL_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Error Output].Columns[PROJECT_ID]"
+                      name="PROJECT_ID" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase"
+              componentClassID="Microsoft.CharacterMap"
+              contactInfo="Character Map;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Applies string functions to character data. For example, convert from data that is in upper case to lower case. Operates only on column data with a string data type."
+              name="Convert Strategic Goal to Uppercase"
+              usesDispositions="true"
+              version="2">
+              <inputs>
+                <input
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Inputs[Character Map Input]"
+                  name="Character Map Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Inputs[Character Map Input].Columns[STRATEGIC_GOAL]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STRATEGIC_GOAL"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[STRATEGIC_GOAL]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Outputs[Character Map Output]"
+                  exclusionGroup="1"
+                  name="Character Map Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Inputs[Character Map Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Outputs[Character Map Output].Columns[Upper_STRATEGIC_GOAL]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Map Column"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Outputs[Character Map Output].Columns[Upper_STRATEGIC_GOAL]"
+                      name="Upper_STRATEGIC_GOAL"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.UInt32"
+                          description="Specifies the string operations to apply."
+                          name="MapFlags"
+                          typeConverter="LCMappingType">512</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column to which operations apply."
+                          name="InputColumnLineageID">#{Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[STRATEGIC_GOAL]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Outputs[Character Map Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Character Map Error Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Inputs[Character Map Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Outputs[Character Map Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Outputs[Character Map Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Outputs[Character Map Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Outputs[Character Map Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ECA ProgramGoal"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ProgramGoal]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Inputs[OLE DB Destination Input].Columns[ProgramId]"
+                      cachedDataType="i4"
+                      cachedName="ProgramId"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Inputs[OLE DB Destination Input].ExternalColumns[ProgramId]"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProgramId]" />
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Inputs[OLE DB Destination Input].Columns[GoalId]"
+                      cachedDataType="i4"
+                      cachedName="GoalId"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Inputs[OLE DB Destination Input].ExternalColumns[GoalId]"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[GoalId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Inputs[OLE DB Destination Input].ExternalColumns[ProgramId]"
+                      dataType="i4"
+                      name="ProgramId" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Inputs[OLE DB Destination Input].ExternalColumns[GoalId]"
+                      dataType="i4"
+                      name="GoalId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ECA ProjectGoal"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ProjectGoal]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Inputs[OLE DB Destination Input].Columns[ProjectId]"
+                      cachedDataType="i4"
+                      cachedName="ProjectId"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Inputs[OLE DB Destination Input].ExternalColumns[ProjectId]"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProjectId]" />
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Inputs[OLE DB Destination Input].Columns[GoalId]"
+                      cachedDataType="i4"
+                      cachedName="GoalId"
+                      externalMetadataColumnId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Inputs[OLE DB Destination Input].ExternalColumns[GoalId]"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Outputs[Aggregate Output 1].Columns[GoalId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Inputs[OLE DB Destination Input].ExternalColumns[ProjectId]"
+                      dataType="i4"
+                      name="ProjectId" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Inputs[OLE DB Destination Input].ExternalColumns[GoalId]"
+                      dataType="i4"
+                      name="GoalId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup ECA GoalId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Goal]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Goal]) [refTable]
+where UPPER([refTable].[GoalName]) = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="GoalId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="GoalName" dataType="DT_WSTR" length="300" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Outputs[Character Map Output].Columns[Upper_STRATEGIC_GOAL]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Inputs[Lookup Input].Columns[Upper_STRATEGIC_GOAL]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Upper_STRATEGIC_GOAL"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Outputs[Character Map Output].Columns[Upper_STRATEGIC_GOAL]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">GoalName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Match Output].Columns[GoalId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Match Output].Columns[GoalId]"
+                      name="GoalId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">GoalId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup ECA ProjectId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Project]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Project]) [refTable]
+where [refTable].[Name] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProjectId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="500" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FocusArea" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FocusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Language" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="AudienceReach" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="EventId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="NominationSource_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output].Columns[CE_PROJECT_Name]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Inputs[Lookup Input].Columns[CE_PROJECT_Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CE_PROJECT_Name"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output].Columns[CE_PROJECT_Name]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Name</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProjectId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProjectId]"
+                      name="ProjectId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProjectId</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProgramId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProgramId]"
+                      name="ProgramId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProgramId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Project from CE_Project Source"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[CE_Project]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[CE_Project]) [refTable]
+where [refTable].[PROJECT_ID] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="PROJECT_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROGRAM" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PARENT_PROGRAM" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_STATUS" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="START_DATE" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="END_DATE" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SENSITIVE_IND" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="COMMENT" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PURPOSE" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_CREATE_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_CREATE_DT" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_UPDATE_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_UPDATE_DT" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_ID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input].Columns[PROJECT_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROJECT_ID"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output].Columns[PROJECT_ID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">PROJECT_ID</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output].Columns[CE_PROJECT_Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="255"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output].Columns[CE_PROJECT_Name]"
+                      name="CE_PROJECT_Name"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">PROJECT</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast"
+              componentClassID="Microsoft.Multicast"
+              contactInfo="Multicast;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Distributes every input row to every row in one or more outputs. For example, branch your data flow to make a copy of data so that some values can be masked before sharing with external partners."
+              name="Multicast">
+              <inputs>
+                <input
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast.Inputs[Multicast Input 1]"
+                  name="Multicast Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast.Outputs[Multicast Output 3]"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 3"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast.Outputs[Multicast Output 1]"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 1"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast.Outputs[Multicast Output 2]"
+                  dangling="true"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 2"
+                  synchronousInputId="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Aggregate Output 1]"
+              endId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal.Inputs[OLE DB Destination Input]"
+              name="Aggregate Output 1"
+              startId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Outputs[Aggregate Output 1]" />
+            <path
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Aggregate Output 11]"
+              endId="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal.Inputs[OLE DB Destination Input]"
+              name="Aggregate Output 1"
+              startId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Outputs[Aggregate Output 1]" />
+            <path
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Character Map Output]"
+              endId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input]"
+              name="Character Map Output"
+              startId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Outputs[Character Map Output]" />
+            <path
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Lookup Match Output]"
+              endId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Lookup Match Output1]"
+              endId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Lookup Match Output2]"
+              endId="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast.Inputs[Multicast Input 1]"
+              name="Lookup Match Output"
+              startId="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Multicast Output 1]"
+              endId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates.Inputs[Aggregate Input 1]"
+              name="Multicast Output 1"
+              startId="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast.Outputs[Multicast Output 1]" />
+            <path
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Multicast Output 3]"
+              endId="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates.Inputs[Aggregate Input 1]"
+              name="Multicast Output 3"
+              startId="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast.Outputs[Multicast Output 3]" />
+            <path
+              refId="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[OLE DB Source Output]"
+              endId="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase.Inputs[Character Map Input]"
+              name="OLE DB Source Output"
+              startId="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Create CE Goals"
+          TopLeft="99.5,15.5" />
+        <NodeLayout
+          Size="299,42"
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings"
+          TopLeft="58.5,125.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Create CE Goals">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="280,42"
+          Id="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists"
+          TopLeft="31.5,137.5" />
+        <NodeLayout
+          Size="235,42"
+          Id="Package\Create CE Goals\Add Required Goal table columns"
+          TopLeft="184.5,240.5" />
+        <NodeLayout
+          Size="326,42"
+          Id="Package\Create CE Goals\Convert Strategic_Goal to Uppercase for comparison"
+          TopLeft="476.5,48.5" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Create CE Goals\Aggregate GoalName"
+          TopLeft="263.5,53.5" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Create CE Goals\ECA_DB Goal table"
+          TopLeft="434.5,326.5" />
+        <NodeLayout
+          Size="204,42"
+          Id="Package\Create CE Goals\CE_Project_Strategic_Goal"
+          TopLeft="15.5,42.5" />
+        <EdgeLayout
+          Id="Package\Create CE Goals.Paths[OLE DB Source Output]"
+          TopLeft="219.5,63.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="44,11"
+              Start="0,0"
+              End="36.5,11">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="18,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="18,0"
+                    Point2="22,0"
+                    Point3="22,4" />
+                  <mssgle:LineSegment
+                    End="22,7" />
+                  <mssgle:CubicBezierSegment
+                    Point1="22,7"
+                    Point2="22,11"
+                    Point3="26,11" />
+                  <mssgle:LineSegment
+                    End="36.5,11" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Goals.Paths[Aggregate Output 1]"
+          TopLeft="442.5,72">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="34,0"
+              Start="0,0"
+              End="26.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="26.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Goals.Paths[Character Map Output]"
+          TopLeft="639.5,90.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-468,47"
+              Start="0,0"
+              End="-468,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.5"
+                    Point2="0,23.5"
+                    Point3="-4,23.5" />
+                  <mssgle:LineSegment
+                    End="-464,23.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-464,23.5"
+                    Point2="-468,23.5"
+                    Point3="-468,27.5" />
+                  <mssgle:LineSegment
+                    End="-468,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Goals.Paths[Lookup No Match Output]"
+          TopLeft="171.5,179.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="130.5,61"
+              Start="0,0"
+              End="130.5,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.5"
+                    Point2="0,30.5"
+                    Point3="4,30.5" />
+                  <mssgle:LineSegment
+                    End="126.5,30.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="126.5,30.5"
+                    Point2="130.5,30.5"
+                    Point3="130.5,34.5" />
+                  <mssgle:LineSegment
+                    End="130.5,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="9.44361328125,35.5,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Goals.Paths[Derived Column Output]"
+          TopLeft="302,282.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="216.5,44"
+              Start="0,0"
+              End="216.5,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18"
+                    Point2="0,22"
+                    Point3="4,22" />
+                  <mssgle:LineSegment
+                    End="212.5,22" />
+                  <mssgle:CubicBezierSegment
+                    Point1="212.5,22"
+                    Point2="216.5,22"
+                    Point3="216.5,26" />
+                  <mssgle:LineSegment
+                    End="216.5,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create CE Goals\Lookup - Determine if Strategic Goal exists">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Goal]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create CE Goals\ECA_DB Goal table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create CE Goals\CE_Project_Strategic_Goal">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Create ProjectGoal and ProgramGoal Mappings">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId"
+          TopLeft="292.5,268.5" />
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal"
+          TopLeft="1021.5,172.5" />
+        <NodeLayout
+          Size="264,42"
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source"
+          TopLeft="10.5,178.5" />
+        <NodeLayout
+          Size="204,42"
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal"
+          TopLeft="45.5,5.5" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal"
+          TopLeft="1032.5,51.5" />
+        <NodeLayout
+          Size="332,42"
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProjectId and GoalId to Remove duplicates"
+          TopLeft="600.5,45.5" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId"
+          TopLeft="58.5,267.5" />
+        <NodeLayout
+          Size="250,42"
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings\Convert Strategic Goal to Uppercase"
+          TopLeft="24.5,90.5" />
+        <NodeLayout
+          Size="340,42"
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings\Aggregate ProgramId and GoalId to Remove duplicates"
+          TopLeft="590.5,173.5" />
+        <NodeLayout
+          Size="120,42"
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings\Multicast"
+          TopLeft="367.5,113.5" />
+        <EdgeLayout
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Aggregate Output 11]"
+          TopLeft="930.5,194">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="91,0"
+              Start="0,0"
+              End="83.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="83.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Aggregate Output 1]"
+          TopLeft="932.5,69.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="100,0"
+              Start="0,0"
+              End="92.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="92.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[OLE DB Source Output]"
+          TopLeft="148.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,43"
+              Start="0,0"
+              End="0,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Character Map Output]"
+          TopLeft="146,132.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Lookup Match Output]"
+          TopLeft="145.75,220.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47"
+              Start="0,0"
+              End="0,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,13.9453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Lookup Match Output1]"
+          TopLeft="239.5,289">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="53,0"
+              Start="0,0"
+              End="45.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="45.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-25.44138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Lookup Match Output2]"
+          TopLeft="377,268.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="50.5,-113"
+              Start="0,0"
+              End="50.5,-105.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-52.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-52.5"
+                    Point2="0,-56.5"
+                    Point3="4,-56.5" />
+                  <mssgle:LineSegment
+                    End="46.5,-56.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="46.5,-56.5"
+                    Point2="50.5,-56.5"
+                    Point3="50.5,-60.5" />
+                  <mssgle:LineSegment
+                    End="50.5,-105.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-22.94138671875,-51.5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Multicast Output 3]"
+          TopLeft="427.5,113.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="339,-26"
+              Start="0,0"
+              End="339,-18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-9" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-9"
+                    Point2="0,-13"
+                    Point3="4,-13" />
+                  <mssgle:LineSegment
+                    End="335,-13" />
+                  <mssgle:CubicBezierSegment
+                    Point1="335,-13"
+                    Point2="339,-13"
+                    Point3="339,-17" />
+                  <mssgle:LineSegment
+                    End="339,-18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectGoal and ProgramGoal Mappings.Paths[Multicast Output 1]"
+          TopLeft="487.5,134.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="103,60"
+              Start="0,0"
+              End="95.5,60">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="47.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="47.5,0"
+                    Point2="51.5,0"
+                    Point3="51.5,4" />
+                  <mssgle:LineSegment
+                    End="51.5,56" />
+                  <mssgle:CubicBezierSegment
+                    Point1="51.5,56"
+                    Point2="51.5,60"
+                    Point3="55.5,60" />
+                  <mssgle:LineSegment
+                    End="95.5,60" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA GoalId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Goal]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProgramGoal">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup Project from CE_Project Source">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[CE_Project]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ProjectGoal and ProgramGoal Mappings\CE_Project_Strategic_Goal">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ProjectGoal and ProgramGoal Mappings\ECA ProjectGoal">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ProjectGoal and ProgramGoal Mappings\Lookup ECA ProjectId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Project]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
