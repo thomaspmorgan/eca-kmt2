@@ -16,15 +16,30 @@ using CAM.Business.Service;
 
 namespace ECA.WebApi.Test.Security
 {
-    public class SimpleUser : IWebApiUser
+    public class SimpleUser : WebApiUserBase
     {
         public string Username { get; set; }
 
-        public Guid Id { get; set; }
+        public Guid Id 
+        {
+            get
+            {
+                return base.Id;
+            }
+            set
+            {
+                base.Id = value;
+            }
+        }
 
-        public string GetUsername()
+        public override string GetUsername()
         {
             return this.Username;
+        }
+
+        public override bool HasPermission(IPermission requestedPermission, IEnumerable<IPermission> allUserPermissions)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -69,6 +84,27 @@ namespace ECA.WebApi.Test.Security
         }
 
         [TestMethod]
+        public void TestGetUserCache_UserCacheDoesNotExist()
+        {
+            var camId = 1;
+            var camUser = new TestCamUser
+            {
+                PrincipalId = camId,
+                IsValid = true
+            };
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+
+            var logger = new TraceLogger();
+            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            testService.Invoking(x => x.GetUserCache(user)).ShouldThrow<NotSupportedException>()
+                .WithMessage("The user should have a cached object in the system cache.  Be sure use to the IsUserCached method and Add method for user cache logic.");
+        }
+
+        [TestMethod]
         public void TestGetUserCache()
         {
             var camId = 1;
@@ -93,7 +129,7 @@ namespace ECA.WebApi.Test.Security
                 Assert.AreEqual(user.Id, c.UserId);
             };
 
-            var userCache = testService.GetUserCache(user); ;
+            var userCache = testService.GetUserCache(user);
             tester(userCache);
 
             Assert.AreEqual(1, testService.GetCount());

@@ -1,19 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Threading.Tasks;
-using ECA.WebApi.Common;
-using ECA.WebApi.Security;
-using System.Diagnostics;
-using System.Web.Http.Description;
-using Swashbuckle.Swagger;
-using System.Diagnostics.Contracts;
+﻿using System.Linq;
 using ECA.WebApi.Models.Security;
-using ECA.Data;
+using ECA.WebApi.Security;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
+using CAM.Business.Service;
+using System;
 
 namespace ECA.WebApi.Controllers
 {
@@ -22,16 +16,25 @@ namespace ECA.WebApi.Controllers
         public int ProgramId { get; set; }
     }
 
+    /// <summary>
+    /// The AuthController provide user authentication and authorization details.
+    /// </summary>
     public class AuthController : ApiController
     {
-        public const int APPLICATION_RESOURCE_ID = 7;
+        private IUserProvider provider;
+        private IPermissionStore<IPermission> permissionStore;
 
-        private IUserProvider provider;        
-
-        public AuthController(IUserProvider provider)
+        /// <summary>
+        /// The AuthController provides user authentication and authorization details.
+        /// </summary>
+        /// <param name="provider">The user provider.</param>
+        /// <param name="permissionStore">The permissions store.</param>
+        public AuthController(IUserProvider provider, IPermissionStore<IPermission> permissionStore)
         {
             Contract.Requires(provider != null, "The provider must not be null.");
+            Contract.Requires(permissionStore != null, "The permission store must not be null.");
             this.provider = provider;
+            this.permissionStore = permissionStore;
         }
 
         /// <summary>
@@ -55,12 +58,63 @@ namespace ECA.WebApi.Controllers
         }
 
         /// <summary>
+        /// Returns the user permissions for a resource given the type and id.
+        /// </summary>
+        /// <param name="type">The resource type e.g. Program or Project, etc.</param>
+        /// <param name="id">The id of the resource i.e. ProgramId, ProjectId, etc.</param>
+        /// <returns>The permissions granted to the current user for the resouce.</returns>
+        [Authorize]
+        [Route("api/auth/user/permissions")]
+        [ResponseType(typeof(List<ResourcePermissionViewModel>))]
+        public async Task<IHttpActionResult> GetUserPermissionsForResource(string type, int id)
+        {
+            var currentUser = this.provider.GetCurrentUser();
+            return Ok(await GetUserPermissionsAsync(currentUser, type, id));
+        }
+
+        /// <summary>
+        /// Returns permissions for the given user resource type and resource id.
+        /// </summary>
+        /// <param name="user">The user to retrieve permissions for.</param>
+        /// <param name="type">The resource type.</param>
+        /// <param name="id">The foreign resource id.</param>
+        /// <returns>The permissions the user currently has on the resource.</returns>
+        [NonAction]
+        public async Task<List<ResourcePermissionViewModel>> GetUserPermissionsAsync(IWebApiUser user, string type, int id)
+        {
+            var principalId = await this.provider.GetPrincipalIdAsync(user);
+            var resourceTypeId = this.permissionStore.GetResourceTypeId(type);
+            var models = new List<ResourcePermissionViewModel>();
+            if(resourceTypeId.HasValue)
+            {
+                var resourceId = this.permissionStore.GetResourceIdByForeignResourceId(id, resourceTypeId.Value);
+                if (resourceId.HasValue)
+                {
+                    this.permissionStore.LoadUserPermissions(principalId);
+                    (await this.provider.GetPermissionsAsync(user)).Where(x => x.IsAllowed
+                        && x.PrincipalId == principalId
+                        && x.ResourceId == resourceId.Value)
+                        .ToList()
+                        .ForEach((p) =>
+                        {
+                            var permissionName = this.permissionStore.GetPermissionNameById(p.PermissionId);
+                            models.Add(new ResourcePermissionViewModel
+                            {
+                                PermissionName = permissionName
+                            });
+                        });
+                }
+            }
+            return models;
+        }
+
+        /// <summary>
         /// Logs the user out of the web api system, not the azure ad system. 
         /// </summary>
         /// <returns>Ok.</returns>
         [Authorize]
         [Route("api/auth/logout/")]
-        public async Task<IHttpActionResult> PostLogout()
+        public IHttpActionResult PostLogout()
         {
             var currentUser = this.provider.GetCurrentUser();
             this.provider.Clear(currentUser);
@@ -82,7 +136,6 @@ namespace ECA.WebApi.Controllers
         //[ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
         public IHttpActionResult PostTestResourceAuthorizeModelType([FromBody]TestBindingModel model, int id)
         {
-            var x = OrganizationType.Branch.Id;
             return Ok();
         }
 

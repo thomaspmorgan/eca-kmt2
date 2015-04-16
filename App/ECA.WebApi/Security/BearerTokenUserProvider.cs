@@ -54,7 +54,7 @@ namespace ECA.WebApi.Security
             var currentUser = HttpContext.Current.User;
             if (currentUser != null)
             {
-                //Contract.Assert(ClaimsPrincipal.Current != null, "The claims principal must not be null.");
+                Debug.Assert(ClaimsPrincipal.Current != null, "The claims principal must not be null.");
                 return new WebApiUser(logger, ClaimsPrincipal.Current);
             }
             else
