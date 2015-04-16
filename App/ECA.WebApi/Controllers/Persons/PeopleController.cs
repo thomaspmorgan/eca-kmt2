@@ -3,6 +3,7 @@ using ECA.Business.Service.Persons;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,6 +17,7 @@ namespace ECA.WebApi.Controllers.Persons
     /// Controller for people
     /// </summary>
     [RoutePrefix("api")]
+    [Authorize]
     public class PeopleController : ApiController
     {
         private IPersonService service;
@@ -26,7 +28,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="service">The service to inject</param>
         public PeopleController(IPersonService service)
         {
-            Debug.Assert(service != null, "The participant service must not be null.");
+            Contract.Requires(service != null, "The participant service must not be null.");
             this.service = service;
         }
 

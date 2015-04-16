@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Diagnostics.Contracts;
 
 namespace ECA.WebApi.Controllers.Admin
 {
@@ -18,6 +19,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// Controller for managing moneyflows
     /// </summary>
     [RoutePrefix("api")]
+    [Authorize]
     public class MoneyFlowsController : ApiController
     {
         /// <summary>
@@ -36,7 +38,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="moneyFlowService">The moneyflow service</param>
         public MoneyFlowsController(IMoneyFlowService moneyFlowService)
         {
-            Debug.Assert(moneyFlowService != null, "The money flow service must not be null.");
+            Contract.Requires(moneyFlowService != null, "The money flow service must not be null.");
             this.moneyFlowService = moneyFlowService;
         }
 

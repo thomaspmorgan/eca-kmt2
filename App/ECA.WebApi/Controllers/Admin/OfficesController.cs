@@ -8,6 +8,7 @@ using ECA.WebApi.Models.Query;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -21,6 +22,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// The OfficesController is capable of performing crud operations for an office.
     /// </summary>
     [RoutePrefix("api")]
+    [Authorize]
     public class OfficesController : ApiController
     {
         private static readonly ExpressionSorter<OrganizationProgramDTO> DEFAULT_ORGANIZATION_PROGRAM_SORTER =
@@ -37,7 +39,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="service">The service.</param>
         public OfficesController(IOfficeService service)
         {
-            Debug.Assert(service != null, "The office service must not be null.");
+            Contract.Requires(service != null, "The office service must not be null.");
             this.service = service;
         }
 

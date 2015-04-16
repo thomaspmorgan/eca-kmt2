@@ -3,6 +3,7 @@ using ECA.WebApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -24,7 +25,7 @@ namespace ECA.WebApi.Controllers
         /// <param name="validator">The validator.</param>
         public AboutController(IStaticGeneratorValidator validator)
         {
-            Debug.Assert(validator != null, "The validator must not be null.");
+            Contract.Requires(validator != null, "The validator must not be null.");
             this.validator = validator;
         }
 

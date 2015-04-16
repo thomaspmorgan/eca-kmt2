@@ -7,6 +7,7 @@ using ECA.WebApi.Models.Query;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,6 +20,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// <summary>
     /// The Project Status controller handles crud operations on project stati.
     /// </summary>
+    [Authorize]
     public class ProjectStatusesController : ApiController
     {
         /// <summary>
@@ -34,7 +36,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="service">The service.</param>
         public ProjectStatusesController(IProjectStatusService service)
         {
-            Debug.Assert(service != null, "The service must not be null.");
+            Contract.Requires(service != null, "The service must not be null.");
             this.service = service;
         }
 

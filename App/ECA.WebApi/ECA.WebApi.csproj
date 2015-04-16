@@ -312,7 +312,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Common\AdGraph.cs" />
-    <Compile Include="Common\TicketMaster.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Custom\Handlers\DebugWebApiUserHandler.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddDefaultResponse.cs" />
@@ -322,7 +321,6 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
-    <Compile Include="Models\Security\ResourcePermissionViewModel.cs" />
     <Compile Include="Models\Security\UserViewModel.cs" />
     <Compile Include="Security\ActionPermission.cs" />
     <Compile Include="Security\AnonymousUser.cs" />
@@ -353,7 +351,6 @@
     <Compile Include="Controllers\Persons\PeopleController.cs" />
     <Compile Include="Controllers\Programs\ProgramsController.cs" />
     <Compile Include="Controllers\Programs\ThemesController.cs" />
-    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Custom\Filters\DbEntityValidationExceptionFilter.cs" />
     <Compile Include="Custom\Filters\LoggerExceptionHandler.cs" />
     <Compile Include="Custom\Filters\TraceFilter.cs" />
@@ -377,7 +374,6 @@
     <Compile Include="Models\Query\PagingQueryBindingModel.cs" />
     <Compile Include="Models\Query\SorterBindingModel.cs" />
     <Compile Include="Models\RegionDTO.cs" />
-    <Compile Include="Models\RowVersionStringResolver.cs" />
     <Compile Include="Models\ThemeDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

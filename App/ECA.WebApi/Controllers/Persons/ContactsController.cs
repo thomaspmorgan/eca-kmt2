@@ -7,6 +7,7 @@ using ECA.WebApi.Models.Query;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,6 +20,7 @@ namespace ECA.WebApi.Controllers.Persons
     /// <summary>
     /// The ContactsController is used for crud operations on points of contact in the eca system.
     /// </summary>
+    [Authorize]
     public class ContactsController : ApiController
     {
         /// <summary>
@@ -34,7 +36,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="service">The service.</param>
         public ContactsController(IContactService service)
         {
-            Debug.Assert(service != null, "The contact service must not be null.");
+            Contract.Requires(service != null, "The contact service must not be null.");
             this.service = service;
         }
 

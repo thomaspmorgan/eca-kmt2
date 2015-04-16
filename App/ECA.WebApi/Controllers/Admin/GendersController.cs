@@ -10,12 +10,14 @@ using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.DynamicLinq;
 using ECA.Business.Service.Admin;
+using System.Diagnostics.Contracts;
 
 namespace ECA.WebApi.Controllers.Admin
 {
     /// <summary>
     /// Controller for genders
     /// </summary>
+    [Authorize]
     public class GendersController: ApiController
     {
         private static readonly ExpressionSorter<SimpleLookupDTO> DEFAULT_GENDER_DTO_SORTER =
@@ -28,7 +30,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="service">Service to inject</param>
         public GendersController(IGenderService service)
         {
-            Debug.Assert(service != null, "The service must not be null.");
+            Contract.Requires(service != null, "The service must not be null.");
             this.service = service;
         }
 

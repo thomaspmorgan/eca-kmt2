@@ -18,9 +18,9 @@ namespace ECA.WebApi.Security
     public class UserCacheService : ECA.WebApi.Security.IUserCacheService
     {
         /// <summary>
-        /// The default amount of time to cache a user's details equal to 5 minutes.
+        /// The default amount of time to cache a user's details equal to 10 minutes.
         /// </summary>
-        public const int DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS = 5 * 60;
+        public const int DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS = 10 * 60;
 
         private static readonly string COMPONENT_NAME = typeof(UserCacheService).FullName;
         private ObjectCache cache;

@@ -5,20 +5,24 @@ using System.Web;
 
 namespace ECA.WebApi.Models.Security
 {
+    /// <summary>
+    /// A simple class to hold information about the current user.
+    /// </summary>
     public class UserViewModel
     {
-        public UserViewModel()
-        {
-            this.ResourcePermissions = new List<ResourcePermissionViewModel>();
-        }
-
+        /// <summary>
+        /// The Azure AD user id.
+        /// </summary>
         public Guid UserId { get; set; }
 
+        /// <summary>
+        /// The user principal id in cam.
+        /// </summary>
         public int PrincipalId { get; set; }
 
+        /// <summary>
+        /// The username.
+        /// </summary>
         public string UserName { get; set; }
-
-        public IEnumerable<ResourcePermissionViewModel> ResourcePermissions { get; set; }
-
     }
 }

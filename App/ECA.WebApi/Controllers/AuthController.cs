@@ -34,29 +34,30 @@ namespace ECA.WebApi.Controllers
             this.provider = provider;
         }
 
+        /// <summary>
+        /// Returns basic information about the currently authenticated user.
+        /// </summary>
+        /// <returns>Information about the currently authenticated user.</returns>
         [Authorize]
         [Route("api/auth/user/")]
         [ResponseType(typeof(UserViewModel))]
         public async Task<IHttpActionResult> GetUserAsync()
         {
             var currentUser = this.provider.GetCurrentUser();
-            var businessUser = this.provider.GetBusinessUser(currentUser);
-            var userPermissions = (await this.provider.GetPermissionsAsync(currentUser))
-                .ToList()
-                .Select(x => new ResourcePermissionViewModel{
-                    PermissionId = x.PermissionId,
-                    ResourceId = x.ResourceId
-                }).ToList();
+            var principalId = await this.provider.GetPrincipalIdAsync(currentUser);
             var viewModel = new UserViewModel
             {
-                PrincipalId = businessUser.Id,
-                ResourcePermissions = userPermissions,
+                PrincipalId = principalId,
                 UserId = currentUser.Id,
                 UserName = currentUser.GetUsername()
             };
             return Ok(viewModel);
         }
 
+        /// <summary>
+        /// Logs the user out of the web api system, not the azure ad system. 
+        /// </summary>
+        /// <returns>Ok.</returns>
         [Authorize]
         [Route("api/auth/logout/")]
         public async Task<IHttpActionResult> PostLogout()
@@ -66,14 +67,22 @@ namespace ECA.WebApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// A simple test method of the user permissions and authorization.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="id">The id.</param>
+        /// <returns>An Ok if the user is authorized.</returns>
         [Authorize]
         [Route("api/auth/user/{id}")]
-        [ResourceAuthorize("EditProgram", "Program", 1009)]
-        [ResourceAuthorize("EditProgram", "Program", "id")]
+        //[ResourceAuthorize(OrganizationType.BRANCH_VALUE, "Program", 1009)]
+        //[ResourceAuthorize("EditProgram", "Program", 1009)]
+        //[ResourceAuthorize("EditProgram", "Program", "id")]
         [ResourceAuthorize("EditProgram", "Program")]
-        [ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
+        //[ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
         public IHttpActionResult PostTestResourceAuthorizeModelType([FromBody]TestBindingModel model, int id)
         {
+            var x = OrganizationType.Branch.Id;
             return Ok();
         }
 
