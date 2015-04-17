@@ -5,12 +5,14 @@ using System.Web;
 
 namespace ECA.WebApi.Models.Security
 {
+    /// <summary>
+    /// A ResourcePermissionViewModel is used to allow a client to show permissions granted to a resource.
+    /// </summary>
     public class ResourcePermissionViewModel
     {
-        public int ResourceId { get; set; }
-
-        public int PermissionId { get; set; }
-
-
+        /// <summary>
+        /// The name of the permission.
+        /// </summary>
+        public string PermissionName { get; set; }
     }
 }

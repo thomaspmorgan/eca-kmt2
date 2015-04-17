@@ -6,6 +6,7 @@ using ECA.Core.Query;
 using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -16,6 +17,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// The ProjectsController is used for managing projects in the ECA system.
     /// </summary>
     [RoutePrefix("api")]
+    //[Authorize]
     public class ProjectsController : ApiController
     {
         /// <summary>
@@ -31,7 +33,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="projectService">The project service.</param>
         public ProjectsController(IProjectService projectService)
         {
-            Debug.Assert(projectService != null, "The project service must not be null.");
+            Contract.Requires(projectService != null, "The project service must not be null.");
             this.projectService = projectService;
         }
 

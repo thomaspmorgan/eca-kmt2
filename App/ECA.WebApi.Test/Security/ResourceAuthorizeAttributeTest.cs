@@ -154,6 +154,13 @@ namespace ECA.WebApi.Test.Security
             var resourceType = "Program";
             var user = GetTestUser();
             user.UserHasPermission = true;
+            var infoMessage = string.Empty;
+            Action<string, object[]> infoCallback = (fmt, objParams) =>
+            {
+                infoMessage = String.Format(fmt, objParams);
+            };
+
+            logger.Setup(x => x.Information(It.IsAny<string>(), It.IsAny<object[]>())).Callback(infoCallback);
             userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
             userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
             permissionStore.Setup(x => x.GetPermissionIdByName(It.IsAny<string>())).Returns(1);
@@ -166,6 +173,15 @@ namespace ECA.WebApi.Test.Security
 
             var cts = new CancellationTokenSource();
             await attribute.OnActionExecutingAsync(actionContext, cts.Token);
+
+            var expectedMessage = String.Format("User [{0}] granted access to resource with id [{1}] with foreign key [{2}] of type [{3}] on web api action [{4}].[{5}].",
+                user.GetUsername(),
+                id,
+                id,
+                resourceType,
+                actionContext.ControllerContext.ControllerDescriptor.ControllerName,
+                actionContext.ActionDescriptor.ActionName);
+            Assert.AreEqual(expectedMessage, infoMessage);
         }
 
         [TestMethod]
@@ -267,7 +283,7 @@ namespace ECA.WebApi.Test.Security
                 Assert.AreEqual(String.Format("The resource type name [{0}] does not have a matching resource id in CAM.", resourceType), e.Message);
             }
             Assert.IsTrue(exceptionCaught);
-            
+
         }
 
         [TestMethod]
@@ -279,6 +295,14 @@ namespace ECA.WebApi.Test.Security
             var resourceType = "Program";
             var user = GetTestUser();
             user.UserHasPermission = true;
+            var warningMessage = string.Empty;
+            Action<string, object[]> warningCallback = (fmt, objParams) =>
+            {
+                warningMessage = String.Format(fmt, objParams);
+            };
+
+            logger.Setup(x => x.Warning(It.IsAny<string>(), It.IsAny<object[]>())).Callback(warningCallback);
+
             userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
             permissionStore.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
             permissionStore.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(default(int?));
@@ -294,9 +318,51 @@ namespace ECA.WebApi.Test.Security
             var cts = new CancellationTokenSource();
             await attribute.OnActionExecutingAsync(actionContext, cts.Token);
             logger.Verify(x => x.Warning(It.IsAny<string>(), It.IsAny<object[]>()), Times.Once());
-            logger.Verify(x => x.Warning(It.IsAny<string>(), It.IsAny<object[]>()),
-                String.Format("The resource type [{0}] with id [{1}] was not found in the permission store, by default access is currently granted.", resourceType, id));
-            
+            var expectedWarningMessage = String.Format("User [{0}] granted access to resource of type [{1}] with foreign key of [{2}] because the object is NOT in the CAM resources.",
+                user.GetUsername(),
+                resourceType,
+                id);
+            Assert.AreEqual(expectedWarningMessage, warningMessage);
+        }
+
+        [TestMethod]
+        public async Task TestConstructor_OnActionExecutingAsync_ResourceIdIsZero()
+        {
+            var id = 1;
+            var actionArgument = "id";
+            var permissionName = "Read";
+            var resourceType = "Program";
+            var user = GetTestUser();
+            var warningMessage = string.Empty;
+            Action<string, object[]> warningCallback = (fmt, objParams) =>
+            {
+                warningMessage = String.Format(fmt, objParams);
+            };
+
+            logger.Setup(x => x.Warning(It.IsAny<string>(), It.IsAny<object[]>())).Callback(warningCallback);
+            user.UserHasPermission = true;
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
+            permissionStore.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
+            permissionStore.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(0);
+            permissionStore.Setup(x => x.GetPermissionIdByName(It.IsAny<string>())).Returns(1);
+            userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
+            userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
+
+            var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
+            var actionContext = ContextUtil.CreateActionContext();
+            actionContext.RequestContext.Principal = Thread.CurrentPrincipal;
+            actionContext.ActionArguments.Add(actionArgument, id);
+
+            var cts = new CancellationTokenSource();
+            await attribute.OnActionExecutingAsync(actionContext, cts.Token);
+            logger.Verify(x => x.Warning(It.IsAny<string>(), It.IsAny<object[]>()), Times.Once());
+
+            var expectedWarningMessage = String.Format("User [{0}] granted access to resource of type [{1}] with foreign key of [{2}] because the object is NOT in the CAM resources.",
+                    user.GetUsername(),
+                    resourceType,
+                    id);
+            Assert.AreEqual(expectedWarningMessage, warningMessage);
+
         }
 
         [TestMethod]
@@ -332,8 +398,8 @@ namespace ECA.WebApi.Test.Security
                 exceptionCaught = true;
             }
             Assert.IsTrue(exceptionCaught);
-            
-            
+
+
         }
 
         private TestUser GetTestUser()

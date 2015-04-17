@@ -99,6 +99,7 @@
     <Compile Include="Controllers\Admin\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsControllerTest.cs" />
     <Compile Include="Controllers\Admin\ProjectStatusControllerTest.cs" />
+    <Compile Include="Controllers\AuthControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ContactsControllerTest.cs" />
     <Compile Include="Controllers\Persons\PersonControllerTest.cs" />
@@ -123,7 +124,10 @@
     <Compile Include="Models\Query\SorterBindingModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ActionPermissionTest.cs" />
+    <Compile Include="Security\AnonymousUserTest.cs" />
     <Compile Include="Security\BearerTokenUserProviderTest.cs" />
+    <Compile Include="Security\BearerTokenUserProviderTest_Impersonation.cs" />
+    <Compile Include="Security\ImpersonatedUserTest.cs" />
     <Compile Include="Security\ModelPermissionTest.cs" />
     <Compile Include="Security\ResourceAuthorizeAttributeTest.cs" />
     <Compile Include="Security\StaticPermissionTest.cs" />

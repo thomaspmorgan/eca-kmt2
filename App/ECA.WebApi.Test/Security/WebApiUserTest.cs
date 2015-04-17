@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using ECA.WebApi.Security;
 using System.Threading.Tasks;
+using CAM.Business.Service;
 
 namespace ECA.WebApi.Test.Security
 {
@@ -24,6 +25,93 @@ namespace ECA.WebApi.Test.Security
             logger.Setup(x => x.Error(It.IsAny<string>(), It.IsAny<object[]>()));
             logger.Setup(x => x.Warning(It.IsAny<string>()));
             logger.Setup(x => x.Warning(It.IsAny<string>(), It.IsAny<object[]>()));
+        }
+
+        [TestMethod]
+        public void TestHasPermission_UserHasPermission()
+        {
+            var permission = new Permission
+            {
+                IsAllowed = true,
+                PermissionId = 1,
+                PrincipalId = 2,
+                ResourceId = 3
+            };
+            var claims = new List<Claim>();
+            var claimsIdentity = new ClaimsIdentity(claims);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            var user = new WebApiUser(new TraceLogger(), claimsPrincipal);
+            Assert.IsTrue(user.HasPermission(permission, new List<IPermission> { permission }));
+        }
+
+        [TestMethod]
+        public void TestHasPermission_UserIsNotAllowedPermission()
+        {
+            var testPermission = new Permission
+            {
+                IsAllowed = true,
+                PermissionId = 1,
+                PrincipalId = 2,
+                ResourceId = 3
+            };
+            var allowedPermissions = new List<Permission>
+            {
+                new Permission{
+                    IsAllowed = false,
+                    PermissionId = testPermission.PermissionId,
+                    PrincipalId = testPermission.PrincipalId,
+                    ResourceId = testPermission.ResourceId
+                }
+            };
+            var claims = new List<Claim>();
+            var claimsIdentity = new ClaimsIdentity(claims);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            var user = new WebApiUser(new TraceLogger(), claimsPrincipal);
+            Assert.IsFalse(user.HasPermission(testPermission, allowedPermissions));
+        }
+
+        [TestMethod]
+        public void TestHasPermission_UserDoesNotHavePermission()
+        {
+            var testPermission = new Permission
+            {
+                IsAllowed = true,
+                PermissionId = 1,
+                PrincipalId = 2,
+                ResourceId = 3
+            };
+            var allowedPermissions = new List<Permission>
+            {
+                new Permission{
+                    IsAllowed = testPermission.IsAllowed,
+                    PermissionId = testPermission.PermissionId + 1,
+                    PrincipalId = testPermission.PrincipalId + 1,
+                    ResourceId = testPermission.ResourceId + 1
+                }
+            };
+            var claims = new List<Claim>();
+            var claimsIdentity = new ClaimsIdentity(claims);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            var user = new WebApiUser(new TraceLogger(), claimsPrincipal);
+            Assert.IsFalse(user.HasPermission(testPermission, allowedPermissions));
+        }
+
+        [TestMethod]
+        public void TestHasPermission_UserHasZeroPermissions()
+        {
+            var testPermission = new Permission
+            {
+                IsAllowed = true,
+                PermissionId = 1,
+                PrincipalId = 2,
+                ResourceId = 3
+            };
+            var allowedPermissions = new List<Permission>();
+            var claims = new List<Claim>();
+            var claimsIdentity = new ClaimsIdentity(claims);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            var user = new WebApiUser(new TraceLogger(), claimsPrincipal);
+            Assert.IsFalse(user.HasPermission(testPermission, allowedPermissions));
         }
 
         [TestMethod]

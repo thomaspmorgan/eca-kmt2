@@ -50,7 +50,7 @@ namespace ECA.WebApi.Security
         /// <summary>
         /// Creates a new ResourceAuthorizeAttribute with the action permissions.
         /// </summary>
-        /// <param name="permissions">The action permissions.</param>
+        /// <param name="permission">The action permission.</param>
         internal ResourceAuthorizeAttribute(PermissionBase permission)
         {
             this.Permission = permission;
@@ -160,9 +160,9 @@ namespace ECA.WebApi.Security
             }
 
             var resourceId = permissionStore.GetResourceIdByForeignResourceId(foreignResourceId, resourceTypeId.Value);
-            if (!resourceId.HasValue)
+            if (!resourceId.HasValue || resourceId.Value == 0)
             {
-                logger.Warning("User [{0}] granted access to resource of type [{1}] with foreign key of [{2}] because the object is in the CAM resources.",
+                logger.Warning("User [{0}] granted access to resource of type [{1}] with foreign key of [{2}] because the object is NOT in the CAM resources.",
                     currentUser.GetUsername(),
                     resourceTypeName,
                     foreignResourceId);
@@ -172,7 +172,7 @@ namespace ECA.WebApi.Security
                 var hasPermission = currentUser.HasPermission(GetRequestedPermission(requestedPermissionId, resourceId.Value, principalId), userPermissions);
                 if (!hasPermission)
                 {
-                    logger.Information("User [{0}] denied access to resource [{1}] with foreign key of [{2}] because the user do not have the [{3}] permission.",
+                    logger.Information("User [{0}] denied access to resource [{1}] with foreign key of [{2}] because the user does not have the [{3}] permission.",
                         currentUser.GetUsername(),
                         resourceTypeName,
                         foreignResourceId,
