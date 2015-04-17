@@ -35,6 +35,8 @@ angular.module('staticApp')
       $scope.editExisting = false;
       $scope.dropDownDirty = false;
 
+      $scope.initialTableState = null;
+
       $scope.alerts = [];
 
       $scope.themes = [];
@@ -179,7 +181,15 @@ angular.module('staticApp')
             });
     }
 
+    $scope.changeProgramList = function () {
+
+        var tableState = $scope.initialTableState;
+        $scope.getPrograms(tableState);
+    };
+
     $scope.getPrograms = function (tableState) {
+
+        $scope.initialTableState = tableState;
 
         TableService.setTableState(tableState);
         var params = {
@@ -201,29 +211,9 @@ angular.module('staticApp')
     $scope.refreshProgramsAlpha = function (params, tableState) {
         $scope.programsLoading = true;
 
-        $scope.activeProgramParams = {
-            start: 0,
-            limit: 25,
-            sort: null,
-            filter: [{ property: 'programstatusid', comparison: 'eq', value: 1 }]
-        };
-
-        ProgramService.getAllProgramsAlpha($scope.activeProgramParams)
+        ProgramService.getAllProgramsAlpha(params)
         .then(function (data) {
-
-            var programs = data.results;
-            var total = data.total;
-            var start = 0;
-            if (programs.length > 0) {
-                start = params.start + 1;
-            };
-            updatePagingDetails(start, programs.length);
-
-            var limit = TableService.getLimit();
-            tableState.pagination.numberOfPages = Math.ceil(total / limit);
-
-            $scope.programs = programs;
-            $scope.programsLoading = false;
+            processData(data, tableState, params);
         });
     };
 
@@ -232,25 +222,28 @@ angular.module('staticApp')
 
         ProgramService.getAllProgramsHierarchy(params)
         .then(function (data) {
-
-            var programs = data.results;
-            var total  = data.total;
-            var start = 0;
-            if (programs.length > 0) {
-                start = params.start + 1;
-            };
-            updatePagingDetails(start, programs.length);
-
-            var limit = TableService.getLimit();
-            tableState.pagination.numberOfPages = Math.ceil(total / limit);
-
-            $scope.programs = programs;
-            $scope.programsLoading = false;
+            processData(data, tableState, params);
         });
     };
 
-    function updatePagingDetails(start, count) {
-        $scope.totalNumberOfPrograms = $scope.totalRecords;
+    function processData(data, tableState, params) {
+        var programs = data.results;
+        var total = data.total;
+        var start = 0;
+        if (programs.length > 0) {
+            start = params.start + 1;
+        };
+        updatePagingDetails(total, start, programs.length);
+
+        var limit = TableService.getLimit();
+        tableState.pagination.numberOfPages = Math.ceil(total / limit);
+
+        $scope.programs = programs;
+        $scope.programsLoading = false;
+    };
+
+    function updatePagingDetails(total, start, count) {
+        $scope.totalNumberOfPrograms = total;
         $scope.skippedNumberOfPrograms = start;
         $scope.numberOfPrograms = count;
     };
