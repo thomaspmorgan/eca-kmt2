@@ -312,6 +312,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Common\AdGraph.cs" />
+    <Compile Include="Controllers\Admin\FocusCategoryController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Custom\Handlers\DebugWebApiUserHandler.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddDefaultResponse.cs" />
@@ -321,8 +322,10 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
+    <Compile Include="Models\FocusCategoryDTO.cs" />
     <Compile Include="Models\Security\ResourcePermissionViewModel.cs" />
     <Compile Include="Models\Security\UserViewModel.cs" />
+    <Compile Include="Models\Person\PersonBindingModel.cs" />
     <Compile Include="Security\ActionPermission.cs" />
     <Compile Include="Security\AnonymousUser.cs" />
     <Compile Include="Security\BearerTokenUserProvider.cs" />

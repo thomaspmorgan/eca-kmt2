@@ -11,13 +11,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Diagnostics;
+using ECA.Business.Queries.Admin;
 
 namespace ECA.Business.Service.Persons
 {
     /// <summary>
     /// Person service
     /// </summary>
-    public class PersonService : DbContextService<EcaContext>, IPersonService
+    public class PersonService : EcaService, IPersonService
     {
         private static readonly string COMPONENT_NAME = typeof(PersonService).FullName;
         private readonly ILogger logger;
@@ -88,5 +89,47 @@ namespace ECA.Business.Service.Persons
             this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "personId", personId } });
             return contactInfo;
         }
+
+        public async Task<Person> CreateAsync(NewPerson newPerson)
+        {
+            var project = await GetProjectByIdAsync(newPerson.ProjectId);
+            var countriesOfCitizenship = await GetLocationsByIdAsync(newPerson.CountriesOfCitizenship);
+            var person = CreatePerson(newPerson, project, countriesOfCitizenship);
+            var participant = CreateParticipant(person, project);
+            return person;
+        }
+
+        private Person CreatePerson(NewPerson newPerson, Project project, List<Location> countriesOfCitizenship)
+        {
+            var person = new Person
+            {
+                FirstName = newPerson.FirstName,
+                LastName = newPerson.LastName,
+                GenderId = newPerson.Gender,
+                DateOfBirth = newPerson.DateOfBirth,
+                PlaceOfBirthId = newPerson.CityOfBirth,
+                CountriesOfCitizenship = countriesOfCitizenship
+            };
+
+            newPerson.Audit.SetHistory(person);
+            this.Context.People.Add(person);
+
+            return person;
+        }
+
+        private Participant CreateParticipant(Person person, Project project)
+        {
+            var participant = new Participant
+            {
+                PersonId = person.PersonId,
+                ParticipantTypeId = ParticipantType.Individual.Id
+            };
+
+            participant.Projects.Add(project);
+            this.Context.Participants.Add(participant);
+
+            return participant;
+        }
+
     }
 }

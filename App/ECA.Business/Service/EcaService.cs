@@ -315,5 +315,26 @@ namespace ECA.Business.Service
                 themeable.Themes.Remove(x);
             });
         }
+
+        protected async Task<Project> GetProjectByIdAsync(int projectId)
+        {
+            return await CreateGetProjectById(projectId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<Project> CreateGetProjectById(int projectId)
+        {
+            return Context.Projects.Where(x => x.ProjectId == projectId);
+        }
+
+        protected async Task<List<Location>> GetLocationsByIdAsync(List<int> locationIds)
+        {
+            return await CreateGetLocationsById(locationIds).ToListAsync();
+        }
+
+        private IQueryable<Location> CreateGetLocationsById(List<int> locationIds)
+        {
+            return Context.Locations.Where(x => locationIds.Contains(x.LocationId));
+        }
+
     }
 }

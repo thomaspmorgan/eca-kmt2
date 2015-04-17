@@ -48,7 +48,7 @@ LEFT JOIN eca_dev_local_copy.dbo.person ep
     ((cp.[SUFFIX_CD] IS NULL AND ep.namesuffix IS NULL) OR (ep.namesuffix = SUBSTRING(cp.[SUFFIX_CD],1,10))) AND
     ((cp.[Middle_Name] IS NULL AND ep.middlename IS NULL) OR (ep.middlename = cp.[Middle_Name])) AND
     ((cp.BIRTH_DATE IS NULL AND ep.dateofbirth = CAST(N'2015-04-11' AS Date)) OR (CONVERT(date,ep.dateofbirth,1) = CONVERT(date,cp.BIRTH_DATE,1))) AND
-    ((cp.birth_city IS NULL AND cp.birth_country IS NULL AND city.locationid IS NULL) OR (ep.PlaceOfBirth_LocationId = city.locationid)) AND
+    ((cp.birth_city IS NULL AND cp.birth_country IS NULL AND ep.PlaceOfBirth_LocationId IS NULL) OR (ep.PlaceOfBirth_LocationId = city.locationid)) AND
     (g.genderid = ep.genderid)) AND 
     (m.MaritalStatusId = ep.MaritalStatusId)
 WHERE ep.personid IS NOT NULL AND citizencountry.locationid IS NOT NULL
