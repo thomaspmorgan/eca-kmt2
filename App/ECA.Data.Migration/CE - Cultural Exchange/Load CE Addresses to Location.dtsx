@@ -1,0 +1,2247 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/17/2015 9:43:16 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{0E287343-32EC-400C-9238-1AAAD66364F8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load CE Addresses to Location"
+  DTS:PackageType="5"
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{4491B9F7-1B5D-404E-AA4D-F9F09D394D79}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{295FE39D-6293-438F-B264-087162D94732}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.CE.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=CE;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA0wmCbTYhZP7wawlNCHLG+LhGdIhOsAw6/Tn63vWXTWwAAAAAOgAAAAAIAACAAAADzuP3o37ZlQ8EHotWHkdKflX8YRYATIPBqovIdsqOwaCAAAABLDEFJ+ZwoZZs53reilpmAiEf1iecKZmZu4IEwSGLyfEAAAAD49J6ljf3fK+cqY/y0a5M5OqY4nbZQKKuYUIucJy2/VH0YQg/wlFKOHzDiQ+UsPyregGRK+7fnqu7g/RwAv6bU</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Local_Copy.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E521B94A-2985-420D-975D-CA140ADE7AD4}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.ECA_Dev_Local_Copy.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=ECA_Dev_Local_Copy;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAC9ISSH6GyKiR9bHiXhwpD6amcLxb98uzAAC0vFgnw60gAAAAAOgAAAAAIAACAAAACeXKZo6hXGNvv6m4fs2Uk4Zsu8qjb7jqMiMRqSZ62zLyAAAAD+RCT2cQ1he2RssZ2B6ngVpva4Sq+OFgGfC7UmFsdyuUAAAAA5XJDdZ5yMsca2HmCI9t/Gh/sIyvLOVA6v/zqlIcj6bNO3oNZE2LnMYdiit7rb5sJ+5hq+MKTAdmzhif1iWWsb</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{D8194361-4AEA-433E-8B7B-6C2246143423}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAyfvZ+NUL2vyN9+eOS0WoY8coQkFjTBDt9MOHNCHGxhAAAAAAOgAAAAAIAACAAAADL3QIVutnTKvJM9ZFrw+CV1OaBKpshgD5WkCLEVroisyAAAADDeBN724qK2TjRbiX//gHrHb4A397uh8moxn9SMqHp10AAAABbO/mV+qcmZ/k99wdMq9GbqrNZoONNdlgYQsO4sUu9jcHWdEeuD4Ou4v3SosDhMWGK5/1Zjfy0DrCTYX53nFEu</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E9FDBB79-17B6-4CD8-AF2F-2C065B7DAACA}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADBAdr4xXhvNG7hA0aIEKgHbJfv3YnpWZIdgxy6Smw54AAAAAAOgAAAAAIAACAAAAAIteFPKYtJEpCugjzOV+Gs/ss+s8aKJfE9AlFScbiXcSAAAACSza5Mzvp2/++lHyjpCi2OoFTmXhrROBA9v6TO/P82JkAAAAAJOmMmDlh8Cppl55SxMVpkGSU/b3LgppJcpGlfm2sqGlDgtyk2aMyenFNgdmaMMDSfPabVsPmd2CwZBfUNq6QB</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load Address to Location Table"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{A91107EE-241C-415C-A2E5-6CBAA71A8D4A}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Address to Location Table"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Address to Location Table\Add Required columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Required columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Address to Location Table\Add Required columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Address to Location Table\Add Required columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[CountrySearchLocationTypeName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="7"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[CountrySearchLocationTypeName]"
+                      name="CountrySearchLocationTypeName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Country"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Country"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[AddressSearchLocationTypeName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="7"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[AddressSearchLocationTypeName]"
+                      name="AddressSearchLocationTypeName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Address"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Address"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Address to Location Table\Add Required columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Address to Location Table\CE_Address"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="CE_Address"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CE_Address]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Address to Location Table\CE_Address.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_LINE1]"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE1]"
+                      name="ADDRESS_LINE1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_LINE2]"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE2]"
+                      name="ADDRESS_LINE2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE3]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_LINE3]"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE3]"
+                      name="ADDRESS_LINE3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[CITY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[CITY]"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[CITY]"
+                      name="CITY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[STATE_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[STATE_CD]"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[STATE_CD]"
+                      name="STATE_CD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[PROVINCE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[PROVINCE]"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[PROVINCE]"
+                      name="PROVINCE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[COUNTRY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[COUNTRY]"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[COUNTRY]"
+                      name="COUNTRY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[POSTAL_CD]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[POSTAL_CD]"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[POSTAL_CD]"
+                      name="POSTAL_CD"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ORG_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ORG_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_PRIMARY_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_PRIMARY_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_LINE1]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_LINE1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_LINE2]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_LINE2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_LINE3]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_LINE3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[CITY]"
+                      dataType="wstr"
+                      length="255"
+                      name="CITY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[STATE_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="STATE_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[PROVINCE]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROVINCE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      name="COUNTRY" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[POSTAL_CD]"
+                      dataType="wstr"
+                      length="255"
+                      name="POSTAL_CD" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[LOCATION_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      name="LOCATION_TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="ADDRESS_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="ADDRESS_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].ExternalColumns[ADDRESS_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="ADDRESS_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[ADDRESS_LINE1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[ADDRESS_LINE1]"
+                      name="ADDRESS_LINE1" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[ADDRESS_LINE2]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[ADDRESS_LINE2]"
+                      name="ADDRESS_LINE2" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[ADDRESS_LINE3]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[ADDRESS_LINE3]"
+                      name="ADDRESS_LINE3" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[CITY]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[CITY]"
+                      name="CITY" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[STATE_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[STATE_CD]"
+                      name="STATE_CD" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[PROVINCE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[PROVINCE]"
+                      name="PROVINCE" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[COUNTRY]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[COUNTRY]"
+                      name="COUNTRY" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[POSTAL_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[POSTAL_CD]"
+                      name="POSTAL_CD" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Address to Location Table\Create Uppercase Country Name"
+              componentClassID="Microsoft.CharacterMap"
+              contactInfo="Character Map;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Applies string functions to character data. For example, convert from data that is in upper case to lower case. Operates only on column data with a string data type."
+              name="Create Uppercase Country Name"
+              usesDispositions="true"
+              version="2">
+              <inputs>
+                <input
+                  refId="Package\Load Address to Location Table\Create Uppercase Country Name.Inputs[Character Map Input]"
+                  name="Character Map Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\Create Uppercase Country Name.Inputs[Character Map Input].Columns[COUNTRY]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="COUNTRY"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[COUNTRY]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Address to Location Table\Create Uppercase Country Name.Outputs[Character Map Output]"
+                  exclusionGroup="1"
+                  name="Character Map Output"
+                  synchronousInputId="Package\Load Address to Location Table\Create Uppercase Country Name.Inputs[Character Map Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Create Uppercase Country Name.Outputs[Character Map Output].Columns[UpperCOUNTRY]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Map Column"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\Create Uppercase Country Name.Outputs[Character Map Output].Columns[UpperCOUNTRY]"
+                      name="UpperCOUNTRY"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.UInt32"
+                          description="Specifies the string operations to apply."
+                          name="MapFlags"
+                          typeConverter="LCMappingType">512</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column to which operations apply."
+                          name="InputColumnLineageID">#{Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[COUNTRY]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Address to Location Table\Create Uppercase Country Name.Outputs[Character Map Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Character Map Error Output"
+                  synchronousInputId="Package\Load Address to Location Table\Create Uppercase Country Name.Inputs[Character Map Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Create Uppercase Country Name.Outputs[Character Map Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\Create Uppercase Country Name.Outputs[Character Map Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Create Uppercase Country Name.Outputs[Character Map Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\Create Uppercase Country Name.Outputs[Character Map Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Address to Location Table\ECA Location"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ECA Location"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Location]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Address to Location Table\ECA Location.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[CITY]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CITY"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[CITY]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[Country_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Country_LocationId"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Country_LocationId]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[Country_LocationId]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[Region_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Region_LocationId"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Region_LocationId]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[Region_LocationId]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[ADDRESS_LINE1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_LINE1"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Street1]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[ADDRESS_LINE1]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[ADDRESS_LINE2]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_LINE2"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Street2]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[ADDRESS_LINE2]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[ADDRESS_LINE3]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_LINE3"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Street3]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[ADDRESS_LINE3]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[AddressLocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="AddressLocationTypeId"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[AddressLocationTypeId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[LocationId]"
+                      dataType="i4"
+                      name="LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      dataType="i4"
+                      name="LocationTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Latitude]"
+                      dataType="r4"
+                      name="Latitude" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Longitude]"
+                      dataType="r4"
+                      name="Longitude" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Street1]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Street2]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street2" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Street3]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street3" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="200"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Division]"
+                      dataType="wstr"
+                      length="100"
+                      name="Division" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[PostalCode]"
+                      dataType="wstr"
+                      length="50"
+                      name="PostalCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[LocationName]"
+                      dataType="wstr"
+                      length="200"
+                      name="LocationName" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[LocationIso]"
+                      dataType="wstr"
+                      length="50"
+                      name="LocationIso" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Region_LocationId]"
+                      dataType="i4"
+                      name="Region_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Country_LocationId]"
+                      dataType="i4"
+                      name="Country_LocationId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Address to Location Table\ECA Location.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\ECA Location.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\ECA Location.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Address to Location Table\GROUP BY All"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
+              description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
+              name="GROUP BY All"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of distinct values in a column that the aggregation counts distinctly. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no CountDistinctScale value is used."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of distinct values in a column that the aggregation counts distinctly. If a CountDistinctScale value is specified, the value in CountDistinctKeys takes precedence."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage by which memory can be extended during the aggregation. Valid values are between 1 and 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1]"
+                  name="Aggregate Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[ADDRESS_LINE1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_LINE1"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE1]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[ADDRESS_LINE2]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_LINE2"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE2]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[ADDRESS_LINE3]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ADDRESS_LINE3"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE3]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[CITY]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CITY"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[CITY]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[Country_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Country_LocationId"
+                      lineageId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Match Output].Columns[Country_LocationId]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[Region_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Region_LocationId"
+                      lineageId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Match Output].Columns[Region_LocationId]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[AddressLocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="AddressLocationTypeId"
+                      lineageId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Match Output].Columns[AddressLocationTypeId]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1]"
+                  name="Aggregate Output 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[ADDRESS_LINE1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[ADDRESS_LINE1]"
+                      name="ADDRESS_LINE1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE1]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[ADDRESS_LINE2]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[ADDRESS_LINE2]"
+                      name="ADDRESS_LINE2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE2]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[ADDRESS_LINE3]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[ADDRESS_LINE3]"
+                      name="ADDRESS_LINE3">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[ADDRESS_LINE3]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[CITY]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[CITY]"
+                      name="CITY">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[CITY]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_CreatedOn]"
+                      name="History_CreatedOn">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_CreatedBy]"
+                      name="History_CreatedBy">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_RevisedOn]"
+                      name="History_RevisedOn">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[History_RevisedBy]"
+                      name="History_RevisedBy">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[Country_LocationId]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[Country_LocationId]"
+                      name="Country_LocationId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Match Output].Columns[Country_LocationId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[Region_LocationId]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[Region_LocationId]"
+                      name="Region_LocationId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Match Output].Columns[Region_LocationId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[AddressLocationTypeId]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[AddressLocationTypeId]"
+                      name="AddressLocationTypeId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Match Output].Columns[AddressLocationTypeId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Address to Location Table\Lookup Address LocationTypeId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Address LocationTypeId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[LocationType]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[LocationType]) [refTable]
+where [refTable].[LocationTypeName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[AddressSearchLocationTypeName]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Inputs[Lookup Input].Columns[AddressSearchLocationTypeName]"
+                      cachedDataType="wstr"
+                      cachedLength="7"
+                      cachedName="AddressSearchLocationTypeName"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[AddressSearchLocationTypeName]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationTypeName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Match Output].Columns[AddressLocationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Match Output].Columns[AddressLocationTypeId]"
+                      name="AddressLocationTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationTypeId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Address to Location Table\Lookup Country LocationTypeid"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Country LocationTypeid"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[LocationType]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[LocationType]) [refTable]
+where [refTable].[LocationTypeName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[CountrySearchLocationTypeName]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Inputs[Lookup Input].Columns[CountrySearchLocationTypeName]"
+                      cachedDataType="wstr"
+                      cachedLength="7"
+                      cachedName="CountrySearchLocationTypeName"
+                      lineageId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output].Columns[CountrySearchLocationTypeName]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationTypeName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]"
+                      name="CountryLocationTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationTypeId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Address to Location Table\Lookup CountryId and RegionId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup CountryId and RegionId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Location]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Location]) [refTable]
+where UPPER([refTable].[LocationName]) = ? and [refTable].[LocationTypeId] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load Address to Location Table\Create Uppercase Country Name.Outputs[Character Map Output].Columns[UpperCOUNTRY]};#{Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Inputs[Lookup Input].Columns[UpperCOUNTRY]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="UpperCOUNTRY"
+                      lineageId="Package\Load Address to Location Table\Create Uppercase Country Name.Outputs[Character Map Output].Columns[UpperCOUNTRY]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Inputs[Lookup Input].Columns[CountryLocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="CountryLocationTypeId"
+                      lineageId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationTypeId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Match Output].Columns[Country_LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Match Output].Columns[Country_LocationId]"
+                      name="Country_LocationId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationId</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Match Output].Columns[Region_LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Match Output].Columns[Region_LocationId]"
+                      name="Region_LocationId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">Region_LocationId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Address to Location Table.Paths[Aggregate Output 1]"
+              endId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input]"
+              name="Aggregate Output 1"
+              startId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1]" />
+            <path
+              refId="Package\Load Address to Location Table.Paths[Character Map Output]"
+              endId="Package\Load Address to Location Table\Add Required columns.Inputs[Derived Column Input]"
+              name="Character Map Output"
+              startId="Package\Load Address to Location Table\Create Uppercase Country Name.Outputs[Character Map Output]" />
+            <path
+              refId="Package\Load Address to Location Table.Paths[Derived Column Output]"
+              endId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\Load Address to Location Table\Add Required columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Address to Location Table.Paths[Lookup Match Output]"
+              endId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load Address to Location Table.Paths[Lookup Match Output1]"
+              endId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1]"
+              name="Lookup Match Output"
+              startId="Package\Load Address to Location Table\Lookup CountryId and RegionId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load Address to Location Table.Paths[Lookup Match Output2]"
+              endId="Package\Load Address to Location Table\Lookup Country LocationTypeid.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load Address to Location Table.Paths[OLE DB Source Output]"
+              endId="Package\Load Address to Location Table\Create Uppercase Country Name.Inputs[Character Map Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="227,42"
+          Id="Package\Load Address to Location Table"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Address to Location Table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="140,42"
+          Id="Package\Load Address to Location Table\ECA Location"
+          TopLeft="725.5,314.5" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Load Address to Location Table\Lookup Address LocationTypeId"
+          TopLeft="102.5,260.5" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Load Address to Location Table\GROUP BY All"
+          TopLeft="442.5,317.5" />
+        <NodeLayout
+          Size="227,42"
+          Id="Package\Load Address to Location Table\Lookup Country LocationTypeid"
+          TopLeft="386.5,61.5" />
+        <NodeLayout
+          Size="134,42"
+          Id="Package\Load Address to Location Table\CE_Address"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="233,42"
+          Id="Package\Load Address to Location Table\Create Uppercase Country Name"
+          TopLeft="18.5,81.5" />
+        <NodeLayout
+          Size="184,42"
+          Id="Package\Load Address to Location Table\Add Required columns"
+          TopLeft="36.5,170.5" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Load Address to Location Table\Lookup CountryId and RegionId"
+          TopLeft="409.5,199.5" />
+        <EdgeLayout
+          Id="Package\Load Address to Location Table.Paths[Derived Column Output]"
+          TopLeft="128.5,212.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="88.5,48"
+              Start="0,0"
+              End="88.5,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20"
+                    Point2="0,24"
+                    Point3="4,24" />
+                  <mssgle:LineSegment
+                    End="84.5,24" />
+                  <mssgle:CubicBezierSegment
+                    Point1="84.5,24"
+                    Point2="88.5,24"
+                    Point3="88.5,28" />
+                  <mssgle:LineSegment
+                    End="88.5,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Address to Location Table.Paths[Character Map Output]"
+          TopLeft="131.75,123.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47"
+              Start="0,0"
+              End="0,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Address to Location Table.Paths[Aggregate Output 1]"
+          TopLeft="586.5,337">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="139,0"
+              Start="0,0"
+              End="131.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="131.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Address to Location Table.Paths[OLE DB Source Output]"
+          TopLeft="72.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="62.5,34"
+              Start="0,0"
+              End="62.5,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13"
+                    Point2="0,17"
+                    Point3="4,17" />
+                  <mssgle:LineSegment
+                    End="58.5,17" />
+                  <mssgle:CubicBezierSegment
+                    Point1="58.5,17"
+                    Point2="62.5,17"
+                    Point3="62.5,21" />
+                  <mssgle:LineSegment
+                    End="62.5,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Address to Location Table.Paths[Lookup Match Output2]"
+          TopLeft="253.833333333333,260.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="209.666666666667,-157"
+              Start="0,0"
+              End="209.666666666667,-149.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-74.4940637111258" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-74.4940637111258"
+                    Point2="0,-78.4940637111258"
+                    Point3="4,-78.4940637111258" />
+                  <mssgle:LineSegment
+                    End="205.666666666667,-78.4940637111258" />
+                  <mssgle:CubicBezierSegment
+                    Point1="205.666666666667,-78.4940637111258"
+                    Point2="209.666666666667,-78.4940637111258"
+                    Point3="209.666666666667,-82.4940637111258" />
+                  <mssgle:LineSegment
+                    End="209.666666666667,-149.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="56.6419466145833,-73.4940637111258,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Address to Location Table.Paths[Lookup Match Output1]"
+          TopLeft="524,241.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-9.5,76"
+              Start="0,0"
+              End="-9.5,68.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34"
+                    Point2="0,38"
+                    Point3="-4,38" />
+                  <mssgle:LineSegment
+                    End="-5.5,38" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-5.5,38"
+                    Point2="-9.5,38"
+                    Point3="-9.5,42" />
+                  <mssgle:LineSegment
+                    End="-9.5,68.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-52.94138671875,43,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Address to Location Table.Paths[Lookup Match Output]"
+          TopLeft="536.5,103.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-12.5,96"
+              Start="0,0"
+              End="-12.5,88.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.8031496062992" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34.8031496062992"
+                    Point2="0,38.8031496062992"
+                    Point3="-4,38.8031496062992" />
+                  <mssgle:LineSegment
+                    End="-8.5,38.8031496062992" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-8.5,38.8031496062992"
+                    Point2="-12.5,38.8031496062992"
+                    Point3="-12.5,42.8031496062992" />
+                  <mssgle:LineSegment
+                    End="-12.5,88.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-54.44138671875,43.8031496062992,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Address to Location Table\ECA Location">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Address to Location Table\Lookup Address LocationTypeId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[LocationType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Address to Location Table\Lookup Country LocationTypeid">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[LocationType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Address to Location Table\CE_Address">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Address to Location Table\Lookup CountryId and RegionId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Location]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

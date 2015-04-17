@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[AddressType] (
     [AddressTypeId]     INT                IDENTITY (1, 1) NOT NULL,
-    [AddressName]       NVARCHAR (MAX)     NOT NULL,
+    [AddressName]       NVARCHAR (50)     NOT NULL,
     [History_CreatedBy] INT                NOT NULL,
     [History_CreatedOn] DATETIMEOFFSET (7) NOT NULL,
     [History_RevisedBy] INT                NOT NULL,
