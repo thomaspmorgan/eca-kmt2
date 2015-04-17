@@ -81,7 +81,7 @@ namespace ECA.WebApi
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<IGenderService, GenderService>(new HierarchicalLifetimeManager());
-
+            container.RegisterType<IFocusCategoryService, FocusCategoryService>(new HierarchicalLifetimeManager());
 
         }
 
