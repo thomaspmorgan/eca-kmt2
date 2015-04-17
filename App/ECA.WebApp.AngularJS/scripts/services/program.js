@@ -36,10 +36,10 @@ angular.module('staticApp')
                 });
               return defer.promise;
           },          
-          getAllProgramsHierarchy: function () {
+          getAllProgramsHierarchy: function (params) {
               var defer = $q.defer();
               var path = 'programs/Hierarchy';
-              DragonBreath.get(path)
+              DragonBreath.get(params,path)
                 .success(function (data) {
                     defer.resolve(data);
                 });

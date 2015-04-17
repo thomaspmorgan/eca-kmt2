@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Diagnostics.Contracts;
 
 namespace ECA.WebApi.Controllers.Programs
 {
@@ -21,7 +22,7 @@ namespace ECA.WebApi.Controllers.Programs
     /// The ProgramsController is capable of handling program requests from a client.
     /// </summary>
     [RoutePrefix("api")]
-    [Authorize]
+    //[Authorize]
     public class ProgramsController : ApiController
     {
         /// <summary>
@@ -39,7 +40,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// <param name="programService">The program service.</param>
         public ProgramsController(IProgramService programService)
         {
-            Debug.Assert(programService != null, "The program service must not be null.");
+            Contract.Requires(programService != null, "The program service must not be null.");
             this.programService = programService;
         }
 

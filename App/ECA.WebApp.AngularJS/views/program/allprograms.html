@@ -4,18 +4,17 @@
         <span class="owner-office">ECA</span>
     </div>
 </div>
-<div class="row">
-    
-    <span class="left programTypeRadio">Show programs in<input type="radio" ng-change="getProgramList()" ng-model="programList.type" value="alpha">Alphabetical</span>
-    <span class="left programTypeRadio"><input type="radio" ng-change="getProgramList()" ng-model="programList.type" value="hierarchy">Hierarchical order</span>
-        <button ng-click="createProgramForm(programForm)" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
+<div class="row" st-pipe="getPrograms" st-table="programs">
+    <span class="left programTypeRadio">Show programs in<input type="radio" ng-change="getPrograms()" ng-model="programList.type" value="hierarchy">Hierarchical order</span>
+    <span class="left programTypeRadio"><input type="radio" ng-change="getPrograms()" ng-model="programList.type" value="alpha">Alphabetical order</span>
+    <button ng-click="createProgramForm(programForm)" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
 </div>
 
 <div st-pipe="getPrograms" st-table="programs" id="sort-list">
     <table class="col-md-12">
         <tbody class="list2">
             <tr class="row hover" ng-repeat="program in programs" ng-show="!programsLoading">
-                <td class="col-md-9">
+                <td class="col-md-9" ng-style="{'padding-left': 60+(20*program.programLevel-1)}">
                     <span class="owner-office">{{program.officeSymbol}}</span>
                     <h4><a ui-sref="programs.overview({programId: program.programId, officeId: {{program.ownerId}}})">{{program.name}}</a></h4>
                     <p>{{program.description}}</p>
@@ -48,8 +47,9 @@
             </tr>
         </tbody>
     </table>
-    <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="programs.length > 0" class="col-md-7"></div>
+    <div class="col-md-7" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="programs.length > 0"></div>
 </div>
+
 
 <modal-dialog show="showEditProgram" dialog-title="Edit program - {{ newProgram.name }}" before-close="editModalClose(this)" on-close="modalClear(this)">
     <div class="tip">

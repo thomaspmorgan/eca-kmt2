@@ -1,8 +1,10 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
+using ECA.WebApi.Models.Person;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,6 +18,7 @@ namespace ECA.WebApi.Controllers.Persons
     /// Controller for people
     /// </summary>
     [RoutePrefix("api")]
+    //[Authorize]
     public class PeopleController : ApiController
     {
         private IPersonService service;
@@ -26,7 +29,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="service">The service to inject</param>
         public PeopleController(IPersonService service)
         {
-            Debug.Assert(service != null, "The participant service must not be null.");
+            Contract.Requires(service != null, "The participant service must not be null.");
             this.service = service;
         }
 
@@ -39,7 +42,7 @@ namespace ECA.WebApi.Controllers.Persons
         [Route("People/{personId:int}/Pii")]
         public async Task<IHttpActionResult> GetPiiByIdAsync(int personId)
         {
-            var pii = await this.service.GetPiiByIdAsync(personId);
+            var pii = await service.GetPiiByIdAsync(personId);
             if (pii != null)
             {
                 return Ok(pii);
@@ -59,7 +62,7 @@ namespace ECA.WebApi.Controllers.Persons
         [Route("People/{personId:int}/ContactInfo")]
         public async Task<IHttpActionResult> GetContactInfoByIdAsync(int personId)
         {
-            var contactInfo = await this.service.GetContactInfoByIdAsync(personId);
+            var contactInfo = await service.GetContactInfoByIdAsync(personId);
             if (contactInfo != null)
             {
                 return Ok(contactInfo);
@@ -67,6 +70,21 @@ namespace ECA.WebApi.Controllers.Persons
             else
             {
                 return NotFound();
+            }
+        }
+
+        public async Task<IHttpActionResult> PostPersonAsync(PersonBindingModel model)
+        {
+            var userId = 0;
+            var person = await service.CreateAsync(model.ToNewPerson(userId));
+            await service.SaveChangesAsync();
+            if (ModelState.IsValid)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
             }
         }
 

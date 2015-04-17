@@ -20,6 +20,8 @@ namespace ECA.WebApi.Security
     {
         private static readonly string COMPONENT_NAME = typeof(BearerTokenUserProvider).FullName;
 
+        public static Func<Guid, User> UserFactory = (userId) => { return new User(); };
+
         private readonly ILogger logger;
         private readonly IUserCacheService cacheService;
         private readonly IPermissionStore<IPermission> permissionStore;
@@ -54,7 +56,7 @@ namespace ECA.WebApi.Security
             var currentUser = HttpContext.Current.User;
             if (currentUser != null)
             {
-                //Contract.Assert(ClaimsPrincipal.Current != null, "The claims principal must not be null.");
+                Debug.Assert(ClaimsPrincipal.Current != null, "The claims principal must not be null.");
                 return new WebApiUser(logger, ClaimsPrincipal.Current);
             }
             else
@@ -153,14 +155,24 @@ namespace ECA.WebApi.Security
 
         private User GetCamUser(IWebApiUser user, out bool isValid)
         {
-            var camUser = new User();
-            isValid = camUser.AuthenticateUserWithGuid(user.Id, this.camContext);
-            return camUser;
+            return GetCamUser(user.Id, out isValid);
         }
 
         private Task<User> GetCamUserAsync(IWebApiUser user, out bool isValid)
         {
-            return Task.FromResult<User>(GetCamUser(user, out isValid));
+            return Task.FromResult<User>(GetCamUser(user.Id, out isValid));
+        }
+
+        private User GetCamUser(Guid userId, out bool isValid)
+        {
+            var camUser = UserFactory(userId);
+            isValid = camUser.AuthenticateUserWithGuid(userId, this.camContext);
+            return camUser;
+        }
+
+        private Task<User> GetCamUserAsync(Guid userId, out bool isValid)
+        {
+            return Task.FromResult<User>(GetCamUser(userId, out isValid));
         }
 
         public void Clear(IWebApiUser user)
@@ -203,9 +215,45 @@ namespace ECA.WebApi.Security
         #endregion
 
 
+        public void Impersonate(IWebApiUser impersonator, Guid idOfUserToImpersonate)
+        {
+            BeforeImpersonateUser(impersonator.Id);
+            var impersonatedUser = new ImpersonatedUser(impersonatorUserId: impersonator.Id, impersonatedUserId: idOfUserToImpersonate, impersonatorUserName: impersonator.GetUsername());
+            bool isImpersonatedUserValid;
+            bool isImpersonatorValid;
+            var impersonatedCamUser = GetCamUser(impersonatedUser, out isImpersonatedUserValid);
+            var impersonatorCamUser = GetCamUser(impersonator.Id, out isImpersonatorValid);
+            var impersonatedUserPermissions = GetPermissions(impersonatedUser);
+            CacheImpersonatedUser(impersonator, impersonatorCamUser, isImpersonatedUserValid, impersonatedUserPermissions.ToList());
+        }
 
+        public async Task ImpersonateAsync(IWebApiUser impersonator, Guid idOfUserToImpersonate)
+        {
+            BeforeImpersonateUser(impersonator.Id);
+            var impersonatedUser = new ImpersonatedUser(impersonatorUserId: impersonator.Id, impersonatedUserId: idOfUserToImpersonate, impersonatorUserName: impersonator.GetUsername());
+            bool isImpersonatedUserValid;
+            bool isImpersonatorValid;
+            var impersonatedCamUser = await GetCamUserAsync(impersonatedUser, out isImpersonatedUserValid);
+            var impersonatorCamUser = await GetCamUserAsync(impersonator.Id, out isImpersonatorValid);
+            var impersonatedUserPermissions = await GetPermissionsAsync(impersonatedUser);
+            CacheImpersonatedUser(impersonator, impersonatorCamUser, isImpersonatedUserValid, impersonatedUserPermissions.ToList());
 
+        }
 
-        
+        private void CacheImpersonatedUser(IWebApiUser impersonator, User impersonatorCamUser, bool isImpersonatedUserValid, IEnumerable<IPermission> impersonatedUserPermissions)
+        {
+            var modifiedCache = new UserCache(impersonator, impersonatorCamUser, isImpersonatedUserValid, impersonatedUserPermissions.ToList());
+            this.cacheService.Add(modifiedCache);
+
+        }
+
+        private void BeforeImpersonateUser(Guid impersonatorId)
+        {
+            var isUserCached = cacheService.IsUserCached(impersonatorId);
+            if (isUserCached)
+            {
+                this.Clear(impersonatorId);
+            }
+        }
     }
 }

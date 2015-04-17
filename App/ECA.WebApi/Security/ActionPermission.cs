@@ -35,8 +35,13 @@ namespace ECA.WebApi.Security
         /// <returns>The resource id.</returns>
         public override int GetResourceId(IDictionary<string, object> actionArguments)
         {
-            Contract.Assert(actionArguments.ContainsKey(this.ArgumentName),
-                String.Format("The argument named [{0}] does not exist in the action arguments.", this.ArgumentName));
+            Contract.Requires(this.ArgumentName != null, "The argument name must not be null.");
+            if (!actionArguments.ContainsKey(this.ArgumentName))
+            {
+                var message = "The argument named [{0}] was not found in the given action arguments.  "
+                + "If you did not specify an argument name then the default argument name [{1}] is assumed.  Either specify an argument name or refactor the argument name to the default.";
+                throw new NotSupportedException(String.Format(message, this.ArgumentName, ResourceAuthorizeAttribute.DEFAULT_ID_ARGUMENT_NAME));
+            }
             var actionArgumentValue = actionArguments[this.ArgumentName];
             if (actionArgumentValue.GetType() != typeof(int))
             {
