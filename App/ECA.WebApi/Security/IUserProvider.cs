@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ECA.WebApi.Security
 {
-    public interface IUserProvider
+    public interface IUserProvider : IDisposable
     {
         WebApiUserBase GetCurrentUser();
 

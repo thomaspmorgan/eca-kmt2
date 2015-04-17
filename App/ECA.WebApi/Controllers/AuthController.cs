@@ -127,7 +127,8 @@ namespace ECA.WebApi.Controllers
                             var permissionName = this.permissionStore.GetPermissionNameById(p.PermissionId);
                             models.Add(new ResourcePermissionViewModel
                             {
-                                PermissionName = permissionName
+                                PermissionName = permissionName,
+                                PermissionId = p.PermissionId
                             });
                         });
                 }

@@ -14,5 +14,10 @@ namespace ECA.WebApi.Models.Security
         /// The name of the permission.
         /// </summary>
         public string PermissionName { get; set; }
+
+        /// <summary>
+        /// The id of the permission.
+        /// </summary>
+        public int PermissionId { get; set; }
     }
 }

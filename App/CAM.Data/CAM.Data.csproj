@@ -65,6 +65,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CamModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="CAMStaticDataGenerator.generated.cs">
+      <DependentUpon>CAMStaticDataGenerator.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Model2.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -116,6 +121,10 @@
     <None Include="CamModel.edmx.diagram">
       <DependentUpon>CamModel.edmx</DependentUpon>
     </None>
+    <None Include="CAMStaticDataGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CAMStaticDataGenerator.generated.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +141,12 @@
       <LastGenOutput>Model2.cs</LastGenOutput>
       <DependentUpon>CamModel.edmx</DependentUpon>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
+      <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
+      <Name>ECA.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

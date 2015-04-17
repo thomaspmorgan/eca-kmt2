@@ -123,13 +123,13 @@
 					WriteLine("/// <summary>");
 					WriteLine(String.Format("/// Returns the {0} string value.", value));
 					WriteLine("/// </summary>");
-					WriteLine(GetStaticValueDeclaration(value, value));
+					WriteLine(GetStaticValueDeclaration(value));
 
 					WriteLine(String.Empty);
 					WriteLine("/// <summary>");
 					WriteLine(String.Format("/// Returns the {0} integer id value.", id));
 					WriteLine("/// </summary>");
-					WriteLine(GetStaticIdDeclaration(propertyName, value, id));
+					WriteLine(GetStaticIdDeclaration(value, id));
 					
 				}
 			}
@@ -199,49 +199,39 @@
 		return String.Format("public static StaticLookup GetStaticLookup(int id)");
 	}
 
-	public string GetStaticIdDeclaration(string propertyName, string friendlyName, int id)
+	public string GetStaticNamePrefix(string value)
 	{
-		friendlyName = Pascalize(friendlyName);
-		var publicConstIdName = "";
-		foreach (char letter in friendlyName)
-		{
-			if (Char.IsUpper(letter) && publicConstIdName.Length > 0)
-				publicConstIdName += "_" + letter;
-			else
-				publicConstIdName += letter;
-		}
-		publicConstIdName = publicConstIdName.ToUpper();
-		publicConstIdName = publicConstIdName.Replace(" ", "_");
-		//0 is the lookupClassName
-		//1 is the property name
-		//2 is the value
-		//3 is the id
-		return String.Format("public const int {0}_ID = {1};", publicConstIdName, id);
+			WriteLine("///" + value);
+			//WriteLine("///" + Pascalize(value));
+			var publicConstValueName = "";
+			foreach (char letter in value)
+			{
+				if (Char.IsUpper(letter) && publicConstValueName.Length > 0)
+					publicConstValueName += "_" + letter;
+				else
+					publicConstValueName += letter;
+			}
+			publicConstValueName = publicConstValueName.ToUpper();
+			publicConstValueName = publicConstValueName.Replace(" ", "_");
+			publicConstValueName = publicConstValueName.Replace(".", "");
+			publicConstValueName = publicConstValueName.Replace("(", "");
+			publicConstValueName = publicConstValueName.Replace(")", "");
+			publicConstValueName = publicConstValueName.Replace("-", "");
+			publicConstValueName = publicConstValueName.Replace("/", "");
+			publicConstValueName = publicConstValueName.Replace("\\", "");
+			return publicConstValueName;
 	}
 
-	public string GetStaticValueDeclaration(string propertyName, string friendlyName)
+	public string GetStaticIdDeclaration(string value, int id)
 	{
-		var publicConstValueName = "";
-		foreach (char letter in propertyName)
-		{
-			if (Char.IsUpper(letter) && publicConstValueName.Length > 0)
-				publicConstValueName += "_" + letter;
-			else
-				publicConstValueName += letter;
-		}
-		publicConstValueName = publicConstValueName.ToUpper();
-		publicConstValueName = publicConstValueName.Replace(" ", "_");
-		publicConstValueName = publicConstValueName.Replace(".", "");
-		publicConstValueName = publicConstValueName.Replace("(", "");
-		publicConstValueName = publicConstValueName.Replace(")", "");
-		publicConstValueName = publicConstValueName.Replace("-", "");
-		publicConstValueName = publicConstValueName.Replace("/", "");
-		publicConstValueName = publicConstValueName.Replace("\\", "");
-		//0 is the lookupClassName
-		//1 is the property name
-		//2 is the value
-		//3 is the id
-		return String.Format("public const string {0}_VALUE = \"{1}\";", publicConstValueName, propertyName);
+		var name = GetStaticNamePrefix(value);
+		return String.Format("public const int {0}_ID = {1};", name, id);
+	}
+
+	public string GetStaticValueDeclaration(string value)
+	{
+		var name = GetStaticNamePrefix(value);
+		return String.Format("public const string {0}_VALUE = \"{1}\";", name, value);
 	}
 
 	public string GetStaticPropertyDeclaration(string propertyName, string friendlyName, int id)

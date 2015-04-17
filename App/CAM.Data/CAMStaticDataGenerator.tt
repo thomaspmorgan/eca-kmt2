@@ -1,0 +1,34 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="ECA.Core.Generation" #>
+
+<#@ include file="../ECA.Core/Generation/StaticDataGenerator.tt" #>
+<#@ assembly name="$(SolutionDir)ECA.Core/bin/Debug/ECA.Core.dll" #>
+<#@ output extension=".generated.cs" #>
+
+<#
+	
+	var nameSpace = "CAM.Data";
+	var connectionString = @"Server=tcp:dx4ykgy2iu.database.windows.net,1433;Database=ECA_Dev;Persist Security Info=True;User ID=ECA@dx4ykgy2iu;Password=wisconsin-89;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;MultipleActiveResultSets=True";
+	var types = new List<StaticLookupConfig>();
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "cam.Permission",
+		ClassName = "Permission",
+		IdColumnName = "PermissionId",
+		ValueColumnName = "PermissionName",
+		Namespace = nameSpace
+	});
+		types.Add(new StaticLookupConfig
+	{
+		TableName = "cam.ResourceType",
+		ClassName = "ResourceType",
+		IdColumnName = "ResourceTypeId",
+		ValueColumnName = "ResourceTypeName",
+		Namespace = nameSpace
+	});
+	WriteTypes(types, connectionString, true);
+#>

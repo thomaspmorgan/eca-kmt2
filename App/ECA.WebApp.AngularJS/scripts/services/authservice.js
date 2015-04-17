@@ -8,42 +8,14 @@
  * Factory for handling authorization.
  */
 angular.module('staticApp')
-  .factory('authService', function($http, $q, $window) {
-  var userInfo;
-
-  function getUserInfo() {
-    return userInfo;
-  }
- 
-  function login(userName, password) {
-    var deferred = $q.defer();
- 
-    $http.post('/auth', {
-      userName: userName,
-      password: password
-    }).then(function(result) {
-      console.log(result);
-      userInfo = {
-        accessToken: result.data.accessToken,
-        userName: result.data.userName
+  .factory('AuthService', function ($http, $q, $window, DragonBreath) {
+      return {
+          getResourcePermissions: function (resourceType, id) {
+              return DragonBreath.get({
+                  type: resourceType,
+                  id: id
+              }, 'auth/user/permissions');
+          }
       };
-      $window.sessionStorage.userInfo = JSON.stringify(userInfo);
-      deferred.resolve(userInfo);
-    }, function(error) {
-      deferred.reject(error);
-    });
- 
-    return deferred.promise;
-  }
 
-  // TODO - make this do something server side
-  function logout(){
-    $window.sessionStorage.userInfo = null;
-  }
- 
-  return {
-    login: login,
-    getUserInfo: getUserInfo,
-    logout: logout
-  };
-});
+  });

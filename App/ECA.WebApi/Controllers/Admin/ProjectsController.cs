@@ -5,6 +5,7 @@ using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// The ProjectsController is used for managing projects in the ECA system.
     /// </summary>
     [RoutePrefix("api")]
-    //[Authorize]
+    [Authorize]
     public class ProjectsController : ApiController
     {
         /// <summary>
@@ -64,6 +65,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="id">The project id to fetch</param>
         /// <returns>Project</returns>
         [ResponseType(typeof(ProjectDTO))]
+        [ResourceAuthorize(CAM.Data.Permission.VIEW_PROJECT_VALUE, CAM.Data.ResourceType.PROJECT_VALUE)]
         public async Task<IHttpActionResult> GetProjectByIdAsync(int id)
         {
             var project = await this.projectService.GetProjectByIdAsync(id);

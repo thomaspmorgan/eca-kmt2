@@ -63,7 +63,7 @@ namespace ECA.WebApi.Security
         /// <summary>
         /// Azure's email id token key.
         /// </summary>
-        public const string EMAIL_KEY = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+        public const string EMAIL_KEY = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
 
         /// <summary>
         /// Azure's given name token key.

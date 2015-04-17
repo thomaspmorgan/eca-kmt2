@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectOverviewCtrl', function ($scope, $stateParams, $q, $log, $timeout, ProjectService, ProgramService, TableService, LookupService, ConstantsService) {
+  .controller('ProjectOverviewCtrl', function ($scope, $stateParams, $q, $log, $timeout, ProjectService, ProgramService, TableService, LookupService, ConstantsService, AuthService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -31,6 +31,10 @@ angular.module('staticApp')
       $scope.editView.selectedPointsOfContact = [];
       $scope.editView.selectedGoals = [];
       $scope.editView.selectedThemes = [];
+
+      $scope.permissions = {};
+      $scope.permissions.canEdit = false;
+      
 
       $scope.editView.loadProjectStati = function () {
           loadProjectStati();
@@ -69,7 +73,7 @@ angular.module('staticApp')
       }
 
       $scope.view.onCancelClick = function () {
-          $scope.editView.show = false;
+          hideEditView();
           $scope.view.isLoading = true;
           loadProject()
             .then(function () {
@@ -96,8 +100,22 @@ angular.module('staticApp')
       var editProjectEventName = ConstantsService.editProjectEventName;
       $scope.$on(editProjectEventName, function () {
           $log.info('Handling event [' + editProjectEventName + '] in overview.js controller.');
-          $scope.editView.show = true;
+          showEditView();
       });
+
+      function showEditView() {
+          if($scope.permissions.canEdit){
+              $scope.editView.show = true;
+          }
+          else{
+              alert('You do not have permission to edit.');
+          }
+          
+      }
+
+      function hideEditView() {
+          $scope.editView.show = false;
+      }
 
       function getStatusById(stati, id) {
           return getLookupById(stati, id);
@@ -155,7 +173,7 @@ angular.module('staticApp')
           ProjectService.update($scope.$parent.project, $stateParams.projectId)
             .then(function (response) {
                 $scope.$parent.project = response.data;
-                $scope.editView.show = false;
+                hideEditView();
                 showSaveSuccess();
             }, function (errorResponse) {
                 $scope.view.saveFailed = true;
@@ -341,8 +359,27 @@ angular.module('staticApp')
               });
       }
 
+      var requiredEditPermissionId = ConstantsService.permission.editproject;
+      function loadPermissions() {
+          var projectId = $stateParams.projectId;
+          return AuthService.getResourcePermissions('Project', projectId)
+            .then(function (result) {
+                var permissions = result.data;
+                for (var i = 0; i < permissions.length; i++) {
+                    var permission = permissions[i];
+                    console.assert(permission.permissionId, 'The permission should have a permission id property');
+                    var permissionId = permission.permissionId;
+                    if (permissionId === requiredEditPermissionId) {
+                        $scope.permissions.canEdit = true;
+                    }
+                }
+            }, function() {
+                
+            });
+      }
+
       $scope.view.isLoading = true;
-      $q.all([loadThemes(null), loadPointsOfContact(null), loadFoci(), loadProjectStati(), loadGoals(null), loadProject()])
+      $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadFoci(), loadProjectStati(), loadGoals(null), loadProject()])
       .then(function (results) {
           //results is an array
 

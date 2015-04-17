@@ -22,7 +22,7 @@ namespace ECA.WebApi.Models
             var assembly = Assembly.GetExecutingAssembly();
             var fileVersion = FileVersionInfo.GetVersionInfo(assembly.Location);
             this.Version = fileVersion.FileVersion;
-            this.LookupErrors = EcaDataValidator.ValidateAll(validator);
+            this.LookupErrors = ECA.Data.EcaDataValidator.ValidateAll(validator);
 
             this.BuildConfiguration = "Release";
 #if DEBUG

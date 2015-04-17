@@ -120,6 +120,7 @@ namespace ECA.WebApi.Test.Controllers
             Assert.AreEqual(1, okResult.Content.Count());
             var firstPermission = okResult.Content.First();
             Assert.AreEqual(permissionName, firstPermission.PermissionName);
+            Assert.AreEqual(permissionId, firstPermission.PermissionId);
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
         }
 

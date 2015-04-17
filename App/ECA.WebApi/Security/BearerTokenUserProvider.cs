@@ -207,8 +207,11 @@ namespace ECA.WebApi.Security
         {
             if (disposing)
             {
-                this.camContext.Dispose();
-                this.camContext = null;
+                if (this.camContext != null)
+                {
+                    this.camContext.Dispose();
+                    this.camContext = null;
+                }
             }
         }
 
