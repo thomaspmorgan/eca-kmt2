@@ -14,15 +14,14 @@ SELECT c.person_id,c.country,
 	ep.*
 */
 
+CREATE TABLE dbo.CE_Person_Map_Local (CE_PersonId nvarchar(255), ECA_PersonId int)
+GO
+
 /* Local copy first */
-INSERT INTO eca_dev_local_copy.dbo.CitizenCountry
-	(PersonId,LocationId)
-SELECT ep.personid,citizencountry.LocationId
-FROM ce_person_citizenship c
-JOIN eca_dev_local_copy.dbo.location citizencountry 
-  ON (citizencountry.locationtypeid = 3 AND citizencountry.locationname = c.country)
-JOIN ce_person cp 
-  ON (cp.person_id = c.person_id)
+INSERT INTO dbo.CE_Person_Map_Local
+	(CE_PersonId,ECA_PersonId)
+SELECT cp.person_id,ep.personid
+FROM ce_person cp 
 LEFT JOIN eca_dev_local_copy.dbo.location birthcountry 
   ON (birthcountry.locationtypeid = 3 AND birthcountry.locationname = cp.birth_country)
 LEFT JOIN ECA_Dev_Local_Copy.dbo.gender g 
@@ -33,8 +32,7 @@ LEFT JOIN ECA_Dev_Local_Copy.dbo.gender g
 			ELSE 'Other'
 			END)
 LEFT JOIN ECA_Dev_Local_Copy.dbo.maritalstatus m 
-  ON (m.status = CASE WHEN cp.MARITAL_STATUS IS NULL THEN 'N'
- 		 ELSE cp.marital_status	END )
+  ON (m.status = CASE WHEN cp.MARITAL_STATUS IS NULL THEN 'N' ELSE cp.marital_status END )
 LEFT JOIN ECA_Dev_Local_Copy.dbo.location city 
        ON ((city.locationtypeid = 5 AND city.locationname = CASE WHEN cp.BIRTH_CITY IS NULL THEN cp.BIRTH_COUNTRY 
 								 ELSE cp.BIRTH_CITY END)
@@ -51,22 +49,21 @@ LEFT JOIN eca_dev_local_copy.dbo.person ep
     ((cp.birth_city IS NULL AND cp.birth_country IS NULL AND ep.PlaceOfBirth_LocationId IS NULL) OR (ep.PlaceOfBirth_LocationId = city.locationid)) AND
     (g.genderid = ep.genderid)) AND 
     (m.MaritalStatusId = ep.MaritalStatusId)
-WHERE ep.personid IS NOT NULL AND citizencountry.locationid IS NOT NULL
-GROUP BY ep.personid,citizencountry.locationid
+WHERE ep.personid IS NOT NULL 
+GROUP BY cp.person_id,ep.personid
 
 GO
 
 /* NOW THE ECA_DEV DB */
 
+CREATE TABLE dbo.CE_Person_Map_Dev (CE_PersonId nvarchar(255), ECA_PersonId int)
+GO
+
 /* Local copy first */
-INSERT INTO eca_dev.eca_dev.dbo.CitizenCountry
-	(PersonId,LocationId)
-SELECT ep.personid,citizencountry.LocationId
-FROM ce_person_citizenship c
-JOIN eca_dev.eca_dev.dbo.location citizencountry 
-  ON (citizencountry.locationtypeid = 3 AND citizencountry.locationname = c.country)
-JOIN ce_person cp 
-  ON (cp.person_id = c.person_id)
+INSERT INTO dbo.CE_Person_Map_Dev
+	(CE_PersonId,ECA_PersonId)
+SELECT cp.person_id,ep.personid
+FROM ce_person cp 
 LEFT JOIN eca_dev.eca_dev.dbo.location birthcountry 
   ON (birthcountry.locationtypeid = 3 AND birthcountry.locationname = cp.birth_country)
 LEFT JOIN eca_dev.eca_dev.dbo.gender g 
@@ -77,8 +74,7 @@ LEFT JOIN eca_dev.eca_dev.dbo.gender g
 			ELSE 'Other'
 			END)
 LEFT JOIN eca_dev.eca_dev.dbo.maritalstatus m 
-  ON (m.status = CASE WHEN cp.MARITAL_STATUS IS NULL THEN 'N'
- 		 ELSE cp.marital_status	END )
+  ON (m.status = CASE WHEN cp.MARITAL_STATUS IS NULL THEN 'N' ELSE cp.marital_status END )
 LEFT JOIN eca_dev.eca_dev.dbo.location city 
        ON ((city.locationtypeid = 5 AND city.locationname = CASE WHEN cp.BIRTH_CITY IS NULL THEN cp.BIRTH_COUNTRY 
 								 ELSE cp.BIRTH_CITY END)
@@ -92,10 +88,10 @@ LEFT JOIN eca_dev.eca_dev.dbo.person ep
     ((cp.[SUFFIX_CD] IS NULL AND ep.namesuffix IS NULL) OR (ep.namesuffix = SUBSTRING(cp.[SUFFIX_CD],1,10))) AND
     ((cp.[Middle_Name] IS NULL AND ep.middlename IS NULL) OR (ep.middlename = cp.[Middle_Name])) AND
     ((cp.BIRTH_DATE IS NULL AND ep.dateofbirth = CAST(N'2015-04-11' AS Date)) OR (CONVERT(date,ep.dateofbirth,1) = CONVERT(date,cp.BIRTH_DATE,1))) AND
-    ((cp.birth_city IS NULL AND cp.birth_country IS NULL AND city.locationid IS NULL) OR (ep.PlaceOfBirth_LocationId = city.locationid)) AND
+    ((cp.birth_city IS NULL AND cp.birth_country IS NULL AND ep.PlaceOfBirth_LocationId IS NULL) OR (ep.PlaceOfBirth_LocationId = city.locationid)) AND
     (g.genderid = ep.genderid)) AND 
     (m.MaritalStatusId = ep.MaritalStatusId)
-WHERE ep.personid IS NOT NULL AND citizencountry.locationid IS NOT NULL
-GROUP BY ep.personid,citizencountry.locationid
+WHERE ep.personid IS NOT NULL 
+GROUP BY cp.person_id,ep.personid
 
 GO

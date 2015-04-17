@@ -55,7 +55,7 @@ namespace ECA.Data
         /// Office of the Focus Area
         /// </summary>
         ///
-        [InverseProperty("OrganizationId")]
+
         [ForeignKey("OfficeId")]
         public Organization Office { get; set; }
 

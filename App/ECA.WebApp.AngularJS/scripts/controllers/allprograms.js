@@ -14,23 +14,28 @@ angular.module('staticApp')
       $scope.errorMessage = 'Unknown Error';
       $scope.validations = [];
 
+      $scope.totalNumberOfPrograms = 0;
+      $scope.skippedNumberOfPrograms = 0;
+      $scope.numberOfPrograms = 0;
+
+      $scope.totalRecords = 0;
+
       $scope.today = function () {
           $scope.startDate = new Date();
       };
       $scope.today();
-
-      $scope.totalNumberOfPrograms = -1;
-      $scope.skippedNumberOfPrograms = -1;
-      $scope.numberOfPrograms = -1;
 
       $scope.calOpened = false;
 
       $scope.currentForm = null;
 
       $scope.editProgramLoading = false;
+      $scope.currentpage = $stateParams.page || 1;
 
       $scope.editExisting = false;
       $scope.dropDownDirty = false;
+
+      $scope.initialTableState = null;
 
       $scope.alerts = [];
 
@@ -40,9 +45,7 @@ angular.module('staticApp')
       $scope.pointsOfContact = [];
       $scope.foci = [];
 
-      $scope.programList = {
-          type: 'alpha'
-      };
+      $scope.programList = { type: 'hierarchy' };
 
       // initialize new Program record
       $scope.newProgram = {
@@ -164,11 +167,6 @@ angular.module('staticApp')
       
       //#endregion
 
-
-    $scope.getProgramList = function () {
-        changeProgramList();
-    };
-
     $scope.getParentPrograms = function (val) {
         $scope.parentLookupParams = {
             start: null,
@@ -183,72 +181,72 @@ angular.module('staticApp')
             });
     }
 
+    $scope.changeProgramList = function () {
+
+        var tableState = $scope.initialTableState;
+        $scope.getPrograms(tableState);
+    };
+
     $scope.getPrograms = function (tableState) {
 
+        $scope.initialTableState = tableState;
+
         TableService.setTableState(tableState);
-
-        // initial list always the alphabetical
-        $scope.refreshProgramsAlpha(tableState);
-
-    };
-
-
-    $scope.refreshProgramsAlpha = function (tableState) {
-        $scope.programsLoading = true;
-
-        $scope.activeProgramParams = {
-            start: 0,
-            limit: 25,
-            sort: null,
-            filter: [{ property: 'programstatusid', comparison: 'eq', value: 1 }]
+        var params = {
+            start: TableService.getStart(),
+            limit: TableService.getLimit(),
+            sort: TableService.getSort(),
+            filter: TableService.getFilter(),
+            keyword: TableService.getKeywords()
         };
 
-        ProgramService.getAllProgramsAlpha($scope.activeProgramParams)
+        if ($scope.programList.type == "alpha") {
+            $scope.refreshProgramsAlpha(params, tableState);
+        }
+        else {
+            $scope.refreshProgramsHierarchy(params, tableState);
+        };
+    };
+
+    $scope.refreshProgramsAlpha = function (params, tableState) {
+        $scope.programsLoading = true;
+
+        ProgramService.getAllProgramsAlpha(params)
         .then(function (data) {
-
-            var programs = data.results;
-            var total = data.total;
-            var start = 0;
-            if (programs.length > 0) {
-                start = $scope.activeProgramParams.start + 1;
-            };
-            updatePagingDetails(total, start, programs.length);
-
-            $scope.programs = programs;
-            var limit = TableService.getLimit();
-            tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
-            $scope.programsLoading = false;
+            processData(data, tableState, params);
         });
     };
 
-    $scope.refreshProgramsHierarchy = function () {
+    $scope.refreshProgramsHierarchy = function (params, tableState) {
         $scope.programsLoading = true;
 
-        $scope.activeProgramParams = {
-            start: 0,
-            limit: 25,
-            sort: null,
-            filter: null
-        };
-
-        ProgramService.getAllProgramsHierarchy($scope.activeProgramParams)
+        ProgramService.getAllProgramsHierarchy(params)
         .then(function (data) {
-
-            var programs = data.results;
-            var total = data.total;
-            var start = 0;
-            if (programs.length > 0) {
-                start = $scope.activeProgramParams.start + 1;
-            };
-            updatePagingDetails(total, start, programs.length);
-
-            $scope.programs = programs;
-            var limit = TableService.getLimit();
-            //tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
-            $scope.programsLoading = false;
+            processData(data, tableState, params);
         });
     };
 
+    function processData(data, tableState, params) {
+        var programs = data.results;
+        var total = data.total;
+        var start = 0;
+        if (programs.length > 0) {
+            start = params.start + 1;
+        };
+        updatePagingDetails(total, start, programs.length);
+
+        var limit = TableService.getLimit();
+        tableState.pagination.numberOfPages = Math.ceil(total / limit);
+
+        $scope.programs = programs;
+        $scope.programsLoading = false;
+    };
+
+    function updatePagingDetails(total, start, count) {
+        $scope.totalNumberOfPrograms = total;
+        $scope.skippedNumberOfPrograms = start;
+        $scope.numberOfPrograms = count;
+    };
 
     $scope.getParentProgramName = function (programId) {
         ProgramService.get(programId)
@@ -402,23 +400,9 @@ angular.module('staticApp')
         }
     };
 
-    function changeProgramList() {
-        if ($scope.programList.type == "alpha")
-        {
-            $scope.refreshProgramsAlpha();
-        }
-        else {
-            $scope.refreshProgramsHierarchy();
-        }
-    };
 
+      
 
-
-    function updatePagingDetails(total, start, count) {
-        $scope.totalNumberOfPrograms = total;
-        $scope.skippedNumberOfPrograms = start;
-        $scope.numberOfPrograms = count;
-    };
 
     function cleanUpNewProgram() {
         if ($scope.newProgram.parentProgram !== undefined) {

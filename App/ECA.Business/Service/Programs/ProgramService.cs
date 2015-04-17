@@ -165,8 +165,10 @@ namespace ECA.Business.Service.Programs
             var regionTypeIds = await GetLocationTypeIdsAsync(draftProgram.RegionIds);
             var focus = await GetFocusByIdAsync(draftProgram.FocusId);
             var owner = await GetOrganizationByIdAsync(draftProgram.OwnerOrganizationId);
+
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(draftProgram.ParentProgramId.Value) : null;
+            
             var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, focus, owner, parentProgram, regionTypeIds));
             stopwatch.Stop();
             this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
@@ -185,7 +187,7 @@ namespace ECA.Business.Service.Programs
                 EndDate = draftProgram.EndDate,
                 Focus = focus,
                 Name = draftProgram.Name,
-                //reason I'm loading parent program here is it should already be in the context cache when using the Find method
+
                 ParentProgram = draftProgram.ParentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null,
                 ProgramType = null,
                 ProgramStatusId = draftProgram.ProgramStatusId,
@@ -370,23 +372,7 @@ namespace ECA.Business.Service.Programs
         }
 
 
-        /// <summary>
-        /// Updates the regions on the given program to the regions with the given ids.
-        /// </summary>
-        /// <param name="regionIds">The regions by id.</param>
-        /// <param name="programEntity">The program to update.</param>
-        public void SetRegions(List<int> regionIds, Program programEntity)
-        {
-            Contract.Requires(regionIds != null, "The theme ids must not be null.");
-            Contract.Requires(programEntity != null, "The program entity must not be null.");
-            programEntity.Regions.Clear();
-            regionIds.ForEach(x =>
-            {
-                var location = new Location { LocationId = x };
-                this.Context.Locations.Attach(location);
-                programEntity.Regions.Add(location);
-            });
-        }
+
 
         private DbRawSqlQuery<OrganizationProgramDTO> CreateGetProgramsHierarchySqlQuery()
         {

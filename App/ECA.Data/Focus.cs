@@ -39,16 +39,16 @@ namespace ECA.Data
         public string FocusName { get; set; }
 
         /// <summary>
-        /// Office for the Focus area
+        /// Office Id for the Focus area
         /// </summary>
-        public int? OfficeId { get; set;}
+
+        public int OrganizationId { get; set;}
 
         /// <summary>
         /// Office of the Focus Area
         /// </summary>
         ///
 
-        [ForeignKey("OfficeId")]
         public Organization Office { get; set; }
 
         /// <summary>

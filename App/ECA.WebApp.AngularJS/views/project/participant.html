@@ -171,7 +171,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">GENDER<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="genders" output-model="newParticipant.gender" button-label="value" item-label="value" tick-property="ticked" selection-mode="single" helper-elements="reset"></isteven-multi-select>
+                                    <isteven-multi-select input-model="genders" output-model="newParticipant.gender" button-label="value" item-label="value" tick-property="ticked" selection-mode="single"></isteven-multi-select>
                                     <input type="text" ng-model="newParticipant.gender" required style="display: none">
                                 </div>
                                 <div class="form-group">
@@ -180,15 +180,17 @@
                                     <input type="text" ng-model="newParticipant.countryOfBirth" required style="display: none">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">COUNTRY OF CITIZENSHIP<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfCitizenship" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countryOfCitizenship" required style="display: none">
+                                    <label for="">COUNTRIES OF CITIZENSHIP<span class="asterisk"> *</span></label>
+                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countriesOfCitizenship" button-label="name" item-label="name" tick-property="ticked"></isteven-multi-select>
+                                    <input type="text" ng-model="newParticipant.countriesOfCitizenship[0]" required style="display: none">
                                 </div>
-                                <div class="form-group">
-                                    <label for="">ORIGINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfOrigination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countryOfOrigination" required style="display: none">
-                                </div>
+                                <!--
+                <div class="form-group">
+                    <label for="">ORIGINATION - COUNTRY<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfOrigination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                    <input type="text" ng-model="newParticipant.countryOfOrigination" required style="display: none">
+                </div>
+                -->
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -201,19 +203,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">PLACE OF BIRTH - CITY<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="cities" output-model="newParticipant.birthCity" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.birthCity" required style="display: none">
+                                    <isteven-multi-select input-model="cities" output-model="newParticipant.cityOfBirth" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                                    <input type="text" ng-model="newParticipant.cityOfBirth" required style="display: none">
                                 </div>
-                                <div class="form-group">
-                                    <label for="">COUNTRY OF RESIDENCE<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfResidence" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countryOfResidence" required style="display: none">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">DESTINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countries" output-model="newParticipant.destinationCountry" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.destinationCountry" required style="display: none">
-                                </div>
+                                <!--
+                <div class="form-group">
+                    <label for="">DESTINATION - COUNTRY<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfDestination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                    <input type="text" ng-model="newParticipant.countryOfDestination" required style="display: none">
+                </div>
+                -->
                             </div>
                         </div>
                     </form>

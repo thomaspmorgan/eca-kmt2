@@ -91,9 +91,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Queries\Admin\FocusCategoryQueries.cs" />
     <Compile Include="Queries\Admin\FocusQueries.cs" />
     <Compile Include="Queries\Admin\MoneyFlowQueries.cs" />
     <Compile Include="Queries\Admin\OfficeQueries.cs" />
+    <Compile Include="Queries\Models\Admin\FocusCategoryDTO.cs" />
     <Compile Include="Queries\Models\Admin\FocusDTO.cs" />
     <Compile Include="Queries\Models\Admin\MoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
@@ -105,7 +107,9 @@
     <Compile Include="Queries\Models\Persons\ParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\PiiDTO.cs" />
     <Compile Include="Queries\Persons\PersonQueries.cs" />
+    <Compile Include="Service\Admin\FocusCategoryService.cs" />
     <Compile Include="Service\Admin\GenderService.cs" />
+    <Compile Include="Service\Admin\IFocusCategoryService.cs" />
     <Compile Include="Service\Admin\IGenderService.cs" />
     <Compile Include="Service\Admin\IProjectStatusService.cs" />
     <Compile Include="Service\Admin\ProjectServiceCreateValidationEntity.cs" />
@@ -128,6 +132,7 @@
     <Compile Include="Service\Lookup\LookupService.cs" />
     <Compile Include="Service\Lookup\SimpleTypeLookupDTO.cs" />
     <Compile Include="Service\Persons\IPersonService.cs" />
+    <Compile Include="Service\Persons\NewPerson.cs" />
     <Compile Include="Service\Persons\PersonService.cs" />
     <Compile Include="Service\Programs\DraftProgram.cs" />
     <Compile Include="Service\Admin\DraftProject.cs" />

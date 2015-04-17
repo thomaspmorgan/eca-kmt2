@@ -71,6 +71,11 @@ namespace ECA.Data
         public DbSet<ArtifactType> ArtifactTypes { get; set; }
 
         /// <summary>
+        /// Gets or sets the categories for a focus
+        /// </summary>
+        public DbSet<Category> Categories { get; set; }
+
+        /// <summary>
         /// Gets or sets the contacts.
         /// </summary>
         public DbSet<Contact> Contacts { get; set; }
@@ -136,6 +141,11 @@ namespace ECA.Data
         public DbSet<ItineraryStop> ItineraryStops { get; set; }
 
         /// <summary>
+        /// Gets or sets Justifications
+        /// </summary>
+        public DbSet<Justification> Justifications {get; set;}
+        
+        /// <summary>
         /// Gets or sets language proficiences.
         /// </summary>
         public DbSet<LanguageProficiency> LanguangeProficiencies { get; set; }
@@ -164,6 +174,16 @@ namespace ECA.Data
         /// Gets or sets money flows.
         /// </summary>
         public DbSet<MoneyFlow> MoneyFlows { get; set; }
+
+        /// <summary>
+        /// Gets or sets OfficeSettings for an office
+        /// </summary>
+        public DbSet<OfficeSetting> OfficeSettings {get; set;}
+
+        /// <summary>
+        /// Gets or sets objectives for a Justification
+        /// </summary>
+        public DbSet<Objective> Objectives {get; set;}
 
         /// <summary>
         /// Gets or sets organizations.
