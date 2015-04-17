@@ -374,7 +374,7 @@ angular.module('staticApp')
                     }
                 }
             }, function() {
-                
+                console.log('Unable to load user permissions.');
             });
       }
 
