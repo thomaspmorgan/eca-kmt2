@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using ECA.Business.Service;
+using System.Data.Entity;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -410,5 +412,80 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         #endregion
+
+        #region Create
+        [TestMethod]
+        public async Task TestCreateAsync()
+        {
+            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
+                                          Gender.Male.Id, DateTimeOffset.Now, 1,
+                                          new List<int>());
+            var person = await service.CreateAsync(newPerson);
+
+            Assert.AreEqual(newPerson.FirstName, person.FirstName);
+            Assert.AreEqual(newPerson.LastName, person.LastName);
+            Assert.AreEqual(newPerson.Gender, person.GenderId);
+            Assert.AreEqual(newPerson.DateOfBirth, person.DateOfBirth);
+           
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_CityOfBirth()
+        {
+            var city = new Location 
+            {
+                LocationId = 1
+            };
+
+            context.Locations.Add(city);
+
+            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
+                                        Gender.Male.Id, DateTimeOffset.Now, city.LocationId,
+                                        new List<int>());
+            var person = await service.CreateAsync(newPerson);
+            Assert.AreEqual(city.LocationId, person.PlaceOfBirthId);
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_CountriesOfCitizenship()
+        {
+            var country = new Location
+            {
+                LocationId = 2
+            };
+
+            context.Locations.Add(country);
+
+            List<int> countriesOfCitizenship = new List<int>(new int[] { country.LocationId });
+            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
+                                         Gender.Male.Id, DateTimeOffset.Now, 1,
+                                         countriesOfCitizenship);
+            var person = await service.CreateAsync(newPerson);
+            CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship,
+                person.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_Associations()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+
+            context.Projects.Add(project);
+
+            var newPerson = new NewPerson(new User(0), project.ProjectId, "firstName", "lastName",
+                                         Gender.Male.Id, DateTimeOffset.Now, 1,
+                                         new List<int>());
+            var person = await service.CreateAsync(newPerson);
+            // Check that participant is associated to person
+            var participant = context.Participants.Where(x => x.PersonId == person.PersonId).FirstOrDefaultAsync().Result;
+            Assert.AreEqual(person.PersonId, participant.PersonId);
+            // Check that participant is associated to project
+            var participantProject = participant.Projects.First();
+            Assert.AreEqual(project.ProjectId, participantProject.ProjectId);
+        }
+        #endregion
     }
-}
+} 

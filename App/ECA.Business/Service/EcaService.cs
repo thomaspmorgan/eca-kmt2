@@ -334,21 +334,21 @@ namespace ECA.Business.Service
             });
         }
 
-        protected async Task<Project> GetProjectByIdAsync(int projectId)
-        {
-            return await CreateGetProjectById(projectId).FirstOrDefaultAsync();
-        }
-
-        private IQueryable<Project> CreateGetProjectById(int projectId)
-        {
-            return Context.Projects.Where(x => x.ProjectId == projectId);
-        }
-
+        /// <summary>
+        /// Get a list of locations
+        /// </summary>
+        /// <param name="locationIds">Ids to lookup</param>
+        /// <returns>A list of locations</returns>
         protected async Task<List<Location>> GetLocationsByIdAsync(List<int> locationIds)
         {
             return await CreateGetLocationsById(locationIds).ToListAsync();
         }
 
+        /// <summary>
+        /// Creates query for looking up a list of locations
+        /// </summary>
+        /// <param name="locationIds">Ids to lookup</param>
+        /// <returns>Queryable list of locations</returns>
         private IQueryable<Location> CreateGetLocationsById(List<int> locationIds)
         {
             return Context.Locations.Where(x => locationIds.Contains(x.LocationId));

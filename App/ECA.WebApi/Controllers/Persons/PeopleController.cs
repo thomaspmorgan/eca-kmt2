@@ -73,13 +73,18 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        /// <summary>
+        /// Post method to create a person
+        /// </summary>
+        /// <param name="model">The model to create</param>
+        /// <returns>Success or error</returns>
         public async Task<IHttpActionResult> PostPersonAsync(PersonBindingModel model)
         {
             var userId = 0;
-            var person = await service.CreateAsync(model.ToNewPerson(userId));
-            await service.SaveChangesAsync();
             if (ModelState.IsValid)
             {
+                var person = await service.CreateAsync(model.ToNewPerson(userId));
+                await service.SaveChangesAsync();
                 return Ok();
             }
             else
