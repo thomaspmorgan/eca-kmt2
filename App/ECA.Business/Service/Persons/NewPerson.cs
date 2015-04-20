@@ -7,8 +7,22 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Persons
 {
+    /// <summary>
+    /// Class for new person
+    /// </summary>
     public class NewPerson : IAuditable
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="createdBy">User that created the person</param>
+        /// <param name="projectId">The project id</param>
+        /// <param name="firstName">The first name</param>
+        /// <param name="lastName">The last name</param>
+        /// <param name="gender">The gender</param>
+        /// <param name="dateOfBirth">The date of birth</param>
+        /// <param name="cityOfBirth">The city of birth</param>
+        /// <param name="countriesOfCitizenship">The countries of citizenship</param>
         public NewPerson(User createdBy, int projectId, string firstName, string lastName, int gender, DateTimeOffset dateOfBirth,
                          int cityOfBirth, List<int> countriesOfCitizenship)
         {
@@ -24,15 +38,44 @@ namespace ECA.Business.Service.Persons
             this.Audit = new Create(createdBy);
         }
 
+        /// <summary>
+        /// Gets and sets the project id
+        /// </summary>
         public int ProjectId { get; private set; }
 
+        /// <summary>
+        /// Gets and sets the first name
+        /// </summary>
         public string FirstName { get; private set; }
+
+        /// <summary>
+        /// Gets and sets the last name
+        /// </summary>
         public string LastName { get; private set; }
+
+        /// <summary>
+        /// Gets and sets the gender
+        /// </summary>
         public int Gender { get; private set; }
+
+        /// <summary>
+        /// Gets and sets the date of birth
+        /// </summary>
         public DateTimeOffset DateOfBirth { get; private set; }
+        
+        /// <summary>
+        /// Gets and sets the city of birth
+        /// </summary>
         public int CityOfBirth { get; private set; }
+
+        /// <summary>
+        /// Gets and sets the countries of citizenship
+        /// </summary>
         public List<int> CountriesOfCitizenship { get; private set; }
 
+        /// <summary>
+        /// Gets and sets the audit record
+        /// </summary>
         public Audit Audit { get; private set; }
     }
 }

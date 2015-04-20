@@ -90,16 +90,47 @@ namespace ECA.Business.Service.Persons
             return contactInfo;
         }
 
+        /// <summary>
+        /// Create a person
+        /// </summary>
+        /// <param name="newPerson">The person to create</param>
+        /// <returns>The person created</returns>
         public async Task<Person> CreateAsync(NewPerson newPerson)
         {
             var project = await GetProjectByIdAsync(newPerson.ProjectId);
             var countriesOfCitizenship = await GetLocationsByIdAsync(newPerson.CountriesOfCitizenship);
-            var person = CreatePerson(newPerson, project, countriesOfCitizenship);
+            var person = CreatePerson(newPerson, countriesOfCitizenship);
             var participant = CreateParticipant(person, project);
             return person;
         }
 
-        private Person CreatePerson(NewPerson newPerson, Project project, List<Location> countriesOfCitizenship)
+        /// <summary>
+        /// Gets the project by id asyncronously
+        /// </summary>
+        /// <param name="projectId">The project id to lookup</param>
+        /// <returns>A project</returns>
+        protected async Task<Project> GetProjectByIdAsync(int projectId)
+        {
+            return await CreateGetProjectById(projectId).FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Creates query to get project by id
+        /// </summary>
+        /// <param name="projectId">The project id to lookup</param>
+        /// <returns>Queryable list of projects</returns>
+        private IQueryable<Project> CreateGetProjectById(int projectId)
+        {
+            return Context.Projects.Where(x => x.ProjectId == projectId);
+        }
+
+       /// <summary>
+       /// Creates a person
+       /// </summary>
+       /// <param name="newPerson">The person to create</param>
+       /// <param name="countriesOfCitizenship">The countries of citizenship</param>
+       /// <returns>The person created</returns>
+        private Person CreatePerson(NewPerson newPerson, List<Location> countriesOfCitizenship)
         {
             var person = new Person
             {
@@ -117,6 +148,12 @@ namespace ECA.Business.Service.Persons
             return person;
         }
 
+        /// <summary>
+        /// Create a participant
+        /// </summary>
+        /// <param name="person">Person to associate with participant</param>
+        /// <param name="project">Project to assocate with participant</param>
+        /// <returns></returns>
         private Participant CreateParticipant(Person person, Project project)
         {
             var participant = new Participant
