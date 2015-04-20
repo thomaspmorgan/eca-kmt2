@@ -29,6 +29,8 @@ angular.module('staticApp')
 
       $scope.calOpened = false;
 
+      $scope.modalForm = {};
+
       $scope.currentForm = null;
 
       $scope.editProgramLoading = false;
@@ -260,13 +262,14 @@ angular.module('staticApp')
             });
     };
 
-    $scope.createModalCancel = function (scope) {
-        $scope.currentForm = scope.programForm;
+    $scope.createModalCancel = function () {
+
+        $scope.currentForm = $scope.modalForm.programForm;
         $scope.checkFormStatus();
     };
 
-    $scope.editModalCancel = function (scope) {
-        $scope.currentForm = scope.editProgramForm;
+    $scope.editModalCancel = function () {
+        $scope.currentForm = $scope.modalForm.editProgramForm;
         $scope.checkFormStatus();
     };
 
@@ -338,7 +341,9 @@ angular.module('staticApp')
         return element.id;
     };
 
-    $scope.saveEditedProgram = function (editProgramForm) {
+    $scope.saveEditedProgram = function () {
+
+        var editProgramForm = $scope.modalForm.editProgramForm;
 
         var programId = $scope.programId;
 
@@ -380,7 +385,9 @@ angular.module('staticApp')
         }
     };
  
-    $scope.saveCreatedProgram = function (programForm) {
+    $scope.saveCreatedProgram = function () {
+
+        var programForm = $scope.modalForm.programForm;
 
         if (programForm.$valid) {
             cleanUpNewProgram();
@@ -413,10 +420,6 @@ angular.module('staticApp')
                 });
         }
     };
-
-
-      
-
 
     function cleanUpNewProgram() {
         if ($scope.newProgram.parentProgram !== undefined) {

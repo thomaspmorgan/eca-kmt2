@@ -263,7 +263,7 @@ angular
       })
 
       .state('programs', {
-        url: '/offices/:officeId/programs/:programId',
+        url: '/programs/:programId',
         templateUrl: 'views/programs.html',
         controller: 'ProgramsCtrl',
         requireADLogin: true
