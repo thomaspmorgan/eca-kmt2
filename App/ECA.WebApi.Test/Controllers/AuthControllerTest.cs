@@ -1,4 +1,5 @@
 ﻿using CAM.Business.Service;
+using FluentAssertions;
 using ECA.Core.Logging;
 using ECA.WebApi.Controllers;
 using ECA.WebApi.Models.Security;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
+using System.Web.Http;
 
 namespace ECA.WebApi.Test.Controllers
 {
@@ -31,10 +33,10 @@ namespace ECA.WebApi.Test.Controllers
         }
 
         [TestMethod]
-        public async Task TestPostStopImpersonationAsync()
+        public void TestPostStopImpersonationAsync()
         {
             userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser(new TraceLogger()));
-            var response = await controller.PostStopImpersonationAsync();
+            var response = controller.PostStopImpersonation();
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
             userProvider.Verify(x => x.Clear(It.IsAny<IWebApiUser>()), Times.Once());
         }
@@ -42,10 +44,12 @@ namespace ECA.WebApi.Test.Controllers
         [TestMethod]
         public async Task TestPostStartImpersonationAsync()
         {
-            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser(new TraceLogger()));
-            var response = await controller.PostStartImpersonationAsync(Guid.NewGuid());
-            userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
-            userProvider.Verify(x => x.ImpersonateAsync(It.IsAny<IWebApiUser>(), It.IsAny<Guid>()), Times.Once());
+            Func<Task> f = async () => await controller.PostStartImpersonationAsync(Guid.NewGuid());
+            f.ShouldThrow<HttpResponseException>();
+            //userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser(new TraceLogger()));
+            //var response = await controller.PostStartImpersonationAsync(Guid.NewGuid());
+            //userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+            //userProvider.Verify(x => x.ImpersonateAsync(It.IsAny<IWebApiUser>(), It.IsAny<Guid>()), Times.Once());
         }
 
         [TestMethod]

@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using CAM.Business.Service;
 using System;
+using System.Net;
 
 namespace ECA.WebApi.Controllers
 {
@@ -83,9 +84,10 @@ namespace ECA.WebApi.Controllers
         [Route("api/auth/user/impersonate/start")]
         public async Task<IHttpActionResult> PostStartImpersonationAsync(Guid id)
         {
-            var currentUser = this.provider.GetCurrentUser();
-            await provider.ImpersonateAsync(currentUser, id);
-            return Ok();
+            throw new HttpResponseException(HttpStatusCode.Unauthorized);
+            //var currentUser = this.provider.GetCurrentUser();
+            //await provider.ImpersonateAsync(currentUser, id);
+            //return Ok();
         }
 
         /// <summary>
@@ -94,7 +96,7 @@ namespace ECA.WebApi.Controllers
         /// <returns>An Ok result..</returns>
         [Authorize]
         [Route("api/auth/user/impersonate/stop")]
-        public async Task<IHttpActionResult> PostStopImpersonationAsync()
+        public IHttpActionResult PostStopImpersonation()
         {
             return this.PostLogout();
         }
