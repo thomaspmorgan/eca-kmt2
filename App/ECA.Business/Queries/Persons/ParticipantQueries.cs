@@ -20,7 +20,7 @@ namespace ECA.Business.Queries.Persons
             var query = from participant in context.Participants
                         let person = participant.Person
                         let participantType = participant.ParticipantType
-                        where Participant.PARTICIPANT_PERSON_TYPE_IDS.Contains(participant.ParticipantTypeId)
+                        where participant.PersonId != null
                         select new SimpleParticipantDTO
                         {
                             Name = (person.FirstName != null ? person.FirstName : String.Empty)
@@ -41,7 +41,7 @@ namespace ECA.Business.Queries.Persons
             var query = from participant in context.Participants
                         let org = participant.Organization
                         let participantType = participant.ParticipantType
-                        where !Participant.PARTICIPANT_PERSON_TYPE_IDS.Contains(participant.ParticipantTypeId)
+                        where participant.PersonId == null
                         select new SimpleParticipantDTO
                         {
                             Name = org.Name,
@@ -112,7 +112,7 @@ namespace ECA.Business.Queries.Persons
             var query = from participant in context.Participants
                         let person = participant.Person
                         let participantType = participant.ParticipantType
-                        where Participant.PARTICIPANT_PERSON_TYPE_IDS.Contains(participant.ParticipantTypeId) &&
+                        where participant.PersonId != null &&
                         participant.ParticipantId == participantId
                         select new ParticipantDTO
                         {
