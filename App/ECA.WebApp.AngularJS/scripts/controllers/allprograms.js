@@ -189,6 +189,10 @@ angular.module('staticApp')
 
     $scope.getPrograms = function (tableState) {
 
+        var curDate = new Date();
+        // to fix date-disabled error preventing form validation when 
+        // a start date is from an existing program
+        $scope.minDate = curDate.setFullYear(curDate.getFullYear() - 5);
         $scope.initialTableState = tableState;
 
         TableService.setTableState(tableState);
@@ -363,6 +367,10 @@ angular.module('staticApp')
                         $scope.confirmSave = true;
                     }
                 });
+        }
+        else
+        {
+            alert('Please complete all required fields');
         }
     };
  
