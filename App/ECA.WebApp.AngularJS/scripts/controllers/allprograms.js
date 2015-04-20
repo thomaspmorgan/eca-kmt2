@@ -17,6 +17,8 @@ angular.module('staticApp')
       $scope.totalNumberOfPrograms = 0;
       $scope.skippedNumberOfPrograms = 0;
       $scope.numberOfPrograms = 0;
+      $scope.programFilter = '';
+
 
       $scope.totalRecords = 0;
 
@@ -189,10 +191,7 @@ angular.module('staticApp')
 
     $scope.getPrograms = function (tableState) {
 
-        var curDate = new Date();
-        // to fix date-disabled error preventing form validation when 
-        // a start date is from an existing program
-        $scope.minDate = curDate.setFullYear(curDate.getFullYear() - 5);
+
         $scope.initialTableState = tableState;
 
         TableService.setTableState(tableState);
@@ -203,6 +202,8 @@ angular.module('staticApp')
             filter: TableService.getFilter(),
             keyword: TableService.getKeywords()
         };
+
+        $scope.programFilter = params.keyword;
 
         if ($scope.programList.type == "alpha") {
             $scope.refreshProgramsAlpha(params, tableState);
@@ -292,6 +293,11 @@ angular.module('staticApp')
     };
 
     $scope.editProgram = function (programId) {
+
+        var curDate = new Date();
+        // to fix date-disabled error preventing form validation when 
+        // a start date is from an existing program
+        $scope.minDate = curDate.setFullYear(curDate.getFullYear() - 5);
 
         $scope.programId = programId;
 
