@@ -38,6 +38,11 @@ namespace ECA.WebApi.Controllers
             this.permissionStore = permissionStore;
         }
 
+        public void GetTestThrow(int id)
+        {
+            throw new NotSupportedException("exception message here...");
+        }
+
         /// <summary>
         /// Returns basic information about the currently authenticated user.
         /// </summary>
@@ -163,7 +168,7 @@ namespace ECA.WebApi.Controllers
         //[ResourceAuthorize("EditProgram", "Program", 1009)]
         //[ResourceAuthorize("EditProgram", "Program", "id")]
         [ResourceAuthorize("EditProgram", "Program")]
-        //[ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
+        [ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
         public IHttpActionResult PostTestResourceAuthorizeModelType([FromBody]TestBindingModel model, int id)
         {
             return Ok();

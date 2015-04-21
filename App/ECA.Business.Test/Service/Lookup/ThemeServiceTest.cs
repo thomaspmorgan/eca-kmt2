@@ -3,7 +3,6 @@ using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
-using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,7 +22,7 @@ namespace ECA.Business.Test.Service.Lookup
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new ThemeService(context, new TraceLogger());
+            service = new ThemeService(context);
         }
 
         [TestCleanup]

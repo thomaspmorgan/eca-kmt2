@@ -1,6 +1,6 @@
 ﻿using CAM.Business.Service;
 using CAM.Data;
-using ECA.Core.Logging;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,7 +22,7 @@ namespace ECA.WebApi.Security
 
         public static Func<Guid, User> UserFactory = (userId) => { return new User(); };
 
-        private readonly ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IUserCacheService cacheService;
         private readonly IPermissionStore<IPermission> permissionStore;
         private CamModel camContext;
@@ -30,18 +30,14 @@ namespace ECA.WebApi.Security
         /// <summary>
         /// Creates a new BearerTokenUserProvider instance with the given logger instance.
         /// </summary>
-        /// <param name="logger">The logger instance.</param>
         public BearerTokenUserProvider(
-            ILogger logger,
             CamModel camContext,
             IUserCacheService cacheService,
             IPermissionStore<IPermission> permissionStore)
         {
-            Contract.Requires(logger != null, "The logger must not be null.");
             Contract.Requires(cacheService != null, "The cache service must not be null.");
             Contract.Requires(permissionStore != null, "The permissionStore must not be null.");
             Contract.Requires(camContext != null, "The camContext must not be null.");
-            this.logger = logger;
             this.cacheService = cacheService;
             this.permissionStore = permissionStore;
             this.camContext = camContext;
@@ -57,7 +53,7 @@ namespace ECA.WebApi.Security
             if (currentUser != null)
             {
                 Debug.Assert(ClaimsPrincipal.Current != null, "The claims principal must not be null.");
-                return new WebApiUser(logger, ClaimsPrincipal.Current);
+                return new WebApiUser(ClaimsPrincipal.Current);
             }
             else
             {
@@ -67,13 +63,17 @@ namespace ECA.WebApi.Security
 
         public bool IsUserValid(IWebApiUser user)
         {
-            var cache = GetUserCache(user);
-            return cache.IsValidCamUser;
+            var cache = GetUserCache(user);            
+            var valid = cache.IsValidCamUser;
+            logger.Info("User {0} is valid in CAM:  " + valid);
+            return valid;
         }
 
         public Task<bool> IsUserValidAsync(IWebApiUser user)
         {
-            return Task.FromResult<bool>(IsUserValid(user));
+            var valid = Task.FromResult<bool>(IsUserValid(user));
+            logger.Info("User {0} is valid in CAM:  " + valid);
+            return valid;
         }
 
         public Business.Service.User GetBusinessUser(IWebApiUser user)
@@ -100,27 +100,29 @@ namespace ECA.WebApi.Security
 
         public async Task<int> GetPrincipalIdAsync(IWebApiUser user)
         {
-            return (await GetUserCacheAsync(user)).CamPrincipalId;
+            var principalId = (await GetUserCacheAsync(user)).CamPrincipalId;
+            logger.Info("User {0} cam principal id:  {1}", principalId);
+            return principalId;
         }
 
         public int GetPrincipalId(IWebApiUser user)
         {
-            return GetUserCache(user).CamPrincipalId;
+            var principalId = GetUserCache(user).CamPrincipalId;
+            logger.Info("User {0} cam principal id:  {1}", principalId);
+            return principalId;
         }
 
         public async Task<UserCache> GetUserCacheAsync(IWebApiUser user)
         {
             var isUserCached = cacheService.IsUserCached(user);
+            logger.Trace("User {0} is cached:  {1}.", user, isUserCached);
             if (!isUserCached)
             {
-                var stopWatch = Stopwatch.StartNew();
-                logger.Information("Caching user information...");
+                logger.Info("Caching user information...");
                 bool isValidUser;
                 var camUser = await GetCamUserAsync(user, out isValidUser);
                 var permissions = await GetUserPermissionsAsync(camUser.PrincipalId);
                 cacheService.Add(new UserCache(user, camUser, isValidUser, permissions));
-                stopWatch.Stop();
-                logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
             }
             return cacheService.GetUserCache(user);
         }
@@ -128,29 +130,31 @@ namespace ECA.WebApi.Security
         public UserCache GetUserCache(IWebApiUser user)
         {
             var isUserCached = cacheService.IsUserCached(user);
+            logger.Trace("User {0} is cached:  {1}.", user, isUserCached);
             if (!isUserCached)
             {
-                var stopWatch = Stopwatch.StartNew();
-                logger.Information("Caching user information...");
+                logger.Info("Caching user information...");
                 bool isValidUser;
                 var camUser = GetCamUser(user, out isValidUser);
                 var permissions = GetUserPermissions(camUser.PrincipalId);
                 cacheService.Add(new UserCache(user, camUser, isValidUser, permissions));
-                stopWatch.Stop();
-                logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
             }
             return cacheService.GetUserCache(user);
         }
 
         private Task<IEnumerable<IPermission>> GetUserPermissionsAsync(int principalId)
         {
-            return Task.FromResult<IEnumerable<IPermission>>(GetUserPermissions(principalId));
+            var permissions = Task.FromResult<IEnumerable<IPermission>>(GetUserPermissions(principalId));
+            logger.Trace("Retrieved user with principal id {0} permissions.", principalId);
+            return permissions;
         }
 
         private IEnumerable<IPermission> GetUserPermissions(int principalId)
         {
             this.permissionStore.LoadUserPermissions(principalId);
-            return this.permissionStore.Permissions;
+            var permissions = this.permissionStore.Permissions;
+            logger.Trace("Retrieved user with principal id {0} permissions.", principalId);
+            return permissions;
         }
 
         private User GetCamUser(IWebApiUser user, out bool isValid)
@@ -185,6 +189,7 @@ namespace ECA.WebApi.Security
             if (this.cacheService.IsUserCached(userId))
             {
                 this.cacheService.Remove(userId);
+                logger.Trace("Removed user {0} from cache.", userId);
             }
         }
 
@@ -220,6 +225,7 @@ namespace ECA.WebApi.Security
 
         public void Impersonate(IWebApiUser impersonator, Guid idOfUserToImpersonate)
         {
+            logger.Info("User {0} is going to impersonate user with id {1}.", impersonator, idOfUserToImpersonate);
             BeforeImpersonateUser(impersonator.Id);
             var impersonatedUser = new ImpersonatedUser(impersonatorUserId: impersonator.Id, impersonatedUserId: idOfUserToImpersonate, impersonatorUserName: impersonator.GetUsername());
             bool isImpersonatedUserValid;
@@ -228,10 +234,12 @@ namespace ECA.WebApi.Security
             var impersonatorCamUser = GetCamUser(impersonator.Id, out isImpersonatorValid);
             var impersonatedUserPermissions = GetPermissions(impersonatedUser);
             CacheImpersonatedUser(impersonator, impersonatorCamUser, isImpersonatedUserValid, impersonatedUserPermissions.ToList());
+            logger.Info("User {0} is no impersonating user with id {1}.", impersonator, idOfUserToImpersonate);
         }
 
         public async Task ImpersonateAsync(IWebApiUser impersonator, Guid idOfUserToImpersonate)
         {
+            logger.Info("User {0} is going to impersonate user with id {1}.", impersonator, idOfUserToImpersonate);
             BeforeImpersonateUser(impersonator.Id);
             var impersonatedUser = new ImpersonatedUser(impersonatorUserId: impersonator.Id, impersonatedUserId: idOfUserToImpersonate, impersonatorUserName: impersonator.GetUsername());
             bool isImpersonatedUserValid;
@@ -240,7 +248,7 @@ namespace ECA.WebApi.Security
             var impersonatorCamUser = await GetCamUserAsync(impersonator.Id, out isImpersonatorValid);
             var impersonatedUserPermissions = await GetPermissionsAsync(impersonatedUser);
             CacheImpersonatedUser(impersonator, impersonatorCamUser, isImpersonatedUserValid, impersonatedUserPermissions.ToList());
-
+            logger.Info("User {0} is no impersonating user with id {1}.", impersonator, idOfUserToImpersonate);
         }
 
         private void CacheImpersonatedUser(IWebApiUser impersonator, User impersonatorCamUser, bool isImpersonatedUserValid, IEnumerable<IPermission> impersonatedUserPermissions)

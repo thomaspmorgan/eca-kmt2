@@ -2,10 +2,10 @@
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Queries.Models.Office;
 using ECA.Core.DynamicLinq;
-using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using NLog;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -28,21 +28,16 @@ namespace ECA.Business.Service.Admin
 
         private const string GET_OFFICES_SPROC_NAME = "GetOffices";
 
-        private static readonly string COMPONENT_NAME = typeof(OfficeService).FullName;
-
-        private readonly ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Creates a new OfficeService with the context and logger implementations.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        /// <param name="logger">the logger.</param>
-        public OfficeService(EcaContext context, ILogger logger)
-            : base(context, logger)
+        public OfficeService(EcaContext context)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
-            this.logger = logger;
         }
 
         #region Get
@@ -54,10 +49,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The office with the given id or null.</returns>
         public OfficeDTO GetOfficeById(int officeId)
         {
-            var stopWatch = Stopwatch.StartNew();
             var dto = OfficeQueries.CreateGetOfficeByIdQuery(this.Context, officeId).FirstOrDefault();
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            this.logger.Trace("Retrieved office by id [{0}].", officeId);
             return dto;
         }
 
@@ -68,10 +61,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The office with the given id or null.</returns>
         public async Task<OfficeDTO> GetOfficeByIdAsync(int officeId)
         {
-            var stopWatch = Stopwatch.StartNew();
             var dto = await OfficeQueries.CreateGetOfficeByIdQuery(this.Context, officeId).FirstOrDefaultAsync();
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            this.logger.Trace("Retrieved office by id [{0}].", officeId);
             return dto;
         }
 
@@ -82,10 +73,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The child offices, branches, and divisions.</returns>
         public List<SimpleOfficeDTO> GetChildOffices(int officeId)
         {
-            var stopWatch = Stopwatch.StartNew();
             var childOffices = OfficeQueries.CreateGetChildOfficesByOfficeIdQuery(this.Context, officeId).ToList();
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            this.logger.Trace("Retrieved child offices of office with id [{0}].", officeId);
             return childOffices;
         }
 
@@ -96,10 +85,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The child offices, branches, and divisions.</returns>
         public async Task<List<SimpleOfficeDTO>> GetChildOfficesAsync(int officeId)
         {
-            var stopWatch = Stopwatch.StartNew();
             var childOffices = await OfficeQueries.CreateGetChildOfficesByOfficeIdQuery(this.Context, officeId).ToListAsync();
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            this.logger.Trace("Retrieved child offices of office with id [{0}].", officeId);
             return childOffices;
         }
 
@@ -111,11 +98,9 @@ namespace ECA.Business.Service.Admin
         /// <returns>The office programs.</returns>
         public PagedQueryResults<OrganizationProgramDTO> GetPrograms(int officeId, QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
-            var stopWatch = Stopwatch.StartNew();
             var results = CreateGetOrganizationProgramsSqlQuery().ToArray();
-            stopWatch.Stop();            
             var pagedResults = GetPagedQueryResults(officeId, results, queryOperator);
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            this.logger.Trace("Retrieved programs with office id [{0}] and query operator [{1}].", officeId, queryOperator);
             return pagedResults;
         }
 
@@ -127,11 +112,9 @@ namespace ECA.Business.Service.Admin
         /// <returns>The office programs.</returns>
         public async Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsAsync(int officeId, QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
-            var stopWatch = Stopwatch.StartNew();
             var results = (await CreateGetOrganizationProgramsSqlQuery().ToArrayAsync());
-            stopWatch.Stop();
             var pagedResults = GetPagedQueryResults(officeId, results, queryOperator);
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            this.logger.Trace("Retrieved programs with office id [{0}] and query operator [{1}].", officeId, queryOperator);
             return pagedResults;
         }
 
@@ -159,10 +142,9 @@ namespace ECA.Business.Service.Admin
         /// <returns>The child offices, branches, and divisions.</returns>
         public PagedQueryResults<SimpleOfficeDTO> GetOffices(QueryableOperator<SimpleOfficeDTO> queryOperator)
         {
-            var stopWatch = Stopwatch.StartNew();
             var results = CreateGetOfficesSqlQuery().ToArray();
             var pagedResults = GetPagedQueryResults(results, queryOperator);
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            this.logger.Trace("Retrieved offices with query operator [{0}].", queryOperator);
             return pagedResults;
         }
 
@@ -173,11 +155,9 @@ namespace ECA.Business.Service.Admin
         /// <returns>The child offices, branches, and divisions.</returns>
         public async Task<PagedQueryResults<SimpleOfficeDTO>> GetOfficesAsync(QueryableOperator<SimpleOfficeDTO> queryOperator)
         {
-            var stopWatch = Stopwatch.StartNew();
             var results = await CreateGetOfficesSqlQuery().ToArrayAsync();
             var pagedResults = GetPagedQueryResults(results, queryOperator);
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            this.logger.Trace("Retrieved offices with query operator [{0}].", queryOperator);
             return pagedResults;
         }
 

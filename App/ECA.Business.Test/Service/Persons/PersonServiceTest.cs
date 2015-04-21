@@ -1,6 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
-using ECA.Core.Logging;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -24,7 +23,7 @@ namespace ECA.Business.Test.Service.Persons
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new PersonService(context, new TraceLogger());
+            service = new PersonService(context);
         }
 
         #region Get Pii By Id

@@ -11,9 +11,9 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ECA.Core.Logging;
 using ECA.Business.Service.Lookup;
 using System.Diagnostics;
+using NLog;
 
 namespace ECA.Business.Service.Admin
 {
@@ -22,20 +22,16 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class FocusCategoryService : LookupService<FocusCategoryDTO>, ECA.Business.Service.Admin.IFocusCategoryService
     {
-        private static readonly string COMPONENT_NAME = typeof(FocusCategoryService).FullName;
-        private readonly ILogger logger;
-
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Creates a new FocusCategorySerivce with the given context.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         /// <param name="logger">The logger.</param>
-        public FocusCategoryService(EcaContext context, ILogger logger)
-            : base(context, logger)
+        public FocusCategoryService(EcaContext context)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
-            this.logger = logger;
         }
 
         #region Get
@@ -56,10 +52,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The focus with the given id, or null if not found.</returns>
         public FocusCategoryDTO GetFocusCategoryById(int id)
         {
-            var stopwatch = Stopwatch.StartNew();
             var focusCategory = FocusCategoryQueries.CreateGetFocusCategoryByIdQuery(this.Context, id).FirstOrDefault();
-            stopwatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "id", id } });
+            this.logger.Trace("Retrieved focus category by id {id}.", id);            
             return focusCategory;
         }
 
@@ -70,10 +64,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The focusCategory with the given id, or null if not found.</returns>
         public async Task<FocusCategoryDTO> GetFocusCategoryByIdAsync(int id)
         {
-            var stopwatch = Stopwatch.StartNew();
             var focusCategory = await FocusCategoryQueries.CreateGetFocusCategoryByIdQuery(this.Context, id).FirstOrDefaultAsync();
-            stopwatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "id", id } });
+            this.logger.Trace("Retrieved focus category by id {id}.", id);
             return focusCategory;
         }
         #endregion

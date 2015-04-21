@@ -6,7 +6,6 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Exceptions;
-using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Data;
 using FluentAssertions;
@@ -32,7 +31,7 @@ namespace ECA.Business.Test.Service.Admin
         {
             context = new TestEcaContext();
             validator = new Mock<IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>>();
-            service = new ProjectService(context, new TraceLogger(), validator.Object);
+            service = new ProjectService(context, validator.Object);
         }
 
         [TestCleanup]

@@ -1,6 +1,5 @@
 ﻿using CAM.Business.Service;
 using FluentAssertions;
-using ECA.Core.Logging;
 using ECA.WebApi.Controllers;
 using ECA.WebApi.Models.Security;
 using ECA.WebApi.Security;
@@ -35,7 +34,7 @@ namespace ECA.WebApi.Test.Controllers
         [TestMethod]
         public void TestPostStopImpersonationAsync()
         {
-            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser(new TraceLogger()));
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(new DebugWebApiUser());
             var response = controller.PostStopImpersonation();
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
             userProvider.Verify(x => x.Clear(It.IsAny<IWebApiUser>()), Times.Once());

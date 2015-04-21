@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Lookup;
 using ECA.Data;
-using ECA.Core.Logging;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ECA.Core.Query;
@@ -22,8 +21,8 @@ namespace ECA.Business.Test.Service.Lookup
 
     public class LookupServiceTestServiceClass : LookupService<LookupServiceTestDTO>
     {
-        public LookupServiceTestServiceClass(TestEcaContext context, ILogger logger)
-            : base(context, logger)
+        public LookupServiceTestServiceClass(TestEcaContext context)
+            : base(context)
         {
 
         }
@@ -49,7 +48,7 @@ namespace ECA.Business.Test.Service.Lookup
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new LookupServiceTestServiceClass(context, new TraceLogger());
+            service = new LookupServiceTestServiceClass(context);
         }
 
         #region Get

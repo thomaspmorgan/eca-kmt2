@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ECA.Business.Service;
-using ECA.Core.Logging;
 using ECA.Data;
 using Moq;
 using Microsoft.QualityTools.Testing.Fakes;
@@ -24,7 +23,7 @@ namespace ECA.Business.Test.Service
         {
             contextMock = new Mock<TestEcaContext>();
             context = contextMock.Object;
-            service = new EcaService(context, new TraceLogger());
+            service = new EcaService(context);
         }
 
         #region Contact Existence Validation Tests

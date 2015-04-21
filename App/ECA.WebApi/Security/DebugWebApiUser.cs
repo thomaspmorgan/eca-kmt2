@@ -1,5 +1,4 @@
-﻿using ECA.Core.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -12,8 +11,8 @@ namespace ECA.WebApi.Security
     {
         public static readonly Guid DEBUG_USER_ID = Guid.Parse("3ffd6d01-cae3-4157-86fa-1e4e5618086a");
 
-        public DebugWebApiUser(ILogger logger)
-            : base(logger, new List<Claim>
+        public DebugWebApiUser()
+            : base(new List<Claim>
             {
                 new Claim(WebApiUser.EMAIL_KEY, "ECATest1@statedept.us"),
                 new Claim(WebApiUser.EXPIRATION_DATE_KEY, ((int)((DateTime.UtcNow - EPOCH).TotalSeconds) + (60 * 10)).ToString()), //expires in 10 mins
@@ -25,7 +24,7 @@ namespace ECA.WebApi.Security
                 new Claim(WebApiUser.VALID_NOT_BEFORE_DATE_KEY,  ((int)((DateTime.UtcNow - EPOCH).TotalSeconds) - 60).ToString()), //valid from one minute ago
             })
         {
-            Contract.Requires(logger != null, "The logger must not be null.");
+
         }
 
     }

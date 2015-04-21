@@ -187,6 +187,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Interface, Version=3.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.Interface.3.2.1\lib\net40\NLog.Interface.dll</HintPath>
+    </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -315,6 +323,7 @@
     <Compile Include="Controllers\Admin\FocusCategoryController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Custom\Handlers\DebugWebApiUserHandler.cs" />
+    <Compile Include="Custom\NLogTraceWriter.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddDefaultResponse.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddFileUploadParams.cs" />
     <Compile Include="Custom\SwaggerExtensions\AppendVersionToBasePath.cs" />
@@ -328,6 +337,7 @@
     <Compile Include="Models\Person\PersonBindingModel.cs" />
     <Compile Include="Security\ActionPermission.cs" />
     <Compile Include="Security\AnonymousUser.cs" />
+    <Compile Include="Security\AuthorizationResult.cs" />
     <Compile Include="Security\BearerTokenUserProvider.cs" />
     <Compile Include="Security\DebugWebApiUser.cs" />
     <Compile Include="Security\ImpersonatedUser.cs" />
@@ -358,7 +368,6 @@
     <Compile Include="Controllers\Programs\ThemesController.cs" />
     <Compile Include="Custom\Filters\DbEntityValidationExceptionFilter.cs" />
     <Compile Include="Custom\Filters\LoggerExceptionHandler.cs" />
-    <Compile Include="Custom\Filters\TraceFilter.cs" />
     <Compile Include="Custom\Filters\ValidationErrorResponseContent.cs" />
     <Compile Include="Custom\Filters\ValidationExceptionFilter.cs" />
     <Compile Include="Custom\Filters\UnknownStaticLookupExceptionFilter.cs" />

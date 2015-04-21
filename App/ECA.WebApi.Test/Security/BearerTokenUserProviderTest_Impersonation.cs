@@ -6,7 +6,6 @@ using System.Runtime.Caching;
 using System.Collections.Generic;
 using ECA.WebApi.Security;
 using CAM.Business.Service;
-using ECA.Core.Logging;
 using System.Threading.Tasks;
 
 namespace ECA.WebApi.Test.Security
@@ -56,7 +55,7 @@ namespace ECA.WebApi.Test.Security
                 return cacheDictionary.Count;
             });
             cache.Setup(x => x.Remove(It.IsAny<string>(), It.IsAny<string>())).Callback(removeAction);
-            cacheService = new UserCacheService(new TraceLogger(), cache.Object, expectedTimeToLive);
+            cacheService = new UserCacheService(cache.Object, expectedTimeToLive);
         }
 
         
@@ -71,7 +70,8 @@ namespace ECA.WebApi.Test.Security
                 IsValid = isImpersonatorCamUserValid,
             };
             var impersonator = new SimpleUser{
-                Id = impersonatorId
+                Id = impersonatorId,
+                Username = "impersonator"
             };
             var impersonatorUserCache = new UserCache(impersonator, impersonatorCamUser, isImpersonatorCamUserValid);
 
@@ -98,7 +98,7 @@ namespace ECA.WebApi.Test.Security
                 Username = "impersonated"
             };
             permissionStore.SetupProperty(x => x.Permissions, impersonatedUserPermissions);
-            var provider = new BearerTokenUserProvider(new TraceLogger(), camModel, cacheService, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(camModel, cacheService, permissionStore.Object);
             BearerTokenUserProvider.UserFactory = (userId) => {
 
                 if (userId == impersonatorId)
@@ -135,7 +135,8 @@ namespace ECA.WebApi.Test.Security
             };
             var impersonator = new SimpleUser
             {
-                Id = impersonatorId
+                Id = impersonatorId,
+                Username = "impersonator"
             };
             var impersonatorUserCache = new UserCache(impersonator, impersonatorCamUser, isImpersonatorCamUserValid);
 
@@ -163,7 +164,7 @@ namespace ECA.WebApi.Test.Security
                 Username = "impersonated"
             };
             permissionStore.SetupProperty(x => x.Permissions, impersonatedUserPermissions);
-            var provider = new BearerTokenUserProvider(new TraceLogger(), camModel, cacheService, permissionStore.Object);
+            var provider = new BearerTokenUserProvider(camModel, cacheService, permissionStore.Object);
             BearerTokenUserProvider.UserFactory = (userId) =>
             {
 

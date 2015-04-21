@@ -8,9 +8,9 @@ using System.Security.Claims;
 using System.Threading;
 using System.Security.Principal;
 using System.Linq.Expressions;
-using ECA.Core.Logging;
 using System.Diagnostics.Contracts;
 using CAM.Business.Service;
+using NLog;
 
 namespace ECA.WebApi.Security
 {
@@ -87,18 +87,15 @@ namespace ECA.WebApi.Security
 
         public static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        private readonly ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IEnumerable<Claim> claims;
 
         /// <summary>
         /// Initializes this user with the given logger and claims.
         /// </summary>
-        /// <param name="logger">The logger.</param>
         /// <param name="claims">The user's claims.</param>
-        internal WebApiUser(ILogger logger, IEnumerable<Claim> claims)
+        internal WebApiUser(IEnumerable<Claim> claims)
         {
-            Contract.Requires(logger != null, "The logger must not be null.");
-            this.logger = logger;
             this.claims = claims;
             SetFullName(claims);
             SetGivenName(claims);
@@ -110,10 +107,9 @@ namespace ECA.WebApi.Security
             SetUserId(claims);
         }
 
-        internal WebApiUser(ILogger logger, ClaimsPrincipal principal)
-            : this(logger, principal.Claims)
+        internal WebApiUser(ClaimsPrincipal principal)
+            : this(principal.Claims)
         {
-            Contract.Requires(logger != null, "The logger must not be null.");
             Contract.Requires(principal != null, "The principal must not be null.");
         }
 
@@ -121,12 +117,10 @@ namespace ECA.WebApi.Security
         /// Initializes a new user with the given logger and IPrincipal.  Currently, the IPrincipal must
         /// be a ClaimsPrincipal.
         /// </summary>
-        /// <param name="logger">The logger.</param>
         /// <param name="principal">The claims principal as an IPrincipal instance.</param>
-        public WebApiUser(ILogger logger, IPrincipal principal)
-            : this(logger, (principal as ClaimsPrincipal))
+        public WebApiUser(IPrincipal principal)
+            : this((principal as ClaimsPrincipal))
         {
-            Contract.Requires(logger != null, "The logger must not be null.");
             Contract.Requires(principal is ClaimsPrincipal, "The IPrincipal instance must be a ClaimsPrincipal.");
         }
 
@@ -186,7 +180,7 @@ namespace ECA.WebApi.Security
 
         private void LogMissingClaimWarning(string claimType)
         {
-            this.logger.Warning(MISSING_CLAIM_ERROR_MESSAGE, claimType);
+            this.logger.Warn(MISSING_CLAIM_ERROR_MESSAGE, claimType);
         }
 
         /// <summary>
@@ -310,7 +304,7 @@ namespace ECA.WebApi.Security
                 }
                 else
                 {
-                    logger.Warning(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
+                    logger.Warn(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
                 }
             }
             else
@@ -337,7 +331,7 @@ namespace ECA.WebApi.Security
                 }
                 else
                 {
-                    logger.Warning(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
+                    logger.Warn(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
                 }
             }
             else
@@ -364,7 +358,7 @@ namespace ECA.WebApi.Security
                 }
                 else
                 {
-                    logger.Warning(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
+                    logger.Warn(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
                 }
             }
             else

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Collections.Generic;
 using System.Reflection;
-using ECA.Core.Logging;
 using ECA.Core.Data;
 using Moq;
 using System.Data.Entity.Infrastructure;
@@ -93,7 +92,7 @@ namespace ECA.Core.Test.Service
 
     public class SampleService : DbContextService<SampleDbContext>
     {
-        public SampleService(SampleDbContext context) : base(context, new TraceLogger()) { }
+        public SampleService(SampleDbContext context) : base(context) { }
 
         public TestDbSet<ConcurrentEntity> ConcurrentEntities { get; set; }
     }
@@ -113,7 +112,7 @@ namespace ECA.Core.Test.Service
         public void TestSaveChanges()
         {   
             var context = new SampleDbContext();
-            var service = new DbContextService<SampleDbContext>(context, new TraceLogger());
+            var service = new DbContextService<SampleDbContext>(context);
             var saveAction = new SampleSaveAction();
             Assert.AreEqual(0, saveAction.BeforeSaveChangesCount);
             Assert.AreEqual(0, saveAction.AfterSaveChangesCount);
@@ -136,7 +135,7 @@ namespace ECA.Core.Test.Service
         public async Task TestSaveChangesAsync()
         {
             var context = new SampleDbContext();
-            var service = new DbContextService<SampleDbContext>(context, new TraceLogger());
+            var service = new DbContextService<SampleDbContext>(context);
             var saveAction = new SampleSaveAction();
             Assert.AreEqual(0, saveAction.BeforeSaveChangesCount);
             Assert.AreEqual(0, saveAction.AfterSaveChangesCount);
@@ -159,7 +158,7 @@ namespace ECA.Core.Test.Service
         public void TestSaveChanges_NoActions()
         {
             var context = new SampleDbContext();
-            var service = new DbContextService<SampleDbContext>(context, new TraceLogger());
+            var service = new DbContextService<SampleDbContext>(context);
             service.SaveChanges();
             Assert.IsTrue(context.SaveChangesCalled);
             Assert.IsFalse(context.SaveChangesAsyncCalled);
@@ -170,7 +169,7 @@ namespace ECA.Core.Test.Service
         public async Task TestSaveChangesAsync_NoActions()
         {
             var context = new SampleDbContext();
-            var service = new DbContextService<SampleDbContext>(context, new TraceLogger());
+            var service = new DbContextService<SampleDbContext>(context);
             await service.SaveChangesAsync();
             Assert.IsFalse(context.SaveChangesCalled);
             Assert.IsTrue(context.SaveChangesAsyncCalled);

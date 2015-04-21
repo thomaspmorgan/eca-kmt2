@@ -1,6 +1,6 @@
 ﻿using ECA.Core.DynamicLinq;
-using ECA.Core.Logging;
 using ECA.Core.Query;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,7 +25,7 @@ namespace ECA.WebApi.Security
         private static readonly string COMPONENT_NAME = typeof(UserCacheService).FullName;
         private ObjectCache cache;
         private readonly int timeToLiveInSeconds;
-        private readonly ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Creates a new UserCacheService.  If the ObjectCache is null, the MemoryCache.Default instance will be used.  If the time to live
@@ -34,12 +34,10 @@ namespace ECA.WebApi.Security
         /// <param name="logger">The logger instance.</param>
         /// <param name="cache">The cache object to store user cache details to.</param>
         /// <param name="timeToLiveInSeconds">The time a cache item is valid before it is invalidated.</param>
-        public UserCacheService(ILogger logger, ObjectCache cache = null, int timeToLiveInSeconds = DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS)
+        public UserCacheService(ObjectCache cache = null, int timeToLiveInSeconds = DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS)
         {
-            Contract.Requires(logger != null, "The logger must not be null.");
             this.cache = cache ?? MemoryCache.Default;
             this.timeToLiveInSeconds = timeToLiveInSeconds;
-            this.logger = logger;
         }
 
         /// <summary>
@@ -144,8 +142,9 @@ namespace ECA.WebApi.Security
         /// </summary>
         /// <param name="user">The user id of the user to remove.</param>
         public void Remove(Guid userId)
-        {
+        {            
             this.cache.Remove(GetKey(userId));
+            this.logger.Info("Removed user with id {0} cache.", userId);
         }
 
     }

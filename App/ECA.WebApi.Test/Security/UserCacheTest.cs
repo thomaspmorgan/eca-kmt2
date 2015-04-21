@@ -3,7 +3,6 @@ using FluentAssertions;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.WebApi.Security;
-using ECA.Core.Logging;
 using System.Collections.Generic;
 using CAM.Business.Service;
 
@@ -21,7 +20,7 @@ namespace ECA.WebApi.Test.Security
             camUser.PrincipalId = principalId;
             camUser.IsValid = isValidUser;
 
-            var user = new DebugWebApiUser(new TraceLogger());
+            var user = new DebugWebApiUser();
             var userCache = new UserCache(user, camUser, isValidUser);
             Assert.AreEqual(principalId, userCache.CamPrincipalId);
             Assert.AreEqual(isValidUser, userCache.IsValidCamUser);
@@ -36,7 +35,7 @@ namespace ECA.WebApi.Test.Security
         public void TestConstructor_NonNullPermissions()
         {
             var permissions = new List<IPermission>();
-            var user = new DebugWebApiUser(new TraceLogger());
+            var user = new DebugWebApiUser();
             var userCache = new UserCache(user, new TestCamUser(), true, permissions);
             Assert.IsTrue(Object.ReferenceEquals(permissions, userCache.Permissions));
             DateTime.UtcNow.Should().BeCloseTo(userCache.DateCached, 1000);

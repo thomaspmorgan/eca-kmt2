@@ -2,7 +2,6 @@
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
-using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,7 +23,7 @@ namespace ECA.Business.Test.Service.Admin
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new MoneyFlowService(context, new TraceLogger());
+            service = new MoneyFlowService(context);
         }
 
         [TestCleanup]

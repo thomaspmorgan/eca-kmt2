@@ -1,9 +1,11 @@
-﻿using ECA.Core.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
+using NLog.Interface;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Text;
 using System.Web;
 using System.Web.Http.ExceptionHandling;
@@ -11,67 +13,75 @@ using System.Web.Http.ExceptionHandling;
 namespace ECA.WebApi.Custom.Filters
 {
     /// <summary>
-    /// A Global WebAPI exception logger using an ILogger.
+    /// A Global WebAPI exception logger using NLog.
     /// </summary>
     public class LoggerExceptionHandler : ExceptionLogger
     {
-        private ILogger logger;
+        public const string ACTION_ARGUMENTS_CONTEXT_KEY = "actionArguments";
 
-        /// <summary>
-        /// Creates a new LoggerExceptionHandler with the given ILogger.
-        /// </summary>
-        /// <param name="logger">The logger.</param>
-        public LoggerExceptionHandler(ILogger logger)
-        {
-            Debug.Assert(logger != null, "The logger must not be null.");
-            this.logger = logger;
-        }
+        public const string USER_CONTEXT_KEY = "azureUser";
 
-        /// <summary>
-        /// Overrides the Log method.
-        /// </summary>
-        /// <param name="context">The ExceptionLoggerContext instance.</param>
+        public const string CONTROLLER_CONTEXT_KEY = "controllerName";
+
+        public const string ACTION_CONTEXT_KEY = "actionName";
+
+        public const string REQUEST_ID_CONTEXT_KEY = "requestId";
+
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
+
+
         public override void Log(ExceptionLoggerContext context)
         {
-            base.Log(context);
-            logger.Error(GetMessage(context));
+            AddUser();
+            AddActionArguments(context);
+            AddControllerAndAction(context);
+            AddRequestId(context);
+            logger.Log(LogLevel.Error, RequestToString(context.Request), context.Exception);
         }
 
-        private string GetMessage(ExceptionLoggerContext context)
+        private static string RequestToString(HttpRequestMessage request)
+        {   
+            var message = new StringBuilder();
+            if (request.Method != null)
+                message.Append(request.Method);
+
+            if (request.RequestUri != null)
+                message.Append(" ").Append(request.RequestUri);
+
+            return message.ToString();
+        }
+
+        private void AddActionArguments(ExceptionLoggerContext context)
         {
-            var utcNow = DateTime.UtcNow;
-            var localTime = utcNow.ToLocalTime();
-            var timeZone = TimeZone.CurrentTimeZone;
-            var sb = new StringBuilder();
-            sb.AppendFormat("Exception occurred at {0} UTC ({1} {2})", utcNow.ToString(), utcNow.ToLocalTime().ToString(), timeZone.StandardName);
-            sb.AppendLine(String.Empty);
+            if (context.ExceptionContext.ActionContext != null)
+            {
+                var actionContext = context.ExceptionContext.ActionContext;
+                var actionArguments = actionContext.ActionArguments;
+                if (actionArguments != null && actionArguments.Count > 0)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    var actionArgumentsJson = Jsonify(actionArguments);
+                    GlobalDiagnosticsContext.Set(ACTION_ARGUMENTS_CONTEXT_KEY, actionArgumentsJson);
+                }
+            }
+        }
+
+        private void AddControllerAndAction(ExceptionLoggerContext context)
+        {
 
             if (context.ExceptionContext.ActionContext != null)
             {
                 var actionContext = context.ExceptionContext.ActionContext;
-                sb.AppendFormat("Request Uri:  {0}", actionContext.Request.RequestUri.ToString());
-                sb.AppendLine(String.Empty);
-
-                sb.AppendFormat("User:  {0}", GetUser(context));
-                sb.AppendLine(String.Empty);
-
                 var actionName = actionContext.ActionDescriptor.ActionName;
-                sb.AppendFormat("Controller Name:  {0}", actionContext.ControllerContext.ControllerDescriptor.ControllerName);
-                sb.AppendLine(String.Empty);
-
-                sb.AppendFormat("Action Name:  {0}", actionName);
-                sb.AppendLine(String.Empty);
-
-                var actionArguments = actionContext.ActionArguments;
-                if (actionArguments != null && actionArguments.Count > 0)
-                {
-                    var actionArgumentsJson = Jsonify(actionArguments);
-                    sb.AppendFormat("Action Arguments:  {0}", actionArgumentsJson);
-                    sb.AppendLine(String.Empty);
-                }
+                var controllerName = actionContext.ControllerContext.ControllerDescriptor.ControllerName;
+                GlobalDiagnosticsContext.Set(CONTROLLER_CONTEXT_KEY, controllerName);
+                GlobalDiagnosticsContext.Set(ACTION_CONTEXT_KEY, actionName);
             }
-            sb.Append(context.Exception.ToString());
-            return sb.ToString();
+        }
+
+        private void AddRequestId(ExceptionLoggerContext context)
+        {
+            GlobalDiagnosticsContext.Set(REQUEST_ID_CONTEXT_KEY, context.Request.GetCorrelationId().ToString());
         }
 
         private string Jsonify(Dictionary<string, object> actionArguments)
@@ -81,17 +91,15 @@ namespace ECA.WebApi.Custom.Filters
             return prettyJson;
         }
 
-        private string GetUser(ExceptionLoggerContext context)
+        private void AddUser()
         {
+            var userName = "UNKNOWN";
             var user = HttpContext.Current.User;
             if (user != null && user.Identity != null && user.Identity.IsAuthenticated)
             {
-                return user.Identity.Name;
+                userName = user.Identity.Name;
             }
-            else
-            {
-                return "Anonymous";
-            }
+            GlobalDiagnosticsContext.Set(USER_CONTEXT_KEY, userName);
         }
     }
 }
