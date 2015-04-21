@@ -65,14 +65,14 @@ namespace ECA.WebApi.Security
         {
             var cache = GetUserCache(user);            
             var valid = cache.IsValidCamUser;
-            logger.Info("User {0} is valid in CAM:  " + valid);
+            logger.Info("User {0} is valid in CAM:  {1}", user, valid);
             return valid;
         }
 
         public Task<bool> IsUserValidAsync(IWebApiUser user)
         {
             var valid = Task.FromResult<bool>(IsUserValid(user));
-            logger.Info("User {0} is valid in CAM:  " + valid);
+            logger.Info("User {0} is valid in CAM:  {1}", user, valid);
             return valid;
         }
 
@@ -101,14 +101,14 @@ namespace ECA.WebApi.Security
         public async Task<int> GetPrincipalIdAsync(IWebApiUser user)
         {
             var principalId = (await GetUserCacheAsync(user)).CamPrincipalId;
-            logger.Info("User {0} cam principal id:  {1}", principalId);
+            logger.Info("User {0} cam principal id:  {1}", user, principalId);
             return principalId;
         }
 
         public int GetPrincipalId(IWebApiUser user)
         {
             var principalId = GetUserCache(user).CamPrincipalId;
-            logger.Info("User {0} cam principal id:  {1}", principalId);
+            logger.Info("User {0} cam principal id:  {1}", user, principalId);
             return principalId;
         }
 
