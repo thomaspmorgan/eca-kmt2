@@ -15,30 +15,19 @@ using CAM.Business.Service;
 
 namespace ECA.WebApi.Test.Security
 {
-    public class SimpleUser : WebApiUserBase
+    public class SimpleUser : IWebApiUser
     {
         public string Username { get; set; }
 
-        public Guid Id 
+        public Guid Id
         {
-            get
-            {
-                return base.Id;
-            }
-            set
-            {
-                base.Id = value;
-            }
+            get;
+            set;
         }
 
-        public override string GetUsername()
+        public string GetUsername()
         {
             return this.Username;
-        }
-
-        public override bool HasPermission(IPermission requestedPermission, IEnumerable<IPermission> allUserPermissions)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -86,10 +75,10 @@ namespace ECA.WebApi.Test.Security
         public void TestGetUserCache_UserCacheDoesNotExist()
         {
             var camId = 1;
-            var camUser = new TestCamUser
+            var isUserValid = true;
+            var camUser = new User
             {
                 PrincipalId = camId,
-                IsValid = true
             };
             var user = new SimpleUser
             {
@@ -106,10 +95,10 @@ namespace ECA.WebApi.Test.Security
         public void TestGetUserCache()
         {
             var camId = 1;
-            var camUser = new TestCamUser
+            var isUserValid = true;
+            var camUser = new User
             {
                 PrincipalId = camId,
-                IsValid = true
             };
             var user = new SimpleUser
             {
@@ -117,7 +106,7 @@ namespace ECA.WebApi.Test.Security
             };
 
             var testService = new UserCacheService(cache.Object, expectedTimeToLive);
-            cacheDictionary.Add(testService.GetKey(user), new UserCache(user, camUser, camUser.IsValid, null));
+            cacheDictionary.Add(testService.GetKey(user), new UserCache(user, camUser, isUserValid, null));
 
             Assert.AreEqual(1, testService.GetCount());
             Action<UserCache> tester = (c) =>
@@ -159,10 +148,10 @@ namespace ECA.WebApi.Test.Security
         public void TestAdd()
         {
             var camId = 1;
-            var camUser = new TestCamUser
+            var isUserValid = true;
+            var camUser = new User
             {
                 PrincipalId = camId,
-                IsValid = true
             };
             var user = new SimpleUser
             {
@@ -172,7 +161,7 @@ namespace ECA.WebApi.Test.Security
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
 
-            var userCache = new UserCache(user, camUser, camUser.IsValid, new List<IPermission>());
+            var userCache = new UserCache(user, camUser, isUserValid, new List<IPermission>());
             testService.Add(userCache);
             Assert.AreEqual(1, testService.GetCount());
             Assert.AreEqual(1, cacheDictionary.Count);
@@ -183,10 +172,10 @@ namespace ECA.WebApi.Test.Security
         public void TestRemove()
         {
             var camId = 1;
-            var camUser = new TestCamUser
+            var isUserValid = true;
+            var camUser = new User
             {
                 PrincipalId = camId,
-                IsValid = true
             };
             var user = new SimpleUser
             {
@@ -196,7 +185,7 @@ namespace ECA.WebApi.Test.Security
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
 
-            var userCache = new UserCache(user, camUser, camUser.IsValid, new List<IPermission>());
+            var userCache = new UserCache(user, camUser, isUserValid, new List<IPermission>());
             testService.Add(userCache);
             Assert.AreEqual(1, testService.GetCount());
             Assert.AreEqual(1, cacheDictionary.Count);
@@ -211,15 +200,15 @@ namespace ECA.WebApi.Test.Security
         {
             var camId1 = 1;
             var camId2 = 2;
-            var camUser1 = new TestCamUser
+            var isCamUser1Valid = true;
+            var isCamUser2Valid = true;
+            var camUser1 = new User
             {
                 PrincipalId = camId1,
-                IsValid = true
             };
-            var camUser2 = new TestCamUser
+            var camUser2 = new User
             {
                 PrincipalId = camId2,
-                IsValid = true
             };
             var user1 = new SimpleUser
             {
@@ -233,8 +222,8 @@ namespace ECA.WebApi.Test.Security
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
 
-            var userCache1 = new UserCache(user1, camUser1, camUser1.IsValid, new List<IPermission>());
-            var userCache2 = new UserCache(user2, camUser2, camUser2.IsValid, new List<IPermission>());
+            var userCache1 = new UserCache(user1, camUser1, isCamUser1Valid, new List<IPermission>());
+            var userCache2 = new UserCache(user2, camUser2, isCamUser2Valid, new List<IPermission>());
             testService.Add(userCache1);
             testService.Add(userCache2);
             Assert.AreEqual(2, testService.GetCount());
@@ -286,16 +275,16 @@ namespace ECA.WebApi.Test.Security
         public void TestIsUserCached_MultipleUsersCached_RequestedUserNotCached()
         {
             var camId1 = 1;
-            var camUser1 = new TestCamUser
+            var isCamUser1Valid = true;
+            var isCamUser2Valid = true;
+            var camUser1 = new User
             {
                 PrincipalId = camId1,
-                IsValid = true
             };
             var camId2 = 1;
-            var camUser2 = new TestCamUser
+            var camUser2 = new User
             {
                 PrincipalId = camId2,
-                IsValid = true
             };
             var user1 = new SimpleUser
             {
@@ -312,8 +301,8 @@ namespace ECA.WebApi.Test.Security
             var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
-            testService.Add(new UserCache(user1, camUser1, camUser1.IsValid));
-            testService.Add(new UserCache(user2, camUser2, camUser2.IsValid));
+            testService.Add(new UserCache(user1, camUser1, isCamUser1Valid));
+            testService.Add(new UserCache(user2, camUser2, isCamUser2Valid));
             Assert.IsFalse(testService.IsUserCached(testUser));
         }
 
@@ -321,16 +310,16 @@ namespace ECA.WebApi.Test.Security
         public void TestIsUserCached_MultipleUsersCached_UserIsCached()
         {
             var camId1 = 1;
-            var camUser1 = new TestCamUser
+            var isCamUser1Valid = true;
+            var isCamUser2Valid = true;
+            var camUser1 = new User
             {
                 PrincipalId = camId1,
-                IsValid = true
             };
             var camId2 = 1;
-            var camUser2 = new TestCamUser
+            var camUser2 = new User
             {
                 PrincipalId = camId2,
-                IsValid = true
             };
             var user1 = new SimpleUser
             {
@@ -343,8 +332,8 @@ namespace ECA.WebApi.Test.Security
             var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
-            testService.Add(new UserCache(user1, camUser1, camUser1.IsValid));
-            testService.Add(new UserCache(user2, camUser2, camUser2.IsValid));
+            testService.Add(new UserCache(user1, camUser1, isCamUser1Valid));
+            testService.Add(new UserCache(user2, camUser2, isCamUser2Valid));
             Assert.IsTrue(testService.IsUserCached(user1));
         }
     }

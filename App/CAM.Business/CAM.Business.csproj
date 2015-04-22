@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Audit.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Service\PermissionStoreCached.cs" />
     <Compile Include="Service\PermissionStoreFactory.cs" />
     <Compile Include="Service\User.cs" />
+    <Compile Include="Service\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CAM.Data\CAM.Data.csproj">

@@ -46,7 +46,7 @@ namespace ECA.Core.Service
             var stopWatch = Stopwatch.StartNew();
             var list = GetSaveActions(saveActions);
             list.ForEach(x => x.BeforeSaveChanges(this.Context));            
-            var errors = this.Context.GetValidationErrors();
+            //var errors = this.Context.GetValidationErrors();
             int i = -1;
             try
             {
@@ -76,7 +76,7 @@ namespace ECA.Core.Service
             {
                 await saveAction.BeforeSaveChangesAsync(this.Context);
             }
-            var errors = this.Context.GetValidationErrors();
+            //var errors = this.Context.GetValidationErrors();
             int i = -1;
             try
             {
@@ -144,8 +144,11 @@ namespace ECA.Core.Service
         {
             if (disposing)
             {
-                this.Context.Dispose();
-                this.Context = null;
+                if (this.Context != null)
+                {
+                    this.Context.Dispose();
+                    this.Context = null;
+                }
             }
         }
 

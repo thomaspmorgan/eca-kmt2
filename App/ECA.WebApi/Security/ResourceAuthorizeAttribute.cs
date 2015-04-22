@@ -143,7 +143,6 @@ namespace ECA.WebApi.Security
                     SetAuthorizationResult(AuthorizationResult.InvalidCamUser);
                     throw new HttpResponseException(HttpStatusCode.Unauthorized);
                 }
-
                 var userPermissions = (await userProvider.GetPermissionsAsync(currentUser)).ToList();
                 var principalId = await userProvider.GetPrincipalIdAsync(currentUser);
                 Contract.Assert(userPermissions != null, "The user permissions must not be null.");
@@ -151,11 +150,7 @@ namespace ECA.WebApi.Security
                 var resourceTypeName = this.Permission.ResourceType;
                 var foreignResourceId = this.Permission.GetResourceId(actionArguments);
 
-                var requestedPermissionId = this.permissionStore.GetPermissionIdByName(permissionName);
-                if (requestedPermissionId == 0)
-                {
-                    throw new NotSupportedException(String.Format("The requested permission [{0}] does not exist in CAM.", permissionName));
-                }
+
                 var resourceTypeId = this.permissionStore.GetResourceTypeId(resourceTypeName);
                 if (!resourceTypeId.HasValue)
                 {
@@ -173,7 +168,7 @@ namespace ECA.WebApi.Security
                 }
                 else
                 {
-                    var hasPermission = currentUser.HasPermission(GetRequestedPermission(requestedPermissionId, resourceId.Value, principalId), userPermissions);
+                    var hasPermission = permissionStore.HasPermission(permissionName);
                     if (!hasPermission)
                     {
                         this.logger.Info("User [{0}] denied access to resource [{1}] with foreign key of [{2}] because the user does not have the [{3}] permission.",
@@ -209,18 +204,6 @@ namespace ECA.WebApi.Security
         public AuthorizationResult GetAuthorizationResult()
         {
             return this.authorizationResult;
-        }
-
-        private Permission GetRequestedPermission(int requestedPermissionId, int resourceId, int principalId)
-        {
-            var requestedPermission = new Permission
-            {
-                PermissionId = requestedPermissionId,
-                ResourceId = resourceId,
-                PrincipalId = principalId,
-                IsAllowed = true
-            };
-            return requestedPermission;
         }
     }
 }

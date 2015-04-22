@@ -7,7 +7,7 @@ namespace ECA.WebApi.Security
 {
     public interface IUserProvider : IDisposable
     {
-        WebApiUserBase GetCurrentUser();
+        IWebApiUser GetCurrentUser();
 
         ECA.Business.Service.User GetBusinessUser(IWebApiUser user);
 

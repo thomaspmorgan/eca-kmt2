@@ -16,38 +16,40 @@ namespace ECA.WebApi.Security
     /// <summary>
     /// The BearerTokenUserProvider is used to retrieve bearer token objects issued by the Microsoft Azure service.
     /// </summary>
-    public class BearerTokenUserProvider : IUserProvider, IDisposable
+    public class BearerTokenUserProvider : IUserProvider
     {
         private static readonly string COMPONENT_NAME = typeof(BearerTokenUserProvider).FullName;
 
-        public static Func<Guid, User> UserFactory = (userId) => { return new User(); };
 
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private readonly IUserCacheService cacheService;
-        private readonly IPermissionStore<IPermission> permissionStore;
-        private CamModel camContext;
+        private IUserCacheService cacheService;
+        private IPermissionStore<IPermission> permissionStore;
+        private IUserService userService;
 
         /// <summary>
         /// Creates a new BearerTokenUserProvider instance with the given logger instance.
         /// </summary>
+        /// <param name="cacheService">The user cache service.</param>
+        /// <param name="permissionStore">The permission store.</param>
+        /// <param name="userService">The user service.</param>
         public BearerTokenUserProvider(
-            CamModel camContext,
+            IUserService userService,
             IUserCacheService cacheService,
             IPermissionStore<IPermission> permissionStore)
         {
             Contract.Requires(cacheService != null, "The cache service must not be null.");
             Contract.Requires(permissionStore != null, "The permissionStore must not be null.");
-            Contract.Requires(camContext != null, "The camContext must not be null.");
+            Contract.Requires(userService != null, "The user service must not be null.");
             this.cacheService = cacheService;
             this.permissionStore = permissionStore;
-            this.camContext = camContext;
+            this.userService = userService;
         }
 
         /// <summary>
         /// Returns the current user or an anonymous user if now user is currently set.
         /// </summary>
         /// <returns>The current user, or an anonymous user.</returns>
-        public WebApiUserBase GetCurrentUser()
+        public IWebApiUser GetCurrentUser()
         {
             var currentUser = HttpContext.Current.User;
             if (currentUser != null)
@@ -119,9 +121,14 @@ namespace ECA.WebApi.Security
             if (!isUserCached)
             {
                 logger.Info("Caching user information...");
-                bool isValidUser;
-                var camUser = await GetCamUserAsync(user, out isValidUser);
-                var permissions = await GetUserPermissionsAsync(camUser.PrincipalId);
+                var isValidUser = await userService.IsUserValidAsync(user.Id);
+                IEnumerable<IPermission> permissions = new List<IPermission>();
+                User camUser = new User();
+                if (isValidUser)
+                {
+                    permissions = await GetUserPermissionsAsync(camUser.PrincipalId);
+                    camUser = await userService.GetUserByIdAsync(user.Id);
+                }
                 cacheService.Add(new UserCache(user, camUser, isValidUser, permissions));
             }
             return cacheService.GetUserCache(user);
@@ -134,9 +141,14 @@ namespace ECA.WebApi.Security
             if (!isUserCached)
             {
                 logger.Info("Caching user information...");
-                bool isValidUser;
-                var camUser = GetCamUser(user, out isValidUser);
-                var permissions = GetUserPermissions(camUser.PrincipalId);
+                var isValidUser = userService.IsUserValid(user.Id);
+                IEnumerable<IPermission> permissions = new List<IPermission>();
+                User camUser = new User();
+                if (isValidUser)
+                {
+                    permissions = GetUserPermissions(camUser.PrincipalId);
+                    camUser = userService.GetUserById(user.Id);
+                }
                 cacheService.Add(new UserCache(user, camUser, isValidUser, permissions));
             }
             return cacheService.GetUserCache(user);
@@ -155,28 +167,6 @@ namespace ECA.WebApi.Security
             var permissions = this.permissionStore.Permissions;
             logger.Trace("Retrieved user with principal id {0} permissions.", principalId);
             return permissions;
-        }
-
-        private User GetCamUser(IWebApiUser user, out bool isValid)
-        {
-            return GetCamUser(user.Id, out isValid);
-        }
-
-        private Task<User> GetCamUserAsync(IWebApiUser user, out bool isValid)
-        {
-            return Task.FromResult<User>(GetCamUser(user.Id, out isValid));
-        }
-
-        private User GetCamUser(Guid userId, out bool isValid)
-        {
-            var camUser = UserFactory(userId);
-            isValid = camUser.AuthenticateUserWithGuid(userId, this.camContext);
-            return camUser;
-        }
-
-        private Task<User> GetCamUserAsync(Guid userId, out bool isValid)
-        {
-            return Task.FromResult<User>(GetCamUser(userId, out isValid));
         }
 
         public void Clear(IWebApiUser user)
@@ -212,10 +202,20 @@ namespace ECA.WebApi.Security
         {
             if (disposing)
             {
-                if (this.camContext != null)
+                if (this.userService is IDisposable)
                 {
-                    this.camContext.Dispose();
-                    this.camContext = null;
+                    (this.userService as IDisposable).Dispose();
+                    this.userService = null;
+                }
+                if (this.permissionStore is IDisposable)
+                {
+                    (this.permissionStore as IDisposable).Dispose();
+                    this.permissionStore = null;
+                }
+                if (this.cacheService is IDisposable)
+                {
+                    (this.cacheService as IDisposable).Dispose();
+                    this.cacheService = null;
                 }
             }
         }
@@ -228,10 +228,10 @@ namespace ECA.WebApi.Security
             logger.Info("User {0} is going to impersonate user with id {1}.", impersonator, idOfUserToImpersonate);
             BeforeImpersonateUser(impersonator.Id);
             var impersonatedUser = new ImpersonatedUser(impersonatorUserId: impersonator.Id, impersonatedUserId: idOfUserToImpersonate, impersonatorUserName: impersonator.GetUsername());
-            bool isImpersonatedUserValid;
-            bool isImpersonatorValid;
-            var impersonatedCamUser = GetCamUser(impersonatedUser, out isImpersonatedUserValid);
-            var impersonatorCamUser = GetCamUser(impersonator.Id, out isImpersonatorValid);
+            bool isImpersonatedUserValid = userService.IsUserValid(idOfUserToImpersonate);
+            bool isImpersonatorValid = userService.IsUserValid(impersonator.Id);
+            var impersonatedCamUser = userService.GetUserById(idOfUserToImpersonate);
+            var impersonatorCamUser = userService.GetUserById(impersonator.Id);
             var impersonatedUserPermissions = GetPermissions(impersonatedUser);
             CacheImpersonatedUser(impersonator, impersonatorCamUser, isImpersonatedUserValid, impersonatedUserPermissions.ToList());
             logger.Info("User {0} is no impersonating user with id {1}.", impersonator, idOfUserToImpersonate);
@@ -242,10 +242,10 @@ namespace ECA.WebApi.Security
             logger.Info("User {0} is going to impersonate user with id {1}.", impersonator, idOfUserToImpersonate);
             BeforeImpersonateUser(impersonator.Id);
             var impersonatedUser = new ImpersonatedUser(impersonatorUserId: impersonator.Id, impersonatedUserId: idOfUserToImpersonate, impersonatorUserName: impersonator.GetUsername());
-            bool isImpersonatedUserValid;
-            bool isImpersonatorValid;
-            var impersonatedCamUser = await GetCamUserAsync(impersonatedUser, out isImpersonatedUserValid);
-            var impersonatorCamUser = await GetCamUserAsync(impersonator.Id, out isImpersonatorValid);
+            bool isImpersonatedUserValid = await userService.IsUserValidAsync(idOfUserToImpersonate);
+            bool isImpersonatorValid = await userService.IsUserValidAsync(impersonator.Id);
+            var impersonatedCamUser = await userService.GetUserByIdAsync(idOfUserToImpersonate);
+            var impersonatorCamUser = await userService.GetUserByIdAsync(impersonator.Id);
             var impersonatedUserPermissions = await GetPermissionsAsync(impersonatedUser);
             CacheImpersonatedUser(impersonator, impersonatorCamUser, isImpersonatedUserValid, impersonatedUserPermissions.ToList());
             logger.Info("User {0} is no impersonating user with id {1}.", impersonator, idOfUserToImpersonate);

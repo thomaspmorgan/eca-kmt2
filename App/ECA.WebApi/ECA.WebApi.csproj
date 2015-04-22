@@ -420,6 +420,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="ECA.WebApi.wpp.targets" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev-Web-Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-qa.pubxml" />
