@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
-using NLog.Interface;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

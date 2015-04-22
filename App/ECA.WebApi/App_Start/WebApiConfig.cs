@@ -52,7 +52,7 @@ namespace ECA.WebApi
             config.Filters.Add(new ValidationExceptionFilter());
             config.Filters.Add(new DbEntityValidationExceptionFilter());
 
-            config.Services.Replace(typeof(System.Web.Http.Tracing.ITraceWriter), new NLogTraceWriter());
+            //config.Services.Replace(typeof(System.Web.Http.Tracing.ITraceWriter), new NLogTraceWriter());
 #if DEBUG
             config.MessageHandlers.Add(new DebugWebApiUserHandler());
 #endif
