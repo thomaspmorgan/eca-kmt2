@@ -14,7 +14,7 @@
             <div class="col-md-4 title-label">Themes</div>
             <div class="col-md-8">
                 <ul>
-                    <li ng-repeat="theme in program.themes">{{theme.value}}</li>
+                    <li ng-repeat="theme in program.themes | orderBy:'value'">{{theme.value}}</li>
                 </ul>
             </div>
         </div>
@@ -22,7 +22,7 @@
             <div class="col-md-4 title-label">Public Diplomacy Goals</div>
             <div class="col-md-8">
                 <ul>
-                    <li ng-repeat="goal in program.pdGoals">{{goal}}</li>
+                    <li ng-repeat="goal in program.pdGoals | orderBy:'goal'">{{goal}}</li>
                 </ul>
             </div>
         </div>
@@ -30,7 +30,7 @@
             <div class="col-md-4 title-label">Strategic Goals</div>
             <div class="col-md-8">
                 <ul>
-                    <li ng-repeat="goal in program.goals">{{goal.value}}</li>
+                    <li ng-repeat="goal in program.goals | orderBy:'value'">{{goal.value}}</li>
                 </ul>
             </div>
         </div>
@@ -38,7 +38,7 @@
             <div class="col-md-4 title-label">Regions</div>
             <div class="col-md-8">
                 <ul>
-                    <li ng-repeat="region in program.regionIsos">{{region.value}}</li>
+                    <li ng-repeat="region in program.regionIsos | orderBy:'value'">{{region.value}}</li>
                 </ul>
             </div>
         </div>
@@ -57,7 +57,7 @@
             <div class="col-md-4 title-label"><ng-pluralize count="program.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
             <div class="col-md-8">
                 <ul>
-                    <li ng-repeat="contact in program.contacts">{{contact.value}}</li>
+                    <li ng-repeat="contact in program.contacts | orderBy:'value'">{{contact.value}}</li>
                 </ul>
             </div>
         </div>

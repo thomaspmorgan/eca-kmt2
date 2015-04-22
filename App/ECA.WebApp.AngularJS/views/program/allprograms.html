@@ -8,7 +8,7 @@
     <div class="row">
         <span class="left programTypeRadio">Show programs in<input type="radio" ng-change="changeProgramList()" ng-model="programList.type" value="hierarchy">Hierarchical order</span>
         <span class="left programTypeRadio"><input type="radio" ng-change="changeProgramList()" ng-model="programList.type" value="alpha">Alphabetical order</span>
-        <button ng-click="createProgramForm(programForm)" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
+        <button ng-click="createProgramForm()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
     </div>
 
     <div st-pipe="getPrograms" st-table="programs" id="sort-list">
@@ -39,7 +39,7 @@
                         <p ng-bind-html="program.description | highlight:programFilter">{{program.description}}</p>
                     </td>
                     <td class="col-md-3 tools">
-                        <div class="right">
+                        <div class="right" style="display:none;" showonparentrow>
                             <div class="programOptions">
                                 <i class="fa fa-files-o fa-2x programOption" ng-click="copyProgram(program.programId)" ng-show="!copyProgramLoading"></i>
                                 <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyProgramLoading"></i>
@@ -197,7 +197,7 @@
     </div>
     <div class="modalFormButtons">
         <button class="btn btn-default" ng-click="editModalCancel(this)">CANCEL</button>
-        <button class="btn btn-success right" ng-click="saveEditedProgram()">SAVE AND CLOSE</button>
+        <button class="btn btn-success right" ng-disabled="modalForm.editProgramForm.$invalid" ng-click="saveEditedProgram()">SAVE AND CLOSE</button>
     </div>
 
 
