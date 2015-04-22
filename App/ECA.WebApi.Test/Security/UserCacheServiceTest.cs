@@ -1,5 +1,4 @@
-﻿using ECA.Core.Logging;
-using FluentAssertions;
+﻿using FluentAssertions;
 using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -97,8 +96,7 @@ namespace ECA.WebApi.Test.Security
                 Id = Guid.NewGuid()
             };
 
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             testService.Invoking(x => x.GetUserCache(user)).ShouldThrow<NotSupportedException>()
                 .WithMessage("The user should have a cached object in the system cache.  Be sure use to the IsUserCached method and Add method for user cache logic.");
@@ -118,8 +116,7 @@ namespace ECA.WebApi.Test.Security
                 Id = Guid.NewGuid()
             };
 
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             cacheDictionary.Add(testService.GetKey(user), new UserCache(user, camUser, camUser.IsValid, null));
 
             Assert.AreEqual(1, testService.GetCount());
@@ -143,8 +140,7 @@ namespace ECA.WebApi.Test.Security
             {
                 Id = Guid.NewGuid()
             };
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(user.Id.ToString(), testService.GetKey(user));
         }
 
@@ -155,8 +151,7 @@ namespace ECA.WebApi.Test.Security
             {
                 Id = Guid.NewGuid()
             };
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(user.Id.ToString(), testService.GetKey(user.Id));
         }
 
@@ -173,8 +168,7 @@ namespace ECA.WebApi.Test.Security
             {
                 Id = Guid.NewGuid()
             };
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
 
@@ -198,8 +192,7 @@ namespace ECA.WebApi.Test.Security
             {
                 Id = Guid.NewGuid()
             };
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
 
@@ -236,8 +229,7 @@ namespace ECA.WebApi.Test.Security
             {
                 Id = Guid.NewGuid()
             };
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
 
@@ -259,8 +251,7 @@ namespace ECA.WebApi.Test.Security
         public void TestRemove_NoUsers()
         {
 
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
 
@@ -272,8 +263,7 @@ namespace ECA.WebApi.Test.Security
         [TestMethod]
         public void TestGetCacheItemPolicy()
         {
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             var policy = testService.GetCacheItemPolicy();
             Assert.IsNotNull(policy);
             policy.AbsoluteExpiration.Should().BeCloseTo(DateTimeOffset.UtcNow.AddSeconds((double)expectedTimeToLive));
@@ -286,8 +276,7 @@ namespace ECA.WebApi.Test.Security
             {
                 Id = Guid.NewGuid()
             };
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
             Assert.IsFalse(testService.IsUserCached(user));
@@ -320,8 +309,7 @@ namespace ECA.WebApi.Test.Security
             {
                 Id = Guid.NewGuid()
             };
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
             testService.Add(new UserCache(user1, camUser1, camUser1.IsValid));
@@ -352,8 +340,7 @@ namespace ECA.WebApi.Test.Security
             {
                 Id = Guid.NewGuid()
             };
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
             testService.Add(new UserCache(user1, camUser1, camUser1.IsValid));

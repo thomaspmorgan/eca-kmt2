@@ -11,9 +11,9 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ECA.Core.Logging;
 using ECA.Business.Service.Lookup;
 using System.Diagnostics;
+using NLog;
 
 namespace ECA.Business.Service.Admin
 {
@@ -22,20 +22,16 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class LocationService : LookupService<LocationDTO>, ILocationService
     {
-        private static readonly string COMPONENT_NAME = typeof(LocationService).FullName;
-        private readonly ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Creates a new location service with the context to operate against.
         /// </summary>
         /// <param name="context">The context.</param>
-        /// <param name="logger">The logger.</param>
-        public LocationService(EcaContext context, ILogger logger)
-            : base(context, logger)
+        public LocationService(EcaContext context)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
-            this.logger = logger;
         }
 
         #region Get
@@ -58,10 +54,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The list of location type ids.</returns>
         public List<int> GetLocationTypeIds(List<int> locationIds)
         {
-            var stopwatch = Stopwatch.StartNew();
             var ids = LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, locationIds).ToList();
-            stopwatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "locationIds", String.Join(",", locationIds) } });
+            this.logger.Trace("Retrieved location types for location ids {0}.", String.Join(", ", locationIds));
             return ids;
         }
 
@@ -72,10 +66,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The list of location type ids.</returns>
         public async Task<List<int>> GetLocationTypeIdsAsync(List<int> locationIds)
         {
-            var stopwatch = Stopwatch.StartNew();
             var ids = await LocationQueries.CreateGetLocationTypeIdsQuery(this.Context, locationIds).ToListAsync();
-            stopwatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "locationIds", String.Join(",", locationIds) } });
+            this.logger.Trace("Retrieved location types for location ids {0}.", String.Join(", ", locationIds));
             return ids;
         }
         #endregion

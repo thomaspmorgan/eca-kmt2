@@ -2,7 +2,6 @@
 using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Core.Logging;
 using Moq;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -15,16 +14,11 @@ namespace ECA.WebApi.Test.Security
     [TestClass]
     public class WebApiUserTest
     {
-        private Mock<ILogger> logger;
 
         [TestInitialize]
         public void TestInit()
         {
-            logger = new Mock<ILogger>();
-            logger.Setup(x => x.Error(It.IsAny<string>()));
-            logger.Setup(x => x.Error(It.IsAny<string>(), It.IsAny<object[]>()));
-            logger.Setup(x => x.Warning(It.IsAny<string>()));
-            logger.Setup(x => x.Warning(It.IsAny<string>(), It.IsAny<object[]>()));
+
         }
 
         [TestMethod]
@@ -40,7 +34,7 @@ namespace ECA.WebApi.Test.Security
             var claims = new List<Claim>();
             var claimsIdentity = new ClaimsIdentity(claims);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-            var user = new WebApiUser(new TraceLogger(), claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.IsTrue(user.HasPermission(permission, new List<IPermission> { permission }));
         }
 
@@ -66,7 +60,7 @@ namespace ECA.WebApi.Test.Security
             var claims = new List<Claim>();
             var claimsIdentity = new ClaimsIdentity(claims);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-            var user = new WebApiUser(new TraceLogger(), claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.IsFalse(user.HasPermission(testPermission, allowedPermissions));
         }
 
@@ -92,7 +86,7 @@ namespace ECA.WebApi.Test.Security
             var claims = new List<Claim>();
             var claimsIdentity = new ClaimsIdentity(claims);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-            var user = new WebApiUser(new TraceLogger(), claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.IsFalse(user.HasPermission(testPermission, allowedPermissions));
         }
 
@@ -110,7 +104,7 @@ namespace ECA.WebApi.Test.Security
             var claims = new List<Claim>();
             var claimsIdentity = new ClaimsIdentity(claims);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-            var user = new WebApiUser(new TraceLogger(), claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.IsFalse(user.HasPermission(testPermission, allowedPermissions));
         }
 
@@ -142,7 +136,7 @@ namespace ECA.WebApi.Test.Security
 
             var claimsIdentity = new ClaimsIdentity(claims);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.AreEqual(givenName, user.GivenName);
             Assert.AreEqual(surName, user.SurName);
             Assert.AreEqual(fullName, user.FullName);
@@ -162,7 +156,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.USER_ID_KEY, id.ToString()));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.AreEqual(Guid.Empty, user.Id);
             user.SetUserId(claims);
             Assert.AreEqual(id, user.Id);
@@ -176,7 +170,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.USER_ID_KEY, id.ToString()));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.AreEqual(Guid.Empty, user.Id);
             user.Invoking(x => x.SetUserId(claims)).ShouldNotThrow();
         }
@@ -189,7 +183,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.EMAIL_KEY, email));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             user.SetUserEmail(claims);
             Assert.AreEqual(email, user.Email);
         }
@@ -202,7 +196,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.GIVEN_NAME_KEY, name));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             user.SetGivenName(claims);
             Assert.AreEqual(name, user.GivenName);
         }
@@ -215,7 +209,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.SURNAME_KEY, name));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             user.SetSurname(claims);
             Assert.AreEqual(name, user.SurName);
         }
@@ -228,7 +222,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.FULL_NAME_KEY, name));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             user.SetFullName(claims);
             Assert.AreEqual(name, user.FullName);
         }
@@ -242,7 +236,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.ISSUED_AT_TIME_KEY, nowInSecondsAfterEpoch.ToString()));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             user.SetTokenIssueDate(claims);
             now.Should().BeCloseTo(user.TokenIssuedDate, 1000);
         }
@@ -254,7 +248,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.ISSUED_AT_TIME_KEY, "abc"));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             user.Invoking(x => x.SetTokenIssueDate(claims)).ShouldNotThrow();
         }
 
@@ -267,7 +261,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.EXPIRATION_DATE_KEY, nowInSecondsAfterEpoch.ToString()));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             user.SetTokenExpirationDate(claims);
             now.Should().BeCloseTo(user.TokenExpirationDate, 1000);
         }
@@ -279,7 +273,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.EXPIRATION_DATE_KEY, "abc"));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             user.Invoking(x => x.SetTokenExpirationDate(claims)).ShouldNotThrow();
         }
 
@@ -292,7 +286,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.VALID_NOT_BEFORE_DATE_KEY, nowInSecondsAfterEpoch.ToString()));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             user.SetTokenValidAfterDate(claims);
             now.Should().BeCloseTo(user.TokenValidAfterDate, 1000);
         }
@@ -304,7 +298,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.VALID_NOT_BEFORE_DATE_KEY, "abc"));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             user.Invoking(x => x.SetTokenValidAfterDate(claims)).ShouldNotThrow();
         }
 
@@ -316,7 +310,7 @@ namespace ECA.WebApi.Test.Security
             claims.Add(new Claim(WebApiUser.EMAIL_KEY, email));
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             user.SetUserEmail(claims);
             Assert.AreEqual(email, user.GetUsername());
         }
@@ -328,7 +322,7 @@ namespace ECA.WebApi.Test.Security
             var claims = new List<Claim>();
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.AreEqual(Guid.Empty, user.Id);
 
             user.Invoking(x => x.SetFullName(claims)).ShouldNotThrow();
@@ -340,7 +334,7 @@ namespace ECA.WebApi.Test.Security
             var claims = new List<Claim>();
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.AreEqual(Guid.Empty, user.Id);
 
             user.Invoking(x => x.SetGivenName(claims)).ShouldNotThrow();
@@ -352,7 +346,7 @@ namespace ECA.WebApi.Test.Security
             var claims = new List<Claim>();
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.AreEqual(Guid.Empty, user.Id);
 
             user.Invoking(x => x.SetSurname(claims)).ShouldNotThrow();
@@ -364,7 +358,7 @@ namespace ECA.WebApi.Test.Security
             var claims = new List<Claim>();
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.AreEqual(Guid.Empty, user.Id);
 
             user.Invoking(x => x.SetTokenExpirationDate(claims)).ShouldNotThrow();
@@ -376,7 +370,7 @@ namespace ECA.WebApi.Test.Security
             var claims = new List<Claim>();
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.AreEqual(Guid.Empty, user.Id);
 
             user.Invoking(x => x.SetTokenIssueDate(claims)).ShouldNotThrow();
@@ -388,7 +382,7 @@ namespace ECA.WebApi.Test.Security
             var claims = new List<Claim>();
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.AreEqual(Guid.Empty, user.Id);
 
             user.Invoking(x => x.SetTokenValidAfterDate(claims)).ShouldNotThrow();
@@ -400,7 +394,7 @@ namespace ECA.WebApi.Test.Security
             var claims = new List<Claim>();
 
             var claimsPrincipal = new ClaimsPrincipal();
-            var user = new WebApiUser(logger.Object, claimsPrincipal);
+            var user = new WebApiUser(claimsPrincipal);
             Assert.AreEqual(Guid.Empty, user.Id);
 
             user.Invoking(x => x.SetUserId(claims)).ShouldNotThrow();

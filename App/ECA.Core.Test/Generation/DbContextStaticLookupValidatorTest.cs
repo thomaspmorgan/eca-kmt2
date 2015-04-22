@@ -6,7 +6,6 @@ using ECA.Core.Data;
 using ECA.Core.Generation;
 using Moq;
 using System.Reflection;
-using ECA.Core.Logging;
 
 namespace ECA.Core.Test.Generation
 {
@@ -68,7 +67,7 @@ namespace ECA.Core.Test.Generation
         public void TestDispose_Context()
         {
             var testContext = new TestDbContext();
-            var testService = new DbContextStaticLookupValidator(testContext, new TraceLogger());
+            var testService = new DbContextStaticLookupValidator(testContext);
 
             var contextField = typeof(DbContextStaticLookupValidator).GetField("context", BindingFlags.NonPublic | BindingFlags.Instance);
             var contextValue = contextField.GetValue(testService);

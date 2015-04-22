@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Admin;
-using ECA.Core.Logging;
 using System.Threading.Tasks;
 using ECA.Data;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace ECA.Business.Test.Service.Admin
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new ProjectStatusService(context, new TraceLogger());
+            service = new ProjectStatusService(context);
         }
 
         [TestMethod]

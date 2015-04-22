@@ -1,5 +1,4 @@
-﻿using ECA.Core.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
@@ -33,19 +32,15 @@ namespace ECA.Core.Generation
         private static readonly string COMPONENT_NAME = typeof(DbContextStaticLookupValidator).Name;
 
         private DbContext context;
-        private readonly ILogger logger;
 
         /// <summary>
         /// Creates a new validator.
         /// </summary>
         /// <param name="context">The context to validate against.</param>
-        /// <param name="logger">The logger.</param>
-        public DbContextStaticLookupValidator(DbContext context, ILogger logger)
+        public DbContextStaticLookupValidator(DbContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
             this.context = context;
-            this.logger = logger;
         }
 
         /// <summary>
@@ -114,11 +109,9 @@ namespace ECA.Core.Generation
                     }
                 }
                 stopWatch.Stop();
-                logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
             }
             return errors;
         }
-
 
         #region IDispose
 

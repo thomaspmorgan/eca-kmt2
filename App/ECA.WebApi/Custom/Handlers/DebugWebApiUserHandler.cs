@@ -1,5 +1,4 @@
-﻿using ECA.Core.Logging;
-using ECA.WebApi.Security;
+﻿using ECA.WebApi.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +20,7 @@ namespace ECA.WebApi.Custom.Handlers
                 && request.Headers.Referrer != null
                 && request.Headers.Referrer.ToString().ToLower().Contains("http://localhost:5555/swagger/ui/index"))
             {
-                var logger = (ILogger)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILogger));
-                var debugUser = new DebugWebApiUser(logger);
+                var debugUser = new DebugWebApiUser();
                 var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(debugUser.GetClaims(), "Bearer"));
                 Thread.CurrentPrincipal = claimsPrincipal;
                 HttpContext.Current.User = claimsPrincipal;

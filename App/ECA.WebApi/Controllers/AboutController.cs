@@ -1,12 +1,6 @@
 ﻿using ECA.Core.Generation;
 using ECA.WebApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -15,6 +9,7 @@ namespace ECA.WebApi.Controllers
     /// <summary>
     /// The AboutController provides information regarding the current instance of the web api application that is running.
     /// </summary>
+    [RoutePrefix("api/About")]
     public class AboutController : ApiController
     {
         private IStaticGeneratorValidator validator;

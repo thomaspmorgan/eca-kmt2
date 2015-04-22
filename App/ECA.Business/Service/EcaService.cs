@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using ECA.Core.Logging;
 using ECA.Core.Service;
 using ECA.Data;
 using System;
@@ -10,21 +9,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using ECA.Business.Queries.Admin;
+using NLog;
 
 namespace ECA.Business.Service
 {
     public class EcaService : DbContextService<EcaContext>
     {
-        private static readonly string COMPONENT_NAME = typeof(EcaService).FullName;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
-        private readonly ILogger logger;
-
-        public EcaService(EcaContext context, ILogger logger)
-            : base(context, logger)
+        public EcaService(EcaContext context)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
-            this.logger = logger;
         }
 
         #region Contact Extistence Validation
@@ -43,7 +39,6 @@ namespace ECA.Business.Service
         public async Task<bool> CheckAllContactsExistAsync(IEnumerable<int> contactIds)
         {
             Contract.Requires(contactIds != null, "The contact ids must not be null.");
-            var stopWatch = Stopwatch.StartNew();
             bool response = false;
             if (contactIds.Count() == 0)
             {
@@ -54,8 +49,7 @@ namespace ECA.Business.Service
                 var distinctIds = contactIds.Distinct().ToList();
                 response = await CreateGetContactsByIdsQuery(contactIds).CountAsync() == distinctIds.Count();
             }
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.Trace("Checked all contacts with ids {0} exist.", String.Join(", ", contactIds));
             return response;
         }
 
@@ -67,7 +61,6 @@ namespace ECA.Business.Service
         public bool CheckAllContactsExist(IEnumerable<int> contactIds)
         {
             Contract.Requires(contactIds != null, "The contact ids must not be null.");
-            var stopWatch = Stopwatch.StartNew();
             bool response = false;
             if (contactIds.Count() == 0)
             {
@@ -78,8 +71,7 @@ namespace ECA.Business.Service
                 var distinctIds = contactIds.Distinct().ToList();
                 response = CreateGetContactsByIdsQuery(contactIds).Count() == distinctIds.Count();
             }
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.Trace("Checked all contacts with ids {0} exist.", String.Join(", ", contactIds));
             return response;
         }
         #endregion
@@ -100,7 +92,6 @@ namespace ECA.Business.Service
         public async Task<bool> CheckAllThemesExistAsync(IEnumerable<int> themeIds)
         {
             Contract.Requires(themeIds != null, "The theme ids must not be null.");
-            var stopWatch = Stopwatch.StartNew();
             bool response = false;
             if (themeIds.Count() == 0)
             {
@@ -111,8 +102,7 @@ namespace ECA.Business.Service
                 var distinctIds = themeIds.Distinct().ToList();
                 response = await CreateGetThemesByIdsQuery(themeIds).CountAsync() == distinctIds.Count();
             }
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.Trace("Checked all themes with ids {0} exist.", String.Join(", ", themeIds));
             return response;
         }
 
@@ -124,7 +114,6 @@ namespace ECA.Business.Service
         public bool CheckAllThemesExist(IEnumerable<int> themeIds)
         {
             Contract.Requires(themeIds != null, "The theme ids must not be null.");
-            var stopWatch = Stopwatch.StartNew();
             bool response = false;
             if (themeIds.Count() == 0)
             {
@@ -135,8 +124,7 @@ namespace ECA.Business.Service
                 var distinctIds = themeIds.Distinct().ToList();
                 response = CreateGetThemesByIdsQuery(themeIds).Count() == distinctIds.Count();
             }
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.Trace("Checked all themes exist.");
             return response;
         }
         #endregion
@@ -157,7 +145,6 @@ namespace ECA.Business.Service
         public async Task<bool> CheckAllGoalsExistAsync(IEnumerable<int> goalIds)
         {
             Contract.Requires(goalIds != null, "The goal ids must not be null.");
-            var stopWatch = Stopwatch.StartNew();
             bool response = false;
             if (goalIds.Count() == 0)
             {
@@ -168,8 +155,7 @@ namespace ECA.Business.Service
                 var distinctIds = goalIds.Distinct().ToList();
                 return await CreateGetGoalsByIdsQuery(goalIds).CountAsync() == distinctIds.Count();
             }
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.Trace("Checked all goals with ids {0} exist.", String.Join(", ", goalIds));
             return response;
         }
 
@@ -181,7 +167,6 @@ namespace ECA.Business.Service
         public bool CheckAllGoalsExist(IEnumerable<int> goalIds)
         {
             Contract.Requires(goalIds != null, "The goal ids must not be null.");
-            var stopWatch = Stopwatch.StartNew();
             bool response = false;
             if (goalIds.Count() == 0)
             {
@@ -192,8 +177,7 @@ namespace ECA.Business.Service
                 var distinctIds = goalIds.Distinct().ToList();
                 response = CreateGetGoalsByIdsQuery(goalIds).Count() == distinctIds.Count();
             }
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.Trace("Checked all goals with ids {0} exist.", String.Join(", ", goalIds));
             return response;
         }
         #endregion
@@ -205,10 +189,8 @@ namespace ECA.Business.Service
         /// <returns>The focus.</returns>
         protected Focus GetFocusById(int focusId)
         {
-            var stopWatch = Stopwatch.StartNew();
             var focus = this.Context.Foci.Find(focusId);
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.Trace("Loaded focus by id {0}.", focusId);
             return focus;
         }
 
@@ -219,10 +201,8 @@ namespace ECA.Business.Service
         /// <returns>The focus.</returns>
         protected async Task<Focus> GetFocusByIdAsync(int focusId)
         {
-            var stopWatch = Stopwatch.StartNew();
             var focus = await this.Context.Foci.FindAsync(focusId);
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.Trace("Loaded focus by id {0}.", focusId);
             return focus;
         }
 
@@ -341,7 +321,9 @@ namespace ECA.Business.Service
         /// <returns>A list of locations</returns>
         protected async Task<List<Location>> GetLocationsByIdAsync(List<int> locationIds)
         {
-            return await CreateGetLocationsById(locationIds).ToListAsync();
+            var locations = await CreateGetLocationsById(locationIds).ToListAsync();
+            logger.Trace("Retrieved locations by ids {0}.", String.Join(", ", locationIds));
+            return locations;
         }
 
         /// <summary>
@@ -351,8 +333,9 @@ namespace ECA.Business.Service
         /// <returns>Queryable list of locations</returns>
         private IQueryable<Location> CreateGetLocationsById(List<int> locationIds)
         {
-            return Context.Locations.Where(x => locationIds.Contains(x.LocationId));
+            var locations = Context.Locations.Where(x => locationIds.Contains(x.LocationId));
+            logger.Trace("Retrieved locations by ids {0}.", String.Join(", ", locationIds));
+            return locations;
         }
-
     }
 }

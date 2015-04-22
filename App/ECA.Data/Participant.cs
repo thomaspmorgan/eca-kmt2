@@ -13,14 +13,6 @@ namespace ECA.Data
     {
 
         /// <summary>
-        /// Returns all organization type ids that represent an office.
-        /// </summary>
-        public static readonly int[] PARTICIPANT_PERSON_TYPE_IDS = 
-            new int[] { ParticipantType.Individual.Id, ParticipantType.ForeignNonTravelingParticipant.Id, 
-                        ParticipantType.USNonTravelingParticipant.Id, ParticipantType.ForeignTravelingParticipant.Id,
-                        ParticipantType.USTravelingParticipant.Id};
-
-        /// <summary>
         /// Gets the max length of the SEVIS Id.
         /// </summary>
         private const int SEVIS_ID_MAX_LENGTH = 11;

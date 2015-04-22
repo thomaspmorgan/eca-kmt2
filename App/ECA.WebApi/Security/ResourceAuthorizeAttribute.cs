@@ -1,7 +1,7 @@
 ﻿using CAM.Business.Service;
-using ECA.Core.Logging;
 using ECA.WebApi.Models;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -33,11 +33,6 @@ namespace ECA.WebApi.Security
         private static readonly string COMPONENT_NAME = typeof(ResourceAuthorizeAttribute).FullName;
 
         /// <summary>
-        /// The factory to create a logger.
-        /// </summary>
-        public static Func<ILogger> LoggerFactory { get; set; }
-
-        /// <summary>
         /// A Function to return to the WebApiUserBase.
         /// </summary>
         public static Func<IUserProvider> UserProviderFactory { get; set; }
@@ -48,7 +43,9 @@ namespace ECA.WebApi.Security
         public static Func<IPermissionStore<IPermission>> PermissionLookupFactory { get; set; }
 
         private IPermissionStore<IPermission> permissionStore;
-        private ILogger logger;
+        private AuthorizationResult authorizationResult;
+        private bool isAuthorizationResultSet;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Creates a new ResourceAuthorizeAttribute with the action permissions.
@@ -56,12 +53,10 @@ namespace ECA.WebApi.Security
         /// <param name="permission">The action permission.</param>
         internal ResourceAuthorizeAttribute(PermissionBase permission)
         {
-            Contract.Requires(LoggerFactory != null, "The logger factory must not be null.");
             Contract.Requires(UserProviderFactory != null, "The user provider factory must not be null.");
             Contract.Requires(PermissionLookupFactory != null, "The permission store factory must not be null.");
             this.Permission = permission;
             this.permissionStore = PermissionLookupFactory();
-            this.logger = LoggerFactory();
         }
 
         /// <summary>
@@ -144,7 +139,8 @@ namespace ECA.WebApi.Security
                 var controllerName = actionContext.ControllerContext.ControllerDescriptor.ControllerName;
                 if (!(await userProvider.IsUserValidAsync(currentUser)))
                 {
-                    this.logger.Information("User [{0}] denied authorization to resource because user is not valid in CAM.");
+                    this.logger.Info("User [{0}] denied authorization to resource because user is not valid in CAM.", currentUser.GetUsername());
+                    SetAuthorizationResult(AuthorizationResult.InvalidCamUser);
                     throw new HttpResponseException(HttpStatusCode.Unauthorized);
                 }
 
@@ -169,33 +165,50 @@ namespace ECA.WebApi.Security
                 var resourceId = this.permissionStore.GetResourceIdByForeignResourceId(foreignResourceId, resourceTypeId.Value);
                 if (!resourceId.HasValue || resourceId.Value == 0)
                 {
-                    this.logger.Warning("User [{0}] granted access to resource of type [{1}] with foreign key of [{2}] because the object is NOT in the CAM resources.",
+                    this.logger.Warn("User [{0}] granted access to resource of type [{1}] with foreign key of [{2}] because the object is NOT in the CAM resources.",
                         currentUser.GetUsername(),
                         resourceTypeName,
                         foreignResourceId);
+                    SetAuthorizationResult(AuthorizationResult.ResourceDoesNotExist);
                 }
                 else
                 {
                     var hasPermission = currentUser.HasPermission(GetRequestedPermission(requestedPermissionId, resourceId.Value, principalId), userPermissions);
                     if (!hasPermission)
                     {
-                        this.logger.Information("User [{0}] denied access to resource [{1}] with foreign key of [{2}] because the user does not have the [{3}] permission.",
+                        this.logger.Info("User [{0}] denied access to resource [{1}] with foreign key of [{2}] because the user does not have the [{3}] permission.",
                             currentUser.GetUsername(),
                             resourceTypeName,
                             foreignResourceId,
                             this.Permission);
+                        SetAuthorizationResult(AuthorizationResult.Denied);
                         throw new HttpResponseException(HttpStatusCode.Unauthorized);
                     }
                 }
-                this.logger.Information("User [{0}] granted access to resource with id [{1}] with foreign key [{2}] of type [{3}] on web api action [{4}].[{5}].",
+                this.logger.Info("User [{0}] granted access to resource with id [{1}] with foreign key [{2}] of type [{3}] on web api action [{4}].[{5}].",
                     currentUser.GetUsername(),
                     resourceId,
                     foreignResourceId,
                     resourceTypeName,
                     controllerName,
                     actionName);
+                SetAuthorizationResult(AuthorizationResult.Allowed);
             }
             base.OnActionExecuting(actionContext);
+        }
+
+        private void SetAuthorizationResult(AuthorizationResult result)
+        {
+            if (!this.isAuthorizationResultSet)
+            {
+                this.authorizationResult = result;
+                this.isAuthorizationResultSet = true;
+            }
+        }
+
+        public AuthorizationResult GetAuthorizationResult()
+        {
+            return this.authorizationResult;
         }
 
         private Permission GetRequestedPermission(int requestedPermissionId, int resourceId, int principalId)

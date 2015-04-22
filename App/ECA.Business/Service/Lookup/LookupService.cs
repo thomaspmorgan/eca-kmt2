@@ -1,8 +1,8 @@
 ﻿using ECA.Core.DynamicLinq;
-using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,20 +20,17 @@ namespace ECA.Business.Service.Lookup
     [ContractClass(typeof(LookupServiceContract<>))]
     public abstract class LookupService<DTOType> : DbContextService<EcaContext>, ECA.Business.Service.Lookup.ILookupService<DTOType> where DTOType : class
     {
-        private static readonly string COMPONENT_NAME = typeof(LookupService<>).FullName;
-        private readonly ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Creates a new LookupService with theg vien context and logger.
         /// </summary>
         /// <param name="context">The context to query.</param>
         /// <param name="logger">The logger.</param>
-        public LookupService(EcaContext context, ILogger logger)
-            : base(context, logger)
+        public LookupService(EcaContext context)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
-            this.logger = logger;
         }
 
         #region Get
@@ -45,10 +42,8 @@ namespace ECA.Business.Service.Lookup
         /// <returns>The paged, filtered, and sorted dtos.</returns>
         public PagedQueryResults<DTOType> Get(QueryableOperator<DTOType> queryOperator)
         {
-            var stopWatch = Stopwatch.StartNew();
             var results = GetDTOQuery(queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            logger.Trace("Loaded lookups of type [{0}] with query operator = [{1}].", typeof(DTOType).FullName, queryOperator);
             return results;
         }
 
@@ -59,10 +54,8 @@ namespace ECA.Business.Service.Lookup
         /// <returns>The paged, filtered, and sorted dtos.</returns>
         public async Task<PagedQueryResults<DTOType>> GetAsync(QueryableOperator<DTOType> queryOperator)
         {
-            var stopWatch = Stopwatch.StartNew();
             var results = await GetDTOQuery(queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            logger.Trace("Loaded lookups of type [{0}] with query operator = [{1}].", typeof(DTOType).FullName, queryOperator);
             return results;
         }
 
@@ -93,7 +86,7 @@ namespace ECA.Business.Service.Lookup
         /// </summary>
         /// <param name="context"></param>
         /// <param name="logger"></param>
-        public LookupServiceContract(EcaContext context, ILogger logger) : base(context, logger) { }
+        public LookupServiceContract(EcaContext context) : base(context) { }
         /// <summary>
         /// 
         /// </summary>

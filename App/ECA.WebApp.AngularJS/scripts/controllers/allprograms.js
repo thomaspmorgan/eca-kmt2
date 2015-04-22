@@ -17,6 +17,8 @@ angular.module('staticApp')
       $scope.totalNumberOfPrograms = 0;
       $scope.skippedNumberOfPrograms = 0;
       $scope.numberOfPrograms = 0;
+      $scope.programFilter = '';
+
 
       $scope.totalRecords = 0;
 
@@ -26,6 +28,8 @@ angular.module('staticApp')
       $scope.today();
 
       $scope.calOpened = false;
+
+      $scope.modalForm = {};
 
       $scope.currentForm = null;
 
@@ -189,6 +193,7 @@ angular.module('staticApp')
 
     $scope.getPrograms = function (tableState) {
 
+
         $scope.initialTableState = tableState;
 
         TableService.setTableState(tableState);
@@ -199,6 +204,8 @@ angular.module('staticApp')
             filter: TableService.getFilter(),
             keyword: TableService.getKeywords()
         };
+
+        $scope.programFilter = params.keyword;
 
         if ($scope.programList.type == "alpha") {
             $scope.refreshProgramsAlpha(params, tableState);
@@ -255,13 +262,14 @@ angular.module('staticApp')
             });
     };
 
-    $scope.createModalCancel = function (scope) {
-        $scope.currentForm = scope.programForm;
+    $scope.createModalCancel = function () {
+
+        $scope.currentForm = $scope.modalForm.programForm;
         $scope.checkFormStatus();
     };
 
-    $scope.editModalCancel = function (scope) {
-        $scope.currentForm = scope.editProgramForm;
+    $scope.editModalCancel = function () {
+        $scope.currentForm = $scope.modalForm.editProgramForm;
         $scope.checkFormStatus();
     };
 
@@ -288,6 +296,11 @@ angular.module('staticApp')
     };
 
     $scope.editProgram = function (programId) {
+
+        var curDate = new Date();
+        // to fix date-disabled error preventing form validation when 
+        // a start date is from an existing program
+        $scope.minDate = curDate.setFullYear(curDate.getFullYear() - 5);
 
         $scope.programId = programId;
 
@@ -328,7 +341,9 @@ angular.module('staticApp')
         return element.id;
     };
 
-    $scope.saveEditedProgram = function (editProgramForm) {
+    $scope.saveEditedProgram = function () {
+
+        var editProgramForm = $scope.modalForm.editProgramForm;
 
         var programId = $scope.programId;
 
@@ -364,9 +379,15 @@ angular.module('staticApp')
                     }
                 });
         }
+        else
+        {
+            alert('Please complete all required fields');
+        }
     };
  
-    $scope.saveCreatedProgram = function (programForm) {
+    $scope.saveCreatedProgram = function () {
+
+        var programForm = $scope.modalForm.programForm;
 
         if (programForm.$valid) {
             cleanUpNewProgram();
@@ -399,10 +420,6 @@ angular.module('staticApp')
                 });
         }
     };
-
-
-      
-
 
     function cleanUpNewProgram() {
         if ($scope.newProgram.parentProgram !== undefined) {

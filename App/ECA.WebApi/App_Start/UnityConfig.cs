@@ -6,8 +6,8 @@ using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
 using ECA.Business.Validation;
 using ECA.Core.Generation;
-using ECA.Core.Logging;
 using ECA.Data;
+using ECA.WebApi.Custom;
 using ECA.WebApi.Security;
 using Microsoft.Practices.Unity;
 using System.Data.Entity;
@@ -30,7 +30,6 @@ namespace ECA.WebApi
         {
             var container = new UnityContainer();
             RegisterSecurityConcerns(container);
-            RegisterLogging(container);
             RegisterContexts(container);
             RegisterServices(container);
             RegisterValidations(container);
@@ -47,15 +46,6 @@ namespace ECA.WebApi
             container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             //container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor("CamModel"));
-        }
-
-        /// <summary>
-        /// Registers the logger.
-        /// </summary>
-        /// <param name="container">The unity container.</param>
-        public static void RegisterLogging(IUnityContainer container)
-        {
-            container.RegisterType<ILogger, TraceLogger>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>
@@ -106,11 +96,10 @@ namespace ECA.WebApi
             container.RegisterType<IPermissionStore<IPermission>, PermissionStoreCached>(new HierarchicalLifetimeManager(), new InjectionConstructor());
             container.RegisterType<IUserProvider>(new InjectionFactory((c) =>
             {
-                var logger = c.Resolve<ILogger>();
                 var camModel = c.Resolve<CamModel>();
                 var userCacheService = c.Resolve<IUserCacheService>();
                 var permissionStore = c.Resolve<IPermissionStore<IPermission>>();
-                return new BearerTokenUserProvider(logger, camModel, userCacheService, permissionStore);
+                return new BearerTokenUserProvider(camModel, userCacheService, permissionStore);
             }));
             container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
             {
@@ -122,13 +111,12 @@ namespace ECA.WebApi
                 var cacheLifeInSeconds = 10;
                 CacheManager.CacheExpirationInMinutes = cacheLifeInSeconds / 60.0;
 #endif 
-                return new UserCacheService(c.Resolve<ILogger>(), c.Resolve<ObjectCache>() 
+                return new UserCacheService(c.Resolve<ObjectCache>() 
 #if DEBUG
 , cacheLifeInSeconds
 #endif
                     );
             }));
-            ResourceAuthorizeAttribute.LoggerFactory = () => container.Resolve<ILogger>();
             ResourceAuthorizeAttribute.UserProviderFactory = () => container.Resolve<IUserProvider>();
             ResourceAuthorizeAttribute.PermissionLookupFactory = () => container.Resolve<IPermissionStore<IPermission>>();
         }

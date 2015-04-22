@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using CAM.Business.Service;
 using System;
+using System.Net;
 
 namespace ECA.WebApi.Controllers
 {
@@ -35,6 +36,11 @@ namespace ECA.WebApi.Controllers
             Contract.Requires(permissionStore != null, "The permission store must not be null.");
             this.provider = provider;
             this.permissionStore = permissionStore;
+        }
+
+        public void GetTestThrow(int id)
+        {
+            throw new NotSupportedException("exception message here...");
         }
 
         /// <summary>
@@ -83,9 +89,10 @@ namespace ECA.WebApi.Controllers
         [Route("api/auth/user/impersonate/start")]
         public async Task<IHttpActionResult> PostStartImpersonationAsync(Guid id)
         {
-            var currentUser = this.provider.GetCurrentUser();
-            await provider.ImpersonateAsync(currentUser, id);
-            return Ok();
+            throw new HttpResponseException(HttpStatusCode.Unauthorized);
+            //var currentUser = this.provider.GetCurrentUser();
+            //await provider.ImpersonateAsync(currentUser, id);
+            //return Ok();
         }
 
         /// <summary>
@@ -94,7 +101,7 @@ namespace ECA.WebApi.Controllers
         /// <returns>An Ok result..</returns>
         [Authorize]
         [Route("api/auth/user/impersonate/stop")]
-        public async Task<IHttpActionResult> PostStopImpersonationAsync()
+        public IHttpActionResult PostStopImpersonation()
         {
             return this.PostLogout();
         }
@@ -161,7 +168,7 @@ namespace ECA.WebApi.Controllers
         //[ResourceAuthorize("EditProgram", "Program", 1009)]
         //[ResourceAuthorize("EditProgram", "Program", "id")]
         [ResourceAuthorize("EditProgram", "Program")]
-        //[ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
+        [ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
         public IHttpActionResult PostTestResourceAuthorizeModelType([FromBody]TestBindingModel model, int id)
         {
             return Ok();

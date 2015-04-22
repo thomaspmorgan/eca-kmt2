@@ -9,11 +9,11 @@ using ECA.Data;
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using ECA.Core.Logging;
 using ECA.Business.Validation;
 using System.Collections.Generic;
 using System.Diagnostics;
 using ECA.Core.Exceptions;
+using NLog;
 
 namespace ECA.Business.Service.Admin
 {
@@ -22,24 +22,19 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class ProjectService : EcaService, IProjectService
     {
-        private static readonly string COMPONENT_NAME = typeof(ProjectService).FullName;
-
-        private readonly ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="context">The db context</param>
-        /// <param name="logger">The logger</param>
-        public ProjectService(EcaContext context, ILogger logger, IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator)
-            : base(context, logger)
+        public ProjectService(EcaContext context, IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
             Contract.Requires(validator != null, "The validator must not be null.");
             this.validator = validator;
-            this.logger = logger;
         }
 
         #region Create
@@ -51,12 +46,12 @@ namespace ECA.Business.Service.Admin
         /// <returns>The project that was created</returns>
         public Project Create(DraftProject draftProject)
         {
-            var stopwatch = Stopwatch.StartNew();
+            
             var program = GetProgramById(draftProject.ProgramId);
+            this.logger.Trace("Retrieved program by id {0}.", draftProject.ProgramId);
             validator.ValidateCreate(GetCreateValidationEntity(draftProject, program));
             var project = DoCreate(draftProject, program);
-            stopwatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
+            this.logger.Trace("Created project {0}.", project);
             return project;
         }
 
@@ -67,12 +62,11 @@ namespace ECA.Business.Service.Admin
         /// <returns>The project that was created</returns>
         public async Task<Project> CreateAsync(DraftProject draftProject)
         {
-            var stopwatch = Stopwatch.StartNew();
             var program = await GetProgramByIdAsync(draftProject.ProgramId);
+            this.logger.Trace("Retrieved program by id {0}.", draftProject.ProgramId);
             validator.ValidateCreate(GetCreateValidationEntity(draftProject, program));
             var project = DoCreate(draftProject, program);
-            stopwatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
+            this.logger.Trace("Created project {0}.", project);
             return project;
         }
 
@@ -141,11 +135,20 @@ namespace ECA.Business.Service.Admin
             {
                 throw new ModelNotFoundException(String.Format("The project with id [{0}] was not found.", updatedProject.ProjectId));
             }
-            var stopwatch = Stopwatch.StartNew();
+            this.logger.Trace("Retrieved project by id {0}.", updatedProject.ProjectId);
+
             var themesExist = CheckAllThemesExist(updatedProject.ThemeIds);
+            this.logger.Trace("Check all themes with ids {0} existed.", String.Join(", ", updatedProject.ThemeIds));
+
             var goalsExist = CheckAllGoalsExist(updatedProject.GoalIds);
+            this.logger.Trace("Check all goals with ids {0} existed.", String.Join(", ", updatedProject.GoalIds));
+
             var contactsExist = CheckAllContactsExist(updatedProject.PointsOfContactIds);
-            var focus = GetFocusById(updatedProject.FocusId);            
+            this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
+
+            var focus = GetFocusById(updatedProject.FocusId);
+            this.logger.Trace("Check focus with id {0}.", String.Join(", ", updatedProject.FocusId));
+
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
@@ -154,8 +157,7 @@ namespace ECA.Business.Service.Admin
                 themesExist: themesExist,
                 pointsOfContactExist: contactsExist));
             DoUpdate(updatedProject, projectToUpdate, focus);
-            stopwatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
+            
         }
 
         /// <summary>
@@ -169,11 +171,19 @@ namespace ECA.Business.Service.Admin
             {
                 throw new ModelNotFoundException(String.Format("The project with id [{0}] was not found.", updatedProject.ProjectId));
             }
-            var stopwatch = Stopwatch.StartNew();
+            this.logger.Trace("Retrieved project by id {0}.", updatedProject.ProjectId);
+
             var themesExist = await CheckAllThemesExistAsync(updatedProject.ThemeIds);
+            this.logger.Trace("Check all themes with ids {0} existed.", String.Join(", ", updatedProject.ThemeIds));
+
             var goalsExist = await CheckAllGoalsExistAsync(updatedProject.GoalIds);
+            this.logger.Trace("Check all goals with ids {0} existed.", String.Join(", ", updatedProject.GoalIds));
+
             var contactsExist = await CheckAllContactsExistAsync(updatedProject.PointsOfContactIds);
+            this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
+
             var focus = await GetFocusByIdAsync(updatedProject.FocusId);
+            this.logger.Trace("Check focus with id {0}.", String.Join(", ", updatedProject.FocusId));
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
@@ -183,8 +193,6 @@ namespace ECA.Business.Service.Admin
                 pointsOfContactExist: contactsExist));
 
             DoUpdate(updatedProject, projectToUpdate, focus);
-            stopwatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
         }
 
         private void DoUpdate(PublishedProject updatedProject, Project projectToUpdate, Focus focus)
@@ -265,7 +273,9 @@ namespace ECA.Business.Service.Admin
         /// <returns>The paged, filtered, and sorted projects.</returns>
         public PagedQueryResults<SimpleProjectDTO> GetProjectsByProgramId(int programId, QueryableOperator<SimpleProjectDTO> queryOperator)
         {
-            return ProjectQueries.CreateGetProjectsByProgramQuery(this.Context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            var projects = ProjectQueries.CreateGetProjectsByProgramQuery(this.Context, programId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved projects by program id {0} and query operator {1}.", programId, queryOperator);
+            return projects;
         }
 
         /// <summary>
@@ -276,7 +286,9 @@ namespace ECA.Business.Service.Admin
         /// <returns>The paged, filtered, and sorted projects.</returns>
         public Task<PagedQueryResults<SimpleProjectDTO>> GetProjectsByProgramIdAsync(int programId, QueryableOperator<SimpleProjectDTO> queryOperator)
         {
-            return ProjectQueries.CreateGetProjectsByProgramQuery(this.Context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            var projects = ProjectQueries.CreateGetProjectsByProgramQuery(this.Context, programId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved projects by program id {0} and query operator {1}.", programId, queryOperator);
+            return projects;
         }
 
         /// <summary>
@@ -286,7 +298,9 @@ namespace ECA.Business.Service.Admin
         /// <returns>Project</returns>
         public Task<ProjectDTO> GetProjectByIdAsync(int projectId)
         {
-            return ProjectQueries.CreateGetProjectByIdQuery(this.Context, projectId).FirstOrDefaultAsync();
+            var project = ProjectQueries.CreateGetProjectByIdQuery(this.Context, projectId).FirstOrDefaultAsync();
+            this.logger.Trace("Retrieved project by id {0}.", projectId);
+            return project;
         }
 
         /// <summary>
@@ -296,9 +310,10 @@ namespace ECA.Business.Service.Admin
         /// <returns>Project</returns>
         public ProjectDTO GetProjectById(int projectId)
         {
-            return ProjectQueries.CreateGetProjectByIdQuery(this.Context, projectId).FirstOrDefault();
+            var project = ProjectQueries.CreateGetProjectByIdQuery(this.Context, projectId).FirstOrDefault();
+            this.logger.Trace("Retrieved project by id {0}.", projectId);
+            return project;
         }
-
         #endregion
     }
 }

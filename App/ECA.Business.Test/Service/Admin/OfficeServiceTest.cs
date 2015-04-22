@@ -4,7 +4,6 @@ using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
-using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Data;
 using Microsoft.QualityTools.Testing.Fakes;
@@ -30,7 +29,7 @@ namespace ECA.Business.Test.Service.Admin
         {
 
             context = new TestEcaContext();
-            service = new OfficeService(context, new TraceLogger());
+            service = new OfficeService(context);
         }
 
         #region Get
