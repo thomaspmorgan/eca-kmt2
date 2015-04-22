@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Target Name="SetupCustomAcls" AfterTargets="AddIisSettingAndFileContentsToSourceManifest">
+  <!--<Target Name="SetupCustomAcls" AfterTargets="AddIisSettingAndFileContentsToSourceManifest">
     <ItemGroup>
       <MsDeploySourceManifest Include="setAcl">
         <Path>$(_MSDeployDirPath_FullPath)\log</Path>
@@ -42,5 +42,5 @@
         <ExcludeFromSetParameter>True</ExcludeFromSetParameter>
       </MsDeployDeclareParameters>
     </ItemGroup>
-  </Target>
+  </Target>-->
 </Project>
