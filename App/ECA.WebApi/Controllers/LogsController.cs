@@ -30,8 +30,16 @@ namespace ECA.WebApi.Controllers
         public HttpResponseMessage GetAllLogs()
         {
             var logFiles = new List<String>();
-            logFiles.Add(GetCurrentLogFile());
-            logFiles.AddRange(GetArchiveLogFiles());
+            var currentLog = GetCurrentLogFile();
+            var archiveLogs = GetArchiveLogFiles();
+            if (currentLog != null)
+            {
+                logFiles.Add(currentLog);
+            }
+            if (archiveLogs != null)
+            {
+                logFiles.AddRange(archiveLogs);
+            }            
             using (var memoryStream = new MemoryStream())
             {
                 using (ZipArchive archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
@@ -64,8 +72,7 @@ namespace ECA.WebApi.Controllers
         {
             string logContent = String.Empty;
             var currentLogFile = GetCurrentLogFile();
-            var fileInfo = new FileInfo(currentLogFile);
-            if(fileInfo.Exists)
+            if (currentLogFile != null)
             {
                 logContent = File.ReadAllText(currentLogFile);
             }
@@ -77,16 +84,36 @@ namespace ECA.WebApi.Controllers
         private string GetCurrentLogFile()
         {
             var currentLogFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/log");
-            var currentLogFiles = Directory.GetFiles(currentLogFolder, CURRENT_LOG_FILE_NAME_PATTERN);
-            Contract.Assert(currentLogFiles.Length == 1, "There should be just one log file in the log directory.");
-            return currentLogFiles.First();
+            var directoryInfo = new DirectoryInfo(currentLogFolder);
+            if (directoryInfo.Exists)
+            {
+                var currentLogFiles = Directory.GetFiles(currentLogFolder, CURRENT_LOG_FILE_NAME_PATTERN);
+                if (currentLogFiles.Length == 0)
+                {
+                    return null;
+                }
+                Contract.Assert(currentLogFiles.Length == 1, "There should be just one log file in the log directory.");                
+                return currentLogFiles.First();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private List<string> GetArchiveLogFiles()
         {
             var archiveLogFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/log/archive");
-            var archiveLogFiles = Directory.GetFiles(archiveLogFolder, CURRENT_LOG_FILE_NAME_PATTERN);
-            return archiveLogFiles.ToList();
+            var info = new DirectoryInfo(archiveLogFolder);
+            if (info.Exists)
+            {
+                var archiveLogFiles = Directory.GetFiles(archiveLogFolder, CURRENT_LOG_FILE_NAME_PATTERN);
+                return archiveLogFiles.ToList();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
