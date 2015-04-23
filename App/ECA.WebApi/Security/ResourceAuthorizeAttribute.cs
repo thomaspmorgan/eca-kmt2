@@ -55,7 +55,6 @@ namespace ECA.WebApi.Security
             Contract.Requires(PermissionLookupFactory != null, "The permission store factory must not be null.");
             this.Permission = permission;
             this.permissionStore = PermissionLookupFactory();
-            //this.permissionStore = (IPermissionStore<IPermission>)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IPermissionStore<IPermission>));
         }
 
         /// <summary>

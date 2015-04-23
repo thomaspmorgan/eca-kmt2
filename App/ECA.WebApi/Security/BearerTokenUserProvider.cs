@@ -168,22 +168,21 @@ namespace ECA.WebApi.Security
             {
                 logger.Info("Caching user [{0}] information.", user);
                 var camUser = await userService.GetUserByIdAsync(user.Id);
-                if (camUser == null)
-                {
-                    logger.Info("The user [{0}] does not exist in CAM.", user);
-                    userService.Create(user.ToAzureUser());
-                    await userService.SaveChangesAsync();
-                    logger.Info("Created new CAM user.");
-                    camUser = await userService.GetUserByIdAsync(user.Id);
-                    logger.Info("Azure user [{0}] is now associated to CAM principal with id [{1}].", user, camUser.PrincipalId);
-                }
-                var isValidUser = await userService.IsUserValidAsync(user.Id);
+                var isValidUser = false;
                 IEnumerable<IPermission> permissions = new List<IPermission>();
-                if (isValidUser)
+                if (camUser != null)
                 {
-                    permissions = await GetUserPermissionsAsync(camUser.PrincipalId);
+                    isValidUser = await userService.IsUserValidAsync(user.Id);                    
+                    if (isValidUser)
+                    {
+                        permissions = await GetUserPermissionsAsync(camUser.PrincipalId);
+                    }
                 }
-                cacheService.Add(new UserCache(user, camUser, isValidUser, permissions));
+                else
+                {
+                    camUser = new User();
+                }
+                cacheService.Add(new UserCache(user, camUser, isValidUser, permissions));                
             }
             return cacheService.GetUserCache(user);
         }
@@ -203,22 +202,21 @@ namespace ECA.WebApi.Security
             {
                 logger.Info("Caching user [{0}] information.", user);
                 var camUser = userService.GetUserById(user.Id);
-                if (camUser == null)
-                {
-                    logger.Info("The user [{0}] does not exist in CAM.", user);
-                    userService.Create(user.ToAzureUser());
-                    userService.SaveChanges();
-                    logger.Info("Created new CAM user.");
-                    camUser = userService.GetUserById(user.Id);
-                    logger.Info("Azure user [{0}] is now associated to CAM principal with id [{1}].", user, camUser.PrincipalId);
-                }
-                var isValidUser = userService.IsUserValid(user.Id);
+                var isValidUser = false;
                 IEnumerable<IPermission> permissions = new List<IPermission>();
-                if (isValidUser)
+                if (camUser != null)
                 {
-                    permissions = GetUserPermissions(camUser.PrincipalId);
+                    isValidUser = userService.IsUserValid(user.Id);
+                    if (isValidUser)
+                    {
+                        permissions = GetUserPermissions(camUser.PrincipalId);
+                    }
                 }
-                cacheService.Add(new UserCache(user, camUser, isValidUser, permissions));
+                else
+                {
+                    camUser = new User();
+                }
+                cacheService.Add(new UserCache(user, camUser, isValidUser, permissions)); 
             }
             return cacheService.GetUserCache(user);
         }

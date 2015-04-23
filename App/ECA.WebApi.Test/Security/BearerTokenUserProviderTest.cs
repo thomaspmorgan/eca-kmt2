@@ -172,85 +172,43 @@ namespace ECA.WebApi.Test.Security
         }
 
         [TestMethod]
-        public async Task TestGetUserCacheAsync_UserIsNotCached_UserDoesNotExistInCam()
+        public async Task TestGetUserCache_UserIsNotCached_UserDoesNotExistInCam()
         {
-            var camId = 1;
-            var camUser = new User
-            {
-                PrincipalId = camId,
-            };
+            var isUserValid = true;
             var user = new SimpleUser
             {
                 Id = Guid.NewGuid()
             };
-            var userAccountCreated = false;
-            UserAccount newUserAccount = new UserAccount();
+            UserCache cache = null;
+            Action<UserCache> userCacheSetter = (uc) =>
+                {
+                    cache = uc;
+                };
+            Func<UserCache> getUserCache = () => cache;
+            User nullUser = null;
             var permissions = new List<IPermission>();
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
-            permissionStore.SetupProperty(x => x.Permissions, permissions);
-            userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).Returns(() =>
-            {
-                if (!userAccountCreated)
-                {
-                    return Task.FromResult<User>(null);
-                }
-                else
-                {
-                    return Task.FromResult<User>(camUser);
-                }
-            });
-            userService.Setup(x => x.Create(It.IsAny<AzureUser>())).Returns(() =>
-            {
-                userAccountCreated = true;
-                return newUserAccount;
-            });
-            userService.Setup(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>())).ReturnsAsync(1);
-            var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);            
-            await provider.GetUserCacheAsync(user);
-            userService.Verify(x => x.Create(It.IsAny<AzureUser>()), Times.Once());
-            userService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
-            userService.Verify(x => x.GetUserByIdAsync(It.IsAny<Guid>()), Times.Exactly(2));
-        }
+            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(cache != null);
+            cacheService.Setup(x => x.Add(It.IsAny<UserCache>())).Callback(userCacheSetter);
+            cacheService.Setup(x => x.GetUserCache(It.IsAny<IWebApiUser>())).Returns(getUserCache);
 
-        [TestMethod]
-        public void TestGetUserCache_UserIsNotCached_UserDoesNotExistInCam()
-        {
-            var camId = 1;
-            var camUser = new User
-            {
-                PrincipalId = camId,
-            };
-            var user = new SimpleUser
-            {
-                Id = Guid.NewGuid()
-            };
-            var userAccountCreated = false;
-            UserAccount newUserAccount = new UserAccount();
-            var permissions = new List<IPermission>();
-            cacheService.Setup(x => x.IsUserCached(It.IsAny<IWebApiUser>())).Returns(false);
             permissionStore.SetupProperty(x => x.Permissions, permissions);
-            userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(() =>
+
+            userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(nullUser);
+            userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(nullUser);
+            userService.Setup(x => x.IsUserValid(It.IsAny<Guid>())).Returns(isUserValid);
+            userService.Setup(x => x.IsUserValidAsync(It.IsAny<Guid>())).ReturnsAsync(isUserValid);
+
+            Action<UserCache> tester = (testCache) =>
             {
-                if (!userAccountCreated)
-                {
-                    return null;
-                }
-                else
-                {
-                    return camUser;
-                }
-            });
-            userService.Setup(x => x.Create(It.IsAny<AzureUser>())).Returns(() =>
-            {
-                userAccountCreated = true;
-                return newUserAccount;
-            });
-            userService.Setup(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>())).ReturnsAsync(1);
+                Assert.AreEqual(0, testCache.Permissions.Count());
+
+            };
             var provider = new BearerTokenUserProvider(userService.Object, cacheService.Object, permissionStore.Object);
-            provider.GetUserCache(user);
-            userService.Verify(x => x.Create(It.IsAny<AzureUser>()), Times.Once());
-            userService.Verify(x => x.SaveChanges(It.IsAny<IList<ISaveAction>>()), Times.Once());
-            userService.Verify(x => x.GetUserById(It.IsAny<Guid>()), Times.Exactly(2));
+            var z = provider.GetUserCache(user);
+            tester(provider.GetUserCache(user));
+            tester(await provider.GetUserCacheAsync(user));
+
+            permissionStore.Verify(x => x.LoadUserPermissions(It.IsAny<int>()), Times.Exactly(0));
         }
 
         [TestMethod]

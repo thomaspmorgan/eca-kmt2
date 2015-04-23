@@ -21,6 +21,7 @@ namespace ECA.WebApi.Test.Controllers
     {
         private Mock<IPermissionStore<IPermission>> permissionStore;
         private Mock<IUserProvider> userProvider;
+        private Mock<IUserService> userService;
         private AuthController controller;
 
         [TestInitialize]
@@ -28,7 +29,8 @@ namespace ECA.WebApi.Test.Controllers
         {
             permissionStore = new Mock<IPermissionStore<IPermission>>();
             userProvider = new Mock<IUserProvider>();
-            controller = new AuthController(userProvider.Object, permissionStore.Object);
+            userService = new Mock<IUserService>();
+            controller = new AuthController(userProvider.Object, permissionStore.Object, userService.Object);
         }
 
         [TestMethod]
@@ -67,24 +69,49 @@ namespace ECA.WebApi.Test.Controllers
         }
 
         [TestMethod]
-        public async Task TestGetUserAsync()
+        public async Task TestGetUserAsync_IsRegistered()
         {
-            var principalId = 1;
+            var camUser = new User
+            {
+                DisplayName = "display Name"
+
+            };
             var simpleUser = new SimpleUser
             {
                 Id = Guid.NewGuid(),
                 Username = "user"
             };
-            userProvider.Setup(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(principalId);
+            userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(camUser);
             userProvider.Setup(x => x.GetCurrentUser()).Returns(simpleUser);
 
             var results = await controller.GetUserAsync();
             Assert.IsInstanceOfType(results, typeof(OkNegotiatedContentResult<UserViewModel>));
             var okResult = (OkNegotiatedContentResult<UserViewModel>)results;
-            Assert.AreEqual(principalId, okResult.Content.PrincipalId);
+            Assert.IsTrue(okResult.Content.IsRegistered);
             Assert.AreEqual(simpleUser.Id, okResult.Content.UserId);
             Assert.AreEqual(simpleUser.Username, okResult.Content.UserName);
-            
+            Assert.AreEqual(camUser.DisplayName, okResult.Content.DisplayName);
+        }
+
+        [TestMethod]
+        public async Task TestGetUserAsync_IsNotRegistered()
+        {
+            var simpleUser = new SimpleUser
+            {
+                Id = Guid.NewGuid(),
+                Username = "user",
+            };
+            userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null);
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(simpleUser);
+
+            var results = await controller.GetUserAsync();
+            Assert.IsInstanceOfType(results, typeof(OkNegotiatedContentResult<UserViewModel>));
+            var okResult = (OkNegotiatedContentResult<UserViewModel>)results;
+            Assert.IsFalse(okResult.Content.IsRegistered);
+            Assert.AreEqual(simpleUser.Id, okResult.Content.UserId);
+            Assert.AreEqual(simpleUser.Username, okResult.Content.UserName);
+            Assert.IsNull(okResult.Content.DisplayName);
+
         }
 
         [TestMethod]
