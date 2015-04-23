@@ -18,8 +18,6 @@ namespace ECA.WebApi.Security
     /// </summary>
     public class BearerTokenUserProvider : IUserProvider
     {
-        private static readonly string COMPONENT_NAME = typeof(BearerTokenUserProvider).FullName;
-
 
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private IUserCacheService cacheService;

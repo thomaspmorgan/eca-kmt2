@@ -45,7 +45,7 @@ namespace ECA.WebApi
             var connectionString = "EcaContext";
             container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
-            //container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor("CamModel"));
+            container.RegisterType<CamModel>(new InjectionConstructor("CamModel"));
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace ECA.WebApi
 
         public static void RegisterSecurityConcerns(IUnityContainer container)
         {
-            container.RegisterType<CamModel>(new InjectionConstructor("CamModel"));
-            container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());            
+            
+            container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPermissionStore<IPermission>, PermissionStoreCached>(new HierarchicalLifetimeManager(), new InjectionConstructor());
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<ObjectCache>(new InjectionFactory((c) =>

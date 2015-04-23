@@ -22,7 +22,6 @@ namespace ECA.WebApi.Security
         /// </summary>
         public const int DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS = 10 * 60;
 
-        private static readonly string COMPONENT_NAME = typeof(UserCacheService).FullName;
         private ObjectCache cache;
         private readonly int timeToLiveInSeconds;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();

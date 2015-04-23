@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Core.Service;
 using System.Threading.Tasks;
@@ -194,6 +195,21 @@ namespace ECA.Core.Test.Service
             Assert.IsNull(contextValue);
             Assert.IsTrue(testContext.IsDisposed);
 
+        }
+
+        [TestMethod]
+        public void TestDispose_DisposingAgainShouldNotThrow()
+        {
+            var testContext = new SampleDbContext();
+            var testService = new SampleService(testContext);
+
+            var contextField = typeof(SampleService).GetProperty("Context", BindingFlags.Instance | BindingFlags.NonPublic);
+            var contextValue = contextField.GetValue(testService);
+            Assert.IsNotNull(contextField);
+            Assert.IsNotNull(contextValue);
+
+            testService.Dispose();
+            testService.Invoking(x => x.Dispose()).ShouldNotThrow();
         }
         #endregion
     }

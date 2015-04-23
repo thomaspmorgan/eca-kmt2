@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.WebApi.Models.Programs;
 using System.Collections.Generic;
+using ECA.Business.Service;
 
 namespace ECA.WebApi.Test.Models.Programs
 {
@@ -24,9 +25,9 @@ namespace ECA.WebApi.Test.Models.Programs
             model.Themes = new List<int> { 3 };
             model.Regions = new List<int> { 4 };
             model.Website = "website";
-            var userId = 1;
+            var user = new User(1);
 
-            var draftProgram = model.ToDraftProgram(userId);
+            var draftProgram = model.ToDraftProgram(user);
             Assert.AreEqual(model.Description, draftProgram.Description);
             Assert.AreEqual(model.EndDate, draftProgram.EndDate);
             Assert.AreEqual(model.FocusId, draftProgram.FocusId);
@@ -40,7 +41,7 @@ namespace ECA.WebApi.Test.Models.Programs
             CollectionAssert.AreEqual(model.Contacts, draftProgram.ContactIds);
             CollectionAssert.AreEqual(model.Themes, draftProgram.ThemeIds);
             CollectionAssert.AreEqual(model.Regions, draftProgram.RegionIds);
-            Assert.AreEqual(userId, draftProgram.Audit.User.Id);
+            Assert.AreEqual(user.Id, draftProgram.Audit.User.Id);
 
         }
     }

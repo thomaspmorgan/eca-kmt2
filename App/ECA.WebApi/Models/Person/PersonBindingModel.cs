@@ -60,9 +60,9 @@ namespace ECA.WebApi.Models.Person
         /// </summary>
         /// <param name="userId">The user that created the entity</param>
         /// <returns>New person business object</returns>
-        public NewPerson ToNewPerson(int userId)
+        public NewPerson ToNewPerson(User user)
         {
-            return new NewPerson(new User(userId), this.ProjectId, this.FirstName, this.LastName, this.Gender, this.DateOfBirth,
+            return new NewPerson(user, this.ProjectId, this.FirstName, this.LastName, this.Gender, this.DateOfBirth,
                                  this.CityOfBirth, this.CountriesOfCitizenship);
         }
     }

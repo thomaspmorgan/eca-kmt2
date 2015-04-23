@@ -30,8 +30,6 @@ namespace ECA.WebApi.Security
         /// </summary>
         public const string DEFAULT_ID_ARGUMENT_NAME = "id";
 
-        private static readonly string COMPONENT_NAME = typeof(ResourceAuthorizeAttribute).FullName;
-
         /// <summary>
         /// A Function to return to the WebApiUserBase.
         /// </summary>
