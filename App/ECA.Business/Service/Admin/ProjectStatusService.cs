@@ -2,10 +2,10 @@
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
-using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,20 +21,16 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class ProjectStatusService : LookupService<ProjectStatusDTO>, IProjectStatusService
     {
-        private static readonly string COMPONENT_NAME = typeof(ProjectService).FullName;
-        private readonly ILogger logger;
 
         /// <summary>
         /// Creates a new ProjectStatusService with the context and logger.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         /// <param name="logger">The logger.</param>
-        public ProjectStatusService(EcaContext context, ILogger logger)
-            : base(context, logger)
+        public ProjectStatusService(EcaContext context)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
-            this.logger = logger;
         }
 
         #region Get

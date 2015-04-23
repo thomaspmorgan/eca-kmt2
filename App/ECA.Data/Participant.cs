@@ -11,6 +11,7 @@ namespace ECA.Data
 {
     public class Participant
     {
+
         /// <summary>
         /// Gets the max length of the SEVIS Id.
         /// </summary>

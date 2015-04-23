@@ -14,6 +14,14 @@ angular.module('staticApp')
       $scope.errorMessage = 'Unknown Error';
       $scope.validations = [];
 
+      $scope.totalNumberOfPrograms = 0;
+      $scope.skippedNumberOfPrograms = 0;
+      $scope.numberOfPrograms = 0;
+      $scope.programFilter = '';
+
+
+      $scope.totalRecords = 0;
+
       $scope.today = function () {
           $scope.startDate = new Date();
       };
@@ -21,10 +29,17 @@ angular.module('staticApp')
 
       $scope.calOpened = false;
 
+      $scope.modalForm = {};
+
       $scope.currentForm = null;
+
+      $scope.editProgramLoading = false;
+      $scope.currentpage = $stateParams.page || 1;
 
       $scope.editExisting = false;
       $scope.dropDownDirty = false;
+
+      $scope.initialTableState = null;
 
       $scope.alerts = [];
 
@@ -33,6 +48,8 @@ angular.module('staticApp')
       $scope.regions = [];
       $scope.pointsOfContact = [];
       $scope.foci = [];
+
+      $scope.programList = { type: 'hierarchy' };
 
       // initialize new Program record
       $scope.newProgram = {
@@ -79,7 +96,6 @@ angular.module('staticApp')
         sort: null,
         filter: [{ property: 'locationtypeid', comparison: 'eq', value: 2 }]
     };
-
 
 
      // #region Lookup Services
@@ -136,6 +152,9 @@ angular.module('staticApp')
       //#region fill dropdown when editing
 
     $scope.tickSelectedItems = function () {
+
+        // use javascript native foreach? 
+
         angular.forEach($scope.regions, function (value, key) {
             $scope.regions[key].ticked = ($.inArray(value.id, $scope.newProgram.regions) > -1);
         });
@@ -166,25 +185,74 @@ angular.module('staticApp')
             });
     }
 
+    $scope.changeProgramList = function () {
+
+        var tableState = $scope.initialTableState;
+        $scope.getPrograms(tableState);
+    };
+
     $scope.getPrograms = function (tableState) {
 
-        $scope.programsLoading = true;
-        TableService.setTableState(tableState);
 
-        $scope.activeProgramParams = {
-            start: null,
-            limit: 25,
-            sort: null,
-            filter: [{ property: 'programstatusid', comparison: 'eq', value: 1 }]
+        $scope.initialTableState = tableState;
+
+        TableService.setTableState(tableState);
+        var params = {
+            start: TableService.getStart(),
+            limit: TableService.getLimit(),
+            sort: TableService.getSort(),
+            filter: TableService.getFilter(),
+            keyword: TableService.getKeywords()
         };
 
-        ProgramService.getAllPrograms($scope.activeProgramParams)
+        $scope.programFilter = params.keyword;
+
+        if ($scope.programList.type == "alpha") {
+            $scope.refreshProgramsAlpha(params, tableState);
+        }
+        else {
+            $scope.refreshProgramsHierarchy(params, tableState);
+        };
+    };
+
+    $scope.refreshProgramsAlpha = function (params, tableState) {
+        $scope.programsLoading = true;
+
+        ProgramService.getAllProgramsAlpha(params)
         .then(function (data) {
-            $scope.programs = data.results;
-            var limit = TableService.getLimit();
-            tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
-            $scope.programsLoading = false;
+            processData(data, tableState, params);
         });
+    };
+
+    $scope.refreshProgramsHierarchy = function (params, tableState) {
+        $scope.programsLoading = true;
+
+        ProgramService.getAllProgramsHierarchy(params)
+        .then(function (data) {
+            processData(data, tableState, params);
+        });
+    };
+
+    function processData(data, tableState, params) {
+        var programs = data.results;
+        var total = data.total;
+        var start = 0;
+        if (programs.length > 0) {
+            start = params.start + 1;
+        };
+        updatePagingDetails(total, start, programs.length);
+
+        var limit = TableService.getLimit();
+        tableState.pagination.numberOfPages = Math.ceil(total / limit);
+
+        $scope.programs = programs;
+        $scope.programsLoading = false;
+    };
+
+    function updatePagingDetails(total, start, count) {
+        $scope.totalNumberOfPrograms = total;
+        $scope.skippedNumberOfPrograms = start;
+        $scope.numberOfPrograms = count;
     };
 
     $scope.getParentProgramName = function (programId) {
@@ -194,13 +262,14 @@ angular.module('staticApp')
             });
     };
 
-    $scope.createModalCancel = function (scope) {
-        $scope.currentForm = scope.programForm;
+    $scope.createModalCancel = function () {
+
+        $scope.currentForm = $scope.modalForm.programForm;
         $scope.checkFormStatus();
     };
 
-    $scope.editModalCancel = function (scope) {
-        $scope.currentForm = scope.editProgramForm;
+    $scope.editModalCancel = function () {
+        $scope.currentForm = $scope.modalForm.editProgramForm;
         $scope.checkFormStatus();
     };
 
@@ -228,9 +297,16 @@ angular.module('staticApp')
 
     $scope.editProgram = function (programId) {
 
+        var curDate = new Date();
+        // to fix date-disabled error preventing form validation when 
+        // a start date is from an existing program
+        $scope.minDate = curDate.setFullYear(curDate.getFullYear() - 5);
+
         $scope.programId = programId;
 
-        $('#loadingLabel' + programId).css("display", "inline-block");
+        $('#loadingEditLabel' + programId).css("display", "inline-block");
+
+        $scope.editProgramLoading = true;
 
         $scope.editExisting = true;
         $scope.dropDownDirty = false;
@@ -249,9 +325,11 @@ angular.module('staticApp')
                 
                 $scope.tickSelectedItems();
 
+                $scope.editProgramLoading = false;
+
                 $scope.showEditProgram = true;
 
-                $('#loadingLabel' + programId).css("display", "none");
+                $('#loadingEditLabel' + programId).css("display", "none");
             });
     };
 
@@ -263,14 +341,13 @@ angular.module('staticApp')
         return element.id;
     };
 
-    $scope.saveEditedProgram = function (scope, programId) {
+    $scope.saveEditedProgram = function () {
 
-        $scope.currentForm = scope.editProgramForm;
+        var editProgramForm = $scope.modalForm.editProgramForm;
 
-        // re-do form validation here
-        programForm.$valid = true;
+        var programId = $scope.programId;
 
-        if ($scope.currentForm.$valid) {
+        if (editProgramForm.$valid) {
             cleanUpNewProgram();
             ProgramService.update($scope.newProgram, $scope.programId)
                 .then(function (program) {
@@ -302,9 +379,15 @@ angular.module('staticApp')
                     }
                 });
         }
+        else
+        {
+            alert('Please complete all required fields');
+        }
     };
  
-    $scope.createdProgram = function (programForm) {
+    $scope.saveCreatedProgram = function () {
+
+        var programForm = $scope.modalForm.programForm;
 
         if (programForm.$valid) {
             cleanUpNewProgram();

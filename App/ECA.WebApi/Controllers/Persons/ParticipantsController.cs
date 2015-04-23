@@ -7,6 +7,7 @@ using ECA.WebApi.Models.Query;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -20,6 +21,7 @@ namespace ECA.WebApi.Controllers.Persons
     /// The Participants controller handles crud operations on ECA participants.
     /// </summary>
     [RoutePrefix("api")]
+    //[Authorize]
     public class ParticipantsController : ApiController
     {
         /// <summary>
@@ -35,7 +37,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="service">The service.</param>
         public ParticipantsController(IParticipantService service)
         {
-            Debug.Assert(service != null, "The participant service must not be null.");
+            Contract.Requires(service != null, "The participant service must not be null.");
             this.service = service;
         }
 

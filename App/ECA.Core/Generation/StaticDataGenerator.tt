@@ -11,12 +11,12 @@
 
 
 <#+
-	public void WriteTypes(List<ECA.Core.Generation.StaticLookupConfig> types, string connectionString)
+	public void WriteTypes(List<ECA.Core.Generation.StaticLookupConfig> types, string connectionString, bool writeAsConstants = false)
 	{
 		var orderedTypes = types.OrderBy(x => x.ClassName).ToList();
 		foreach(var t in orderedTypes)
 		{
-			WriteType(t, connectionString);
+			WriteType(t, connectionString, writeAsConstants);
 			WriteLine(String.Empty);
 		}
 		WriteValidatorClass(orderedTypes);
@@ -29,7 +29,7 @@
 	}
 
 
-	public void WriteType(StaticLookupConfig config, string connectionString)
+	public void WriteType(StaticLookupConfig config, string connectionString, bool writeAsConstants)
 	{
 		WriteLine(String.Format("#region {0}", config.ClassName));
 		WriteLine(GetNamespace(config.Namespace));
@@ -42,10 +42,12 @@
 		PushIndent("\t");
 		
 		WriteStaticProperties(config, connectionString);
-
-		WriteLine(String.Empty);
 		WriteGetStaticPropertyByIdMethod(config, connectionString);
-
+		if(writeAsConstants)
+		{
+			WriteLine(String.Empty);
+			WriteStaticConstants(config, connectionString);
+		}
 		WriteLine(String.Empty);
 		WriteGetConfigMethod(config);
 
@@ -95,6 +97,40 @@
 					WriteLine(String.Format("/// Returns the {0} lookup with id {1}.", value, id));
 					WriteLine("/// </summary>");
 					WriteLine(GetStaticPropertyDeclaration(propertyName, value, id));
+					
+				}
+			}
+		}
+	}
+
+	public void WriteStaticConstants(StaticLookupConfig config, string connectionString)
+	{
+		using(var connection = new SqlConnection(connectionString))
+		{
+			var command = new SqlCommand(String.Format("SELECT * FROM {0}", config.TableName));
+			command.Connection = connection;
+			connection.Open();
+			var reader = command.ExecuteReader();
+			if(reader.HasRows)
+			{
+				while(reader.Read())
+				{
+					var propertyName = Pascalize(reader[config.ValueColumnName]);
+					var value = reader[config.ValueColumnName].ToString();
+					var id = Int32.Parse(reader[config.IdColumnName].ToString());
+
+					WriteLine(String.Empty);
+					WriteLine("/// <summary>");
+					WriteLine(String.Format("/// Returns the {0} string value.", value));
+					WriteLine("/// </summary>");
+					WriteLine(GetStaticValueDeclaration(value));
+
+					WriteLine(String.Empty);
+					WriteLine("/// <summary>");
+					WriteLine(String.Format("/// Returns the {0} integer id value.", id));
+					WriteLine("/// </summary>");
+					WriteLine(GetStaticIdDeclaration(value, id));
+					
 				}
 			}
 		}
@@ -161,6 +197,41 @@
 	public string GetGetStaticPropertyByIdMethodDeclaration()
 	{
 		return String.Format("public static StaticLookup GetStaticLookup(int id)");
+	}
+
+	public string GetStaticNamePrefix(string value)
+	{
+			WriteLine("///" + value);
+			//WriteLine("///" + Pascalize(value));
+			var publicConstValueName = "";
+			foreach (char letter in value)
+			{
+				if (Char.IsUpper(letter) && publicConstValueName.Length > 0)
+					publicConstValueName += "_" + letter;
+				else
+					publicConstValueName += letter;
+			}
+			publicConstValueName = publicConstValueName.ToUpper();
+			publicConstValueName = publicConstValueName.Replace(" ", "_");
+			publicConstValueName = publicConstValueName.Replace(".", "");
+			publicConstValueName = publicConstValueName.Replace("(", "");
+			publicConstValueName = publicConstValueName.Replace(")", "");
+			publicConstValueName = publicConstValueName.Replace("-", "");
+			publicConstValueName = publicConstValueName.Replace("/", "");
+			publicConstValueName = publicConstValueName.Replace("\\", "");
+			return publicConstValueName;
+	}
+
+	public string GetStaticIdDeclaration(string value, int id)
+	{
+		var name = GetStaticNamePrefix(value);
+		return String.Format("public const int {0}_ID = {1};", name, id);
+	}
+
+	public string GetStaticValueDeclaration(string value)
+	{
+		var name = GetStaticNamePrefix(value);
+		return String.Format("public const string {0}_VALUE = \"{1}\";", name, value);
 	}
 
 	public string GetStaticPropertyDeclaration(string propertyName, string friendlyName, int id)

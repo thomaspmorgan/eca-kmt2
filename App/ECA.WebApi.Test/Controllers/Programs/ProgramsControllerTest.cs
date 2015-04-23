@@ -9,6 +9,7 @@ using ECA.Data;
 using ECA.WebApi.Controllers.Programs;
 using ECA.WebApi.Models.Programs;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -21,21 +22,22 @@ namespace ECA.WebApi.Test.Controllers.Programs
     [TestClass]
     public class ProgramsControllerTest
     {
-        private Mock<IProgramService> serviceMock;
+        private Mock<IProgramService> service;
+        private Mock<IUserProvider> userProvider;
         private ProgramsController controller;
 
         [TestInitialize]
         public void TestInit()
         {
-            Mapper.Reset();
-            serviceMock = new Mock<IProgramService>();
-            serviceMock.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<SimpleProgramDTO>>()))
+            userProvider = new Mock<IUserProvider>();
+            service = new Mock<IProgramService>();
+            service.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<SimpleProgramDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<SimpleProgramDTO>(1, new List<SimpleProgramDTO>()));
-            serviceMock.Setup(x => x.CreateAsync(It.IsAny<DraftProgram>())).ReturnsAsync(new Program { RowVersion = new byte[0] });
-            serviceMock.Setup(x => x.UpdateAsync(It.IsAny<EcaProgram>())).Returns(Task.FromResult<object>(null));
-            serviceMock.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
-            serviceMock.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>())).ReturnsAsync(new ProgramDTO { Id = 1, RowVersion = new byte[0] });
-            controller = new ProgramsController(serviceMock.Object);
+            service.Setup(x => x.CreateAsync(It.IsAny<DraftProgram>())).ReturnsAsync(new Program { RowVersion = new byte[0] });
+            service.Setup(x => x.UpdateAsync(It.IsAny<EcaProgram>())).Returns(Task.FromResult<object>(null));
+            service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            service.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>())).ReturnsAsync(new ProgramDTO { Id = 1, RowVersion = new byte[0] });
+            controller = new ProgramsController(service.Object, userProvider.Object);
             ControllerHelper.InitializeController(controller);
         }
 
@@ -58,7 +60,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestGetProgramByIdAsync()
         {
-            serviceMock.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>()))
+            service.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync(new ProgramDTO { RowVersion = new byte[0] });
             var response = await controller.GetProgramByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProgramViewModel>));
@@ -67,7 +69,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestGetProgramByIdAsync_ProgramDoesNotExist()
         {
-            serviceMock.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>())).ReturnsAsync(null);
+            service.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>())).ReturnsAsync(null);
             var response = await controller.GetProgramByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }

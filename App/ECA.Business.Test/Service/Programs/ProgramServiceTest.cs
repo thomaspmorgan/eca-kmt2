@@ -8,7 +8,6 @@ using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Exceptions;
-using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Data;
 using FluentAssertions;
@@ -36,7 +35,7 @@ namespace ECA.Business.Test.Service.Programs
             mockValidator.Setup(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>())).Returns(new List<BusinessValidationResult>());
 
             context = new TestEcaContext();
-            service = new ProgramService(context, new TraceLogger(), mockValidator.Object);
+            service = new ProgramService(context, mockValidator.Object);
         }
 
         private void SetupMockValidatorToThrowException()

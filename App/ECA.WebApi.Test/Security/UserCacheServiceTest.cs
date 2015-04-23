@@ -1,5 +1,4 @@
-﻿using ECA.Core.Logging;
-using FluentAssertions;
+﻿using FluentAssertions;
 using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -9,39 +8,33 @@ using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.DynamicLinq.Filter;
+using CAM.Business.Service;
 
 namespace ECA.WebApi.Test.Security
 {
     public class SimpleUser : IWebApiUser
     {
-        public Guid Id { get; set; }
+        public string Username { get; set; }
+
+        public Guid Id
+        {
+            get;
+            set;
+        }
+
+        public string GetUsername()
+        {
+            return this.Username;
+        }
     }
-
-    //public class SimpleBusinessUserService : IBusinessUserService
-    //{
-    //    public SimpleBusinessUserService()
-    //    {
-    //        this.ResourcePermissions = new List<ResourcePermission>();
-    //    }
-
-    //    public List<ResourcePermission> ResourcePermissions { get; set; }
-
-    //    public Task<List<ResourcePermission>> GetResourcePermissionsAsync(Guid userId)
-    //    {
-    //        return Task.FromResult<List<ResourcePermission>>(this.ResourcePermissions);
-    //    }
-
-    //    List<ResourcePermission> IBusinessUserService.GetResourcePermissions(Guid userId)
-    //    {
-    //        return this.ResourcePermissions;
-    //    }
-    //}
 
     [TestClass]
     public class UserCacheServiceTest
     {
         private Mock<ObjectCache> cache;
-        private Mock<IBusinessUserService> userService;
         private IDictionary<string, object> cacheDictionary;
         private int expectedTimeToLive = 10;
 
@@ -50,7 +43,10 @@ namespace ECA.WebApi.Test.Security
         {
             cacheDictionary = new Dictionary<string, object>();
             cache = new Mock<ObjectCache>();
-            userService = new Mock<IBusinessUserService>();
+            Action<string, string> removeAction = (id, region) =>
+            {
+                cacheDictionary.Remove(id);
+            };
             Action<CacheItem, CacheItemPolicy> setAction = (c, p) =>
             {
                 cacheDictionary.Add(c.Key, c.Value);
@@ -72,96 +68,100 @@ namespace ECA.WebApi.Test.Security
             {
                 return cacheDictionary.Count;
             });
+            cache.Setup(x => x.Remove(It.IsAny<string>(), It.IsAny<string>())).Callback(removeAction);
         }
 
         [TestMethod]
-        public async Task TestGetUserCache_MustLoad()
+        public void TestGetUserCache_UserCacheDoesNotExist()
         {
-            userService.Setup(x => x.GetResourcePermissions(It.IsAny<Guid>())).Returns(new List<ResourcePermission>());
-            userService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>())).ReturnsAsync(new List<ResourcePermission>());
+            var camId = 1;
+            var isUserValid = true;
+            var camUser = new User
+            {
+                PrincipalId = camId,
+            };
             var user = new SimpleUser
             {
                 Id = Guid.NewGuid()
             };
 
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, userService.Object, cache.Object, expectedTimeToLive);
-
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
-            userService.Verify(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>()), Times.Never);
-            userService.Verify(x => x.GetResourcePermissions(It.IsAny<Guid>()), Times.Never);
-            
-            var userCacheAsync = await testService.GetUserCacheAsync(user);
-            Assert.AreEqual(1, testService.GetCount());
-            cacheDictionary.Clear();
-            var userCache = testService.GetUserCache(user);
-            Assert.AreEqual(1, testService.GetCount());
-            
-            userService.Verify(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>()), Times.Once);
-            userService.Verify(x => x.GetResourcePermissions(It.IsAny<Guid>()), Times.Once);
-            
+            testService.Invoking(x => x.GetUserCache(user)).ShouldThrow<NotSupportedException>()
+                .WithMessage("The user should have a cached object in the system cache.  Be sure use to the IsUserCached method and Add method for user cache logic.");
         }
 
         [TestMethod]
-        public async Task TestGetUserCache_UserCacheAlreadyExists()
+        public void TestGetUserCache()
         {
-            userService.Setup(x => x.GetResourcePermissions(It.IsAny<Guid>())).Returns(new List<ResourcePermission>());
-            userService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>())).ReturnsAsync(new List<ResourcePermission>());
+            var camId = 1;
+            var isUserValid = true;
+            var camUser = new User
+            {
+                PrincipalId = camId,
+            };
             var user = new SimpleUser
             {
                 Id = Guid.NewGuid()
             };
 
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, userService.Object, cache.Object, expectedTimeToLive);
-            cacheDictionary.Add(testService.GetKey(user), new UserCache(user, null));
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
+            cacheDictionary.Add(testService.GetKey(user), new UserCache(user, camUser, isUserValid, null));
 
             Assert.AreEqual(1, testService.GetCount());
-            userService.Verify(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>()), Times.Never);
-            userService.Verify(x => x.GetResourcePermissions(It.IsAny<Guid>()), Times.Never);
-
             Action<UserCache> tester = (c) =>
             {
                 Assert.IsNotNull(c);
-                Assert.AreEqual(user.Id, c.User.Id);                
+                Assert.AreEqual(user.Id, c.UserId);
             };
 
-            var userCacheAsync = await testService.GetUserCacheAsync(user);
             var userCache = testService.GetUserCache(user);
-            tester(userCacheAsync);
             tester(userCache);
 
             Assert.AreEqual(1, testService.GetCount());
-            userService.Verify(x => x.GetResourcePermissionsAsync(It.IsAny<Guid>()), Times.Never);
-            userService.Verify(x => x.GetResourcePermissions(It.IsAny<Guid>()), Times.Never);
         }
 
 
         [TestMethod]
-        public void TestGetCacheKey()
+        public void TestGetCacheKey_User()
         {
             var user = new SimpleUser
             {
                 Id = Guid.NewGuid()
             };
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, userService.Object, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(user.Id.ToString(), testService.GetKey(user));
+        }
+
+        [TestMethod]
+        public void TestGetCacheKey_UserId()
+        {
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
+            Assert.AreEqual(user.Id.ToString(), testService.GetKey(user.Id));
         }
 
         [TestMethod]
         public void TestAdd()
         {
+            var camId = 1;
+            var isUserValid = true;
+            var camUser = new User
+            {
+                PrincipalId = camId,
+            };
             var user = new SimpleUser
             {
                 Id = Guid.NewGuid()
             };
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, userService.Object, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             Assert.AreEqual(0, testService.GetCount());
             Assert.AreEqual(0, cacheDictionary.Count);
 
-            var userCache = new UserCache(user, new List<ResourcePermission>());
+            var userCache = new UserCache(user, camUser, isUserValid, new List<IPermission>());
             testService.Add(userCache);
             Assert.AreEqual(1, testService.GetCount());
             Assert.AreEqual(1, cacheDictionary.Count);
@@ -169,13 +169,172 @@ namespace ECA.WebApi.Test.Security
         }
 
         [TestMethod]
+        public void TestRemove()
+        {
+            var camId = 1;
+            var isUserValid = true;
+            var camUser = new User
+            {
+                PrincipalId = camId,
+            };
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+
+            var userCache = new UserCache(user, camUser, isUserValid, new List<IPermission>());
+            testService.Add(userCache);
+            Assert.AreEqual(1, testService.GetCount());
+            Assert.AreEqual(1, cacheDictionary.Count);
+
+            testService.Remove(user);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+        }
+
+        [TestMethod]
+        public void TestRemove_MultipleUsers()
+        {
+            var camId1 = 1;
+            var camId2 = 2;
+            var isCamUser1Valid = true;
+            var isCamUser2Valid = true;
+            var camUser1 = new User
+            {
+                PrincipalId = camId1,
+            };
+            var camUser2 = new User
+            {
+                PrincipalId = camId2,
+            };
+            var user1 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var user2 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+
+            var userCache1 = new UserCache(user1, camUser1, isCamUser1Valid, new List<IPermission>());
+            var userCache2 = new UserCache(user2, camUser2, isCamUser2Valid, new List<IPermission>());
+            testService.Add(userCache1);
+            testService.Add(userCache2);
+            Assert.AreEqual(2, testService.GetCount());
+            Assert.AreEqual(2, cacheDictionary.Count);
+
+            testService.Remove(user1);
+            Assert.AreEqual(1, testService.GetCount());
+            Assert.AreEqual(1, cacheDictionary.Count);
+            Assert.IsTrue(cacheDictionary.ContainsKey(testService.GetKey(user2)));
+            Assert.AreEqual(1, testService.GetCount());
+        }
+
+        [TestMethod]
+        public void TestRemove_NoUsers()
+        {
+
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+
+            testService.Remove(new SimpleUser { Id = Guid.NewGuid() });
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+        }
+
+        [TestMethod]
         public void TestGetCacheItemPolicy()
         {
-            var logger = new TraceLogger();
-            var testService = new UserCacheService(logger, userService.Object, cache.Object, expectedTimeToLive);
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
             var policy = testService.GetCacheItemPolicy();
             Assert.IsNotNull(policy);
             policy.AbsoluteExpiration.Should().BeCloseTo(DateTimeOffset.UtcNow.AddSeconds((double)expectedTimeToLive));
+        }
+
+        [TestMethod]
+        public void TestIsUserCached_NoUserCached()
+        {
+            var user = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+            Assert.IsFalse(testService.IsUserCached(user));
+        }
+
+        [TestMethod]
+        public void TestIsUserCached_MultipleUsersCached_RequestedUserNotCached()
+        {
+            var camId1 = 1;
+            var isCamUser1Valid = true;
+            var isCamUser2Valid = true;
+            var camUser1 = new User
+            {
+                PrincipalId = camId1,
+            };
+            var camId2 = 1;
+            var camUser2 = new User
+            {
+                PrincipalId = camId2,
+            };
+            var user1 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var user2 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var testUser = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+            testService.Add(new UserCache(user1, camUser1, isCamUser1Valid));
+            testService.Add(new UserCache(user2, camUser2, isCamUser2Valid));
+            Assert.IsFalse(testService.IsUserCached(testUser));
+        }
+
+        [TestMethod]
+        public void TestIsUserCached_MultipleUsersCached_UserIsCached()
+        {
+            var camId1 = 1;
+            var isCamUser1Valid = true;
+            var isCamUser2Valid = true;
+            var camUser1 = new User
+            {
+                PrincipalId = camId1,
+            };
+            var camId2 = 1;
+            var camUser2 = new User
+            {
+                PrincipalId = camId2,
+            };
+            var user1 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var user2 = new SimpleUser
+            {
+                Id = Guid.NewGuid()
+            };
+            var testService = new UserCacheService(cache.Object, expectedTimeToLive);
+            Assert.AreEqual(0, testService.GetCount());
+            Assert.AreEqual(0, cacheDictionary.Count);
+            testService.Add(new UserCache(user1, camUser1, isCamUser1Valid));
+            testService.Add(new UserCache(user2, camUser2, isCamUser2Valid));
+            Assert.IsTrue(testService.IsUserCached(user1));
         }
     }
 }

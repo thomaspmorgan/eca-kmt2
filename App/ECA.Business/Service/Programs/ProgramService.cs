@@ -2,20 +2,22 @@
 using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Programs;
 using ECA.Business.Queries.Programs;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Validation;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
-using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
+using NLog;
 
 namespace ECA.Business.Service.Programs
 {
@@ -24,9 +26,8 @@ namespace ECA.Business.Service.Programs
     /// </summary>
     public class ProgramService : EcaService, IProgramService
     {
-        private static readonly string COMPONENT_NAME = typeof(ProgramService).FullName;
-
-        private readonly ILogger logger;
+        private const string GET_PROGRAMS_SPROC_NAME = "GetPrograms";
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> validator;
 
         /// <summary>
@@ -35,14 +36,12 @@ namespace ECA.Business.Service.Programs
         /// <param name="context">The context to operate on.</param>
         /// <param name="logger">The logger.</param>
         /// <param name="programServiceValidator">The program service validator.</param>
-        public ProgramService(EcaContext context, ILogger logger, IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> programServiceValidator)
-            : base(context, logger)
+        public ProgramService(EcaContext context, IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> programServiceValidator)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
             Contract.Requires(programServiceValidator != null, "The program service validator must not be null.");
             this.validator = programServiceValidator;
-            this.logger = logger;
         }
 
         #region Get
@@ -54,10 +53,8 @@ namespace ECA.Business.Service.Programs
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
         public PagedQueryResults<SimpleProgramDTO> GetPrograms(QueryableOperator<SimpleProgramDTO> queryOperator)
         {
-            var stopwatch = Stopwatch.StartNew();
             var results = ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            this.logger.Trace("Retrieved programs by query operator [{0}].", queryOperator);
             return results;
         }
 
@@ -68,13 +65,33 @@ namespace ECA.Business.Service.Programs
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
         public async Task<PagedQueryResults<SimpleProgramDTO>> GetProgramsAsync(QueryableOperator<SimpleProgramDTO> queryOperator)
         {
-            var stopwatch = Stopwatch.StartNew();
             var results = await ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            this.logger.Trace("Retrieved programs by query operator [{0}].", queryOperator);
             return results;
         }
 
+        public PagedQueryResults<OrganizationProgramDTO> GetProgramsHierarchy(QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            var results = CreateGetProgramsHierarchySqlQuery().ToArray();
+            var pagedResults = GetPagedQueryResults(results, queryOperator);
+            this.logger.Trace("Retrieved program hierarchy by query operator [{0}].", queryOperator);
+            return pagedResults;
+        }
+
+        public async Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsHierarchyAsync(QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            var results = (await CreateGetProgramsHierarchySqlQuery().ToArrayAsync());
+            var pagedResults = GetPagedQueryResults(results, queryOperator);
+            this.logger.Trace("Retrieved program hierarchy by query operator [{0}].", queryOperator);
+            return pagedResults;
+        }
+
+        private PagedQueryResults<T> GetPagedQueryResults<T>(IEnumerable<T> enumerable, QueryableOperator<T> queryOperator) where T : class
+        {
+            var queryable = enumerable.AsQueryable<T>();
+            queryable = queryable.Apply(queryOperator);
+            return queryable.ToPagedQueryResults<T>(queryOperator.Start, queryOperator.Limit);
+        }
         /// <summary>
         /// Returns the program with the given id, or null if it does not exist.
         /// </summary>
@@ -82,10 +99,8 @@ namespace ECA.Business.Service.Programs
         /// <returns>The program, or null if it doesn't exist.</returns>
         public ProgramDTO GetProgramById(int programId)
         {
-            var stopwatch = Stopwatch.StartNew();
             var dto = ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefault();
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "programId", programId } });
+            this.logger.Trace("Retrieved program by id [{0}].", programId);
             return dto;
         }
 
@@ -96,10 +111,8 @@ namespace ECA.Business.Service.Programs
         /// <returns>The program, or null if it doesn't exist.</returns>
         public async Task<ProgramDTO> GetProgramByIdAsync(int programId)
         {
-            var stopwatch = Stopwatch.StartNew();
             var dto = await ProgramQueries.CreateGetPublishedProgramByIdQuery(this.Context, programId).FirstOrDefaultAsync();
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "programId", programId } });
+            this.logger.Trace("Retrieved program by id [{0}].", programId);
             return dto;
         }
 
@@ -114,15 +127,20 @@ namespace ECA.Business.Service.Programs
         /// <returns>The saved program.</returns>
         public Program Create(DraftProgram draftProgram)
         {
-            var stopwatch = Stopwatch.StartNew();
             var regionTypeIds = GetLocationTypeIds(draftProgram.RegionIds);
+            this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", draftProgram.RegionIds));
+
             var focus = GetFocusById(draftProgram.FocusId);
+            this.logger.Trace("Retrieved focus by id [{0}].", draftProgram.FocusId);
+
             var owner = GetOrganizationById(draftProgram.OwnerOrganizationId);
+            this.logger.Trace("Retrieved owner organization by id [{0}].", draftProgram.OwnerOrganizationId);
+
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null;
             var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, focus, owner, parentProgram, regionTypeIds));
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
+            this.logger.Trace("Created program.");
+            
             return program;
         }
 
@@ -133,15 +151,20 @@ namespace ECA.Business.Service.Programs
         /// <returns>The saved program.</returns>
         public async Task<Program> CreateAsync(DraftProgram draftProgram)
         {
-            var stopwatch = Stopwatch.StartNew();
             var regionTypeIds = await GetLocationTypeIdsAsync(draftProgram.RegionIds);
+            this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", draftProgram.RegionIds));
+
             var focus = await GetFocusByIdAsync(draftProgram.FocusId);
+            this.logger.Trace("Retrieved focusby id [{0}].", draftProgram.FocusId);
+
             var owner = await GetOrganizationByIdAsync(draftProgram.OwnerOrganizationId);
+            this.logger.Trace("Retrieved owner organization by id [{0}].", draftProgram.OwnerOrganizationId);
+
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(draftProgram.ParentProgramId.Value) : null;
+            
             var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, focus, owner, parentProgram, regionTypeIds));
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
+            this.logger.Trace("Created program.");
             return program;
         }
 
@@ -157,7 +180,7 @@ namespace ECA.Business.Service.Programs
                 EndDate = draftProgram.EndDate,
                 Focus = focus,
                 Name = draftProgram.Name,
-                //reason I'm loading parent program here is it should already be in the context cache when using the Find method
+
                 ParentProgram = draftProgram.ParentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null,
                 ProgramType = null,
                 ProgramStatusId = draftProgram.ProgramStatusId,
@@ -190,18 +213,24 @@ namespace ECA.Business.Service.Programs
         /// <param name="updatedProgram">The updated program.</param>
         public void Update(EcaProgram updatedProgram)
         {
-            var stopwatch = Stopwatch.StartNew();
             var programToUpdate = CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefault();
+            this.logger.Trace("Retrieved program with id [{0}].", updatedProgram.Id);
+
             var regionTypeIds = GetLocationTypeIds(updatedProgram.RegionIds);
+            this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", updatedProgram.RegionIds));
+
             var focus = GetFocusById(updatedProgram.FocusId);
+            this.logger.Trace("Retrieved focus by id [{0}].", updatedProgram.FocusId);
+
             var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
+            this.logger.Trace("Retrieved owner organization by id [{0}].", updatedProgram.OwnerOrganizationId);
+
             var parentProgramId = updatedProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(updatedProgram.ParentProgramId.Value) : null;
             if (programToUpdate != null)
             {
                 DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, focus, owner, parentProgram, regionTypeIds));
-                stopwatch.Stop();
-                this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
+                this.logger.Trace("Performed update on program.");
             }
             else
             {
@@ -215,19 +244,25 @@ namespace ECA.Business.Service.Programs
         /// <param name="updatedProgram">The updated program.</param>
         public async Task UpdateAsync(EcaProgram updatedProgram)
         {
-            var stopwatch = Stopwatch.StartNew();
             var programToUpdate = await CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefaultAsync();
+            this.logger.Trace("Retrieved program with id [{0}].", updatedProgram.Id);
+
             var regionTypeIds = await GetLocationTypeIdsAsync(updatedProgram.RegionIds);
+            this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", updatedProgram.RegionIds));
+
             var focus = await GetFocusByIdAsync(updatedProgram.FocusId);
+            this.logger.Trace("Retrieved focus by id [{0}].", updatedProgram.FocusId);
+
             var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
+            this.logger.Trace("Retrieved owner organization by id [{0}].", updatedProgram.OwnerOrganizationId);
+
             var parentProgramId = updatedProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(updatedProgram.ParentProgramId.Value) : null;
 
             if (programToUpdate != null)
             {
                 DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, focus, owner, parentProgram, regionTypeIds));
-                stopwatch.Stop();
-                this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed);
+                this.logger.Trace("Performed update on program.");
             }
             else
             {
@@ -341,23 +376,9 @@ namespace ECA.Business.Service.Programs
                 );
         }
 
-
-        /// <summary>
-        /// Updates the regions on the given program to the regions with the given ids.
-        /// </summary>
-        /// <param name="regionIds">The regions by id.</param>
-        /// <param name="programEntity">The program to update.</param>
-        public void SetRegions(List<int> regionIds, Program programEntity)
+        private DbRawSqlQuery<OrganizationProgramDTO> CreateGetProgramsHierarchySqlQuery()
         {
-            Contract.Requires(regionIds != null, "The theme ids must not be null.");
-            Contract.Requires(programEntity != null, "The program entity must not be null.");
-            programEntity.Regions.Clear();
-            regionIds.ForEach(x =>
-            {
-                var location = new Location { LocationId = x };
-                this.Context.Locations.Attach(location);
-                programEntity.Regions.Add(location);
-            });
+            return this.Context.Database.SqlQuery<OrganizationProgramDTO>(GET_PROGRAMS_SPROC_NAME);
         }
     }
 }

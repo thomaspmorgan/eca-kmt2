@@ -1,6 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
-using ECA.Core.Logging;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -9,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using ECA.Business.Service;
+using System.Data.Entity;
+using ECA.Business.Exceptions;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -22,7 +24,7 @@ namespace ECA.Business.Test.Service.Persons
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new PersonService(context, new TraceLogger());
+            service = new PersonService(context);
         }
 
         #region Get Pii By Id
@@ -410,5 +412,174 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         #endregion
+
+        #region Create
+        [TestMethod]
+        public async Task TestCreateAsync()
+        {
+            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
+                                          Gender.Male.Id, DateTimeOffset.Now, 1,
+                                          new List<int>());
+            var person = await service.CreateAsync(newPerson);
+
+            Assert.AreEqual(newPerson.FirstName, person.FirstName);
+            Assert.AreEqual(newPerson.LastName, person.LastName);
+            Assert.AreEqual(newPerson.Gender, person.GenderId);
+            Assert.AreEqual(newPerson.DateOfBirth, person.DateOfBirth);
+           
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_CityOfBirth()
+        {
+            var city = new Location 
+            {
+                LocationId = 1
+            };
+
+            context.Locations.Add(city);
+
+            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
+                                        Gender.Male.Id, DateTimeOffset.Now, city.LocationId,
+                                        new List<int>());
+            var person = await service.CreateAsync(newPerson);
+            Assert.AreEqual(city.LocationId, person.PlaceOfBirthId);
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_CountriesOfCitizenship()
+        {
+            var country = new Location
+            {
+                LocationId = 2
+            };
+
+            context.Locations.Add(country);
+
+            List<int> countriesOfCitizenship = new List<int>(new int[] { country.LocationId });
+            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
+                                         Gender.Male.Id, DateTimeOffset.Now, 1,
+                                         countriesOfCitizenship);
+            var person = await service.CreateAsync(newPerson);
+            CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship,
+                person.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+        }
+
+        [TestMethod]
+        public async Task TestCreateAsync_Associations()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+
+            context.Projects.Add(project);
+
+            var newPerson = new NewPerson(new User(0), project.ProjectId, "firstName", "lastName",
+                                         Gender.Male.Id, DateTimeOffset.Now, 1,
+                                         new List<int>());
+            var person = await service.CreateAsync(newPerson);
+            // Check that participant is associated to person
+            var participant = context.Participants.Where(x => x.PersonId == person.PersonId).FirstOrDefaultAsync().Result;
+            Assert.AreEqual(person.PersonId, participant.PersonId);
+            // Check that participant is associated to project
+            var participantProject = participant.Projects.First();
+            Assert.AreEqual(project.ProjectId, participantProject.ProjectId);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(EcaBusinessException), "The person already exists.")]
+        public async Task TestCreateAsync_Duplicate()
+        {
+            var existingPerson = new Person
+            {
+                FirstName = "firstName",
+                LastName = "lastName",
+                GenderId = Gender.Female.Id,
+                DateOfBirth = DateTimeOffset.Now,
+                PlaceOfBirthId = 1
+            };
+
+            context.People.Add(existingPerson);
+
+            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName, existingPerson.LastName,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth, 1,
+                                          new List<int>());
+            var person = await service.CreateAsync(newPerson);
+        }
+
+        [TestMethod]
+        public async Task TestGetExistingPerson_DoesNotExist()
+        {
+            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName", 1, DateTimeOffset.Now, 1, new List<int>());
+            var person = await service.GetExistingPerson(newPerson);
+            Assert.IsNull(person);
+        }
+
+        [TestMethod]
+        public async Task TestGetExistingPerson_NamesDifferentCases()
+        {
+            var existingPerson = new Person
+            {
+                FirstName = "firstName",
+                LastName = "lastName",
+                GenderId = Gender.Female.Id,
+                DateOfBirth = DateTimeOffset.Now,
+                PlaceOfBirthId = 1
+            };
+
+            context.People.Add(existingPerson);
+
+            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
+                                          existingPerson.GenderId, existingPerson.DateOfBirth, 1,
+                                          new List<int>());
+            var person = await service.GetExistingPerson(newPerson);
+            Assert.IsNotNull(person);
+        }
+
+        [TestMethod]
+        public async Task TestGetExistingPerson_NamesHaveSpacesBeforeAndAfter()
+        {
+            var existingPerson = new Person
+            {
+                FirstName = " firstName ",
+                LastName = " lastName ",
+                GenderId = Gender.Female.Id,
+                DateOfBirth = DateTimeOffset.Now,
+                PlaceOfBirthId = 1
+            };
+
+            context.People.Add(existingPerson);
+
+            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.Trim(), existingPerson.LastName.Trim(),
+                                          existingPerson.GenderId, existingPerson.DateOfBirth, 1,
+                                          new List<int>());
+            var person = await service.GetExistingPerson(newPerson);
+            Assert.IsNotNull(person);
+        }
+
+        [TestMethod]
+        public async Task TestGetExistingPerson_DateOfBirthWithDifferentTime()
+        {
+            var dateAndTime = new DateTimeOffset(2008, 5, 1, 8, 6, 32,
+                                 new TimeSpan(1, 0, 0));
+            var existingPerson = new Person
+            {
+                FirstName = "firstName",
+                LastName = "lastName",
+                GenderId = Gender.Female.Id,
+                DateOfBirth = dateAndTime,
+                PlaceOfBirthId = 1
+            };
+
+            context.People.Add(existingPerson);
+
+            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.AddHours(2), 1,
+                                          new List<int>());
+            var person = await service.GetExistingPerson(newPerson);
+            Assert.IsNotNull(person);
+        }
+        #endregion
     }
-}
+} 

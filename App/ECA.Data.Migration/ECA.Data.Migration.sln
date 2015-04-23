@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "IVLP", "IVLP\IVLP.dtproj", "{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "ECA-Sample Data", "ECA-Sample Data\ECA-Sample Data.dtproj", "{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "CE - Cultural Exchange", "CE - Cultural Exchange\CE - Cultural Exchange.dtproj", "{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}.Development|Default.ActiveCfg = Development
+		{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}.Development|Default.Build.0 = Development
+		{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}.Development|Default.ActiveCfg = Development
+		{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}.Development|Default.Build.0 = Development
+		{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}.Development|Default.ActiveCfg = Development
+		{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

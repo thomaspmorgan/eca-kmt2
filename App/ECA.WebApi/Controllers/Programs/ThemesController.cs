@@ -5,6 +5,7 @@ using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Query;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -14,6 +15,7 @@ namespace ECA.WebApi.Controllers.Programs
     /// <summary>
     /// The ThemeseController handles returning program themes.
     /// </summary>
+    //[Authorize]
     public class ThemesController : ApiController
     {
         /// <summary>
@@ -29,7 +31,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// <param name="service">The service.</param>
         public ThemesController(IThemeService service)
         {
-            Debug.Assert(service != null, "The theme service must not be null.");
+            Contract.Requires(service != null, "The theme service must not be null.");
             this.service = service;
         }
 

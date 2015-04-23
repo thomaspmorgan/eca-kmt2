@@ -1,7 +1,5 @@
 ﻿angular.module('staticApp').factory('ConstantsService', function() {
 	return {
-		comparisonType: {
-		},
 		locationType: {
 			region: 2,
 			country: 3,
@@ -33,7 +31,19 @@
 			uSNonProfitOrganization501C3: 5,
 			individual: 6,
 			foreignNgoPvo: 7,
-			other: 8
+			other: 8,
+			foreignNonTravelingParticipant: 9,
+			uSNonTravelingParticipant: 10,
+			foreignTravelingParticipant: 11,
+			uSTravelingParticipant: 12
+		},
+		permission: {
+			viewoffice: 1,
+			viewprogram: 2,
+			viewproject: 3,
+			editoffice: 4,
+			editprogram: 5,
+			editproject: 7
 		},
 		projectStatus: {
 			active: 1,
@@ -41,7 +51,17 @@
 			completed: 4,
 			draft: 5,
 			canceled: 6,
-			other: 7
+			other: 7,
+			activeUseActuals: 8,
+			projectPostponed: 9,
+			proposed: 10,
+			rejected: 11
+		},
+		resourceType: {
+			application: 1,
+			office: 2,
+			program: 3,
+			project: 4
 		},
 		editProjectEventName: 'EditProject',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',

@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.WebApi.Models.Projects;
 using System.Collections.Generic;
 using ECA.Data;
+using ECA.Business.Service;
 
 namespace ECA.WebApi.Test.Models.Projects
 {
@@ -26,9 +27,9 @@ namespace ECA.WebApi.Test.Models.Projects
                 StartDate = DateTimeOffset.UtcNow.AddDays(-1.0),
                 ThemeIds = new List<int> { 4 },
             };
-            var userId = 1;
-            var publishedProject = model.ToPublishedProject(userId);
-            Assert.AreEqual(userId, publishedProject.Audit.User.Id);
+            var user = new User(1);
+            var publishedProject = model.ToPublishedProject(user);
+            Assert.AreEqual(user.Id, publishedProject.Audit.User.Id);
             Assert.AreEqual(model.Description, publishedProject.Description);
             Assert.AreEqual(model.EndDate, publishedProject.EndDate);
             Assert.AreEqual(model.FocusId, publishedProject.FocusId);

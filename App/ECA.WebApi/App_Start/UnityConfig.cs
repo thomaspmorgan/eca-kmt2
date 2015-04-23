@@ -1,11 +1,13 @@
+using CAM.Business.Service;
+using CAM.Data;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
 using ECA.Business.Validation;
 using ECA.Core.Generation;
-using ECA.Core.Logging;
 using ECA.Data;
+using ECA.WebApi.Custom;
 using ECA.WebApi.Security;
 using Microsoft.Practices.Unity;
 using System.Data.Entity;
@@ -28,7 +30,6 @@ namespace ECA.WebApi
         {
             var container = new UnityContainer();
             RegisterSecurityConcerns(container);
-            RegisterLogging(container);
             RegisterContexts(container);
             RegisterServices(container);
             RegisterValidations(container);
@@ -44,15 +45,7 @@ namespace ECA.WebApi
             var connectionString = "EcaContext";
             container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
-        }
-
-        /// <summary>
-        /// Registers the logger.
-        /// </summary>
-        /// <param name="container">The unity container.</param>
-        public static void RegisterLogging(IUnityContainer container)
-        {
-            container.RegisterType<ILogger, TraceLogger>(new HierarchicalLifetimeManager());
+            container.RegisterType<CamModel>(new InjectionConstructor("CamModel"));
         }
 
         /// <summary>
@@ -76,9 +69,8 @@ namespace ECA.WebApi
             container.RegisterType<IProjectStatusService, ProjectStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<IGenderService, GenderService>(new HierarchicalLifetimeManager());
-
+            container.RegisterType<IFocusCategoryService, FocusCategoryService>(new HierarchicalLifetimeManager());
 
         }
 
@@ -98,23 +90,31 @@ namespace ECA.WebApi
 
         public static void RegisterSecurityConcerns(IUnityContainer container)
         {
+            
+            container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPermissionStore<IPermission>, PermissionStoreCached>(new HierarchicalLifetimeManager(), new InjectionConstructor());
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
-            container.RegisterType<IBusinessUserService, TestBusinessUserService>();
-            container.RegisterType<ObjectCache>(new HierarchicalLifetimeManager(),
-                new InjectionFactory((c) =>
-                {
-                    return MemoryCache.Default;
-                }));
+            container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
+            {
+                return MemoryCache.Default;
+            }));
             container.RegisterType<IUserCacheService>(new InjectionFactory((c) =>
             {
-                return new UserCacheService(c.Resolve<ILogger>(), c.Resolve<IBusinessUserService>(), c.Resolve<ObjectCache>());
+#if DEBUG
+                var cacheLifeInSeconds = 10;
+                CacheManager.CacheExpirationInMinutes = cacheLifeInSeconds / 60.0;
+#endif 
+                return new UserCacheService(c.Resolve<ObjectCache>() 
+#if DEBUG
+, cacheLifeInSeconds
+#endif
+                    );
             }));
-            ResourceAuthorizeAttribute.CacheServiceFactory = () => container.Resolve<IUserCacheService>();
-            ResourceAuthorizeAttribute.LoggerFactory = () => container.Resolve<ILogger>();
-            ResourceAuthorizeAttribute.GetWebApiUser = () =>
+            ResourceAuthorizeAttribute.UserProviderFactory = () =>
             {
-                return container.Resolve<IUserProvider>().GetCurrentUser();
+                return container.Resolve<IUserProvider>();
             };
+            ResourceAuthorizeAttribute.PermissionLookupFactory = () => container.Resolve<IPermissionStore<IPermission>>();
         }
     }
 }

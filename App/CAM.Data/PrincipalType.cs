@@ -22,11 +22,11 @@ namespace CAM.Data
         public int PrincipalTypeId { get; set; }
         public string PrincipalTypeName { get; set; }
         public string PrincipalTypeDescription { get; set; }
-        public int History_CreatedBy { get; set; }
-        public System.DateTimeOffset History_CreatedOn { get; set; }
-        public int History_RevisedBy { get; set; }
-        public System.DateTimeOffset History_RevisedOn { get; set; }
         public bool IsActive { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTimeOffset CreatedOn { get; set; }
+        public int RevisedBy { get; set; }
+        public System.DateTimeOffset RevisedOn { get; set; }
     
         public virtual ICollection<Principal> Principals { get; set; }
     }

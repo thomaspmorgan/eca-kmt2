@@ -67,6 +67,9 @@ namespace ECA.Data
         public ICollection<MoneyFlow> MoneyFlowRecipients { get; set; }
         public ICollection<Program> OwnerPrograms { get; set; }
 
+        public ICollection<Justification> Justifications { get; set; }
+        public ICollection<Focus> Foci { get; set; }
+
         public History History { get; set; }
     }
 

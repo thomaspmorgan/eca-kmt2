@@ -5,6 +5,7 @@ using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Query;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -14,6 +15,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// <summary>
     /// The goals controller is capable of performing operations on goals in the ECA system.
     /// </summary>
+    //[Authorize]
     public class GoalsController : ApiController
     {
         /// <summary>
@@ -29,7 +31,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="service">The service.</param>
         public GoalsController(IGoalService service)
         {
-            Debug.Assert(service != null, "The goal service must not be null.");
+            Contract.Requires(service != null, "The goal service must not be null.");
             this.service = service;
         }
 

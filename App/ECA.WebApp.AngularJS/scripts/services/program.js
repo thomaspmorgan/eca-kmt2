@@ -28,9 +28,18 @@ angular.module('staticApp')
                 });
               return defer.promise;
           },
-          getAllPrograms: function (params) {
+          getAllProgramsAlpha: function (params) {
               var defer = $q.defer();
               DragonBreath.get(params, 'programs')
+                .success(function (data) {
+                    defer.resolve(data);
+                });
+              return defer.promise;
+          },          
+          getAllProgramsHierarchy: function (params) {
+              var defer = $q.defer();
+              var path = 'programs/Hierarchy';
+              DragonBreath.get(params,path)
                 .success(function (data) {
                     defer.resolve(data);
                 });

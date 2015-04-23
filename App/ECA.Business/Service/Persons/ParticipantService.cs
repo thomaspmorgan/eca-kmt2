@@ -1,7 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Queries.Persons;
 using ECA.Core.DynamicLinq;
-using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
@@ -13,6 +12,7 @@ using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using NLog;
 
 namespace ECA.Business.Service.Persons
 {
@@ -22,19 +22,16 @@ namespace ECA.Business.Service.Persons
     /// </summary>
     public class ParticipantService : DbContextService<EcaContext>, ECA.Business.Service.Persons.IParticipantService
     {
-        private static readonly string COMPONENT_NAME = typeof(ParticipantService).FullName;
-        private readonly ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Creates a new ParticipantService with the given context to operate against.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
         /// <param name="logger">The logger.</param>
-        public ParticipantService(EcaContext context, ILogger logger) : base(context, logger)
+        public ParticipantService(EcaContext context) : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
-            this.logger = logger;
         }
 
         #region Get
@@ -46,10 +43,8 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participants.</returns>
         public PagedQueryResults<SimpleParticipantDTO> GetParticipants(QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
-            var stopwatch = Stopwatch.StartNew();
             var participants = ParticipantQueries.CreateGetSimpleParticipantsDTOQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            this.logger.Trace("Retrieved participants with query operator [{0}].", queryOperator);
             return participants;
         }
 
@@ -60,10 +55,8 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participants.</returns>
         public Task<PagedQueryResults<SimpleParticipantDTO>> GetParticipantsAsync(QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
-            var stopwatch = Stopwatch.StartNew();
             var participants = ParticipantQueries.CreateGetSimpleParticipantsDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            this.logger.Trace("Retrieved participants with query operator [{0}].", queryOperator);
             return participants;
         }
 
@@ -75,10 +68,8 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participants.</returns>
         public PagedQueryResults<SimpleParticipantDTO> GetParticipantsByProjectId(int projectId, QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
-            var stopwatch = Stopwatch.StartNew();
             var participants = ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            this.logger.Trace("Retrieved participants by project id [{0}] and query operator [{1}].", projectId, queryOperator);
             return participants;
         }
 
@@ -90,10 +81,8 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participants.</returns>
         public Task<PagedQueryResults<SimpleParticipantDTO>> GetParticipantsByProjectIdAsync(int projectId, QueryableOperator<SimpleParticipantDTO> queryOperator)
         {
-            var stopwatch = Stopwatch.StartNew();
             var participants = ParticipantQueries.CreateGetSimpleParticipantsDTOByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "queryOperator", queryOperator } });
+            this.logger.Trace("Retrieved participants by project id [{0}] and query operator [{1}].", projectId, queryOperator);
             return participants;
         }
 
@@ -104,10 +93,8 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participant</returns>
         public ParticipantDTO GetParticipantById(int participantId)
         {
-            var stopwatch = Stopwatch.StartNew();
             var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefault();
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "participantId", participantId } });
+            this.logger.Trace("Retrieved participant by id [{0}].", participantId);
             return participant;
         }
 
@@ -118,10 +105,8 @@ namespace ECA.Business.Service.Persons
         /// <returns>The participant</returns>
         public Task<ParticipantDTO> GetParticipantByIdAsync(int participantId)
         {
-            var stopwatch = Stopwatch.StartNew();
             var participant = ParticipantQueries.CreateGetParticipantDTOByIdQuery(this.Context, participantId).FirstOrDefaultAsync();
-            stopwatch.Stop();
-            this.logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "participantId", participantId } });
+            this.logger.Trace("Retrieved participant by id [{0}].", participantId);
             return participant;
         }
         #endregion

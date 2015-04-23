@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{a4a83f58-a03f-4f95-878c-5887c0a96f74}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureDatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -23,7 +23,7 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
-    <DefaultSchema>cam</DefaultSchema>
+    <DefaultSchema>CAM</DefaultSchema>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -58,22 +58,53 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="CAM" />
+    <Folder Include="CAM\Tables" />
+    <Folder Include="CAM\Schema" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\PostDeploy" />
+    <Folder Include="Scripts\PostDeploy\StaticData" />
+    <Folder Include="Scripts\SampleData" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Permission.sql" />
-    <Build Include="UserAccount.sql" />
-    <Build Include="Principal.sql" />
-    <Build Include="PrincipalType.sql" />
-    <Build Include="Resource.sql" />
-    <Build Include="ResourceType.sql" />
-    <Build Include="CamSchema.sql" />
-    <Build Include="Role.sql" />
-    <Build Include="PrincipleRole.sql" />
-    <Build Include="PermissionAssignment.sql" />
-    <Build Include="RoleResourcePermission.sql" />
-    <Build Include="Application.sql" />
+    <Build Include="CAM\Schema\CamSchema.sql" />
+    <Build Include="CAM\Tables\Application.sql" />
+    <Build Include="CAM\Tables\AccountStatus.sql" />
+    <Build Include="CAM\Tables\Permission.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.AccountStatus.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.ResourceType.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.PrincipalType.staticdata.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CAM.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="CAM\Tables\PermissionAssignment.sql" />
+    <Build Include="CAM\Tables\Principal.sql" />
+    <Build Include="CAM\Tables\PrincipalType.sql" />
+    <Build Include="CAM\Tables\PrincipalRole.sql" />
+    <Build Include="CAM\Tables\Resource.sql" />
+    <Build Include="CAM\Tables\ResourceType.sql" />
+    <Build Include="CAM\Tables\Role.sql" />
+    <Build Include="CAM\Tables\RoleResourcePermission.sql" />
+    <Build Include="CAM\Tables\UserAccount.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ECA_Local.publish.xml" />
+    <None Include="Scripts\SampleData\LoadSampleData.sql" />
+    <None Include="Scripts\SampleData\CAM.UserAccount.data.sql" />
+    <None Include="Scripts\SampleData\CAM.Application.data.sql" />
+    <None Include="Scripts\SampleData\CAM.Permission.data.sql" />
+    <None Include="Scripts\SampleData\CAM.Principal.data.sql" />
+    <None Include="Scripts\SampleData\CAM.PrincipalRole.data.sql" />
+    <None Include="Scripts\SampleData\CAM.Resource.data.sql" />
+    <None Include="Scripts\SampleData\CAM.Role.data.sql" />
+    <None Include="Scripts\SampleData\CAM.RoleResourcePermission.data.sql" />
+    <None Include="CAM.Database.publish.xml" />
+    <None Include="ECA_Dev.publish.publish.xml" />
+    <None Include="ECA_KMT_QA.publish.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\PostDeploy\CAM.PostDeployment.sql" />
   </ItemGroup>
 </Project>

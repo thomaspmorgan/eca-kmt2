@@ -8,81 +8,23 @@ using System.Security.Claims;
 using System.Threading;
 using System.Security.Principal;
 using System.Linq.Expressions;
-using ECA.Core.Logging;
 using System.Diagnostics.Contracts;
+using CAM.Business.Service;
+using NLog;
 
 namespace ECA.WebApi.Security
 {
-    public class ResourcePermission
-    {   
-        public int ResourceId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the id of the actual resource, i.e. the primary key.
-        /// </summary>
-        public int ObjectId { get; set; }
-
-        public string ResourceType { get; set; }
-
-        public string PermissionName { get; set; }
-
-        /// <summary>
-        /// Returns true if the given object equals this object.
-        /// </summary>
-        /// <param name="obj">The object to test.</param>
-        /// <returns>True if the given object equals this object.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-            {
-                return false;
-            }
-            var otherType = obj as ResourcePermission;
-            if (otherType == null)
-            {
-                return false;
-            }
-            return this.ResourceId == otherType.ResourceId
-                && this.ResourceType == otherType.ResourceType
-                && this.PermissionName == otherType.PermissionName;
-
-        }
-
-        public override int GetHashCode()
-        {
-            var hash = ResourceId * 27;
-            hash += ResourceType.GetHashCode() * 27;
-            hash += PermissionName.GetHashCode();
-            return hash;
-        }
-
-    }
-
     public interface IWebApiUser
     {
         Guid Id { get; }
-    }
 
-    public abstract class WebApiUserBase : IWebApiUser
-    {
-        public abstract string GetUsername();
-
-        public abstract ECA.Business.Service.User ToBusinessUser();
-
-        public abstract bool HasPermission(ResourcePermission requestedPermission, IEnumerable<ResourcePermission> allUserPermissions);
-
-        public Guid Id
-        {
-            get;
-            protected set;
-        }
-    }
-
+        string GetUsername();
+    }    
 
     /// <summary>
     /// The WebApiUser is a user that user that has been validated by Microsoft Azure.
     /// </summary>
-    public class WebApiUser : WebApiUserBase
+    public class WebApiUser : IWebApiUser
     {
         /// <summary>
         /// Azure's token issued at date key.
@@ -107,7 +49,7 @@ namespace ECA.WebApi.Security
         /// <summary>
         /// Azure's email id token key.
         /// </summary>
-        public const string EMAIL_KEY = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+        public const string EMAIL_KEY = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
 
         /// <summary>
         /// Azure's given name token key.
@@ -131,18 +73,15 @@ namespace ECA.WebApi.Security
 
         public static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        private readonly ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IEnumerable<Claim> claims;
 
         /// <summary>
         /// Initializes this user with the given logger and claims.
         /// </summary>
-        /// <param name="logger">The logger.</param>
         /// <param name="claims">The user's claims.</param>
-        internal WebApiUser(ILogger logger, IEnumerable<Claim> claims)
+        internal WebApiUser(IEnumerable<Claim> claims)
         {
-            Contract.Requires(logger != null, "The logger must not be null.");
-            this.logger = logger;
             this.claims = claims;
             SetFullName(claims);
             SetGivenName(claims);
@@ -154,10 +93,9 @@ namespace ECA.WebApi.Security
             SetUserId(claims);
         }
 
-        internal WebApiUser(ILogger logger, ClaimsPrincipal principal)
-            : this(logger, principal.Claims)
+        internal WebApiUser(ClaimsPrincipal principal)
+            : this(principal.Claims)
         {
-            Contract.Requires(logger != null, "The logger must not be null.");
             Contract.Requires(principal != null, "The principal must not be null.");
         }
 
@@ -165,14 +103,17 @@ namespace ECA.WebApi.Security
         /// Initializes a new user with the given logger and IPrincipal.  Currently, the IPrincipal must
         /// be a ClaimsPrincipal.
         /// </summary>
-        /// <param name="logger">The logger.</param>
         /// <param name="principal">The claims principal as an IPrincipal instance.</param>
-        public WebApiUser(ILogger logger, IPrincipal principal)
-            : this(logger, (principal as ClaimsPrincipal))
+        public WebApiUser(IPrincipal principal)
+            : this((principal as ClaimsPrincipal))
         {
-            Contract.Requires(logger != null, "The logger must not be null.");
             Contract.Requires(principal is ClaimsPrincipal, "The IPrincipal instance must be a ClaimsPrincipal.");
         }
+
+        /// <summary>
+        /// Gets the user's Id.
+        /// </summary>
+        public Guid Id { get; private set; }
 
         /// <summary>
         /// Gets the user's email.
@@ -230,7 +171,7 @@ namespace ECA.WebApi.Security
 
         private void LogMissingClaimWarning(string claimType)
         {
-            this.logger.Warning(MISSING_CLAIM_ERROR_MESSAGE, claimType);
+            this.logger.Warn(MISSING_CLAIM_ERROR_MESSAGE, claimType);
         }
 
         /// <summary>
@@ -354,7 +295,7 @@ namespace ECA.WebApi.Security
                 }
                 else
                 {
-                    logger.Warning(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
+                    logger.Warn(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
                 }
             }
             else
@@ -381,7 +322,7 @@ namespace ECA.WebApi.Security
                 }
                 else
                 {
-                    logger.Warning(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
+                    logger.Warn(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
                 }
             }
             else
@@ -408,33 +349,13 @@ namespace ECA.WebApi.Security
                 }
                 else
                 {
-                    logger.Warning(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
+                    logger.Warn(UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE, claim.Value, key);
                 }
             }
             else
             {
                 LogMissingClaimWarning(key);
             }
-        }
-
-        /// <summary>
-        /// Returns a business layer user from this user.
-        /// </summary>
-        /// <returns>The business layer user.</returns>
-        public override ECA.Business.Service.User ToBusinessUser()
-        {
-            return new Business.Service.User(-1);
-        }
-
-        /// <summary>
-        /// Returns true if the user has permission given all permissions.
-        /// </summary>
-        /// <param name="requestedPermission">The permission to check.</param>
-        /// <param name="allUserPermissions">All user permissions.</param>
-        /// <returns>True, if the user has the requested permission.</returns>
-        public override bool HasPermission(ResourcePermission requestedPermission, IEnumerable<ResourcePermission> allUserPermissions)
-        {
-            return true;
         }
 
         /// <summary>
@@ -451,7 +372,7 @@ namespace ECA.WebApi.Security
         /// Returns the user's email.
         /// </summary>
         /// <returns>The user's email.</returns>
-        public override string GetUsername()
+        public string GetUsername()
         {
             return this.Email;
         }

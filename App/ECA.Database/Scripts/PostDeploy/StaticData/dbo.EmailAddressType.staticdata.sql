@@ -44,6 +44,8 @@ INSERT INTO @tblTempTable ([EmailAddressTypeId], [EmailAddressTypeName], [Histor
 INSERT INTO @tblTempTable ([EmailAddressTypeId], [EmailAddressTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('5', 'Organization', '0', '3/13/2015 12:00:00 AM -05:00', '0', '3/13/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([EmailAddressTypeId], [EmailAddressTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('6', 'Personal', '0', '3/13/2015 12:00:00 AM -05:00', '0', '3/13/2015 12:00:00 AM -05:00')
 INSERT INTO @tblTempTable ([EmailAddressTypeId], [EmailAddressTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('7', 'Other', '0', '3/13/2015 12:00:00 AM -05:00', '0', '3/13/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([EmailAddressTypeId], [EmailAddressTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('8', 'Business', '0', '4/16/2015 12:00:00 AM -05:00', '0', '4/16/2015 12:00:00 AM -05:00')
+INSERT INTO @tblTempTable ([EmailAddressTypeId], [EmailAddressTypeName], [History_CreatedBy], [History_CreatedOn], [History_RevisedBy], [History_RevisedOn]) VALUES ('9', 'Undetermined', '0', '4/16/2015 12:00:00 AM -05:00', '0', '4/16/2015 12:00:00 AM -05:00')
 
 
 -- 3: Insert any new items into the table from the table variable

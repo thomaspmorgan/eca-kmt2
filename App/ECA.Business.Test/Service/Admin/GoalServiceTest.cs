@@ -12,7 +12,6 @@ using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Business.Service.Admin;
 using ECA.Business.Queries.Models.Admin;
-using ECA.Core.Logging;
 
 namespace ECA.Business.Test.Service.Programs
 {
@@ -26,7 +25,7 @@ namespace ECA.Business.Test.Service.Programs
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new GoalService(context, new TraceLogger());
+            service = new GoalService(context);
         }
 
         [TestCleanup]

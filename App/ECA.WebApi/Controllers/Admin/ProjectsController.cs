@@ -5,7 +5,9 @@ using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -16,6 +18,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// The ProjectsController is used for managing projects in the ECA system.
     /// </summary>
     [RoutePrefix("api")]
+    [Authorize]
     public class ProjectsController : ApiController
     {
         /// <summary>
@@ -24,14 +27,17 @@ namespace ECA.WebApi.Controllers.Admin
         private static readonly ExpressionSorter<SimpleProjectDTO> DEFAULT_SIMPLE_PROJECT_DTO_SORTER = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectName, SortDirection.Ascending);
 
         private IProjectService projectService;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ProjectsController with the given project service.
         /// </summary>
         /// <param name="projectService">The project service.</param>
-        public ProjectsController(IProjectService projectService)
+        public ProjectsController(IProjectService projectService, IUserProvider userProvider)
         {
-            Debug.Assert(projectService != null, "The project service must not be null.");
+            Contract.Requires(projectService != null, "The project service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
+            this.userProvider = userProvider;
             this.projectService = projectService;
         }
 
@@ -62,6 +68,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="id">The project id to fetch</param>
         /// <returns>Project</returns>
         [ResponseType(typeof(ProjectDTO))]
+        [ResourceAuthorize(CAM.Data.Permission.VIEW_PROJECT_VALUE, CAM.Data.ResourceType.PROJECT_VALUE)]
         public async Task<IHttpActionResult> GetProjectByIdAsync(int id)
         {
             var project = await this.projectService.GetProjectByIdAsync(id);
@@ -85,8 +92,9 @@ namespace ECA.WebApi.Controllers.Admin
         {
             if(ModelState.IsValid)
             {
-                var userId = 0;
-                var project = await projectService.CreateAsync(model.ToDraftProject(userId));
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var project = await projectService.CreateAsync(model.ToDraftProject(businessUser));
                 await projectService.SaveChangesAsync();
                 var dto = await projectService.GetProjectByIdAsync(project.ProjectId);
                 return Ok(dto);
@@ -107,8 +115,9 @@ namespace ECA.WebApi.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var userId = 0;
-                await projectService.UpdateAsync(model.ToPublishedProject(userId));
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await projectService.UpdateAsync(model.ToPublishedProject(businessUser));
                 await projectService.SaveChangesAsync();
                 var dto = await projectService.GetProjectByIdAsync(model.Id);
                 return Ok(dto);

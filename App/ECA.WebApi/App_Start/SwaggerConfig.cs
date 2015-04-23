@@ -2,7 +2,6 @@ using System.Web.Http;
 using WebActivatorEx;
 using ECA.WebApi;
 using Swashbuckle.Application;
-using Swashbuckle.Dummy.SwaggerExtensions;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -14,7 +13,7 @@ namespace ECA.WebApi
         {
             var thisAssembly = typeof(SwaggerConfig).Assembly;
 
-            GlobalConfiguration.Configuration
+            GlobalConfiguration.Configuration 
                 .EnableSwagger(c =>
                     {
                         // By default, the service root url is inferred from the request used to access the docs.
@@ -63,16 +62,16 @@ namespace ECA.WebApi
                         //    .Name("apiKey")
                         //    .In("header");
                         //
-                        c.OAuth2("oauth2")
-                            .Description("OAuth2 Implicit Grant")
-                            .Flow("implicit")
-                            .AuthorizationUrl("https://login.microsoftonline.com/statedept.us/oauth2/authorize?response_type=id_token&state=cdecf535-9004-465a-a9c7-04b834a8aaff&x-client-SKU=Js&x-client-Ver=1.0.0&nonce=e5743f89-9360-4f68-befa-2b3d80831600")
-                            //.TokenUrl("https://tempuri.org/token")
-                            .Scopes(scopes =>
-                            {
-                                //scopes.Add("read", "Read access to protected resources");
-                                //scopes.Add("write", "Write access to protected resources");
-                            });
+                        //c.OAuth2("oauth2")
+                        //    .Description("OAuth2 Implicit Grant")
+                        //    .Flow("implicit")
+                        //    .AuthorizationUrl("http://petstore.swagger.wordnik.com/api/oauth/dialog")
+                        //    //.TokenUrl("https://tempuri.org/token")
+                        //    .Scopes(scopes =>
+                        //    {
+                        //        scopes.Add("read", "Read access to protected resources");
+                        //        scopes.Add("write", "Write access to protected resources");
+                        //    });
 
                         // Set this flag to omit descriptions for any actions decorated with the Obsolete attribute
                         //c.IgnoreObsoleteActions();
@@ -140,7 +139,7 @@ namespace ECA.WebApi
                         // to inspect some attribute on each action and infer which (if any) OAuth2 scopes are required
                         // to execute the operation
                         //
-                        c.OperationFilter<AssignOAuth2SecurityRequirements>();
+                        //c.OperationFilter<AssignOAuth2SecurityRequirements>();
 
                         // Post-modify the entire Swagger document by wiring up one or more Document filters.
                         // This gives full control to modify the final SwaggerDocument. You should have a good understanding of
@@ -183,6 +182,12 @@ namespace ECA.WebApi
                         //
                         //c.BooleanValues(new[] { "0", "1" });
 
+                        // By default, swagger-ui will validate specs against swagger.io's online validator and display the result
+                        // in a badge at the bottom of the page. Use these options to set a different validator URL or to disable the
+                        // feature entirely.
+                        //c.SetValidatorUrl("http://localhost/validator");
+                        //c.DisableValidator();
+
                         // Use this option to control how the Operation listing is displayed.
                         // It can be set to "None" (default), "List" (shows operations for each resource),
                         // or "Full" (fully expanded: shows operations and their details).
@@ -207,7 +212,7 @@ namespace ECA.WebApi
                         // If your API supports the OAuth2 Implicit flow, and you've described it correctly, according to
                         // the Swagger 2.0 specification, you can enable UI support as shown below.
                         //
-                        c.EnableOAuth2Support("e0356e55-e124-452c-837d-aeb7504185ff", "test-realm", "Swagger UI");
+                        //c.EnableOAuth2Support("test-client-id", "test-realm", "Swagger UI");
                     });
         }
 

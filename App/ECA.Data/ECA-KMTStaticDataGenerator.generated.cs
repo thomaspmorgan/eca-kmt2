@@ -17,7 +17,6 @@ namespace ECA.Data
 		/// Returns the Organization lookup with id 2.
 		/// </summary>
 		public static StaticLookup Organization { get { return new StaticLookup("Organization", 2); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -64,7 +63,6 @@ namespace ECA.Data
 		/// Returns the Organization lookup with id 4.
 		/// </summary>
 		public static StaticLookup Organization { get { return new StaticLookup("Organization", 4); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -113,7 +111,6 @@ namespace ECA.Data
 		/// Returns the NotSpecified lookup with id 4.
 		/// </summary>
 		public static StaticLookup Notspecified { get { return new StaticLookup("NotSpecified", 4); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -158,7 +155,6 @@ namespace ECA.Data
 		/// Returns the Completed lookup with id 3.
 		/// </summary>
 		public static StaticLookup Completed { get { return new StaticLookup("Completed", 3); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -222,7 +218,6 @@ namespace ECA.Data
 		/// Returns the Address lookup with id 9.
 		/// </summary>
 		public static StaticLookup Address { get { return new StaticLookup("Address", 9); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -295,7 +290,6 @@ namespace ECA.Data
 		/// Returns the Post lookup with id 9.
 		/// </summary>
 		public static StaticLookup Post { get { return new StaticLookup("Post", 9); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -345,7 +339,6 @@ namespace ECA.Data
 		/// Returns the Internal lookup with id 3.
 		/// </summary>
 		public static StaticLookup Internal { get { return new StaticLookup("Internal", 3); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -421,7 +414,6 @@ namespace ECA.Data
 		/// Returns the Individual lookup with id 11.
 		/// </summary>
 		public static StaticLookup Individual { get { return new StaticLookup("Individual", 11); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -493,7 +485,22 @@ namespace ECA.Data
 		/// Returns the Other lookup with id 8.
 		/// </summary>
 		public static StaticLookup Other { get { return new StaticLookup("Other", 8); } }
-
+		/// <summary>
+		/// Returns the Foreign Non Traveling Participant lookup with id 9.
+		/// </summary>
+		public static StaticLookup ForeignNonTravelingParticipant { get { return new StaticLookup("Foreign Non Traveling Participant", 9); } }
+		/// <summary>
+		/// Returns the U.S. Non Traveling Participant lookup with id 10.
+		/// </summary>
+		public static StaticLookup USNonTravelingParticipant { get { return new StaticLookup("U.S. Non Traveling Participant", 10); } }
+		/// <summary>
+		/// Returns the Foreign Traveling Participant lookup with id 11.
+		/// </summary>
+		public static StaticLookup ForeignTravelingParticipant { get { return new StaticLookup("Foreign Traveling Participant", 11); } }
+		/// <summary>
+		/// Returns the U.S. Traveling Participant lookup with id 12.
+		/// </summary>
+		public static StaticLookup USTravelingParticipant { get { return new StaticLookup("U.S. Traveling Participant", 12); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -509,6 +516,10 @@ namespace ECA.Data
 			if (6 == id) return ParticipantType.Individual;
 			if (7 == id) return ParticipantType.ForeignNgoPvo;
 			if (8 == id) return ParticipantType.Other;
+			if (9 == id) return ParticipantType.ForeignNonTravelingParticipant;
+			if (10 == id) return ParticipantType.USNonTravelingParticipant;
+			if (11 == id) return ParticipantType.ForeignTravelingParticipant;
+			if (12 == id) return ParticipantType.USTravelingParticipant;
 			return null;
 		}
 
@@ -542,7 +553,6 @@ namespace ECA.Data
 		/// Returns the Cell lookup with id 3.
 		/// </summary>
 		public static StaticLookup Cell { get { return new StaticLookup("Cell", 3); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -598,7 +608,6 @@ namespace ECA.Data
 		/// Returns the Other lookup with id 6.
 		/// </summary>
 		public static StaticLookup Other { get { return new StaticLookup("Other", 6); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -645,7 +654,6 @@ namespace ECA.Data
 		/// Returns the Branch lookup with id 3.
 		/// </summary>
 		public static StaticLookup Branch { get { return new StaticLookup("Branch", 3); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -701,7 +709,22 @@ namespace ECA.Data
 		/// Returns the Other lookup with id 7.
 		/// </summary>
 		public static StaticLookup Other { get { return new StaticLookup("Other", 7); } }
-
+		/// <summary>
+		/// Returns the Active - Use Actuals lookup with id 8.
+		/// </summary>
+		public static StaticLookup ActiveUseActuals { get { return new StaticLookup("Active - Use Actuals", 8); } }
+		/// <summary>
+		/// Returns the Project Postponed lookup with id 9.
+		/// </summary>
+		public static StaticLookup ProjectPostponed { get { return new StaticLookup("Project Postponed", 9); } }
+		/// <summary>
+		/// Returns the Proposed lookup with id 10.
+		/// </summary>
+		public static StaticLookup Proposed { get { return new StaticLookup("Proposed", 10); } }
+		/// <summary>
+		/// Returns the Rejected lookup with id 11.
+		/// </summary>
+		public static StaticLookup Rejected { get { return new StaticLookup("Rejected", 11); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -715,6 +738,10 @@ namespace ECA.Data
 			if (5 == id) return ProjectStatus.Draft;
 			if (6 == id) return ProjectStatus.Canceled;
 			if (7 == id) return ProjectStatus.Other;
+			if (8 == id) return ProjectStatus.ActiveUseActuals;
+			if (9 == id) return ProjectStatus.ProjectPostponed;
+			if (10 == id) return ProjectStatus.Proposed;
+			if (11 == id) return ProjectStatus.Rejected;
 			return null;
 		}
 
@@ -752,7 +779,6 @@ namespace ECA.Data
 		/// Returns the Weibo lookup with id 4.
 		/// </summary>
 		public static StaticLookup Weibo { get { return new StaticLookup("Weibo", 4); } }
-
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>

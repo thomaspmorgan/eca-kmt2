@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Admin;
-using ECA.Core.Logging;
 using ECA.Data;
 using ECA.Core.Query;
 using ECA.Business.Service.Lookup;
@@ -22,7 +21,7 @@ namespace ECA.Business.Test.Service.Admin
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new GenderService(context, new TraceLogger());
+            service = new GenderService(context);
         }
 
         [TestMethod]

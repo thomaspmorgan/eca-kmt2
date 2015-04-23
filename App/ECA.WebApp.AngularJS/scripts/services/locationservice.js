@@ -10,9 +10,9 @@
 angular.module('staticApp')
   .factory('LocationService', function (DragonBreath, $q) {
     return {
-      get: function (type) {
+      get: function (params) {
         var defer = $q.defer();
-        DragonBreath.get({type: type}, 'locations')
+        DragonBreath.get(params, 'locations')
           .success(function (data) {
              defer.resolve(data);
           });

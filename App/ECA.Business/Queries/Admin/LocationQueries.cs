@@ -25,7 +25,9 @@ namespace ECA.Business.Queries.Admin
                 Id = x.LocationId,
                 LocationTypeId = x.LocationTypeId,
                 LocationTypeName = x.LocationType.LocationTypeName,
-                Name = x.LocationName
+                Name = x.LocationName,
+                RegionId = x.RegionId,
+                CountryId = x.CountryId
             });
             return query;
         }

@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, ProgramService, ParticipantService, LocationService, MoneyFlowService, TableService, ConstantsService, LookupService) {
+  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, PersonService, ProgramService, ParticipantService, LocationService, MoneyFlowService, TableService, ConstantsService, LookupService) {
 
       $scope.project = {};
 
@@ -169,44 +169,56 @@ angular.module('staticApp')
           saveProject();
       }
 
-      LookupService.getAllGenders({limit: 300})
+      LookupService.getAllGenders({ limit: 300 })
         .then(function (data) {
             $scope.genders = data.results;
         });
 
+      LocationService.get({ limit: 300, filter: {property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country}})
+        .then(function (data) {
+            $scope.countries = data.results;
+        });
+
+      $scope.birthCountrySelected = function (data) {
+          LocationService.get({
+              limit: 300,
+              filter: [{ property: 'countryId', comparison: 'eq', value: data.id },
+                       { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city}]
+          }).then(function (data) {
+                $scope.cities = data.results;
+            });
+      }
+
       $scope.addParticipant = function () {
-          $scope.newParticipant.id = Date.now().toString();
-          console.log('project', $scope.project);
-          $scope.newParticipant.projectReferences = [{ projectId: $scope.project.id, projectName: $scope.project.name }];
-          $scope.newParticipant.programReferences = [{ programId: $scope.project.parentProgram.programId, programName: $scope.project.parentProgram.displayName }];
-          var projectPersonRef = {
-              personId: $scope.newParticipant.id,
-              personName: $scope.newParticipant.firstName + " " + $scope.newParticipant.lastName
-          };
-          $scope.project.participants.push(projectPersonRef);
-          $scope.newParticipant.names = [
-            {
-                type: 'givenName',
-                value: $scope.newParticipant.firstName
-            },
-            {
-                type: 'surname',
-                value: $scope.newParticipant.lastName
-            }
-          ];
-          $scope.newParticipant.gender = $scope.newParticipant.gender[0].name;
-          $scope.newParticipant.placeOfBirth = {
-              displayName: $scope.newParticipant.birthCity.city,
-              locationId: $scope.newParticipant.birthCity.id
-          };
-          $scope.newParticipant.countriesOfCitizenships = [
-            {
-                displayName: $scope.newParticipant.countryOfCitizenship
-            }
-          ];
-          PersonService.create(angular.copy($scope.newParticipant), 'people');
-          $scope.modalClear();
-          saveProject();
+
+          setupNewParticipant();
+
+          PersonService.create($scope.newParticipant)
+            .then(function () {
+                $scope.participantsLoading = true;
+                var params = {
+                    start: TableService.getStart(),
+                    limit: TableService.getLimit(),
+                };
+                ParticipantService.getParticipantsByProject($stateParams.projectId, params)
+                    .then(function (data) {
+                        $scope.project.participants = data.results;
+                        $scope.participantsLoading = false;
+                    });
+            });
+
+          $scope.modalClose();
+      };
+      
+      function setupNewParticipant() {
+          delete $scope.newParticipant.countryOfBirth;
+          $scope.newParticipant.projectId = $scope.project.id;
+          $scope.newParticipant.gender = $scope.newParticipant.gender[0].id;
+          $scope.newParticipant.cityOfBirth = $scope.newParticipant.cityOfBirth[0].id;
+          $scope.newParticipant.countriesOfCitizenship =
+               $scope.newParticipant.countriesOfCitizenship.map(function (obj) {
+                   return obj.id;
+               });
       };
 
       $scope.saveProject = function () {
@@ -252,9 +264,26 @@ angular.module('staticApp')
 
       $scope.modalClear = function () {
           $scope.modal.addParticipant = false;
+
           angular.forEach($scope.newParticipant, function (value, key) {
               $scope.newParticipant[key] = '';
           });
+
+          angular.forEach($scope.genders, function (value, key) {
+              if ($scope.genders[key].ticked === undefined) {
+                  $scope.genders[key].ticked = false;
+              } else {
+                  delete $scope.genders[key].ticked;
+              }
+          });
+          angular.forEach($scope.countries, function (value, key) {
+              if ($scope.countries[key].ticked === undefined) {
+                  $scope.countries[key].ticked = false;
+              } else {
+                  delete $scope.countries[key].ticked;
+              }
+          });
+          $scope.cities = [];
       };
 
   });

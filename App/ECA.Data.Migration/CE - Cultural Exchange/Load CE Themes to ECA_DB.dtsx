@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Load CE Themes to ECA_DB"
   DTS:PackageType="5"
-  DTS:VersionBuild="2"
-  DTS:VersionGUID="{C8E36E27-4799-495E-AD59-3FC53AD3CD26}">
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{D48502D8-B7C7-40D5-9D5F-E71046AD080E}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,22 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACnttX6LS/ZYnQWPndNKADZRM06JVE7LTuT0NnHB5grhgAAAAAOgAAAAAIAACAAAAAB7fP6ZIAaoBXIQiWF68IUQAiR75LNBGa0qMQZwpJpsyAAAAD4VtwOZXf/IXs8mbe2b0IhZeQmMvmjZnpd1UIRXHZuqEAAAAAzPEWeQhTw67AyoeMtCmyny3SqF39KQb+mU0UYC5qLGPo2C+xofjvMwj4gQDWu+h72Xm25ZxaIbIm9/wMYYOcV</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD8tfi7Wu5wdZSSxE3Mzodvj4DzaUc+uHlYY7gKR6VvCgAAAAAOgAAAAAIAACAAAAB5MCe+PZT/NbcFwRIY1eKugTJzqpgrMYYOynNggVNbwyAAAAD0D8x36Fx5jXlcb/Uqx5T3jVr55hV6IybZ0WxnLqYw9UAAAAAxPb6zWCNlIk6aSCyX9ZyzhpCG3U3KDB+Tp+umngbw6llLti8pAgIllR759HedidxeVK9aw8mtb4NC5ws8r0vq</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Dev_Local_Copy.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{BF36D47E-18A6-4F44-AEDE-D62251C84D42}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.ECA_Dev_Local_Copy.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=ECA_Dev_Local_Copy;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABiOIsIec3Atbwdrj9anXygdfptlzFbIHSroP5/j51PagAAAAAOgAAAAAIAACAAAACPS85Zc2a/utHJ+PYqUAdYNGZSZb7YjCq6X132apZVniAAAAAQBko11ZPIwXDZAG+/HAWxh5gc1VSbXefQHHFQFPGaxEAAAAAMMCxII6MjsRPeDgh78Yjm2VkYCGBRbWmSCpjqxKSIs2+hqpn6DPEhC1CLwt8fwTfrTDSGT63LIXDp2lJ9iZZc</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -42,7 +57,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA9540pQ78/H6VUNSUdfclK5k6eSIHXUka6z8Ndk5DeewAAAAAOgAAAAAIAACAAAABKM3jJLk721OWlYN2VzxgcNtEK7i3KyYUrC5KwhboYQSAAAABYGN+QqVLi6P/FgzpW8o3q7Ga998Lf7zM/BSROdQn6o0AAAABJkLFbviC7Ii7DFz+0sTSbjvXp7WPnuioHm2SsRUu1R10j2XyVmGOb7dmeaDH/Qr67pcf/sLqmNpUYG1JDkoB1</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADusrNWnNYFFgUNl93ogAxLgBU7+dwvwyMfHSRrB3z9IAAAAAAOgAAAAAIAACAAAABj2/WyN3nd3iiVdrnuJZgabeFo5yJA3LuSXIhMmQZRnyAAAAAnkfTApQ2uC5BkDlPi3zrkR14gAg746vUbOOI82J6TyEAAAABF8RwX1J87Yrx5I7ljIlmBEcfDHE6jWj0l8VyhNO4Gu1pHu6tffVVNJN5QHto1gxR4TOPuGuC3y21ac1cq9hPS</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -53,6 +68,7 @@
       DTS:refId="Package\Create CE Themes"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{92BA4EB6-08AF-4577-A975-90BBCEF82C5F}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -64,137 +80,137 @@
           version="1">
           <components>
             <component
-              refId="Package\Create CE Themes\Determine if Theme already exists"
-              componentClassID="Microsoft.Lookup"
-              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
-              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
-              name="Determine if Theme already exists"
-              usesDispositions="true"
-              version="6">
-              <properties>
-                <property
-                  dataType="System.String"
-                  description="Specifies the SQL statement that generates the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Theme]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
-                  expressionType="Notify"
-                  name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the type of connection used to access the reference dataset."
-                  name="ConnectionType"
-                  typeConverter="LookupConnectionType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the cache type of the lookup table."
-                  name="CacheType"
-                  typeConverter="CacheType">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
-                  name="NoMatchBehavior"
-                  typeConverter="LookupNoMatchBehavior">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
-                  name="NoMatchCachePercentage">0</property>
-                <property
-                  dataType="System.Int32"
-                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
-                  name="MaxMemoryUsage">25</property>
-                <property
-                  dataType="System.Int64"
-                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
-                  name="MaxMemoryUsage64">25</property>
-                <property
-                  dataType="System.String"
-                  description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ThemeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ThemeName" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
-                <property
-                  containsID="true"
-                  dataType="System.String"
-                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
-                  name="TreatDuplicateKeysAsError">false</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Create CE Themes\Determine if Theme already exists.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
-                  description="Connection manager used to access lookup data."
-                  name="OleDbConnection" />
-              </connections>
+              refId="Package\Create CE Themes\Add Required Theme table columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Required Theme table columns"
+              usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Create CE Themes\Determine if Theme already exists.Inputs[Lookup Input]"
-                  name="Lookup Input">
+                  refId="Package\Create CE Themes\Add Required Theme table columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Create CE Themes\Determine if Theme already exists.Outputs[Lookup Match Output]"
-                  errorOrTruncationOperation="Lookup"
-                  errorRowDisposition="FailComponent"
+                  refId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
                   exclusionGroup="1"
-                  name="Lookup Match Output"
-                  synchronousInputId="Package\Create CE Themes\Determine if Theme already exists.Inputs[Lookup Input]">
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Create CE Themes\Add Required Theme table columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Themes\Determine if Theme already exists.Outputs[Lookup Match Output].Columns[ThemeId]"
+                      refId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
                       dataType="i4"
-                      errorOrTruncationOperation="Copy Column"
-                      lineageId="Package\Create CE Themes\Determine if Theme already exists.Outputs[Lookup Match Output].Columns[ThemeId]"
-                      name="ThemeId"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
                       truncationRowDisposition="FailComponent">
                       <properties>
                         <property
+                          containsID="true"
                           dataType="System.String"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn">ThemeId</property>
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETUTCDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETUTCDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETUTCDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETUTCDATE()</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Create CE Themes\Determine if Theme already exists.Outputs[Lookup No Match Output]"
-                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
-                  exclusionGroup="1"
-                  name="Lookup No Match Output"
-                  synchronousInputId="Package\Create CE Themes\Determine if Theme already exists.Inputs[Lookup Input]">
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Create CE Themes\Determine if Theme already exists.Outputs[Lookup Error Output]"
+                  refId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   isErrorOut="true"
-                  name="Lookup Error Output"
-                  synchronousInputId="Package\Create CE Themes\Determine if Theme already exists.Inputs[Lookup Input]">
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Create CE Themes\Add Required Theme table columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Themes\Determine if Theme already exists.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      refId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Create CE Themes\Determine if Theme already exists.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Create CE Themes\Determine if Theme already exists.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      refId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Create CE Themes\Determine if Theme already exists.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -203,11 +219,105 @@
               </outputs>
             </component>
             <component
-              refId="Package\Create CE Themes\OLE DB Source"
+              refId="Package\Create CE Themes\Aggregate ThemeName"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
+              description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
+              name="Aggregate ThemeName"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of distinct values in a column that the aggregation counts distinctly. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no CountDistinctScale value is used."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of distinct values in a column that the aggregation counts distinctly. If a CountDistinctScale value is specified, the value in CountDistinctKeys takes precedence."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage by which memory can be extended during the aggregation. Valid values are between 1 and 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Create CE Themes\Aggregate ThemeName.Inputs[Aggregate Input 1]"
+                  name="Aggregate Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create CE Themes\Aggregate ThemeName.Inputs[Aggregate Input 1].Columns[ThemeName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ThemeName"
+                      lineageId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[ThemeName]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create CE Themes\Aggregate ThemeName.Outputs[Aggregate Output 1]"
+                  name="Aggregate Output 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Themes\Aggregate ThemeName.Outputs[Aggregate Output 1].Columns[ThemeNameAgg]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create CE Themes\Aggregate ThemeName.Outputs[Aggregate Output 1].Columns[ThemeNameAgg]"
+                      name="ThemeNameAgg">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[ThemeName]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">1</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create CE Themes\CE_Project_Theme"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
-              name="OLE DB Source"
+              name="CE_Project_Theme"
               usesDispositions="true"
               version="7">
               <properties>
@@ -252,7 +362,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Create CE Themes\OLE DB Source.Connections[OleDbConnection]"
+                  refId="Package\Create CE Themes\CE_Project_Theme.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
                   connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
                   description="The OLE DB runtime connection used to access the database."
@@ -260,113 +370,482 @@
               </connections>
               <outputs>
                 <output
-                  refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output]"
+                  refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].Columns[ThemeName]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[ThemeName]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SUBJECT]"
+                      externalMetadataColumnId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[SUBJECT]"
                       length="255"
-                      lineageId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].Columns[ThemeName]"
+                      lineageId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[ThemeName]"
                       name="ThemeName"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].Columns[History_CreatedOn]"
-                      dataType="dbTimeStamp"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_CREATE_DT]"
-                      lineageId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].Columns[History_CreatedOn]"
-                      name="History_CreatedOn"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].Columns[History_RevisedOn]"
-                      dataType="dbTimeStamp"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_UPDATE_DT]"
-                      lineageId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].Columns[History_RevisedOn]"
-                      name="History_RevisedOn"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_ID]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_ID]"
                       dataType="wstr"
                       length="255"
                       name="PROJECT_THEME_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_ID]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_ID]"
                       dataType="wstr"
                       length="255"
                       name="PROJECT_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SUBJECT]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[SUBJECT]"
                       dataType="wstr"
                       length="255"
                       name="SUBJECT" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_PRIMARY_IND]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_PRIMARY_IND]"
                       dataType="wstr"
                       length="255"
                       name="PROJECT_THEME_PRIMARY_IND" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_CREATE_ID]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_CREATE_ID]"
                       dataType="wstr"
                       length="255"
                       name="PROJECT_THEME_CREATE_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_CREATE_DT]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_CREATE_DT]"
                       dataType="dbTimeStamp"
                       name="PROJECT_THEME_CREATE_DT" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_UPDATE_ID]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_UPDATE_ID]"
                       dataType="wstr"
                       length="255"
                       name="PROJECT_THEME_UPDATE_ID" />
                     <externalMetadataColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_UPDATE_DT]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_UPDATE_DT]"
                       dataType="dbTimeStamp"
                       name="PROJECT_THEME_UPDATE_DT" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                     <outputColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SUBJECT]"
+                      refId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[SUBJECT]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SUBJECT]"
+                      lineageId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[SUBJECT]"
                       name="SUBJECT" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison"
+              componentClassID="Microsoft.CharacterMap"
+              contactInfo="Character Map;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Applies string functions to character data. For example, convert from data that is in upper case to lower case. Operates only on column data with a string data type."
+              name="Convert ThemeName to Uppercase for comparison"
+              usesDispositions="true"
+              version="2">
+              <inputs>
+                <input
+                  refId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Inputs[Character Map Input]"
+                  name="Character Map Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Inputs[Character Map Input].Columns[ThemeNameAgg]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ThemeNameAgg"
+                      lineageId="Package\Create CE Themes\Aggregate ThemeName.Outputs[Aggregate Output 1].Columns[ThemeNameAgg]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Outputs[Character Map Output]"
+                  exclusionGroup="1"
+                  name="Character Map Output"
+                  synchronousInputId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Inputs[Character Map Input]">
+                  <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PROJECT_THEME_CREATE_DT]"
-                      dataType="dbTimeStamp"
-                      lineageId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PROJECT_THEME_CREATE_DT]"
-                      name="PROJECT_THEME_CREATE_DT" />
+                      refId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Outputs[Character Map Output].Columns[UpperThemeNameAgg]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Map Column"
+                      length="255"
+                      lineageId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Outputs[Character Map Output].Columns[UpperThemeNameAgg]"
+                      name="UpperThemeNameAgg"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.UInt32"
+                          description="Specifies the string operations to apply."
+                          name="MapFlags"
+                          typeConverter="LCMappingType">512</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column to which operations apply."
+                          name="InputColumnLineageID">#{Package\Create CE Themes\Aggregate ThemeName.Outputs[Aggregate Output 1].Columns[ThemeNameAgg]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Outputs[Character Map Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Character Map Error Output"
+                  synchronousInputId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Inputs[Character Map Input]">
+                  <outputColumns>
                     <outputColumn
-                      refId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PROJECT_THEME_UPDATE_DT]"
-                      dataType="dbTimeStamp"
-                      lineageId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PROJECT_THEME_UPDATE_DT]"
-                      name="PROJECT_THEME_UPDATE_DT" />
+                      refId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Outputs[Character Map Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Outputs[Character Map Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Outputs[Character Map Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Outputs[Character Map Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create CE Themes\ECA_DB Theme table"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ECA_DB Theme table"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Theme]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create CE Themes\ECA_DB Theme table.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].Columns[ThemeNameAgg]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ThemeNameAgg"
+                      externalMetadataColumnId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].ExternalColumns[ThemeName]"
+                      lineageId="Package\Create CE Themes\Aggregate ThemeName.Outputs[Aggregate Output 1].Columns[ThemeNameAgg]" />
+                    <inputColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].ExternalColumns[ThemeId]"
+                      dataType="i4"
+                      name="ThemeId" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].ExternalColumns[ThemeName]"
+                      dataType="wstr"
+                      length="150"
+                      name="ThemeName" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create CE Themes\ECA_DB Theme table.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Themes\ECA_DB Theme table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create CE Themes\ECA_DB Theme table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Themes\ECA_DB Theme table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create CE Themes\Lookup - Determine if Theme exists"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup - Determine if Theme exists"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Theme]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Theme]) [refTable]
+where [refTable].[ThemeName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ThemeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ThemeName" dataType="DT_WSTR" length="150" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Outputs[Character Map Output].Columns[UpperThemeNameAgg]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create CE Themes\Lookup - Determine if Theme exists.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create CE Themes\Lookup - Determine if Theme exists.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create CE Themes\Lookup - Determine if Theme exists.Inputs[Lookup Input].Columns[UpperThemeNameAgg]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="UpperThemeNameAgg"
+                      lineageId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Outputs[Character Map Output].Columns[UpperThemeNameAgg]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">ThemeName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create CE Themes\Lookup - Determine if Theme exists.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Create CE Themes\Lookup - Determine if Theme exists.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Themes\Lookup - Determine if Theme exists.Outputs[Lookup Match Output].Columns[ThemeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Create CE Themes\Lookup - Determine if Theme exists.Outputs[Lookup Match Output].Columns[ThemeId]"
+                      name="ThemeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ThemeId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create CE Themes\Lookup - Determine if Theme exists.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Create CE Themes\Lookup - Determine if Theme exists.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create CE Themes\Lookup - Determine if Theme exists.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Create CE Themes\Lookup - Determine if Theme exists.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create CE Themes\Lookup - Determine if Theme exists.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Themes\Lookup - Determine if Theme exists.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create CE Themes\Lookup - Determine if Theme exists.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create CE Themes\Lookup - Determine if Theme exists.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
@@ -375,15 +854,1369 @@
           </components>
           <paths>
             <path
+              refId="Package\Create CE Themes.Paths[Aggregate Output 1]"
+              endId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Inputs[Character Map Input]"
+              name="Aggregate Output 1"
+              startId="Package\Create CE Themes\Aggregate ThemeName.Outputs[Aggregate Output 1]" />
+            <path
+              refId="Package\Create CE Themes.Paths[Character Map Output]"
+              endId="Package\Create CE Themes\Lookup - Determine if Theme exists.Inputs[Lookup Input]"
+              name="Character Map Output"
+              startId="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison.Outputs[Character Map Output]" />
+            <path
+              refId="Package\Create CE Themes.Paths[Derived Column Output]"
+              endId="Package\Create CE Themes\ECA_DB Theme table.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Create CE Themes\Add Required Theme table columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Create CE Themes.Paths[Lookup No Match Output]"
+              endId="Package\Create CE Themes\Add Required Theme table columns.Inputs[Derived Column Input]"
+              name="Lookup No Match Output"
+              startId="Package\Create CE Themes\Lookup - Determine if Theme exists.Outputs[Lookup No Match Output]" />
+            <path
               refId="Package\Create CE Themes.Paths[OLE DB Source Output]"
-              endId="Package\Create CE Themes\Determine if Theme already exists.Inputs[Lookup Input]"
+              endId="Package\Create CE Themes\Aggregate ThemeName.Inputs[Aggregate Input 1]"
               name="OLE DB Source Output"
-              startId="Package\Create CE Themes\OLE DB Source.Outputs[OLE DB Source Output]" />
+              startId="Package\Create CE Themes\CE_Project_Theme.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create ProjectTheme and ProgramTheme Mappings"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{7B466958-04D9-4F54-B068-0F6CE137610A}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create ProjectTheme and ProgramTheme Mappings"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
+              description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
+              name="Aggregate ProgramId and ThemeId to Remove duplicates"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of distinct values in a column that the aggregation counts distinctly. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no CountDistinctScale value is used."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of distinct values in a column that the aggregation counts distinctly. If a CountDistinctScale value is specified, the value in CountDistinctKeys takes precedence."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage by which memory can be extended during the aggregation. Valid values are between 1 and 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Inputs[Aggregate Input 1]"
+                  name="Aggregate Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Inputs[Aggregate Input 1].Columns[ThemeId]"
+                      cachedDataType="i4"
+                      cachedName="ThemeId"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Match Output].Columns[ThemeId]" />
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Inputs[Aggregate Input 1].Columns[ProgramId]"
+                      cachedDataType="i4"
+                      cachedName="ProgramId"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProgramId]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1]"
+                  name="Aggregate Output 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProgramId]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProgramId]"
+                      name="ProgramId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProgramId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ThemeId]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ThemeId]"
+                      name="ThemeId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Match Output].Columns[ThemeId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
+              description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
+              name="Aggregate ProjectId and ThemeId to Remove duplicates"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of distinct values in a column that the aggregation counts distinctly. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no CountDistinctScale value is used."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of distinct values in a column that the aggregation counts distinctly. If a CountDistinctScale value is specified, the value in CountDistinctKeys takes precedence."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage by which memory can be extended during the aggregation. Valid values are between 1 and 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Inputs[Aggregate Input 1]"
+                  name="Aggregate Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Inputs[Aggregate Input 1].Columns[ProjectId]"
+                      cachedDataType="i4"
+                      cachedName="ProjectId"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProjectId]" />
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Inputs[Aggregate Input 1].Columns[ThemeId]"
+                      cachedDataType="i4"
+                      cachedName="ThemeId"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Match Output].Columns[ThemeId]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1]"
+                  name="Aggregate Output 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProjectId]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProjectId]"
+                      name="ProjectId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProjectId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ThemeId]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ThemeId]"
+                      name="ThemeId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Match Output].Columns[ThemeId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="CE_Project_Theme"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CE_Project_Theme]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[PROJECT_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_ID]"
+                      length="255"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[PROJECT_ID]"
+                      name="PROJECT_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[SUBJECT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[SUBJECT]"
+                      length="255"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[SUBJECT]"
+                      name="SUBJECT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_THEME_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[SUBJECT]"
+                      dataType="wstr"
+                      length="255"
+                      name="SUBJECT" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_PRIMARY_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_THEME_PRIMARY_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_THEME_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_THEME_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_THEME_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].ExternalColumns[PROJECT_THEME_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PROJECT_THEME_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[PROJECT_ID]"
+                      name="PROJECT_ID" />
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[SUBJECT]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Error Output].Columns[SUBJECT]"
+                      name="SUBJECT" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase"
+              componentClassID="Microsoft.CharacterMap"
+              contactInfo="Character Map;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Applies string functions to character data. For example, convert from data that is in upper case to lower case. Operates only on column data with a string data type."
+              name="Convert Theme to Uppercase"
+              usesDispositions="true"
+              version="2">
+              <inputs>
+                <input
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Inputs[Character Map Input]"
+                  name="Character Map Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Inputs[Character Map Input].Columns[SUBJECT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SUBJECT"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[SUBJECT]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Outputs[Character Map Output]"
+                  exclusionGroup="1"
+                  name="Character Map Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Inputs[Character Map Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Outputs[Character Map Output].Columns[UpperSUBJECT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Map Column"
+                      length="255"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Outputs[Character Map Output].Columns[UpperSUBJECT]"
+                      name="UpperSUBJECT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.UInt32"
+                          description="Specifies the string operations to apply."
+                          name="MapFlags"
+                          typeConverter="LCMappingType">512</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column to which operations apply."
+                          name="InputColumnLineageID">#{Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[SUBJECT]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Outputs[Character Map Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Character Map Error Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Inputs[Character Map Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Outputs[Character Map Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Outputs[Character Map Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Outputs[Character Map Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Outputs[Character Map Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ECA ProgramTheme"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ProgramTheme]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Inputs[OLE DB Destination Input].Columns[ThemeId]"
+                      cachedDataType="i4"
+                      cachedName="ThemeId"
+                      externalMetadataColumnId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Inputs[OLE DB Destination Input].ExternalColumns[ThemeId]"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ThemeId]" />
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Inputs[OLE DB Destination Input].Columns[ProgramId]"
+                      cachedDataType="i4"
+                      cachedName="ProgramId"
+                      externalMetadataColumnId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Inputs[OLE DB Destination Input].ExternalColumns[ProgramId]"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProgramId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Inputs[OLE DB Destination Input].ExternalColumns[ThemeId]"
+                      dataType="i4"
+                      name="ThemeId" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Inputs[OLE DB Destination Input].ExternalColumns[ProgramId]"
+                      dataType="i4"
+                      name="ProgramId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ECA ProjectTheme"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ProjectTheme]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Inputs[OLE DB Destination Input].Columns[ProjectId]"
+                      cachedDataType="i4"
+                      cachedName="ProjectId"
+                      externalMetadataColumnId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Inputs[OLE DB Destination Input].ExternalColumns[ProjectId]"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ProjectId]" />
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Inputs[OLE DB Destination Input].Columns[ThemeId]"
+                      cachedDataType="i4"
+                      cachedName="ThemeId"
+                      externalMetadataColumnId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Inputs[OLE DB Destination Input].ExternalColumns[ThemeId]"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1].Columns[ThemeId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Inputs[OLE DB Destination Input].ExternalColumns[ProjectId]"
+                      dataType="i4"
+                      name="ProjectId" />
+                    <externalMetadataColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Inputs[OLE DB Destination Input].ExternalColumns[ThemeId]"
+                      dataType="i4"
+                      name="ThemeId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup ECA ProjectId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Project]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Project]) [refTable]
+where [refTable].[Name] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProjectId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="500" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FocusArea" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FocusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Language" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="AudienceReach" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="EventId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="NominationSource_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output].Columns[PROJECT]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Inputs[Lookup Input].Columns[PROJECT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROJECT"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output].Columns[PROJECT]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Name</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProjectId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProjectId]"
+                      name="ProjectId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProjectId</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProgramId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ProgramId]"
+                      name="ProgramId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProgramId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup ECA ThemeId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Theme]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Theme]) [refTable]
+where UPPER([refTable].[ThemeName]) = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ThemeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ThemeName" dataType="DT_WSTR" length="150" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Outputs[Character Map Output].Columns[UpperSUBJECT]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Inputs[Lookup Input].Columns[UpperSUBJECT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="UpperSUBJECT"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Outputs[Character Map Output].Columns[UpperSUBJECT]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">ThemeName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Match Output].Columns[ThemeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Match Output].Columns[ThemeId]"
+                      name="ThemeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ThemeId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Project from CE_Project Source"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[CE_Project]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[CE_Project]) [refTable]
+where [refTable].[PROJECT_ID] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="PROJECT_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROGRAM" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PARENT_PROGRAM" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_STATUS" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="START_DATE" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="END_DATE" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="SENSITIVE_IND" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="COMMENT" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PURPOSE" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_CREATE_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_CREATE_DT" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_UPDATE_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_UPDATE_DT" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[PROJECT_ID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input].Columns[PROJECT_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROJECT_ID"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output].Columns[PROJECT_ID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">PROJECT_ID</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output].Columns[PROJECT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Copy Column"
+                      length="255"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output].Columns[PROJECT]"
+                      name="PROJECT"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">PROJECT</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast"
+              componentClassID="Microsoft.Multicast"
+              contactInfo="Multicast;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Distributes every input row to every row in one or more outputs. For example, branch your data flow to make a copy of data so that some values can be masked before sharing with external partners."
+              name="Multicast">
+              <inputs>
+                <input
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast.Inputs[Multicast Input 1]"
+                  name="Multicast Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast.Outputs[Multicast Output 1]"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 1"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast.Outputs[Multicast Output 2]"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 2"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast.Outputs[Multicast Output 3]"
+                  dangling="true"
+                  deleteOutputOnPathDetached="true"
+                  name="Multicast Output 3"
+                  synchronousInputId="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast.Inputs[Multicast Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Aggregate Output 1]"
+              endId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme.Inputs[OLE DB Destination Input]"
+              name="Aggregate Output 1"
+              startId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1]" />
+            <path
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Aggregate Output 11]"
+              endId="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme.Inputs[OLE DB Destination Input]"
+              name="Aggregate Output 1"
+              startId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Outputs[Aggregate Output 1]" />
+            <path
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Character Map Output]"
+              endId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Inputs[Lookup Input]"
+              name="Character Map Output"
+              startId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Outputs[Character Map Output]" />
+            <path
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Lookup Match Output]"
+              endId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Lookup Match Output1]"
+              endId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Lookup Match Output2]"
+              endId="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast.Inputs[Multicast Input 1]"
+              name="Lookup Match Output"
+              startId="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Multicast Output 1]"
+              endId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates.Inputs[Aggregate Input 1]"
+              name="Multicast Output 1"
+              startId="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast.Outputs[Multicast Output 1]" />
+            <path
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Multicast Output 2]"
+              endId="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates.Inputs[Aggregate Input 1]"
+              name="Multicast Output 2"
+              startId="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast.Outputs[Multicast Output 2]" />
+            <path
+              refId="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[OLE DB Source Output]"
+              endId="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase.Inputs[Character Map Input]"
+              name="OLE DB Source Output"
+              startId="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme.Outputs[OLE DB Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{4B51B62E-4F96-4A73-AA93-EAB3213C041E}"
+      DTS:From="Package\Create CE Themes"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Create ProjectTheme and ProgramTheme Mappings" />
+  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -395,11 +2228,49 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="166,42"
           Id="Package\Create CE Themes"
-          TopLeft="5.5,5.5" />
+          TopLeft="99.5,15.5" />
+        <NodeLayout
+          Size="322,42"
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings"
+          TopLeft="58.5,125.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="182.5,57.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="37,68"
+              Start="0,0"
+              End="37,60.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,30"
+                    Point2="0,34"
+                    Point3="4,34" />
+                  <mssgle:LineSegment
+                    End="33,34" />
+                  <mssgle:CubicBezierSegment
+                    Point1="33,34"
+                    Point2="37,34"
+                    Point3="37,38" />
+                  <mssgle:LineSegment
+                    End="37,60.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -407,41 +2278,171 @@
     design-time-name="Package\Create CE Themes">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="150,42"
-          Id="Package\Create CE Themes\OLE DB Source"
-          TopLeft="5.5,5.5" />
+          Size="168,42"
+          Id="Package\Create CE Themes\CE_Project_Theme"
+          TopLeft="15.5,42.5" />
         <NodeLayout
-          Size="240,42"
-          Id="Package\Create CE Themes\Determine if Theme already exists"
-          TopLeft="191.5,82.5" />
+          Size="247,42"
+          Id="Package\Create CE Themes\Lookup - Determine if Theme exists"
+          TopLeft="31.5,137.5" />
+        <NodeLayout
+          Size="247,42"
+          Id="Package\Create CE Themes\Add Required Theme table columns"
+          TopLeft="184.5,240.5" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Create CE Themes\ECA_DB Theme table"
+          TopLeft="434.5,326.5" />
         <EdgeLayout
-          Id="Package\Create CE Themes.Paths[OLE DB Source Output]"
-          TopLeft="80.5,47.5">
+          Id="Package\Create CE Themes.Paths[Derived Column Output]"
+          TopLeft="308,282.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="231,35"
+              EndConnector="216,44"
               Start="0,0"
-              End="231,27.5">
+              End="216,36.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,13.5" />
+                    End="0,18" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,13.5"
-                    Point2="0,17.5"
-                    Point3="4,17.5" />
+                    Point1="0,18"
+                    Point2="0,22"
+                    Point3="4,22" />
                   <mssgle:LineSegment
-                    End="227,17.5" />
+                    End="212,22" />
                   <mssgle:CubicBezierSegment
-                    Point1="227,17.5"
-                    Point2="231,17.5"
-                    Point3="231,21.5" />
+                    Point1="212,22"
+                    Point2="216,22"
+                    Point3="216,26" />
                   <mssgle:LineSegment
-                    End="231,27.5" />
+                    End="216,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Create CE Themes\Aggregate ThemeName"
+          TopLeft="242.5,46.5" />
+        <EdgeLayout
+          Id="Package\Create CE Themes.Paths[OLE DB Source Output]"
+          TopLeft="183.5,65.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="59,0"
+              Start="0,0"
+              End="51.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="51.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Themes.Paths[Lookup No Match Output]"
+          TopLeft="155,179.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="153,61"
+              Start="0,0"
+              End="153,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.5"
+                    Point2="0,30.5"
+                    Point3="4,30.5" />
+                  <mssgle:LineSegment
+                    End="149,30.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="149,30.5"
+                    Point2="153,30.5"
+                    Point3="153,34.5" />
+                  <mssgle:LineSegment
+                    End="153,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="20.69361328125,35.5,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="317,42"
+          Id="Package\Create CE Themes\Convert ThemeName to Uppercase for comparison"
+          TopLeft="476.5,48.5" />
+        <EdgeLayout
+          Id="Package\Create CE Themes.Paths[Aggregate Output 1]"
+          TopLeft="432.5,68.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="44,0"
+              Start="0,0"
+              End="36.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="36.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create CE Themes.Paths[Character Map Output]"
+          TopLeft="635,90.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-480,47"
+              Start="0,0"
+              End="-480,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.5"
+                    Point2="0,23.5"
+                    Point3="-4,23.5" />
+                  <mssgle:LineSegment
+                    End="-476,23.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-476,23.5"
+                    Point2="-480,23.5"
+                    Point3="-480,27.5" />
+                  <mssgle:LineSegment
+                    End="-480,39.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -454,7 +2455,30 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Create CE Themes\OLE DB Source">
+    design-time-name="Package\Create CE Themes\Lookup - Determine if Theme exists">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Theme]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create CE Themes\ECA_DB Theme table">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -467,12 +2491,337 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Create CE Themes\Determine if Theme already exists">
+    design-time-name="Package\Create CE Themes\CE_Project_Theme">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Create ProjectTheme and ProgramTheme Mappings">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="181,42"
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId"
+          TopLeft="58.5,267.5" />
+        <NodeLayout
+          Size="264,42"
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source"
+          TopLeft="10.5,178.5" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme"
+          TopLeft="1032.5,51.5" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme"
+          TopLeft="45.5,5.5" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId"
+          TopLeft="292.5,268.5" />
+        <NodeLayout
+          Size="344,42"
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProjectId and ThemeId to Remove duplicates"
+          TopLeft="600.5,45.5" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings\Convert Theme to Uppercase"
+          TopLeft="24.5,90.5" />
+        <EdgeLayout
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[OLE DB Source Output]"
+          TopLeft="131,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,43"
+              Start="0,0"
+              End="0,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Lookup Match Output1]"
+          TopLeft="239.5,289">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="53,0"
+              Start="0,0"
+              End="45.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="45.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-25.44138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Lookup Match Output]"
+          TopLeft="142.5,220.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-22.3333333333333,47"
+              Start="0,0"
+              End="-22.3333333333333,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.9529025191676" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.9529025191676"
+                    Point2="0,27.9529025191676"
+                    Point3="-4,27.9529025191676" />
+                  <mssgle:LineSegment
+                    End="-18.3333333333333,27.9529025191676" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-18.3333333333333,27.9529025191676"
+                    Point2="-22.3333333333333,27.9529025191676"
+                    Point3="-22.3333333333333,31.9529025191676" />
+                  <mssgle:LineSegment
+                    End="-22.3333333333333,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-59.3580533854167,32.9529025191676,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Character Map Output]"
+          TopLeft="132.5,132.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10,46"
+              Start="0,0"
+              End="10,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19"
+                    Point2="0,23"
+                    Point3="4,23" />
+                  <mssgle:LineSegment
+                    End="6,23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6,23"
+                    Point2="10,23"
+                    Point3="10,27" />
+                  <mssgle:LineSegment
+                    End="10,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Aggregate Output 1]"
+          TopLeft="944.5,69.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="88,0"
+              Start="0,0"
+              End="80.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="80.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="120,42"
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings\Multicast"
+          TopLeft="367.5,113.5" />
+        <EdgeLayout
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Lookup Match Output2]"
+          TopLeft="383,268.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="16.5,-113"
+              Start="0,0"
+              End="16.5,-105.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-69.695652173913" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-69.695652173913"
+                    Point2="0,-73.695652173913"
+                    Point3="4,-73.695652173913" />
+                  <mssgle:LineSegment
+                    End="12.5,-73.695652173913" />
+                  <mssgle:CubicBezierSegment
+                    Point1="12.5,-73.695652173913"
+                    Point2="16.5,-73.695652173913"
+                    Point3="16.5,-77.695652173913" />
+                  <mssgle:LineSegment
+                    End="16.5,-105.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-39.94138671875,-68.695652173913,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Multicast Output 1]"
+          TopLeft="427.5,113.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="289,-26"
+              Start="0,0"
+              End="289,-18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-11.5277777777778" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-11.5277777777778"
+                    Point2="0,-15.5277777777778"
+                    Point3="4,-15.5277777777778" />
+                  <mssgle:LineSegment
+                    End="285,-15.5277777777778" />
+                  <mssgle:CubicBezierSegment
+                    Point1="285,-15.5277777777778"
+                    Point2="289,-15.5277777777778"
+                    Point3="289,-19.5277777777778" />
+                  <mssgle:LineSegment
+                    End="289,-18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="351,42"
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings\Aggregate ProgramId and ThemeId to Remove duplicates"
+          TopLeft="590.5,173.5" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProgramTheme"
+          TopLeft="1021.5,172.5" />
+        <EdgeLayout
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Multicast Output 2]"
+          TopLeft="487.5,134.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="103,60"
+              Start="0,0"
+              End="95.5,60">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="47.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="47.5,0"
+                    Point2="51.5,0"
+                    Point3="51.5,4" />
+                  <mssgle:LineSegment
+                    End="51.5,56" />
+                  <mssgle:CubicBezierSegment
+                    Point1="51.5,56"
+                    Point2="51.5,60"
+                    Point3="55.5,60" />
+                  <mssgle:LineSegment
+                    End="95.5,60" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Create ProjectTheme and ProgramTheme Mappings.Paths[Aggregate Output 11]"
+          TopLeft="941.5,194">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="80,0"
+              Start="0,0"
+              End="72.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="72.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ThemeId">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -482,7 +2831,79 @@
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup Project from CE_Project Source">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[CE_Project]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ProjectTheme and ProgramTheme Mappings\CE_Project_Theme">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ProjectTheme and ProgramTheme Mappings\ECA ProjectTheme">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Create ProjectTheme and ProgramTheme Mappings\Lookup ECA ProjectId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Project]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>

@@ -13,9 +13,24 @@ namespace ECA.WebApi.Test.Security
         {
             var value = 1;
             var permission = new StaticPermission();
-            permission.ResourceId = value;
+            permission.ForeignResourceId = value;
             var resourceId = permission.GetResourceId(new Dictionary<string, object>());
             Assert.AreEqual(value, resourceId);
+        }
+
+        [TestMethod]
+        public void TestToString()
+        {
+            var value = 1;
+            var permission = new StaticPermission();
+            permission.PermissionName = "Perm";
+            permission.ResourceType = "Prog";
+            permission.ForeignResourceId = value;
+            var expectedMessage = String.Format("Permission Name:  {0}, Resource Type:  {1},  Foreign Resource Id:  {2}", 
+                permission.PermissionName, 
+                permission.ResourceType, 
+                permission.ForeignResourceId);
+            Assert.AreEqual(expectedMessage, permission.ToString());
         }
     }
 }

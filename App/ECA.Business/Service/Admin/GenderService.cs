@@ -1,9 +1,9 @@
 ﻿using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
-using ECA.Core.Logging;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -18,20 +18,17 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class GenderService : LookupService<SimpleLookupDTO>, IGenderService
     {
-        private static readonly string COMPONENT_NAME = typeof(GenderService).FullName;
-        private readonly ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="context">The context to query</param>
         /// <param name="logger">The logger to use</param>
-        public GenderService(EcaContext context, ILogger logger) 
-            : base(context, logger)
+        public GenderService(EcaContext context) 
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
-            this.logger = logger;
         }
 
         /// <summary>

@@ -97,17 +97,29 @@
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Ado, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Glimpse.AspNet">
       <HintPath>..\packages\Glimpse.AspNet.1.9.2\lib\net45\Glimpse.AspNet.dll</HintPath>
     </Reference>
     <Reference Include="Glimpse.Core">
       <HintPath>..\packages\Glimpse.1.8.6\lib\net45\Glimpse.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.EF6, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.EF6.1.6.5\lib\net45\Glimpse.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.NLog, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.NLog.1.6.0\lib\net45\Glimpse.NLog.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.ActiveDirectory.GraphClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -187,17 +199,26 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Extended">
+      <HintPath>..\packages\NLog.Extended.3.2.0.0\lib\net45-full\NLog.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Swashbuckle.Core.5.0.1\lib\net40\Swashbuckle.Core.dll</HintPath>
+      <HintPath>..\packages\Swashbuckle.Core.5.1.2\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.2.28, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.2.202250711\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -275,7 +296,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
@@ -312,9 +335,12 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Common\AdGraph.cs" />
-    <Compile Include="Common\TicketMaster.cs" />
+    <Compile Include="Controllers\Admin\FocusCategoryController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
+    <Compile Include="Controllers\LogsController.cs" />
+    <Compile Include="Custom\Filters\EcaBusinessExceptionFilter.cs" />
     <Compile Include="Custom\Handlers\DebugWebApiUserHandler.cs" />
+    <Compile Include="Custom\NLogTraceWriter.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddDefaultResponse.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddFileUploadParams.cs" />
     <Compile Include="Custom\SwaggerExtensions\AppendVersionToBasePath.cs" />
@@ -322,10 +348,16 @@
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
+    <Compile Include="Models\FocusCategoryDTO.cs" />
+    <Compile Include="Models\Security\ResourcePermissionViewModel.cs" />
+    <Compile Include="Models\Security\UserViewModel.cs" />
+    <Compile Include="Models\Person\PersonBindingModel.cs" />
     <Compile Include="Security\ActionPermission.cs" />
     <Compile Include="Security\AnonymousUser.cs" />
+    <Compile Include="Security\AuthorizationResult.cs" />
     <Compile Include="Security\BearerTokenUserProvider.cs" />
     <Compile Include="Security\DebugWebApiUser.cs" />
+    <Compile Include="Security\ImpersonatedUser.cs" />
     <Compile Include="Security\IUserCacheService.cs" />
     <Compile Include="Security\IUserProvider.cs" />
     <Compile Include="Security\ModelPermission.cs" />
@@ -351,10 +383,8 @@
     <Compile Include="Controllers\Persons\PeopleController.cs" />
     <Compile Include="Controllers\Programs\ProgramsController.cs" />
     <Compile Include="Controllers\Programs\ThemesController.cs" />
-    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Custom\Filters\DbEntityValidationExceptionFilter.cs" />
     <Compile Include="Custom\Filters\LoggerExceptionHandler.cs" />
-    <Compile Include="Custom\Filters\TraceFilter.cs" />
     <Compile Include="Custom\Filters\ValidationErrorResponseContent.cs" />
     <Compile Include="Custom\Filters\ValidationExceptionFilter.cs" />
     <Compile Include="Custom\Filters\UnknownStaticLookupExceptionFilter.cs" />
@@ -375,7 +405,6 @@
     <Compile Include="Models\Query\PagingQueryBindingModel.cs" />
     <Compile Include="Models\Query\SorterBindingModel.cs" />
     <Compile Include="Models\RegionDTO.cs" />
-    <Compile Include="Models\RowVersionStringResolver.cs" />
     <Compile Include="Models\ThemeDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -404,6 +433,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="ECA.WebApi.wpp.targets" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-dev-Web-Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ecaapi-kmt-qa.pubxml" />
@@ -418,6 +448,14 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CAM.Business\CAM.Business.csproj">
+      <Project>{237e7109-5c66-4d4f-8ef3-f343e9897ac4}</Project>
+      <Name>CAM.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CAM.Data\CAM.Data.csproj">
+      <Project>{b1d42987-aee5-431a-bdbf-480f6d8822e1}</Project>
+      <Name>CAM.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>

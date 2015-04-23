@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
@@ -13,6 +14,8 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Diagnostics.Contracts;
+using ECA.WebApi.Security;
 
 namespace ECA.WebApi.Controllers.Programs
 {
@@ -26,18 +29,23 @@ namespace ECA.WebApi.Controllers.Programs
         /// <summary>
         /// The default sorter for a list of programs.
         /// </summary>
-        private static readonly ExpressionSorter<SimpleProgramDTO> DEFAULT_PROGRAM_SORTER = new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Ascending);
+        private static readonly ExpressionSorter<SimpleProgramDTO> ALPHA_PROGRAM_SORTER = new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Ascending);
+
+        private static readonly ExpressionSorter<OrganizationProgramDTO> HIERARCHY_PROGRAM_SORTER = new ExpressionSorter<OrganizationProgramDTO>(x => x.OfficeSymbol, SortDirection.Ascending);
 
         private IProgramService programService;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ProgramController with the given program service.
         /// </summary>
         /// <param name="programService">The program service.</param>
-        public ProgramsController(IProgramService programService)
+        public ProgramsController(IProgramService programService, IUserProvider userProvider)
         {
-            Debug.Assert(programService != null, "The program service must not be null.");
+            Contract.Requires(programService != null, "The program service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
             this.programService = programService;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -52,9 +60,28 @@ namespace ECA.WebApi.Controllers.Programs
             {
                 var results = await this.programService.GetProgramsAsync(
                     queryModel.ToQueryableOperator(
-                    DEFAULT_PROGRAM_SORTER, 
+                    ALPHA_PROGRAM_SORTER, 
                     x => x.Name, 
                     x=> x.Description));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [ResponseType(typeof(PagedQueryResults<OrganizationProgramDTO>))]
+        [Route("Programs/Hierarchy")]
+        public async Task<IHttpActionResult> GetProgramsHierarchyAsync([FromUri]PagingQueryBindingModel<OrganizationProgramDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await this.programService.GetProgramsHierarchyAsync(
+                    queryModel.ToQueryableOperator(
+                    HIERARCHY_PROGRAM_SORTER,
+                    x => x.Name,
+                    x => x.Description));
                 return Ok(results);
             }
             else
@@ -91,8 +118,9 @@ namespace ECA.WebApi.Controllers.Programs
         {
             if (ModelState.IsValid)
             {
-                var userId = 0;
-                var program = await programService.CreateAsync(model.ToDraftProgram(userId));
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var program = await programService.CreateAsync(model.ToDraftProgram(businessUser));
                 await programService.SaveChangesAsync();
                 var dto = await programService.GetProgramByIdAsync(program.ProgramId);
                 return Ok(new ProgramViewModel(dto));
@@ -114,8 +142,9 @@ namespace ECA.WebApi.Controllers.Programs
         {
             if (ModelState.IsValid)
             {
-                var userId = 0;
-                await programService.UpdateAsync(model.ToEcaProgram(userId));
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await programService.UpdateAsync(model.ToEcaProgram(businessUser));
                 await programService.SaveChangesAsync();
                 var dto = await programService.GetProgramByIdAsync(model.Id);
                 return Ok(new ProgramViewModel(dto));

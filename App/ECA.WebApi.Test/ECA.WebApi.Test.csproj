@@ -43,6 +43,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions">
       <HintPath>..\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
@@ -93,6 +99,7 @@
     <Compile Include="Controllers\Admin\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsControllerTest.cs" />
     <Compile Include="Controllers\Admin\ProjectStatusControllerTest.cs" />
+    <Compile Include="Controllers\AuthControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ContactsControllerTest.cs" />
     <Compile Include="Controllers\Persons\PersonControllerTest.cs" />
@@ -100,6 +107,11 @@
     <Compile Include="Controllers\Programs\ProgramsControllerTest.cs" />
     <Compile Include="Controllers\Admin\ProjectsControllerTest.cs" />
     <Compile Include="Controllers\ControllerHelper.cs" />
+    <Compile Include="InMemoryCamModelGenerator.generated.cs">
+      <DependentUpon>InMemoryCamModelGenerator.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramViewModelTest.cs" />
@@ -112,8 +124,11 @@
     <Compile Include="Models\Query\SorterBindingModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ActionPermissionTest.cs" />
+    <Compile Include="Security\AnonymousUserTest.cs" />
+    <Compile Include="Security\BearerTokenUserProviderTest.cs" />
+    <Compile Include="Security\BearerTokenUserProviderTest_Impersonation.cs" />
+    <Compile Include="Security\ImpersonatedUserTest.cs" />
     <Compile Include="Security\ModelPermissionTest.cs" />
-    <Compile Include="Security\PermissionBaseTest.cs" />
     <Compile Include="Security\ResourceAuthorizeAttributeTest.cs" />
     <Compile Include="Security\StaticPermissionTest.cs" />
     <Compile Include="Security\UserCacheServiceTest.cs" />
@@ -121,6 +136,14 @@
     <Compile Include="Security\WebApiUserTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CAM.Business\CAM.Business.csproj">
+      <Project>{237e7109-5c66-4d4f-8ef3-f343e9897ac4}</Project>
+      <Name>CAM.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CAM.Data\CAM.Data.csproj">
+      <Project>{b1d42987-aee5-431a-bdbf-480f6d8822e1}</Project>
+      <Name>CAM.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.Business\ECA.Business.csproj">
       <Project>{0a7b54e3-736d-47b5-92fd-31d3bb416d8d}</Project>
       <Name>ECA.Business</Name>
@@ -145,9 +168,15 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="coverage.bat" />
+    <None Include="InMemoryCamModelGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InMemoryCamModelGenerator.generated.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

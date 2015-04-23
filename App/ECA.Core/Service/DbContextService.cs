@@ -1,5 +1,5 @@
 ﻿using ECA.Core.Data;
-using ECA.Core.Logging;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,21 +19,16 @@ namespace ECA.Core.Service
     /// <typeparam name="T">The DbContext type.</typeparam>
     public class DbContextService<T> : IDisposable, ISaveable where T : DbContext
     {
-        private static readonly string COMPONENT_NAME = typeof(DbContextService<>).FullName;
-
-        private ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Creates a new DbContextService with the given DbContext instance.
         /// </summary>
         /// <param name="context">The DbContext instance.</param>
-        /// <param name="logger">The logger.</param>
-        public DbContextService(T context, ILogger logger)
+        public DbContextService(T context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
             this.Context = context;
-            this.logger = logger;
         }
 
         /// <summary>
@@ -51,7 +46,7 @@ namespace ECA.Core.Service
             var stopWatch = Stopwatch.StartNew();
             var list = GetSaveActions(saveActions);
             list.ForEach(x => x.BeforeSaveChanges(this.Context));            
-            var errors = this.Context.GetValidationErrors();
+            //var errors = this.Context.GetValidationErrors();
             int i = -1;
             try
             {
@@ -64,7 +59,7 @@ namespace ECA.Core.Service
             }
             list.ForEach(x => x.AfterSaveChanges(this.Context));
             stopWatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.Trace("Saved changes in DbContextService.");
             return i;
         }
 
@@ -81,7 +76,7 @@ namespace ECA.Core.Service
             {
                 await saveAction.BeforeSaveChangesAsync(this.Context);
             }
-            var errors = this.Context.GetValidationErrors();
+            //var errors = this.Context.GetValidationErrors();
             int i = -1;
             try
             {
@@ -96,7 +91,7 @@ namespace ECA.Core.Service
             {
                 await saveAction.AfterSaveChangesAsync(this.Context);
             }
-            logger.TraceApi(COMPONENT_NAME, stopWatch.Elapsed);
+            logger.Trace("Saved changes in DbContextService.");
             return i;
         }
 
@@ -149,8 +144,11 @@ namespace ECA.Core.Service
         {
             if (disposing)
             {
-                this.Context.Dispose();
-                this.Context = null;
+                if (this.Context != null)
+                {
+                    this.Context.Dispose();
+                    this.Context = null;
+                }
             }
         }
 

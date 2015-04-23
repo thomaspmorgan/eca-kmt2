@@ -1,8 +1,11 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
+using ECA.WebApi.Models.Person;
+using ECA.WebApi.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,18 +19,22 @@ namespace ECA.WebApi.Controllers.Persons
     /// Controller for people
     /// </summary>
     [RoutePrefix("api")]
+    //[Authorize]
     public class PeopleController : ApiController
     {
         private IPersonService service;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Constructor 
         /// </summary>
         /// <param name="service">The service to inject</param>
-        public PeopleController(IPersonService service)
+        public PeopleController(IPersonService service, IUserProvider userProvider)
         {
-            Debug.Assert(service != null, "The participant service must not be null.");
+            Contract.Requires(service != null, "The participant service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
             this.service = service;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -39,7 +46,7 @@ namespace ECA.WebApi.Controllers.Persons
         [Route("People/{personId:int}/Pii")]
         public async Task<IHttpActionResult> GetPiiByIdAsync(int personId)
         {
-            var pii = await this.service.GetPiiByIdAsync(personId);
+            var pii = await service.GetPiiByIdAsync(personId);
             if (pii != null)
             {
                 return Ok(pii);
@@ -59,7 +66,7 @@ namespace ECA.WebApi.Controllers.Persons
         [Route("People/{personId:int}/ContactInfo")]
         public async Task<IHttpActionResult> GetContactInfoByIdAsync(int personId)
         {
-            var contactInfo = await this.service.GetContactInfoByIdAsync(personId);
+            var contactInfo = await service.GetContactInfoByIdAsync(personId);
             if (contactInfo != null)
             {
                 return Ok(contactInfo);
@@ -67,6 +74,27 @@ namespace ECA.WebApi.Controllers.Persons
             else
             {
                 return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Post method to create a person
+        /// </summary>
+        /// <param name="model">The model to create</param>
+        /// <returns>Success or error</returns>
+        public async Task<IHttpActionResult> PostPersonAsync(PersonBindingModel model)
+        {   
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.CreateAsync(model.ToNewPerson(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
             }
         }
 

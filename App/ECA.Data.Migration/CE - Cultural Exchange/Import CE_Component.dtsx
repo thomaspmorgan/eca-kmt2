@@ -1,0 +1,772 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/13/2015 4:47:37 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{0E87D677-FD48-4F44-B760-2A65C1414F86}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import CE_Component"
+  DTS:PackageType="5"
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{ED7D4325-986A-4244-8885-0A986CE1E01F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B60B2E15-0153-4376-BC06-1B2152DA184F}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.CE.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=CE;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAv2kyfKY4PMcL3YB0XaSzRyvxoo06QDqfMhs5mboY/pgAAAAAOgAAAAAIAACAAAADtXhw0kWGaReKSdiPbv3J4pYXi1D5rO/x0UfjrDuxJRiAAAABwC7Rvd9TjH6jp4i/Zd61v3wbTU5s1PdDkR2Bxf/BOl0AAAABxczg+w6HGsEfZEZYEumiiCZV5SObPSBcfhzD2Ir8hyl0MV37xMTEMpa1UjEPQwaUCQfClRfneiE7tR5xqtSoq</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{9BDDA7B0-0583-4EE6-9B93-122ECD9C9703}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.CE.msetien 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=CE;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACkjuT8ScDaLHhsCB23fBrnKsX03lvqSTrsMotuY+TaRAAAAAAOgAAAAAIAACAAAAD6q9OaMXyH8Zox0xXaHF532nqoHpaqrqsFvVdky1QvsSAAAACZitbV9zQ/iqEyp7zogWSZ7B2C5j8aot0cDyvwVbUa7UAAAADiUuYBRR4varkRTb3Mn4h/EZYSX79eiN3HQozxaa7BIoiXW0dZhL47UTmmbKKmqV3MnKHA+nqGT8px4lJiAO1r</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel CE_Component Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{FD0B99CF-25EA-4A37-BDA3-B27DB24D6087}"
+      DTS:ObjectName="Excel CE_Component Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\CE - FLEX\CE_PILOT_DATA_COMPONENT.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import CE_Component Source"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{6386FA37-2191-4DD9-925B-21AC0DC17358}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import CE_Component Source"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import CE_Component Source\CE_Component"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="CE_Component"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[CE_Component]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import CE_Component Source\CE_Component.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien 1]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[COMPONENT_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="COMPONENT_ID"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_ID]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[PROJECT_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROJECT_ID"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ID]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[PROJECT_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[FISCAL_YEAR]"
+                      cachedDataType="r8"
+                      cachedName="FISCAL_YEAR"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[FISCAL_YEAR]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[FISCAL_YEAR]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[COMPONENT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="COMPONENT"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[START_DATE]"
+                      cachedDataType="date"
+                      cachedName="START_DATE"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[START_DATE]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[START_DATE]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[END_DATE]"
+                      cachedDataType="date"
+                      cachedName="END_DATE"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[END_DATE]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[END_DATE]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[COMPONENT_STATUS]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="COMPONENT_STATUS"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_STATUS]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_STATUS]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[COMMENT]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="COMMENT"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMMENT]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMMENT]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[PURPOSE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PURPOSE"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[PURPOSE]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[PURPOSE]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[COMPONENT_CREATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="COMPONENT_CREATE_ID"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_CREATE_ID]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[COMPONENT_CREATE_DT]"
+                      cachedDataType="date"
+                      cachedName="COMPONENT_CREATE_DT"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_CREATE_DT]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[COMPONENT_UPDATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="COMPONENT_UPDATE_ID"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_UPDATE_ID]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].Columns[COMPONENT_UPDATE_DT]"
+                      cachedDataType="date"
+                      cachedName="COMPONENT_UPDATE_DT"
+                      externalMetadataColumnId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_UPDATE_DT]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_UPDATE_DT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMPONENT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[FISCAL_YEAR]"
+                      dataType="r8"
+                      name="FISCAL_YEAR" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMPONENT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[START_DATE]"
+                      dataType="dbTimeStamp"
+                      name="START_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[END_DATE]"
+                      dataType="dbTimeStamp"
+                      name="END_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMPONENT_STATUS" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMMENT]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMMENT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[PURPOSE]"
+                      dataType="wstr"
+                      length="255"
+                      name="PURPOSE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMPONENT_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="COMPONENT_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMPONENT_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input].ExternalColumns[COMPONENT_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="COMPONENT_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import CE_Component Source\CE_Component.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Component Source\CE_Component.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\CE_Component.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Component Source\CE_Component.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import CE_Component Source\Excel CE_Component Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel CE_Component Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">'Sheet 1$'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import CE_Component Source\Excel CE_Component Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel CE_Component Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel CE_Component Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_ID]"
+                      name="COMPONENT_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[PROJECT_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[PROJECT_ID]"
+                      name="PROJECT_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[FISCAL_YEAR]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[FISCAL_YEAR]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[FISCAL_YEAR]"
+                      name="FISCAL_YEAR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT]"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT]"
+                      name="COMPONENT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[START_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[START_DATE]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[START_DATE]"
+                      name="START_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[END_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[END_DATE]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[END_DATE]"
+                      name="END_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_STATUS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_STATUS]"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_STATUS]"
+                      name="COMPONENT_STATUS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMMENT]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMMENT]"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMMENT]"
+                      name="COMMENT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[PURPOSE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[PURPOSE]"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[PURPOSE]"
+                      name="PURPOSE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_CREATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_CREATE_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_CREATE_ID]"
+                      name="COMPONENT_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_CREATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_CREATE_DT]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_CREATE_DT]"
+                      name="COMPONENT_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_UPDATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_UPDATE_ID]"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_UPDATE_ID]"
+                      name="COMPONENT_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_UPDATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_UPDATE_DT]"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].Columns[COMPONENT_UPDATE_DT]"
+                      name="COMPONENT_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMPONENT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[FISCAL_YEAR]"
+                      dataType="r8"
+                      name="FISCAL_YEAR" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMPONENT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[START_DATE]"
+                      dataType="date"
+                      name="START_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[END_DATE]"
+                      dataType="date"
+                      name="END_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMPONENT_STATUS" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMMENT]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMMENT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[PURPOSE]"
+                      dataType="wstr"
+                      length="255"
+                      name="PURPOSE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMPONENT_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_CREATE_DT]"
+                      dataType="date"
+                      name="COMPONENT_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="COMPONENT_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output].ExternalColumns[COMPONENT_UPDATE_DT]"
+                      dataType="date"
+                      name="COMPONENT_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_ID]"
+                      name="COMPONENT_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[PROJECT_ID]"
+                      name="PROJECT_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[FISCAL_YEAR]"
+                      dataType="r8"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[FISCAL_YEAR]"
+                      name="FISCAL_YEAR" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT]"
+                      name="COMPONENT" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[START_DATE]"
+                      dataType="date"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[START_DATE]"
+                      name="START_DATE" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[END_DATE]"
+                      dataType="date"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[END_DATE]"
+                      name="END_DATE" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_STATUS]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_STATUS]"
+                      name="COMPONENT_STATUS" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMMENT]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMMENT]"
+                      name="COMMENT" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[PURPOSE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[PURPOSE]"
+                      name="PURPOSE" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_CREATE_ID]"
+                      name="COMPONENT_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_CREATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_CREATE_DT]"
+                      name="COMPONENT_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_UPDATE_ID]"
+                      name="COMPONENT_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_UPDATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[COMPONENT_UPDATE_DT]"
+                      name="COMPONENT_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import CE_Component Source.Paths[Excel Source Output]"
+              endId="Package\Import CE_Component Source\CE_Component.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import CE_Component Source\Excel CE_Component Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="222,42"
+          Id="Package\Import CE_Component Source"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import CE_Component Source">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Import CE_Component Source\CE_Component"
+          TopLeft="57.5,113.5" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\Import CE_Component Source\Excel CE_Component Source"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Import CE_Component Source.Paths[Excel Source Output]"
+          TopLeft="112.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="20.5,66"
+              Start="0,0"
+              End="20.5,58.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29"
+                    Point2="0,33"
+                    Point3="4,33" />
+                  <mssgle:LineSegment
+                    End="16.5,33" />
+                  <mssgle:CubicBezierSegment
+                    Point1="16.5,33"
+                    Point2="20.5,33"
+                    Point3="20.5,37" />
+                  <mssgle:LineSegment
+                    End="20.5,58.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import CE_Component Source\CE_Component">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import CE_Component Source\Excel CE_Component Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

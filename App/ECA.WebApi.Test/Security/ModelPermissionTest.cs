@@ -145,7 +145,13 @@ namespace ECA.WebApi.Test.Security
             var permissionName = "edit";
             var instance = new ABindingModel();
             var permission = new ModelPermission("model.S", typeof(ABindingModel), permissionName, resourceType);
-            Assert.AreEqual(String.Format("{0}:{1}({2}#{3})", permission.PermissionName, permission.ResourceType, typeof(ABindingModel).Name, "model.S"), permission.ToString());
+            Assert.AreEqual(
+                String.Format("Permission Name:  [{0}], Resource Type:  [{1}], Model Type:  [{2}], Property:  [{3}]", 
+                    permission.PermissionName, 
+                    permission.ResourceType, 
+                    typeof(ABindingModel).Name, 
+                    "model.S"), 
+                permission.ToString());
 
         }
 

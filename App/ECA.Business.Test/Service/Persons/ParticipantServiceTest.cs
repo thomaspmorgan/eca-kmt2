@@ -10,7 +10,6 @@ using ECA.Core.Query;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.DynamicLinq.Filter;
 using System.Collections.Generic;
-using ECA.Core.Logging;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -24,7 +23,7 @@ namespace ECA.Business.Test.Service.Persons
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new ParticipantService(context, new TraceLogger());
+            service = new ParticipantService(context);
         }
 
         #region Get

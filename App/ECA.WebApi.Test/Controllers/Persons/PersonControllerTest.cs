@@ -1,6 +1,10 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
+using ECA.Core.Service;
+using ECA.Data;
 using ECA.WebApi.Controllers.Persons;
+using ECA.WebApi.Models.Person;
+using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -16,13 +20,15 @@ namespace ECA.WebApi.Test.Controllers.Persons
     public class PersonControllerTest
     {
         private Mock<IPersonService> mock;
+        private Mock<IUserProvider> userProvider;
         private PeopleController controller;
         
         [TestInitialize]
         public void TestInit()
         {
             mock = new Mock<IPersonService>();
-            controller = new PeopleController(mock.Object);
+            userProvider = new Mock<IUserProvider>();
+            controller = new PeopleController(mock.Object, userProvider.Object);
             ControllerHelper.InitializeController(controller);
         }
 
@@ -64,6 +70,28 @@ namespace ECA.WebApi.Test.Controllers.Persons
             var response = await controller.GetContactInfoByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
+        #endregion
+
+        #region Post
+        [TestMethod]
+        public async Task TestPostPersonAsync()
+        {
+            mock.Setup(x => x.CreateAsync(It.IsAny<NewPerson>()))
+                .ReturnsAsync(new Person());
+            mock.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            var response = await controller.PostPersonAsync(new PersonBindingModel());
+            mock.Verify(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+        }
+
+        [TestMethod]
+        public async Task TestPostPersonAsync_Invalid()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.PostPersonAsync(new PersonBindingModel());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
         #endregion
     }
 }

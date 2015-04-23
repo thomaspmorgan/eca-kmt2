@@ -11,9 +11,9 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ECA.Core.Logging;
 using ECA.Business.Service.Lookup;
 using System.Diagnostics;
+using NLog;
 
 namespace ECA.Business.Service.Admin
 {
@@ -22,20 +22,16 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class FocusService : LookupService<FocusDTO>, ECA.Business.Service.Admin.IFocusService
     {
-        private static readonly string COMPONENT_NAME = typeof(FocusService).FullName;
-        private readonly ILogger logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Creates a new FocusSerivce with the given context.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        /// <param name="logger">The logger.</param>
-        public FocusService(EcaContext context, ILogger logger)
-            : base(context, logger)
+        public FocusService(EcaContext context)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(logger != null, "The logger must not be null.");
-            this.logger = logger;
         }
 
         #region Get
@@ -56,10 +52,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The focus with the given id, or null if not found.</returns>
         public FocusDTO GetFocusById(int id)
         {
-            var stopwatch = Stopwatch.StartNew();
             var focus = FocusQueries.CreateGetFocusByIdQuery(this.Context, id).FirstOrDefault();
-            stopwatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "id", id } });
+            this.logger.Trace("Retrieved focus by id {0}.", id);            
             return focus;
         }
 
@@ -70,10 +64,8 @@ namespace ECA.Business.Service.Admin
         /// <returns>The focus with the given id, or null if not found.</returns>
         public async Task<FocusDTO> GetFocusByIdAsync(int id)
         {
-            var stopwatch = Stopwatch.StartNew();
             var focus = await FocusQueries.CreateGetFocusByIdQuery(this.Context, id).FirstOrDefaultAsync();
-            stopwatch.Stop();
-            logger.TraceApi(COMPONENT_NAME, stopwatch.Elapsed, new Dictionary<string, object> { { "id", id } });
+            this.logger.Trace("Retrieved focus by id {0}.", id);
             return focus;
         }
         #endregion
