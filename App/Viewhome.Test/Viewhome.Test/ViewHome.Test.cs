@@ -26,9 +26,12 @@ namespace Viewhome.Test
         public void ViewHomeCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-            this.UIMap.OpenBrowserEnterCreds();
+
+            this.UIMap.LogintoQA_ExistingUser();
+
+            /*this.UIMap.OpenBrowserEnterCreds();
             this.UIMap.SignInButton();
-            this.UIMap.SignIn();
+            this.UIMap.SignIn();*/
             this.UIMap.Notifications_ActivityLink();
             this.UIMap.SelectNotifications_ActivityLink();
             this.UIMap.NewsLink();

@@ -360,25 +360,13 @@ namespace ViewOffices_ProgramsandBranches.Test
         public void LogintoQA_ExistingUser()
         {
             #region Variable Declarations
-            WinEdit uIAddressandsearchusinEdit = this.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit;
-            WinEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit;
-            WinButton uIGotohttpsecakmtqaazuButton = this.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton;
             HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIECATest1statedeptusHyperlink;
             HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIPasswordEdit;
             HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UISigninPane;
             #endregion
 
-            // Go to web page 'about:Tabs' using new browser instance
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
-
-            // Click 'Address and search using Bing' text box
-            Mouse.Click(uIAddressandsearchusinEdit, new Point(36, 11));
-
-            // Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-            Keyboard.SendKeys(uIItemEdit, this.LogintoQA_ExistingUserParams.UIItemEditSendKeys, ModifierKeys.None);
-
-            // Click 'Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt...' button
-            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(6, 10));
 
             // Click 'ECATest1@statedept.us •••' link
             Mouse.Click(uIECATest1statedeptusHyperlink, new Point(140, 38));
@@ -447,6 +435,19 @@ namespace ViewOffices_ProgramsandBranches.Test
 
             // Wait for 10 seconds for user delay between actions; Perform Refresh on Browser Window
             Playback.Wait(10000);
+            uINewtabInternetExplorWindow.Refresh();
+        }
+        
+        /// <summary>
+        /// Refresh/Reload Office Overview page. (ECA-IIP/EX) office.
+        /// </summary>
+        public void RefreshOfficeOverview_SecOffice()
+        {
+            #region Variable Declarations
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            #endregion
+
+            // Perform Refresh on Browser Window
             uINewtabInternetExplorWindow.Refresh();
         }
         
@@ -640,19 +641,6 @@ namespace ViewOffices_ProgramsandBranches.Test
 
             // Type '{F5}' in 'Toggle navigation' button
             Keyboard.SendKeys(uITogglenavigationButton1, this.URLNav_ECAOfficeDirectParams.UITogglenavigationButton1SendKeys, ModifierKeys.None);
-        }
-        
-        /// <summary>
-        /// Refresh/Reload Office Overview page. (ECA-IIP/EX) office.
-        /// </summary>
-        public void RefreshOfficeOverview_SecOffice()
-        {
-            #region Variable Declarations
-            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
-            #endregion
-
-            // Perform Refresh on Browser Window
-            uINewtabInternetExplorWindow.Refresh();
         }
         
         #region Properties
@@ -1384,14 +1372,9 @@ Places recent U.S. college graduates as English teaching assistants in schools o
         
         #region Fields
         /// <summary>
-        /// Go to web page 'about:Tabs' using new browser instance
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
         /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "about:Tabs";
-        
-        /// <summary>
-        /// Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-        /// </summary>
-        public string UIItemEditSendKeys = "https://eca-kmt-qa.azurewebsites.net/";
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
         
         /// <summary>
         /// Type '********' in 'Password' text box

@@ -14,6 +14,7 @@ namespace CreateProgram.Test
 {
     /// <summary>
     /// Create Program -under construction- redo select from CM method(selectprogrammenuitem x2 for reloading page- works)
+    /// --fails on InputParentProgramData_First
     /// </summary>
     [CodedUITest]
     public class CreateProgram
@@ -38,6 +39,11 @@ namespace CreateProgram.Test
             this.UIMap.AssertCreateProgramButton();
             this.UIMap.SelectCreateProgramButton();
             this.UIMap.AssertCreateProgramModal();
+            this.UIMap.AssertEditTextFields_Modal();
+            this.UIMap.InputParentProgramData_First();
+            this.UIMap.AssertParentProgramInputValues_Modal();
+            this.UIMap.AssertCreateButton_Modal();
+
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 

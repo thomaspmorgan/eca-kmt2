@@ -44,6 +44,22 @@ namespace CreateProgram.Test
         }
         
         /// <summary>
+        /// Verify the Create button is available and functional.
+        /// </summary>
+        public void AssertCreateButton_Modal()
+        {
+            #region Variable Declarations
+            HtmlButton uICREATEButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UICREATEButton;
+            #endregion
+
+            // Verify that the 'ControlType' property of 'CREATE' button equals 'Button'
+            Assert.AreEqual(this.AssertCreateButton_ModalExpectedValues.UICREATEButtonControlType, uICREATEButton.ControlType.ToString(), "No Create button available within modal.");
+
+            // Verify that the 'DisplayText' property of 'CREATE' button equals 'CREATE'
+            Assert.AreEqual(this.AssertCreateButton_ModalExpectedValues.UICREATEButtonDisplayText, uICREATEButton.DisplayText, "Create Button does not display \"CREATE\"");
+        }
+        
+        /// <summary>
         /// Verify that the display text, control type, and inner text are correct for the Create Program button.
         /// </summary>
         public void AssertCreateProgramButton()
@@ -77,6 +93,131 @@ namespace CreateProgram.Test
         }
         
         /// <summary>
+        /// Verify the text fields are available for edit. Program Name; Program Description; Parent Program; Program Inception; External Website.
+        /// </summary>
+        public void AssertEditTextFields_Modal()
+        {
+            #region Variable Declarations
+            HtmlEdit uINameEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UINameEdit;
+            HtmlTextArea uIDescriptionEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIDescriptionEdit;
+            HtmlEdit uIParentProgramEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIParentProgramEdit;
+            HtmlEdit uIStartEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIStartEdit;
+            HtmlEdit uIProgramWebsiteEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIProgramWebsiteEdit;
+            #endregion
+
+            // Verify that the 'ControlType' property of 'name' text box equals 'Edit'
+            Assert.AreEqual(this.AssertEditTextFields_ModalExpectedValues.UINameEditControlType, uINameEdit.ControlType.ToString(), "Edit Program Name field unavailable.");
+
+            // Verify that the 'ControlType' property of 'description' text box equals 'Edit'
+            Assert.AreEqual(this.AssertEditTextFields_ModalExpectedValues.UIDescriptionEditControlType, uIDescriptionEdit.ControlType.ToString(), "No Program Description edit available.");
+
+            // Verify that the 'ControlType' property of 'parentProgram' text box equals 'Edit'
+            Assert.AreEqual(this.AssertEditTextFields_ModalExpectedValues.UIParentProgramEditControlType, uIParentProgramEdit.ControlType.ToString(), "No Parent Program edit field available.");
+
+            // Verify that the 'ControlType' property of 'start' text box equals 'Edit'
+            Assert.AreEqual(this.AssertEditTextFields_ModalExpectedValues.UIStartEditControlType, uIStartEdit.ControlType.ToString(), "No Program Inception edit field available.");
+
+            // Verify that the 'ControlType' property of 'programWebsite' text box equals 'Edit'
+            Assert.AreEqual(this.AssertEditTextFields_ModalExpectedValues.UIProgramWebsiteEditControlType, uIProgramWebsiteEdit.ControlType.ToString(), "No external website edit available.");
+        }
+        
+        /// <summary>
+        /// Verify the input values for the Parent Program (Xenon Test Program - 2015) are correct before creating the program.
+        /// </summary>
+        public void AssertParentProgramInputValues_Modal()
+        {
+            #region Variable Declarations
+            HtmlEdit uINameEdit1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UINameEdit1;
+            HtmlTextArea uIDescriptionEdit1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIDescriptionEdit1;
+            HtmlEdit uIStartEdit2 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIStartEdit2;
+            HtmlButton uIAfricaEastAsiaandtheButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIAfricaEastAsiaandtheButton;
+            HtmlButton uICivilSocietyCivilianButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UICivilSocietyCivilianButton;
+            HtmlButton uIImportanceModernizetButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIImportanceModernizetButton;
+            HtmlComboBox uIFocusComboBox1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIFocusComboBox1;
+            HtmlButton uIAndrewCCohenArielleJButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIAndrewCCohenArielleJButton;
+            HtmlEdit uIProgramWebsiteEdit1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIProgramWebsiteEdit1;
+            #endregion
+
+            // Verify that the 'ValueAttribute' property of 'name' text box equals 'Xenon Test Program - 2015'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UINameEdit1ValueAttribute, uINameEdit1.ValueAttribute, "Text for Program Name does not match.");
+
+            // Verify that the 'Text' property of 'description' text box equals 'This program is being created for a test.'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UIDescriptionEdit1Text, uIDescriptionEdit1.Text, "Program description text does not match.");
+
+            // Verify that the 'Text' property of 'name' text box equals 'Xenon Test Program - 2015'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UINameEdit1Text, uINameEdit1.Text, "Text does not match in Program Name.");
+
+            // Verify that the 'ValueAttribute' property of 'start' text box equals '14-April-2016'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UIStartEdit2ValueAttribute, uIStartEdit2.ValueAttribute, "Date for Program Inception does not match.");
+
+            // Verify that the 'Text' property of 'start' text box equals '14-April-2016'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UIStartEdit2Text, uIStartEdit2.Text, "Text for Program Inception does not match.");
+
+            // Verify that the 'DisplayText' property of 'Africa , East Asia and the Pacific , Europe and E...' button equals ' Africa
+            //, 
+            // East Asia and the Pacific
+            //, 
+            // Europe and Eurasia
+            //, 
+            // Near East
+            //, 
+            // South and Central Asia
+            //, 
+            // UN and Other International Organizations
+            //, 
+            // United States
+            //, 
+            // Western Hemisphere'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UIAfricaEastAsiaandtheButtonDisplayText, uIAfricaEastAsiaandtheButton.DisplayText, "Related Regions selections do not match the selected value.");
+
+            // Verify that the 'DisplayText' property of 'Civil Society , Civilian Security , Conflict Prev...' button equals ' Civil Society
+            //, 
+            // Civilian Security
+            //, 
+            // Conflict Prevention, Mitigation, and Response
+            //, 
+            // Culture/Sports/American Society
+            //, 
+            // CVE/Counterterrorism
+            //, 
+            // Democracy/Good Governance/Rule of Law
+            //, 
+            // Diversity
+            //, 
+            // Economic Statecraft
+            //, 
+            // Education
+            //, 
+            // Energy Security'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UICivilSocietyCivilianButtonDisplayText, uICivilSocietyCivilianButton.DisplayText, "Themes selection does not match the selected values.");
+
+            // Verify that the 'DisplayText' property of 'Importance , Modernize the Way We Do Diplomacy an...' button equals ' Importance
+            //, 
+            // Modernize the Way We Do Diplomacy and Development
+            //, 
+            // National Interest
+            //, 
+            // Promote the Transition to a Low-Emission, Climate-Resilient World while Expanding Global Access to Sustainable Energy
+            //, 
+            // Protect Core U.S. Interests by Advancing Democracy and Human Rights and Strengthening Civil Society
+            //, 
+            // Secular Purpose'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UIImportanceModernizetButtonDisplayText, uIImportanceModernizetButton.DisplayText, "Goals selection does not match the selected values.");
+
+            // Verify that the 'SelectedItem' property of 'focus' combo box equals 'Cultural Objects and Collections'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UIFocusComboBox1SelectedItem, uIFocusComboBox1.SelectedItem, "Focus Area selected item does not match (Cultural Objects and Collections)");
+
+            // Verify that the 'FriendlyName' property of 'Andrew C. Cohen , Arielle J. Berney' button equals ' Andrew C. Cohen , Arielle J. Berney'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UIAndrewCCohenArielleJButtonFriendlyName, uIAndrewCCohenArielleJButton.FriendlyName, "POC selection does not match. ");
+
+            // Verify that the 'ValueAttribute' property of 'programWebsite' text box equals 'http://eca.state.gov'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UIProgramWebsiteEdit1ValueAttribute, uIProgramWebsiteEdit1.ValueAttribute, "External Website value attribute does not match.");
+
+            // Verify that the 'Text' property of 'programWebsite' text box equals 'http://eca.state.gov'
+            Assert.AreEqual(this.AssertParentProgramInputValues_ModalExpectedValues.UIProgramWebsiteEdit1Text, uIProgramWebsiteEdit1.Text, "Text value for External Website does not match.");
+        }
+        
+        /// <summary>
         /// Verify the Programs menu link is available for selection.
         /// </summary>
         public void AssertProgramsMenuItemLink()
@@ -90,6 +231,245 @@ namespace CreateProgram.Test
 
             // Verify that the 'ControlType' property of 'Programs' link equals 'Hyperlink'
             Assert.AreEqual(this.AssertProgramsMenuItemLinkExpectedValues.UIProgramsHyperlinkControlType, uIProgramsHyperlink.ControlType.ToString(), "No hyperlink for Program menu item.");
+        }
+        
+        /// <summary>
+        /// Fill out all fields for creating a program except the Parent Program field. (Xenon Test Program - 2015)
+        /// </summary>
+        public void InputParentProgramData_First()
+        {
+            #region Variable Declarations
+            HtmlEdit uINameEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UINameEdit;
+            HtmlTextArea uIDescriptionEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIDescriptionEdit;
+            HtmlEdit uIStartEdit1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIStartEdit1;
+            HtmlButton uINoneSelectedButton1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UINoneSelectedButton1;
+            HtmlDiv uIAfricaPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIAfricaPane;
+            HtmlSpan uIEastAsiaandthePacifiPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIEastAsiaandthePacifiPane1;
+            HtmlSpan uIEuropeandEurasiaPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIEuropeandEurasiaPane1;
+            HtmlSpan uINearEastPane11 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UINearEastPane11;
+            HtmlSpan uISouthandCentralAsiaPane11 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UISouthandCentralAsiaPane11;
+            HtmlSpan uIUNandOtherInternatioPane11 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIUNandOtherInternatioPane11;
+            HtmlDiv uIUNandOtherInternatioPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIUNandOtherInternatioPane1;
+            HtmlDiv uIUNandOtherInternatioPane2 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIUNandOtherInternatioPane2;
+            HtmlDiv uIUnitedStatesPane11 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIUnitedStatesPane11;
+            HtmlSpan uIWesternHemispherePane11 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIWesternHemispherePane11;
+            HtmlLabel uIGoalsLabel = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIGoalsLabel;
+            HtmlButton uINoneSelectedButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UINoneSelectedButton;
+            HtmlSpan uICivilSocietyPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UICivilSocietyPane1;
+            HtmlDiv uICivilianSecurityPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UICivilianSecurityPane1;
+            HtmlSpan uIConflictPreventionMiPane11 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIConflictPreventionMiPane11;
+            HtmlSpan uICultureSportsAmericaPane11 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UICultureSportsAmericaPane11;
+            HtmlSpan uICVECounterterrorismPane11 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UICVECounterterrorismPane11;
+            HtmlSpan uIDemocracyGoodGovernaPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIDemocracyGoodGovernaPane1;
+            HtmlDiv uIDiversityPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIDiversityPane1;
+            HtmlSpan uIEconomicStatecraftPane11 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIEconomicStatecraftPane11;
+            HtmlDiv uIEducationPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIEducationPane1;
+            HtmlSpan uIEnergySecurityPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIEnergySecurityPane1;
+            HtmlLabel uIFocusAreaLabel = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIFocusAreaLabel;
+            HtmlButton uIGoalsDropdownButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIGoalsDropdownButton;
+            HtmlLabel uIImportanceLabel = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIImportanceLabel;
+            HtmlSpan uIModernizetheWayWeDoDPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIModernizetheWayWeDoDPane;
+            HtmlDiv uIStrengthenAmericasFoPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIStrengthenAmericasFoPane;
+            HtmlSpan uINationalInterestPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UINationalInterestPane;
+            HtmlDiv uIPromotetheTransitionPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIPromotetheTransitionPane;
+            HtmlSpan uIPromotetheTransitionPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIPromotetheTransitionPane1;
+            HtmlDiv uINationalInterestPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UINationalInterestPane1;
+            HtmlSpan uIProtectCoreUSInteresPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIProtectCoreUSInteresPane;
+            HtmlDiv uISecularPurposePane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UISecularPurposePane;
+            HtmlSpan uISecularPurposePane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UISecularPurposePane1;
+            HtmlDiv uIModalPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane;
+            HtmlComboBox uIFocusComboBox = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIFocusComboBox;
+            HtmlButton uINoneSelectedButton2 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UINoneSelectedButton2;
+            HtmlDiv uIAndrewCCohenPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIAndrewCCohenPane;
+            HtmlDiv uIArielleJBerneyPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIArielleJBerneyPane;
+            HtmlLabel uIArielleJBerneyLabel = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIArielleJBerneyLabel;
+            HtmlDiv uICreateProgramDidyoukPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UICreateProgramDidyoukPane;
+            HtmlEdit uIProgramWebsiteEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIProgramWebsiteEdit;
+            HtmlDiv uIProgramNamePleaseentPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIModalPane.UIProgramNamePleaseentPane;
+            #endregion
+
+            // Type 'Xenon Test Program - 2015' in 'name' text box
+            uINameEdit.Text = this.InputParentProgramData_FirstParams.UINameEditText;
+
+            // Type 'This program is being created for a test.' in 'description' text box
+            uIDescriptionEdit.Text = this.InputParentProgramData_FirstParams.UIDescriptionEditText;
+
+            // Type '14-April-2016' in 'start' text box
+            uIStartEdit1.Text = this.InputParentProgramData_FirstParams.UIStartEdit1Text;
+
+            // Click 'None Selected' button
+            Mouse.Click(uINoneSelectedButton1, new Point(121, 7));
+
+            // Click 'Africa' pane
+            Mouse.Click(uIAfricaPane, new Point(91, 21));
+
+            // Click 'East Asia and the Pacific' pane
+            Mouse.Click(uIEastAsiaandthePacifiPane1, new Point(87, 4));
+
+            // Click 'Europe and Eurasia' pane
+            Mouse.Click(uIEuropeandEurasiaPane1, new Point(75, 1));
+
+            // Click 'Near East' pane
+            Mouse.Click(uINearEastPane11, new Point(63, 9));
+
+            // Click 'South and Central Asia' pane
+            Mouse.Click(uISouthandCentralAsiaPane11, new Point(57, 11));
+
+            // Click 'UN and Other International Organizations' pane
+            Mouse.Click(uIUNandOtherInternatioPane11, new Point(54, 9));
+
+            // Click 'UN and Other International Organizations' pane
+            Mouse.Click(uIUNandOtherInternatioPane1, new Point(58, 2));
+
+            // Click 'UN and Other International Organizations' pane
+            Mouse.Click(uIUNandOtherInternatioPane2, new Point(60, 18));
+
+            // Click 'United States' pane
+            Mouse.Click(uIUnitedStatesPane11, new Point(64, 18));
+
+            // Click 'Western Hemisphere' pane
+            Mouse.Click(uIWesternHemispherePane11, new Point(64, 0));
+
+            // Click 'Goals *' label
+            Mouse.Click(uIGoalsLabel, new Point(399, 5));
+
+            // Click 'None Selected' button
+            Mouse.Click(uINoneSelectedButton, new Point(120, 16));
+
+            // Click 'Civil Society' pane
+            Mouse.Click(uICivilSocietyPane1, new Point(72, 9));
+
+            // Click 'Civilian Security' pane
+            Mouse.Click(uICivilianSecurityPane1, new Point(70, 1));
+
+            // Click 'Conflict Prevention, Mitigation, and Res' pane
+            Mouse.Click(uIConflictPreventionMiPane11, new Point(68, 2));
+
+            // Click 'Culture/Sports/American Society' pane
+            Mouse.Click(uICultureSportsAmericaPane11, new Point(60, 7));
+
+            // Click 'CVE/Counterterrorism' pane
+            Mouse.Click(uICVECounterterrorismPane11, new Point(60, 3));
+
+            // Click 'Democracy/Good Governance/Rule of Law' pane
+            Mouse.Click(uIDemocracyGoodGovernaPane1, new Point(228, 5));
+
+            // Click 'Diversity' pane
+            Mouse.Click(uIDiversityPane1, new Point(104, 7));
+
+            // Click 'Economic Statecraft' pane
+            Mouse.Click(uIEconomicStatecraftPane11, new Point(105, 3));
+
+            // Click 'Education' pane
+            Mouse.Click(uIEducationPane1, new Point(101, 2));
+
+            // Click 'Energy Security' pane
+            Mouse.Click(uIEnergySecurityPane1, new Point(101, 5));
+
+            // Click 'Focus Area *' label
+            Mouse.Click(uIFocusAreaLabel, new Point(565, 13));
+
+            // Click 'None Selected' button
+            Mouse.Click(uIGoalsDropdownButton, new Point(5, 2));
+
+            // Click 'Importance' label
+            Mouse.Click(uIImportanceLabel, new Point(97, 4));
+
+            // Click 'Modernize the Way We Do Diplomacy and De' pane
+            Mouse.Click(uIModernizetheWayWeDoDPane, new Point(92, 3));
+
+            // Set flag to allow play back to continue if non-essential actions fail. (For example, if a mouse hover action fails.)
+            Playback.PlaybackSettings.ContinueOnError = true;
+
+            // Mouse hover 'Strengthen America's Foreign Policy Impa' pane at (1, 1)
+            Mouse.Hover(uIStrengthenAmericasFoPane, new Point(1, 1));
+
+            // Reset flag to ensure that play back stops if there is an error.
+            Playback.PlaybackSettings.ContinueOnError = false;
+
+            // Click 'National Interest' pane
+            Mouse.Click(uINationalInterestPane, new Point(92, 14));
+
+            // Set flag to allow play back to continue if non-essential actions fail. (For example, if a mouse hover action fails.)
+            Playback.PlaybackSettings.ContinueOnError = true;
+
+            // Mouse hover 'Promote the Transition to a Low-Emission' pane at (1, 1)
+            Mouse.Hover(uIPromotetheTransitionPane, new Point(1, 1));
+
+            // Reset flag to ensure that play back stops if there is an error.
+            Playback.PlaybackSettings.ContinueOnError = false;
+
+            // Click 'Promote the Transition to a Low-Emission' pane
+            Mouse.Click(uIPromotetheTransitionPane1, new Point(85, 10));
+
+            // Set flag to allow play back to continue if non-essential actions fail. (For example, if a mouse hover action fails.)
+            Playback.PlaybackSettings.ContinueOnError = true;
+
+            // Mouse hover 'National Interest' pane at (1, 1)
+            Mouse.Hover(uINationalInterestPane1, new Point(1, 1));
+
+            // Reset flag to ensure that play back stops if there is an error.
+            Playback.PlaybackSettings.ContinueOnError = false;
+
+            // Click 'Protect Core U.S. Interests by Advancing' pane
+            Mouse.Click(uIProtectCoreUSInteresPane, new Point(84, 3));
+
+            // Set flag to allow play back to continue if non-essential actions fail. (For example, if a mouse hover action fails.)
+            Playback.PlaybackSettings.ContinueOnError = true;
+
+            // Mouse hover 'Secular Purpose' pane at (1, 1)
+            Mouse.Hover(uISecularPurposePane, new Point(1, 1));
+
+            // Reset flag to ensure that play back stops if there is an error.
+            Playback.PlaybackSettings.ContinueOnError = false;
+
+            // Click 'Secular Purpose' pane
+            Mouse.Click(uISecularPurposePane1, new Point(88, 1));
+
+            // Set flag to allow play back to continue if non-essential actions fail. (For example, if a mouse hover action fails.)
+            Playback.PlaybackSettings.ContinueOnError = true;
+
+            // Mouse hover 'Protect Core U.S. Interests by Advancing' pane at (1, 1)
+            Mouse.Hover(uIProtectCoreUSInteresPane, new Point(1, 1));
+
+            // Reset flag to ensure that play back stops if there is an error.
+            Playback.PlaybackSettings.ContinueOnError = false;
+
+            // Click 'modal' pane
+            Mouse.Click(uIModalPane, new Point(932, 800));
+
+            // Select 'Cultural Objects and Collections' in 'focus' combo box
+            uIFocusComboBox.SelectedItem = this.InputParentProgramData_FirstParams.UIFocusComboBoxSelectedItem;
+
+            // Click 'modal' pane
+            Mouse.Click(uIModalPane, new Point(932, 800));
+
+            // Click 'None Selected' button
+            Mouse.Click(uINoneSelectedButton2, new Point(123, 17));
+
+            // Click 'Andrew C. Cohen' pane
+            Mouse.Click(uIAndrewCCohenPane, new Point(131, 25));
+
+            // Set flag to allow play back to continue if non-essential actions fail. (For example, if a mouse hover action fails.)
+            Playback.PlaybackSettings.ContinueOnError = true;
+
+            // Mouse hover 'Arielle J. Berney' pane at (1, 1)
+            Mouse.Hover(uIArielleJBerneyPane, new Point(1, 1));
+
+            // Reset flag to ensure that play back stops if there is an error.
+            Playback.PlaybackSettings.ContinueOnError = false;
+
+            // Click 'Arielle J. Berney' label
+            Mouse.Click(uIArielleJBerneyLabel, new Point(130, 11));
+
+            // Click 'Create Program Did you know?' pane
+            Mouse.Click(uICreateProgramDidyoukPane, new Point(439, 464));
+
+            // Type 'http://eca.state.gov' in 'programWebsite' text box
+            uIProgramWebsiteEdit.Text = this.InputParentProgramData_FirstParams.UIProgramWebsiteEditText;
+
+            // Click 'Program Name * Please enter a progr' pane
+            Mouse.Click(uIProgramNamePleaseentPane, new Point(380, 1005));
         }
         
         /// <summary>
@@ -144,9 +524,6 @@ namespace CreateProgram.Test
         public void LogintoQA_ExistingUser()
         {
             #region Variable Declarations
-            WinEdit uIAddressandsearchusinEdit = this.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit;
-            WinEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit;
-            WinButton uIGotohttpsecakmtqaazuButton = this.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton;
             HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIECATest1statedeptusHyperlink;
             HtmlCell uIECATest1statedeptusCell = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable.UIECATest1statedeptusCell;
             HtmlCell uIECATest1statedeptusCell1 = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable1.UIECATest1statedeptusCell;
@@ -154,17 +531,8 @@ namespace CreateProgram.Test
             HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
             #endregion
 
-            // Go to web page 'about:Tabs' using new browser instance
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
-
-            // Click 'Address and search using Bing' text box
-            Mouse.Click(uIAddressandsearchusinEdit, new Point(66, 6));
-
-            // Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-            Keyboard.SendKeys(uIItemEdit, this.LogintoQA_ExistingUserParams.UIItemEditSendKeys, ModifierKeys.None);
-
-            // Click 'Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt...' button
-            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(12, 6));
 
             // Click 'ECATest1@statedept.us •••' link
             Mouse.Click(uIECATest1statedeptusHyperlink, new Point(81, 40));
@@ -254,6 +622,18 @@ namespace CreateProgram.Test
             }
         }
         
+        public virtual AssertCreateButton_ModalExpectedValues AssertCreateButton_ModalExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertCreateButton_ModalExpectedValues == null))
+                {
+                    this.mAssertCreateButton_ModalExpectedValues = new AssertCreateButton_ModalExpectedValues();
+                }
+                return this.mAssertCreateButton_ModalExpectedValues;
+            }
+        }
+        
         public virtual AssertCreateProgramButtonExpectedValues AssertCreateProgramButtonExpectedValues
         {
             get
@@ -278,6 +658,30 @@ namespace CreateProgram.Test
             }
         }
         
+        public virtual AssertEditTextFields_ModalExpectedValues AssertEditTextFields_ModalExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertEditTextFields_ModalExpectedValues == null))
+                {
+                    this.mAssertEditTextFields_ModalExpectedValues = new AssertEditTextFields_ModalExpectedValues();
+                }
+                return this.mAssertEditTextFields_ModalExpectedValues;
+            }
+        }
+        
+        public virtual AssertParentProgramInputValues_ModalExpectedValues AssertParentProgramInputValues_ModalExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertParentProgramInputValues_ModalExpectedValues == null))
+                {
+                    this.mAssertParentProgramInputValues_ModalExpectedValues = new AssertParentProgramInputValues_ModalExpectedValues();
+                }
+                return this.mAssertParentProgramInputValues_ModalExpectedValues;
+            }
+        }
+        
         public virtual AssertProgramsMenuItemLinkExpectedValues AssertProgramsMenuItemLinkExpectedValues
         {
             get
@@ -287,6 +691,18 @@ namespace CreateProgram.Test
                     this.mAssertProgramsMenuItemLinkExpectedValues = new AssertProgramsMenuItemLinkExpectedValues();
                 }
                 return this.mAssertProgramsMenuItemLinkExpectedValues;
+            }
+        }
+        
+        public virtual InputParentProgramData_FirstParams InputParentProgramData_FirstParams
+        {
+            get
+            {
+                if ((this.mInputParentProgramData_FirstParams == null))
+                {
+                    this.mInputParentProgramData_FirstParams = new InputParentProgramData_FirstParams();
+                }
+                return this.mInputParentProgramData_FirstParams;
             }
         }
         
@@ -342,11 +758,19 @@ namespace CreateProgram.Test
         #region Fields
         private AssertContentMenuButtonExpectedValues mAssertContentMenuButtonExpectedValues;
         
+        private AssertCreateButton_ModalExpectedValues mAssertCreateButton_ModalExpectedValues;
+        
         private AssertCreateProgramButtonExpectedValues mAssertCreateProgramButtonExpectedValues;
         
         private AssertCreateProgramModalExpectedValues mAssertCreateProgramModalExpectedValues;
         
+        private AssertEditTextFields_ModalExpectedValues mAssertEditTextFields_ModalExpectedValues;
+        
+        private AssertParentProgramInputValues_ModalExpectedValues mAssertParentProgramInputValues_ModalExpectedValues;
+        
         private AssertProgramsMenuItemLinkExpectedValues mAssertProgramsMenuItemLinkExpectedValues;
+        
+        private InputParentProgramData_FirstParams mInputParentProgramData_FirstParams;
         
         private LogintoQAParams mLogintoQAParams;
         
@@ -370,6 +794,26 @@ namespace CreateProgram.Test
         /// Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
         /// </summary>
         public string UITogglenavigationButtonControlType = "Button";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertCreateButton_Modal'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertCreateButton_ModalExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'CREATE' button equals 'Button'
+        /// </summary>
+        public string UICREATEButtonControlType = "Button";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'CREATE' button equals 'CREATE'
+        /// </summary>
+        public string UICREATEButtonDisplayText = "CREATE";
         #endregion
     }
     
@@ -414,6 +858,183 @@ namespace CreateProgram.Test
     }
     
     /// <summary>
+    /// Parameters to be passed into 'AssertEditTextFields_Modal'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertEditTextFields_ModalExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'name' text box equals 'Edit'
+        /// </summary>
+        public string UINameEditControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'description' text box equals 'Edit'
+        /// </summary>
+        public string UIDescriptionEditControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'parentProgram' text box equals 'Edit'
+        /// </summary>
+        public string UIParentProgramEditControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'start' text box equals 'Edit'
+        /// </summary>
+        public string UIStartEditControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'programWebsite' text box equals 'Edit'
+        /// </summary>
+        public string UIProgramWebsiteEditControlType = "Edit";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertParentProgramInputValues_Modal'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertParentProgramInputValues_ModalExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ValueAttribute' property of 'name' text box equals 'Xenon Test Program - 2015'
+        /// </summary>
+        public string UINameEdit1ValueAttribute = "Xenon Test Program - 2015";
+        
+        /// <summary>
+        /// Verify that the 'Text' property of 'description' text box equals 'This program is being created for a test.'
+        /// </summary>
+        public string UIDescriptionEdit1Text = "This program is being created for a test.";
+        
+        /// <summary>
+        /// Verify that the 'Text' property of 'name' text box equals 'Xenon Test Program - 2015'
+        /// </summary>
+        public string UINameEdit1Text = "Xenon Test Program - 2015";
+        
+        /// <summary>
+        /// Verify that the 'ValueAttribute' property of 'start' text box equals '14-April-2016'
+        /// </summary>
+        public string UIStartEdit2ValueAttribute = "14-April-2016";
+        
+        /// <summary>
+        /// Verify that the 'Text' property of 'start' text box equals '14-April-2016'
+        /// </summary>
+        public string UIStartEdit2Text = "14-April-2016";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Africa , East Asia and the Pacific , Europe and E...' button equals ' Africa
+        ///, 
+        /// East Asia and the Pacific
+        ///, 
+        /// Europe and Eurasia
+        ///, 
+        /// Near East
+        ///, 
+        /// South and Central Asia
+        ///, 
+        /// UN and Other International Organizations
+        ///, 
+        /// United States
+        ///, 
+        /// Western Hemisphere'
+        /// </summary>
+        public string UIAfricaEastAsiaandtheButtonDisplayText = " Africa\r\n, \r\n East Asia and the Pacific\r\n, \r\n Europe and Eurasia\r\n, \r\n Near East\r" +
+            "\n, \r\n South and Central Asia\r\n, \r\n UN and Other International Organizations\r\n, \r" +
+            "\n United States\r\n, \r\n Western Hemisphere";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Civil Society , Civilian Security , Conflict Prev...' button equals ' Civil Society
+        ///, 
+        /// Civilian Security
+        ///, 
+        /// Conflict Prevention, Mitigation, and Response
+        ///, 
+        /// Culture/Sports/American Society
+        ///, 
+        /// CVE/Counterterrorism
+        ///, 
+        /// Democracy/Good Governance/Rule of Law
+        ///, 
+        /// Diversity
+        ///, 
+        /// Economic Statecraft
+        ///, 
+        /// Education
+        ///, 
+        /// Energy Security'
+        /// </summary>
+        public string UICivilSocietyCivilianButtonDisplayText = @" Civil Society
+, 
+ Civilian Security
+, 
+ Conflict Prevention, Mitigation, and Response
+, 
+ Culture/Sports/American Society
+, 
+ CVE/Counterterrorism
+, 
+ Democracy/Good Governance/Rule of Law
+, 
+ Diversity
+, 
+ Economic Statecraft
+, 
+ Education
+, 
+ Energy Security";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Importance , Modernize the Way We Do Diplomacy an...' button equals ' Importance
+        ///, 
+        /// Modernize the Way We Do Diplomacy and Development
+        ///, 
+        /// National Interest
+        ///, 
+        /// Promote the Transition to a Low-Emission, Climate-Resilient World while Expanding Global Access to Sustainable Energy
+        ///, 
+        /// Protect Core U.S. Interests by Advancing Democracy and Human Rights and Strengthening Civil Society
+        ///, 
+        /// Secular Purpose'
+        /// </summary>
+        public string UIImportanceModernizetButtonDisplayText = @" Importance
+, 
+ Modernize the Way We Do Diplomacy and Development
+, 
+ National Interest
+, 
+ Promote the Transition to a Low-Emission, Climate-Resilient World while Expanding Global Access to Sustainable Energy
+, 
+ Protect Core U.S. Interests by Advancing Democracy and Human Rights and Strengthening Civil Society
+, 
+ Secular Purpose";
+        
+        /// <summary>
+        /// Verify that the 'SelectedItem' property of 'focus' combo box equals 'Cultural Objects and Collections'
+        /// </summary>
+        public string UIFocusComboBox1SelectedItem = "Cultural Objects and Collections";
+        
+        /// <summary>
+        /// Verify that the 'FriendlyName' property of 'Andrew C. Cohen , Arielle J. Berney' button equals ' Andrew C. Cohen , Arielle J. Berney'
+        /// </summary>
+        public string UIAndrewCCohenArielleJButtonFriendlyName = " Andrew C. Cohen , Arielle J. Berney";
+        
+        /// <summary>
+        /// Verify that the 'ValueAttribute' property of 'programWebsite' text box equals 'http://eca.state.gov'
+        /// </summary>
+        public string UIProgramWebsiteEdit1ValueAttribute = "http://eca.state.gov";
+        
+        /// <summary>
+        /// Verify that the 'Text' property of 'programWebsite' text box equals 'http://eca.state.gov'
+        /// </summary>
+        public string UIProgramWebsiteEdit1Text = "http://eca.state.gov";
+        #endregion
+    }
+    
+    /// <summary>
     /// Parameters to be passed into 'AssertProgramsMenuItemLink'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
@@ -430,6 +1051,41 @@ namespace CreateProgram.Test
         /// Verify that the 'ControlType' property of 'Programs' link equals 'Hyperlink'
         /// </summary>
         public string UIProgramsHyperlinkControlType = "Hyperlink";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'InputParentProgramData_First'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class InputParentProgramData_FirstParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type 'Xenon Test Program - 2015' in 'name' text box
+        /// </summary>
+        public string UINameEditText = "Xenon Test Program - 2015";
+        
+        /// <summary>
+        /// Type 'This program is being created for a test.' in 'description' text box
+        /// </summary>
+        public string UIDescriptionEditText = "This program is being created for a test.";
+        
+        /// <summary>
+        /// Type '14-April-2016' in 'start' text box
+        /// </summary>
+        public string UIStartEdit1Text = "14-April-2016";
+        
+        /// <summary>
+        /// Select 'Cultural Objects and Collections' in 'focus' combo box
+        /// </summary>
+        public string UIFocusComboBoxSelectedItem = "Cultural Objects and Collections";
+        
+        /// <summary>
+        /// Type 'http://eca.state.gov' in 'programWebsite' text box
+        /// </summary>
+        public string UIProgramWebsiteEditText = "http://eca.state.gov";
         #endregion
     }
     
@@ -472,14 +1128,9 @@ namespace CreateProgram.Test
         
         #region Fields
         /// <summary>
-        /// Go to web page 'about:Tabs' using new browser instance
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
         /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "about:Tabs";
-        
-        /// <summary>
-        /// Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-        /// </summary>
-        public string UIItemEditSendKeys = "https://eca-kmt-qa.azurewebsites.net/";
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
         
         /// <summary>
         /// Type '********' in 'Password' text box
@@ -608,6 +1259,18 @@ namespace CreateProgram.Test
                 return this.mUISignintoECAClientDocument;
             }
         }
+        
+        public UIHttpsecakmtqaazureweDocument2 UIHttpsecakmtqaazureweDocument2
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument2 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument2 = new UIHttpsecakmtqaazureweDocument2(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument2;
+            }
+        }
         #endregion
         
         #region Fields
@@ -624,6 +1287,8 @@ namespace CreateProgram.Test
         private UIHttpsecakmtqaazureweDocument1 mUIHttpsecakmtqaazureweDocument1;
         
         private UISignintoECAClientDocument mUISignintoECAClientDocument;
+        
+        private UIHttpsecakmtqaazureweDocument2 mUIHttpsecakmtqaazureweDocument2;
         #endregion
     }
     
@@ -1427,6 +2092,3062 @@ namespace CreateProgram.Test
         
         #region Fields
         private HtmlCell mUIECATest1statedeptusCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweDocument2 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument2(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/#/allprograms#top";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlEdit UINameEdit
+        {
+            get
+            {
+                if ((this.mUINameEdit == null))
+                {
+                    this.mUINameEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUINameEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUINameEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "name";
+                    this.mUINameEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUINameEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUINameEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUINameEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-invalid ng-invalid-required ng-touched";
+                    this.mUINameEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"name\" class=\"form-control ng-prist";
+                    this.mUINameEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "109";
+                    this.mUINameEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINameEdit;
+            }
+        }
+        
+        public HtmlTextArea UIDescriptionEdit
+        {
+            get
+            {
+                if ((this.mUIDescriptionEdit == null))
+                {
+                    this.mUIDescriptionEdit = new HtmlTextArea(this);
+                    #region Search Criteria
+                    this.mUIDescriptionEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIDescriptionEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "description";
+                    this.mUIDescriptionEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIDescriptionEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIDescriptionEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-invalid ng-invalid-required";
+                    this.mUIDescriptionEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"description\" class=\"form-control n";
+                    this.mUIDescriptionEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "2";
+                    this.mUIDescriptionEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIDescriptionEdit;
+            }
+        }
+        
+        public HtmlEdit UIParentProgramEdit
+        {
+            get
+            {
+                if ((this.mUIParentProgramEdit == null))
+                {
+                    this.mUIParentProgramEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIParentProgramEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIParentProgramEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "parentProgram";
+                    this.mUIParentProgramEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIParentProgramEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIParentProgramEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIParentProgramEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIParentProgramEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"parentProgram\" class=\"form-control";
+                    this.mUIParentProgramEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "110";
+                    this.mUIParentProgramEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIParentProgramEdit;
+            }
+        }
+        
+        public HtmlEdit UIStartEdit
+        {
+            get
+            {
+                if ((this.mUIStartEdit == null))
+                {
+                    this.mUIStartEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIStartEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIStartEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "start";
+                    this.mUIStartEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIStartEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIStartEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIStartEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid ng-isolate-scope ng-valid-date ng-" +
+                        "valid-required";
+                    this.mUIStartEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"start\" class=\"form-control ng-pris";
+                    this.mUIStartEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "111";
+                    this.mUIStartEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIStartEdit;
+            }
+        }
+        
+        public UIModalPane UIModalPane
+        {
+            get
+            {
+                if ((this.mUIModalPane == null))
+                {
+                    this.mUIModalPane = new UIModalPane(this);
+                }
+                return this.mUIModalPane;
+            }
+        }
+        
+        public HtmlEdit UIProgramWebsiteEdit
+        {
+            get
+            {
+                if ((this.mUIProgramWebsiteEdit == null))
+                {
+                    this.mUIProgramWebsiteEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIProgramWebsiteEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIProgramWebsiteEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "programWebsite";
+                    this.mUIProgramWebsiteEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIProgramWebsiteEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIProgramWebsiteEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIProgramWebsiteEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid ng-valid-url";
+                    this.mUIProgramWebsiteEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"programWebsite\" class=\"form-contro";
+                    this.mUIProgramWebsiteEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "215";
+                    this.mUIProgramWebsiteEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIProgramWebsiteEdit;
+            }
+        }
+        
+        public HtmlEdit UIStartEdit1
+        {
+            get
+            {
+                if ((this.mUIStartEdit1 == null))
+                {
+                    this.mUIStartEdit1 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIStartEdit1.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIStartEdit1.SearchProperties[HtmlEdit.PropertyNames.Name] = "start";
+                    this.mUIStartEdit1.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIStartEdit1.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIStartEdit1.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIStartEdit1.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-valid ng-isolate-scope ng-valid-date ng-valid-require" +
+                        "d ng-touched";
+                    this.mUIStartEdit1.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"start\" class=\"form-control ng-pris";
+                    this.mUIStartEdit1.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "111";
+                    this.mUIStartEdit1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIStartEdit1;
+            }
+        }
+        
+        public HtmlComboBox UIFocusComboBox
+        {
+            get
+            {
+                if ((this.mUIFocusComboBox == null))
+                {
+                    this.mUIFocusComboBox = new HtmlComboBox(this);
+                    #region Search Criteria
+                    this.mUIFocusComboBox.SearchProperties[HtmlComboBox.PropertyNames.Id] = null;
+                    this.mUIFocusComboBox.SearchProperties[HtmlComboBox.PropertyNames.Name] = "focus";
+                    this.mUIFocusComboBox.SearchProperties[HtmlComboBox.PropertyNames.LabeledBy] = null;
+                    this.mUIFocusComboBox.FilterProperties[HtmlComboBox.PropertyNames.Size] = "0";
+                    this.mUIFocusComboBox.FilterProperties[HtmlComboBox.PropertyNames.Title] = null;
+                    this.mUIFocusComboBox.FilterProperties[HtmlComboBox.PropertyNames.ItemCount] = "11";
+                    this.mUIFocusComboBox.FilterProperties[HtmlComboBox.PropertyNames.Class] = "modal-dropdown ng-pristine ng-untouched ng-invalid ng-invalid-required";
+                    this.mUIFocusComboBox.FilterProperties[HtmlComboBox.PropertyNames.ControlDefinition] = "name=\"focus\" class=\"modal-dropdown ng-pr";
+                    this.mUIFocusComboBox.FilterProperties[HtmlComboBox.PropertyNames.TagInstance] = "2";
+                    this.mUIFocusComboBox.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIFocusComboBox;
+            }
+        }
+        
+        public HtmlCustom UIMshtmlHTMLInputElemeCustom
+        {
+            get
+            {
+                if ((this.mUIMshtmlHTMLInputElemeCustom == null))
+                {
+                    this.mUIMshtmlHTMLInputElemeCustom = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIMshtmlHTMLInputElemeCustom.SearchProperties["TagName"] = "FORM";
+                    this.mUIMshtmlHTMLInputElemeCustom.SearchProperties["Id"] = null;
+                    this.mUIMshtmlHTMLInputElemeCustom.SearchProperties[UITestControl.PropertyNames.Name] = "mshtml.HTMLInputElementClass";
+                    this.mUIMshtmlHTMLInputElemeCustom.FilterProperties["Class"] = "ng-invalid ng-invalid-required ng-valid-url ng-valid-date-disabled ng-dirty ng-va" +
+                        "lid-editable ng-valid-date ng-valid-parse";
+                    this.mUIMshtmlHTMLInputElemeCustom.FilterProperties["ControlDefinition"] = "name=\"programForm\" class=\"ng-invalid ng-";
+                    this.mUIMshtmlHTMLInputElemeCustom.FilterProperties["TagInstance"] = "2";
+                    this.mUIMshtmlHTMLInputElemeCustom.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIMshtmlHTMLInputElemeCustom;
+            }
+        }
+        
+        public UITopPane1 UITopPane
+        {
+            get
+            {
+                if ((this.mUITopPane == null))
+                {
+                    this.mUITopPane = new UITopPane1(this);
+                }
+                return this.mUITopPane;
+            }
+        }
+        
+        public HtmlEdit UINameEdit1
+        {
+            get
+            {
+                if ((this.mUINameEdit1 == null))
+                {
+                    this.mUINameEdit1 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUINameEdit1.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUINameEdit1.SearchProperties[HtmlEdit.PropertyNames.Name] = "name";
+                    this.mUINameEdit1.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUINameEdit1.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUINameEdit1.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUINameEdit1.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-touched ng-dirty ng-valid-parse ng-valid ng-valid-required";
+                    this.mUINameEdit1.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"name\" class=\"form-control ng-touch";
+                    this.mUINameEdit1.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "109";
+                    this.mUINameEdit1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINameEdit1;
+            }
+        }
+        
+        public HtmlTextArea UIDescriptionEdit1
+        {
+            get
+            {
+                if ((this.mUIDescriptionEdit1 == null))
+                {
+                    this.mUIDescriptionEdit1 = new HtmlTextArea(this);
+                    #region Search Criteria
+                    this.mUIDescriptionEdit1.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIDescriptionEdit1.SearchProperties[HtmlEdit.PropertyNames.Name] = "description";
+                    this.mUIDescriptionEdit1.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIDescriptionEdit1.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIDescriptionEdit1.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched";
+                    this.mUIDescriptionEdit1.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"description\" class=\"form-control n";
+                    this.mUIDescriptionEdit1.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "2";
+                    this.mUIDescriptionEdit1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIDescriptionEdit1;
+            }
+        }
+        
+        public HtmlEdit UIStartEdit2
+        {
+            get
+            {
+                if ((this.mUIStartEdit2 == null))
+                {
+                    this.mUIStartEdit2 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIStartEdit2.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIStartEdit2.SearchProperties[HtmlEdit.PropertyNames.Name] = "start";
+                    this.mUIStartEdit2.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIStartEdit2.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIStartEdit2.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIStartEdit2.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-isolate-scope ng-touched ng-dirty ng-valid-date ng-valid ng-valid" +
+                        "-parse ng-valid-required";
+                    this.mUIStartEdit2.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"start\" class=\"form-control ng-isol";
+                    this.mUIStartEdit2.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "111";
+                    this.mUIStartEdit2.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIStartEdit2;
+            }
+        }
+        
+        public HtmlComboBox UIFocusComboBox1
+        {
+            get
+            {
+                if ((this.mUIFocusComboBox1 == null))
+                {
+                    this.mUIFocusComboBox1 = new HtmlComboBox(this);
+                    #region Search Criteria
+                    this.mUIFocusComboBox1.SearchProperties[HtmlComboBox.PropertyNames.Id] = null;
+                    this.mUIFocusComboBox1.SearchProperties[HtmlComboBox.PropertyNames.Name] = "focus";
+                    this.mUIFocusComboBox1.SearchProperties[HtmlComboBox.PropertyNames.LabeledBy] = null;
+                    this.mUIFocusComboBox1.FilterProperties[HtmlComboBox.PropertyNames.Size] = "0";
+                    this.mUIFocusComboBox1.FilterProperties[HtmlComboBox.PropertyNames.Title] = null;
+                    this.mUIFocusComboBox1.FilterProperties[HtmlComboBox.PropertyNames.ItemCount] = "11";
+                    this.mUIFocusComboBox1.FilterProperties[HtmlComboBox.PropertyNames.Class] = "modal-dropdown ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched";
+                    this.mUIFocusComboBox1.FilterProperties[HtmlComboBox.PropertyNames.ControlDefinition] = "name=\"focus\" class=\"modal-dropdown ng-di";
+                    this.mUIFocusComboBox1.FilterProperties[HtmlComboBox.PropertyNames.TagInstance] = "2";
+                    this.mUIFocusComboBox1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIFocusComboBox1;
+            }
+        }
+        
+        public HtmlEdit UIProgramWebsiteEdit1
+        {
+            get
+            {
+                if ((this.mUIProgramWebsiteEdit1 == null))
+                {
+                    this.mUIProgramWebsiteEdit1 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIProgramWebsiteEdit1.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIProgramWebsiteEdit1.SearchProperties[HtmlEdit.PropertyNames.Name] = "programWebsite";
+                    this.mUIProgramWebsiteEdit1.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIProgramWebsiteEdit1.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIProgramWebsiteEdit1.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIProgramWebsiteEdit1.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-dirty ng-valid ng-valid-url ng-touched";
+                    this.mUIProgramWebsiteEdit1.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"programWebsite\" class=\"form-contro";
+                    this.mUIProgramWebsiteEdit1.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "215";
+                    this.mUIProgramWebsiteEdit1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIProgramWebsiteEdit1;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlEdit mUINameEdit;
+        
+        private HtmlTextArea mUIDescriptionEdit;
+        
+        private HtmlEdit mUIParentProgramEdit;
+        
+        private HtmlEdit mUIStartEdit;
+        
+        private UIModalPane mUIModalPane;
+        
+        private HtmlEdit mUIProgramWebsiteEdit;
+        
+        private HtmlEdit mUIStartEdit1;
+        
+        private HtmlComboBox mUIFocusComboBox;
+        
+        private HtmlCustom mUIMshtmlHTMLInputElemeCustom;
+        
+        private UITopPane1 mUITopPane;
+        
+        private HtmlEdit mUINameEdit1;
+        
+        private HtmlTextArea mUIDescriptionEdit1;
+        
+        private HtmlEdit mUIStartEdit2;
+        
+        private HtmlComboBox mUIFocusComboBox1;
+        
+        private HtmlEdit mUIProgramWebsiteEdit1;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIModalPane : HtmlDiv
+    {
+        
+        public UIModalPane(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "modal";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Program Name *\r\n\r\n\r\nPlease enter a progr";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "row ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row ng-scope\" id=\"modal\" in-context-form=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "320";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlDiv UISelectNoneResetAfricPane
+        {
+            get
+            {
+                if ((this.mUISelectNoneResetAfricPane == null))
+                {
+                    this.mUISelectNoneResetAfricPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISelectNoneResetAfricPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISelectNoneResetAfricPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISelectNoneResetAfricPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "×  Select None↶  Reset\r\n  \r\n\r\n  \r\n Afric";
+                    this.mUISelectNoneResetAfricPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISelectNoneResetAfricPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "checkboxLayer";
+                    this.mUISelectNoneResetAfricPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"checkboxLayer\"";
+                    this.mUISelectNoneResetAfricPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "332";
+                    this.mUISelectNoneResetAfricPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISelectNoneResetAfricPane;
+            }
+        }
+        
+        public HtmlDiv UISelectNoneResetPane
+        {
+            get
+            {
+                if ((this.mUISelectNoneResetPane == null))
+                {
+                    this.mUISelectNoneResetPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISelectNoneResetPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISelectNoneResetPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISelectNoneResetPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "×  Select None↶  Reset";
+                    this.mUISelectNoneResetPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISelectNoneResetPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "line ng-scope";
+                    this.mUISelectNoneResetPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"line ng-scope\" ng-if=\"displayHelper( \'all\' ) || displayHelper( \'none\' ) ||" +
+                        " displayHelper( \'reset\' )\"";
+                    this.mUISelectNoneResetPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "334";
+                    this.mUISelectNoneResetPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISelectNoneResetPane;
+            }
+        }
+        
+        public HtmlDiv UIAfricaEastAsiaandthePane
+        {
+            get
+            {
+                if ((this.mUIAfricaEastAsiaandthePane == null))
+                {
+                    this.mUIAfricaEastAsiaandthePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIAfricaEastAsiaandthePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIAfricaEastAsiaandthePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIAfricaEastAsiaandthePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Africa\r\n  \r\n East Asia and the Pacific\r\n";
+                    this.mUIAfricaEastAsiaandthePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIAfricaEastAsiaandthePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "checkBoxContainer";
+                    this.mUIAfricaEastAsiaandthePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"checkBoxContainer\"";
+                    this.mUIAfricaEastAsiaandthePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "335";
+                    this.mUIAfricaEastAsiaandthePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAfricaEastAsiaandthePane;
+            }
+        }
+        
+        public HtmlDiv UIAfricaPane
+        {
+            get
+            {
+                if ((this.mUIAfricaPane == null))
+                {
+                    this.mUIAfricaPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIAfricaPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIAfricaPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIAfricaPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Africa";
+                    this.mUIAfricaPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIAfricaPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIAfricaPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIAfricaPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "336";
+                    this.mUIAfricaPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAfricaPane;
+            }
+        }
+        
+        public HtmlDiv UIEastAsiaandthePacifiPane
+        {
+            get
+            {
+                if ((this.mUIEastAsiaandthePacifiPane == null))
+                {
+                    this.mUIEastAsiaandthePacifiPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEastAsiaandthePacifiPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEastAsiaandthePacifiPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEastAsiaandthePacifiPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "East Asia and the Pacific";
+                    this.mUIEastAsiaandthePacifiPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEastAsiaandthePacifiPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIEastAsiaandthePacifiPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIEastAsiaandthePacifiPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "338";
+                    this.mUIEastAsiaandthePacifiPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEastAsiaandthePacifiPane;
+            }
+        }
+        
+        public HtmlDiv UIEuropeandEurasiaPane
+        {
+            get
+            {
+                if ((this.mUIEuropeandEurasiaPane == null))
+                {
+                    this.mUIEuropeandEurasiaPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEuropeandEurasiaPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEuropeandEurasiaPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEuropeandEurasiaPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Europe and Eurasia";
+                    this.mUIEuropeandEurasiaPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEuropeandEurasiaPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIEuropeandEurasiaPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIEuropeandEurasiaPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "340";
+                    this.mUIEuropeandEurasiaPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEuropeandEurasiaPane;
+            }
+        }
+        
+        public HtmlDiv UINearEastPane
+        {
+            get
+            {
+                if ((this.mUINearEastPane == null))
+                {
+                    this.mUINearEastPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUINearEastPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUINearEastPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUINearEastPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Near East";
+                    this.mUINearEastPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUINearEastPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUINearEastPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUINearEastPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "342";
+                    this.mUINearEastPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINearEastPane;
+            }
+        }
+        
+        public HtmlDiv UISouthandCentralAsiaPane
+        {
+            get
+            {
+                if ((this.mUISouthandCentralAsiaPane == null))
+                {
+                    this.mUISouthandCentralAsiaPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISouthandCentralAsiaPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISouthandCentralAsiaPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISouthandCentralAsiaPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "South and Central Asia";
+                    this.mUISouthandCentralAsiaPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISouthandCentralAsiaPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUISouthandCentralAsiaPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUISouthandCentralAsiaPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "344";
+                    this.mUISouthandCentralAsiaPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISouthandCentralAsiaPane;
+            }
+        }
+        
+        public HtmlDiv UIUNandOtherInternatioPane
+        {
+            get
+            {
+                if ((this.mUIUNandOtherInternatioPane == null))
+                {
+                    this.mUIUNandOtherInternatioPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIUNandOtherInternatioPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIUNandOtherInternatioPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIUNandOtherInternatioPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "UN and Other International Organizations";
+                    this.mUIUNandOtherInternatioPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIUNandOtherInternatioPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIUNandOtherInternatioPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIUNandOtherInternatioPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "346";
+                    this.mUIUNandOtherInternatioPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIUNandOtherInternatioPane;
+            }
+        }
+        
+        public HtmlDiv UIUnitedStatesPane
+        {
+            get
+            {
+                if ((this.mUIUnitedStatesPane == null))
+                {
+                    this.mUIUnitedStatesPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIUnitedStatesPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIUnitedStatesPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIUnitedStatesPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "United States";
+                    this.mUIUnitedStatesPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIUnitedStatesPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIUnitedStatesPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIUnitedStatesPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "348";
+                    this.mUIUnitedStatesPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIUnitedStatesPane;
+            }
+        }
+        
+        public HtmlDiv UIWesternHemispherePane
+        {
+            get
+            {
+                if ((this.mUIWesternHemispherePane == null))
+                {
+                    this.mUIWesternHemispherePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIWesternHemispherePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIWesternHemispherePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIWesternHemispherePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Western Hemisphere";
+                    this.mUIWesternHemispherePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIWesternHemispherePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIWesternHemispherePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIWesternHemispherePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "350";
+                    this.mUIWesternHemispherePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIWesternHemispherePane;
+            }
+        }
+        
+        public HtmlLabel UIRelatedRegionsLabel
+        {
+            get
+            {
+                if ((this.mUIRelatedRegionsLabel == null))
+                {
+                    this.mUIRelatedRegionsLabel = new HtmlLabel(this);
+                    #region Search Criteria
+                    this.mUIRelatedRegionsLabel.SearchProperties[HtmlLabel.PropertyNames.Id] = null;
+                    this.mUIRelatedRegionsLabel.SearchProperties[HtmlLabel.PropertyNames.Name] = null;
+                    this.mUIRelatedRegionsLabel.SearchProperties[HtmlLabel.PropertyNames.LabelFor] = null;
+                    this.mUIRelatedRegionsLabel.SearchProperties[HtmlLabel.PropertyNames.InnerText] = "Related Regions *";
+                    this.mUIRelatedRegionsLabel.FilterProperties[HtmlLabel.PropertyNames.Class] = null;
+                    this.mUIRelatedRegionsLabel.FilterProperties[HtmlLabel.PropertyNames.ControlDefinition] = null;
+                    this.mUIRelatedRegionsLabel.FilterProperties[HtmlLabel.PropertyNames.TagInstance] = "5";
+                    this.mUIRelatedRegionsLabel.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIRelatedRegionsLabel;
+            }
+        }
+        
+        public HtmlLabel UIThemesLabel
+        {
+            get
+            {
+                if ((this.mUIThemesLabel == null))
+                {
+                    this.mUIThemesLabel = new HtmlLabel(this);
+                    #region Search Criteria
+                    this.mUIThemesLabel.SearchProperties[HtmlLabel.PropertyNames.Id] = null;
+                    this.mUIThemesLabel.SearchProperties[HtmlLabel.PropertyNames.Name] = null;
+                    this.mUIThemesLabel.SearchProperties[HtmlLabel.PropertyNames.LabelFor] = null;
+                    this.mUIThemesLabel.SearchProperties[HtmlLabel.PropertyNames.InnerText] = "Themes *";
+                    this.mUIThemesLabel.FilterProperties[HtmlLabel.PropertyNames.Class] = null;
+                    this.mUIThemesLabel.FilterProperties[HtmlLabel.PropertyNames.ControlDefinition] = null;
+                    this.mUIThemesLabel.FilterProperties[HtmlLabel.PropertyNames.TagInstance] = "14";
+                    this.mUIThemesLabel.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIThemesLabel;
+            }
+        }
+        
+        public HtmlButton UINoneSelectedButton
+        {
+            get
+            {
+                if ((this.mUINoneSelectedButton == null))
+                {
+                    this.mUINoneSelectedButton = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUINoneSelectedButton.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUINoneSelectedButton.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUINoneSelectedButton.SearchProperties[HtmlButton.PropertyNames.DisplayText] = "None Selected";
+                    this.mUINoneSelectedButton.SearchProperties[HtmlButton.PropertyNames.Type] = "button";
+                    this.mUINoneSelectedButton.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUINoneSelectedButton.FilterProperties[HtmlButton.PropertyNames.Class] = "ng-binding";
+                    this.mUINoneSelectedButton.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"ng-binding\" type=\"button\" ng-clic";
+                    this.mUINoneSelectedButton.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "53";
+                    this.mUINoneSelectedButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINoneSelectedButton;
+            }
+        }
+        
+        public HtmlDiv UISelectNoneResetPane1
+        {
+            get
+            {
+                if ((this.mUISelectNoneResetPane1 == null))
+                {
+                    this.mUISelectNoneResetPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISelectNoneResetPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISelectNoneResetPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISelectNoneResetPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "×  Select None↶  Reset\r\n\r\n× \r\n ";
+                    this.mUISelectNoneResetPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISelectNoneResetPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "helperContainer ng-scope";
+                    this.mUISelectNoneResetPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"helperContainer ng-scope\" ng-if=\"displayHelper( \'filter\' ) || displayHelpe" +
+                        "r( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )\"";
+                    this.mUISelectNoneResetPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "355";
+                    this.mUISelectNoneResetPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISelectNoneResetPane1;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "inputFilter ng-pristine ng-valid ng-touched";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"inputFilter ng-pristine ng-valid ";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "12";
+                    this.mUIItemEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        
+        public HtmlDiv UICivilSocietyPane
+        {
+            get
+            {
+                if ((this.mUICivilSocietyPane == null))
+                {
+                    this.mUICivilSocietyPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICivilSocietyPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICivilSocietyPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICivilSocietyPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Civil Society";
+                    this.mUICivilSocietyPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICivilSocietyPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUICivilSocietyPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUICivilSocietyPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "359";
+                    this.mUICivilSocietyPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICivilSocietyPane;
+            }
+        }
+        
+        public HtmlDiv UICivilianSecurityPane
+        {
+            get
+            {
+                if ((this.mUICivilianSecurityPane == null))
+                {
+                    this.mUICivilianSecurityPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICivilianSecurityPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICivilianSecurityPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICivilianSecurityPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Civilian Security";
+                    this.mUICivilianSecurityPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICivilianSecurityPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUICivilianSecurityPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUICivilianSecurityPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "361";
+                    this.mUICivilianSecurityPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICivilianSecurityPane;
+            }
+        }
+        
+        public HtmlDiv UIConflictPreventionMiPane
+        {
+            get
+            {
+                if ((this.mUIConflictPreventionMiPane == null))
+                {
+                    this.mUIConflictPreventionMiPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIConflictPreventionMiPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIConflictPreventionMiPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIConflictPreventionMiPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Conflict Prevention, Mitigation, and Res";
+                    this.mUIConflictPreventionMiPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIConflictPreventionMiPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIConflictPreventionMiPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIConflictPreventionMiPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "363";
+                    this.mUIConflictPreventionMiPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIConflictPreventionMiPane;
+            }
+        }
+        
+        public HtmlDiv UICultureSportsAmericaPane
+        {
+            get
+            {
+                if ((this.mUICultureSportsAmericaPane == null))
+                {
+                    this.mUICultureSportsAmericaPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICultureSportsAmericaPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICultureSportsAmericaPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICultureSportsAmericaPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Culture/Sports/American Society";
+                    this.mUICultureSportsAmericaPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICultureSportsAmericaPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUICultureSportsAmericaPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUICultureSportsAmericaPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "365";
+                    this.mUICultureSportsAmericaPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICultureSportsAmericaPane;
+            }
+        }
+        
+        public HtmlDiv UICVECounterterrorismPane
+        {
+            get
+            {
+                if ((this.mUICVECounterterrorismPane == null))
+                {
+                    this.mUICVECounterterrorismPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICVECounterterrorismPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICVECounterterrorismPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICVECounterterrorismPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "CVE/Counterterrorism";
+                    this.mUICVECounterterrorismPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICVECounterterrorismPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUICVECounterterrorismPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUICVECounterterrorismPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "367";
+                    this.mUICVECounterterrorismPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICVECounterterrorismPane;
+            }
+        }
+        
+        public HtmlDiv UIDemocracyGoodGovernaPane
+        {
+            get
+            {
+                if ((this.mUIDemocracyGoodGovernaPane == null))
+                {
+                    this.mUIDemocracyGoodGovernaPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIDemocracyGoodGovernaPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIDemocracyGoodGovernaPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIDemocracyGoodGovernaPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Democracy/Good Governance/Rule of Law";
+                    this.mUIDemocracyGoodGovernaPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIDemocracyGoodGovernaPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIDemocracyGoodGovernaPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIDemocracyGoodGovernaPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "369";
+                    this.mUIDemocracyGoodGovernaPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIDemocracyGoodGovernaPane;
+            }
+        }
+        
+        public HtmlDiv UIDiversityPane
+        {
+            get
+            {
+                if ((this.mUIDiversityPane == null))
+                {
+                    this.mUIDiversityPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIDiversityPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIDiversityPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIDiversityPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Diversity";
+                    this.mUIDiversityPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIDiversityPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIDiversityPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIDiversityPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "371";
+                    this.mUIDiversityPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIDiversityPane;
+            }
+        }
+        
+        public HtmlDiv UIEconomicStatecraftPane
+        {
+            get
+            {
+                if ((this.mUIEconomicStatecraftPane == null))
+                {
+                    this.mUIEconomicStatecraftPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEconomicStatecraftPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEconomicStatecraftPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEconomicStatecraftPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Economic Statecraft";
+                    this.mUIEconomicStatecraftPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEconomicStatecraftPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIEconomicStatecraftPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIEconomicStatecraftPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "373";
+                    this.mUIEconomicStatecraftPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEconomicStatecraftPane;
+            }
+        }
+        
+        public HtmlDiv UIEducationPane
+        {
+            get
+            {
+                if ((this.mUIEducationPane == null))
+                {
+                    this.mUIEducationPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEducationPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEducationPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEducationPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Education";
+                    this.mUIEducationPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEducationPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIEducationPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIEducationPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "375";
+                    this.mUIEducationPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEducationPane;
+            }
+        }
+        
+        public HtmlDiv UIEnergySecurityPane
+        {
+            get
+            {
+                if ((this.mUIEnergySecurityPane == null))
+                {
+                    this.mUIEnergySecurityPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEnergySecurityPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEnergySecurityPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEnergySecurityPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Energy Security";
+                    this.mUIEnergySecurityPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEnergySecurityPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIEnergySecurityPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIEnergySecurityPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "377";
+                    this.mUIEnergySecurityPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEnergySecurityPane;
+            }
+        }
+        
+        public HtmlDiv UIEntrepreneurshipJobCPane
+        {
+            get
+            {
+                if ((this.mUIEntrepreneurshipJobCPane == null))
+                {
+                    this.mUIEntrepreneurshipJobCPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEntrepreneurshipJobCPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEntrepreneurshipJobCPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEntrepreneurshipJobCPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Entrepreneurship/Job Creation";
+                    this.mUIEntrepreneurshipJobCPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEntrepreneurshipJobCPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIEntrepreneurshipJobCPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIEntrepreneurshipJobCPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "379";
+                    this.mUIEntrepreneurshipJobCPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEntrepreneurshipJobCPane;
+            }
+        }
+        
+        public HtmlDiv UIEnvironmentPane
+        {
+            get
+            {
+                if ((this.mUIEnvironmentPane == null))
+                {
+                    this.mUIEnvironmentPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEnvironmentPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEnvironmentPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEnvironmentPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Environment";
+                    this.mUIEnvironmentPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEnvironmentPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIEnvironmentPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIEnvironmentPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "381";
+                    this.mUIEnvironmentPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEnvironmentPane;
+            }
+        }
+        
+        public HtmlDiv UIFinancialSectorPane
+        {
+            get
+            {
+                if ((this.mUIFinancialSectorPane == null))
+                {
+                    this.mUIFinancialSectorPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIFinancialSectorPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIFinancialSectorPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIFinancialSectorPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Financial Sector";
+                    this.mUIFinancialSectorPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIFinancialSectorPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIFinancialSectorPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIFinancialSectorPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "383";
+                    this.mUIFinancialSectorPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIFinancialSectorPane;
+            }
+        }
+        
+        public HtmlDiv UIFoodSecurityAgricultPane
+        {
+            get
+            {
+                if ((this.mUIFoodSecurityAgricultPane == null))
+                {
+                    this.mUIFoodSecurityAgricultPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIFoodSecurityAgricultPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIFoodSecurityAgricultPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIFoodSecurityAgricultPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Food Security/Agriculture";
+                    this.mUIFoodSecurityAgricultPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIFoodSecurityAgricultPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIFoodSecurityAgricultPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIFoodSecurityAgricultPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "385";
+                    this.mUIFoodSecurityAgricultPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIFoodSecurityAgricultPane;
+            }
+        }
+        
+        public HtmlDiv UIGlobalHealthPane
+        {
+            get
+            {
+                if ((this.mUIGlobalHealthPane == null))
+                {
+                    this.mUIGlobalHealthPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIGlobalHealthPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIGlobalHealthPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIGlobalHealthPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Global Health";
+                    this.mUIGlobalHealthPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIGlobalHealthPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIGlobalHealthPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIGlobalHealthPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "387";
+                    this.mUIGlobalHealthPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIGlobalHealthPane;
+            }
+        }
+        
+        public HtmlDiv UIHumanRightsPane
+        {
+            get
+            {
+                if ((this.mUIHumanRightsPane == null))
+                {
+                    this.mUIHumanRightsPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIHumanRightsPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIHumanRightsPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIHumanRightsPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Human Rights";
+                    this.mUIHumanRightsPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIHumanRightsPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIHumanRightsPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIHumanRightsPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "389";
+                    this.mUIHumanRightsPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIHumanRightsPane;
+            }
+        }
+        
+        public HtmlDiv UIHumanitarianAssistanPane
+        {
+            get
+            {
+                if ((this.mUIHumanitarianAssistanPane == null))
+                {
+                    this.mUIHumanitarianAssistanPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIHumanitarianAssistanPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIHumanitarianAssistanPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIHumanitarianAssistanPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Humanitarian Assistance, Disaster Mitiga";
+                    this.mUIHumanitarianAssistanPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIHumanitarianAssistanPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIHumanitarianAssistanPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIHumanitarianAssistanPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "391";
+                    this.mUIHumanitarianAssistanPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIHumanitarianAssistanPane;
+            }
+        }
+        
+        public HtmlDiv UIInnovationPane
+        {
+            get
+            {
+                if ((this.mUIInnovationPane == null))
+                {
+                    this.mUIInnovationPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIInnovationPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIInnovationPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIInnovationPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Innovation";
+                    this.mUIInnovationPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIInnovationPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIInnovationPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIInnovationPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "393";
+                    this.mUIInnovationPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIInnovationPane;
+            }
+        }
+        
+        public HtmlDiv UIIntellectualPropertyPane
+        {
+            get
+            {
+                if ((this.mUIIntellectualPropertyPane == null))
+                {
+                    this.mUIIntellectualPropertyPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIIntellectualPropertyPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIIntellectualPropertyPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIIntellectualPropertyPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Intellectual Property Rights (IPR)/Anti-";
+                    this.mUIIntellectualPropertyPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIIntellectualPropertyPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIIntellectualPropertyPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIIntellectualPropertyPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "395";
+                    this.mUIIntellectualPropertyPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIIntellectualPropertyPane;
+            }
+        }
+        
+        public HtmlDiv UIMarketsandCompetitivPane
+        {
+            get
+            {
+                if ((this.mUIMarketsandCompetitivPane == null))
+                {
+                    this.mUIMarketsandCompetitivPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIMarketsandCompetitivPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIMarketsandCompetitivPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIMarketsandCompetitivPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Markets and Competitiveness";
+                    this.mUIMarketsandCompetitivPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIMarketsandCompetitivPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIMarketsandCompetitivPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIMarketsandCompetitivPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "397";
+                    this.mUIMarketsandCompetitivPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIMarketsandCompetitivPane;
+            }
+        }
+        
+        public HtmlDiv UIMilitaryandSecurityCPane
+        {
+            get
+            {
+                if ((this.mUIMilitaryandSecurityCPane == null))
+                {
+                    this.mUIMilitaryandSecurityCPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIMilitaryandSecurityCPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIMilitaryandSecurityCPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIMilitaryandSecurityCPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Military and Security Cooperation/Reform";
+                    this.mUIMilitaryandSecurityCPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIMilitaryandSecurityCPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIMilitaryandSecurityCPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIMilitaryandSecurityCPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "399";
+                    this.mUIMilitaryandSecurityCPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIMilitaryandSecurityCPane;
+            }
+        }
+        
+        public HtmlDiv UIMuslimEngagementPane
+        {
+            get
+            {
+                if ((this.mUIMuslimEngagementPane == null))
+                {
+                    this.mUIMuslimEngagementPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIMuslimEngagementPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIMuslimEngagementPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIMuslimEngagementPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Muslim Engagement";
+                    this.mUIMuslimEngagementPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIMuslimEngagementPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIMuslimEngagementPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIMuslimEngagementPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "401";
+                    this.mUIMuslimEngagementPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIMuslimEngagementPane;
+            }
+        }
+        
+        public HtmlDiv UIRegionalEconomicIntePane
+        {
+            get
+            {
+                if ((this.mUIRegionalEconomicIntePane == null))
+                {
+                    this.mUIRegionalEconomicIntePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIRegionalEconomicIntePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIRegionalEconomicIntePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIRegionalEconomicIntePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Regional Economic Integration";
+                    this.mUIRegionalEconomicIntePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIRegionalEconomicIntePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIRegionalEconomicIntePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIRegionalEconomicIntePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "403";
+                    this.mUIRegionalEconomicIntePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIRegionalEconomicIntePane;
+            }
+        }
+        
+        public HtmlDiv UIReligiousEngagementPane
+        {
+            get
+            {
+                if ((this.mUIReligiousEngagementPane == null))
+                {
+                    this.mUIReligiousEngagementPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIReligiousEngagementPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIReligiousEngagementPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIReligiousEngagementPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Religious Engagement";
+                    this.mUIReligiousEngagementPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIReligiousEngagementPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIReligiousEngagementPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIReligiousEngagementPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "405";
+                    this.mUIReligiousEngagementPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIReligiousEngagementPane;
+            }
+        }
+        
+        public HtmlDiv UIScienceandTechnologyPane
+        {
+            get
+            {
+                if ((this.mUIScienceandTechnologyPane == null))
+                {
+                    this.mUIScienceandTechnologyPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIScienceandTechnologyPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIScienceandTechnologyPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIScienceandTechnologyPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Science and Technology";
+                    this.mUIScienceandTechnologyPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIScienceandTechnologyPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIScienceandTechnologyPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIScienceandTechnologyPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "407";
+                    this.mUIScienceandTechnologyPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIScienceandTechnologyPane;
+            }
+        }
+        
+        public HtmlDiv UISmartSanctionsPane
+        {
+            get
+            {
+                if ((this.mUISmartSanctionsPane == null))
+                {
+                    this.mUISmartSanctionsPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISmartSanctionsPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISmartSanctionsPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISmartSanctionsPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Smart Sanctions";
+                    this.mUISmartSanctionsPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISmartSanctionsPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUISmartSanctionsPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUISmartSanctionsPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "409";
+                    this.mUISmartSanctionsPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISmartSanctionsPane;
+            }
+        }
+        
+        public HtmlDiv UISustainableEconomicGPane
+        {
+            get
+            {
+                if ((this.mUISustainableEconomicGPane == null))
+                {
+                    this.mUISustainableEconomicGPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISustainableEconomicGPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISustainableEconomicGPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISustainableEconomicGPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Sustainable Economic Growth & Well-Being";
+                    this.mUISustainableEconomicGPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISustainableEconomicGPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUISustainableEconomicGPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUISustainableEconomicGPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "411";
+                    this.mUISustainableEconomicGPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISustainableEconomicGPane;
+            }
+        }
+        
+        public HtmlDiv UITradeInvestmentPane
+        {
+            get
+            {
+                if ((this.mUITradeInvestmentPane == null))
+                {
+                    this.mUITradeInvestmentPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUITradeInvestmentPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUITradeInvestmentPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUITradeInvestmentPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Trade & Investment";
+                    this.mUITradeInvestmentPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUITradeInvestmentPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUITradeInvestmentPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUITradeInvestmentPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "413";
+                    this.mUITradeInvestmentPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUITradeInvestmentPane;
+            }
+        }
+        
+        public HtmlDiv UITransitionsinFrontliPane
+        {
+            get
+            {
+                if ((this.mUITransitionsinFrontliPane == null))
+                {
+                    this.mUITransitionsinFrontliPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUITransitionsinFrontliPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUITransitionsinFrontliPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUITransitionsinFrontliPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Transitions in Frontline States";
+                    this.mUITransitionsinFrontliPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUITransitionsinFrontliPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUITransitionsinFrontliPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUITransitionsinFrontliPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "415";
+                    this.mUITransitionsinFrontliPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUITransitionsinFrontliPane;
+            }
+        }
+        
+        public HtmlDiv UITransnationalThreatsPane
+        {
+            get
+            {
+                if ((this.mUITransnationalThreatsPane == null))
+                {
+                    this.mUITransnationalThreatsPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUITransnationalThreatsPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUITransnationalThreatsPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUITransnationalThreatsPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Transnational Threats - Crime, Narcotics";
+                    this.mUITransnationalThreatsPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUITransnationalThreatsPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUITransnationalThreatsPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUITransnationalThreatsPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "417";
+                    this.mUITransnationalThreatsPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUITransnationalThreatsPane;
+            }
+        }
+        
+        public HtmlDiv UITravelandTourismPane
+        {
+            get
+            {
+                if ((this.mUITravelandTourismPane == null))
+                {
+                    this.mUITravelandTourismPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUITravelandTourismPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUITravelandTourismPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUITravelandTourismPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Travel and Tourism";
+                    this.mUITravelandTourismPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUITravelandTourismPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUITravelandTourismPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUITravelandTourismPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "419";
+                    this.mUITravelandTourismPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUITravelandTourismPane;
+            }
+        }
+        
+        public HtmlDiv UIWomensEmpowermentPane
+        {
+            get
+            {
+                if ((this.mUIWomensEmpowermentPane == null))
+                {
+                    this.mUIWomensEmpowermentPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIWomensEmpowermentPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIWomensEmpowermentPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIWomensEmpowermentPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Women\'s Empowerment";
+                    this.mUIWomensEmpowermentPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIWomensEmpowermentPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIWomensEmpowermentPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIWomensEmpowermentPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "421";
+                    this.mUIWomensEmpowermentPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIWomensEmpowermentPane;
+            }
+        }
+        
+        public HtmlDiv UIYouthEngagementPane
+        {
+            get
+            {
+                if ((this.mUIYouthEngagementPane == null))
+                {
+                    this.mUIYouthEngagementPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIYouthEngagementPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIYouthEngagementPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIYouthEngagementPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Youth Engagement";
+                    this.mUIYouthEngagementPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIYouthEngagementPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIYouthEngagementPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIYouthEngagementPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "423";
+                    this.mUIYouthEngagementPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIYouthEngagementPane;
+            }
+        }
+        
+        public HtmlButton UIItemButton
+        {
+            get
+            {
+                if ((this.mUIItemButton == null))
+                {
+                    this.mUIItemButton = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUIItemButton.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUIItemButton.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUIItemButton.SearchProperties[HtmlButton.PropertyNames.DisplayText] = null;
+                    this.mUIItemButton.SearchProperties[HtmlButton.PropertyNames.Type] = "button";
+                    this.mUIItemButton.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUIItemButton.FilterProperties[HtmlButton.PropertyNames.Class] = "btn btn-default";
+                    this.mUIItemButton.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"btn btn-default\" type=\"button\" ng";
+                    this.mUIItemButton.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "49";
+                    this.mUIItemButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemButton;
+            }
+        }
+        
+        public HtmlButton UINoneSelectedButton1
+        {
+            get
+            {
+                if ((this.mUINoneSelectedButton1 == null))
+                {
+                    this.mUINoneSelectedButton1 = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUINoneSelectedButton1.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUINoneSelectedButton1.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUINoneSelectedButton1.SearchProperties[HtmlButton.PropertyNames.DisplayText] = "None Selected";
+                    this.mUINoneSelectedButton1.SearchProperties[HtmlButton.PropertyNames.Type] = "button";
+                    this.mUINoneSelectedButton1.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUINoneSelectedButton1.FilterProperties[HtmlButton.PropertyNames.Class] = "ng-binding";
+                    this.mUINoneSelectedButton1.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"ng-binding\" type=\"button\" ng-clic";
+                    this.mUINoneSelectedButton1.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "50";
+                    this.mUINoneSelectedButton1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINoneSelectedButton1;
+            }
+        }
+        
+        public HtmlSpan UIEastAsiaandthePacifiPane1
+        {
+            get
+            {
+                if ((this.mUIEastAsiaandthePacifiPane1 == null))
+                {
+                    this.mUIEastAsiaandthePacifiPane1 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIEastAsiaandthePacifiPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEastAsiaandthePacifiPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEastAsiaandthePacifiPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "East Asia and the Pacific";
+                    this.mUIEastAsiaandthePacifiPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEastAsiaandthePacifiPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIEastAsiaandthePacifiPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIEastAsiaandthePacifiPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "232";
+                    this.mUIEastAsiaandthePacifiPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEastAsiaandthePacifiPane1;
+            }
+        }
+        
+        public HtmlSpan UIEuropeandEurasiaPane1
+        {
+            get
+            {
+                if ((this.mUIEuropeandEurasiaPane1 == null))
+                {
+                    this.mUIEuropeandEurasiaPane1 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIEuropeandEurasiaPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEuropeandEurasiaPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEuropeandEurasiaPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Europe and Eurasia";
+                    this.mUIEuropeandEurasiaPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEuropeandEurasiaPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIEuropeandEurasiaPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIEuropeandEurasiaPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "234";
+                    this.mUIEuropeandEurasiaPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEuropeandEurasiaPane1;
+            }
+        }
+        
+        public HtmlDiv UINearEastPane1
+        {
+            get
+            {
+                if ((this.mUINearEastPane1 == null))
+                {
+                    this.mUINearEastPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUINearEastPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUINearEastPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUINearEastPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Near East";
+                    this.mUINearEastPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUINearEastPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUINearEastPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUINearEastPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "345";
+                    this.mUINearEastPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINearEastPane1;
+            }
+        }
+        
+        public HtmlSpan UINearEastPane11
+        {
+            get
+            {
+                if ((this.mUINearEastPane11 == null))
+                {
+                    this.mUINearEastPane11 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUINearEastPane11.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUINearEastPane11.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUINearEastPane11.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Near East";
+                    this.mUINearEastPane11.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUINearEastPane11.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUINearEastPane11.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUINearEastPane11.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "236";
+                    this.mUINearEastPane11.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINearEastPane11;
+            }
+        }
+        
+        public HtmlDiv UISouthandCentralAsiaPane1
+        {
+            get
+            {
+                if ((this.mUISouthandCentralAsiaPane1 == null))
+                {
+                    this.mUISouthandCentralAsiaPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISouthandCentralAsiaPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISouthandCentralAsiaPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISouthandCentralAsiaPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "South and Central Asia";
+                    this.mUISouthandCentralAsiaPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISouthandCentralAsiaPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUISouthandCentralAsiaPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUISouthandCentralAsiaPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "348";
+                    this.mUISouthandCentralAsiaPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISouthandCentralAsiaPane1;
+            }
+        }
+        
+        public HtmlSpan UISouthandCentralAsiaPane11
+        {
+            get
+            {
+                if ((this.mUISouthandCentralAsiaPane11 == null))
+                {
+                    this.mUISouthandCentralAsiaPane11 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUISouthandCentralAsiaPane11.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISouthandCentralAsiaPane11.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISouthandCentralAsiaPane11.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "South and Central Asia";
+                    this.mUISouthandCentralAsiaPane11.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISouthandCentralAsiaPane11.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUISouthandCentralAsiaPane11.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUISouthandCentralAsiaPane11.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "238";
+                    this.mUISouthandCentralAsiaPane11.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISouthandCentralAsiaPane11;
+            }
+        }
+        
+        public HtmlDiv UIUNandOtherInternatioPane1
+        {
+            get
+            {
+                if ((this.mUIUNandOtherInternatioPane1 == null))
+                {
+                    this.mUIUNandOtherInternatioPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIUNandOtherInternatioPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIUNandOtherInternatioPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIUNandOtherInternatioPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "UN and Other International Organizations";
+                    this.mUIUNandOtherInternatioPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIUNandOtherInternatioPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIUNandOtherInternatioPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIUNandOtherInternatioPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "351";
+                    this.mUIUNandOtherInternatioPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIUNandOtherInternatioPane1;
+            }
+        }
+        
+        public HtmlSpan UIUNandOtherInternatioPane11
+        {
+            get
+            {
+                if ((this.mUIUNandOtherInternatioPane11 == null))
+                {
+                    this.mUIUNandOtherInternatioPane11 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIUNandOtherInternatioPane11.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIUNandOtherInternatioPane11.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIUNandOtherInternatioPane11.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "UN and Other International Organizations";
+                    this.mUIUNandOtherInternatioPane11.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIUNandOtherInternatioPane11.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIUNandOtherInternatioPane11.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIUNandOtherInternatioPane11.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "240";
+                    this.mUIUNandOtherInternatioPane11.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIUNandOtherInternatioPane11;
+            }
+        }
+        
+        public HtmlDiv UISouthandCentralAsiaPane2
+        {
+            get
+            {
+                if ((this.mUISouthandCentralAsiaPane2 == null))
+                {
+                    this.mUISouthandCentralAsiaPane2 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISouthandCentralAsiaPane2.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISouthandCentralAsiaPane2.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISouthandCentralAsiaPane2.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "South and Central Asia";
+                    this.mUISouthandCentralAsiaPane2.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISouthandCentralAsiaPane2.FilterProperties[HtmlDiv.PropertyNames.Class] = "acol";
+                    this.mUISouthandCentralAsiaPane2.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"acol\"";
+                    this.mUISouthandCentralAsiaPane2.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "350";
+                    this.mUISouthandCentralAsiaPane2.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISouthandCentralAsiaPane2;
+            }
+        }
+        
+        public HtmlSpan UIUnitedStatesPane1
+        {
+            get
+            {
+                if ((this.mUIUnitedStatesPane1 == null))
+                {
+                    this.mUIUnitedStatesPane1 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIUnitedStatesPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIUnitedStatesPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIUnitedStatesPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "United States";
+                    this.mUIUnitedStatesPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIUnitedStatesPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIUnitedStatesPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIUnitedStatesPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "241";
+                    this.mUIUnitedStatesPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIUnitedStatesPane1;
+            }
+        }
+        
+        public HtmlDiv UIUNandOtherInternatioPane2
+        {
+            get
+            {
+                if ((this.mUIUNandOtherInternatioPane2 == null))
+                {
+                    this.mUIUNandOtherInternatioPane2 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIUNandOtherInternatioPane2.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIUNandOtherInternatioPane2.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIUNandOtherInternatioPane2.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "UN and Other International Organizations";
+                    this.mUIUNandOtherInternatioPane2.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIUNandOtherInternatioPane2.FilterProperties[HtmlDiv.PropertyNames.Class] = "acol";
+                    this.mUIUNandOtherInternatioPane2.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"acol\"";
+                    this.mUIUNandOtherInternatioPane2.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "352";
+                    this.mUIUNandOtherInternatioPane2.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIUNandOtherInternatioPane2;
+            }
+        }
+        
+        public HtmlDiv UIUnitedStatesPane11
+        {
+            get
+            {
+                if ((this.mUIUnitedStatesPane11 == null))
+                {
+                    this.mUIUnitedStatesPane11 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIUnitedStatesPane11.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIUnitedStatesPane11.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIUnitedStatesPane11.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "United States";
+                    this.mUIUnitedStatesPane11.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIUnitedStatesPane11.FilterProperties[HtmlDiv.PropertyNames.Class] = "acol";
+                    this.mUIUnitedStatesPane11.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"acol\"";
+                    this.mUIUnitedStatesPane11.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "354";
+                    this.mUIUnitedStatesPane11.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIUnitedStatesPane11;
+            }
+        }
+        
+        public HtmlDiv UIWesternHemispherePane1
+        {
+            get
+            {
+                if ((this.mUIWesternHemispherePane1 == null))
+                {
+                    this.mUIWesternHemispherePane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIWesternHemispherePane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIWesternHemispherePane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIWesternHemispherePane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Western Hemisphere";
+                    this.mUIWesternHemispherePane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIWesternHemispherePane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIWesternHemispherePane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIWesternHemispherePane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "356";
+                    this.mUIWesternHemispherePane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIWesternHemispherePane1;
+            }
+        }
+        
+        public HtmlSpan UIWesternHemispherePane11
+        {
+            get
+            {
+                if ((this.mUIWesternHemispherePane11 == null))
+                {
+                    this.mUIWesternHemispherePane11 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIWesternHemispherePane11.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIWesternHemispherePane11.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIWesternHemispherePane11.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Western Hemisphere";
+                    this.mUIWesternHemispherePane11.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIWesternHemispherePane11.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIWesternHemispherePane11.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIWesternHemispherePane11.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "244";
+                    this.mUIWesternHemispherePane11.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIWesternHemispherePane11;
+            }
+        }
+        
+        public HtmlDiv UIUnitedStatesPane2
+        {
+            get
+            {
+                if ((this.mUIUnitedStatesPane2 == null))
+                {
+                    this.mUIUnitedStatesPane2 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIUnitedStatesPane2.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIUnitedStatesPane2.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIUnitedStatesPane2.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "United States";
+                    this.mUIUnitedStatesPane2.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIUnitedStatesPane2.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIUnitedStatesPane2.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIUnitedStatesPane2.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "353";
+                    this.mUIUnitedStatesPane2.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIUnitedStatesPane2;
+            }
+        }
+        
+        public HtmlLabel UIGoalsLabel
+        {
+            get
+            {
+                if ((this.mUIGoalsLabel == null))
+                {
+                    this.mUIGoalsLabel = new HtmlLabel(this);
+                    #region Search Criteria
+                    this.mUIGoalsLabel.SearchProperties[HtmlLabel.PropertyNames.Id] = null;
+                    this.mUIGoalsLabel.SearchProperties[HtmlLabel.PropertyNames.Name] = null;
+                    this.mUIGoalsLabel.SearchProperties[HtmlLabel.PropertyNames.LabelFor] = null;
+                    this.mUIGoalsLabel.SearchProperties[HtmlLabel.PropertyNames.InnerText] = "Goals *";
+                    this.mUIGoalsLabel.FilterProperties[HtmlLabel.PropertyNames.Class] = null;
+                    this.mUIGoalsLabel.FilterProperties[HtmlLabel.PropertyNames.ControlDefinition] = null;
+                    this.mUIGoalsLabel.FilterProperties[HtmlLabel.PropertyNames.TagInstance] = "48";
+                    this.mUIGoalsLabel.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIGoalsLabel;
+            }
+        }
+        
+        public HtmlSpan UICivilSocietyPane1
+        {
+            get
+            {
+                if ((this.mUICivilSocietyPane1 == null))
+                {
+                    this.mUICivilSocietyPane1 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUICivilSocietyPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICivilSocietyPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICivilSocietyPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Civil Society";
+                    this.mUICivilSocietyPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICivilSocietyPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUICivilSocietyPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUICivilSocietyPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "250";
+                    this.mUICivilSocietyPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICivilSocietyPane1;
+            }
+        }
+        
+        public HtmlDiv UICivilianSecurityPane1
+        {
+            get
+            {
+                if ((this.mUICivilianSecurityPane1 == null))
+                {
+                    this.mUICivilianSecurityPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICivilianSecurityPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICivilianSecurityPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICivilianSecurityPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Civilian Security";
+                    this.mUICivilianSecurityPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICivilianSecurityPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "acol";
+                    this.mUICivilianSecurityPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"acol\"";
+                    this.mUICivilianSecurityPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "371";
+                    this.mUICivilianSecurityPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICivilianSecurityPane1;
+            }
+        }
+        
+        public HtmlDiv UIConflictPreventionMiPane1
+        {
+            get
+            {
+                if ((this.mUIConflictPreventionMiPane1 == null))
+                {
+                    this.mUIConflictPreventionMiPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIConflictPreventionMiPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIConflictPreventionMiPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIConflictPreventionMiPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Conflict Prevention, Mitigation, and Res";
+                    this.mUIConflictPreventionMiPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIConflictPreventionMiPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIConflictPreventionMiPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIConflictPreventionMiPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "373";
+                    this.mUIConflictPreventionMiPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIConflictPreventionMiPane1;
+            }
+        }
+        
+        public HtmlSpan UIConflictPreventionMiPane11
+        {
+            get
+            {
+                if ((this.mUIConflictPreventionMiPane11 == null))
+                {
+                    this.mUIConflictPreventionMiPane11 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIConflictPreventionMiPane11.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIConflictPreventionMiPane11.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIConflictPreventionMiPane11.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Conflict Prevention, Mitigation, and Res";
+                    this.mUIConflictPreventionMiPane11.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIConflictPreventionMiPane11.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIConflictPreventionMiPane11.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIConflictPreventionMiPane11.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "254";
+                    this.mUIConflictPreventionMiPane11.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIConflictPreventionMiPane11;
+            }
+        }
+        
+        public HtmlDiv UICultureSportsAmericaPane1
+        {
+            get
+            {
+                if ((this.mUICultureSportsAmericaPane1 == null))
+                {
+                    this.mUICultureSportsAmericaPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICultureSportsAmericaPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICultureSportsAmericaPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICultureSportsAmericaPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Culture/Sports/American Society";
+                    this.mUICultureSportsAmericaPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICultureSportsAmericaPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUICultureSportsAmericaPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUICultureSportsAmericaPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "376";
+                    this.mUICultureSportsAmericaPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICultureSportsAmericaPane1;
+            }
+        }
+        
+        public HtmlSpan UICultureSportsAmericaPane11
+        {
+            get
+            {
+                if ((this.mUICultureSportsAmericaPane11 == null))
+                {
+                    this.mUICultureSportsAmericaPane11 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUICultureSportsAmericaPane11.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICultureSportsAmericaPane11.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICultureSportsAmericaPane11.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Culture/Sports/American Society";
+                    this.mUICultureSportsAmericaPane11.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICultureSportsAmericaPane11.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUICultureSportsAmericaPane11.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUICultureSportsAmericaPane11.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "256";
+                    this.mUICultureSportsAmericaPane11.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICultureSportsAmericaPane11;
+            }
+        }
+        
+        public HtmlDiv UICVECounterterrorismPane1
+        {
+            get
+            {
+                if ((this.mUICVECounterterrorismPane1 == null))
+                {
+                    this.mUICVECounterterrorismPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICVECounterterrorismPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICVECounterterrorismPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICVECounterterrorismPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "CVE/Counterterrorism";
+                    this.mUICVECounterterrorismPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICVECounterterrorismPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUICVECounterterrorismPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUICVECounterterrorismPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "379";
+                    this.mUICVECounterterrorismPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICVECounterterrorismPane1;
+            }
+        }
+        
+        public HtmlSpan UICVECounterterrorismPane11
+        {
+            get
+            {
+                if ((this.mUICVECounterterrorismPane11 == null))
+                {
+                    this.mUICVECounterterrorismPane11 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUICVECounterterrorismPane11.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICVECounterterrorismPane11.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICVECounterterrorismPane11.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "CVE/Counterterrorism";
+                    this.mUICVECounterterrorismPane11.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICVECounterterrorismPane11.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUICVECounterterrorismPane11.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUICVECounterterrorismPane11.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "258";
+                    this.mUICVECounterterrorismPane11.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICVECounterterrorismPane11;
+            }
+        }
+        
+        public HtmlSpan UIDemocracyGoodGovernaPane1
+        {
+            get
+            {
+                if ((this.mUIDemocracyGoodGovernaPane1 == null))
+                {
+                    this.mUIDemocracyGoodGovernaPane1 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIDemocracyGoodGovernaPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIDemocracyGoodGovernaPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIDemocracyGoodGovernaPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Democracy/Good Governance/Rule of Law";
+                    this.mUIDemocracyGoodGovernaPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIDemocracyGoodGovernaPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIDemocracyGoodGovernaPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIDemocracyGoodGovernaPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "260";
+                    this.mUIDemocracyGoodGovernaPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIDemocracyGoodGovernaPane1;
+            }
+        }
+        
+        public HtmlDiv UIDiversityPane1
+        {
+            get
+            {
+                if ((this.mUIDiversityPane1 == null))
+                {
+                    this.mUIDiversityPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIDiversityPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIDiversityPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIDiversityPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Diversity";
+                    this.mUIDiversityPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIDiversityPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIDiversityPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIDiversityPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "385";
+                    this.mUIDiversityPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIDiversityPane1;
+            }
+        }
+        
+        public HtmlDiv UIEconomicStatecraftPane1
+        {
+            get
+            {
+                if ((this.mUIEconomicStatecraftPane1 == null))
+                {
+                    this.mUIEconomicStatecraftPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEconomicStatecraftPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEconomicStatecraftPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEconomicStatecraftPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Economic Statecraft";
+                    this.mUIEconomicStatecraftPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEconomicStatecraftPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIEconomicStatecraftPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIEconomicStatecraftPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "388";
+                    this.mUIEconomicStatecraftPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEconomicStatecraftPane1;
+            }
+        }
+        
+        public HtmlSpan UIEconomicStatecraftPane11
+        {
+            get
+            {
+                if ((this.mUIEconomicStatecraftPane11 == null))
+                {
+                    this.mUIEconomicStatecraftPane11 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIEconomicStatecraftPane11.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEconomicStatecraftPane11.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEconomicStatecraftPane11.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Economic Statecraft";
+                    this.mUIEconomicStatecraftPane11.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEconomicStatecraftPane11.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIEconomicStatecraftPane11.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIEconomicStatecraftPane11.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "264";
+                    this.mUIEconomicStatecraftPane11.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEconomicStatecraftPane11;
+            }
+        }
+        
+        public HtmlDiv UIDemocracyGoodGovernaPane11
+        {
+            get
+            {
+                if ((this.mUIDemocracyGoodGovernaPane11 == null))
+                {
+                    this.mUIDemocracyGoodGovernaPane11 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIDemocracyGoodGovernaPane11.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIDemocracyGoodGovernaPane11.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIDemocracyGoodGovernaPane11.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Democracy/Good Governance/Rule of Law";
+                    this.mUIDemocracyGoodGovernaPane11.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIDemocracyGoodGovernaPane11.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIDemocracyGoodGovernaPane11.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIDemocracyGoodGovernaPane11.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "382";
+                    this.mUIDemocracyGoodGovernaPane11.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIDemocracyGoodGovernaPane11;
+            }
+        }
+        
+        public HtmlDiv UIEducationPane1
+        {
+            get
+            {
+                if ((this.mUIEducationPane1 == null))
+                {
+                    this.mUIEducationPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEducationPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEducationPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEducationPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Education";
+                    this.mUIEducationPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEducationPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "acol";
+                    this.mUIEducationPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"acol\"";
+                    this.mUIEducationPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "392";
+                    this.mUIEducationPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEducationPane1;
+            }
+        }
+        
+        public HtmlSpan UIEnergySecurityPane1
+        {
+            get
+            {
+                if ((this.mUIEnergySecurityPane1 == null))
+                {
+                    this.mUIEnergySecurityPane1 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIEnergySecurityPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEnergySecurityPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEnergySecurityPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Energy Security";
+                    this.mUIEnergySecurityPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEnergySecurityPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIEnergySecurityPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIEnergySecurityPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "268";
+                    this.mUIEnergySecurityPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEnergySecurityPane1;
+            }
+        }
+        
+        public HtmlLabel UIEducationLabel
+        {
+            get
+            {
+                if ((this.mUIEducationLabel == null))
+                {
+                    this.mUIEducationLabel = new HtmlLabel(this);
+                    #region Search Criteria
+                    this.mUIEducationLabel.SearchProperties[HtmlLabel.PropertyNames.Id] = null;
+                    this.mUIEducationLabel.SearchProperties[HtmlLabel.PropertyNames.Name] = null;
+                    this.mUIEducationLabel.SearchProperties[HtmlLabel.PropertyNames.LabelFor] = null;
+                    this.mUIEducationLabel.SearchProperties[HtmlLabel.PropertyNames.InnerText] = " Education";
+                    this.mUIEducationLabel.FilterProperties[HtmlLabel.PropertyNames.Class] = null;
+                    this.mUIEducationLabel.FilterProperties[HtmlLabel.PropertyNames.ControlDefinition] = null;
+                    this.mUIEducationLabel.FilterProperties[HtmlLabel.PropertyNames.TagInstance] = "23";
+                    this.mUIEducationLabel.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEducationLabel;
+            }
+        }
+        
+        public HtmlLabel UIFocusAreaLabel
+        {
+            get
+            {
+                if ((this.mUIFocusAreaLabel == null))
+                {
+                    this.mUIFocusAreaLabel = new HtmlLabel(this);
+                    #region Search Criteria
+                    this.mUIFocusAreaLabel.SearchProperties[HtmlLabel.PropertyNames.Id] = null;
+                    this.mUIFocusAreaLabel.SearchProperties[HtmlLabel.PropertyNames.Name] = null;
+                    this.mUIFocusAreaLabel.SearchProperties[HtmlLabel.PropertyNames.LabelFor] = null;
+                    this.mUIFocusAreaLabel.SearchProperties[HtmlLabel.PropertyNames.InnerText] = "Focus Area *";
+                    this.mUIFocusAreaLabel.FilterProperties[HtmlLabel.PropertyNames.Class] = null;
+                    this.mUIFocusAreaLabel.FilterProperties[HtmlLabel.PropertyNames.ControlDefinition] = null;
+                    this.mUIFocusAreaLabel.FilterProperties[HtmlLabel.PropertyNames.TagInstance] = "57";
+                    this.mUIFocusAreaLabel.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIFocusAreaLabel;
+            }
+        }
+        
+        public HtmlSpan UIItemPane
+        {
+            get
+            {
+                if ((this.mUIItemPane == null))
+                {
+                    this.mUIItemPane = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIItemPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIItemPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIItemPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = null;
+                    this.mUIItemPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIItemPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "caret";
+                    this.mUIItemPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"caret\"";
+                    this.mUIItemPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "296";
+                    this.mUIItemPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemPane;
+            }
+        }
+        
+        public HtmlLabel UIImportanceLabel
+        {
+            get
+            {
+                if ((this.mUIImportanceLabel == null))
+                {
+                    this.mUIImportanceLabel = new HtmlLabel(this);
+                    #region Search Criteria
+                    this.mUIImportanceLabel.SearchProperties[HtmlLabel.PropertyNames.Id] = null;
+                    this.mUIImportanceLabel.SearchProperties[HtmlLabel.PropertyNames.Name] = null;
+                    this.mUIImportanceLabel.SearchProperties[HtmlLabel.PropertyNames.LabelFor] = null;
+                    this.mUIImportanceLabel.SearchProperties[HtmlLabel.PropertyNames.InnerText] = " Importance";
+                    this.mUIImportanceLabel.FilterProperties[HtmlLabel.PropertyNames.Class] = null;
+                    this.mUIImportanceLabel.FilterProperties[HtmlLabel.PropertyNames.ControlDefinition] = null;
+                    this.mUIImportanceLabel.FilterProperties[HtmlLabel.PropertyNames.TagInstance] = "49";
+                    this.mUIImportanceLabel.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIImportanceLabel;
+            }
+        }
+        
+        public HtmlSpan UIModernizetheWayWeDoDPane
+        {
+            get
+            {
+                if ((this.mUIModernizetheWayWeDoDPane == null))
+                {
+                    this.mUIModernizetheWayWeDoDPane = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIModernizetheWayWeDoDPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIModernizetheWayWeDoDPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIModernizetheWayWeDoDPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Modernize the Way We Do Diplomacy and De";
+                    this.mUIModernizetheWayWeDoDPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIModernizetheWayWeDoDPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIModernizetheWayWeDoDPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIModernizetheWayWeDoDPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "299";
+                    this.mUIModernizetheWayWeDoDPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIModernizetheWayWeDoDPane;
+            }
+        }
+        
+        public HtmlDiv UIStrengthenAmericasFoPane
+        {
+            get
+            {
+                if ((this.mUIStrengthenAmericasFoPane == null))
+                {
+                    this.mUIStrengthenAmericasFoPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIStrengthenAmericasFoPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIStrengthenAmericasFoPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIStrengthenAmericasFoPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Strengthen America\'s Foreign Policy Impa";
+                    this.mUIStrengthenAmericasFoPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIStrengthenAmericasFoPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIStrengthenAmericasFoPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIStrengthenAmericasFoPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "465";
+                    this.mUIStrengthenAmericasFoPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIStrengthenAmericasFoPane;
+            }
+        }
+        
+        public HtmlSpan UINationalInterestPane
+        {
+            get
+            {
+                if ((this.mUINationalInterestPane == null))
+                {
+                    this.mUINationalInterestPane = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUINationalInterestPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUINationalInterestPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUINationalInterestPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "National Interest";
+                    this.mUINationalInterestPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUINationalInterestPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUINationalInterestPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUINationalInterestPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "301";
+                    this.mUINationalInterestPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINationalInterestPane;
+            }
+        }
+        
+        public HtmlDiv UIPromotetheTransitionPane
+        {
+            get
+            {
+                if ((this.mUIPromotetheTransitionPane == null))
+                {
+                    this.mUIPromotetheTransitionPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIPromotetheTransitionPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIPromotetheTransitionPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIPromotetheTransitionPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Promote the Transition to a Low-Emission";
+                    this.mUIPromotetheTransitionPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIPromotetheTransitionPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIPromotetheTransitionPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIPromotetheTransitionPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "458";
+                    this.mUIPromotetheTransitionPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIPromotetheTransitionPane;
+            }
+        }
+        
+        public HtmlSpan UIPromotetheTransitionPane1
+        {
+            get
+            {
+                if ((this.mUIPromotetheTransitionPane1 == null))
+                {
+                    this.mUIPromotetheTransitionPane1 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIPromotetheTransitionPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIPromotetheTransitionPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIPromotetheTransitionPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Promote the Transition to a Low-Emission";
+                    this.mUIPromotetheTransitionPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIPromotetheTransitionPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIPromotetheTransitionPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIPromotetheTransitionPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "302";
+                    this.mUIPromotetheTransitionPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIPromotetheTransitionPane1;
+            }
+        }
+        
+        public HtmlDiv UINationalInterestPane1
+        {
+            get
+            {
+                if ((this.mUINationalInterestPane1 == null))
+                {
+                    this.mUINationalInterestPane1 = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUINationalInterestPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUINationalInterestPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUINationalInterestPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "National Interest";
+                    this.mUINationalInterestPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUINationalInterestPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "acol";
+                    this.mUINationalInterestPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"acol\"";
+                    this.mUINationalInterestPane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "457";
+                    this.mUINationalInterestPane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINationalInterestPane1;
+            }
+        }
+        
+        public HtmlSpan UIProtectCoreUSInteresPane
+        {
+            get
+            {
+                if ((this.mUIProtectCoreUSInteresPane == null))
+                {
+                    this.mUIProtectCoreUSInteresPane = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUIProtectCoreUSInteresPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIProtectCoreUSInteresPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIProtectCoreUSInteresPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Protect Core U.S. Interests by Advancing";
+                    this.mUIProtectCoreUSInteresPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIProtectCoreUSInteresPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUIProtectCoreUSInteresPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUIProtectCoreUSInteresPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "305";
+                    this.mUIProtectCoreUSInteresPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIProtectCoreUSInteresPane;
+            }
+        }
+        
+        public HtmlDiv UISecularPurposePane
+        {
+            get
+            {
+                if ((this.mUISecularPurposePane == null))
+                {
+                    this.mUISecularPurposePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISecularPurposePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISecularPurposePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISecularPurposePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Secular Purpose";
+                    this.mUISecularPurposePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISecularPurposePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUISecularPurposePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUISecularPurposePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "464";
+                    this.mUISecularPurposePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISecularPurposePane;
+            }
+        }
+        
+        public HtmlSpan UISecularPurposePane1
+        {
+            get
+            {
+                if ((this.mUISecularPurposePane1 == null))
+                {
+                    this.mUISecularPurposePane1 = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUISecularPurposePane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISecularPurposePane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISecularPurposePane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Secular Purpose";
+                    this.mUISecularPurposePane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISecularPurposePane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding";
+                    this.mUISecularPurposePane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-bind-html=\"writeLabel( item, \'itemLabel\' )\" ng-class=\"{disa" +
+                        "bled:itemIsDisabled( item )}\"";
+                    this.mUISecularPurposePane1.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "307";
+                    this.mUISecularPurposePane1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISecularPurposePane1;
+            }
+        }
+        
+        public HtmlButton UINoneSelectedButton2
+        {
+            get
+            {
+                if ((this.mUINoneSelectedButton2 == null))
+                {
+                    this.mUINoneSelectedButton2 = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUINoneSelectedButton2.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUINoneSelectedButton2.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUINoneSelectedButton2.SearchProperties[HtmlButton.PropertyNames.DisplayText] = "None Selected";
+                    this.mUINoneSelectedButton2.SearchProperties[HtmlButton.PropertyNames.Type] = "button";
+                    this.mUINoneSelectedButton2.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUINoneSelectedButton2.FilterProperties[HtmlButton.PropertyNames.Class] = "ng-binding";
+                    this.mUINoneSelectedButton2.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"ng-binding\" type=\"button\" ng-clic";
+                    this.mUINoneSelectedButton2.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "60";
+                    this.mUINoneSelectedButton2.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINoneSelectedButton2;
+            }
+        }
+        
+        public HtmlDiv UIAndrewCCohenPane
+        {
+            get
+            {
+                if ((this.mUIAndrewCCohenPane == null))
+                {
+                    this.mUIAndrewCCohenPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIAndrewCCohenPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIAndrewCCohenPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIAndrewCCohenPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Andrew C. Cohen";
+                    this.mUIAndrewCCohenPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIAndrewCCohenPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIAndrewCCohenPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIAndrewCCohenPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "486";
+                    this.mUIAndrewCCohenPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAndrewCCohenPane;
+            }
+        }
+        
+        public HtmlDiv UIArielleJBerneyPane
+        {
+            get
+            {
+                if ((this.mUIArielleJBerneyPane == null))
+                {
+                    this.mUIArielleJBerneyPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIArielleJBerneyPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIArielleJBerneyPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIArielleJBerneyPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Arielle J. Berney";
+                    this.mUIArielleJBerneyPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIArielleJBerneyPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "multiSelectItem ng-scope vertical";
+                    this.mUIArielleJBerneyPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = @"class=""multiSelectItem ng-scope vertical"" ng-click=""syncItems( item, $event, $index );"" ng-repeat=""item in filteredModel | filter:removeGroupEndMarker"" ng-class=""{selected: item[ tickProperty ], horizontal: orientationH, vertical: orientationV, multiSelectGroup:item[ groupProperty ], disabled:itemIsDisabled( item )}"" ng-mouseleave=""removeFocusStyle( tabIndex );""";
+                    this.mUIArielleJBerneyPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "489";
+                    this.mUIArielleJBerneyPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIArielleJBerneyPane;
+            }
+        }
+        
+        public HtmlLabel UIArielleJBerneyLabel
+        {
+            get
+            {
+                if ((this.mUIArielleJBerneyLabel == null))
+                {
+                    this.mUIArielleJBerneyLabel = new HtmlLabel(this);
+                    #region Search Criteria
+                    this.mUIArielleJBerneyLabel.SearchProperties[HtmlLabel.PropertyNames.Id] = null;
+                    this.mUIArielleJBerneyLabel.SearchProperties[HtmlLabel.PropertyNames.Name] = null;
+                    this.mUIArielleJBerneyLabel.SearchProperties[HtmlLabel.PropertyNames.LabelFor] = null;
+                    this.mUIArielleJBerneyLabel.SearchProperties[HtmlLabel.PropertyNames.InnerText] = " Arielle J. Berney";
+                    this.mUIArielleJBerneyLabel.FilterProperties[HtmlLabel.PropertyNames.Class] = null;
+                    this.mUIArielleJBerneyLabel.FilterProperties[HtmlLabel.PropertyNames.ControlDefinition] = null;
+                    this.mUIArielleJBerneyLabel.FilterProperties[HtmlLabel.PropertyNames.TagInstance] = "63";
+                    this.mUIArielleJBerneyLabel.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIArielleJBerneyLabel;
+            }
+        }
+        
+        public HtmlDiv UIProgramNamePleaseentPane
+        {
+            get
+            {
+                if ((this.mUIProgramNamePleaseentPane == null))
+                {
+                    this.mUIProgramNamePleaseentPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIProgramNamePleaseentPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIProgramNamePleaseentPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIProgramNamePleaseentPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Program Name *\r\n\r\n\r\nPlease enter a progr";
+                    this.mUIProgramNamePleaseentPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIProgramNamePleaseentPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "col-md-10";
+                    this.mUIProgramNamePleaseentPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"col-md-10\"";
+                    this.mUIProgramNamePleaseentPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "321";
+                    this.mUIProgramNamePleaseentPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIProgramNamePleaseentPane;
+            }
+        }
+        
+        public HtmlButton UIAfricaEastAsiaandtheButton
+        {
+            get
+            {
+                if ((this.mUIAfricaEastAsiaandtheButton == null))
+                {
+                    this.mUIAfricaEastAsiaandtheButton = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUIAfricaEastAsiaandtheButton.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUIAfricaEastAsiaandtheButton.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUIAfricaEastAsiaandtheButton.SearchProperties[HtmlButton.PropertyNames.DisplayText] = " Africa\r\n, \r\n East Asia and the Pacific\r\n, \r\n Europe and Eurasia\r\n, \r\n Near East\r" +
+                        "\n, \r\n South and Central Asia\r\n, \r\n UN and Other International Organizations\r\n, \r" +
+                        "\n United States\r\n, \r\n Western Hemisphere";
+                    this.mUIAfricaEastAsiaandtheButton.SearchProperties[HtmlButton.PropertyNames.Type] = "button";
+                    this.mUIAfricaEastAsiaandtheButton.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUIAfricaEastAsiaandtheButton.FilterProperties[HtmlButton.PropertyNames.Class] = "ng-binding";
+                    this.mUIAfricaEastAsiaandtheButton.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"ng-binding\" type=\"button\" ng-clic";
+                    this.mUIAfricaEastAsiaandtheButton.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "50";
+                    this.mUIAfricaEastAsiaandtheButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAfricaEastAsiaandtheButton;
+            }
+        }
+        
+        public HtmlButton UICivilSocietyCivilianButton
+        {
+            get
+            {
+                if ((this.mUICivilSocietyCivilianButton == null))
+                {
+                    this.mUICivilSocietyCivilianButton = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUICivilSocietyCivilianButton.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUICivilSocietyCivilianButton.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUICivilSocietyCivilianButton.SearchProperties[HtmlButton.PropertyNames.DisplayText] = @" Civil Society
+, 
+ Civilian Security
+, 
+ Conflict Prevention, Mitigation, and Response
+, 
+ Culture/Sports/American Society
+, 
+ CVE/Counterterrorism
+, 
+ Democracy/Good Governance/Rule of Law
+, 
+ Diversity
+, 
+ Economic Statecraft
+, 
+ Education
+, 
+ Energy Security";
+                    this.mUICivilSocietyCivilianButton.SearchProperties[HtmlButton.PropertyNames.Type] = "button";
+                    this.mUICivilSocietyCivilianButton.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUICivilSocietyCivilianButton.FilterProperties[HtmlButton.PropertyNames.Class] = "ng-binding";
+                    this.mUICivilSocietyCivilianButton.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"ng-binding\" type=\"button\" ng-clic";
+                    this.mUICivilSocietyCivilianButton.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "53";
+                    this.mUICivilSocietyCivilianButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICivilSocietyCivilianButton;
+            }
+        }
+        
+        public HtmlButton UIImportanceModernizetButton
+        {
+            get
+            {
+                if ((this.mUIImportanceModernizetButton == null))
+                {
+                    this.mUIImportanceModernizetButton = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUIImportanceModernizetButton.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUIImportanceModernizetButton.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUIImportanceModernizetButton.SearchProperties[HtmlButton.PropertyNames.DisplayText] = @" Importance
+, 
+ Modernize the Way We Do Diplomacy and Development
+, 
+ National Interest
+, 
+ Promote the Transition to a Low-Emission, Climate-Resilient World while Expanding Global Access to Sustainable Energy
+, 
+ Protect Core U.S. Interests by Advancing Democracy and Human Rights and Strengthening Civil Society
+, 
+ Secular Purpose";
+                    this.mUIImportanceModernizetButton.SearchProperties[HtmlButton.PropertyNames.Type] = "button";
+                    this.mUIImportanceModernizetButton.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUIImportanceModernizetButton.FilterProperties[HtmlButton.PropertyNames.Class] = "ng-binding";
+                    this.mUIImportanceModernizetButton.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"ng-binding\" type=\"button\" ng-clic";
+                    this.mUIImportanceModernizetButton.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "57";
+                    this.mUIImportanceModernizetButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIImportanceModernizetButton;
+            }
+        }
+        
+        public HtmlButton UIAndrewCCohenArielleJButton
+        {
+            get
+            {
+                if ((this.mUIAndrewCCohenArielleJButton == null))
+                {
+                    this.mUIAndrewCCohenArielleJButton = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUIAndrewCCohenArielleJButton.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUIAndrewCCohenArielleJButton.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUIAndrewCCohenArielleJButton.SearchProperties[HtmlButton.PropertyNames.DisplayText] = " Andrew C. Cohen\r\n, \r\n Arielle J. Berney";
+                    this.mUIAndrewCCohenArielleJButton.SearchProperties[HtmlButton.PropertyNames.Type] = "button";
+                    this.mUIAndrewCCohenArielleJButton.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUIAndrewCCohenArielleJButton.FilterProperties[HtmlButton.PropertyNames.Class] = "ng-binding";
+                    this.mUIAndrewCCohenArielleJButton.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"ng-binding\" type=\"button\" ng-clic";
+                    this.mUIAndrewCCohenArielleJButton.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "60";
+                    this.mUIAndrewCCohenArielleJButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAndrewCCohenArielleJButton;
+            }
+        }
+        
+        public HtmlButton UIGoalsDropdownButton
+        {
+            get
+            {
+                if ((this.mUIGoalsDropdownButton == null))
+                {
+                    this.mUIGoalsDropdownButton = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUIGoalsDropdownButton.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUIGoalsDropdownButton.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUIGoalsDropdownButton.SearchProperties[HtmlButton.PropertyNames.DisplayText] = "None Selected";
+                    this.mUIGoalsDropdownButton.SearchProperties[HtmlButton.PropertyNames.Type] = "button";
+                    this.mUIGoalsDropdownButton.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUIGoalsDropdownButton.FilterProperties[HtmlButton.PropertyNames.Class] = "ng-binding";
+                    this.mUIGoalsDropdownButton.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"ng-binding\" type=\"button\" ng-clic";
+                    this.mUIGoalsDropdownButton.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "57";
+                    this.mUIGoalsDropdownButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIGoalsDropdownButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlDiv mUISelectNoneResetAfricPane;
+        
+        private HtmlDiv mUISelectNoneResetPane;
+        
+        private HtmlDiv mUIAfricaEastAsiaandthePane;
+        
+        private HtmlDiv mUIAfricaPane;
+        
+        private HtmlDiv mUIEastAsiaandthePacifiPane;
+        
+        private HtmlDiv mUIEuropeandEurasiaPane;
+        
+        private HtmlDiv mUINearEastPane;
+        
+        private HtmlDiv mUISouthandCentralAsiaPane;
+        
+        private HtmlDiv mUIUNandOtherInternatioPane;
+        
+        private HtmlDiv mUIUnitedStatesPane;
+        
+        private HtmlDiv mUIWesternHemispherePane;
+        
+        private HtmlLabel mUIRelatedRegionsLabel;
+        
+        private HtmlLabel mUIThemesLabel;
+        
+        private HtmlButton mUINoneSelectedButton;
+        
+        private HtmlDiv mUISelectNoneResetPane1;
+        
+        private HtmlEdit mUIItemEdit;
+        
+        private HtmlDiv mUICivilSocietyPane;
+        
+        private HtmlDiv mUICivilianSecurityPane;
+        
+        private HtmlDiv mUIConflictPreventionMiPane;
+        
+        private HtmlDiv mUICultureSportsAmericaPane;
+        
+        private HtmlDiv mUICVECounterterrorismPane;
+        
+        private HtmlDiv mUIDemocracyGoodGovernaPane;
+        
+        private HtmlDiv mUIDiversityPane;
+        
+        private HtmlDiv mUIEconomicStatecraftPane;
+        
+        private HtmlDiv mUIEducationPane;
+        
+        private HtmlDiv mUIEnergySecurityPane;
+        
+        private HtmlDiv mUIEntrepreneurshipJobCPane;
+        
+        private HtmlDiv mUIEnvironmentPane;
+        
+        private HtmlDiv mUIFinancialSectorPane;
+        
+        private HtmlDiv mUIFoodSecurityAgricultPane;
+        
+        private HtmlDiv mUIGlobalHealthPane;
+        
+        private HtmlDiv mUIHumanRightsPane;
+        
+        private HtmlDiv mUIHumanitarianAssistanPane;
+        
+        private HtmlDiv mUIInnovationPane;
+        
+        private HtmlDiv mUIIntellectualPropertyPane;
+        
+        private HtmlDiv mUIMarketsandCompetitivPane;
+        
+        private HtmlDiv mUIMilitaryandSecurityCPane;
+        
+        private HtmlDiv mUIMuslimEngagementPane;
+        
+        private HtmlDiv mUIRegionalEconomicIntePane;
+        
+        private HtmlDiv mUIReligiousEngagementPane;
+        
+        private HtmlDiv mUIScienceandTechnologyPane;
+        
+        private HtmlDiv mUISmartSanctionsPane;
+        
+        private HtmlDiv mUISustainableEconomicGPane;
+        
+        private HtmlDiv mUITradeInvestmentPane;
+        
+        private HtmlDiv mUITransitionsinFrontliPane;
+        
+        private HtmlDiv mUITransnationalThreatsPane;
+        
+        private HtmlDiv mUITravelandTourismPane;
+        
+        private HtmlDiv mUIWomensEmpowermentPane;
+        
+        private HtmlDiv mUIYouthEngagementPane;
+        
+        private HtmlButton mUIItemButton;
+        
+        private HtmlButton mUINoneSelectedButton1;
+        
+        private HtmlSpan mUIEastAsiaandthePacifiPane1;
+        
+        private HtmlSpan mUIEuropeandEurasiaPane1;
+        
+        private HtmlDiv mUINearEastPane1;
+        
+        private HtmlSpan mUINearEastPane11;
+        
+        private HtmlDiv mUISouthandCentralAsiaPane1;
+        
+        private HtmlSpan mUISouthandCentralAsiaPane11;
+        
+        private HtmlDiv mUIUNandOtherInternatioPane1;
+        
+        private HtmlSpan mUIUNandOtherInternatioPane11;
+        
+        private HtmlDiv mUISouthandCentralAsiaPane2;
+        
+        private HtmlSpan mUIUnitedStatesPane1;
+        
+        private HtmlDiv mUIUNandOtherInternatioPane2;
+        
+        private HtmlDiv mUIUnitedStatesPane11;
+        
+        private HtmlDiv mUIWesternHemispherePane1;
+        
+        private HtmlSpan mUIWesternHemispherePane11;
+        
+        private HtmlDiv mUIUnitedStatesPane2;
+        
+        private HtmlLabel mUIGoalsLabel;
+        
+        private HtmlSpan mUICivilSocietyPane1;
+        
+        private HtmlDiv mUICivilianSecurityPane1;
+        
+        private HtmlDiv mUIConflictPreventionMiPane1;
+        
+        private HtmlSpan mUIConflictPreventionMiPane11;
+        
+        private HtmlDiv mUICultureSportsAmericaPane1;
+        
+        private HtmlSpan mUICultureSportsAmericaPane11;
+        
+        private HtmlDiv mUICVECounterterrorismPane1;
+        
+        private HtmlSpan mUICVECounterterrorismPane11;
+        
+        private HtmlSpan mUIDemocracyGoodGovernaPane1;
+        
+        private HtmlDiv mUIDiversityPane1;
+        
+        private HtmlDiv mUIEconomicStatecraftPane1;
+        
+        private HtmlSpan mUIEconomicStatecraftPane11;
+        
+        private HtmlDiv mUIDemocracyGoodGovernaPane11;
+        
+        private HtmlDiv mUIEducationPane1;
+        
+        private HtmlSpan mUIEnergySecurityPane1;
+        
+        private HtmlLabel mUIEducationLabel;
+        
+        private HtmlLabel mUIFocusAreaLabel;
+        
+        private HtmlSpan mUIItemPane;
+        
+        private HtmlLabel mUIImportanceLabel;
+        
+        private HtmlSpan mUIModernizetheWayWeDoDPane;
+        
+        private HtmlDiv mUIStrengthenAmericasFoPane;
+        
+        private HtmlSpan mUINationalInterestPane;
+        
+        private HtmlDiv mUIPromotetheTransitionPane;
+        
+        private HtmlSpan mUIPromotetheTransitionPane1;
+        
+        private HtmlDiv mUINationalInterestPane1;
+        
+        private HtmlSpan mUIProtectCoreUSInteresPane;
+        
+        private HtmlDiv mUISecularPurposePane;
+        
+        private HtmlSpan mUISecularPurposePane1;
+        
+        private HtmlButton mUINoneSelectedButton2;
+        
+        private HtmlDiv mUIAndrewCCohenPane;
+        
+        private HtmlDiv mUIArielleJBerneyPane;
+        
+        private HtmlLabel mUIArielleJBerneyLabel;
+        
+        private HtmlDiv mUIProgramNamePleaseentPane;
+        
+        private HtmlButton mUIAfricaEastAsiaandtheButton;
+        
+        private HtmlButton mUICivilSocietyCivilianButton;
+        
+        private HtmlButton mUIImportanceModernizetButton;
+        
+        private HtmlButton mUIAndrewCCohenArielleJButton;
+        
+        private HtmlButton mUIGoalsDropdownButton;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UITopPane1 : HtmlDiv
+    {
+        
+        public UITopPane1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "All Programs\r\nECA \r\nCREATE PROGRAM \r\n\r\n\r";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" autoscroll=\"true\" ui-view=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "24";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlDiv UICreateProgramDidyoukPane
+        {
+            get
+            {
+                if ((this.mUICreateProgramDidyoukPane == null))
+                {
+                    this.mUICreateProgramDidyoukPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICreateProgramDidyoukPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICreateProgramDidyoukPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICreateProgramDidyoukPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Create Program\r\n\r\n\r\n\r\n\r\n\r\nDid you know? ";
+                    this.mUICreateProgramDidyoukPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICreateProgramDidyoukPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-modal-dialog";
+                    this.mUICreateProgramDidyoukPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-modal-dialog\" ng-style=\"dialogStyle\"";
+                    this.mUICreateProgramDidyoukPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "314";
+                    this.mUICreateProgramDidyoukPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICreateProgramDidyoukPane;
+            }
+        }
+        
+        public HtmlButton UICREATEButton
+        {
+            get
+            {
+                if ((this.mUICREATEButton == null))
+                {
+                    this.mUICREATEButton = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUICREATEButton.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUICREATEButton.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUICREATEButton.SearchProperties[HtmlButton.PropertyNames.DisplayText] = "CREATE";
+                    this.mUICREATEButton.SearchProperties[HtmlButton.PropertyNames.Type] = "submit";
+                    this.mUICREATEButton.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUICREATEButton.FilterProperties[HtmlButton.PropertyNames.Class] = "btn btn-success right ng-scope";
+                    this.mUICREATEButton.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"btn btn-success right ng-scope\" n";
+                    this.mUICREATEButton.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "131";
+                    this.mUICREATEButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICREATEButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlDiv mUICreateProgramDidyoukPane;
+        
+        private HtmlButton mUICREATEButton;
         #endregion
     }
 }
