@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CAM.Business.Service;
 using System.Threading.Tasks;
 using CAM.Data;
+using CAM.Business.Model;
 
 namespace CAM.Business.Test.Service
 {
@@ -20,6 +21,61 @@ namespace CAM.Business.Test.Service
             context = new TestInMemoryCamModel();
             service = new UserService(context);
         }
+
+        #region Create
+        [TestMethod]
+        public void TestCreate()
+        {
+            var firstName = "first";
+            var lastName = "lastName";
+            var email = "email";
+            var id = Guid.NewGuid();
+            var displayName = "display";
+            var newUser = new AzureUser(
+                id: id,
+                email: email,
+                firstName: firstName,
+                lastName: lastName,
+                displayName: displayName
+                );
+
+            Assert.AreEqual(0, context.UserAccounts.Count());
+            Assert.AreEqual(0, context.Principals.Count());
+
+            var userAccount = service.Create(newUser);
+            Assert.AreEqual(1, context.UserAccounts.Count());
+            Assert.AreEqual(1, context.Principals.Count());
+
+            var savedUserAccount = context.UserAccounts.First();
+            var savedPrincipal = context.Principals.First();
+            Assert.AreEqual(savedUserAccount, savedPrincipal.UserAccount);
+            Assert.AreEqual(savedPrincipal, savedUserAccount.Principal);
+            Assert.IsTrue(Object.ReferenceEquals(userAccount, savedUserAccount));
+            Assert.AreEqual(PrincipalType.Person.Id, savedPrincipal.PrincipalTypeId);
+
+            Assert.AreEqual(firstName, savedUserAccount.FirstName);
+            Assert.AreEqual(lastName, savedUserAccount.LastName);
+            Assert.AreEqual(email, savedUserAccount.EmailAddress);
+            Assert.AreEqual(id, savedUserAccount.AdGuid);
+            Assert.AreEqual(displayName, savedUserAccount.DisplayName);
+            Assert.AreEqual(AccountStatus.Active.Id, savedUserAccount.AccountStatusId);
+            Assert.AreEqual(UserAccount.SYSTEM_USER_ACCOUNT_ID, savedUserAccount.CreatedBy);
+            Assert.AreEqual(UserAccount.SYSTEM_USER_ACCOUNT_ID, savedUserAccount.RevisedBy);
+
+            Assert.IsTrue(savedUserAccount.LastAccessed.HasValue);
+            DateTimeOffset.Now.Should().BeCloseTo(savedUserAccount.CreatedOn);
+            DateTimeOffset.Now.Should().BeCloseTo(savedUserAccount.RevisedOn);
+            DateTimeOffset.Now.Should().BeCloseTo(savedUserAccount.LastAccessed.Value);
+            Assert.IsNull(savedUserAccount.Note);
+
+            Assert.IsFalse(savedUserAccount.ExpiredDate.HasValue);
+            Assert.IsFalse(savedUserAccount.PermissionsRevisedOn.HasValue);
+            Assert.IsFalse(savedUserAccount.RestoredDate.HasValue);
+            Assert.IsFalse(savedUserAccount.RevokedDate.HasValue);
+            Assert.IsFalse(savedUserAccount.SuspendedDate.HasValue);
+
+        }
+        #endregion
 
         #region Test IsValid
 
@@ -109,7 +165,7 @@ namespace CAM.Business.Test.Service
             };
             var createdDate = DateTimeOffset.Now.AddDays(-1.0);
             var revisedOnDate = DateTimeOffset.Now.AddDays(9.0);
-                 
+
             var expirationDate = DateTimeOffset.Now.AddDays(2.0);
             var revokedDate = DateTimeOffset.Now.AddDays(3.0);
             var restoredOnDate = DateTimeOffset.Now.AddDays(9.0);
@@ -166,7 +222,7 @@ namespace CAM.Business.Test.Service
 
         [TestMethod]
         public async Task TestGetUserById_UserDoesNotExist()
-        {   
+        {
             var id = Guid.NewGuid();
             Action<User> tester = (u) =>
             {

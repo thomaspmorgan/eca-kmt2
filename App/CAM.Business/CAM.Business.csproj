@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\AzureUser.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -29,6 +29,12 @@ namespace ECA.WebApi.Test.Security
         {
             return this.Username;
         }
+
+
+        public CAM.Business.Model.AzureUser ToAzureUser()
+        {
+            return new CAM.Business.Model.AzureUser(this.Id, "", "", "", "");
+        }
     }
 
     [TestClass]

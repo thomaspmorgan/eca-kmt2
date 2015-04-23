@@ -13,7 +13,7 @@ namespace ECA.WebApi.Security
     /// facets of that user.
     /// </summary>
     [ContractClass(typeof(IUserProviderContract))]
-    public interface IUserProvider : IDisposable
+    public interface IUserProvider
     {
         /// <summary>
         /// Returns the current system user.

@@ -314,5 +314,67 @@ namespace ECA.WebApi.Test.Security
         }
 
         #endregion
+
+        [TestMethod]
+        public void TestToString_NoClaims()
+        {
+            var claims = new List<Claim>();
+
+            var claimsPrincipal = new ClaimsPrincipal();
+            var user = new WebApiUser(claimsPrincipal);
+            Assert.IsNotNull(user.ToString());
+        }
+
+        [TestMethod]
+        public void TestToString_HasEmailAndId()
+        {
+            var id = Guid.NewGuid().ToString();
+            var email = "someone@isp.com";
+            var claims = new List<Claim>();
+            claims.Add(new Claim(WebApiUser.USER_ID_KEY, id.ToString()));
+            claims.Add(new Claim(WebApiUser.EMAIL_KEY, email));
+
+            var claimsPrincipal = new ClaimsPrincipal();
+            var user = new WebApiUser(claimsPrincipal);
+            Assert.IsNotNull(user.ToString());
+        }
+
+        [TestMethod]
+        public void TestToAzureUser()
+        {
+            var now = DateTime.UtcNow;
+            var nowInSecondsAfterEpoch = (int)(now - WebApiUser.EPOCH).TotalSeconds;
+            var yesterday = now.AddDays(-1.0);
+            var yesterdayInSecondsAfterEpoch = (int)(yesterday - WebApiUser.EPOCH).TotalSeconds;
+            var tomorrow = now.AddDays(1.0);
+            var tomorrowInSecondsAfterEpoch = (int)(tomorrow - WebApiUser.EPOCH).TotalSeconds;
+            var givenName = "given";
+            var surName = "name";
+            var fullName = "fullName";
+            var email = "someone@isp.com";
+            var id = Guid.NewGuid();
+
+            var claims = new List<Claim>();
+
+            claims.Add(new Claim(WebApiUser.EMAIL_KEY, email));
+            claims.Add(new Claim(WebApiUser.EXPIRATION_DATE_KEY, tomorrowInSecondsAfterEpoch.ToString()));
+            claims.Add(new Claim(WebApiUser.FULL_NAME_KEY, fullName));
+            claims.Add(new Claim(WebApiUser.GIVEN_NAME_KEY, givenName));
+            claims.Add(new Claim(WebApiUser.ISSUED_AT_TIME_KEY, nowInSecondsAfterEpoch.ToString()));
+            claims.Add(new Claim(WebApiUser.SURNAME_KEY, surName));
+            claims.Add(new Claim(WebApiUser.USER_ID_KEY, id.ToString()));
+            claims.Add(new Claim(WebApiUser.VALID_NOT_BEFORE_DATE_KEY, yesterdayInSecondsAfterEpoch.ToString()));
+
+            var claimsIdentity = new ClaimsIdentity(claims);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            var user = new WebApiUser(claimsPrincipal);
+
+            var azureUser = user.ToAzureUser();
+            Assert.AreEqual(id, azureUser.Id);
+            Assert.AreEqual(givenName, azureUser.FirstName);
+            Assert.AreEqual(surName, azureUser.LastName);
+            Assert.AreEqual(fullName, azureUser.DisplayName);
+            Assert.AreEqual(email, azureUser.Email);
+        }
     }
 }

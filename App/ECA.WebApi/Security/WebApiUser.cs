@@ -11,14 +11,31 @@ using System.Linq.Expressions;
 using System.Diagnostics.Contracts;
 using CAM.Business.Service;
 using NLog;
+using CAM.Business.Model;
 
 namespace ECA.WebApi.Security
 {
+    /// <summary>
+    /// An IWebApiUser is a user of the ECA application.
+    /// </summary>
     public interface IWebApiUser
     {
+        /// <summary>
+        /// Gets or sets the User id.
+        /// </summary>
         Guid Id { get; }
 
+        /// <summary>
+        /// Gets the username.
+        /// </summary>
+        /// <returns>The username.</returns>
         string GetUsername();
+
+        /// <summary>
+        /// Returns an Azure User of this user.
+        /// </summary>
+        /// <returns>An AzureUser of this instance.</returns>
+        AzureUser ToAzureUser();
     }    
 
     /// <summary>
@@ -375,6 +392,30 @@ namespace ECA.WebApi.Security
         public string GetUsername()
         {
             return this.Email;
+        }
+
+        /// <summary>
+        /// Returns a string of this
+        /// </summary>
+        /// <returns>A formatted string of this user.</returns>
+        public override string ToString()
+        {
+            return String.Format("Id:  {0}, Username:  {1}", this.Id.ToString(), GetUsername());
+        }
+
+        /// <summary>
+        /// An AzureUser of this instance, useful if this user needs to be created or updated.
+        /// </summary>
+        /// <returns>An AzureUser of this web api user.</returns>
+        public AzureUser ToAzureUser()
+        {
+            return new AzureUser(
+                id: this.Id,
+                email: this.Email,
+                firstName: this.GivenName,
+                lastName: this.SurName,
+                displayName: this.FullName
+                );
         }
     }
 }

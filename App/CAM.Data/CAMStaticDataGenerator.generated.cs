@@ -3,6 +3,103 @@
 
 
 
+#region AccountStatus
+namespace CAM.Data
+{
+	using ECA.Core.Generation;
+	public partial class AccountStatus : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Active lookup with id 1.
+		/// </summary>
+		public static StaticLookup Active { get { return new StaticLookup("Active", 1); } }
+		/// <summary>
+		/// Returns the Expired lookup with id 2.
+		/// </summary>
+		public static StaticLookup Expired { get { return new StaticLookup("Expired", 2); } }
+		/// <summary>
+		/// Returns the Suspended lookup with id 3.
+		/// </summary>
+		public static StaticLookup Suspended { get { return new StaticLookup("Suspended", 3); } }
+		/// <summary>
+		/// Returns the Revoked lookup with id 4.
+		/// </summary>
+		public static StaticLookup Revoked { get { return new StaticLookup("Revoked", 4); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return AccountStatus.Active;
+			if (2 == id) return AccountStatus.Expired;
+			if (3 == id) return AccountStatus.Suspended;
+			if (4 == id) return AccountStatus.Revoked;
+			return null;
+		}
+
+
+		/// <summary>
+		/// Returns the Active string value.
+		/// </summary>
+		///Active
+		public const string ACTIVE_VALUE = "Active";
+
+		/// <summary>
+		/// Returns the 1 integer id value.
+		/// </summary>
+		///Active
+		public const int ACTIVE_ID = 1;
+
+		/// <summary>
+		/// Returns the Expired string value.
+		/// </summary>
+		///Expired
+		public const string EXPIRED_VALUE = "Expired";
+
+		/// <summary>
+		/// Returns the 2 integer id value.
+		/// </summary>
+		///Expired
+		public const int EXPIRED_ID = 2;
+
+		/// <summary>
+		/// Returns the Suspended string value.
+		/// </summary>
+		///Suspended
+		public const string SUSPENDED_VALUE = "Suspended";
+
+		/// <summary>
+		/// Returns the 3 integer id value.
+		/// </summary>
+		///Suspended
+		public const int SUSPENDED_ID = 3;
+
+		/// <summary>
+		/// Returns the Revoked string value.
+		/// </summary>
+		///Revoked
+		public const string REVOKED_VALUE = "Revoked";
+
+		/// <summary>
+		/// Returns the 4 integer id value.
+		/// </summary>
+		///Revoked
+		public const int REVOKED_ID = 4;
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "CAM.Data", ClassName = "AccountStatus", TableName = "cam.AccountStatus", IdColumnName = "AccountStatusId", ValueColumnName = "Status" };
+		}
+	}
+}
+#endregion
+
 #region Permission
 namespace CAM.Data
 {
@@ -134,6 +231,69 @@ namespace CAM.Data
 }
 #endregion
 
+#region PrincipalType
+namespace CAM.Data
+{
+	using ECA.Core.Generation;
+	public partial class PrincipalType : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Person     lookup with id 1.
+		/// </summary>
+		public static StaticLookup Person { get { return new StaticLookup("Person    ", 1); } }
+		/// <summary>
+		/// Returns the Group      lookup with id 2.
+		/// </summary>
+		public static StaticLookup Group { get { return new StaticLookup("Group     ", 2); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return PrincipalType.Person;
+			if (2 == id) return PrincipalType.Group;
+			return null;
+		}
+
+
+		/// <summary>
+		/// Returns the Person     string value.
+		/// </summary>
+		///Person    
+		public const string PERSON_____VALUE = "Person    ";
+
+		/// <summary>
+		/// Returns the 1 integer id value.
+		/// </summary>
+		///Person    
+		public const int PERSON_____ID = 1;
+
+		/// <summary>
+		/// Returns the Group      string value.
+		/// </summary>
+		///Group     
+		public const string GROUP______VALUE = "Group     ";
+
+		/// <summary>
+		/// Returns the 2 integer id value.
+		/// </summary>
+		///Group     
+		public const int GROUP______ID = 2;
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "CAM.Data", ClassName = "PrincipalType", TableName = "cam.PrincipalType", IdColumnName = "PrincipalTypeId", ValueColumnName = "PrincipalTypeName" };
+		}
+	}
+}
+#endregion
+
 #region ResourceType
 namespace CAM.Data
 {
@@ -247,7 +407,9 @@ namespace CAM.Data
 		public static List<string> ValidateAll(IStaticGeneratorValidator validator)
 		{
 			var errors = new List<string>();
+			errors.AddRange(validator.Validate<AccountStatus>());
 			errors.AddRange(validator.Validate<Permission>());
+			errors.AddRange(validator.Validate<PrincipalType>());
 			errors.AddRange(validator.Validate<ResourceType>());
 			return errors;
 		}

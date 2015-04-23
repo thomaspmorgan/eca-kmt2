@@ -38,11 +38,6 @@ namespace ECA.WebApi.Controllers
             this.permissionStore = permissionStore;
         }
 
-        public void GetTestThrow(int id)
-        {
-            throw new NotSupportedException("exception message here...");
-        }
-
         /// <summary>
         /// Returns basic information about the currently authenticated user.
         /// </summary>

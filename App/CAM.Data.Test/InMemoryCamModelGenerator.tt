@@ -1,0 +1,14 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="$(SolutionDir)CAM.Data/bin/Debug/CAM.Data.dll" #>
+<#@ import namespace="CAM.Data" #>
+
+<#@ include file="$(SolutionDir)ECA.Core/Data/InMemoryDbContextGenerator.tt" #>
+<#@ output extension=".generated.cs" #>
+
+<#
+	WriteType<CamModel>("CAM.Data.Test");
+#>
