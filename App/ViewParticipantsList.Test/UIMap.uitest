@@ -54,15 +54,23 @@
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom">
+    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane1.UIItemCustom" ThinkTime="10000">
       <ParameterName />
       <PropertyName>InnerText</PropertyName>
       <ExpectedValue>3</ExpectedValue>
-      <MessageOnValidationFailure>No page 3 available.</MessageOnValidationFailure>
+      <MessageOnValidationFailure>No Page (3) in pagination bar available.</MessageOnValidationFailure>
+      <Comparison>CurrentCulture</Comparison>
+      <PropertyCondition>Contains</PropertyCondition>
+    </StringAssertAction>
+    <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane1.UIItemCustom">
+      <ParameterName />
+      <PropertyName>ControlType</PropertyName>
+      <ExpectedValue>Custom</ExpectedValue>
+      <MessageOnValidationFailure>No control functionality for Page (3) in pagination bar.</MessageOnValidationFailure>
       <Type>String</Type>
       <PropertyCondition>AreEqual</PropertyCondition>
     </AssertAction>
-    <TestStepMarkerAction Comment="Verify that the Page 3 custom control exists for selection." MarkerInformation="AssertPageNumberCustomControl">
+    <TestStepMarkerAction Comment="Verify page (3) exists and is functional in the pagination bar." MarkerInformation="AssertPageNumberCustomControl">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -71,12 +79,12 @@
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIParticipantsListShowPane1" ThinkTime="5000">
+    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane1.UIParticipantsListShowPane" ThinkTime="10000">
       <ParameterName />
       <PropertyName>InnerText</PropertyName>
       <ExpectedValue>Participants List
 
-Showing 51 - 75 of 1697 participants
+Showing 51 - 75 of 8870 participants
 
 
 
@@ -96,21 +104,6 @@ Status
 
 
  
-Albanian Music Council
-Foreign NGO/PVOActive   
- 
-Albert Bienvenu Akoha
-IndividualActive   
- 
-Alcaldia de Vara de Monimbó
-Foreign NGO/PVOActive   
- 
-Alek Tamaryan
-IndividualActive   
- 
-Aleksandar Dajkpvic
-IndividualActive   
- 
 Aleksandr Ramaswamy
 IndividualActive   
  
@@ -120,56 +113,71 @@ IndividualActive
 Alex Sarra
 IndividualActive   
  
-Alexander Rubashvili
-IndividualActive   
+Alexander Adkins
+U.S. Traveling ParticipantActive   
  
-Alexandra Wilson
-IndividualActive   
+Alexander Adkins
+U.S. Traveling ParticipantActive   
  
-Alexey Kirichenko
-IndividualActive   
+Alexander Adkins
+U.S. Traveling ParticipantActive   
  
-Alexey Starkov
-IndividualActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
  
-Alfredo Pinillos Ganoza
-IndividualActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
  
-Ali Ghopur
-IndividualActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
  
-Ali Hassan Mwarora
-IndividualActive   
+Alexander Adkins
+Foreign Non Traveling ParticipantActive   
  
-Aliya Urmanova
-IndividualActive   
+Alexander Adkins
+U.S. Traveling ParticipantActive   
  
-Alliance for Ecotourism
-Foreign NGO/PVOActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
  
-Alma Mekondjo Nankela
-IndividualActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
  
-Alok Tuladhar
-IndividualActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
  
-Alson Kelen
-IndividualActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
  
-Aman Ullah Mitsui
-IndividualActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
  
-Amanda Batson
-IndividualActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
  
-Amanda Eyre
-IndividualActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
  
-Amanda Koster
-IndividualActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
  
-Amanda Thomas Trienens
-IndividualActive   
+Alexander Adkins
+Foreign Traveling ParticipantActive   
+ 
+Alexander Adkins
+Foreign Traveling ParticipantActive   
+ 
+Alexander Adkins
+Foreign Traveling ParticipantActive   
+ 
+Alexander Adkins
+Foreign Traveling ParticipantActive   
+ 
+Alexander Foster
+Foreign Traveling ParticipantActive   
+ 
+Alexander Foster
+Foreign Traveling ParticipantActive   
  
 
 
@@ -187,11 +195,11 @@ IndividualActive
 8
 9
 10</ExpectedValue>
-      <MessageOnValidationFailure>No Participants List displayed on page (3).</MessageOnValidationFailure>
+      <MessageOnValidationFailure>No Participants List available for Page 3.</MessageOnValidationFailure>
       <Comparison>CurrentCulture</Comparison>
       <PropertyCondition>Contains</PropertyCondition>
     </StringAssertAction>
-    <TestStepMarkerAction Comment="Verify that page (3) of the participants list is displayed." MarkerInformation="AssertPageNumberParticipantsList">
+    <TestStepMarkerAction Comment="Verify the Page (3) participant list displays. Innertext check." MarkerInformation="AssertPageNumberParticipantsList">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -242,12 +250,12 @@ IndividualActive
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIParticipantsListShowPane" ThinkTime="5000">
+    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIParticipantsListShowPane" ThinkTime="10000">
       <ParameterName />
       <PropertyName>InnerText</PropertyName>
       <ExpectedValue>Participants List
 
-Showing 1 - 25 of 1697 participants
+Showing 1 - 25 of 8870 participants
 
 
 
@@ -318,17 +326,20 @@ IndividualActive
 Abubakar Tafawa Balewa Tomb
 Foreign NGO/PVOActive   
  
-Academy of Fine Arts and Design Bratislava
-IndividualActive   
- 
 Academy of Sciences of Tajikistan
 Foreign Educational InstitutionActive   
  
-Adam Mickiewicz University
-IndividualActive   
- 
 Addis Woubet
 Foreign NGO/PVOActive   
+ 
+Addison Adkins
+U.S. Traveling ParticipantActive   
+ 
+Addison Tucker
+U.S. Traveling ParticipantActive   
+ 
+Addison Tucker
+U.S. Traveling ParticipantActive   
  
 Aden Hassan Aden
 IndividualActive   
@@ -338,9 +349,6 @@ IndividualActive
  
 Aditya
 IndividualActive   
- 
-Adopt a Work of Art
-Foreign NGO/PVOActive   
  
 
 
@@ -441,6 +449,43 @@ Foreign NGO/PVOActive
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
+    <NavigateToUrlAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
+      <ParameterName />
+      <Url>https://eca-kmt-qa.azurewebsites.net/</Url>
+      <NewInstance>true</NewInstance>
+    </NavigateToUrlAction>
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIECATest1statedeptusHyperlink">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="101" Y="42" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit">
+      <ParameterName />
+      <Value Encoded="true">pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=</Value>
+      <Type>String</Type>
+    </SetValueAction>
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="33" Y="10" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <TestStepMarkerAction Comment="Open browser; navigate to QA site; select ECATest user; enter password; click sign in. " MarkerInformation="LogintoQA_ExistingUser">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
     <SendKeysAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UICbpspmenus1Custom.UIParticipantsHyperlink">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
@@ -474,16 +519,31 @@ Foreign NGO/PVOActive
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane.UIItemCustom">
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane1.UIItemCustom">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="17" Y="17" />
+      <Location X="15" Y="16" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <TestStepMarkerAction Comment="Select Page #(3) to navigate to this page of the participant list." MarkerInformation="SelectPageCustomControl">
+    <SendKeysAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane1">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Text Encoded="false">{F5}</Text>
+    </SendKeysAction>
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane1.UIItemCustom">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Location X="17" Y="22" />
+      <WheelDirection>0</WheelDirection>
+      <ActionType>Click</ActionType>
+      <MouseButton>Left</MouseButton>
+    </MouseAction>
+    <TestStepMarkerAction Comment="Select Page (3) in pagination bar; refresh page; reselect page (3) for display." MarkerInformation="SelectPageCustomControl">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -522,6 +582,7 @@ Foreign NGO/PVOActive
             <WindowTitle>New tab</WindowTitle>
             <WindowTitle>Sign in to Azure Active Directory</WindowTitle>
             <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+            <WindowTitle>Sign in to ECA Client</WindowTitle>
           </WindowTitles>
           <SearchConfigurations>
             <SearchConfiguration>VisibleOnly</SearchConfiguration>
@@ -557,6 +618,36 @@ Foreign NGO/PVOActive
                   </SearchConfigurations>
                   <AndCondition Id="SearchCondition">
                     <PropertyCondition Name="Name">Address and search using Google</PropertyCondition>
+                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+                <UIObject ControlType="Edit" Id="UIAddressandsearchusinEdit1" FriendlyName="Address and search using Bing" SpecialControlType="None">
+                  <TechnologyName>MSAA</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>New tab</WindowTitle>
+                  </WindowTitles>
+                  <SearchConfigurations>
+                    <SearchConfiguration>VisibleOnly</SearchConfiguration>
+                  </SearchConfigurations>
+                  <AndCondition Id="SearchCondition">
+                    <PropertyCondition Name="Name">Address and search using Bing</PropertyCondition>
+                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+                <UIObject ControlType="Edit" Id="UIAddressandsearchusinEdit2" FriendlyName="Address and search using Bing" SpecialControlType="None">
+                  <TechnologyName>MSAA</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>New tab</WindowTitle>
+                  </WindowTitles>
+                  <SearchConfigurations>
+                    <SearchConfiguration>VisibleOnly</SearchConfiguration>
+                  </SearchConfigurations>
+                  <AndCondition Id="SearchCondition">
+                    <PropertyCondition Name="Name">Address and search using Bing</PropertyCondition>
                     <PropertyCondition Name="ControlType">Edit</PropertyCondition>
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
@@ -1179,6 +1270,311 @@ Showing 51 - 75 of </PropertyCondition>
                       <Descendants />
                     </UIObject>
                   </Descendants>
+                </UIObject>
+                <UIObject ControlType="Pane" Id="UITopPane1" FriendlyName="top" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                      <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                      <PropertyCondition Name="Id">top</PropertyCondition>
+                      <PropertyCondition Name="Name" />
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="InnerText">Participants
+
+
+Participants List
+
+S</PropertyCondition>
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">ng-scope</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="ng-scope" id="top" autoscroll="true" ui-view=""</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">24</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants>
+                    <UIObject ControlType="Pane" Id="UIParticipantsListShowPane" FriendlyName="Participants List Showing 51 - 75 of " SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                          <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="InnerText">Participants List
+
+Showing 51 - 75 of </PropertyCondition>
+                          <PropertyCondition Name="Title" />
+                          <PropertyCondition Name="Class">container ng-scope</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="container ng-scope"</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">27</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
+                  </Descendants>
+                </UIObject>
+                <UIObject ControlType="Pane" Id="UISortlistPane1" FriendlyName="sort-list" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                      <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                      <PropertyCondition Name="Id">sort-list</PropertyCondition>
+                      <PropertyCondition Name="Name" />
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="InnerText">Name
+
+Type
+
+Status
+
+ 
+
+
+
+
+
+ </PropertyCondition>
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">ng-isolate-scope</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="ng-isolate-scope" id="sort-list" st-table="participants" st-pipe="getParticipants"</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">28</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants>
+                    <UIObject ControlType="Custom" Id="UIItemCustom" FriendlyName="" SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Custom</PropertyCondition>
+                          <PropertyCondition Name="TagName">A</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="Class">ng-binding</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="ng-binding" ng-click="selectPage(</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">28</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
+                  </Descendants>
+                </UIObject>
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="Window" Id="UIItemWindow1" FriendlyName="" SpecialControlType="None">
+              <TechnologyName>MSAA</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>New tab</WindowTitle>
+              </WindowTitles>
+              <SearchConfigurations>
+                <SearchConfiguration>VisibleOnly</SearchConfiguration>
+              </SearchConfigurations>
+              <AndCondition Id="SearchCondition">
+                <PropertyCondition Name="AccessibleName">Address and search using Bing</PropertyCondition>
+                <PropertyCondition Name="ClassName">Edit</PropertyCondition>
+                <PropertyCondition Name="ControlType">Window</PropertyCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Edit" Id="UIItemEdit" SpecialControlType="None">
+                  <TechnologyName>MSAA</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>New tab</WindowTitle>
+                  </WindowTitles>
+                  <SearchConfigurations>
+                    <SearchConfiguration>VisibleOnly</SearchConfiguration>
+                  </SearchConfigurations>
+                  <AndCondition Id="SearchCondition">
+                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="Window" Id="UIItemWindow2" FriendlyName="" SpecialControlType="None">
+              <TechnologyName>MSAA</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>New tab</WindowTitle>
+              </WindowTitles>
+              <SearchConfigurations>
+                <SearchConfiguration>VisibleOnly</SearchConfiguration>
+              </SearchConfigurations>
+              <AndCondition Id="SearchCondition">
+                <PropertyCondition Name="AccessibleName">Address and search using Bing</PropertyCondition>
+                <PropertyCondition Name="ClassName">Edit</PropertyCondition>
+                <PropertyCondition Name="ControlType">Window</PropertyCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Edit" Id="UIItemEdit" SpecialControlType="None">
+                  <TechnologyName>MSAA</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>New tab</WindowTitle>
+                  </WindowTitles>
+                  <SearchConfigurations>
+                    <SearchConfiguration>VisibleOnly</SearchConfiguration>
+                  </SearchConfigurations>
+                  <AndCondition Id="SearchCondition">
+                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="Window" Id="UIItemWindow3" FriendlyName="" SpecialControlType="None">
+              <TechnologyName>MSAA</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>New tab</WindowTitle>
+              </WindowTitles>
+              <SearchConfigurations>
+                <SearchConfiguration>VisibleOnly</SearchConfiguration>
+              </SearchConfigurations>
+              <AndCondition Id="SearchCondition">
+                <PropertyCondition Name="AccessibleName">Address and search using Bing</PropertyCondition>
+                <PropertyCondition Name="ClassName">Edit</PropertyCondition>
+                <PropertyCondition Name="ControlType">Window</PropertyCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Edit" Id="UIItemEdit" SpecialControlType="None">
+                  <TechnologyName>MSAA</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>New tab</WindowTitle>
+                  </WindowTitles>
+                  <SearchConfigurations>
+                    <SearchConfiguration>VisibleOnly</SearchConfiguration>
+                  </SearchConfigurations>
+                  <AndCondition Id="SearchCondition">
+                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="Document" Id="UISignintoECAClientDocument" FriendlyName="Sign in to ECA Client" SpecialControlType="None">
+              <TechnologyName>Web</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>Sign in to ECA Client</WindowTitle>
+              </WindowTitles>
+              <AndCondition Id="SearchCondition">
+                <AndCondition Id="Primary">
+                  <PropertyCondition Name="ControlType">Document</PropertyCondition>
+                  <PropertyCondition Name="TagName">BODY</PropertyCondition>
+                  <PropertyCondition Name="Id" />
+                  <PropertyCondition Name="RedirectingPage">False</PropertyCondition>
+                  <PropertyCondition Name="FrameDocument">False</PropertyCondition>
+                </AndCondition>
+                <FilterCondition Id="Secondary">
+                  <PropertyCondition Name="Title">Sign in to ECA Client</PropertyCondition>
+                  <PropertyCondition Name="AbsolutePath">/statedept.us/oauth2/authorize</PropertyCondition>
+                  <PropertyCondition Name="PageUrl">https://login.microsoftonline.com/statedept.us/oauth2/authorize?response_type=id_token&amp;client_id=e0356e55-e124-452c-837d-aeb7504185ff&amp;redirect_uri=https%3A%2F%2Feca-kmt-qa.azurewebsites.net%2F&amp;state=15bc952f-9b62-4b64-9825-8ced8895fec0&amp;x-client-SKU=Js&amp;x-client-Ver=1.0.0&amp;nonce=645bb98a-ceea-430a-937e-f8c6ffa8c18c</PropertyCondition>
+                </FilterCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Hyperlink" Id="UIECATest1statedeptusHyperlink" FriendlyName=" ECATest1@statedept.us •••" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>Sign in to ECA Client</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Hyperlink</PropertyCondition>
+                      <PropertyCondition Name="TagName">A</PropertyCondition>
+                      <PropertyCondition Name="Id">ecatest1_statedept_us_link</PropertyCondition>
+                      <PropertyCondition Name="Name" />
+                      <PropertyCondition Name="Target" />
+                      <PropertyCondition Name="InnerText">
+ECATest1@statedept.us
+
+
+
+•••</PropertyCondition>
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="AbsolutePath" />
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Href">#</PropertyCondition>
+                      <PropertyCondition Name="Class">tile_link tooltip</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">tabindex="1" class="tile_link tooltip" i</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">2</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+                <UIObject ControlType="Edit" Id="UIPasswordEdit" FriendlyName="Password" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>Sign in to ECA Client</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                      <PropertyCondition Name="TagName">INPUT</PropertyCondition>
+                      <PropertyCondition Name="Id">cred_password_inputtext</PropertyCondition>
+                      <PropertyCondition Name="Name">passwd</PropertyCondition>
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="LabeledBy">Password</PropertyCondition>
+                      <PropertyCondition Name="Type">PASSWORD</PropertyCondition>
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">login_textfield textfield required field normaltext</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">name="passwd" tabindex="2" class="login_</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">2</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+                <UIObject ControlType="Pane" Id="UISigninPane" FriendlyName="Sign in" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>Sign in to ECA Client</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                      <PropertyCondition Name="TagName">SPAN</PropertyCondition>
+                      <PropertyCondition Name="Id">cred_sign_in_button</PropertyCondition>
+                      <PropertyCondition Name="Name" />
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="InnerText">Sign in</PropertyCondition>
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">button normaltext cred_sign_in_button refresh_domain_state control-button button-two button_primary</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">tabindex="11" class="button normaltext cred_sign_in_button refresh_domain_state control-button button-two button_primary" id="cred_sign_in_button" role="button" style="opacity: 1;"</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">11</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
                 </UIObject>
               </Descendants>
             </UIObject>

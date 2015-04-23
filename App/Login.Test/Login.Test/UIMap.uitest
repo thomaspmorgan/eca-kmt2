@@ -43,33 +43,9 @@
   <ExecuteActions>
     <NavigateToUrlAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
       <ParameterName />
-      <Url>about:Tabs</Url>
+      <Url>https://eca-kmt-qa.azurewebsites.net/</Url>
       <NewInstance>true</NewInstance>
     </NavigateToUrlAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit1">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="40" Y="7" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <SendKeysAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Text Encoded="false">https://eca-kmt-qa.azurewebsites.net/</Text>
-    </SendKeysAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="3" Y="8" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
     <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
@@ -77,46 +53,6 @@
       <Location X="65" Y="47" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable1">
-      <ContinueOnError>True</ContinueOnError>
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="1" Y="1" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Hover</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable1.UIECATest1statedeptusCell">
-      <ContinueOnError>True</ContinueOnError>
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="1" Y="1" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Hover</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable1">
-      <ContinueOnError>True</ContinueOnError>
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="1" Y="1" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Hover</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UICredentialsCustom">
-      <ContinueOnError>True</ContinueOnError>
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="1" Y="1" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Hover</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
     <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit">
