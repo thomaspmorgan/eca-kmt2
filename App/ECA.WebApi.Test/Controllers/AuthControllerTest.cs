@@ -13,6 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 using System.Web.Http;
+using CAM.Business.Model;
+using ECA.Core.Service;
 
 namespace ECA.WebApi.Test.Controllers
 {
@@ -152,6 +154,47 @@ namespace ECA.WebApi.Test.Controllers
             Assert.AreEqual(permissionName, firstPermission.PermissionName);
             Assert.AreEqual(permissionId, firstPermission.PermissionId);
             userProvider.Verify(x => x.GetCurrentUser(), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostRegisterAsync_UserDoesNotExist()
+        {
+            var simpleUser = new SimpleUser
+            {
+                Id = Guid.NewGuid(),
+                Username = "user"
+            };
+            User nullUser = null;
+            userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(nullUser);
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(simpleUser);
+
+            var result = await controller.PostRegisterAsync();
+            userService.Verify(x => x.GetUserByIdAsync(It.IsAny<Guid>()), Times.Once());
+            userService.Verify(x => x.Create(It.IsAny<AzureUser>()), Times.Once());
+            userService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task TestPostRegisterAsync_UserExists()
+        {
+            var camUser = new User
+            {
+                DisplayName = "display Name"
+
+            };
+            var simpleUser = new SimpleUser
+            {
+                Id = Guid.NewGuid(),
+                Username = "user"
+            };
+            userService.Setup(x => x.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(camUser);
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(simpleUser);
+
+            var result = await controller.PostRegisterAsync();
+            Assert.IsInstanceOfType(result, typeof(OkResult));
+            userService.Verify(x => x.GetUserByIdAsync(It.IsAny<Guid>()), Times.Once());
+            userService.Verify(x => x.Create(It.IsAny<AzureUser>()), Times.Never());
+            userService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Never());
         }
 
         [TestMethod]
