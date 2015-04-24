@@ -39,5 +39,15 @@ namespace ECA.WebApi.Test.Security
             Action a = () => new ImpersonatedUser(impersonatorId, impersonatedId, username);
             a.ShouldThrow<ArgumentException>().WithMessage("The id of the impersonated may not be empty.");
         }
+
+        [TestMethod]
+        public void TestToAzureUser()
+        {
+            var impersonatorId = Guid.NewGuid();
+            var impersonatedId = Guid.NewGuid();
+            var username = "user";
+            var user = new ImpersonatedUser(impersonatorId, impersonatedId, username);
+            user.Invoking(x => x.ToAzureUser()).ShouldThrow<NotSupportedException>().WithMessage("This method should not be executed.  A user must exist for it to be impersonated.");
+        }
     }
 }

@@ -16,13 +16,18 @@ namespace ECA.WebApi.Models.Security
         public Guid UserId { get; set; }
 
         /// <summary>
-        /// The user principal id in cam.
-        /// </summary>
-        public int PrincipalId { get; set; }
-
-        /// <summary>
         /// The username.
         /// </summary>
         public string UserName { get; set; }
+
+        /// <summary>
+        /// Whether or not the user is registered with the ECA system.
+        /// </summary>
+        public bool IsRegistered { get; set; }
+
+        /// <summary>
+        /// The user's display name in the system.
+        /// </summary>
+        public string DisplayName { get; set; }
     }
 }

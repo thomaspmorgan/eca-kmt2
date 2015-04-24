@@ -7,6 +7,7 @@ using ECA.Data;
 using ECA.WebApi.Controllers.Admin;
 using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
@@ -20,16 +21,18 @@ namespace ECA.WebApi.Test.Controllers.Admin
     [TestClass]
     public class ProjectsControllerTest
     {
-        private Mock<IProjectService> serviceMock;
+        private Mock<IProjectService> service;
+        private Mock<IUserProvider> userProvider;
         private ProjectsController controller;
 
         [TestInitialize]
         public void TestInit()
         {
-            serviceMock = new Mock<IProjectService>();
-            serviceMock.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
+            userProvider = new Mock<IUserProvider>();
+            service = new Mock<IProjectService>();
+            service.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<SimpleProjectDTO>(1, new List<SimpleProjectDTO>()));
-            controller = new ProjectsController(serviceMock.Object);
+            controller = new ProjectsController(service.Object, userProvider.Object);
             ControllerHelper.InitializeController(controller);
         }
 
@@ -54,7 +57,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestGetProjectByIdAsync()
         {
-            serviceMock.Setup(x => x.GetProjectByIdAsync(It.IsAny<int>()))
+            service.Setup(x => x.GetProjectByIdAsync(It.IsAny<int>()))
                .ReturnsAsync(new ProjectDTO());
             var response = await controller.GetProjectByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProjectDTO>));
@@ -63,7 +66,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestGetProjectByIdAsync_InvalidModel()
         {
-            serviceMock.Setup(x => x.GetProjectByIdAsync(It.IsAny<int>())).ReturnsAsync(null);
+            service.Setup(x => x.GetProjectByIdAsync(It.IsAny<int>())).ReturnsAsync(null);
             var response = await controller.GetProjectByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(NotFoundResult));
         }
@@ -73,9 +76,9 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestPostProjectAsync()
         {
-            serviceMock.Setup(x => x.CreateAsync(It.IsAny<DraftProject>()))
+            service.Setup(x => x.CreateAsync(It.IsAny<DraftProject>()))
                 .ReturnsAsync(new Project());
-            serviceMock.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
             var response = await controller.PostProjectAsync(new DraftProjectBindingModel());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProjectDTO>));
         }
@@ -93,8 +96,8 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestPutProjectAsync()
         {
-            serviceMock.Setup(x => x.UpdateAsync(It.IsAny<PublishedProject>())).Returns(Task.FromResult<object>(null));
-            serviceMock.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
+            service.Setup(x => x.UpdateAsync(It.IsAny<PublishedProject>())).Returns(Task.FromResult<object>(null));
+            service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
             var response = await controller.PutProjectAsync(new PublishedProjectBindingModel());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProjectDTO>));
         }

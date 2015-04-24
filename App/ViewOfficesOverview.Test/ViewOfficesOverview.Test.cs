@@ -13,7 +13,7 @@ using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 namespace ViewOfficesOverview.Test
 {
     /// <summary>
-    /// Summary description for CodedUITest1
+    /// Verifies login to qa; navigate to ECA Office Directory; ECA Office Directory landing page; All Offices search box; search box functionality; search box results... 
     /// </summary>
     [CodedUITest]
     public class ViewOfficesOverviewCodedUITest1
@@ -29,8 +29,12 @@ namespace ViewOfficesOverview.Test
             this.UIMap.LogintoQA_existing();
             this.UIMap.NavigatetoECAOfficeDirectory_viaContentMenu();
             //this.UIMap.NavigatetoECAOfficeDirectory();
+            this.UIMap.RefreshBrowser();
+            this.UIMap.NavigatetoECAOfficeDirectory_viaContentMenu();
             this.UIMap.AssertAllOfficesBanner();
             this.UIMap.AssertSearchOfficesTextBox();
+            this.UIMap.SearchBox_textinput();
+            this.UIMap.RefreshBrowser();
             this.UIMap.SearchBox_textinput();
             this.UIMap.AssertSearchShowingResults();
             this.UIMap.AssertSearchResultTopList();

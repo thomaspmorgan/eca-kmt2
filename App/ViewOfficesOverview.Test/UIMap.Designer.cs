@@ -39,8 +39,8 @@ namespace ViewOfficesOverview.Test
             HtmlDiv uIECAOfficeDirectoryPane = this.UIHttpsecakmtqaazureweWindow5.UIHttpsecakmtqaazureweDocument.UITopPane.UIECAOfficeDirectoryPane;
             #endregion
 
-            // Wait for 15 seconds for user delay between actions; Verify that the 'DisplayText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
-            Playback.Wait(15000);
+            // Wait for 3 seconds for user delay between actions; Verify that the 'DisplayText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
+            Playback.Wait(3000);
             Assert.AreEqual(this.AssertAllOfficesBannerExpectedValues.UIECAOfficeDirectoryPaneDisplayText, uIECAOfficeDirectoryPane.DisplayText, "No available ECA Office Directory heading displays.");
         }
         
@@ -82,8 +82,8 @@ namespace ViewOfficesOverview.Test
             HtmlDiv uIShowing15of5officesPane = this.UIHttpsecakmtqaazureweWindow2.UIHttpsecakmtqaazureweDocument.UISortlistPane.UIShowing15of5officesPane;
             #endregion
 
-            // Wait for 15 seconds for user delay between actions; Verify that the 'InnerText' property of 'Showing 1 - 5 of 5 offices' pane contains 'Showing 1 - 5 of 5 offices'
-            Playback.Wait(15000);
+            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Showing 1 - 5 of 5 offices' pane contains 'Showing 1 - 5 of 5 offices'
+            Playback.Wait(5000);
             StringAssert.Contains(uIShowing15of5officesPane.InnerText, this.AssertSearchShowingResultsExpectedValues.UIShowing15of5officesPaneInnerText, "Verify (Showing 1 - 5 of 5 offices). Check innertext.");
         }
         
@@ -106,26 +106,14 @@ namespace ViewOfficesOverview.Test
         public void LogintoQA_existing()
         {
             #region Variable Declarations
-            WinEdit uIAddressandsearchusinEdit = this.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit;
-            WinEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit;
-            WinButton uIGotohttpsecakmtqaazuButton = this.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton;
             HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIECATest1statedeptusHyperlink;
             HtmlCell uIECATest1statedeptusCell = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable.UIECATest1statedeptusCell;
             HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
             HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
             #endregion
 
-            // Go to web page 'about:Tabs' using new browser instance
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_existingParams.UINewtabInternetExplorWindowUrl));
-
-            // Click 'Address and search using Bing' text box
-            Mouse.Click(uIAddressandsearchusinEdit, new Point(72, 8));
-
-            // Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-            Keyboard.SendKeys(uIItemEdit, this.LogintoQA_existingParams.UIItemEditSendKeys, ModifierKeys.None);
-
-            // Click 'Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt...' button
-            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(9, 13));
 
             // Click 'ECATest1@statedept.us •••' link
             Mouse.Click(uIECATest1statedeptusHyperlink, new Point(118, 35));
@@ -155,8 +143,8 @@ namespace ViewOfficesOverview.Test
             BrowserWindow uIHttpsecakmtqaazureweWindow = this.UIHttpsecakmtqaazureweWindow;
             #endregion
 
-            // Wait for 10 seconds for user delay between actions; Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices#top'
-            Playback.Wait(10000);
+            // Wait for 5 seconds for user delay between actions; Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices#top'
+            Playback.Wait(5000);
             uIHttpsecakmtqaazureweWindow.NavigateToUrl(new System.Uri(this.NavigatetoECAOfficeDirectoryParams.UIHttpsecakmtqaazureweWindowUrl));
         }
         
@@ -170,13 +158,26 @@ namespace ViewOfficesOverview.Test
             HtmlHyperlink uIOfficesHyperlink = this.UIHttpsecakmtqaazureweWindow4.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink;
             #endregion
 
-            // Wait for 10 seconds for user delay between actions; Click 'Toggle navigation' button
-            Playback.Wait(10000);
+            // Wait for 3 seconds for user delay between actions; Click 'Toggle navigation' button
+            Playback.Wait(3000);
             Mouse.Click(uITogglenavigationButton, new Point(18, 11));
 
-            // Wait for 10 seconds for user delay between actions; Click 'Offices' link
-            Playback.Wait(10000);
+            // Wait for 3 seconds for user delay between actions; Click 'Offices' link
+            Playback.Wait(3000);
             Mouse.Click(uIOfficesHyperlink, new Point(45, 33));
+        }
+        
+        /// <summary>
+        /// Refresh/Reload browser.
+        /// </summary>
+        public void RefreshBrowser()
+        {
+            #region Variable Declarations
+            WinEdit uIAddressandsearchusinEdit = this.UIHttpsecakmtqaazureweWindow6.UIAddressBarClient.UIAddressandsearchusinEdit;
+            #endregion
+
+            // Type '{F5}' in 'Address and search using Bing' text box
+            Keyboard.SendKeys(uIAddressandsearchusinEdit, this.RefreshBrowserParams.UIAddressandsearchusinEditSendKeys, ModifierKeys.None);
         }
         
         /// <summary>
@@ -262,6 +263,18 @@ namespace ViewOfficesOverview.Test
                     this.mNavigatetoECAOfficeDirectoryParams = new NavigatetoECAOfficeDirectoryParams();
                 }
                 return this.mNavigatetoECAOfficeDirectoryParams;
+            }
+        }
+        
+        public virtual RefreshBrowserParams RefreshBrowserParams
+        {
+            get
+            {
+                if ((this.mRefreshBrowserParams == null))
+                {
+                    this.mRefreshBrowserParams = new RefreshBrowserParams();
+                }
+                return this.mRefreshBrowserParams;
             }
         }
         
@@ -360,6 +373,18 @@ namespace ViewOfficesOverview.Test
                 return this.mUIHttpsecakmtqaazureweWindow5;
             }
         }
+        
+        public UIHttpsecakmtqaazureweWindow6 UIHttpsecakmtqaazureweWindow6
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweWindow6 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweWindow6 = new UIHttpsecakmtqaazureweWindow6();
+                }
+                return this.mUIHttpsecakmtqaazureweWindow6;
+            }
+        }
         #endregion
         
         #region Fields
@@ -374,6 +399,8 @@ namespace ViewOfficesOverview.Test
         private LogintoQA_existingParams mLogintoQA_existingParams;
         
         private NavigatetoECAOfficeDirectoryParams mNavigatetoECAOfficeDirectoryParams;
+        
+        private RefreshBrowserParams mRefreshBrowserParams;
         
         private SearchBox_textinputParams mSearchBox_textinputParams;
         
@@ -390,6 +417,8 @@ namespace ViewOfficesOverview.Test
         private UIHttpsecakmtqaazureweWindow4 mUIHttpsecakmtqaazureweWindow4;
         
         private UIHttpsecakmtqaazureweWindow5 mUIHttpsecakmtqaazureweWindow5;
+        
+        private UIHttpsecakmtqaazureweWindow6 mUIHttpsecakmtqaazureweWindow6;
         #endregion
     }
     
@@ -402,7 +431,7 @@ namespace ViewOfficesOverview.Test
         
         #region Fields
         /// <summary>
-        /// Wait for 15 seconds for user delay between actions; Verify that the 'DisplayText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
+        /// Wait for 3 seconds for user delay between actions; Verify that the 'DisplayText' property of 'ECA Office Directory' pane equals 'ECA Office Directory'
         /// </summary>
         public string UIECAOfficeDirectoryPaneDisplayText = "ECA Office Directory";
         #endregion
@@ -453,7 +482,7 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
         
         #region Fields
         /// <summary>
-        /// Wait for 15 seconds for user delay between actions; Verify that the 'InnerText' property of 'Showing 1 - 5 of 5 offices' pane contains 'Showing 1 - 5 of 5 offices'
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Showing 1 - 5 of 5 offices' pane contains 'Showing 1 - 5 of 5 offices'
         /// </summary>
         public string UIShowing15of5officesPaneInnerText = "Showing 1 - 5 of 5 offices";
         #endregion
@@ -468,14 +497,9 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
         
         #region Fields
         /// <summary>
-        /// Go to web page 'about:Tabs' using new browser instance
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
         /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "about:Tabs";
-        
-        /// <summary>
-        /// Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-        /// </summary>
-        public string UIItemEditSendKeys = "https://eca-kmt-qa.azurewebsites.net/";
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
         
         /// <summary>
         /// Type '********' in 'Password' text box
@@ -493,9 +517,24 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
         
         #region Fields
         /// <summary>
-        /// Wait for 10 seconds for user delay between actions; Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices#top'
+        /// Wait for 5 seconds for user delay between actions; Go to web page 'https://eca-kmt-qa.azurewebsites.net/#/alloffices#top'
         /// </summary>
         public string UIHttpsecakmtqaazureweWindowUrl = "https://eca-kmt-qa.azurewebsites.net/#/alloffices#top";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'RefreshBrowser'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class RefreshBrowserParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '{F5}' in 'Address and search using Bing' text box
+        /// </summary>
+        public string UIAddressandsearchusinEditSendKeys = "{F5}";
         #endregion
     }
     
@@ -1766,6 +1805,79 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
         
         #region Fields
         private HtmlDiv mUIECAOfficeDirectoryPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweWindow6 : BrowserWindow
+    {
+        
+        public UIHttpsecakmtqaazureweWindow6()
+        {
+            #region Search Criteria
+            this.SearchProperties[UITestControl.PropertyNames.Name] = "https://eca-kmt-qa.azurewebsites.net/";
+            this.SearchProperties[UITestControl.PropertyNames.ClassName] = "IEFrame";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        public void LaunchUrl(System.Uri url)
+        {
+            this.CopyFrom(BrowserWindow.Launch(url));
+        }
+        
+        #region Properties
+        public UIAddressBarClient1 UIAddressBarClient
+        {
+            get
+            {
+                if ((this.mUIAddressBarClient == null))
+                {
+                    this.mUIAddressBarClient = new UIAddressBarClient1(this);
+                }
+                return this.mUIAddressBarClient;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIAddressBarClient1 mUIAddressBarClient;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIAddressBarClient1 : WinClient
+    {
+        
+        public UIAddressBarClient1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinControl.PropertyNames.Name] = "Address Bar";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public WinEdit UIAddressandsearchusinEdit
+        {
+            get
+            {
+                if ((this.mUIAddressandsearchusinEdit == null))
+                {
+                    this.mUIAddressandsearchusinEdit = new WinEdit(this);
+                    #region Search Criteria
+                    this.mUIAddressandsearchusinEdit.SearchProperties[WinEdit.PropertyNames.Name] = "Address and search using Bing";
+                    this.mUIAddressandsearchusinEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAddressandsearchusinEdit;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinEdit mUIAddressandsearchusinEdit;
         #endregion
     }
 }

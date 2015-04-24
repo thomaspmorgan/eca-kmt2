@@ -32,7 +32,7 @@ namespace ECA.WebApi.Security
         }
 
         /// <summary>
-        /// Gets the Common Access Module principal id.
+        /// Gets the Common Access Module principal id i.e. the Principal Id.
         /// </summary>
         public int CamPrincipalId { get; private set; }
 

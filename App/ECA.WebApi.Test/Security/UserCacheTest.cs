@@ -16,9 +16,8 @@ namespace ECA.WebApi.Test.Security
         {
             var principalId = 1;
             var isValidUser = true;
-            var camUser = new TestCamUser();
+            var camUser = new User();
             camUser.PrincipalId = principalId;
-            camUser.IsValid = isValidUser;
 
             var user = new DebugWebApiUser();
             var userCache = new UserCache(user, camUser, isValidUser);
@@ -36,7 +35,7 @@ namespace ECA.WebApi.Test.Security
         {
             var permissions = new List<IPermission>();
             var user = new DebugWebApiUser();
-            var userCache = new UserCache(user, new TestCamUser(), true, permissions);
+            var userCache = new UserCache(user, new User(), true, permissions);
             Assert.IsTrue(Object.ReferenceEquals(permissions, userCache.Permissions));
             DateTime.UtcNow.Should().BeCloseTo(userCache.DateCached, 1000);
         }

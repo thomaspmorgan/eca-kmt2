@@ -31,14 +31,14 @@ namespace ECA.Business.Queries.Admin
                         let programs = office.OwnerPrograms
                         let goals = programs.SelectMany(x => x.Goals).Distinct()
                         let themes = programs.SelectMany(x => x.Themes).Distinct()
-                        let foci = programs.Select(x => x.Focus).Distinct()
+                        //let foci = programs.Select(x => x.Focus).Distinct()
 
                         where Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(office.OrganizationTypeId) && office.OrganizationId == officeId
                         select new OfficeDTO
                         {
                             Contacts = contacts.OrderBy(x => x.FullName).Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
                             Description = office.Description,
-                            Foci = foci.OrderBy(x => x.FocusName).Select(x => new SimpleLookupDTO { Id = x.FocusId, Value = x.FocusName }),
+                            //Foci = foci.OrderBy(x => x.FocusName).Select(x => new SimpleLookupDTO { Id = x.FocusId, Value = x.FocusName }),
                             Goals = goals.OrderBy(x => x.GoalName).Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
                             Id = office.OrganizationId,
                             Name = office.Name,

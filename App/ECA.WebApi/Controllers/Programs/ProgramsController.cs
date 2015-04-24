@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Diagnostics.Contracts;
+using ECA.WebApi.Security;
 
 namespace ECA.WebApi.Controllers.Programs
 {
@@ -22,7 +23,7 @@ namespace ECA.WebApi.Controllers.Programs
     /// The ProgramsController is capable of handling program requests from a client.
     /// </summary>
     [RoutePrefix("api")]
-    //[Authorize]
+    [Authorize]
     public class ProgramsController : ApiController
     {
         /// <summary>
@@ -33,15 +34,18 @@ namespace ECA.WebApi.Controllers.Programs
         private static readonly ExpressionSorter<OrganizationProgramDTO> HIERARCHY_PROGRAM_SORTER = new ExpressionSorter<OrganizationProgramDTO>(x => x.OfficeSymbol, SortDirection.Ascending);
 
         private IProgramService programService;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Creates a new ProgramController with the given program service.
         /// </summary>
         /// <param name="programService">The program service.</param>
-        public ProgramsController(IProgramService programService)
+        public ProgramsController(IProgramService programService, IUserProvider userProvider)
         {
             Contract.Requires(programService != null, "The program service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
             this.programService = programService;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -114,8 +118,9 @@ namespace ECA.WebApi.Controllers.Programs
         {
             if (ModelState.IsValid)
             {
-                var userId = 0;
-                var program = await programService.CreateAsync(model.ToDraftProgram(userId));
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var program = await programService.CreateAsync(model.ToDraftProgram(businessUser));
                 await programService.SaveChangesAsync();
                 var dto = await programService.GetProgramByIdAsync(program.ProgramId);
                 return Ok(new ProgramViewModel(dto));
@@ -137,8 +142,9 @@ namespace ECA.WebApi.Controllers.Programs
         {
             if (ModelState.IsValid)
             {
-                var userId = 0;
-                await programService.UpdateAsync(model.ToEcaProgram(userId));
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await programService.UpdateAsync(model.ToEcaProgram(businessUser));
                 await programService.SaveChangesAsync();
                 var dto = await programService.GetProgramByIdAsync(model.Id);
                 return Ok(new ProgramViewModel(dto));

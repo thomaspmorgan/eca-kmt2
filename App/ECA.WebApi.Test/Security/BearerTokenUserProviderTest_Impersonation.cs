@@ -18,17 +18,16 @@ namespace ECA.WebApi.Test.Security
         private IDictionary<string, object> cacheDictionary;
         private int expectedTimeToLive = 10;
         private UserCacheService cacheService;
-        private InMemoryCamModel camModel;
         private Mock<IPermissionStore<IPermission>> permissionStore;
+        private Mock<IUserService> userService;
 
         [TestInitialize]
         public void TestInit()
-        {
-            
-            camModel = new InMemoryCamModel();
+        {   
             cacheDictionary = new Dictionary<string, object>();
             cache = new Mock<ObjectCache>();
             permissionStore = new Mock<IPermissionStore<IPermission>>();
+            userService = new Mock<IUserService>();
             Action<string, string> removeAction = (id, region) =>
             {
                 cacheDictionary.Remove(id);
@@ -60,14 +59,13 @@ namespace ECA.WebApi.Test.Security
 
         
         [TestMethod]
-        public void TestImpersonate()
+        public void TestImpersonate_ImpersonatedUserIsValid()
         {
             Guid impersonatorId = Guid.NewGuid();
             var isImpersonatorCamUserValid = false;            
-            var impersonatorCamUser = new TestCamUser
+            var impersonatorCamUser = new User
             {
                 PrincipalId = 1,
-                IsValid = isImpersonatorCamUserValid,
             };
             var impersonator = new SimpleUser{
                 Id = impersonatorId,
@@ -85,33 +83,44 @@ namespace ECA.WebApi.Test.Security
                     PermissionId = 1,
                     PrincipalId = 2,
                     ResourceId = 3
-                    
                 }
             };
-            var impersonatededCamUser = new TestCamUser
+            var impersonatedCamUser = new User
             {
                 PrincipalId = 2,
-                IsValid = isImpersonatedCamUserValid
             };
             var impersonatedUser = new SimpleUser{
                 Id = impersonatedId,
                 Username = "impersonated"
             };
             permissionStore.SetupProperty(x => x.Permissions, impersonatedUserPermissions);
-            var provider = new BearerTokenUserProvider(camModel, cacheService, permissionStore.Object);
-            BearerTokenUserProvider.UserFactory = (userId) => {
-
-                if (userId == impersonatorId)
+            Func<Guid, User> getUserById = (id) =>
+            {
+                if (id == impersonatorId)
                 {
                     return impersonatorCamUser;
                 }
                 else
                 {
-                    return impersonatededCamUser;
+                    return impersonatedCamUser;
                 }
             };
+            Func<Guid, bool> getIsUserValid = (id) =>
+            {
+                if (id == impersonatorId)
+                {
+                    return isImpersonatorCamUserValid;
+                }
+                else
+                {
+                    return isImpersonatedCamUserValid;
+                }
+            };
+            userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(getUserById);
+            userService.Setup(x => x.IsUserValid(It.IsAny<Guid>())).Returns(getIsUserValid);
+            cacheDictionary.Add(impersonatorId.ToString(), new UserCache(impersonatedUser, impersonatedCamUser, isImpersonatedCamUserValid, impersonatedUserPermissions));
 
-            cacheDictionary.Add(impersonatorId.ToString(), new UserCache(impersonatedUser, impersonatededCamUser, isImpersonatedCamUserValid, impersonatedUserPermissions));
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionStore.Object);
             provider.Impersonate(impersonator, impersonatedId);
 
             var userCache = provider.GetUserCache(impersonator);
@@ -122,16 +131,14 @@ namespace ECA.WebApi.Test.Security
             Assert.AreEqual(impersonator.Username, userCache.UserName);
             Assert.AreEqual(isImpersonatedCamUserValid, userCache.IsValidCamUser);
         }
-
         [TestMethod]
-        public async Task TestImpersonateAsync()
+        public async Task TestImpersonateAsync_ImpersonatedUserIsValid()
         {
             Guid impersonatorId = Guid.NewGuid();
             var isImpersonatorCamUserValid = false;
-            var impersonatorCamUser = new TestCamUser
+            var impersonatorCamUser = new User
             {
                 PrincipalId = 1,
-                IsValid = isImpersonatorCamUserValid,
             };
             var impersonator = new SimpleUser
             {
@@ -150,13 +157,11 @@ namespace ECA.WebApi.Test.Security
                     PermissionId = 1,
                     PrincipalId = 2,
                     ResourceId = 3
-                    
                 }
             };
-            var impersonatededCamUser = new TestCamUser
+            var impersonatedCamUser = new User
             {
                 PrincipalId = 2,
-                IsValid = isImpersonatedCamUserValid
             };
             var impersonatedUser = new SimpleUser
             {
@@ -164,21 +169,15 @@ namespace ECA.WebApi.Test.Security
                 Username = "impersonated"
             };
             permissionStore.SetupProperty(x => x.Permissions, impersonatedUserPermissions);
-            var provider = new BearerTokenUserProvider(camModel, cacheService, permissionStore.Object);
-            BearerTokenUserProvider.UserFactory = (userId) =>
-            {
+            
+            userService.Setup(x => x.GetUserByIdAsync(It.Is<Guid>((id) => id == impersonatedId))).ReturnsAsync(impersonatedCamUser);
+            userService.Setup(x => x.GetUserByIdAsync(It.Is<Guid>((id) => id == impersonatorId))).ReturnsAsync(impersonatorCamUser);
+            userService.Setup(x => x.IsUserValidAsync(It.Is<Guid>((id) => id == impersonatedId))).ReturnsAsync(isImpersonatedCamUserValid);
+            userService.Setup(x => x.IsUserValidAsync(It.Is<Guid>((id) => id == impersonatorId))).ReturnsAsync(isImpersonatorCamUserValid);
+            
+            cacheDictionary.Add(impersonatorId.ToString(), new UserCache(impersonatedUser, impersonatedCamUser, isImpersonatedCamUserValid, impersonatedUserPermissions));
 
-                if (userId == impersonatorId)
-                {
-                    return impersonatorCamUser;
-                }
-                else
-                {
-                    return impersonatededCamUser;
-                }
-            };
-
-            cacheDictionary.Add(impersonatorId.ToString(), new UserCache(impersonatedUser, impersonatededCamUser, isImpersonatedCamUserValid, impersonatedUserPermissions));
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionStore.Object);
             await provider.ImpersonateAsync(impersonator, impersonatedId);
 
             var userCache = provider.GetUserCache(impersonator);
@@ -188,6 +187,135 @@ namespace ECA.WebApi.Test.Security
             Assert.AreEqual(impersonator.Id, userCache.UserId);
             Assert.AreEqual(impersonator.Username, userCache.UserName);
             Assert.AreEqual(isImpersonatedCamUserValid, userCache.IsValidCamUser);
+        }
+
+
+
+
+
+        [TestMethod]
+        public void TestImpersonate_ImpersonatedUserIsNotValid()
+        {
+            Guid impersonatorId = Guid.NewGuid();
+            var isImpersonatorCamUserValid = false;
+            var impersonatorCamUser = new User
+            {
+                PrincipalId = 1,
+            };
+            var impersonator = new SimpleUser
+            {
+                Id = impersonatorId,
+                Username = "impersonator"
+            };
+            var impersonatorUserCache = new UserCache(impersonator, impersonatorCamUser, isImpersonatorCamUserValid);
+
+            Guid impersonatedId = Guid.NewGuid();
+            var isImpersonatedCamUserValid = false;
+            var impersonatedUserPermissions = new List<IPermission>
+            {
+                new CAM.Business.Service.Permission
+                {
+                    IsAllowed = true,
+                    PermissionId = 1,
+                    PrincipalId = 2,
+                    ResourceId = 3
+                }
+            };
+            var impersonatedCamUser = new User
+            {
+                PrincipalId = 2,
+            };
+            var impersonatedUser = new SimpleUser
+            {
+                Id = impersonatedId,
+                Username = "impersonated"
+            };
+            permissionStore.SetupProperty(x => x.Permissions, impersonatedUserPermissions);
+            Func<Guid, User> getUserById = (id) =>
+            {
+                if (id == impersonatorId)
+                {
+                    return impersonatorCamUser;
+                }
+                else
+                {
+                    return impersonatedCamUser;
+                }
+            };
+            Func<Guid, bool> getIsUserValid = (id) =>
+            {
+                if (id == impersonatorId)
+                {
+                    return isImpersonatorCamUserValid;
+                }
+                else
+                {
+                    return isImpersonatedCamUserValid;
+                }
+            };
+            userService.Setup(x => x.GetUserById(It.IsAny<Guid>())).Returns(getUserById);
+            userService.Setup(x => x.IsUserValid(It.IsAny<Guid>())).Returns(getIsUserValid);
+            cacheDictionary.Add(impersonatorId.ToString(), new UserCache(impersonatedUser, impersonatedCamUser, isImpersonatedCamUserValid, impersonatedUserPermissions));
+
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionStore.Object);
+            provider.Impersonate(impersonator, impersonatedId);
+
+            var userCache = provider.GetUserCache(impersonator);
+            Assert.IsNotNull(userCache);
+            Assert.AreEqual(0, userCache.Permissions.Count());
+}
+        [TestMethod]
+        public async Task TestImpersonateAsync_ImpersonatedUserIsNotValid()
+        {
+            Guid impersonatorId = Guid.NewGuid();
+            var isImpersonatorCamUserValid = false;
+            var impersonatorCamUser = new User
+            {
+                PrincipalId = 1,
+            };
+            var impersonator = new SimpleUser
+            {
+                Id = impersonatorId,
+                Username = "impersonator"
+            };
+            var impersonatorUserCache = new UserCache(impersonator, impersonatorCamUser, isImpersonatorCamUserValid);
+
+            Guid impersonatedId = Guid.NewGuid();
+            var isImpersonatedCamUserValid = false;
+            var impersonatedUserPermissions = new List<IPermission>
+            {
+                new CAM.Business.Service.Permission
+                {
+                    IsAllowed = true,
+                    PermissionId = 1,
+                    PrincipalId = 2,
+                    ResourceId = 3
+                }
+            };
+            var impersonatedCamUser = new User
+            {
+                PrincipalId = 2,
+            };
+            var impersonatedUser = new SimpleUser
+            {
+                Id = impersonatedId,
+                Username = "impersonated"
+            };
+            permissionStore.SetupProperty(x => x.Permissions, impersonatedUserPermissions);
+
+            userService.Setup(x => x.GetUserByIdAsync(It.Is<Guid>((id) => id == impersonatedId))).ReturnsAsync(impersonatedCamUser);
+            userService.Setup(x => x.GetUserByIdAsync(It.Is<Guid>((id) => id == impersonatorId))).ReturnsAsync(impersonatorCamUser);
+            userService.Setup(x => x.IsUserValidAsync(It.Is<Guid>((id) => id == impersonatedId))).ReturnsAsync(isImpersonatedCamUserValid);
+            userService.Setup(x => x.IsUserValidAsync(It.Is<Guid>((id) => id == impersonatorId))).ReturnsAsync(isImpersonatorCamUserValid);
+
+            cacheDictionary.Add(impersonatorId.ToString(), new UserCache(impersonatedUser, impersonatedCamUser, isImpersonatedCamUserValid, impersonatedUserPermissions));
+
+            var provider = new BearerTokenUserProvider(userService.Object, cacheService, permissionStore.Object);
+            await provider.ImpersonateAsync(impersonator, impersonatedId);
+
+            var userCache = provider.GetUserCache(impersonator);
+            Assert.IsNotNull(userCache);
+            Assert.AreEqual(0, userCache.Permissions.Count());
         }
     }
 }

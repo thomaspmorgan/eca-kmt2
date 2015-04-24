@@ -111,6 +111,7 @@
     <Compile Include="UserAccount.cs">
       <DependentUpon>Model2.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserAccount_Constants.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

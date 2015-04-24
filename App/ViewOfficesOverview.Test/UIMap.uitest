@@ -41,7 +41,7 @@
   </Configuration>
   <InitializeActions />
   <ExecuteActions>
-    <AssertAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow5.UIHttpsecakmtqaazureweDocument.UITopPane.UIECAOfficeDirectoryPane" ThinkTime="15000">
+    <AssertAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow5.UIHttpsecakmtqaazureweDocument.UITopPane.UIECAOfficeDirectoryPane" ThinkTime="3000">
       <ParameterName />
       <PropertyName>DisplayText</PropertyName>
       <ExpectedValue>ECA Office Directory</ExpectedValue>
@@ -95,7 +95,7 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <StringAssertAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow2.UIHttpsecakmtqaazureweDocument.UISortlistPane.UIShowing15of5officesPane" ThinkTime="15000">
+    <StringAssertAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow2.UIHttpsecakmtqaazureweDocument.UISortlistPane.UIShowing15of5officesPane" ThinkTime="5000">
       <ParameterName />
       <PropertyName>InnerText</PropertyName>
       <ExpectedValue>Showing 1 - 5 of 5 offices</ExpectedValue>
@@ -127,33 +127,9 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
     </TestStepMarkerAction>
     <NavigateToUrlAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
       <ParameterName />
-      <Url>about:Tabs</Url>
+      <Url>https://eca-kmt-qa.azurewebsites.net/</Url>
       <NewInstance>true</NewInstance>
     </NavigateToUrlAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="72" Y="8" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <SendKeysAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Text Encoded="false">https://eca-kmt-qa.azurewebsites.net/</Text>
-    </SendKeysAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="9" Y="13" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
     <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIECATest1statedeptusHyperlink">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
@@ -196,7 +172,7 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <NavigateToUrlAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow" ThinkTime="10000">
+    <NavigateToUrlAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow" ThinkTime="5000">
       <ParameterName />
       <Url>https://eca-kmt-qa.azurewebsites.net/#/alloffices#top</Url>
       <NewInstance>false</NewInstance>
@@ -210,7 +186,7 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow4.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton" ThinkTime="10000">
+    <MouseAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow4.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton" ThinkTime="3000">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
@@ -219,7 +195,7 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <MouseAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow4.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink" ThinkTime="10000">
+    <MouseAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow4.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink" ThinkTime="3000">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
@@ -229,6 +205,21 @@ The Directorate of Academic Programs is comprised of three offices: the Office o
       <MouseButton>Left</MouseButton>
     </MouseAction>
     <TestStepMarkerAction Comment="Expand content menu; select Office component link; allow time for site to resolve." MarkerInformation="NavigatetoECAOfficeDirectory_viaContentMenu">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <SendKeysAction UIObjectName="UIMap.UIHttpsecakmtqaazureweWindow6.UIAddressBarClient.UIAddressandsearchusinEdit">
+      <ParameterName />
+      <ModifierKeys>None</ModifierKeys>
+      <IsGlobalHotkey>false</IsGlobalHotkey>
+      <Text Encoded="false">{F5}</Text>
+    </SendKeysAction>
+    <TestStepMarkerAction Comment="Refresh/Reload browser." MarkerInformation="RefreshBrowser">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -1228,6 +1219,54 @@ Directorate of Academic Programs</PropertyCondition>
                       <Descendants />
                     </UIObject>
                   </Descendants>
+                </UIObject>
+              </Descendants>
+            </UIObject>
+          </Descendants>
+        </TopLevelWindow>
+        <TopLevelWindow ControlType="Window" Id="UIHttpsecakmtqaazureweWindow6" FriendlyName="https://eca-kmt-qa.azurewebsites.net/ - Internet E..." SpecialControlType="BrowserWindow" SessionId="1442890">
+          <TechnologyName>MSAA</TechnologyName>
+          <WindowTitles>
+            <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+          </WindowTitles>
+          <SearchConfigurations>
+            <SearchConfiguration>VisibleOnly</SearchConfiguration>
+          </SearchConfigurations>
+          <AndCondition Id="SearchCondition">
+            <PropertyCondition Name="Name">https://eca-kmt-qa.azurewebsites.net/</PropertyCondition>
+            <PropertyCondition Name="ClassName">IEFrame</PropertyCondition>
+            <PropertyCondition Name="ControlType">Window</PropertyCondition>
+          </AndCondition>
+          <SupportLevel>0</SupportLevel>
+          <Descendants>
+            <UIObject ControlType="Client" Id="UIAddressBarClient" FriendlyName="Address Bar" SpecialControlType="None">
+              <TechnologyName>MSAA</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+              </WindowTitles>
+              <SearchConfigurations>
+                <SearchConfiguration>VisibleOnly</SearchConfiguration>
+              </SearchConfigurations>
+              <AndCondition Id="SearchCondition">
+                <PropertyCondition Name="Name">Address Bar</PropertyCondition>
+                <PropertyCondition Name="ControlType">Client</PropertyCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Edit" Id="UIAddressandsearchusinEdit" FriendlyName="Address and search using Bing" SpecialControlType="None">
+                  <TechnologyName>MSAA</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <SearchConfigurations>
+                    <SearchConfiguration>VisibleOnly</SearchConfiguration>
+                  </SearchConfigurations>
+                  <AndCondition Id="SearchCondition">
+                    <PropertyCondition Name="Name">Address and search using Bing</PropertyCondition>
+                    <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
                 </UIObject>
               </Descendants>
             </UIObject>

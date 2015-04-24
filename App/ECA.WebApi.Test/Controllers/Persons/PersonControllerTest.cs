@@ -4,6 +4,7 @@ using ECA.Core.Service;
 using ECA.Data;
 using ECA.WebApi.Controllers.Persons;
 using ECA.WebApi.Models.Person;
+using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -19,13 +20,15 @@ namespace ECA.WebApi.Test.Controllers.Persons
     public class PersonControllerTest
     {
         private Mock<IPersonService> mock;
+        private Mock<IUserProvider> userProvider;
         private PeopleController controller;
         
         [TestInitialize]
         public void TestInit()
         {
             mock = new Mock<IPersonService>();
-            controller = new PeopleController(mock.Object);
+            userProvider = new Mock<IUserProvider>();
+            controller = new PeopleController(mock.Object, userProvider.Object);
             ControllerHelper.InitializeController(controller);
         }
 

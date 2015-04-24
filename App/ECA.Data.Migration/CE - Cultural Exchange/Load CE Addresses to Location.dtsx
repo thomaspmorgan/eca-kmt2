@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Load CE Addresses to Location"
   DTS:PackageType="5"
-  DTS:VersionBuild="7"
-  DTS:VersionGUID="{4491B9F7-1B5D-404E-AA4D-F9F09D394D79}">
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{59293090-8DE0-42F6-B3B3-3C833EAAF292}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA0wmCbTYhZP7wawlNCHLG+LhGdIhOsAw6/Tn63vWXTWwAAAAAOgAAAAAIAACAAAADzuP3o37ZlQ8EHotWHkdKflX8YRYATIPBqovIdsqOwaCAAAABLDEFJ+ZwoZZs53reilpmAiEf1iecKZmZu4IEwSGLyfEAAAAD49J6ljf3fK+cqY/y0a5M5OqY4nbZQKKuYUIucJy2/VH0YQg/wlFKOHzDiQ+UsPyregGRK+7fnqu7g/RwAv6bU</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABbHlEcHtcGgt/Ux1XbuJiojV1JqobItUGHku9kDS9FaQAAAAAOgAAAAAIAACAAAAC/dHqkSlit5FKHwtLUFAH9xrSTtPCiTCGq3a5p+4V2lSAAAABWPhHoeni8bUDKQ+d3WbMRWPb/DPNkv95Zii6cFV9b90AAAAArMLKlP1pW1uUZ25b3jB4J0DdVOiREmuOC40rRc+i9p1tZtN736bxn8quZH1nLxXjRiJ4IGQ4w40lIz0aUz/hX</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -42,7 +42,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAC9ISSH6GyKiR9bHiXhwpD6amcLxb98uzAAC0vFgnw60gAAAAAOgAAAAAIAACAAAACeXKZo6hXGNvv6m4fs2Uk4Zsu8qjb7jqMiMRqSZ62zLyAAAAD+RCT2cQ1he2RssZ2B6ngVpva4Sq+OFgGfC7UmFsdyuUAAAAA5XJDdZ5yMsca2HmCI9t/Gh/sIyvLOVA6v/zqlIcj6bNO3oNZE2LnMYdiit7rb5sJ+5hq+MKTAdmzhif1iWWsb</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABUhbCBiSTcmXGzBeh1PLChJeqfaLAW1U0WlGHiqwY/fgAAAAAOgAAAAAIAACAAAABvQoBUUGQzZC3sWtrKDJCna4XBha3z8i/L2K5feieHrSAAAAAgviUbrSOFYE2vEFjCrAZbVV8ei1FO2kBbcBaJdsiEk0AAAABowm+T4ObU8t5VRZroTFnoMRkdmlV8UFXKf9NZnXXtxZYknEw5cL9mJbVDlU6lP/v6BasY+pZfKYzAipTqJw7k</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -57,7 +57,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAyfvZ+NUL2vyN9+eOS0WoY8coQkFjTBDt9MOHNCHGxhAAAAAAOgAAAAAIAACAAAADL3QIVutnTKvJM9ZFrw+CV1OaBKpshgD5WkCLEVroisyAAAADDeBN724qK2TjRbiX//gHrHb4A397uh8moxn9SMqHp10AAAABbO/mV+qcmZ/k99wdMq9GbqrNZoONNdlgYQsO4sUu9jcHWdEeuD4Ou4v3SosDhMWGK5/1Zjfy0DrCTYX53nFEu</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAR1YLtmyXFkAKqIeTlgKp9MjpbxYamT3UHA4+x4OnTzgAAAAAOgAAAAAIAACAAAAAbGbfcqs3uTUtA/seHK2LGcJMsD6BR5QX+zXGIzmAcqyAAAACLguQEZX3xWGcV73eQcGLyPP5bdrDTNawZhGlx4JFDvkAAAACZK+5kyN4P/QPpXbikh6NiEGvEpBWj4dB+CCjQ8N9nBsYos6/z8Lbr3yl9n6b0veYadE23+XqwRG/fPqN0gi+q</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -72,7 +72,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADBAdr4xXhvNG7hA0aIEKgHbJfv3YnpWZIdgxy6Smw54AAAAAAOgAAAAAIAACAAAAAIteFPKYtJEpCugjzOV+Gs/ss+s8aKJfE9AlFScbiXcSAAAACSza5Mzvp2/++lHyjpCi2OoFTmXhrROBA9v6TO/P82JkAAAAAJOmMmDlh8Cppl55SxMVpkGSU/b3LgppJcpGlfm2sqGlDgtyk2aMyenFNgdmaMMDSfPabVsPmd2CwZBfUNq6QB</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADCh8LuoawyJHtKzykgzFcAUXECtgwOUKve/nuV9WyOSAAAAAAOgAAAAAIAACAAAACs/LqiauFFa1Z/7VqCbaftaeVejNmfG98DG8kS3eCiLSAAAADOGmJVTzJYSEHbxDTbMT1f52oW54YXN2Q1lX6tJfH8R0AAAABoupXBpFDb00IIFfIN6rjYN640FtUXbIUDtXoj7xr4/ccftq7c6op14kuy2LYNSZnbheA7BQKtonIAtDmJVECV</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -797,6 +797,20 @@
                       cachedName="AddressLocationTypeId"
                       externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
                       lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[AddressLocationTypeId]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[POSTAL_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="POSTAL_CD"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[PostalCode]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[POSTAL_CD]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].Columns[STATE_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STATE_CD"
+                      externalMetadataColumnId="Package\Load Address to Location Table\ECA Location.Inputs[OLE DB Destination Input].ExternalColumns[Division]"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[STATE_CD]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -1005,6 +1019,18 @@
                       cachedDataType="i4"
                       cachedName="AddressLocationTypeId"
                       lineageId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Outputs[Lookup Match Output].Columns[AddressLocationTypeId]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[POSTAL_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="POSTAL_CD"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[POSTAL_CD]" />
+                    <inputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Inputs[Aggregate Input 1].Columns[STATE_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STATE_CD"
+                      lineageId="Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[STATE_CD]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -1315,6 +1341,60 @@
                           name="AggregationComparisonFlags">0</property>
                       </properties>
                     </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[POSTAL_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[POSTAL_CD]"
+                      name="POSTAL_CD">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[POSTAL_CD]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[STATE_CD]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Address to Location Table\GROUP BY All.Outputs[Aggregate Output 1].Columns[STATE_CD]"
+                      name="STATE_CD">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Load Address to Location Table\CE_Address.Outputs[OLE DB Source Output].Columns[STATE_CD]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
@@ -1390,8 +1470,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load Address to Location Table\Lookup Address LocationTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1]"
-                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -2069,7 +2149,7 @@ where UPPER([refTable].[LocationName]) = ? and [refTable].[LocationTypeId] = ?</
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="56.6419466145833,-73.4940637111258,96.3827734375,11.609375"
+              BoundingBox="56.6419466145835,-73.4940637111258,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -2226,7 +2306,7 @@ where UPPER([refTable].[LocationName]) = ? and [refTable].[LocationTypeId] = ?</
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>

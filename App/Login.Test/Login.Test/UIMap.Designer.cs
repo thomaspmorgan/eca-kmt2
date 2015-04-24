@@ -36,49 +36,16 @@ namespace Login.Test
         public void LoginQA()
         {
             #region Variable Declarations
-            WinEdit uIAddressandsearchusinEdit1 = this.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit1;
-            WinEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit;
-            WinButton uIGotohttpsecakmtqaazuButton = this.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton;
             HtmlTable uIEcatest1_statedept_uTable = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable;
-            HtmlTable uIEcatest1_statedept_uTable1 = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable1;
-            HtmlCell uIECATest1statedeptusCell = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable1.UIECATest1statedeptusCell;
-            HtmlCustom uICredentialsCustom = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UICredentialsCustom;
             HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
             HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
             #endregion
 
-            // Go to web page 'about:Tabs' using new browser instance
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LoginQAParams.UINewtabInternetExplorWindowUrl));
-
-            // Click 'Address and search using Bing' text box
-            Mouse.Click(uIAddressandsearchusinEdit1, new Point(40, 7));
-
-            // Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-            Keyboard.SendKeys(uIItemEdit, this.LoginQAParams.UIItemEditSendKeys, ModifierKeys.None);
-
-            // Click 'Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt...' button
-            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(3, 8));
 
             // Click 'ecatest1_statedept_us' table
             Mouse.Click(uIEcatest1_statedept_uTable, new Point(65, 47));
-
-            // Set flag to allow play back to continue if non-essential actions fail. (For example, if a mouse hover action fails.)
-            Playback.PlaybackSettings.ContinueOnError = true;
-
-            // Mouse hover 'ecatest1_statedept_us' table at (1, 1)
-            Mouse.Hover(uIEcatest1_statedept_uTable1, new Point(1, 1));
-
-            // Mouse hover 'ECATest1@statedept.us' cell at (1, 1)
-            Mouse.Hover(uIECATest1statedeptusCell, new Point(1, 1));
-
-            // Mouse hover 'ecatest1_statedept_us' table at (1, 1)
-            Mouse.Hover(uIEcatest1_statedept_uTable1, new Point(1, 1));
-
-            // Mouse hover 'credentials' custom control at (1, 1)
-            Mouse.Hover(uICredentialsCustom, new Point(1, 1));
-
-            // Reset flag to ensure that play back stops if there is an error.
-            Playback.PlaybackSettings.ContinueOnError = false;
 
             // Type '********' in 'Password' text box
             uIPasswordEdit.Password = this.LoginQAParams.UIPasswordEditPassword;
@@ -179,14 +146,9 @@ namespace Login.Test
         
         #region Fields
         /// <summary>
-        /// Go to web page 'about:Tabs' using new browser instance
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
         /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "about:Tabs";
-        
-        /// <summary>
-        /// Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-        /// </summary>
-        public string UIItemEditSendKeys = "https://eca-kmt-qa.azurewebsites.net/";
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
         
         /// <summary>
         /// Type '********' in 'Password' text box

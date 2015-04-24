@@ -15,6 +15,14 @@ angular.module('staticApp')
                   type: resourceType,
                   id: id
               }, 'auth/user/permissions');
+          },
+
+          getUserInfo: function(){
+              return DragonBreath.get('auth/user');
+          },
+
+          register: function () {
+              return DragonBreath.create({}, 'auth/user/register');
           }
       };
 

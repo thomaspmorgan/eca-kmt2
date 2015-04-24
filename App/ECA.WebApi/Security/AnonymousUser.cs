@@ -9,7 +9,7 @@ namespace ECA.WebApi.Security
     /// <summary>
     /// An Anonymous user is a default user when Azure has not authenticated the curren tuser.
     /// </summary>
-    public class AnonymousUser : WebApiUserBase
+    public class AnonymousUser : IWebApiUser
     {
         /// <summary>
         /// The username of an anonymous user.
@@ -25,23 +25,26 @@ namespace ECA.WebApi.Security
         }
 
         /// <summary>
-        /// Returns false.  An anonymous user never has permission.
+        /// Gets the user's Id.
         /// </summary>
-        /// <param name="requestedPermission">The requested permission.</param>
-        /// <param name="allUserPermissions">The user's current permissions.</param>
-        /// <returns>Returns false.</returns>
-        public override bool HasPermission(IPermission requestedPermission, IEnumerable<IPermission> allUserPermissions)
-        {
-            return false;
-        }
+        public Guid Id { get; private set; }
 
         /// <summary>
         /// Returns the anonymous username.
         /// </summary>
         /// <returns>The anonymous username.</returns>
-        public override string GetUsername()
+        public string GetUsername()
         {
             return ANONYMOUS_USER_NAME;
+        }
+
+        /// <summary>
+        /// Throws an exception an anonymous user should never be inserted into the cam.
+        /// </summary>
+        /// <returns>Throws an Exception.</returns>
+        public CAM.Business.Model.AzureUser ToAzureUser()
+        {
+            throw new NotSupportedException("This method should not be executed.  An anonymous user must not be inserted into CAM.");
         }
     }
 }

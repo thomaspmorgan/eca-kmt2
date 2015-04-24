@@ -19,5 +19,10 @@
     [RevokedDate] DATETIMEOFFSET NULL, 
     [RestoredDate] DATETIMEOFFSET NULL, 
     CONSTRAINT [FK_UserAccount_ToPrincipal] FOREIGN KEY ([PrincipalId]) REFERENCES [CAM].[Principal]([PrincipalId]), 
-    CONSTRAINT [FK_UserAccount_ToAccountStatus] FOREIGN KEY ([AccountStatusId]) REFERENCES [CAM].[AccountStatus]([AccountStatusId])
+    CONSTRAINT [FK_UserAccount_ToAccountStatus] FOREIGN KEY ([AccountStatusId]) REFERENCES [CAM].[AccountStatus]([AccountStatusId]), 
+    CONSTRAINT [CK_UserAccount_UniqueAdGuid] UNIQUE([AdGuid])
 )
+
+GO
+
+CREATE INDEX [IX_UserAccount_AdGuid] ON [CAM].[UserAccount] ([AdGuid])

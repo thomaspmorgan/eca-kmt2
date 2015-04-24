@@ -51,6 +51,7 @@ namespace ViewOffices_ProgramsandBranches.Test
             this.UIMap.SelectBranchesandProgramsTab();
             this.UIMap.AssertIndividualOffice_BranchList();
             this.UIMap.AssertSearchProgramsTextBox();
+            this.UIMap.RefreshBranchesandProgramsTab();
             this.UIMap.AssertSubProgramIndent();
             this.UIMap.AssertIndividualOffice_Program();
             this.UIMap.AssertIndividualOffice_ProgramNameDescription();
@@ -58,8 +59,8 @@ namespace ViewOffices_ProgramsandBranches.Test
             //begin second office test
             this.UIMap.NavigatetoOfficeDirectory();
             //refresh page to load and attempt to navigate again on no action from NavigatetoOfficeDirectory method
-            this.UIMap.RefreshBranchesandProgramsTab();
-            this.UIMap.NavigatetoOfficeDirectory();
+            /*this.UIMap.RefreshBranchesandProgramsTab();
+            this.UIMap.NavigatetoOfficeDirectory();*/
             this.UIMap.AssertSearchOfficesTextBox_SecOffice();
             this.UIMap.SearchOfficesTextInput_SecOffice();
             this.UIMap.RefreshECAOfficeDirectory();

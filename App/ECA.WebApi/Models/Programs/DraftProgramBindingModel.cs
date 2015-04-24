@@ -85,12 +85,12 @@ namespace ECA.WebApi.Models.Programs
         /// <summary>
         /// Returns a DraftProgram business entity from this binding model.
         /// </summary>
-        /// <param name="userId">The id of the user making the change.</param>
+        /// <param name="user">The user making the change.</param>
         /// <returns>The draft program.</returns>
-        public DraftProgram ToDraftProgram(int userId)
+        public DraftProgram ToDraftProgram(ECA.Business.Service.User user)
         {
             return new DraftProgram(
-                createdBy: new ECA.Business.Service.User(userId),
+                createdBy: user,
                 name: this.Name,
                 description: this.Description,
                 startDate: this.StartDate,

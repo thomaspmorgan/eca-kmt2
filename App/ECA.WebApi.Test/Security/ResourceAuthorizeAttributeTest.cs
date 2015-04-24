@@ -16,21 +16,6 @@ using System.Collections.Generic;
 
 namespace ECA.WebApi.Test.Security
 {
-    public class TestUser : DebugWebApiUser
-    {
-        public int HasPermissionCount { get; set; }
-
-        public TestUser() : base() { }
-
-        public bool UserHasPermission { get; set; }
-
-        public override bool HasPermission(CAM.Business.Service.IPermission requestedPermission, System.Collections.Generic.IEnumerable<CAM.Business.Service.IPermission> allUserPermissions)
-        {
-            HasPermissionCount++;
-            return UserHasPermission;
-        }
-    }
-
     [TestClass]
     public class ResourceAuthorizeAttributeTest
     {
@@ -116,37 +101,13 @@ namespace ECA.WebApi.Test.Security
         }
 
         [TestMethod]
-        public async Task TestConstructor_OnActionExecutingAsync_CheckPermissionsIterated()
-        {
-            var id = 1;
-            var permissionName = "Read";
-            var resourceType = "Program";
-            var user = GetTestUser();
-            user.UserHasPermission = true;
-            userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
-            userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
-            permissionStore.Setup(x => x.GetPermissionIdByName(It.IsAny<string>())).Returns(1);
-            permissionStore.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
-            permissionStore.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(id);
-
-            var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
-            var actionContext = ContextUtil.CreateActionContext();
-            actionContext.RequestContext.Principal = Thread.CurrentPrincipal;
-
-            var cts = new CancellationTokenSource();
-            Assert.AreEqual(0, user.HasPermissionCount);
-            await attribute.OnActionExecutingAsync(actionContext, cts.Token);
-            Assert.AreEqual(1, user.HasPermissionCount);
-        }
-
-        [TestMethod]
         public async Task TestConstructor_OnActionExecutingAsync_UserHasPermission()
         {
             var id = 1;
             var permissionName = "Read";
             var resourceType = "Program";
             var user = GetTestUser();
-            user.UserHasPermission = true;
+            
             var infoMessage = string.Empty;
             Action<string, object[]> infoCallback = (fmt, objParams) =>
             {
@@ -158,6 +119,7 @@ namespace ECA.WebApi.Test.Security
             permissionStore.Setup(x => x.GetPermissionIdByName(It.IsAny<string>())).Returns(1);
             permissionStore.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
             permissionStore.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(id);
+            permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(true);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
             var actionContext = ContextUtil.CreateActionContext();
@@ -176,9 +138,9 @@ namespace ECA.WebApi.Test.Security
             var permissionName = "Read";
             var resourceType = "Program";
             var user = GetTestUser();
-            user.UserHasPermission = true;
             userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
             userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(false);
+            permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(true);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
             var actionContext = ContextUtil.CreateActionContext();
@@ -210,12 +172,12 @@ namespace ECA.WebApi.Test.Security
                 var permissionName = "Read";
                 var resourceType = "Program";
                 var user = GetTestUser();
-                user.UserHasPermission = false;
                 userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
                 userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
                 permissionStore.Setup(x => x.GetPermissionIdByName(It.IsAny<string>())).Returns(1);
                 permissionStore.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
                 permissionStore.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(id);
+                permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(false);
 
                 var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
                 var actionContext = ContextUtil.CreateActionContext();
@@ -243,11 +205,11 @@ namespace ECA.WebApi.Test.Security
             var permissionName = "Read";
             var resourceType = "Program";
             var user = GetTestUser();
-            user.UserHasPermission = true;
             userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
             permissionStore.Setup(x => x.GetPermissionIdByName(It.IsAny<string>())).Returns(1);
             permissionStore.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(default(int?));
             permissionStore.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(id);
+            permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(true);
             userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
@@ -278,13 +240,13 @@ namespace ECA.WebApi.Test.Security
             var permissionName = "Read";
             var resourceType = "Program";
             var user = GetTestUser();
-            user.UserHasPermission = true;
             var warningMessage = string.Empty;
 
             userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
             permissionStore.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
             permissionStore.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(default(int?));
             permissionStore.Setup(x => x.GetPermissionIdByName(It.IsAny<string>())).Returns(1);
+            permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(true);
             userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
@@ -308,11 +270,11 @@ namespace ECA.WebApi.Test.Security
             var user = GetTestUser();
             var warningMessage = string.Empty;
 
-            user.UserHasPermission = true;
             userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
             permissionStore.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
             permissionStore.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(0);
             permissionStore.Setup(x => x.GetPermissionIdByName(It.IsAny<string>())).Returns(1);
+            permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(true);
             userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
 
             var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
@@ -323,47 +285,11 @@ namespace ECA.WebApi.Test.Security
             var cts = new CancellationTokenSource();
             await attribute.OnActionExecutingAsync(actionContext, cts.Token);
             Assert.AreEqual(AuthorizationResult.ResourceDoesNotExist, attribute.GetAuthorizationResult());
-
         }
 
-        [TestMethod]
-        public async Task TestConstructor_OnActionExecutingAsync_RequestedPermissionDoesNotExist()
+        private DebugWebApiUser GetTestUser()
         {
-            var id = 1;
-            var actionArgument = "id";
-            var permissionName = "Read";
-            var resourceType = "Program";
-            var user = GetTestUser();
-            user.UserHasPermission = true;
-            userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
-            permissionStore.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
-            permissionStore.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(1);
-            permissionStore.Setup(x => x.GetPermissionIdByName(It.IsAny<string>())).Returns(0);
-            userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
-
-            var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, actionArgument);
-            var actionContext = ContextUtil.CreateActionContext();
-            actionContext.RequestContext.Principal = Thread.CurrentPrincipal;
-            actionContext.ActionArguments.Add(actionArgument, id);
-            var exceptionCaught = false;
-            try
-            {
-                var cts = new CancellationTokenSource();
-                await attribute.OnActionExecutingAsync(actionContext, cts.Token);
-            }
-            catch (NotSupportedException e)
-            {
-                Assert.AreEqual(String.Format("The requested permission [{0}] does not exist in CAM.", permissionName), e.Message);
-                exceptionCaught = true;
-            }
-            Assert.IsTrue(exceptionCaught);
-
-
-        }
-
-        private TestUser GetTestUser()
-        {
-            var debugUser = new TestUser();
+            var debugUser = new DebugWebApiUser();
             var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(debugUser.GetClaims(), "Bearer"));
             Thread.CurrentPrincipal = claimsPrincipal;
             return debugUser;
