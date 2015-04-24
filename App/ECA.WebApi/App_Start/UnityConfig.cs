@@ -4,6 +4,7 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
+using ECA.Business.Service.Reports;
 using ECA.Business.Validation;
 using ECA.Core.Generation;
 using ECA.Data;
@@ -70,6 +71,7 @@ namespace ECA.WebApi
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IGenderService, GenderService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusCategoryService, FocusCategoryService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
 
         }
 

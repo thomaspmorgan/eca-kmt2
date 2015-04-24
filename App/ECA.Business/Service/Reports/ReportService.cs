@@ -26,18 +26,18 @@ namespace ECA.Business.Service.Reports
         }
 
         #region Get
-        public IQueryable<ProjectAwardDTO> GetProjectAwards(int year, int countryId)
+        public IQueryable<ProjectAwardDTO> GetProjectAwards(int programId, int countryId)
         {
-            logger.Trace("Getting Project Awards for Year: [{0}], CountryId [{0}]", year, countryId);
-            return this.GetProjectAwardDTOQuery(year, countryId);
+            logger.Trace("Getting Project Awards for Program: [{0}], CountryId [{1}]", programId, countryId);
+            return this.GetProjectAwardDTOQuery(programId, countryId);
         }
 
         #endregion
 
         #region Queries
-        protected IQueryable<ProjectAwardDTO> GetProjectAwardDTOQuery(int year, int countryId)
+        protected IQueryable<ProjectAwardDTO> GetProjectAwardDTOQuery(int programId, int countryId)
         {
-            return ReportQueries.CreateGetProjectAward(this.Context, year, countryId);
+            return ReportQueries.CreateGetProjectAward(this.Context, programId, countryId);
         }
         #endregion
     }
