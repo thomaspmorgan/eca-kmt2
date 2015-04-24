@@ -53,6 +53,11 @@
     <modal-dialog class="search-modal" show="spotlightModal" dialog-title="" on-close="modalClear()" main-model="newParticipant">
         <searchbar ng-model="text" show="show"></searchbar>
     </modal-dialog>
+    <modal-dialog show="accountErrorView.showError" dialog-title="Error Creating Account" main-model="accountErrorView" before-close="closeRegisterUserFailureModal()">
+        <div>
+            There was an error registering your user account.
+        </div>
+    </modal-dialog>
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -67,23 +72,28 @@
                 <div style="margin-right: 50px;" class="navbar-right right">
                     <div id="search-bar-icon" class="glyphicon glyphicon-search col-sd-1" ng-click="spotlightModal=!spotlightModal"></div>
                 </div>
-                <span style="margin-right: 10px; margin-top:15px;" 
-                      class="dropdown pull-right" 
-                      dropdown on-toggle="userMenuToggled(open)" 
-                      ng-show="userInfo.isAuthenticated" 
-                      data-ng-model="userInfo">
-                    <a href class="dropdown-toggle" dropdown-toggle>
-                        {{userInfo.profile.name}}
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" ng-click="logout()">Logout</a></li>
-                    </ul>
-                </span>
+                <div style="margin-right: 15px;margin-top:14px;" class="spinner pull-right" ng-show="currentUser.isRegistering">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <div ng-show="!currentUser.isRegistering">
+                    <span style="margin-right: 15px;margin-top:14px;"
+                          class="dropdown pull-right"
+                          dropdown on-toggle="userMenuToggled(open)"
+                          ng-show="userInfo.isAuthenticated"
+                          data-ng-model="userInfo">
+                        <a href class="dropdown-toggle" dropdown-toggle>
+                            {{userInfo.profile.name}}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" ng-click="logout()">Logout</a></li>
+                        </ul>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
-
-
 
     <div ui-view id="top" autoscroll="true"></div>
 
@@ -173,7 +183,6 @@
     <script src="scripts/controllers/settings.js"></script>
     <script src="scripts/controllers/participants.js"></script>
     <script src="scripts/controllers/programs.js"></script>
-    <script src="scripts/controllers/register.js"></script>
     <script src="scripts/services/dragonbreath.js"></script>
     <script src="scripts/modules/modal.js"></script>
     <script src="scripts/directives/form-element.js"></script>
@@ -198,6 +207,7 @@
     <script src="scripts/services/moneyflow.js"></script>
     <script src="scripts/services/tableservice.js"></script>
     <script src="scripts/services/lookupservice.js"></script>
+    <script src="scripts/services/registerusereventservice.js"></script>
     <script src="scripts/services/office.js"></script>
     <script src="scripts/services/forbiddeninterceptor.js"></script>
     <!-- endbuild -->

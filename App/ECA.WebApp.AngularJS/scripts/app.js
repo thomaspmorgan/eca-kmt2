@@ -86,14 +86,6 @@ angular
             controller: 'AboutCtrl',
             requireADLogin: true
         })
-          .state('register', {
-              url: '/register',
-              templateUrl: 'views/register.html',
-              controller: 'RegisterCtrl',
-              requireADLogin: true
-          })
-
-
         // .state('list', {
         //   url: 
         // })
@@ -398,8 +390,10 @@ angular
         });
       $httpProvider.interceptors.push('ForbiddenInterceptor');
   })
-  .run(['$rootScope', '$location', '$state', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService',
-    function ($rootScope, $location, $state, editableOptions, $anchorScroll, LogoutEventService, ConstantsService) {
+  .run(['$rootScope', '$location', '$state', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService',
+    function ($rootScope, $location, $state, editableOptions, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService) {
+
+        console.assert(RegisterUserEventService, "The RegisterUserEventService is needed so that we can register on rootscope the handler to automatically register the user.");
         editableOptions.theme = 'bs3';
         $rootScope.rootStates = [
           { name: 'Home', state: 'home.shortcuts' },
@@ -412,6 +406,7 @@ angular
         ];
 
         var leftOpen = false;
+
         $rootScope.pushMenu = function ($event) {
             var self = $event.target;
             self.classList.toggle('active');
@@ -454,11 +449,27 @@ angular
             
         };
 
+        $rootScope.currentUser = {};
+        $rootScope.currentUser.isRegistering = false;
+        $rootScope.accountErrorView = {};
+        $rootScope.accountErrorView.showError = false;
+        $rootScope.$on(ConstantsService.registeringUserEventName, function () {
+            $rootScope.currentUser.isRegistering = true;
+        });
+        $rootScope.$on(ConstantsService.registerUserFailureEventName, function () {
+            $rootScope.accountErrorView.showError = true;
+            $rootScope.currentUser.isRegistering = false;
+        });
+        $rootScope.$on(ConstantsService.registerUserSuccessEventName, function () {
+            $rootScope.currentUser.isRegistering = false;
+        });
+        $rootScope.closeRegisterUserFailureModal = function () {
+            $rootScope.accountErrorView.showError = false;
+        }
 
         $rootScope.$on('$routeChangeSuccess', function () {
             $location.hash('top');
             $anchorScroll();
-
         });
 
         $rootScope.$on('$routeChangeError', function (event, current, previous, eventObj) {
@@ -481,4 +492,5 @@ angular
         });
 
         $rootScope.spotlightModal = false;
+        
     }]);

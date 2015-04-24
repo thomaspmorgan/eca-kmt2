@@ -133,7 +133,6 @@
     </Content>
     <Content Include="scripts\controllers\project\overview.js" />
     <Content Include="scripts\controllers\project\overview_test.js" />
-    <Content Include="scripts\controllers\register.js" />
     <Content Include="scripts\controllers\simple_test.js" />
     <Content Include="scripts\directives\datepickerpopup.js" />
     <Content Include="scripts\filters\highlight.js" />
@@ -147,6 +146,7 @@
     <Content Include="scripts\services\moneyflow.js" />
     <Content Include="scripts\services\office.js" />
     <Content Include="scripts\services\person.js" />
+    <Content Include="scripts\services\registerusereventservice.js" />
     <Content Include="scripts\services\tableservice.js" />
     <Content Include="scripts\services\lookupservice.js" />
     <Content Include="styles\main.css">
@@ -166,7 +166,6 @@
     <Content Include="styles\_static.scss" />
     <Content Include="styles\_table.scss" />
     <Content Include="styles\_variables.scss" />
-    <Content Include="views\register.html" />
     <Content Include="views\office\test.hs" />
     <Content Include="views\program\activity.html.orig" />
     <Content Include="views\program\moneyflow.html.orig" />

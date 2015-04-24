@@ -31,8 +31,7 @@ angular.module('staticApp')
           },
 
           logOut: function () {
-              debugger;
-              //adalAuthenticationService.logOut();
+              adalAuthenticationService.logOut();
           }
       };
       return service;

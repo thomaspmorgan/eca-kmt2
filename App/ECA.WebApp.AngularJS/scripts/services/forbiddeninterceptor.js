@@ -14,12 +14,12 @@ angular.module('staticApp')
         service.responseError = function (response) {
             var AuthService = $injector.get('AuthService');
             var $q = $injector.get('$q');
-            var rScope = $injector.get('$rootScope');
+            var rootScope = $injector.get('$rootScope');
             
             if (response.status === 403) {
                 debugger;
                 var $state = $injector.get('$state');
-                var adalUserInfo = rScope.userInfo;
+                var adalUserInfo = rootScope.userInfo;
                 console.assert(adalUserInfo, "The adal user info must be defined.");
                 if (adalUserInfo.isAuthenticated) {
                     $q.when(AuthService.getUserInfo())

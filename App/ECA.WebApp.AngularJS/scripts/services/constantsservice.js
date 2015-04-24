@@ -63,6 +63,7 @@
 			program: 3,
 			project: 4
 		},
+		adalLoginSuccessEventName: 'adal:loginSuccess',
 		editProjectEventName: 'EditProject',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		equalComparisonType: 'eq',
@@ -74,6 +75,9 @@
 		likeComparisonType: 'like',
 		logoutEventName: 'logout',
 		notInComparisonType: 'notin',
+		registeringUserEventName: 'registeringUser',
+		registerUserFailureEventName: 'registerUserFailure',
+		registerUserSuccessEventName: 'registerUserSuccess',
 		searchDelimiter: ' '
 	};
 });
