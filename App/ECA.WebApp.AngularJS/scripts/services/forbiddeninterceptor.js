@@ -6,39 +6,17 @@
 angular.module('staticApp')
     .factory('ForbiddenInterceptor', function ($injector) {
         var service = this;
-
         service.request = function (config) {
             return config;
         };
-
         service.responseError = function (response) {
-            var AuthService = $injector.get('AuthService');
             var $q = $injector.get('$q');
-            var rootScope = $injector.get('$rootScope');
-            
-            if (response.status === 403) {
-                debugger;
-                var $state = $injector.get('$state');
-                var adalUserInfo = rootScope.userInfo;
-                console.assert(adalUserInfo, "The adal user info must be defined.");
-                if (adalUserInfo.isAuthenticated) {
-                    $q.when(AuthService.getUserInfo())
-                    .then(function (userInfoResponse) {
-                        var data = userInfoResponse.data;
-                        if (!data.isRegistered) {
-                            return $q.resolve($state.go('register'));
-                        }
-                        else {
-                            console.log('user is registered, user does not have permission.');
-                            return $q.reject(response);
-                        }
-                    }, function (infoErrorResponse) {
-                        return $q.reject('Unable to return user info.');
-                    });
-                }
-                else {
-                    $q.reject(response);
-                }
+            var notificationService = $injector.get('NotificationService');
+            if (response.status === 403) {               
+                notificationService.showErrorMessage('You are not authorized to view this resource.');
+            }
+            else if (response.status === 500) {
+                notificationService.showErrorMessage('A system error has occurred, we apologize for the inconvience.');
             }
             return $q.reject(response);
         };

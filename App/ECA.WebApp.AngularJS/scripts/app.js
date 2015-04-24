@@ -390,8 +390,8 @@ angular
         });
       $httpProvider.interceptors.push('ForbiddenInterceptor');
   })
-  .run(['$rootScope', '$location', '$state', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService',
-    function ($rootScope, $location, $state, editableOptions, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService) {
+  .run(['$rootScope', '$location', '$state', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
+    function ($rootScope, $location, $state, editableOptions, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
 
         console.assert(RegisterUserEventService, "The RegisterUserEventService is needed so that we can register on rootscope the handler to automatically register the user.");
         editableOptions.theme = 'bs3';
@@ -449,6 +449,12 @@ angular
             
         };
 
+        $rootScope.notifications = [];
+        $rootScope.areAlertsCollapsed = true;
+        $rootScope.closeAlert = function (index) {
+            NotificationService.removeAlert(index);
+        }
+
         $rootScope.currentUser = {};
         $rootScope.currentUser.isRegistering = false;
         $rootScope.accountErrorView = {};
@@ -459,9 +465,11 @@ angular
         $rootScope.$on(ConstantsService.registerUserFailureEventName, function () {
             $rootScope.accountErrorView.showError = true;
             $rootScope.currentUser.isRegistering = false;
+            NotificationService.showErrorMessage('This was an error registering your user account in this application.');
         });
         $rootScope.$on(ConstantsService.registerUserSuccessEventName, function () {
             $rootScope.currentUser.isRegistering = false;
+            NotificationService.showInfoMessage('This is your first visit to the application!  You have been successfully registered.');
         });
         $rootScope.closeRegisterUserFailureModal = function () {
             $rootScope.accountErrorView.showError = false;
