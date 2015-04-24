@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectOverviewCtrl', function ($scope, $stateParams, $q, $log, $timeout, ProjectService, ProgramService, TableService, LookupService, ConstantsService, AuthService) {
+  .controller('ProjectOverviewCtrl', function ($scope, $stateParams, $q, $log, $timeout, ProjectService, ProgramService, TableService, LookupService, ConstantsService, AuthService, NotificationService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -204,17 +204,18 @@ angular.module('staticApp')
       }
 
       function showSaveSuccess() {
-          showMessage('success', 'Successfully saved project changes.');
+          //showMessage('success', 'Successfully saved project changes.');
+          NotificationService.showSuccessMessage('Successfully saved project changes.');
       }
 
-      function showUnauthorizedMessage() {
-          showMessage('danger', 'You are not authorized to view this project.');
-      }
+      //function showUnauthorizedMessage() {
+      //    showMessage('danger', 'You are not authorized to view this project.');
+      //}
 
-      function showMessage(type, message) {
-          $scope.view.areAlertsCollapsed = false;
-          $scope.view.notifications.push({ type: type, msg: message });
-      }
+      //function showMessage(type, message) {
+      //    $scope.view.areAlertsCollapsed = false;
+      //    $scope.view.notifications.push({ type: type, msg: message });
+      //}
 
       var maxLimit = 300;
       function loadProjectStati() {

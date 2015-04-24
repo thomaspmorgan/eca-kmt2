@@ -92,11 +92,12 @@
                     </span>
                 </div>
             </div>
+            <div collapse="areAlertsCollapsed">
+                <alert ng-repeat="notification in notifications" type="{{notification.type}}" close="closeAlert($index)">{{notification.msg}}</alert>
+            </div>
         </div>
     </div>
-
     <div ui-view id="top" autoscroll="true"></div>
-
     <div class="footer">
         <div class="top">
             <p>
@@ -207,6 +208,7 @@
     <script src="scripts/services/moneyflow.js"></script>
     <script src="scripts/services/tableservice.js"></script>
     <script src="scripts/services/lookupservice.js"></script>
+    <script src="scripts/services/notificationservice.js"></script>
     <script src="scripts/services/registerusereventservice.js"></script>
     <script src="scripts/services/office.js"></script>
     <script src="scripts/services/forbiddeninterceptor.js"></script>
