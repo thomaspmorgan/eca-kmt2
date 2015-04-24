@@ -193,6 +193,8 @@ angular.module('staticApp')
 
           setupNewParticipant();
 
+          console.log($scope.newParticipant);
+
           PersonService.create($scope.newParticipant)
             .then(function () {
                 $scope.participantsLoading = true;
@@ -205,8 +207,12 @@ angular.module('staticApp')
                         $scope.project.participants = data.results;
                         $scope.participantsLoading = false;
                     });
+                displaySuccess();
+            }, function (error) {
+                if (error.status == 400) {
+                    displayError(error.data);
+                }
             });
-
           $scope.modalClose();
       };
       
@@ -219,6 +225,21 @@ angular.module('staticApp')
                $scope.newParticipant.countriesOfCitizenship.map(function (obj) {
                    return obj.id;
                });
+      };
+
+      function displaySuccess() {
+          $scope.modal.addParticipantResult = true;
+          $scope.result = {};
+          $scope.result.title = "Person Created";
+          $scope.result.subtitle = "The person was created successfully!";
+      };
+
+      function displayError(error) {
+          $scope.modal.addParticipantResult = true;
+          $scope.result = {};
+          $scope.result.title = "Error Creating Person";
+          $scope.result.subtitle = "There was an error creating the new person.";
+          $scope.result.error = error;
       };
 
       $scope.saveProject = function () {

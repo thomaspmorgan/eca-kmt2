@@ -12,10 +12,10 @@ angular.module('staticApp')
         };
 
         service.responseError = function (response) {
+            var $q = $injector.get('$q');
             if (response.status === 401) {
                 var AuthService = $injector.get('AuthService');
                 var $state = $injector.get('$state');
-                var $q = $injector.get('$q');
                 $q.when(AuthService.getUserInfo())
                 .then(function (response) {
                     var data = response.data;
@@ -36,7 +36,7 @@ angular.module('staticApp')
                     console.log('unable to get user info.');
                 });
             }
-            return response;
+            return $q.reject(response);
         };
         return service;
     })
