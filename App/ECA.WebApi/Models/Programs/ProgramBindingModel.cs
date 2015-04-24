@@ -35,19 +35,19 @@ namespace ECA.WebApi.Models.Programs
         /// The row version of the program.
         /// </summary>
         [Required]
-        [RegularExpression(BASE64_REGULAR_EXPRESSION, ErrorMessage="The given row version is not a valid base 64 string.")]
+        [RegularExpression(BASE64_REGULAR_EXPRESSION, ErrorMessage = "The given row version is not a valid base 64 string.")]
         public string RowVersion { get; set; }
 
         /// <summary>
         /// Returns a business entity capable of updating system programs.
         /// </summary>
-        /// <param name="userId">The user performing the update.</param>
+        /// <param name="user">The user making the change.</param>
         /// <returns>The EcaProgram business entity.</returns>
-        public EcaProgram ToEcaProgram(int userId)
+        public EcaProgram ToEcaProgram(Business.Service.User user)
         {
             Contract.Assert(this.RowVersion != null, "The row version must not be null.");
             return new EcaProgram(
-                updatedBy: new Business.Service.User(userId),
+                updatedBy: user,
                 id: this.Id,
                 name: this.Name,
                 description: this.Description,
@@ -62,7 +62,9 @@ namespace ECA.WebApi.Models.Programs
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,
                 themeIds: this.Themes,
-                regionIds: this.Regions
+                regionIds: this.Regions,
+                categoryIds: this.Categories,
+                objectiveIds: this.Objectives
                 );
         }
 

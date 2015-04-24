@@ -6,7 +6,7 @@ using System.Web.Http.Filters;
 namespace ECA.WebApi.Custom.Filters
 {
     /// <summary>
-    /// A ModelNotFoundExceptionFilter is used when a ModelNotFoundException is unhandled.
+    /// A UnknownStaticLookupExceptionFilter is used when a static lookup exception is unhandled.
     /// </summary>
     public class UnknownStaticLookupExceptionFilter : ExceptionFilterAttribute
     {

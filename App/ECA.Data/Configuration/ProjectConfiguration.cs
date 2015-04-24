@@ -77,14 +77,14 @@ namespace ECA.Data.Configuration
                     p.MapRightKey("ContactId");
                     p.ToTable("ProjectContact");
                 });
-            HasMany(p => p.FocusCategories).WithMany(t => t.Projects)
+            HasMany(p => p.Categories).WithMany(t => t.Projects)
                 .Map(p =>
                 {
                     p.MapLeftKey("ProgramId");
                     p.MapRightKey("CategoryId");
                     p.ToTable("ProjectCategory");
                 });
-            HasMany(p => p.JustificationObjectives).WithMany(t => t.Projects)
+            HasMany(p => p.Objectives).WithMany(t => t.Projects)
               .Map(p =>
               {
                   p.MapLeftKey("ProgramId");

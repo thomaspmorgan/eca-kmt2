@@ -22,12 +22,28 @@
 		ValueColumnName = "PermissionName",
 		Namespace = nameSpace
 	});
-		types.Add(new StaticLookupConfig
+	types.Add(new StaticLookupConfig
 	{
 		TableName = "cam.ResourceType",
 		ClassName = "ResourceType",
 		IdColumnName = "ResourceTypeId",
 		ValueColumnName = "ResourceTypeName",
+		Namespace = nameSpace
+	});
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "cam.PrincipalType",
+		ClassName = "PrincipalType",
+		IdColumnName = "PrincipalTypeId",
+		ValueColumnName = "PrincipalTypeName",
+		Namespace = nameSpace
+	});
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "cam.AccountStatus",
+		ClassName = "AccountStatus",
+		IdColumnName = "AccountStatusId",
+		ValueColumnName = "Status",
 		Namespace = nameSpace
 	});
 	WriteTypes(types, connectionString, true);

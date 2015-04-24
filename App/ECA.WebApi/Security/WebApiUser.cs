@@ -11,34 +11,37 @@ using System.Linq.Expressions;
 using System.Diagnostics.Contracts;
 using CAM.Business.Service;
 using NLog;
+using CAM.Business.Model;
 
 namespace ECA.WebApi.Security
 {
+    /// <summary>
+    /// An IWebApiUser is a user of the ECA application.
+    /// </summary>
     public interface IWebApiUser
     {
+        /// <summary>
+        /// Gets or sets the User id.
+        /// </summary>
         Guid Id { get; }
 
+        /// <summary>
+        /// Gets the username.
+        /// </summary>
+        /// <returns>The username.</returns>
         string GetUsername();
-    }
 
-    public abstract class WebApiUserBase : IWebApiUser
-    {
-        public abstract bool HasPermission(IPermission requestedPermission, IEnumerable<IPermission> allUserPermissions);
-
-        public Guid Id
-        {
-            get;
-            protected set;
-        }
-
-        public abstract string GetUsername();
-    }
-
+        /// <summary>
+        /// Returns an Azure User of this user.
+        /// </summary>
+        /// <returns>An AzureUser of this instance.</returns>
+        AzureUser ToAzureUser();
+    }    
 
     /// <summary>
     /// The WebApiUser is a user that user that has been validated by Microsoft Azure.
     /// </summary>
-    public class WebApiUser : WebApiUserBase
+    public class WebApiUser : IWebApiUser
     {
         /// <summary>
         /// Azure's token issued at date key.
@@ -123,6 +126,11 @@ namespace ECA.WebApi.Security
         {
             Contract.Requires(principal is ClaimsPrincipal, "The IPrincipal instance must be a ClaimsPrincipal.");
         }
+
+        /// <summary>
+        /// Gets the user's Id.
+        /// </summary>
+        public Guid Id { get; private set; }
 
         /// <summary>
         /// Gets the user's email.
@@ -368,18 +376,6 @@ namespace ECA.WebApi.Security
         }
 
         /// <summary>
-        /// Returns true if the user has permission given all permissions.
-        /// </summary>
-        /// <param name="requestedPermission">The permission to check.</param>
-        /// <param name="allUserPermissions">All user permissions.</param>
-        /// <returns>True, if the user has the requested permission.</returns>
-        public override bool HasPermission(IPermission requestedPermission, IEnumerable<IPermission> allUserPermissions)
-        {
-            var hasPermission = allUserPermissions.Contains(requestedPermission);
-            return hasPermission;
-        }
-
-        /// <summary>
         /// Returns the date given the number of seconds elapsed since the Unix Epoch.
         /// </summary>
         /// <param name="secondsAfterEpoch">The number of seconds elapsed since Jan, 1, 1970.</param>
@@ -393,9 +389,33 @@ namespace ECA.WebApi.Security
         /// Returns the user's email.
         /// </summary>
         /// <returns>The user's email.</returns>
-        public override string GetUsername()
+        public string GetUsername()
         {
             return this.Email;
+        }
+
+        /// <summary>
+        /// Returns a string of this
+        /// </summary>
+        /// <returns>A formatted string of this user.</returns>
+        public override string ToString()
+        {
+            return String.Format("Id:  {0}, Username:  {1}", this.Id.ToString(), GetUsername());
+        }
+
+        /// <summary>
+        /// An AzureUser of this instance, useful if this user needs to be created or updated.
+        /// </summary>
+        /// <returns>An AzureUser of this web api user.</returns>
+        public AzureUser ToAzureUser()
+        {
+            return new AzureUser(
+                id: this.Id,
+                email: this.Email,
+                firstName: this.GivenName,
+                lastName: this.SurName,
+                displayName: this.FullName
+                );
         }
     }
 }

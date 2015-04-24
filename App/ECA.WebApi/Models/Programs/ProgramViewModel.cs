@@ -24,6 +24,8 @@ namespace ECA.WebApi.Models.Programs
             this.RegionIsos = new List<SimpleLookupDTO>();
             this.Goals = new List<SimpleLookupDTO>();
             this.Themes = new List<SimpleLookupDTO>();
+            this.Categories = new List<SimpleLookupDTO>();
+            this.Objectives = new List<SimpleLookupDTO>();
         }
 
         /// <summary>
@@ -51,6 +53,8 @@ namespace ECA.WebApi.Models.Programs
             this.RowVersion = Convert.ToBase64String(program.RowVersion);
             this.StartDate = program.StartDate;
             this.Themes = program.Themes;
+            this.Categories = program.Categories;
+            this.Objectives = program.Objectives;
         }
 
         /// <summary>
@@ -87,6 +91,10 @@ namespace ECA.WebApi.Models.Programs
         /// Gets or sets the Themes.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Themes { get; set; }
+
+        public IEnumerable<SimpleLookupDTO> Categories { get; set; }
+
+        public IEnumerable<SimpleLookupDTO> Objectives { get; set; }
 
         /// <summary>
         /// Gets or sets the Country Isos.
@@ -137,5 +145,16 @@ namespace ECA.WebApi.Models.Programs
         /// Gets or sets the row version.
         /// </summary>
         public string RowVersion { get; set; }
+
+        /// <summary>
+        /// Gets the permalink URL for this program (TBD)
+        /// </summary>
+        public string PermaLink {
+            get 
+            {
+                // temporary until proper permalink scheme in place
+                return "/#/programs/" + this.Id + "/overview#top";
+            }
+        }
     }
 }

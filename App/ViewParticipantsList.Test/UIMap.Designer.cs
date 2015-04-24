@@ -44,30 +44,34 @@ namespace ViewParticipantsList.Test
         }
         
         /// <summary>
-        /// Verify that the Page 3 custom control exists for selection.
+        /// Verify page (3) exists and is functional in the pagination bar.
         /// </summary>
         public void AssertPageNumberCustomControl()
         {
             #region Variable Declarations
-            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom;
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane1.UIItemCustom;
             #endregion
 
-            // Verify that the 'InnerText' property of custom control equals '3'
-            Assert.AreEqual(this.AssertPageNumberCustomControlExpectedValues.UIItemCustomInnerText, uIItemCustom.InnerText, "No page 3 available.");
+            // Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of custom control contains '3'
+            Playback.Wait(10000);
+            StringAssert.Contains(uIItemCustom.InnerText, this.AssertPageNumberCustomControlExpectedValues.UIItemCustomInnerText, "No Page (3) in pagination bar available.");
+
+            // Verify that the 'ControlType' property of custom control equals 'Custom'
+            Assert.AreEqual(this.AssertPageNumberCustomControlExpectedValues.UIItemCustomControlType, uIItemCustom.ControlType.ToString(), "No control functionality for Page (3) in pagination bar.");
         }
         
         /// <summary>
-        /// Verify that page (3) of the participants list is displayed.
+        /// Verify the Page (3) participant list displays. Innertext check.
         /// </summary>
         public void AssertPageNumberParticipantsList()
         {
             #region Variable Declarations
-            HtmlDiv uIParticipantsListShowPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIParticipantsListShowPane1;
+            HtmlDiv uIParticipantsListShowPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane1.UIParticipantsListShowPane;
             #endregion
 
-            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Participants List Showing 51 - 75 of' pane contains 'Participants List
+            // Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of 'Participants List Showing 51 - 75 of' pane contains 'Participants List
             //
-            //Showing 51 - 75 of 1697 participants
+            //Showing 51 - 75 of 8870 participants
             //
             //
             //
@@ -87,21 +91,6 @@ namespace ViewParticipantsList.Test
             //
             //
             // 
-            //Albanian Music Council
-            //Foreign NGO/PVOActive   
-            // 
-            //Albert Bienvenu Akoha
-            //IndividualActive   
-            // 
-            //Alcaldia de Vara de Monimbó
-            //Foreign NGO/PVOActive   
-            // 
-            //Alek Tamaryan
-            //IndividualActive   
-            // 
-            //Aleksandar Dajkpvic
-            //IndividualActive   
-            // 
             //Aleksandr Ramaswamy
             //IndividualActive   
             // 
@@ -111,56 +100,71 @@ namespace ViewParticipantsList.Test
             //Alex Sarra
             //IndividualActive   
             // 
-            //Alexander Rubashvili
-            //IndividualActive   
+            //Alexander Adkins
+            //U.S. Traveling ParticipantActive   
             // 
-            //Alexandra Wilson
-            //IndividualActive   
+            //Alexander Adkins
+            //U.S. Traveling ParticipantActive   
             // 
-            //Alexey Kirichenko
-            //IndividualActive   
+            //Alexander Adkins
+            //U.S. Traveling ParticipantActive   
             // 
-            //Alexey Starkov
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
             // 
-            //Alfredo Pinillos Ganoza
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
             // 
-            //Ali Ghopur
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
             // 
-            //Ali Hassan Mwarora
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Non Traveling ParticipantActive   
             // 
-            //Aliya Urmanova
-            //IndividualActive   
+            //Alexander Adkins
+            //U.S. Traveling ParticipantActive   
             // 
-            //Alliance for Ecotourism
-            //Foreign NGO/PVOActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
             // 
-            //Alma Mekondjo Nankela
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
             // 
-            //Alok Tuladhar
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
             // 
-            //Alson Kelen
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
             // 
-            //Aman Ullah Mitsui
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
             // 
-            //Amanda Batson
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
             // 
-            //Amanda Eyre
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
             // 
-            //Amanda Koster
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
             // 
-            //Amanda Thomas Trienens
-            //IndividualActive   
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
+            // 
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
+            // 
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
+            // 
+            //Alexander Adkins
+            //Foreign Traveling ParticipantActive   
+            // 
+            //Alexander Foster
+            //Foreign Traveling ParticipantActive   
+            // 
+            //Alexander Foster
+            //Foreign Traveling ParticipantActive   
             // 
             //
             //
@@ -178,8 +182,8 @@ namespace ViewParticipantsList.Test
             //8
             //9
             //10'
-            Playback.Wait(5000);
-            StringAssert.Contains(uIParticipantsListShowPane1.InnerText, this.AssertPageNumberParticipantsListExpectedValues.UIParticipantsListShowPane1InnerText, "No Participants List displayed on page (3).");
+            Playback.Wait(10000);
+            StringAssert.Contains(uIParticipantsListShowPane.InnerText, this.AssertPageNumberParticipantsListExpectedValues.UIParticipantsListShowPaneInnerText, "No Participants List available for Page 3.");
         }
         
         /// <summary>
@@ -220,9 +224,9 @@ namespace ViewParticipantsList.Test
             HtmlDiv uIParticipantsListShowPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIParticipantsListShowPane;
             #endregion
 
-            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Participants List Showing 1 - 25 of 1' pane contains 'Participants List
+            // Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of 'Participants List Showing 1 - 25 of 1' pane contains 'Participants List
             //
-            //Showing 1 - 25 of 1697 participants
+            //Showing 1 - 25 of 8870 participants
             //
             //
             //
@@ -293,17 +297,20 @@ namespace ViewParticipantsList.Test
             //Abubakar Tafawa Balewa Tomb
             //Foreign NGO/PVOActive   
             // 
-            //Academy of Fine Arts and Design Bratislava
-            //IndividualActive   
-            // 
             //Academy of Sciences of Tajikistan
             //Foreign Educational InstitutionActive   
             // 
-            //Adam Mickiewicz University
-            //IndividualActive   
-            // 
             //Addis Woubet
             //Foreign NGO/PVOActive   
+            // 
+            //Addison Adkins
+            //U.S. Traveling ParticipantActive   
+            // 
+            //Addison Tucker
+            //U.S. Traveling ParticipantActive   
+            // 
+            //Addison Tucker
+            //U.S. Traveling ParticipantActive   
             // 
             //Aden Hassan Aden
             //IndividualActive   
@@ -313,9 +320,6 @@ namespace ViewParticipantsList.Test
             // 
             //Aditya
             //IndividualActive   
-            // 
-            //Adopt a Work of Art
-            //Foreign NGO/PVOActive   
             // 
             //
             //
@@ -333,7 +337,7 @@ namespace ViewParticipantsList.Test
             //8
             //9
             //10'
-            Playback.Wait(5000);
+            Playback.Wait(10000);
             StringAssert.Contains(uIParticipantsListShowPane.InnerText, this.AssertParticipantsListExpectedValues.UIParticipantsListShowPaneInnerText, "No Participants List Available.");
         }
         
@@ -387,6 +391,30 @@ namespace ViewParticipantsList.Test
         }
         
         /// <summary>
+        /// Open browser; navigate to QA site; select ECATest user; enter password; click sign in.
+        /// </summary>
+        public void LogintoQA_ExistingUser()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIECATest1statedeptusHyperlink;
+            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
+            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
+            #endregion
+
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
+
+            // Click 'ECATest1@statedept.us •••' link
+            Mouse.Click(uIECATest1statedeptusHyperlink, new Point(101, 42));
+
+            // Type '********' in 'Password' text box
+            uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
+
+            // Click 'Sign in' pane
+            Mouse.Click(uISigninPane, new Point(33, 10));
+        }
+        
+        /// <summary>
         /// Refresh/Reload All Participants Page for display.
         /// </summary>
         public void RefreshAllParticipantsPage()
@@ -413,16 +441,23 @@ namespace ViewParticipantsList.Test
         }
         
         /// <summary>
-        /// Select Page #(3) to navigate to this page of the participant list.
+        /// Select Page (3) in pagination bar; refresh page; reselect page (3) for display.
         /// </summary>
         public void SelectPageCustomControl()
         {
             #region Variable Declarations
-            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane.UIItemCustom;
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane1.UIItemCustom;
+            HtmlDiv uISortlistPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane1;
             #endregion
 
             // Click custom control
-            Mouse.Click(uIItemCustom, new Point(17, 17));
+            Mouse.Click(uIItemCustom, new Point(15, 16));
+
+            // Type '{F5}' in 'sort-list' pane
+            Keyboard.SendKeys(uISortlistPane1, this.SelectPageCustomControlParams.UISortlistPane1SendKeys, ModifierKeys.None);
+
+            // Click custom control
+            Mouse.Click(uIItemCustom, new Point(17, 22));
         }
         
         /// <summary>
@@ -523,6 +558,18 @@ namespace ViewParticipantsList.Test
             }
         }
         
+        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
+        {
+            get
+            {
+                if ((this.mLogintoQA_ExistingUserParams == null))
+                {
+                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
+                }
+                return this.mLogintoQA_ExistingUserParams;
+            }
+        }
+        
         public virtual RefreshAllParticipantsPageParams RefreshAllParticipantsPageParams
         {
             get
@@ -532,6 +579,18 @@ namespace ViewParticipantsList.Test
                     this.mRefreshAllParticipantsPageParams = new RefreshAllParticipantsPageParams();
                 }
                 return this.mRefreshAllParticipantsPageParams;
+            }
+        }
+        
+        public virtual SelectPageCustomControlParams SelectPageCustomControlParams
+        {
+            get
+            {
+                if ((this.mSelectPageCustomControlParams == null))
+                {
+                    this.mSelectPageCustomControlParams = new SelectPageCustomControlParams();
+                }
+                return this.mSelectPageCustomControlParams;
             }
         }
         
@@ -563,7 +622,11 @@ namespace ViewParticipantsList.Test
         
         private LogintoQAParams mLogintoQAParams;
         
+        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
+        
         private RefreshAllParticipantsPageParams mRefreshAllParticipantsPageParams;
+        
+        private SelectPageCustomControlParams mSelectPageCustomControlParams;
         
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
         #endregion
@@ -593,9 +656,14 @@ namespace ViewParticipantsList.Test
         
         #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of custom control equals '3'
+        /// Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of custom control contains '3'
         /// </summary>
         public string UIItemCustomInnerText = "3";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of custom control equals 'Custom'
+        /// </summary>
+        public string UIItemCustomControlType = "Custom";
         #endregion
     }
     
@@ -608,9 +676,9 @@ namespace ViewParticipantsList.Test
         
         #region Fields
         /// <summary>
-        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Participants List Showing 51 - 75 of' pane contains 'Participants List
+        /// Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of 'Participants List Showing 51 - 75 of' pane contains 'Participants List
         ///
-        ///Showing 51 - 75 of 1697 participants
+        ///Showing 51 - 75 of 8870 participants
         ///
         ///
         ///
@@ -630,21 +698,6 @@ namespace ViewParticipantsList.Test
         ///
         ///
         /// 
-        ///Albanian Music Council
-        ///Foreign NGO/PVOActive   
-        /// 
-        ///Albert Bienvenu Akoha
-        ///IndividualActive   
-        /// 
-        ///Alcaldia de Vara de Monimbó
-        ///Foreign NGO/PVOActive   
-        /// 
-        ///Alek Tamaryan
-        ///IndividualActive   
-        /// 
-        ///Aleksandar Dajkpvic
-        ///IndividualActive   
-        /// 
         ///Aleksandr Ramaswamy
         ///IndividualActive   
         /// 
@@ -654,56 +707,71 @@ namespace ViewParticipantsList.Test
         ///Alex Sarra
         ///IndividualActive   
         /// 
-        ///Alexander Rubashvili
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///U.S. Traveling ParticipantActive   
         /// 
-        ///Alexandra Wilson
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///U.S. Traveling ParticipantActive   
         /// 
-        ///Alexey Kirichenko
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///U.S. Traveling ParticipantActive   
         /// 
-        ///Alexey Starkov
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
         /// 
-        ///Alfredo Pinillos Ganoza
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
         /// 
-        ///Ali Ghopur
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
         /// 
-        ///Ali Hassan Mwarora
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Non Traveling ParticipantActive   
         /// 
-        ///Aliya Urmanova
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///U.S. Traveling ParticipantActive   
         /// 
-        ///Alliance for Ecotourism
-        ///Foreign NGO/PVOActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
         /// 
-        ///Alma Mekondjo Nankela
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
         /// 
-        ///Alok Tuladhar
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
         /// 
-        ///Alson Kelen
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
         /// 
-        ///Aman Ullah Mitsui
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
         /// 
-        ///Amanda Batson
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
         /// 
-        ///Amanda Eyre
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
         /// 
-        ///Amanda Koster
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
         /// 
-        ///Amanda Thomas Trienens
-        ///IndividualActive   
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
+        /// 
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
+        /// 
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
+        /// 
+        ///Alexander Adkins
+        ///Foreign Traveling ParticipantActive   
+        /// 
+        ///Alexander Foster
+        ///Foreign Traveling ParticipantActive   
+        /// 
+        ///Alexander Foster
+        ///Foreign Traveling ParticipantActive   
         /// 
         ///
         ///
@@ -722,119 +790,27 @@ namespace ViewParticipantsList.Test
         ///9
         ///10'
         /// </summary>
-        public string UIParticipantsListShowPane1InnerText = @"Participants List
-
-Showing 51 - 75 of 1697 participants
-
-
-
-Name
-
-Type
-
-Status
-
- 
-
-
-
-
-
-  
-
-
- 
-Albanian Music Council
-Foreign NGO/PVOActive   
- 
-Albert Bienvenu Akoha
-IndividualActive   
- 
-Alcaldia de Vara de Monimbó
-Foreign NGO/PVOActive   
- 
-Alek Tamaryan
-IndividualActive   
- 
-Aleksandar Dajkpvic
-IndividualActive   
- 
-Aleksandr Ramaswamy
-IndividualActive   
- 
-Alessandra Peruzzetto
-IndividualActive   
- 
-Alex Sarra
-IndividualActive   
- 
-Alexander Rubashvili
-IndividualActive   
- 
-Alexandra Wilson
-IndividualActive   
- 
-Alexey Kirichenko
-IndividualActive   
- 
-Alexey Starkov
-IndividualActive   
- 
-Alfredo Pinillos Ganoza
-IndividualActive   
- 
-Ali Ghopur
-IndividualActive   
- 
-Ali Hassan Mwarora
-IndividualActive   
- 
-Aliya Urmanova
-IndividualActive   
- 
-Alliance for Ecotourism
-Foreign NGO/PVOActive   
- 
-Alma Mekondjo Nankela
-IndividualActive   
- 
-Alok Tuladhar
-IndividualActive   
- 
-Alson Kelen
-IndividualActive   
- 
-Aman Ullah Mitsui
-IndividualActive   
- 
-Amanda Batson
-IndividualActive   
- 
-Amanda Eyre
-IndividualActive   
- 
-Amanda Koster
-IndividualActive   
- 
-Amanda Thomas Trienens
-IndividualActive   
- 
-
-
-
-
-
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10";
+        public string UIParticipantsListShowPaneInnerText = "Participants List\r\n\r\nShowing 51 - 75 of 8870 participants\r\n\r\n\r\n\r\nName\r\n\r\nType\r\n\r\n" +
+            "Status\r\n\r\n \r\n\r\n\r\n\r\n\r\n\r\n  \r\n\r\n\r\n \r\nAleksandr Ramaswamy\r\nIndividualActive   \r\n \r\nA" +
+            "lessandra Peruzzetto\r\nIndividualActive   \r\n \r\nAlex Sarra\r\nIndividualActive   \r\n " +
+            "\r\nAlexander Adkins\r\nU.S. Traveling ParticipantActive   \r\n \r\nAlexander Adkins\r\nU." +
+            "S. Traveling ParticipantActive   \r\n \r\nAlexander Adkins\r\nU.S. Traveling Participa" +
+            "ntActive   \r\n \r\nAlexander Adkins\r\nForeign Traveling ParticipantActive   \r\n \r\nAle" +
+            "xander Adkins\r\nForeign Traveling ParticipantActive   \r\n \r\nAlexander Adkins\r\nFore" +
+            "ign Traveling ParticipantActive   \r\n \r\nAlexander Adkins\r\nForeign Non Traveling P" +
+            "articipantActive   \r\n \r\nAlexander Adkins\r\nU.S. Traveling ParticipantActive   \r\n " +
+            "\r\nAlexander Adkins\r\nForeign Traveling ParticipantActive   \r\n \r\nAlexander Adkins\r" +
+            "\nForeign Traveling ParticipantActive   \r\n \r\nAlexander Adkins\r\nForeign Traveling " +
+            "ParticipantActive   \r\n \r\nAlexander Adkins\r\nForeign Traveling ParticipantActive  " +
+            " \r\n \r\nAlexander Adkins\r\nForeign Traveling ParticipantActive   \r\n \r\nAlexander Adk" +
+            "ins\r\nForeign Traveling ParticipantActive   \r\n \r\nAlexander Adkins\r\nForeign Travel" +
+            "ing ParticipantActive   \r\n \r\nAlexander Adkins\r\nForeign Traveling ParticipantActi" +
+            "ve   \r\n \r\nAlexander Adkins\r\nForeign Traveling ParticipantActive   \r\n \r\nAlexander" +
+            " Adkins\r\nForeign Traveling ParticipantActive   \r\n \r\nAlexander Adkins\r\nForeign Tr" +
+            "aveling ParticipantActive   \r\n \r\nAlexander Adkins\r\nForeign Traveling Participant" +
+            "Active   \r\n \r\nAlexander Foster\r\nForeign Traveling ParticipantActive   \r\n \r\nAlexa" +
+            "nder Foster\r\nForeign Traveling ParticipantActive   \r\n \r\n\r\n\r\n\r\n\r\n\r\n\r\n1\r\n2\r\n3\r\n4\r\n" +
+            "5\r\n6\r\n7\r\n8\r\n9\r\n10";
         #endregion
     }
     
@@ -882,9 +858,9 @@ IndividualActive
         
         #region Fields
         /// <summary>
-        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Participants List Showing 1 - 25 of 1' pane contains 'Participants List
+        /// Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of 'Participants List Showing 1 - 25 of 1' pane contains 'Participants List
         ///
-        ///Showing 1 - 25 of 1697 participants
+        ///Showing 1 - 25 of 8870 participants
         ///
         ///
         ///
@@ -955,17 +931,20 @@ IndividualActive
         ///Abubakar Tafawa Balewa Tomb
         ///Foreign NGO/PVOActive   
         /// 
-        ///Academy of Fine Arts and Design Bratislava
-        ///IndividualActive   
-        /// 
         ///Academy of Sciences of Tajikistan
         ///Foreign Educational InstitutionActive   
         /// 
-        ///Adam Mickiewicz University
-        ///IndividualActive   
-        /// 
         ///Addis Woubet
         ///Foreign NGO/PVOActive   
+        /// 
+        ///Addison Adkins
+        ///U.S. Traveling ParticipantActive   
+        /// 
+        ///Addison Tucker
+        ///U.S. Traveling ParticipantActive   
+        /// 
+        ///Addison Tucker
+        ///U.S. Traveling ParticipantActive   
         /// 
         ///Aden Hassan Aden
         ///IndividualActive   
@@ -975,9 +954,6 @@ IndividualActive
         /// 
         ///Aditya
         ///IndividualActive   
-        /// 
-        ///Adopt a Work of Art
-        ///Foreign NGO/PVOActive   
         /// 
         ///
         ///
@@ -998,7 +974,7 @@ IndividualActive
         /// </summary>
         public string UIParticipantsListShowPaneInnerText = @"Participants List
 
-Showing 1 - 25 of 1697 participants
+Showing 1 - 25 of 8870 participants
 
 
 
@@ -1069,17 +1045,20 @@ IndividualActive
 Abubakar Tafawa Balewa Tomb
 Foreign NGO/PVOActive   
  
-Academy of Fine Arts and Design Bratislava
-IndividualActive   
- 
 Academy of Sciences of Tajikistan
 Foreign Educational InstitutionActive   
  
-Adam Mickiewicz University
-IndividualActive   
- 
 Addis Woubet
 Foreign NGO/PVOActive   
+ 
+Addison Adkins
+U.S. Traveling ParticipantActive   
+ 
+Addison Tucker
+U.S. Traveling ParticipantActive   
+ 
+Addison Tucker
+U.S. Traveling ParticipantActive   
  
 Aden Hassan Aden
 IndividualActive   
@@ -1089,9 +1068,6 @@ IndividualActive
  
 Aditya
 IndividualActive   
- 
-Adopt a Work of Art
-Foreign NGO/PVOActive   
  
 
 
@@ -1143,6 +1119,26 @@ Foreign NGO/PVOActive
     }
     
     /// <summary>
+    /// Parameters to be passed into 'LogintoQA_ExistingUser'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class LogintoQA_ExistingUserParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+        /// </summary>
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
+        
+        /// <summary>
+        /// Type '********' in 'Password' text box
+        /// </summary>
+        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
+        #endregion
+    }
+    
+    /// <summary>
     /// Parameters to be passed into 'RefreshAllParticipantsPage'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
@@ -1154,6 +1150,21 @@ Foreign NGO/PVOActive
         /// Type '{F5}' in 'Participants' link
         /// </summary>
         public string UIParticipantsHyperlinkSendKeys = "{F5}";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'SelectPageCustomControl'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class SelectPageCustomControlParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '{F5}' in 'sort-list' pane
+        /// </summary>
+        public string UISortlistPane1SendKeys = "{F5}";
         #endregion
     }
     
@@ -1169,6 +1180,7 @@ Foreign NGO/PVOActive
             this.WindowTitles.Add("New tab");
             this.WindowTitles.Add("Sign in to Azure Active Directory");
             this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            this.WindowTitles.Add("Sign in to ECA Client");
             #endregion
         }
         
@@ -1261,6 +1273,54 @@ Foreign NGO/PVOActive
                 return this.mUIHttpsecakmtqaazureweDocument2;
             }
         }
+        
+        public UIItemWindow1 UIItemWindow1
+        {
+            get
+            {
+                if ((this.mUIItemWindow1 == null))
+                {
+                    this.mUIItemWindow1 = new UIItemWindow1(this);
+                }
+                return this.mUIItemWindow1;
+            }
+        }
+        
+        public UIItemWindow2 UIItemWindow2
+        {
+            get
+            {
+                if ((this.mUIItemWindow2 == null))
+                {
+                    this.mUIItemWindow2 = new UIItemWindow2(this);
+                }
+                return this.mUIItemWindow2;
+            }
+        }
+        
+        public UIItemWindow3 UIItemWindow3
+        {
+            get
+            {
+                if ((this.mUIItemWindow3 == null))
+                {
+                    this.mUIItemWindow3 = new UIItemWindow3(this);
+                }
+                return this.mUIItemWindow3;
+            }
+        }
+        
+        public UISignintoECAClientDocument UISignintoECAClientDocument
+        {
+            get
+            {
+                if ((this.mUISignintoECAClientDocument == null))
+                {
+                    this.mUISignintoECAClientDocument = new UISignintoECAClientDocument(this);
+                }
+                return this.mUISignintoECAClientDocument;
+            }
+        }
         #endregion
         
         #region Fields
@@ -1277,6 +1337,14 @@ Foreign NGO/PVOActive
         private UIHttpsecakmtqaazureweDocument1 mUIHttpsecakmtqaazureweDocument1;
         
         private UIHttpsecakmtqaazureweDocument2 mUIHttpsecakmtqaazureweDocument2;
+        
+        private UIItemWindow1 mUIItemWindow1;
+        
+        private UIItemWindow2 mUIItemWindow2;
+        
+        private UIItemWindow3 mUIItemWindow3;
+        
+        private UISignintoECAClientDocument mUISignintoECAClientDocument;
         #endregion
     }
     
@@ -1309,10 +1377,46 @@ Foreign NGO/PVOActive
                 return this.mUIAddressandsearchusinEdit;
             }
         }
+        
+        public WinEdit UIAddressandsearchusinEdit1
+        {
+            get
+            {
+                if ((this.mUIAddressandsearchusinEdit1 == null))
+                {
+                    this.mUIAddressandsearchusinEdit1 = new WinEdit(this);
+                    #region Search Criteria
+                    this.mUIAddressandsearchusinEdit1.SearchProperties[WinEdit.PropertyNames.Name] = "Address and search using Bing";
+                    this.mUIAddressandsearchusinEdit1.WindowTitles.Add("New tab");
+                    #endregion
+                }
+                return this.mUIAddressandsearchusinEdit1;
+            }
+        }
+        
+        public WinEdit UIAddressandsearchusinEdit2
+        {
+            get
+            {
+                if ((this.mUIAddressandsearchusinEdit2 == null))
+                {
+                    this.mUIAddressandsearchusinEdit2 = new WinEdit(this);
+                    #region Search Criteria
+                    this.mUIAddressandsearchusinEdit2.SearchProperties[WinEdit.PropertyNames.Name] = "Address and search using Bing";
+                    this.mUIAddressandsearchusinEdit2.WindowTitles.Add("New tab");
+                    #endregion
+                }
+                return this.mUIAddressandsearchusinEdit2;
+            }
+        }
         #endregion
         
         #region Fields
         private WinEdit mUIAddressandsearchusinEdit;
+        
+        private WinEdit mUIAddressandsearchusinEdit1;
+        
+        private WinEdit mUIAddressandsearchusinEdit2;
         #endregion
     }
     
@@ -1724,7 +1828,7 @@ Foreign NGO/PVOActive
             #region Search Criteria
             this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
             this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants\r\n\r\n\r\nParticipants List\r\n\r\nS";
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants\n\n\nParticipants List\n\nS";
             this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
             this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
             this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" ng-click=\"closeMenus()\" autoscroll=\"true\" ui-view=\"\"";
@@ -1744,7 +1848,7 @@ Foreign NGO/PVOActive
                     #region Search Criteria
                     this.mUIParticipantsListShowPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
                     this.mUIParticipantsListShowPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-                    this.mUIParticipantsListShowPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants List\r\n\r\nShowing 1 - 25 of 1";
+                    this.mUIParticipantsListShowPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants List\n\nShowing 1 - 25 of 1";
                     this.mUIParticipantsListShowPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
                     this.mUIParticipantsListShowPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "container ng-scope";
                     this.mUIParticipantsListShowPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"container ng-scope\"";
@@ -1766,7 +1870,7 @@ Foreign NGO/PVOActive
                     #region Search Criteria
                     this.mUIParticipantsListShowPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
                     this.mUIParticipantsListShowPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-                    this.mUIParticipantsListShowPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants List\r\n\r\nShowing 51 - 75 of ";
+                    this.mUIParticipantsListShowPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants List\n\nShowing 51 - 75 of ";
                     this.mUIParticipantsListShowPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
                     this.mUIParticipantsListShowPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "container ng-scope";
                     this.mUIParticipantsListShowPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"container ng-scope\"";
@@ -1796,7 +1900,7 @@ Foreign NGO/PVOActive
             #region Search Criteria
             this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
             this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Name\r\n\r\nType\r\n\r\nStatus\r\n\r\n \r\n\r\n\r\n\r\n\r\n\r\n ";
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Name\n\nType\n\nStatus\n\n \n\n\n\n\n\n ";
             this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
             this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-isolate-scope";
             this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-isolate-scope\" id=\"sort-list\" st-table=\"participants\" st-pipe=\"getParti" +
@@ -1876,12 +1980,40 @@ Foreign NGO/PVOActive
                 return this.mUITopPane;
             }
         }
+        
+        public UITopPane11 UITopPane1
+        {
+            get
+            {
+                if ((this.mUITopPane1 == null))
+                {
+                    this.mUITopPane1 = new UITopPane11(this);
+                }
+                return this.mUITopPane1;
+            }
+        }
+        
+        public UISortlistPane11 UISortlistPane1
+        {
+            get
+            {
+                if ((this.mUISortlistPane1 == null))
+                {
+                    this.mUISortlistPane1 = new UISortlistPane11(this);
+                }
+                return this.mUISortlistPane1;
+            }
+        }
         #endregion
         
         #region Fields
         private UISortlistPane1 mUISortlistPane;
         
         private UITopPane1 mUITopPane;
+        
+        private UITopPane11 mUITopPane1;
+        
+        private UISortlistPane11 mUISortlistPane1;
         #endregion
     }
     
@@ -1895,7 +2027,7 @@ Foreign NGO/PVOActive
             #region Search Criteria
             this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
             this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Name\r\n\r\nType\r\n\r\nStatus\r\n\r\n \r\n\r\n\r\n\r\n\r\n\r\n ";
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Name\n\nType\n\nStatus\n\n \n\n\n\n\n\n ";
             this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
             this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-isolate-scope";
             this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-isolate-scope\" id=\"sort-list\" st-table=\"participants\" st-pipe=\"getParti" +
@@ -1970,10 +2102,58 @@ Foreign NGO/PVOActive
             #region Search Criteria
             this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
             this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants\r\n\r\n\r\nParticipants List\r\n\r\nS";
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants\n\n\nParticipants List\n\nS";
             this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
             this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
             this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" ng-click=\"closeMenus()\" autoscroll=\"true\" ui-view=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "24";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlDiv UIParticipantsListShowPane
+        {
+            get
+            {
+                if ((this.mUIParticipantsListShowPane == null))
+                {
+                    this.mUIParticipantsListShowPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIParticipantsListShowPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIParticipantsListShowPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIParticipantsListShowPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants List\n\nShowing 51 - 75 of ";
+                    this.mUIParticipantsListShowPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIParticipantsListShowPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "container ng-scope";
+                    this.mUIParticipantsListShowPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"container ng-scope\"";
+                    this.mUIParticipantsListShowPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "27";
+                    this.mUIParticipantsListShowPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIParticipantsListShowPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlDiv mUIParticipantsListShowPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UITopPane11 : HtmlDiv
+    {
+        
+        public UITopPane11(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants\r\n\r\n\r\nParticipants List\r\n\r\nS";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" autoscroll=\"true\" ui-view=\"\"";
             this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "24";
             this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
             #endregion
@@ -2005,6 +2185,264 @@ Foreign NGO/PVOActive
         
         #region Fields
         private HtmlDiv mUIParticipantsListShowPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane11 : HtmlDiv
+    {
+        
+        public UISortlistPane11(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Name\r\n\r\nType\r\n\r\nStatus\r\n\r\n \r\n\r\n\r\n\r\n\r\n\r\n ";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-isolate-scope\" id=\"sort-list\" st-table=\"participants\" st-pipe=\"getParti" +
+                "cipants\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "28";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlCustom UIItemCustom
+        {
+            get
+            {
+                if ((this.mUIItemCustom == null))
+                {
+                    this.mUIItemCustom = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIItemCustom.SearchProperties["TagName"] = "A";
+                    this.mUIItemCustom.SearchProperties["Id"] = null;
+                    this.mUIItemCustom.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIItemCustom.FilterProperties["Class"] = "ng-binding";
+                    this.mUIItemCustom.FilterProperties["ControlDefinition"] = "class=\"ng-binding\" ng-click=\"selectPage(";
+                    this.mUIItemCustom.FilterProperties["TagInstance"] = "28";
+                    this.mUIItemCustom.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemCustom;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlCustom mUIItemCustom;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIItemWindow1 : WinWindow
+    {
+        
+        public UIItemWindow1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.AccessibleName] = "Address and search using Bing";
+            this.SearchProperties[WinWindow.PropertyNames.ClassName] = "Edit";
+            this.WindowTitles.Add("New tab");
+            #endregion
+        }
+        
+        #region Properties
+        public WinEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new WinEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.WindowTitles.Add("New tab");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinEdit mUIItemEdit;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIItemWindow2 : WinWindow
+    {
+        
+        public UIItemWindow2(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.AccessibleName] = "Address and search using Bing";
+            this.SearchProperties[WinWindow.PropertyNames.ClassName] = "Edit";
+            this.WindowTitles.Add("New tab");
+            #endregion
+        }
+        
+        #region Properties
+        public WinEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new WinEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.WindowTitles.Add("New tab");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinEdit mUIItemEdit;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIItemWindow3 : WinWindow
+    {
+        
+        public UIItemWindow3(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinWindow.PropertyNames.AccessibleName] = "Address and search using Bing";
+            this.SearchProperties[WinWindow.PropertyNames.ClassName] = "Edit";
+            this.WindowTitles.Add("New tab");
+            #endregion
+        }
+        
+        #region Properties
+        public WinEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new WinEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.WindowTitles.Add("New tab");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinEdit mUIItemEdit;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISignintoECAClientDocument : HtmlDocument
+    {
+        
+        public UISignintoECAClientDocument(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = "Sign in to ECA Client";
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/statedept.us/oauth2/authorize";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = @"https://login.microsoftonline.com/statedept.us/oauth2/authorize?response_type=id_token&client_id=e0356e55-e124-452c-837d-aeb7504185ff&redirect_uri=https%3A%2F%2Feca-kmt-qa.azurewebsites.net%2F&state=15bc952f-9b62-4b64-9825-8ced8895fec0&x-client-SKU=Js&x-client-Ver=1.0.0&nonce=645bb98a-ceea-430a-937e-f8c6ffa8c18c";
+            this.WindowTitles.Add("Sign in to ECA Client");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIECATest1statedeptusHyperlink
+        {
+            get
+            {
+                if ((this.mUIECATest1statedeptusHyperlink == null))
+                {
+                    this.mUIECATest1statedeptusHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = "ecatest1_statedept_us_link";
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIECATest1statedeptusHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "\r\nECATest1@statedept.us\r\n\r\n\r\n\r\n•••";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "tile_link tooltip";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "tabindex=\"1\" class=\"tile_link tooltip\" i";
+                    this.mUIECATest1statedeptusHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "2";
+                    this.mUIECATest1statedeptusHyperlink.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUIECATest1statedeptusHyperlink;
+            }
+        }
+        
+        public HtmlEdit UIPasswordEdit
+        {
+            get
+            {
+                if ((this.mUIPasswordEdit == null))
+                {
+                    this.mUIPasswordEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = "cred_password_inputtext";
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "passwd";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.LabeledBy] = "Password";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Type] = "PASSWORD";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "login_textfield textfield required field normaltext";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"passwd\" tabindex=\"2\" class=\"login_";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "2";
+                    this.mUIPasswordEdit.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUIPasswordEdit;
+            }
+        }
+        
+        public HtmlSpan UISigninPane
+        {
+            get
+            {
+                if ((this.mUISigninPane == null))
+                {
+                    this.mUISigninPane = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUISigninPane.SearchProperties[HtmlDiv.PropertyNames.Id] = "cred_sign_in_button";
+                    this.mUISigninPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Sign in";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "button normaltext cred_sign_in_button refresh_domain_state control-button button-" +
+                        "two button_primary";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "tabindex=\"11\" class=\"button normaltext cred_sign_in_button refresh_domain_state c" +
+                        "ontrol-button button-two button_primary\" id=\"cred_sign_in_button\" role=\"button\" " +
+                        "style=\"opacity: 1;\"";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "11";
+                    this.mUISigninPane.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUISigninPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIECATest1statedeptusHyperlink;
+        
+        private HtmlEdit mUIPasswordEdit;
+        
+        private HtmlSpan mUISigninPane;
         #endregion
     }
 }

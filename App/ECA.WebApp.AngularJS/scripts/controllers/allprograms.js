@@ -17,8 +17,11 @@ angular.module('staticApp')
       $scope.totalNumberOfPrograms = 0;
       $scope.skippedNumberOfPrograms = 0;
       $scope.numberOfPrograms = 0;
-      $scope.programFilter = '';
 
+      // set the office to 1 for now
+      $scope.currentOffice = 1;
+
+      $scope.programFilter = '';
 
       $scope.totalRecords = 0;
 
@@ -44,6 +47,8 @@ angular.module('staticApp')
       $scope.alerts = [];
 
       $scope.themes = [];
+      $scope.categories = [];
+      $scope.objectives = [];
       $scope.goals = [];
       $scope.regions = [];
       $scope.pointsOfContact = [];
@@ -59,6 +64,8 @@ angular.module('staticApp')
           ownerOrganizationId: 1,
           startDate: new Date(),
           themes: [],
+          categories: [],
+          objectives: [],
           goals: [],
           regions: [],
           focusId: null,
@@ -70,7 +77,9 @@ angular.module('staticApp')
           Themes: [],
           Regions: [],
           Goals: [],
-          Contacts: []
+          Contacts: [],
+          Categories: [],
+          Objectives: []
       };
     $scope.programs = [];
 
@@ -97,6 +106,12 @@ angular.module('staticApp')
         filter: [{ property: 'locationtypeid', comparison: 'eq', value: 2 }]
     };
 
+    $scope.officeSpecificLookupParams = {
+        start: null,
+        limit: 10,
+        sort: null,
+        filter: [{ property: 'officeId', comparison: 'eq', value: $scope.currentOffice }]
+    };
 
      // #region Lookup Services
 
@@ -131,15 +146,23 @@ angular.module('staticApp')
                 $scope.regions[key].ticked = false;
             });
         });
-
-    LookupService.getAllFocusAreas($scope.lookupParams)
+      /*
+    LookupService.getAllCategories($scope.officeSpecificLookupParams)
         .then(function (data) {
-            $scope.foci = data.results;
-            angular.forEach($scope.foci, function (value, key) {
-                $scope.foci[key].ticked = false;
+            $scope.categories = data.results;
+            angular.forEach($scope.categories, function (value, key) {
+                $scope.categories[key].ticked = false;
             });
         });
 
+      LookupService.getAllObjectives($scope.officeSpecificLookupParams)
+      .then(function (data) {
+          $scope.objectives = data.results;
+          angular.forEach($scope.objectives, function (value, key) {
+              $scope.objectives[key].ticked = false;
+          });
+      });
+      */
       //#endregion
 
       // don't know why, but I need to access the scope variable for the data to load correctly
@@ -148,6 +171,8 @@ angular.module('staticApp')
     x = $scope.pointsOfContact[1];
     x = $scope.regions[1];
     x = $scope.foci[1];
+    x = $scope.categories[1];
+    x = $scope.objectives[1];
 
       //#region fill dropdown when editing
 
@@ -166,6 +191,12 @@ angular.module('staticApp')
         });
         angular.forEach($scope.themes, function (value, key) {
             $scope.themes[key].ticked = ($.inArray(value.id, $scope.newProgram.themes) > -1);
+        });
+        angular.forEach($scope.categories, function (value, key) {
+            $scope.categories[key].ticked = ($.inArray(value.id, $scope.newProgram.categories) > -1);
+        });
+        angular.forEach($scope.objectives, function (value, key) {
+            $scope.objectives[key].ticked = ($.inArray(value.id, $scope.newProgram.objectives) > -1);
         });
     };
       
@@ -186,14 +217,11 @@ angular.module('staticApp')
     }
 
     $scope.changeProgramList = function () {
-
         var tableState = $scope.initialTableState;
         $scope.getPrograms(tableState);
     };
 
     $scope.getPrograms = function (tableState) {
-
-
         $scope.initialTableState = tableState;
 
         TableService.setTableState(tableState);
@@ -317,11 +345,12 @@ angular.module('staticApp')
 
                 $scope.newProgram = newProgram;
                 $scope.newProgram.parentProgram = $scope.getParentProgramName(newProgram.parentProgramId);
-                $scope.newProgram.focusId = newProgram.focus.id;
                 $scope.newProgram.themes = newProgram.themes.map(getIds);
                 $scope.newProgram.goals = newProgram.goals.map(getIds);
                 $scope.newProgram.contacts = newProgram.contacts.map(getIds);
                 $scope.newProgram.regions = newProgram.regionIsos.map(getIds);
+                $scope.newProgram.categories = newProgram.categories.map(getIds);
+                $scope.newProgram.objectives = newProgram.objectives.map(getIds);
                 
                 $scope.tickSelectedItems();
 
@@ -416,6 +445,7 @@ angular.module('staticApp')
                     else {
                         $scope.program = program; //perhaps not, this is to get the id
                         $scope.confirmSave = true;
+                        $scope.modalClear();
                     }
                 });
         }
@@ -429,6 +459,9 @@ angular.module('staticApp')
         $scope.newProgram.goals = $scope.out.Goals.map(getIds);
         $scope.newProgram.contacts = $scope.out.Contacts.map(getIds);
         $scope.newProgram.regions = $scope.out.Regions.map(getIds);
+        $scope.newProgram.categories = $scope.out.Categories.map(getIds);
+        $scope.newProgram.objectives = $scope.out.Objectives.map(getIds);
+
     };
 
       // calendar popup for startDate
@@ -513,3 +546,4 @@ angular.module('staticApp')
     };
 
   });
+

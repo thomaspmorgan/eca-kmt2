@@ -71,12 +71,12 @@ namespace ECA.WebApi.Models.Projects
         /// <summary>
         /// Returns a business entity from this binding model.
         /// </summary>
-        /// <param name="userId">The id of the user making the update.</param>
+        /// <param name="user">The user making the change.</param>
         /// <returns>The PublishedProject business entity.</returns>
-        public PublishedProject ToPublishedProject(int userId)
+        public PublishedProject ToPublishedProject(User user)
         {
             return new PublishedProject(
-                updatedBy: new User(userId),
+                updatedBy: user,
                 projectId: this.Id,
                 name: this.Name,
                 description: this.Description,

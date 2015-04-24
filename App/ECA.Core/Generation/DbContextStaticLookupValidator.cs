@@ -29,7 +29,6 @@ namespace ECA.Core.Generation
         /// </summary>
         public const string LOOKUP_FROM_DATABASE_IS_NOT_KNOWN_FORMAT = "The database table [{0}] has a value [{1}] which is not in the [{2}] type.";
 
-        private static readonly string COMPONENT_NAME = typeof(DbContextStaticLookupValidator).Name;
 
         private DbContext context;
 

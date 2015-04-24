@@ -472,33 +472,9 @@ Places recent U.S. college graduates as English teaching assistants in schools o
     </TestStepMarkerAction>
     <NavigateToUrlAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
       <ParameterName />
-      <Url>about:Tabs</Url>
+      <Url>https://eca-kmt-qa.azurewebsites.net/</Url>
       <NewInstance>true</NewInstance>
     </NavigateToUrlAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="36" Y="11" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <SendKeysAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Text Encoded="false">https://eca-kmt-qa.azurewebsites.net/</Text>
-    </SendKeysAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="6" Y="10" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
     <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIECATest1statedeptusHyperlink">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
@@ -600,6 +576,19 @@ Places recent U.S. college graduates as English teaching assistants in schools o
       <ActionType>Refresh</ActionType>
     </BrowserAction>
     <TestStepMarkerAction Comment="Refresh/reload individual office page. (Office of Academic Exchange Programs)" MarkerInformation="RefreshIndividualOfficePage">
+      <ParameterName />
+      <StepId>-1</StepId>
+      <Direction>Start</Direction>
+      <Outcome />
+      <Disabled>false</Disabled>
+      <WorkItemId>0</WorkItemId>
+      <MarkerRegionType>Action</MarkerRegionType>
+    </TestStepMarkerAction>
+    <BrowserAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
+      <ParameterName />
+      <ActionType>Refresh</ActionType>
+    </BrowserAction>
+    <TestStepMarkerAction Comment="Refresh/Reload Office Overview page. (ECA-IIP/EX) office." MarkerInformation="RefreshOfficeOverview_SecOffice">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -890,19 +879,6 @@ Places recent U.S. college graduates as English teaching assistants in schools o
       <Text Encoded="false">{F5}</Text>
     </SendKeysAction>
     <TestStepMarkerAction Comment="Enter URL for ECA Office Directory Page in address bar; navigate to; refresh page for display" MarkerInformation="URLNav_ECAOfficeDirect">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Action</MarkerRegionType>
-    </TestStepMarkerAction>
-    <BrowserAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
-      <ParameterName />
-      <ActionType>Refresh</ActionType>
-    </BrowserAction>
-    <TestStepMarkerAction Comment="Refresh/Reload Office Overview page. (ECA-IIP/EX) office." MarkerInformation="RefreshOfficeOverview_SecOffice">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>

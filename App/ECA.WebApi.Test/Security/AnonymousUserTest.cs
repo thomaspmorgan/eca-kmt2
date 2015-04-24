@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.WebApi.Security;
 using CAM.Business.Service;
@@ -24,16 +25,10 @@ namespace ECA.WebApi.Test.Security
         }
 
         [TestMethod]
-        public void TestHasPermission()
+        public void TestToAzureUser()
         {
             var user = new AnonymousUser();
-            Assert.IsFalse(user.HasPermission(null, null));
-
-            var permission = new Permission
-            {
-
-            };
-            Assert.IsFalse(user.HasPermission(permission, new List<Permission> { permission }));
+            user.Invoking(x => x.ToAzureUser()).ShouldThrow<NotSupportedException>().WithMessage("This method should not be executed.  An anonymous user must not be inserted into CAM.");
         }
     }
 }

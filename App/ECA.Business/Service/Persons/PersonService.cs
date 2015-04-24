@@ -12,6 +12,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using ECA.Business.Queries.Admin;
 using NLog;
+using ECA.Business.Exceptions;
 
 namespace ECA.Business.Service.Persons
 {
@@ -85,6 +86,13 @@ namespace ECA.Business.Service.Persons
         /// <returns>The person created</returns>
         public async Task<Person> CreateAsync(NewPerson newPerson)
         {
+
+            var existingPerson = await GetExistingPerson(newPerson);
+            if (existingPerson != null)
+            {
+                this.logger.Trace("Found existing person {0}.");
+                throw new EcaBusinessException("The person already exists.");
+            }
             var project = await GetProjectByIdAsync(newPerson.ProjectId);
             var countriesOfCitizenship = await GetLocationsByIdAsync(newPerson.CountriesOfCitizenship);
             var person = CreatePerson(newPerson, countriesOfCitizenship);
@@ -94,11 +102,40 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Query for an existing person
+        /// </summary>
+        /// <param name="newPerson">The person to query for</param>
+        /// <returns>The existing person or null</returns>
+        public async Task<Person> GetExistingPerson(NewPerson newPerson)
+        {
+            this.logger.Trace("Retrieving person with match to {0}.", newPerson);
+            return await CreateGetPerson(newPerson).FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Creates query for existing person
+        /// </summary>
+        /// <param name="newPerson">The person to query for</param>
+        /// <returns>The queryable person or null</returns>
+        private IQueryable<Person> CreateGetPerson(NewPerson newPerson)
+        {
+            return Context.People.Where(
+                    x => x.FirstName.ToLower().Trim() == newPerson.FirstName.ToLower().Trim() &&
+                         x.LastName.ToLower().Trim() == newPerson.LastName.ToLower().Trim() &&
+                         x.GenderId == newPerson.Gender &&
+                         x.DateOfBirth.Day == newPerson.DateOfBirth.Day &&
+                         x.DateOfBirth.Month == newPerson.DateOfBirth.Month &&
+                         x.DateOfBirth.Year == newPerson.DateOfBirth.Year &&
+                         x.PlaceOfBirthId == newPerson.CityOfBirth
+                    );
+        }
+
+        /// <summary>
         /// Gets the project by id asyncronously
         /// </summary>
         /// <param name="projectId">The project id to lookup</param>
         /// <returns>A project</returns>
-        protected async Task<Project> GetProjectByIdAsync(int projectId)
+        public async Task<Project> GetProjectByIdAsync(int projectId)
         {
             this.logger.Trace("Retrieving project with id {0}.", projectId); 
             return await CreateGetProjectById(projectId).FirstOrDefaultAsync();

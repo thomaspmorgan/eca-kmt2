@@ -35,7 +35,7 @@ angular
     );
 
     $urlRouterProvider.otherwise('/');
-
+    
     $stateProvider
       .state('home', {
         templateUrl: 'views/home.html',
@@ -86,7 +86,12 @@ angular
         controller: 'AboutCtrl',
         requireADLogin: true
       })
-
+        .state('register', {
+            url: '/register',
+            templateUrl: 'views/register.html',
+            controller: 'RegisterCtrl',
+            requireADLogin: true
+        })
       
 
       // .state('list', {
@@ -391,6 +396,7 @@ angular
         templateUrl: 'views/lastupdated.html',
         requireADLogin: true
       });
+    $httpProvider.interceptors.push('UnauthorizedInterceptor');
   })
   .run(['$rootScope', '$location', '$state', 'editableOptions', function($rootScope, $location, $state, editableOptions, $anchorScroll) {
 

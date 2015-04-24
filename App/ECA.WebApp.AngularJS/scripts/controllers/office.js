@@ -146,13 +146,6 @@ angular.module('staticApp')
 
       function getProgramsByOfficeId(officeId, params) {
           var dfd = $q.defer();
-          var levels = [1, 2];
-
-          params.filter.push({
-              property: 'programLevel',
-              comparison: 'in',
-              value: levels
-          });
 
           OfficeService.getPrograms(params, officeId)
               .then(function (data, status, headers, config) {

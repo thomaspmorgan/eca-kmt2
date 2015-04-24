@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
 using ECA.WebApi.Models.Person;
+using ECA.WebApi.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,15 +23,18 @@ namespace ECA.WebApi.Controllers.Persons
     public class PeopleController : ApiController
     {
         private IPersonService service;
+        private IUserProvider userProvider;
 
         /// <summary>
         /// Constructor 
         /// </summary>
         /// <param name="service">The service to inject</param>
-        public PeopleController(IPersonService service)
+        public PeopleController(IPersonService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
             this.service = service;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -79,11 +83,12 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="model">The model to create</param>
         /// <returns>Success or error</returns>
         public async Task<IHttpActionResult> PostPersonAsync(PersonBindingModel model)
-        {
-            var userId = 0;
+        {   
             if (ModelState.IsValid)
             {
-                var person = await service.CreateAsync(model.ToNewPerson(userId));
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.CreateAsync(model.ToNewPerson(businessUser));
                 await service.SaveChangesAsync();
                 return Ok();
             }

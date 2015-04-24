@@ -78,15 +78,19 @@ namespace ECA.WebApi.Models.Programs
         /// </summary>
         public List<int> Regions { get; set; }
 
+        public List<int> Categories { get; set; }
+
+        public List<int> Objectives { get; set; }
+
         /// <summary>
         /// Returns a DraftProgram business entity from this binding model.
         /// </summary>
-        /// <param name="userId">The id of the user making the change.</param>
+        /// <param name="user">The user making the change.</param>
         /// <returns>The draft program.</returns>
-        public DraftProgram ToDraftProgram(int userId)
+        public DraftProgram ToDraftProgram(ECA.Business.Service.User user)
         {
             return new DraftProgram(
-                createdBy: new ECA.Business.Service.User(userId),
+                createdBy: user,
                 name: this.Name,
                 description: this.Description,
                 startDate: this.StartDate,
@@ -98,7 +102,9 @@ namespace ECA.WebApi.Models.Programs
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,
                 themeIds: this.Themes,
-                regionIds: this.Regions
+                regionIds: this.Regions,
+                categoryIds: this.Categories,
+                objectiveIds: this.Objectives
                 );
         }
     }

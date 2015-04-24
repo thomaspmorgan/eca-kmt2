@@ -84,8 +84,8 @@ namespace ECA.Data
         public ICollection<Contact> Contacts { get; set; }
 
 
-        public ICollection<Objective> JustificationObjectives { get; set; }
-        public ICollection<Category> FocusCategories { get; set; }
+        public ICollection<Objective> Objectives { get; set; }
+        public ICollection<Category> Categories { get; set; }
 
         public History History { get; set; }
 

@@ -13,7 +13,7 @@ using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 namespace ViewParticipantsList.Test
 {
     /// <summary>
-    /// Summary description for CodedUITest1
+    /// Breaks with selecting a page number from the pagination bar...(3)
     /// </summary>
     [CodedUITest]
     public class ViewParticipantsCodedUITest1
@@ -26,15 +26,23 @@ namespace ViewParticipantsList.Test
         [TestMethod]
         public void ViewParticipantsCodedUITestMethod1()
         {
-            this.UIMap.LogintoQA();
+            //this.UIMap.LogintoQA();
+            this.UIMap.LogintoQA_ExistingUser();
             this.UIMap.AssertContentMenuButton();
             this.UIMap.SelectContentMenuButton();
             this.UIMap.AssertParticipantsLink();
             this.UIMap.SelectParticipantsLink();
             this.UIMap.RefreshAllParticipantsPage();
+            this.UIMap.SelectContentMenuButton();
+            this.UIMap.SelectParticipantsLink();
             this.UIMap.AssertParticipantsList();
+            //this.UIMap.AssertPageNumberCustomControl();
+
+            this.UIMap.RefreshAllParticipantsPage();
             this.UIMap.AssertPageNumberCustomControl();
             this.UIMap.SelectPageCustomControl();
+            
+      
             this.UIMap.AssertPageNumberParticipantsList();
             this.UIMap.AssertParticipant_NameandHyperlink();
             this.UIMap.CloseBrowserWindow();

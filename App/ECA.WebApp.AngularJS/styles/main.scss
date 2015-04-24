@@ -322,14 +322,16 @@ ul {
     border:1px lightGray solid;
     border-radius: 5px;
     padding:5px;
+        cursor:pointer;
     
 }
 
-.programOptions div:hover {
-    background-color:red;
+.programOptions :hover {
+    color: black;
 }
 .programOption {
     cursor:pointer;
+    color:darkGray;
 }
 
 .programTypeRadio {

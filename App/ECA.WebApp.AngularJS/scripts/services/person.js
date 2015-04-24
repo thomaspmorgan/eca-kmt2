@@ -28,12 +28,7 @@ angular.module('staticApp')
               return defer.promise;
           },
           create: function (person) {
-              var defer = $q.defer();
-              DragonBreath.create(person, 'people')
-                .success(function (data) {
-                    defer.resolve(data);
-                });
-              return defer.promise;
+              return DragonBreath.create(person, 'people');
           }
       };
   });

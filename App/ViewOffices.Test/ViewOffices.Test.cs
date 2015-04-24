@@ -13,7 +13,8 @@ using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 namespace ViewOffices.Test
 {
     /// <summary>
-    /// View Offices --under construction-- doesn't like the Offices Link, won't navigate to All Offices
+    /// View Offices 
+    /// Verifies the login to QA; navigate to office page; use search offices box; search results returned; office returned from search; office description; office name; office acronym; and the office name being a hyperlink to navigate to the office.
     /// </summary>
     [CodedUITest]
     public class ViewOfficesCodedUITest1
@@ -31,13 +32,19 @@ namespace ViewOffices.Test
             this.UIMap.AssertContentMenuButton();
             this.UIMap.SelectContentMenuButton();
             this.UIMap.AssertOfficesContentMenuLink();
-            /*this.UIMap.SelectOfficesContentMenuLink();*/
-            this.UIMap.SelectOfficesContentMenu_Link();
+            this.UIMap.SelectOfficesContentMenuLink();
             this.UIMap.RefreshAllOffices_ECAOfficeDirectoryPage();
+            this.UIMap.SelectContentMenuButton();
+            this.UIMap.SelectOfficesContentMenu_Link();
+            //this.UIMap.RefreshAllOffices_ECAOfficeDirectoryPage();
             this.UIMap.AssertECAOfficeDirectoryPage();
             this.UIMap.AssertSearchOffices();
+            this.UIMap.InputSearchOfficeText();
+            this.UIMap.RefreshAllOffices_ECAOfficeDirectoryPage();
+            this.UIMap.InputSearchOfficeText();
+            this.UIMap.AssertSearchOfficesTextResults();
             this.UIMap.AssertAvailableOfficeinList();
-            this.UIMap.AssertOfficeAvailableinList();
+            //this.UIMap.AssertOfficeAvailableinList();
             this.UIMap.CloseBrowserWindow();
 
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.

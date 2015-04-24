@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using ECA.Business.Service;
 using System.Data.Entity;
+using ECA.Business.Exceptions;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -484,6 +485,100 @@ namespace ECA.Business.Test.Service.Persons
             // Check that participant is associated to project
             var participantProject = participant.Projects.First();
             Assert.AreEqual(project.ProjectId, participantProject.ProjectId);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(EcaBusinessException), "The person already exists.")]
+        public async Task TestCreateAsync_Duplicate()
+        {
+            var existingPerson = new Person
+            {
+                FirstName = "firstName",
+                LastName = "lastName",
+                GenderId = Gender.Female.Id,
+                DateOfBirth = DateTimeOffset.Now,
+                PlaceOfBirthId = 1
+            };
+
+            context.People.Add(existingPerson);
+
+            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName, existingPerson.LastName,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth, 1,
+                                          new List<int>());
+            var person = await service.CreateAsync(newPerson);
+        }
+
+        [TestMethod]
+        public async Task TestGetExistingPerson_DoesNotExist()
+        {
+            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName", 1, DateTimeOffset.Now, 1, new List<int>());
+            var person = await service.GetExistingPerson(newPerson);
+            Assert.IsNull(person);
+        }
+
+        [TestMethod]
+        public async Task TestGetExistingPerson_NamesDifferentCases()
+        {
+            var existingPerson = new Person
+            {
+                FirstName = "firstName",
+                LastName = "lastName",
+                GenderId = Gender.Female.Id,
+                DateOfBirth = DateTimeOffset.Now,
+                PlaceOfBirthId = 1
+            };
+
+            context.People.Add(existingPerson);
+
+            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
+                                          existingPerson.GenderId, existingPerson.DateOfBirth, 1,
+                                          new List<int>());
+            var person = await service.GetExistingPerson(newPerson);
+            Assert.IsNotNull(person);
+        }
+
+        [TestMethod]
+        public async Task TestGetExistingPerson_NamesHaveSpacesBeforeAndAfter()
+        {
+            var existingPerson = new Person
+            {
+                FirstName = " firstName ",
+                LastName = " lastName ",
+                GenderId = Gender.Female.Id,
+                DateOfBirth = DateTimeOffset.Now,
+                PlaceOfBirthId = 1
+            };
+
+            context.People.Add(existingPerson);
+
+            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.Trim(), existingPerson.LastName.Trim(),
+                                          existingPerson.GenderId, existingPerson.DateOfBirth, 1,
+                                          new List<int>());
+            var person = await service.GetExistingPerson(newPerson);
+            Assert.IsNotNull(person);
+        }
+
+        [TestMethod]
+        public async Task TestGetExistingPerson_DateOfBirthWithDifferentTime()
+        {
+            var dateAndTime = new DateTimeOffset(2008, 5, 1, 8, 6, 32,
+                                 new TimeSpan(1, 0, 0));
+            var existingPerson = new Person
+            {
+                FirstName = "firstName",
+                LastName = "lastName",
+                GenderId = Gender.Female.Id,
+                DateOfBirth = dateAndTime,
+                PlaceOfBirthId = 1
+            };
+
+            context.People.Add(existingPerson);
+
+            var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.AddHours(2), 1,
+                                          new List<int>());
+            var person = await service.GetExistingPerson(newPerson);
+            Assert.IsNotNull(person);
         }
         #endregion
     }

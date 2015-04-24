@@ -20,6 +20,9 @@ namespace ECA.Business.Queries.Models.Programs
             this.RegionIsos = new List<SimpleLookupDTO>();
             this.Goals = new List<SimpleLookupDTO>();
             this.Themes = new List<SimpleLookupDTO>();
+            this.Categories = new List<SimpleLookupDTO>();
+            this.Objectives = new List<SimpleLookupDTO>();
+
         }
 
         /// <summary>
@@ -76,6 +79,16 @@ namespace ECA.Business.Queries.Models.Programs
         /// Gets or sets the Contacts.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Contacts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Categories
+        /// </summary>
+        public IEnumerable<SimpleLookupDTO> Categories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Justification Objectives
+        /// </summary>
+        public IEnumerable<SimpleLookupDTO> Objectives { get; set; }
 
         /// <summary>
         /// Gets or sets the focus.

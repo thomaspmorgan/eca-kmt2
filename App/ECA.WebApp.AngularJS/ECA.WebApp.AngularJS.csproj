@@ -136,6 +136,7 @@
     <Content Include="scripts\controllers\simple_test.js" />
     <Content Include="scripts\directives\datepickerpopup.js" />
     <Content Include="scripts\filters\highlight.js" />
+    <Content Include="scripts\services\unauthorizedinterceptor.js" />
     <Content Include="scripts\services\constantsservice.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
