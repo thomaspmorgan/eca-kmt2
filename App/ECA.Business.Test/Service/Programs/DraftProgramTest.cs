@@ -27,6 +27,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int> { 20 };
             var pointOfContactIds = new List<int> { 30 };
             var regionIds = new List<int> { 40 };
+            var categoryIds = new List<int> { 50 };
+            var objectiveIds = new List<int> { 60 };
 
             var user = new User(userId);
             var program = new DraftProgram(
@@ -42,7 +44,10 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
                 themeIds: themeIds,
-                regionIds: regionIds
+                regionIds: regionIds,
+                categoryIds: categoryIds,
+                objectiveIds: objectiveIds
+
                 );
             Assert.AreEqual(user, program.Audit.User);
             DateTimeOffset.UtcNow.Should().BeCloseTo(program.Audit.Date, DbContextHelper.DATE_PRECISION);
@@ -93,7 +98,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: null
+                regionIds: null,
+               categoryIds: null,
+               objectiveIds: null
                 );
             Assert.IsNotNull(program.GoalIds);
             Assert.IsNotNull(program.ThemeIds);

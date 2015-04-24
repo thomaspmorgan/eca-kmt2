@@ -182,6 +182,94 @@ namespace ECA.Business.Service
         }
         #endregion
 
+        #region Categories Existence Validation
+        private IQueryable<Category> CreateGetCategoriesByIdsQuery(IEnumerable<int> categoryIds)
+        {
+            Contract.Requires(categoryIds != null, "The theme ids must not be null.");
+            return Context.Categories.Where(x => categoryIds.Distinct().Contains(x.CategoryId)).Distinct();
+        }
+
+        public async Task<bool> CheckAllCategoriesExistAsync(IEnumerable<int> categoryIds)
+        {
+            Contract.Requires(categoryIds != null, "The Category Ids must not be null.");
+            bool response = false;
+            if (categoryIds.Count() == 0)
+            {
+                response = true;
+            }
+            else
+            {
+                var distinctIds = categoryIds.Distinct().ToList();
+                response = await CreateGetCategoriesByIdsQuery(categoryIds).CountAsync() == distinctIds.Count();
+            }
+            logger.Trace("Checked all themes with ids {0} exist.", String.Join(", ", categoryIds));
+            return response;
+        }
+
+        /// <summary>
+        /// A method to verify all themes with the given ids exist in the system.
+        /// </summary>
+        /// <param name="themeIds">The themes by Id to validate existence.</param>
+        /// <returns>True, if all themes exist, otherwise false.</returns>
+        public bool CheckAllCategoriesExist(IEnumerable<int> categoryIds)
+        {
+            Contract.Requires(categoryIds != null, "The theme ids must not be null.");
+            bool response = false;
+            if (categoryIds.Count() == 0)
+            {
+                response = true;
+            }
+            else
+            {
+                var distinctIds = categoryIds.Distinct().ToList();
+                response = CreateGetThemesByIdsQuery(categoryIds).Count() == distinctIds.Count();
+            }
+            logger.Trace("Checked all themes exist.");
+            return response;
+        }
+        #endregion
+
+        #region Objectives Existence Validation
+        private IQueryable<Objective> CreateGetObjectivesByIdsQuery(IEnumerable<int> objectiveIds)
+        {
+            Contract.Requires(objectiveIds != null, "The theme ids must not be null.");
+            return Context.Objectives.Where(x => objectiveIds.Distinct().Contains(x.ObjectiveId)).Distinct();
+        }
+        public async Task<bool> CheckAllObjectivesExistAsync(IEnumerable<int> objectiveIds)
+        {
+            Contract.Requires(objectiveIds != null, "The Objective Ids must not be null.");
+            bool response = false;
+            if (objectiveIds.Count() == 0)
+            {
+                response = true;
+            }
+            else
+            {
+                var distinctIds = objectiveIds.Distinct().ToList();
+                response = await CreateGetObjectivesByIdsQuery(objectiveIds).CountAsync() == distinctIds.Count();
+            }
+            logger.Trace("Checked all ojectives with ids {0} exist.", String.Join(", ", objectiveIds));
+            return response;
+        }
+
+        public bool CheckAllObjectivesExist(IEnumerable<int> objectiveIds)
+        {
+            Contract.Requires(objectiveIds != null, "The theme ids must not be null.");
+            bool response = false;
+            if (objectiveIds.Count() == 0)
+            {
+                response = true;
+            }
+            else
+            {
+                var distinctIds = objectiveIds.Distinct().ToList();
+                response = CreateGetObjectivesByIdsQuery(objectiveIds).Count() == objectiveIds.Count();
+            }
+            logger.Trace("Checked all objectives exist.");
+            return response;
+        }
+        #endregion
+
         /// <summary>
         /// Returns the focus with the given id.
         /// </summary>
@@ -273,7 +361,7 @@ namespace ECA.Business.Service
         /// <param name="programEntity">The program to update.</param>
         public void SetRegions(List<int> regionIds, Program programEntity)
         {
-            Contract.Requires(regionIds != null, "The theme ids must not be null.");
+            Contract.Requires(regionIds != null, "The region ids must not be null.");
             Contract.Requires(programEntity != null, "The program entity must not be null.");
             programEntity.Regions.Clear();
             regionIds.ForEach(x =>
@@ -314,6 +402,53 @@ namespace ECA.Business.Service
             });
         }
 
+        public void SetCategories(List<int> categoryIds, ICategorizable categorizable)
+        {
+            Contract.Requires(categoryIds != null, "The category ids must not be null.");
+            Contract.Requires(categorizable != null, "The categorizable entity must not be null.");
+            var categoriesToRemove = categorizable.Categories.Where(x => !categoryIds.Contains(x.CategoryId)).ToList();
+            var categoriesToAdd = new List<Category>();
+            categoryIds.Where(x => !categorizable.Categories.Select(c => c.CategoryId).ToList().Contains(x)).ToList()
+                .Select(x => new Category { CategoryId = x }).ToList()
+                .ForEach(x => categoriesToAdd.Add(x));
+
+            categoriesToAdd.ForEach(x =>
+            {
+                if (Context.GetEntityState(x) == EntityState.Detached)
+                {
+                    Context.Categories.Attach(x);
+                }
+                categorizable.Categories.Add(x);
+            });
+            categoriesToRemove.ForEach(x =>
+            {
+                categorizable.Categories.Remove(x);
+            });
+        }
+
+        public void SetObjectives(List<int> objectiveIds, IObjectivable objectivable)
+        {
+            Contract.Requires(objectiveIds != null, "The objective ids must not be null.");
+            Contract.Requires(objectivable != null, "The Objectivable entity must not be null.");
+            var objectivesToRemove = objectivable.Objectives.Where(x => !objectiveIds.Contains(x.ObjectiveId)).ToList();
+            var objectivesToAdd = new List<Objective>();
+            objectiveIds.Where(x => !objectivable.Objectives.Select(o => o.ObjectiveId).ToList().Contains(x)).ToList()
+                .Select(x => new Objective { ObjectiveId = x }).ToList()
+                .ForEach(x => objectivesToAdd.Add(x));
+
+            objectivesToAdd.ForEach(x =>
+            {
+                if (Context.GetEntityState(x) == EntityState.Detached)
+                {
+                    Context.Objectives.Attach(x);
+                }
+                objectivable.Objectives.Add(x);
+            });
+            objectivesToRemove.ForEach(x =>
+            {
+                objectivable.Objectives.Remove(x);
+            });
+        }
         /// <summary>
         /// Get a list of locations
         /// </summary>

@@ -193,6 +193,8 @@ namespace ECA.Business.Service.Programs
             SetPointOfContacts(draftProgram.ContactIds, program);
             SetThemes(draftProgram.ThemeIds, program);
             SetRegions(draftProgram.RegionIds, program);
+            SetCategories(draftProgram.FocusCategoryIds, program);
+            SetObjectives(draftProgram.JustificationObjectiveIds, program);
             Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
             draftProgram.Audit.SetHistory(program);
             this.Context.Programs.Add(program);

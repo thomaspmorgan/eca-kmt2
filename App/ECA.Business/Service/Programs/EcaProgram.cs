@@ -52,7 +52,9 @@ namespace ECA.Business.Models.Programs
             List<int> goalIds,
             List<int> pointOfContactIds,
             List<int> themeIds,
-            List<int> regionIds)
+            List<int> regionIds,
+            List<int> categoryIds,
+            List<int> objectiveIds)
         {
             Contract.Requires(updatedBy != null, "The updated by user must not be null.");
             var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
@@ -82,6 +84,8 @@ namespace ECA.Business.Models.Programs
             this.ContactIds = this.ContactIds.Distinct().ToList();
             this.ThemeIds = this.ThemeIds.Distinct().ToList();
             this.RegionIds = this.RegionIds.Distinct().ToList();
+            this.FocusCategoryIds = this.FocusCategoryIds.Distinct().ToList();
+            this.JustificationObjectiveIds = this.JustificationObjectiveIds.Distinct().ToList();
         }
 
         /// <summary>
@@ -144,6 +148,9 @@ namespace ECA.Business.Models.Programs
         /// </summary>
         public List<int> ThemeIds { get; private set; }
 
+        public List<int> FocusCategoryIds { get; set; }
+
+        public List<int> JustificationObjectiveIds { get; set; }
         /// <summary>
         /// Gets the program contacts by id.
         /// </summary>
