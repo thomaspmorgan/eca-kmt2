@@ -33,7 +33,7 @@ angular.module('staticApp')
       $scope.editView.selectedThemes = [];
 
       $scope.permissions = {};
-      $scope.permissions.canEdit = false;
+      $scope.permissions.canEdit = true;
       
 
       $scope.editView.loadProjectStati = function () {
