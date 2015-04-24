@@ -29,6 +29,12 @@
 	otherConstants["searchDelimiter"] = " ";
 	otherConstants["emptyGuid"] = Guid.Empty.ToString();
 	otherConstants["editProjectEventName"] = "EditProject";
+	otherConstants["logoutEventName"] = "logout";
+	otherConstants["adalLoginSuccessEventName"] = "adal:loginSuccess";
+	otherConstants["registeringUserEventName"] = "registeringUser";
+	otherConstants["registerUserSuccessEventName"] = "registerUserSuccess";
+	otherConstants["registerUserFailureEventName"] = "registerUserFailure";
+
 
 	otherConstants["inComparisonType"] = ComparisonType.In.Value;
 	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;

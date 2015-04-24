@@ -155,7 +155,7 @@ namespace ECA.WebApi.Test.Security
             catch (HttpResponseException e)
             {
                 exceptionCaught = true;
-                Assert.AreEqual(HttpStatusCode.Unauthorized, e.Response.StatusCode);
+                Assert.AreEqual(HttpStatusCode.Forbidden, e.Response.StatusCode);
             }
             Assert.IsTrue(exceptionCaught);
             //make sure we do not fall into into checking permissions
@@ -189,7 +189,7 @@ namespace ECA.WebApi.Test.Security
             catch (HttpResponseException e)
             {
                 exceptionCaught = true;
-                Assert.AreEqual(HttpStatusCode.Unauthorized, e.Response.StatusCode);
+                Assert.AreEqual(HttpStatusCode.Forbidden, e.Response.StatusCode);
             }
             Assert.IsTrue(exceptionCaught);
             //make sure we fall into checking permissions

@@ -63,9 +63,9 @@ namespace CAM.Business.Test.Service
             Assert.AreEqual(UserAccount.SYSTEM_USER_ACCOUNT_ID, savedUserAccount.RevisedBy);
 
             Assert.IsTrue(savedUserAccount.LastAccessed.HasValue);
-            DateTimeOffset.Now.Should().BeCloseTo(savedUserAccount.CreatedOn);
-            DateTimeOffset.Now.Should().BeCloseTo(savedUserAccount.RevisedOn);
-            DateTimeOffset.Now.Should().BeCloseTo(savedUserAccount.LastAccessed.Value);
+            DateTimeOffset.Now.Should().BeCloseTo(savedUserAccount.CreatedOn, 2000);
+            DateTimeOffset.Now.Should().BeCloseTo(savedUserAccount.RevisedOn, 2000);
+            DateTimeOffset.Now.Should().BeCloseTo(savedUserAccount.LastAccessed.Value, 2000);
             Assert.IsNull(savedUserAccount.Note);
 
             Assert.IsFalse(savedUserAccount.ExpiredDate.HasValue);
@@ -130,7 +130,7 @@ namespace CAM.Business.Test.Service
             Assert.AreEqual(1, context.SaveChangesCount);
             Assert.AreEqual(0, context.SaveChangesAsyncCount);
             Assert.IsTrue(userAccount.LastAccessed.HasValue);
-            DateTimeOffset.Now.Should().BeCloseTo(userAccount.LastAccessed.Value);
+            DateTimeOffset.Now.Should().BeCloseTo(userAccount.LastAccessed.Value, 2000);
         }
 
         [TestMethod]
@@ -149,7 +149,7 @@ namespace CAM.Business.Test.Service
             Assert.AreEqual(0, context.SaveChangesCount);
             Assert.AreEqual(1, context.SaveChangesAsyncCount);
             Assert.IsTrue(userAccount.LastAccessed.HasValue);
-            DateTimeOffset.Now.Should().BeCloseTo(userAccount.LastAccessed.Value);
+            DateTimeOffset.Now.Should().BeCloseTo(userAccount.LastAccessed.Value, 2000);
         }
 
         #endregion

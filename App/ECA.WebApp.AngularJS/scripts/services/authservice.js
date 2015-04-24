@@ -8,8 +8,9 @@
  * Factory for handling authorization.
  */
 angular.module('staticApp')
-  .factory('AuthService', function ($http, $q, $window, DragonBreath) {
-      return {
+  .factory('AuthService', function ($rootScope, $http, $q, $window, DragonBreath, adalAuthenticationService) {
+      
+      var service = {
           getResourcePermissions: function (resourceType, id) {
               return DragonBreath.get({
                   type: resourceType,
@@ -17,13 +18,21 @@ angular.module('staticApp')
               }, 'auth/user/permissions');
           },
 
-          getUserInfo: function(){
+          getUserInfo: function () {
               return DragonBreath.get('auth/user');
           },
 
           register: function () {
               return DragonBreath.create({}, 'auth/user/register');
+          },
+
+          login: function () {
+              adalAuthenticationService.login();
+          },
+
+          logOut: function () {
+              adalAuthenticationService.logOut();
           }
       };
-
+      return service;
   });

@@ -31,6 +31,7 @@ namespace ECA.WebApi.Controllers
         /// </summary>
         /// <param name="provider">The user provider.</param>
         /// <param name="permissionStore">The permissions store.</param>
+        /// <param name="userService">The user service.</param>
         public AuthController(IUserProvider provider, IPermissionStore<IPermission> permissionStore, IUserService userService)
         {
             Contract.Requires(provider != null, "The provider must not be null.");

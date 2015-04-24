@@ -1,5 +1,5 @@
 <div collapse="view.areAlertsCollapsed">
-    <alert ng-repeat="notification in view.notifications" type="{{notification.type}}">{{notification.msg}}</alert>
+    <alert ng-repeat="notification in view.notifications" type="{{notification.type}}" close="closeAlert($index)">{{notification.msg}}</alert>
 </div>
 
 <div>
