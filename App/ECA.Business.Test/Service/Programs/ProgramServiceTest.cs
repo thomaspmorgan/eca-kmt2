@@ -472,6 +472,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var goalIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -486,7 +488,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = service.Create(draftProgram);
@@ -531,6 +535,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var goalIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -545,7 +551,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = service.Create(draftProgram);
@@ -577,6 +585,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var goalIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -591,7 +601,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -638,6 +650,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var goalIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -652,7 +666,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -686,6 +702,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var goalIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -700,7 +718,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = service.Create(draftProgram);
@@ -733,6 +753,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var goalIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -747,7 +769,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -780,6 +804,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var goalIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -794,7 +820,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = service.Create(draftProgram);
@@ -830,6 +858,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var goalIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -844,7 +874,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -880,6 +912,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var contactIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -894,7 +928,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = service.Create(draftProgram);
@@ -930,6 +966,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var contactIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -944,7 +982,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -980,6 +1020,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int> { theme.ThemeId };
             var contactIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -994,7 +1036,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = service.Create(draftProgram);
@@ -1030,6 +1074,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int> { theme.ThemeId };
             var contactIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1044,7 +1090,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -1077,6 +1125,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var contactIds = new List<int>();
             var regionIds = new List<int> { region.LocationId };
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1091,7 +1141,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = service.Create(draftProgram);
@@ -1125,6 +1177,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var contactIds = new List<int>();
             var regionIds = new List<int> { region.LocationId };
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1139,7 +1193,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: contactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
 
             var program = await service.CreateAsync(draftProgram);
@@ -1169,6 +1225,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var goalIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1183,7 +1241,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
             SetupMockValidatorToThrowException();
             service.Create(draftProgram);
@@ -1207,6 +1267,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int>();
             var goalIds = new List<int>();
             var regionIds = new List<int>();
+            var categoryIds = new List<int>();
+            var objectiveIds = new List<int>();
 
             var draftProgram = new DraftProgram(
                createdBy: user,
@@ -1221,7 +1283,9 @@ namespace ECA.Business.Test.Service.Programs
                goalIds: goalIds,
                pointOfContactIds: pointOfContactIds,
                themeIds: themeIds,
-               regionIds: regionIds
+               regionIds: regionIds,
+               categoryIds: categoryIds,
+               objectiveIds: objectiveIds
                );
             SetupMockValidatorToThrowException();
             await service.CreateAsync(draftProgram);
@@ -1299,7 +1363,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: null
+                regionIds: null,
+                categoryIds: null,
+                objectiveIds: null
                 );
             service.Update(updatedEcaProgram);
 
@@ -1391,7 +1457,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: null
+                regionIds: null,
+                categoryIds: null,
+                objectiveIds: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
 
@@ -1481,7 +1549,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: new List<int> { 1 },
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: null
+                regionIds: null,
+                                categoryIds: null,
+                objectiveIds: null
                 );
             service.Update(updatedEcaProgram);
 
@@ -1560,7 +1630,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: new List<int> { 1 },
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: null
+                regionIds: null,
+                                categoryIds: null,
+                objectiveIds: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
 
@@ -1639,7 +1711,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: new List<int> { 1 },
-                regionIds: null
+                regionIds: null,
+                                categoryIds: null,
+                objectiveIds: null
                 );
             service.Update(updatedEcaProgram);
 
@@ -1717,7 +1791,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: new List<int> { 1 },
-                regionIds: null
+                regionIds: null,
+                                categoryIds: null,
+                objectiveIds: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
 
@@ -1795,7 +1871,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: new List<int> { 1 },
                 themeIds: null,
-                regionIds: null
+                regionIds: null,
+                                categoryIds: null,
+                objectiveIds: null
                 );
             service.Update(updatedEcaProgram);
 
@@ -1873,7 +1951,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: new List<int> { 1 },
                 themeIds: null,
-                regionIds: null
+                regionIds: null,
+                                categoryIds: null,
+                objectiveIds: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
 
@@ -1953,7 +2033,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: new List<int> { region.LocationId }
+                regionIds: new List<int> { region.LocationId },
+                                categoryIds: null,
+                objectiveIds: null
                 );
             service.Update(updatedEcaProgram);
 
@@ -2033,7 +2115,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: new List<int> { region.LocationId }
+                regionIds: new List<int> { region.LocationId },
+                                categoryIds: null,
+                objectiveIds: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
 
@@ -2076,7 +2160,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: null
+                regionIds: null,
+                                categoryIds: null,
+                objectiveIds: null
                 );
             service.Update(updatedEcaProgram);
         }
@@ -2113,7 +2199,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: null
+                regionIds: null,
+                                categoryIds: null,
+                objectiveIds: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
         }
@@ -2145,7 +2233,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: null
+                regionIds: null,
+                                categoryIds: null,
+                objectiveIds: null
                 );
             context.Programs.Add(new Program { ProgramId = updatedEcaProgram.Id });
             SetupMockValidatorToThrowException();
@@ -2179,7 +2269,9 @@ namespace ECA.Business.Test.Service.Programs
                 goalIds: null,
                 pointOfContactIds: null,
                 themeIds: null,
-                regionIds: null
+                regionIds: null,
+                                categoryIds: null,
+                objectiveIds: null
                 );
             SetupMockValidatorToThrowException();
             context.Programs.Add(new Program { ProgramId = updatedEcaProgram.Id });
