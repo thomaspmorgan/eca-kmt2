@@ -78,6 +78,10 @@ namespace ECA.WebApi.Models.Programs
         /// </summary>
         public List<int> Regions { get; set; }
 
+        public List<int> Categories { get; set; }
+
+        public List<int> Objectives { get; set; }
+
         /// <summary>
         /// Returns a DraftProgram business entity from this binding model.
         /// </summary>
@@ -98,7 +102,9 @@ namespace ECA.WebApi.Models.Programs
                 goalIds: this.Goals,
                 pointOfContactIds: this.Contacts,
                 themeIds: this.Themes,
-                regionIds: this.Regions
+                regionIds: this.Regions,
+                categoryIds: this.Categories,
+                objectiveIds: this.Objectives
                 );
         }
     }
