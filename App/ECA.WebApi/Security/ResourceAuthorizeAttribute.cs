@@ -138,7 +138,7 @@ namespace ECA.WebApi.Security
             {
                 this.logger.Info("User [{0}] denied authorization to resource because user is not valid in CAM.", currentUser.GetUsername());
                 SetAuthorizationResult(AuthorizationResult.InvalidCamUser);
-                throw new HttpResponseException(HttpStatusCode.Unauthorized);
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
             }
             var userPermissions = (await userProvider.GetPermissionsAsync(currentUser)).ToList();
             var principalId = await userProvider.GetPrincipalIdAsync(currentUser);
@@ -173,7 +173,7 @@ namespace ECA.WebApi.Security
                         foreignResourceId,
                         this.Permission);
                     SetAuthorizationResult(AuthorizationResult.Denied);
-                    throw new HttpResponseException(HttpStatusCode.Unauthorized);
+                    throw new HttpResponseException(HttpStatusCode.Forbidden);
                 }
             }
             this.logger.Info("User [{0}] granted access to resource with id [{1}] with foreign key [{2}] of type [{3}] on web api action [{4}].[{5}].",

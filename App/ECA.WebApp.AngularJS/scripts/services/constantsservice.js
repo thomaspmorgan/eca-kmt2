@@ -72,6 +72,7 @@
 		isNullComparisonType: 'null',
 		lessThanComparisonType: 'lt',
 		likeComparisonType: 'like',
+		logoutEventName: 'logout',
 		notInComparisonType: 'notin',
 		searchDelimiter: ' '
 	};

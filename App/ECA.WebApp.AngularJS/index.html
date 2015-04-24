@@ -63,10 +63,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                
                 <div style="margin-right: 50px;" class="navbar-right right">
                     <div id="search-bar-icon" class="glyphicon glyphicon-search col-sd-1" ng-click="spotlightModal=!spotlightModal"></div>
                 </div>
-
+                <span style="margin-right: 10px; margin-top:15px;" 
+                      class="dropdown pull-right" 
+                      dropdown on-toggle="userMenuToggled(open)" 
+                      ng-show="userInfo.isAuthenticated" 
+                      data-ng-model="userInfo">
+                    <a href class="dropdown-toggle" dropdown-toggle>
+                        {{userInfo.profile.name}}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" ng-click="logout()">Logout</a></li>
+                    </ul>
+                </span>
             </div>
         </div>
     </div>
@@ -94,7 +106,6 @@
             <div class="text-stack">
                 <h5>Bureau of Educational and Cultural Affairs</h5>
                 <p>Promoting Mutual Understanding</p>
-                <p data-ng-model="userInfo">Current User {{userInfo.userName}}</p>
             </div>
         </div>
     </div>
@@ -183,11 +194,12 @@
     <script src="scripts/controllers/report.js"></script>
     <script src="scripts/services/locationservice.js"></script>
     <script src="scripts/services/constantsservice.js"></script>
+    <script src="scripts/services/logouteventservice.js"></script>
     <script src="scripts/services/moneyflow.js"></script>
     <script src="scripts/services/tableservice.js"></script>
     <script src="scripts/services/lookupservice.js"></script>
     <script src="scripts/services/office.js"></script>
-    <script src="scripts/services/unauthorizedinterceptor.js"></script>
+    <script src="scripts/services/forbiddeninterceptor.js"></script>
     <!-- endbuild -->
     <!--<script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
