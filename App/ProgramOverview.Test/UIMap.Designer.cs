@@ -166,25 +166,13 @@ namespace ProgramOverview.Test
         public void LogintoQA_ExisitingUser()
         {
             #region Variable Declarations
-            WinEdit uIAddressandsearchusinEdit1 = this.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit1;
-            WinEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIItemWindow1.UIItemEdit;
-            WinButton uIGotohttpsecakmtqaazuButton = this.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton;
             HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIECATest1statedeptusHyperlink;
             HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
             HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
             #endregion
 
-            // Go to web page 'about:Tabs' using new browser instance
+            // Go to web page 'https://eca-kmt-qa-azurewebsites.net/' using new browser instance
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExisitingUserParams.UINewtabInternetExplorWindowUrl));
-
-            // Click 'Address and search using Bing' text box
-            Mouse.Click(uIAddressandsearchusinEdit1, new Point(16, 9));
-
-            // Type 'https://eca-kmt-qa-azurewebsites.net/' in text box
-            Keyboard.SendKeys(uIItemEdit, this.LogintoQA_ExisitingUserParams.UIItemEditSendKeys, ModifierKeys.None);
-
-            // Click 'Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt...' button
-            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(6, 16));
 
             // Click 'ECATest1@statedept.us •••' link
             Mouse.Click(uIECATest1statedeptusHyperlink, new Point(84, 35));
@@ -626,14 +614,9 @@ namespace ProgramOverview.Test
         
         #region Fields
         /// <summary>
-        /// Go to web page 'about:Tabs' using new browser instance
+        /// Go to web page 'https://eca-kmt-qa-azurewebsites.net/' using new browser instance
         /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "about:Tabs";
-        
-        /// <summary>
-        /// Type 'https://eca-kmt-qa-azurewebsites.net/' in text box
-        /// </summary>
-        public string UIItemEditSendKeys = "https://eca-kmt-qa-azurewebsites.net/";
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa-azurewebsites.net/";
         
         /// <summary>
         /// Type '********' in 'Password' text box
