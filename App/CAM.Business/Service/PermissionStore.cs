@@ -19,7 +19,8 @@ namespace CAM.Business.Service
         /// <summary>
         /// Instantiates the PermissionsStore
         /// </summary>
-        public PermissionStore()
+        public PermissionStore(CamModel model)
+            : base(model)
         {
             ResourceId = null;
             PrincipalId = null;
@@ -30,7 +31,8 @@ namespace CAM.Business.Service
         /// Instantiates the PermissionsStore 
         /// </summary>
         /// <param name="applicationId">Sets the ApplicationResourceId property given the ApplicationId</param>
-        public PermissionStore(int resourceId)
+        public PermissionStore(int resourceId, CamModel model)
+            : base(model)
         {
             ResourceId = GetResourceIdForApplicationId(resourceId);
             PrincipalId = null;
@@ -41,7 +43,8 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="resourceId">Sets the ApplicationResourceId property</param>
         /// <param name="principalId">Sets the PrincipalId property</param>
-        public PermissionStore(int resourceId, int principalId)
+        public PermissionStore(int resourceId, int principalId, CamModel model)
+            : base(model)
         {
             ResourceId = GetResourceIdForApplicationId(resourceId);
             PrincipalId = principalId;

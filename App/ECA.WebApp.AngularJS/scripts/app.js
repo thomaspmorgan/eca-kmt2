@@ -79,6 +79,16 @@ angular
             templateUrl: 'views/events/eventOverview.html',
             requireADLogin: true
         })
+        .state('forbidden', {
+            url: '/forbidden',
+            templateUrl: 'views/forbidden.html',
+            requireADLogin: false
+        })
+        .state('error', {
+            url: '/error',
+            templateUrl: 'views/error.html',
+            requireADLogin: false
+        })
 
         .state('about', {
             url: '/about',
@@ -446,7 +456,7 @@ angular
         };
 
         $rootScope.userMenuToggled = function (open) {
-            
+
         };
 
         $rootScope.notifications = [];
@@ -500,5 +510,5 @@ angular
         });
 
         $rootScope.spotlightModal = false;
-        
+
     }]);

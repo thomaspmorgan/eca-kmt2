@@ -13,7 +13,8 @@ namespace CAM.Business.Test.Service
         [TestMethod]
         public void TestSinglePermission()
         {
-            Business.Service.PermissionStore permissionStore = new Business.Service.PermissionStore();
+            var model = new TestInMemoryCamModel();
+            Business.Service.PermissionStore permissionStore = new Business.Service.PermissionStore(model);
             permissionStore.Permissions.Add(new Business.Service.Permission(1,1,1));
             Assert.IsTrue(permissionStore.HasPermission(1,1,1));
         }

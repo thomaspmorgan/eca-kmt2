@@ -11,12 +11,19 @@ angular.module('staticApp')
         };
         service.responseError = function (response) {
             var $q = $injector.get('$q');
+            var $state = $injector.get('$state');
+            var AuthService = $injector.get('AuthService');
             var notificationService = $injector.get('NotificationService');
-            if (response.status === 403) {               
-                notificationService.showErrorMessage('You are not authorized to view this resource.');
+            if (response.status === 401) {
+                //$state.go('forbidden');
+                AuthService.login();
             }
+            else if (response.status === 403) {               
+                //$state.go('forbidden');
+            }
+            
             else if (response.status === 500) {
-                notificationService.showErrorMessage('A system error has occurred, we apologize for the inconvience.');
+                //$state.go('error');
             }
             return $q.reject(response);
         };

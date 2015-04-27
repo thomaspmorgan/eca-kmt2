@@ -27,11 +27,11 @@ namespace ECA.WebApi.Test.Security
         {
             userProvider = new Mock<IUserProvider>();
             permissionStore = new Mock<IPermissionStore<IPermission>>();
-            ResourceAuthorizeAttribute.UserProviderFactory = () =>
+            ResourceAuthorizeAttribute.UserProviderFactory = (msg) =>
             {
                 return userProvider.Object;
             };
-            ResourceAuthorizeAttribute.PermissionLookupFactory = () =>
+            ResourceAuthorizeAttribute.PermissionLookupFactory = (msg) =>
             {
                 return permissionStore.Object;
             };

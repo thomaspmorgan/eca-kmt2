@@ -311,5 +311,44 @@ namespace ECA.WebApi.Security
                 this.Clear(impersonatorId);
             }
         }
+
+        #region IDispose
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.userService != null && this.userService is IDisposable)
+                {
+                    ((IDisposable)this.userService).Dispose();
+                    this.userService = null;
+                }
+                if (this.permissionStore != null && this.permissionStore is IDisposable)
+                {
+                    ((IDisposable)this.permissionStore).Dispose();
+                    this.permissionStore = null;
+                }
+                if (this.cacheService != null && this.cacheService is IDisposable)
+                {
+                    ((IDisposable)this.cacheService).Dispose();
+                    this.cacheService = null;
+                }
+            }
+        }
+
+        #endregion
     }
 }

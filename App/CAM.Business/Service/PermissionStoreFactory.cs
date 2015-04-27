@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CAM.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,9 @@ namespace CAM.Business.Service
         {
             IPermissionStore<IPermission> permissionStore;
             if (cached)
-                permissionStore = new PermissionStoreCached();
+                permissionStore = new PermissionStoreCached(new CamModel());
             else
-                permissionStore = new PermissionStore();
+                permissionStore = new PermissionStore(new CamModel());
 
             permissionStore.LoadUserPermissions(principalId);
             permissionStore.PrincipalId = principalId;
@@ -37,9 +38,9 @@ namespace CAM.Business.Service
         {
             IPermissionStore<IPermission> permissionStore;
             if (cached)
-                permissionStore = new PermissionStoreCached();
+                permissionStore = new PermissionStoreCached(new CamModel());
             else
-                permissionStore = new PermissionStore();
+                permissionStore = new PermissionStore(new CamModel());
 
             permissionStore.LoadUserPermissionsForResource(principalId,
                                                            resourceId);

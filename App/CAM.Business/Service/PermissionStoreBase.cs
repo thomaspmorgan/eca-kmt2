@@ -5,15 +5,20 @@ using System.Text;
 using CAM.Data;
 using System.Diagnostics;
 using NLog.Interface;
+using ECA.Core.Service;
 
 namespace CAM.Business.Service
 {
-    public class PermissionStoreBase
+    public class PermissionStoreBase : DbContextService<CamModel>
     {
-        protected CamModel cam = new CamModel();
-
         private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
 
+
+        public PermissionStoreBase(CamModel camModel)
+            : base(camModel)
+        {
+            
+        }
 
         /// <summary>
         /// List of Permissions that have been loaded for the user, from one of the Load methods
@@ -181,7 +186,7 @@ namespace CAM.Business.Service
         /// <returns>ResourceId</returns>
         public int GetResourceIdForApplicationId(int applicationId)
         {
-            int? result = (from p in cam.Resources
+            int? result = (from p in this.Context.Resources
                            where
                                p.ResourceType.ResourceTypeName == "Application" &&
                                p.Application.ResourceId == applicationId
@@ -199,7 +204,7 @@ namespace CAM.Business.Service
         /// <returns></returns>
         public int? GetResourceIdByForeignResourceId(int foreignResourceId, int resourceTypeId)
         {
-            int? result = (from p in cam.Resources
+            int? result = (from p in this.Context.Resources
                            where
                                p.ResourceTypeId == resourceTypeId &&
                                p.ForeignResourceId == foreignResourceId
@@ -211,7 +216,7 @@ namespace CAM.Business.Service
 
         public int? GetResourceTypeId(string resourceTypeName)
         {
-            int? result = (from p in cam.ResourceTypes
+            int? result = (from p in this.Context.ResourceTypes
                            where p.ResourceTypeName == resourceTypeName
                            select p.ResourceTypeId).FirstOrDefault();
             if (!result.HasValue)
@@ -229,8 +234,8 @@ namespace CAM.Business.Service
         protected List<IPermission> GetUserPermissionsForResource(int principalId, int resourceId)
         {
             var stopwatch = Stopwatch.StartNew();
-            IEnumerable<IPermission> rolePermissions = (from p in cam.RoleResourcePermissions
-                                                    join r in cam.PrincipalRoles on p.RoleId equals r.RoleId
+            IEnumerable<IPermission> rolePermissions = (from p in this.Context.RoleResourcePermissions
+                                                        join r in this.Context.PrincipalRoles on p.RoleId equals r.RoleId
                                                     where r.PrincipalId == principalId && p.ResourceId== resourceId
                                                     select new CAM.Business.Service.Permission
                                                     {
@@ -240,7 +245,7 @@ namespace CAM.Business.Service
                                                         ResourceId = p.ResourceId,
                                                     });
 
-            IEnumerable<IPermission> userPermissions = (from p in cam.PermissionAssignments
+            IEnumerable<IPermission> userPermissions = (from p in this.Context.PermissionAssignments
                                                  where p.PrincipalId == principalId && p.ResourceId == resourceId
                                                  select new CAM.Business.Service.Permission
                                                  {
@@ -277,8 +282,8 @@ namespace CAM.Business.Service
         protected List<IPermission> GetUserPermissions(int principalId)
         {
             var stopwatch = Stopwatch.StartNew();
-            IEnumerable<IPermission> rolePermissions = (from p in cam.RoleResourcePermissions
-                                                    join r in cam.PrincipalRoles on p.RoleId equals r.RoleId
+            IEnumerable<IPermission> rolePermissions = (from p in this.Context.RoleResourcePermissions
+                                                        join r in this.Context.PrincipalRoles on p.RoleId equals r.RoleId
                                                     where r.PrincipalId == principalId 
                                                     select new CAM.Business.Service.Permission
                                                     {
@@ -288,7 +293,7 @@ namespace CAM.Business.Service
                                                         ResourceId = p.ResourceId,
                                                     });
 
-            IEnumerable<IPermission> userPermissions = (from p in cam.PermissionAssignments
+            IEnumerable<IPermission> userPermissions = (from p in this.Context.PermissionAssignments
                                                  where p.PrincipalId == principalId 
                                                  select new CAM.Business.Service.Permission
                                                  {

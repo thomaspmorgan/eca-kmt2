@@ -12,6 +12,7 @@ using ECA.WebApi.Security;
 using Microsoft.Practices.Unity;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Runtime.Caching;
 using System.Web.Http;
 using Unity.WebApi;
@@ -26,9 +27,9 @@ namespace ECA.WebApi
         /// <summary>
         /// Registers the components to a UnityContainer and sets the web api dependency resolver to a UnityDependencyResolver.
         /// </summary>
-        public static void RegisterComponents()
+        public static void RegisterComponents(IUnityContainer container)
         {
-            var container = new UnityContainer();            
+            Contract.Requires(container != null, "The container must not be null.");
             RegisterContexts(container);
             RegisterServices(container);
             RegisterSecurityConcerns(container);
@@ -91,7 +92,8 @@ namespace ECA.WebApi
         {
             container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor("CamModel"));
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IPermissionStore<IPermission>, PermissionStoreCached>(new HierarchicalLifetimeManager(), new InjectionConstructor());
+            container.RegisterType<IPermissionStore<IPermission>, PermissionStore>(
+                new InjectionConstructor(new ResolvedParameter<CamModel>()));
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
             {
@@ -109,12 +111,6 @@ namespace ECA.WebApi
 #endif
 );
             }));
-            ResourceAuthorizeAttribute.UserProviderFactory = () =>
-            {
-                var userProvider = container.Resolve<IUserProvider>();
-                return userProvider;
-            };
-            ResourceAuthorizeAttribute.PermissionLookupFactory = () => container.Resolve<IPermissionStore<IPermission>>();
         }
     }
 }
