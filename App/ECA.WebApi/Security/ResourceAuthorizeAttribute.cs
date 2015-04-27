@@ -78,7 +78,6 @@ namespace ECA.WebApi.Security
             }
         }
 
-        //private IPermissionStore<IPermission> permissionStore;
         private AuthorizationResult authorizationResult;
         private bool isAuthorizationResultSet;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();

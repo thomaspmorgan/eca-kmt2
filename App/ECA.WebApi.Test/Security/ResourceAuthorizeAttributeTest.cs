@@ -287,6 +287,43 @@ namespace ECA.WebApi.Test.Security
             Assert.AreEqual(AuthorizationResult.ResourceDoesNotExist, attribute.GetAuthorizationResult());
         }
 
+        #region Dispose
+
+        [TestMethod]
+        public async Task TestOnActionExecutingAsync_DisposeResources()
+        {
+
+            var id = 1;
+            var permissionName = "Read";
+            var resourceType = "Program";
+            var user = GetTestUser();
+
+            var infoMessage = string.Empty;
+            Action<string, object[]> infoCallback = (fmt, objParams) =>
+            {
+                infoMessage = String.Format(fmt, objParams);
+            };
+
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
+            userProvider.Setup(x => x.IsUserValidAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(true);
+            permissionStore.Setup(x => x.GetPermissionIdByName(It.IsAny<string>())).Returns(1);
+            permissionStore.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
+            permissionStore.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(id);
+            permissionStore.Setup(x => x.HasPermission(It.IsAny<string>())).Returns(true);
+
+            var disposablePermissionStore = permissionStore.As<IDisposable>();
+
+            var attribute = new ResourceAuthorizeAttribute(permissionName, resourceType, id);
+            var actionContext = ContextUtil.CreateActionContext();
+            actionContext.RequestContext.Principal = Thread.CurrentPrincipal;
+            var cts = new CancellationTokenSource();
+            await attribute.OnActionExecutingAsync(actionContext, cts.Token);
+
+            userProvider.Verify(x => x.Dispose(), Times.Once());
+            disposablePermissionStore.Verify(x => x.Dispose(), Times.Once());
+        }
+        #endregion
+
         private DebugWebApiUser GetTestUser()
         {
             var debugUser = new DebugWebApiUser();
