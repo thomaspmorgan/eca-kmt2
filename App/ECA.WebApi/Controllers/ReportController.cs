@@ -9,6 +9,7 @@ using ECA.Business.Service.Reports;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Net.Http.Headers;
+using ECA.Business.Service;
 
 namespace ECA.WebApi.Controllers
 {
@@ -21,15 +22,15 @@ namespace ECA.WebApi.Controllers
         /// Creates a new ReportController with the given repor service.
         /// </summary>
         /// <param name="reportService">The program service.</param>
-        public ReportController(IReportService programService)
+        public ReportController(IReportService reportService)
         {
-            Contract.Requires(programService != null, "The program service must not be null.");
-            this.reportService = programService;
+            Contract.Requires(reportService != null, "The program service must not be null.");
+            this.reportService = reportService;
         }
 
         [HttpGet]
-        [Route("ProjectAward")]
-        public HttpResponseMessage GetProjectAward(int programId, int countryId)
+        [Route("ProjectAwards")]
+        public HttpResponseMessage GetProjectAwards(int programId, int countryId)
         {
             Contract.Requires(programId != null, "The parameter programId must not be null.");
             Contract.Requires(countryId != null, "The parameter countryId must not be null.");
@@ -40,10 +41,13 @@ namespace ECA.WebApi.Controllers
             reportViewer.ProcessingMode = ProcessingMode.Local;
             
             var rds = new ReportDataSource("ProjectAwardDS", reportService.GetProjectAwards(programId, countryId).ToList() );
+            string programName = reportService.GetProgramName(programId);
+            string countryName = reportService.GetCountryName(countryId);
             reportViewer.Reset();
             reportViewer.LocalReport.DataSources.Add(rds);
-            reportViewer.LocalReport.ReportEmbeddedResource = "ECA.WebApi.Reports.ProjectsByYearByCountry.rdlc";
-            reportViewer.LocalReport.SetParameters(new ReportParameter("Country", "France"));
+            reportViewer.LocalReport.ReportEmbeddedResource = "ECA.WebApi.Reports.ProjectAwards.rdlc";
+            reportViewer.LocalReport.SetParameters(new ReportParameter("Country", countryName));
+            reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
                 
             
             Warning[] warnings;
