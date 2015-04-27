@@ -4,7 +4,7 @@
 //http://stackoverflow.com/questions/20230691/injecting-state-ui-router-into-http-interceptor-causes-circular-dependency
 // register the interceptor as a service
 angular.module('staticApp')
-    .factory('ForbiddenInterceptor', function ($injector) {
+    .factory('ErrorInterceptor', function ($injector) {
         var service = this;
         service.request = function (config) {
             return config;
@@ -15,15 +15,14 @@ angular.module('staticApp')
             var AuthService = $injector.get('AuthService');
             var notificationService = $injector.get('NotificationService');
             if (response.status === 401) {
-                //$state.go('forbidden');
                 AuthService.login();
             }
             else if (response.status === 403) {               
-                //$state.go('forbidden');
+                $state.go('forbidden');
             }
             
             else if (response.status === 500) {
-                //$state.go('error');
+                $state.go('error');
             }
             return $q.reject(response);
         };

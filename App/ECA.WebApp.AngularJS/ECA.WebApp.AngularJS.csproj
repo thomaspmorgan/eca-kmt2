@@ -137,7 +137,7 @@
     <Content Include="scripts\directives\datepickerpopup.js" />
     <Content Include="scripts\filters\highlight.js" />
     <Content Include="scripts\services\logouteventservice.js" />
-    <Content Include="scripts\services\forbiddeninterceptor.js" />
+    <Content Include="scripts\services\errorinterceptor.js" />
     <Content Include="scripts\services\constantsservice.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

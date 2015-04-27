@@ -398,7 +398,7 @@ angular
             templateUrl: 'views/lastupdated.html',
             requireADLogin: true
         });
-      $httpProvider.interceptors.push('ForbiddenInterceptor');
+      $httpProvider.interceptors.push('ErrorInterceptor');
   })
   .run(['$rootScope', '$location', '$state', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
     function ($rootScope, $location, $state, editableOptions, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
