@@ -18,7 +18,7 @@ angular.module('staticApp')
                 AuthService.login();
             }
             else if (response.status === 403) {               
-                $state.go('forbidden');
+                //$state.go('forbidden');
             }
             
             else if (response.status === 500) {
