@@ -11,5 +11,6 @@
     [Stacktrace] VARCHAR (MAX) NULL,
 	[Callsite] VARCHAR (MAX) NULL,
 	[ActionArguments] VARCHAR (MAX) NULL, 
-    [RequestId] UNIQUEIDENTIFIER NULL,
+    [RequestId] UNIQUEIDENTIFIER NULL, 
+    CONSTRAINT [PK_Log] PRIMARY KEY ([Id]),
 )

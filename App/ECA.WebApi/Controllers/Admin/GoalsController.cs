@@ -15,7 +15,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// <summary>
     /// The goals controller is capable of performing operations on goals in the ECA system.
     /// </summary>
-    //[Authorize]
+    [Authorize]
     public class GoalsController : ApiController
     {
         /// <summary>

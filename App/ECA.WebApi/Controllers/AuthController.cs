@@ -12,10 +12,10 @@ using System.Net;
 
 namespace ECA.WebApi.Controllers
 {
-    public class TestBindingModel
-    {
-        public int ProgramId { get; set; }
-    }
+    //public class TestBindingModel
+    //{
+    //    public int ProgramId { get; set; }
+    //}
 
     /// <summary>
     /// The AuthController provide user authentication and authorization details.
@@ -31,6 +31,7 @@ namespace ECA.WebApi.Controllers
         /// </summary>
         /// <param name="provider">The user provider.</param>
         /// <param name="permissionStore">The permissions store.</param>
+        /// <param name="userService">The user service.</param>
         public AuthController(IUserProvider provider, IPermissionStore<IPermission> permissionStore, IUserService userService)
         {
             Contract.Requires(provider != null, "The provider must not be null.");
@@ -184,17 +185,17 @@ namespace ECA.WebApi.Controllers
         /// <param name="model">The model.</param>
         /// <param name="id">The id.</param>
         /// <returns>An Ok if the user is authorized.</returns>
-        [Authorize]
-        [Route("api/auth/user/{id}")]
+        //[Authorize]
+        //[Route("api/auth/user/{id}")]
         //[ResourceAuthorize(OrganizationType.BRANCH_VALUE, "Program", 1009)]
         //[ResourceAuthorize("EditProgram", "Program", 1009)]
         //[ResourceAuthorize("EditProgram", "Program", "id")]
-        [ResourceAuthorize("EditProgram", "Program")]
-        [ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
-        public IHttpActionResult PostTestResourceAuthorizeModelType([FromBody]TestBindingModel model, int id)
-        {
-            return Ok();
-        }
+        //[ResourceAuthorize("EditProgram", "Program")]
+        //[ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
+        //public IHttpActionResult PostTestResourceAuthorizeModelType([FromBody]TestBindingModel model, int id)
+        //{
+        //    return Ok();
+        //}
 
         //[Authorize]
         //[Route("api/auth/logout/{id}")]

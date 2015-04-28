@@ -95,12 +95,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\EcaBusinessException.cs" />
+    <Compile Include="Queries\Admin\JustificationObjectiveQueries.cs" />
     <Compile Include="Queries\Admin\FocusCategoryQueries.cs" />
     <Compile Include="Queries\Admin\FocusQueries.cs" />
     <Compile Include="Queries\Admin\MoneyFlowQueries.cs" />
     <Compile Include="Queries\Admin\OfficeQueries.cs" />
+    <Compile Include="Queries\Models\Admin\BaseDTO.cs" />
     <Compile Include="Queries\Models\Admin\FocusCategoryDTO.cs" />
     <Compile Include="Queries\Models\Admin\FocusDTO.cs" />
+    <Compile Include="Queries\Models\Admin\JustificationObjectiveDTO.cs" />
     <Compile Include="Queries\Models\Admin\MoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationProgramDTO.cs" />
@@ -111,8 +114,12 @@
     <Compile Include="Queries\Models\Persons\ParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\PiiDTO.cs" />
     <Compile Include="Queries\Persons\PersonQueries.cs" />
+    <Compile Include="Queries\Reports\ReportQueries.cs" />
+    <Compile Include="Queries\Models\Reports\ProjectAwardDTO.cs" />
+    <Compile Include="Service\Admin\JustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\FocusCategoryService.cs" />
     <Compile Include="Service\Admin\GenderService.cs" />
+    <Compile Include="Service\Admin\IJustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\IFocusCategoryService.cs" />
     <Compile Include="Service\Admin\IGenderService.cs" />
     <Compile Include="Service\Admin\IProjectStatusService.cs" />
@@ -172,6 +179,8 @@
     <Compile Include="Service\Lookup\IThemeService.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidationEntity.cs" />
+    <Compile Include="Service\Reports\IReportService.cs" />
+    <Compile Include="Service\Reports\ReportService.cs" />
     <Compile Include="Validation\BusinessValidatorBase.cs" />
     <Compile Include="Validation\IBusinessValidator.cs" />
     <Compile Include="Service\Programs\ProgramService.cs" />
@@ -185,6 +194,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ECA.Business.Reports.Models.ProjectAward.datasource" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
@@ -200,7 +210,6 @@
       <Name>ECA.Data</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

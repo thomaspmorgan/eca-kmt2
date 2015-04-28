@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace CAM.Data
 {
     public partial class CamModel
     {
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// The key for retrieving the context in an IValidatatableObject instance.
         /// </summary>

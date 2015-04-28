@@ -23,7 +23,7 @@ namespace ECA.Business.Service.Persons
         /// <param name="dateOfBirth">The date of birth</param>
         /// <param name="cityOfBirth">The city of birth</param>
         /// <param name="countriesOfCitizenship">The countries of citizenship</param>
-        public NewPerson(User createdBy, int projectId, string firstName, string lastName, int gender, DateTimeOffset dateOfBirth,
+        public NewPerson(User createdBy, int projectId, string firstName, string lastName, int gender, DateTime dateOfBirth,
                          int cityOfBirth, List<int> countriesOfCitizenship)
         {
             Contract.Requires(createdBy != null, "The created by user must not be null.");
@@ -61,7 +61,7 @@ namespace ECA.Business.Service.Persons
         /// <summary>
         /// Gets and sets the date of birth
         /// </summary>
-        public DateTimeOffset DateOfBirth { get; private set; }
+        public DateTime DateOfBirth { get; private set; }
         
         /// <summary>
         /// Gets and sets the city of birth

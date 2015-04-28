@@ -41,7 +41,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 PersonId = 1,
                 Gender = gender,
-                DateOfBirth = DateTimeOffset.Now,
+                DateOfBirth = DateTime.Now,
                 FirstName = "firstName",
                 LastName = "lastName",
                 NamePrefix = "namePrefix",
@@ -418,7 +418,7 @@ namespace ECA.Business.Test.Service.Persons
         public async Task TestCreateAsync()
         {
             var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
-                                          Gender.Male.Id, DateTimeOffset.Now, 1,
+                                          Gender.Male.Id, DateTime.Now, 1,
                                           new List<int>());
             var person = await service.CreateAsync(newPerson);
 
@@ -440,7 +440,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Locations.Add(city);
 
             var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
-                                        Gender.Male.Id, DateTimeOffset.Now, city.LocationId,
+                                        Gender.Male.Id, DateTime.Now, city.LocationId,
                                         new List<int>());
             var person = await service.CreateAsync(newPerson);
             Assert.AreEqual(city.LocationId, person.PlaceOfBirthId);
@@ -458,7 +458,7 @@ namespace ECA.Business.Test.Service.Persons
 
             List<int> countriesOfCitizenship = new List<int>(new int[] { country.LocationId });
             var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName",
-                                         Gender.Male.Id, DateTimeOffset.Now, 1,
+                                         Gender.Male.Id, DateTime.Now, 1,
                                          countriesOfCitizenship);
             var person = await service.CreateAsync(newPerson);
             CollectionAssert.AreEqual(newPerson.CountriesOfCitizenship,
@@ -476,7 +476,7 @@ namespace ECA.Business.Test.Service.Persons
             context.Projects.Add(project);
 
             var newPerson = new NewPerson(new User(0), project.ProjectId, "firstName", "lastName",
-                                         Gender.Male.Id, DateTimeOffset.Now, 1,
+                                         Gender.Male.Id, DateTime.Now, 1,
                                          new List<int>());
             var person = await service.CreateAsync(newPerson);
             // Check that participant is associated to person
@@ -496,7 +496,7 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "firstName",
                 LastName = "lastName",
                 GenderId = Gender.Female.Id,
-                DateOfBirth = DateTimeOffset.Now,
+                DateOfBirth = DateTime.Now,
                 PlaceOfBirthId = 1
             };
 
@@ -511,7 +511,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetExistingPerson_DoesNotExist()
         {
-            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName", 1, DateTimeOffset.Now, 1, new List<int>());
+            var newPerson = new NewPerson(new User(0), 1, "firstName", "lastName", 1, DateTime.Now, 1, new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNull(person);
         }
@@ -524,7 +524,7 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = "firstName",
                 LastName = "lastName",
                 GenderId = Gender.Female.Id,
-                DateOfBirth = DateTimeOffset.Now,
+                DateOfBirth = DateTime.Now,
                 PlaceOfBirthId = 1
             };
 
@@ -545,7 +545,7 @@ namespace ECA.Business.Test.Service.Persons
                 FirstName = " firstName ",
                 LastName = " lastName ",
                 GenderId = Gender.Female.Id,
-                DateOfBirth = DateTimeOffset.Now,
+                DateOfBirth = DateTime.Now,
                 PlaceOfBirthId = 1
             };
 
@@ -561,8 +561,7 @@ namespace ECA.Business.Test.Service.Persons
         [TestMethod]
         public async Task TestGetExistingPerson_DateOfBirthWithDifferentTime()
         {
-            var dateAndTime = new DateTimeOffset(2008, 5, 1, 8, 6, 32,
-                                 new TimeSpan(1, 0, 0));
+            var dateAndTime = new DateTime(2008, 5, 1, 8, 6, 32, DateTimeKind.Utc);
             var existingPerson = new Person
             {
                 FirstName = "firstName",

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CAM.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,11 +16,13 @@ namespace CAM.Business.Service
         /// <returns>An instance of a IPermissionStore object having all the permission for the user/group</returns>
         public static IPermissionStore<IPermission> GetPermissionStore(int principalId, bool cached = true)
         {
+            var camModel = new CamModel();
+            var permissionModelService = new PermissionModelService(camModel);
             IPermissionStore<IPermission> permissionStore;
             if (cached)
-                permissionStore = new PermissionStoreCached();
+                permissionStore = new PermissionStoreCached(camModel, permissionModelService);
             else
-                permissionStore = new PermissionStore();
+                permissionStore = new PermissionStore(camModel, permissionModelService);
 
             permissionStore.LoadUserPermissions(principalId);
             permissionStore.PrincipalId = principalId;
@@ -35,11 +38,13 @@ namespace CAM.Business.Service
         /// <returns>An instance of a IPermissionStore object having all the permissions for the user/group for an application</returns>
         public static IPermissionStore<IPermission> GetPermissionStoreForUserByResource(int principalId, int resourceId, bool cached = true)
         {
+            var camModel = new CamModel();
+            var permissionModelService = new PermissionModelService(camModel);
             IPermissionStore<IPermission> permissionStore;
             if (cached)
-                permissionStore = new PermissionStoreCached();
+                permissionStore = new PermissionStoreCached(camModel, permissionModelService);
             else
-                permissionStore = new PermissionStore();
+                permissionStore = new PermissionStore(camModel, permissionModelService);
 
             permissionStore.LoadUserPermissionsForResource(principalId,
                                                            resourceId);
