@@ -13,12 +13,14 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.Business.Service.Admin;
+using System.Diagnostics.Contracts;
 
 namespace ECA.WebApi.Controllers.Admin
 {
     /// <summary>
     /// The Focus Controller provides lookup and crud operations for a focus.
     /// </summary>
+    [Authorize]
     public class FocusCategoryController : ApiController
     {
         /// <summary>
@@ -34,7 +36,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="service">The service.</param>
         public FocusCategoryController(IFocusCategoryService service)
         {
-            Debug.Assert(service != null, "The focusCategory service must not be null.");
+            Contract.Requires(service != null, "The focusCategory service must not be null.");
             this.service = service;
         }
 

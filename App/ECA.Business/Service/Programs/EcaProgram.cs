@@ -36,6 +36,8 @@ namespace ECA.Business.Models.Programs
         /// <param name="pointOfContactIds">The points of contact by id.</param>
         /// <param name="regionIds">The program's regions by id.</param>
         /// <param name="themeIds">The themes by id.</param>
+        /// <param name="categoryIds">The focus categories by id.</param>
+        /// <param name="objectiveIds">The objectivs by id.</param>
         public EcaProgram(
             User updatedBy,
             int id,
@@ -76,6 +78,8 @@ namespace ECA.Business.Models.Programs
             this.ContactIds = pointOfContactIds ?? new List<int>();
             this.ThemeIds = themeIds ?? new List<int>();
             this.RegionIds = regionIds ?? new List<int>();
+            this.FocusCategoryIds = categoryIds ?? new List<int>();
+            this.JustificationObjectiveIds = objectiveIds ?? new List<int>();
             this.ProgramStatusId = programStatusId;
             this.Audit = new Update(updatedBy);
             this.RowVersion = programRowVersion;

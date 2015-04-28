@@ -40,6 +40,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// Creates a new ProgramController with the given program service.
         /// </summary>
         /// <param name="programService">The program service.</param>
+        /// <param name="userProvider">The user provider.</param>
         public ProgramsController(IProgramService programService, IUserProvider userProvider)
         {
             Contract.Requires(programService != null, "The program service must not be null.");

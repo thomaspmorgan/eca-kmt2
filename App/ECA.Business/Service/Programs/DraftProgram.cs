@@ -30,6 +30,8 @@ namespace ECA.Business.Models.Programs
         /// <param name="pointOfContactIds">The points contact by id.</param>
         /// <param name="themeIds">The themese of the program by id.</param>
         /// <param name="regionIds">The regions the program is operating in by id.</param>
+        /// <param name="categoryIds">The focus categories by id.</param>
+        /// <param name="objectiveIds">The objectivs by id.</param>
         public DraftProgram(
             User createdBy,
             string name,

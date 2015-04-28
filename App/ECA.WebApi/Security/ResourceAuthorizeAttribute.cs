@@ -88,10 +88,7 @@ namespace ECA.WebApi.Security
         /// <param name="permission">The action permission.</param>
         internal ResourceAuthorizeAttribute(PermissionBase permission)
         {
-            //Contract.Requires(UserProviderFactory != null, "The user provider factory must not be null.");
-            //Contract.Requires(PermissionLookupFactory != null, "The permission store factory must not be null.");
             this.Permission = permission;
-            //this.permissionStore = PermissionLookupFactory();
         }
 
         /// <summary>
@@ -245,6 +242,10 @@ namespace ECA.WebApi.Security
             }
         }
 
+        /// <summary>
+        /// Returns the Authorization Result of this request.  Useful for debugging and testing.
+        /// </summary>
+        /// <returns>The Authorization result of this request.</returns>
         public AuthorizationResult GetAuthorizationResult()
         {
             return this.authorizationResult;

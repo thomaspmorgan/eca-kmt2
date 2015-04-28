@@ -19,7 +19,7 @@ namespace ECA.WebApi.Controllers.Persons
     /// Controller for people
     /// </summary>
     [RoutePrefix("api")]
-    //[Authorize]
+    [Authorize]
     public class PeopleController : ApiController
     {
         private IPersonService service;
@@ -29,6 +29,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// Constructor 
         /// </summary>
         /// <param name="service">The service to inject</param>
+        /// <param name="userProvider">The user provider.</param>
         public PeopleController(IPersonService service, IUserProvider userProvider)
         {
             Contract.Requires(service != null, "The participant service must not be null.");
