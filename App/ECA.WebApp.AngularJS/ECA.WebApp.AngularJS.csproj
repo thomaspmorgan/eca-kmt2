@@ -145,6 +145,7 @@
     </Content>
     <Content Include="scripts\services\moneyflow.js" />
     <Content Include="scripts\services\notificationservice.js" />
+    <Content Include="scripts\services\reportservice.js" />
     <Content Include="scripts\services\office.js" />
     <Content Include="scripts\services\person.js" />
     <Content Include="scripts\services\registerusereventservice.js" />
