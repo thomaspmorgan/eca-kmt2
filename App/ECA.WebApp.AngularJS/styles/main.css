@@ -6175,7 +6175,9 @@ ul {
   border: 1px lightGray solid;
   border-radius: 5px;
   padding: 5px;
-  cursor: pointer; }
+  cursor: pointer;
+  width: 40px;
+  text-align: center; }
 
 .programOptions :hover {
   color: black; }
@@ -6194,5 +6196,22 @@ ul {
 
 h5.canEdit {
   cursor: pointer; }
+
+.user a {
+  color: #415358;
+  font-weight: bold; }
+
+.user a:hover {
+  color: #297cb4;
+  font-weight: bold;
+  text-decoration: none; }
+
+.user a:active {
+  color: #297cb4;
+  font-weight: bold;
+  text-decoration: none; }
+
+.user a:visited {
+  text-decoration: none; }
 
 /*# sourceMappingURL=main.css.map */

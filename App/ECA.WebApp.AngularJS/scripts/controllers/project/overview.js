@@ -8,7 +8,18 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectOverviewCtrl', function ($scope, $stateParams, $q, $log, $timeout, ProjectService, ProgramService, TableService, LookupService, ConstantsService, AuthService, NotificationService) {
+  .controller('ProjectOverviewCtrl', function (
+        $scope,
+        $stateParams,
+        $q,
+        $log,
+        ProjectService,
+        ProgramService,
+        TableService,
+        LookupService,
+        ConstantsService,
+        AuthService,
+        NotificationService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -107,14 +118,17 @@ angular.module('staticApp')
           showEditView();
       });
 
+      function allowEdit(canEdit) {
+          $scope.permissions.canEdit = canEdit;
+      }
+
       function showEditView() {
           if($scope.permissions.canEdit){
               $scope.editView.show = true;
           }
-          else{
-              alert('You do not have permission to edit.');
+          else {
+              NotificationService.showUnauthorizedMessage('You are not authorized to edit this project.');
           }
-          
       }
 
       function hideEditView() {
@@ -370,20 +384,32 @@ angular.module('staticApp')
               });
       }
 
-      var requiredEditPermissionId = ConstantsService.permission.editproject;
       function loadPermissions() {
+          console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
           var projectId = $stateParams.projectId;
-          return AuthService.getResourcePermissions('Project', projectId)
+          var resourceType = ConstantsService.resourceType.project.value;
+          var config = {};
+          config[ConstantsService.permission.editproject.value] = {
+              hasPermission: function () {
+                  allowEdit(true);
+                  console.log('has edit project permission.');
+              },
+              notAuthorized: function () {
+                  allowEdit(false);
+                  console.log('not authorized to edit project.');
+              }
+          };
+          //config[ConstantsService.permission.viewproject.value] = {
+          //    hasPermission: function () {
+          //        console.log('has view project permission.');
+          //    },
+          //    notAuthorized: function () {
+          //        console.log('not authorized to view project.');
+          //    }
+          //};
+          return AuthService.getResourcePermissions(resourceType, projectId, config)
             .then(function (result) {
-                var permissions = result.data;
-                for (var i = 0; i < permissions.length; i++) {
-                    var permission = permissions[i];
-                    console.assert(permission.permissionId, 'The permission should have a permission id property');
-                    var permissionId = permission.permissionId;
-                    if (permissionId === requiredEditPermissionId) {
-                        $scope.permissions.canEdit = true;
-                    }
-                }
+                console.log('successfully loaded permissions.');
             }, function() {
                 console.log('Unable to load user permissions.');
             });

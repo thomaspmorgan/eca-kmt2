@@ -14,7 +14,7 @@
     <!--<link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />-->
     <link rel="stylesheet" href="bower_components/select2/select2.css">
     <link rel="stylesheet" href="bower_components/select2/select2-bootstrap.css">
-
+    <link rel="stylesheet" href="bower_components/angularjs-toaster/toaster.min.css">
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
     <!-- endbower -->
     <!-- endbuild -->
@@ -43,6 +43,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
     <!-- Add your site or application content here -->
+    <toaster-container style="margin-top:53px;" toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
         <a ng-repeat="state in rootStates" ng-click="closeMenu()" ui-sref="{{state.state}}">{{state.name}}</a>
         <a class="foot" href=""><img class="icon" src="images/settings.png" height="14" width="14" alt="">Settings</a>
@@ -53,11 +54,6 @@
     <modal-dialog class="search-modal" show="spotlightModal" dialog-title="" on-close="modalClear()" main-model="newParticipant">
         <searchbar ng-model="text" show="show"></searchbar>
     </modal-dialog>
-    <modal-dialog show="accountErrorView.showError" dialog-title="Error Creating Account" main-model="accountErrorView" before-close="closeRegisterUserFailureModal()">
-        <div>
-            There was an error registering your user account.
-        </div>
-    </modal-dialog>
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -67,8 +63,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                
+                </button>                
                 <div style="margin-right: 50px;" class="navbar-right right">
                     <div id="search-bar-icon" class="glyphicon glyphicon-search col-sd-1" ng-click="spotlightModal=!spotlightModal"></div>
                 </div>
@@ -77,23 +72,21 @@
                     <div class="bounce2"></div>
                     <div class="bounce3"></div>
                 </div>
-                <div ng-show="!currentUser.isRegistering">
-                    <span style="margin-right: 15px;margin-top:14px;"
-                          class="dropdown pull-right"
+                <div ng-show="!currentUser.isRegistering">                    
+                    <span style="margin-right: 25px;margin-top:14px;"
+                          class="dropdown pull-right user"
                           dropdown on-toggle="userMenuToggled(open)"
                           ng-show="userInfo.isAuthenticated"
                           data-ng-model="userInfo">
+                        <div style="margin-right:10px;" class="glyphicon glyphicon-user"></div>
                         <a href class="dropdown-toggle" dropdown-toggle>
                             {{userInfo.profile.name}}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="#" ng-click="logout()">Logout</a></li>
-                        </ul>
+                        </ul>                        
                     </span>
                 </div>
-            </div>
-            <div collapse="areAlertsCollapsed">
-                <alert ng-repeat="notification in notifications" type="{{notification.type}}" close="closeAlert($index)">{{notification.msg}}</alert>
             </div>
         </div>
     </div>
@@ -161,6 +154,8 @@
     <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
     <script src="bower_components/angular-ui-date/src/date.js"></script>
     <script src="bower_components/angular-ui-select/dist/select.js"></script>
+    <script src="bower_components/angularjs-toaster/toaster.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.) scripts/scripts.js -->

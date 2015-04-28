@@ -22,7 +22,9 @@ angular
     'AdalAngular',
     'smart-table',
     'ui.select',
-    'ui.date'
+    'ui.date',
+    'toaster',
+    'ngAnimate'
   ])
   .config(function ($stateProvider, $httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider) {
 

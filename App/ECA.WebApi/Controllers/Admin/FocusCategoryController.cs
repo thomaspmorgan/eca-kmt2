@@ -20,8 +20,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// <summary>
     /// The Focus Controller provides lookup and crud operations for a focus.
     /// </summary>
-    [Authorize]
-    public class FocusCategoryController : ApiController
+    public class FocusCategoriesController : ApiController
     {
         /// <summary>
         /// The default sorter for a list of foci.
@@ -34,7 +33,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// Creates a new FocusController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public FocusCategoryController(IFocusCategoryService service)
+        public FocusCategoriesController(IFocusCategoryService service)
         {
             Contract.Requires(service != null, "The focusCategory service must not be null.");
             this.service = service;
@@ -46,7 +45,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="queryModel">The page, filter and sort information.</param>
         /// <returns>The list of foci.</returns>
         [ResponseType(typeof(PagedQueryResults<FocusCategoryDTO>))]
-        public async Task<IHttpActionResult> GetLocationsAsync([FromUri]PagingQueryBindingModel<FocusCategoryDTO> queryModel)
+        public async Task<IHttpActionResult> GetFocusCategoriesAsync([FromUri]PagingQueryBindingModel<FocusCategoryDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
