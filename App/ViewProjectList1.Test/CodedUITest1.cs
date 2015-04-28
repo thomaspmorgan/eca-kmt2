@@ -10,40 +10,36 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace ViewProjectsList.Test
+namespace ViewProjectList1.Test
 {
     /// <summary>
-    /// This test proves that the user is able to login to the QA site and navigate to the Programs section; drill down on a specific program; and view all the available projects under the program in the Projects List.
+    /// Summary description for CodedUITest1
     /// </summary>
     [CodedUITest]
-    public class ViewProjectsListCodedUITest1
+    public class CodedUITest1
     {
-        public ViewProjectsListCodedUITest1()
+        public CodedUITest1()
         {
         }
 
         [TestMethod]
-        public void ViewProjectsListCodedUITestMethod1()
+        public void CodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-
-            //this.UIMap.AssertContentMenuButton();
-
             this.UIMap.LogintoQA_ExistingUser();
-            //this.UIMap.LogintoQA();
-            this.UIMap.ContentMenuButton();
-            this.UIMap.SelectContentMenuButton();
-            this.UIMap.SelectProgramsLink();
-            this.UIMap.RefreshAllPrograms();
-            this.UIMap.IndividualProgramLink();
-            this.UIMap.SelectIndividualProgramLink();
-            this.UIMap.RefreshIndividualProgram();
-            this.UIMap.BranchesandProjectsLink();
-            this.UIMap.SelectBranchesandProjectsLink();
-            this.UIMap.RefreshBranchesandProjects();
-            this.UIMap.ScrollDown();
-            this.UIMap.TitleCell();
-            this.UIMap.CloseBrowser();
+            this.UIMap.AssertContentMenuButton();
+            this.UIMap.SelectPrograms_ContentMenu();
+            this.UIMap.RefreshAllProgramsPage();
+            this.UIMap.AssertPageNum_ProgList();
+            this.UIMap.SelectPageNum_ProgList();
+            this.UIMap.AssertPageNum4_ProgList();
+            this.UIMap.SelectPageNum4_ProgList();
+            this.UIMap.AssertIndividualProgram();
+            this.UIMap.SelectIndividualProgram();
+            this.UIMap.AssertIndProgram_BranchProjectTab();
+            this.UIMap.SelectIndProg_BranchesProjectTab();
+            this.UIMap.AssertIndProg_ProjectList();
+            this.UIMap.AssertEditFilterBoxes_ProjectList();
         }
 
         #region Additional test attributes

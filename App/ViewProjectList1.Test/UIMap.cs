@@ -1,4 +1,4 @@
-﻿namespace ViewProjectsList.Test
+﻿namespace ViewProjectList1.Test
 {
     using System;
     using System.Collections.Generic;
@@ -16,6 +16,5 @@
     
     public partial class UIMap
     {
-       
     }
 }
