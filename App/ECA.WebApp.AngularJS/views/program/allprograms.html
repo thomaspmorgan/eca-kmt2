@@ -157,13 +157,38 @@
                         <span class="error">Please select at least one goal.</span>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Focus Area<span class="asterisk"> *</span></label>
-                    <select name="focus" class="modal-dropdown" ng-model="newProgram.focusId" data-ng-options="p.id as p.name for p in foci" required form-element guidance="This selects the main focus area for the program.">
-                        <option value="">--Select a focus area --</option>
-                    </select>
-                    <div ng-show="modalForm.editProgramForm.focus.$dirty">
-                        <span class="error" ng-show="modalForm.editProgramForm.focus.$error.required">Please select a focus area.</span>
+                <div class="form-group" ng-show="categoryLabel != ''">
+                    <label>{{categoryLabel}}<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="allCategoriesGrouped"
+                                          output-model="out.Categories"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="none reset"
+                                          max-height="250px"
+                                          group-property="focusGroup"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="categoriesInvalid">
+                        <span class="error">Please select at least one focus/category.</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="objectiveLabel != ''">
+                    <label>{{objectiveLabel}}<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="allObjectivesGrouped"
+                                          output-model="out.Objectives"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="none reset"
+                                          max-height="250px"
+                                          group-property="justificationGroup"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="objectivesInvalid">
+                        <span class="error">Please select at least one justification/objective.</span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -289,13 +314,38 @@
                         <span class="error">Please select at least one goal.</span>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Focus Area<span class="asterisk"> *</span></label>
-                    <select name="focus" class="modal-dropdown" ng-model="newProgram.focusId" data-ng-options="p.id as p.name for p in foci" required form-element guidance="This selects the main focus area for the program.">
-                        <option value="">--Select a focus area --</option>
-                    </select>
-                    <div ng-show="modalForm.programForm.focus.$dirty">
-                        <span class="error" ng-show="modalForm.programForm.focus.$error.required">Please select a focus area.</span>
+                <div class="form-group" ng-show="categoryLabel != ''">
+                    <label>{{categoryLabel}}<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="allCategoriesGrouped"
+                                          output-model="out.Categories"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="none reset"
+                                          max-height="250px"
+                                          group-property="focusGroup"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="categoriesInvalid">
+                        <span class="error">Please select at least one focus/category.</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="objectiveLabel != ''">
+                    <label>{{objectiveLabel}}<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="allObjectivesGrouped"
+                                          output-model="out.Objectives"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="multiple"
+                                          helper-elements="none reset"
+                                          max-height="250px"
+                                          group-property="justificationGroup"
+                                          on-item-click="setDropDownDirty()">
+                    </isteven-multi-select>
+                    <div ng-show="objectivesInvalid">
+                        <span class="error">Please select at least one justification/objective.</span>
                     </div>
                 </div>
                 <div class="form-group">

@@ -201,6 +201,9 @@ namespace ECA.WebApi.Security
                 }
                 else
                 {
+                    permissionStore.ResourceId = resourceId;
+                    permissionStore.PrincipalId = principalId;
+                    permissionStore.Permissions = userPermissions;
                     var hasPermission = permissionStore.HasPermission(permissionName);
                     if (!hasPermission)
                     {

@@ -95,12 +95,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\EcaBusinessException.cs" />
+    <Compile Include="Queries\Admin\JustificationObjectiveQueries.cs" />
     <Compile Include="Queries\Admin\FocusCategoryQueries.cs" />
     <Compile Include="Queries\Admin\FocusQueries.cs" />
     <Compile Include="Queries\Admin\MoneyFlowQueries.cs" />
     <Compile Include="Queries\Admin\OfficeQueries.cs" />
+    <Compile Include="Queries\Models\Admin\BaseDTO.cs" />
     <Compile Include="Queries\Models\Admin\FocusCategoryDTO.cs" />
     <Compile Include="Queries\Models\Admin\FocusDTO.cs" />
+    <Compile Include="Queries\Models\Admin\JustificationObjectiveDTO.cs" />
     <Compile Include="Queries\Models\Admin\MoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationProgramDTO.cs" />
@@ -113,8 +116,10 @@
     <Compile Include="Queries\Persons\PersonQueries.cs" />
     <Compile Include="Queries\Reports\ReportQueries.cs" />
     <Compile Include="Queries\Models\Reports\ProjectAwardDTO.cs" />
+    <Compile Include="Service\Admin\JustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\FocusCategoryService.cs" />
     <Compile Include="Service\Admin\GenderService.cs" />
+    <Compile Include="Service\Admin\IJustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\IFocusCategoryService.cs" />
     <Compile Include="Service\Admin\IGenderService.cs" />
     <Compile Include="Service\Admin\IProjectStatusService.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,8 @@ namespace ECA.Business.Queries.Models.Admin
     /// <summary>
     /// A FocusDTO is a simple representation of a focus in the ECA system.
     /// </summary>
-    public class FocusCategoryDTO : BaseDTO
+    public class JustificationObjectiveDTO : BaseDTO
     {
-
-        public string FocusName { get; set; }
+        public string JustificationName { get; set; }
     }
 }

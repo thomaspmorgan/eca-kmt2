@@ -20,7 +20,9 @@ angular.module('staticApp')
 
       // set the office to 1 for now
       $scope.currentOffice = 1;
-
+      $scope.categoryLabel = 'Focus Categories';
+      $scope.objectiveLabel = 'Objectives';
+      
       $scope.programFilter = '';
 
       $scope.totalRecords = 0;
@@ -110,7 +112,8 @@ angular.module('staticApp')
         start: null,
         limit: 10,
         sort: null,
-        filter: [{ property: 'officeId', comparison: 'eq', value: $scope.currentOffice }]
+        filter: null
+        /*filter: [{ property: 'officeId', comparison: 'eq', value: $scope.currentOffice }]*/
     };
 
      // #region Lookup Services
@@ -146,23 +149,58 @@ angular.module('staticApp')
                 $scope.regions[key].ticked = false;
             });
         });
-      /*
-    LookupService.getAllCategories($scope.officeSpecificLookupParams)
+
+    $scope.allCategoriesGrouped = [];
+
+    LookupService.getAllCategories($scope.lookupParams)
         .then(function (data) {
+
+            var focusName = '';
             $scope.categories = data.results;
+
             angular.forEach($scope.categories, function (value, key) {
-                $scope.categories[key].ticked = false;
+
+                if (value.focusName != focusName) {
+                    
+                    focusName = value.focusName;
+                    $scope.allCategoriesGrouped.push(
+                      { name: '<strong>Focus: ' + value.focusName + '</strong>', focusGroup: true }
+                    );
+                }
+                $scope.allCategoriesGrouped.push(
+                    { name: value.name, ticked: false }
+                );
+                $scope.allCategoriesGrouped.push({ focusGroup: false });
+
             });
         });
 
-      LookupService.getAllObjectives($scope.officeSpecificLookupParams)
+    $scope.allObjectivesGrouped = [];
+
+      LookupService.getAllObjectives($scope.lookupParams)
       .then(function (data) {
+
+          var justificationName = '';
           $scope.objectives = data.results;
+
           angular.forEach($scope.objectives, function (value, key) {
-              $scope.objectives[key].ticked = false;
+
+              if (value.justificationName != justificationName) {
+
+                  justificationName = value.justificationName;
+                  $scope.allObjectivesGrouped.push(
+                    { name: '<strong>Justification: ' + value.justificationName + '</strong>', justificationGroup: true }
+                  );
+              }
+              $scope.allObjectivesGrouped.push(
+                  { name: value.name, ticked: false }
+              );
+              $scope.allObjectivesGrouped.push({ justificationGroup: false });
+
           });
+
       });
-      */
+      
       //#endregion
 
       // don't know why, but I need to access the scope variable for the data to load correctly
@@ -201,6 +239,15 @@ angular.module('staticApp')
     };
       
       //#endregion
+
+    $scope.getOfficeLabels = function () {
+        // read the office settings for category and justification
+        // if no labels, do not show the field
+        // for now show them regardless
+        $scope.categoryLabel = 'Focus Categories';
+        $scope.objectiveLabel = 'Objectives';
+    };
+
 
     $scope.getParentPrograms = function (val) {
         $scope.parentLookupParams = {
