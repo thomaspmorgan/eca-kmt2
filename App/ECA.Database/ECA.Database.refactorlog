@@ -140,4 +140,137 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Message" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="2a05db09-1339-4370-820d-dbe975ef76a7" ChangeDateTime="04/27/2015 13:04:26">
+    <Property Name="ElementName" Value="[dbo].[ItineraryStopAppointment].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryStopAppointment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ItineraryStopId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ae597820-1c53-4af0-9ab8-3607511d8675" ChangeDateTime="04/27/2015 13:07:22">
+    <Property Name="ElementName" Value="[dbo].[ItineraryAppointment].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryAppointment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AppointmentId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6845c69e-377d-46cc-b5b1-81e435729a2a" ChangeDateTime="04/27/2015 13:17:16">
+    <Property Name="ElementName" Value="[dbo].[ItineraryAppointment].[Description]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryAppointment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TravelDescription" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2974670e-91dd-4502-b853-985f0f019abe" ChangeDateTime="04/27/2015 13:31:24">
+    <Property Name="ElementName" Value="[dbo].[FK_ItineraryAppointment_ToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryAppointment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_dbo.ItineraryAppointment_dbo.ProjectToTable]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="59237a29-cd23-4f04-8f46-6978af6a15de" ChangeDateTime="04/27/2015 13:32:59">
+    <Property Name="ElementName" Value="[dbo].[FK_dbo.ItineraryAppointment_dbo.ProjectToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryAppointment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_dbo.ItineraryAppointment_dbo.Project_ProjectId]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="65a10252-4855-48c1-818f-5c5d8c442c06" ChangeDateTime="04/28/2015 14:03:39">
+    <Property Name="ElementName" Value="[dbo].[ParticipantItineraryStop].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantItineraryStop]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ParticipantId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="66a2fc2f-1d26-4aaa-bfd1-4592a4bf24ba" ChangeDateTime="04/28/2015 14:10:54">
+    <Property Name="ElementName" Value="[dbo].[ItineraryStopAccommodation].[ItineraryStop_ItineraryStopId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryStopAccommodation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ItineraryStopId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="41340b00-d1e5-42f1-8c95-f2e9c60206f4" ChangeDateTime="04/28/2015 14:12:04">
+    <Property Name="ElementName" Value="[dbo].[ItineraryStopAppointment].[IX_ItineraryStopAppointment_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryStopAppointment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_ItineraryStopId]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fff20d92-e209-4473-8e9d-8537ec65c6bb" ChangeDateTime="04/28/2015 15:43:32">
+    <Property Name="ElementName" Value="[dbo].[ItineraryTheme].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryTheme]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ItineraryThemeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="35cacff5-8a77-4f6a-b4c9-309ccecd9e23" ChangeDateTime="04/28/2015 15:47:14">
+    <Property Name="ElementName" Value="[dbo].[PK_ItineraryTheme]" />
+    <Property Name="ElementType" Value="SqlPrimaryKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryTheme]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[PK_dbo.ItineraryTheme]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="73ce9725-4323-4326-9192-2b33259d7d69" ChangeDateTime="04/28/2015 15:55:20">
+    <Property Name="ElementName" Value="[dbo].[ItineraryAppointmentStatus].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryAppointmentStatus]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AppointmentStatusId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9a50e7c8-8ae2-4d3d-ba94-207fe76b35fe" ChangeDateTime="04/28/2015 16:03:53">
+    <Property Name="ElementName" Value="[dbo].[ItineraryStopTheme].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryStopTheme]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ItineraryStopId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6a175464-87a9-4a58-8037-6a23e86a83ec" ChangeDateTime="04/28/2015 16:07:02">
+    <Property Name="ElementName" Value="[dbo].[FK_dbo.ItineraryStopTheme_dbo.ItineraryStop_ItineraryToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryStopTheme]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_dbo.ItineraryStopTheme_dbo.ItineraryStop_ItineraryStopId]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6580e348-89b5-4e86-918e-31dbdda17310" ChangeDateTime="04/28/2015 16:09:14">
+    <Property Name="ElementName" Value="[dbo].[ItineraryStopTheme].[IX_ItineraryStopTheme_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryStopTheme]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_ItineraryStopId]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cfd5c534-e642-4ebf-b9a2-cac84f0b9ef2" ChangeDateTime="04/28/2015 16:24:22">
+    <Property Name="ElementName" Value="[dbo].[ItineraryAppointmentComment].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryAppointmentComment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ItineraryAppointmentCommentId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="011c2b9e-50aa-4097-af9b-24551db61058" ChangeDateTime="04/28/2015 16:30:55">
+    <Property Name="ElementName" Value="[dbo].[FK_dbo.ItineraryAppointmentComment_]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryAppointmentComment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_dbo.ItineraryAppointmentComment_dbo.ItineraryAppointment]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="19fa05b6-85dc-4f29-a214-925b5c56e6c5" ChangeDateTime="04/28/2015 16:33:30">
+    <Property Name="ElementName" Value="[dbo].[ItineraryCommentType].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryCommentType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ItineraryCommentTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="bb404c54-964a-4700-b473-7d1bf0d2d4a4" ChangeDateTime="04/28/2015 16:41:35">
+    <Property Name="ElementName" Value="[dbo].[ItineraryAppointmentComment].[History_RevisedOn]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryAppointmentComment]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_RevisedBy" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0b1f9f9d-f5ca-4035-b6b2-47bc87d45d7b" ChangeDateTime="04/28/2015 16:48:33">
+    <Property Name="ElementName" Value="[dbo].[ItineraryAppointmentType].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ItineraryAppointmentType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AppointmentTypeId" />
+  </Operation>
 </Operations>
