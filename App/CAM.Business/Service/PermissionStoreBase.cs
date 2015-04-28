@@ -6,19 +6,26 @@ using CAM.Data;
 using System.Diagnostics;
 using NLog.Interface;
 using ECA.Core.Service;
+using System.Diagnostics.Contracts;
 
 namespace CAM.Business.Service
 {
     public class PermissionStoreBase : DbContextService<CamModel>
     {
         private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
+        
 
-
-        public PermissionStoreBase(CamModel camModel)
+        public PermissionStoreBase(CamModel camModel, IPermissionModelService permissionModelService)
             : base(camModel)
         {
-            
+            Contract.Requires(permissionModelService != null, "The permission model service must not be null.");
+            this.PermissionModelService = permissionModelService;
         }
+
+        /// <summary>
+        /// Gets the permission model service.
+        /// </summary>
+        public IPermissionModelService PermissionModelService { get; private set; }
 
         /// <summary>
         /// List of Permissions that have been loaded for the user, from one of the Load methods
@@ -39,12 +46,6 @@ namespace CAM.Business.Service
         /// Principal Id property (optional), allows access to simpler HasPermission methods
         /// </summary>
         public int? PrincipalId { get; set; }
-
-        protected List<PermissionModel> GetPermissionLookup()
-        {
-                PermissionModel pm = new PermissionModel();
-                return pm.GetAllPermissions();
-        }
 
         /// <summary>
         /// Given a PermissionName, and property ApplicationResourceId and PrincipalId, determines if that permission exists in the list of permissions
@@ -160,6 +161,7 @@ namespace CAM.Business.Service
         /// <returns>PermissionId</returns>
         public int GetPermissionIdByName(string permissionName)
         {
+            Contract.Assert(PermissionLookup != null, "The permission lookup must not be null.");
             PermissionModel permission = PermissionLookup.Find(p => p.PermissionName == permissionName);
             if (permission == null)
                 logger.Warn("Permission not found for PermissionName = '{0}'", permissionName);
@@ -173,6 +175,7 @@ namespace CAM.Business.Service
         /// <returns>PermissionName</returns>
         public string GetPermissionNameById(int permissionId)
         {
+            Contract.Assert(PermissionLookup != null, "The permission lookup must not be null.");
             PermissionModel permission = PermissionLookup.Find(p => p.PermissionId == permissionId);
             if (permission == null)
                 logger.Warn("Permission not found for Permissionid = '{0}'", permissionId);

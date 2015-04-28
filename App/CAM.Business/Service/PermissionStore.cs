@@ -19,23 +19,25 @@ namespace CAM.Business.Service
         /// <summary>
         /// Instantiates the PermissionsStore
         /// </summary>
-        public PermissionStore(CamModel model)
-            : base(model)
+        public PermissionStore(CamModel model, IPermissionModelService permissionModelService)
+            : base(model, permissionModelService)
         {
             ResourceId = null;
             PrincipalId = null;
             Permissions = new List<IPermission>();
+            LoadPermissionsLookup();
         }
 
         /// <summary>
         /// Instantiates the PermissionsStore 
         /// </summary>
         /// <param name="applicationId">Sets the ApplicationResourceId property given the ApplicationId</param>
-        public PermissionStore(int resourceId, CamModel model)
-            : base(model)
+        public PermissionStore(int resourceId, CamModel model, IPermissionModelService permissionModelService)
+            : base(model, permissionModelService)
         {
             ResourceId = GetResourceIdForApplicationId(resourceId);
             PrincipalId = null;
+            LoadPermissionsLookup();
         }
 
         /// <summary>
@@ -43,11 +45,12 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="resourceId">Sets the ApplicationResourceId property</param>
         /// <param name="principalId">Sets the PrincipalId property</param>
-        public PermissionStore(int resourceId, int principalId, CamModel model)
-            : base(model)
+        public PermissionStore(int resourceId, int principalId, CamModel model, IPermissionModelService permissionModelService)
+            : base(model, permissionModelService)
         {
             ResourceId = GetResourceIdForApplicationId(resourceId);
             PrincipalId = principalId;
+            LoadPermissionsLookup();
         }
 
         #endregion
@@ -61,7 +64,7 @@ namespace CAM.Business.Service
         /// <param name="resourceId">Id of the Resource</param>
         public void LoadUserPermissionsForResource(int principleId, int resourceId)
         {
-                    Permissions = GetUserPermissionsForResource(principleId, resourceId);
+            Permissions = GetUserPermissionsForResource(principleId, resourceId);
         }
 
         /// <summary>
@@ -70,7 +73,7 @@ namespace CAM.Business.Service
         /// <param name="principleId">User or Group Id</param>
         public void LoadUserPermissions(int principleId)
         {
-                    Permissions = GetUserPermissions(principleId);
+            Permissions = GetUserPermissions(principleId);
         }
 
         /// <summary>
@@ -89,8 +92,12 @@ namespace CAM.Business.Service
         private void LoadPermissionsLookup()
         {
             logger.Trace("Loading PermissionLookup");
-                PermissionLookup = GetPermissionLookup();
+            if (PermissionLookup == null)
+            {
+                PermissionLookup = PermissionModelService.GetAllPermissions();
+            }
         }
+
         #endregion
     }
 }

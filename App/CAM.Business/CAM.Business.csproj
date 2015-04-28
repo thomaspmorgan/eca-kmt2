@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\AzureUser.cs" />
+    <Compile Include="Service\IPermissionModelService.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Service\IPermission.cs" />
     <Compile Include="Service\IPermissionStore.cs" />
     <Compile Include="Service\PermissionModel.cs" />
+    <Compile Include="Service\PermissionModelService.cs" />
     <Compile Include="Service\PermissionStore.cs" />
     <Compile Include="Service\PermissionStoreBase.cs" />
     <Compile Include="Service\PermissionStoreCached.cs" />

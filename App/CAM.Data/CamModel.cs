@@ -19,11 +19,8 @@ namespace CAM.Data
         public CamModel(string connectionStringOrKey)
             : base(connectionStringOrKey)
         {
-            this.RandomNumber = Guid.NewGuid();
-            logger.Info("Created cam model with id {0}.", this.RandomNumber);
-        }
 
-        public Guid RandomNumber { get; private set; }
+        }
 
         /// <summary>
         /// The ValidateEntity method override that addes this context to instance to the validation items.

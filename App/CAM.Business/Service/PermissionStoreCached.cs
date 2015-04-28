@@ -20,8 +20,8 @@ namespace CAM.Business.Service
         /// <summary>
         /// Instantiates the PermissionsStore and loads a cached version of the PermissionLookups
         /// </summary>
-        public PermissionStoreCached(CamModel model)
-            : base(model)
+        public PermissionStoreCached(CamModel model, IPermissionModelService permissionModelService)
+            : base(model, permissionModelService)
         {
             LoadPermissionsLookup();
             ResourceId = null;
@@ -33,8 +33,8 @@ namespace CAM.Business.Service
         /// Instantiates the PermissionsStore and loads a cached version of the PermissionLookups
         /// </summary>
         /// <param name="applicationId">Sets the ApplicationResourceId property given the ApplicationId</param>
-        public PermissionStoreCached(int applicationId, CamModel model)
-            : base(model)
+        public PermissionStoreCached(int applicationId, CamModel model, IPermissionModelService permissionModelService)
+            : base(model, permissionModelService)
         {
             ResourceId = GetResourceIdForApplicationId(applicationId);
             PrincipalId = null;
@@ -46,8 +46,8 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="applicationId">Sets the ApplicationResourceId property</param>
         /// <param name="principalId">Sets the PrincipalId property</param>
-        public PermissionStoreCached(int applicationId, int principalId, CamModel model)
-            : base(model)
+        public PermissionStoreCached(int applicationId, int principalId, CamModel model, IPermissionModelService permissionModelService)
+            : base(model, permissionModelService)
         {
             ResourceId = GetResourceIdForApplicationId(applicationId);
             PrincipalId = principalId;
@@ -124,7 +124,7 @@ namespace CAM.Business.Service
 
             if (PermissionLookup == null)
             {
-                PermissionLookup = GetPermissionLookup();
+                PermissionLookup = PermissionModelService.GetAllPermissions();
                 if (PermissionLookup != null)
                     CacheManager.Add<List<PermissionModel>>(PermissionLookup, key);
             }
