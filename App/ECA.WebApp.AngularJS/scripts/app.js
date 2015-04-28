@@ -128,7 +128,7 @@ angular
         .state('reports', {
             url: '/report',
             templateUrl: 'views/reports/archiveList.html',
-            controller: 'ReportCtrl',
+            controller: 'ReportsArchiveCtrl',
             requireADLogin: true
         })
 

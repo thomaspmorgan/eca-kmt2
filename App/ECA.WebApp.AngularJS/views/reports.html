@@ -1,24 +1,36 @@
-<static-switcher images="staticImageSet"></static-switcher>
-<!--<div class="jumbotron report-archive">
-  <div class="toolbar">
-    <div class="left">
-      <span class="detail">Last Updated 01/01/14</span>
+<div class="breadcrumbs">
+    <p></p>
+</div>
+<div class="jumbotron report-archive">
+    <div class="toolbar" sticky offset="50">
+        <div class="left2">
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-danger" ng-click="onDraftButtonClick($event)"></button>
+                <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle>
+                    <span class="caret"></span>
+                    <span class="sr-only">Split button!</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">SAVE AS DRAFT</a></li>
+                    <li><a href="#">PUBLISH</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">DELETE PERMANENTLY</a></li>
+                </ul>
+            </div>
+            <span class="detail">Last Updated </span>
+        </div>
+        <div class="right">
+            <img class="icon star" src="images/star.png" alt="">
+            <img class="icon" src="images/exportA.png" alt="">
+            <img class="icon wide" src="images/collabA.png" alt="">
+            <img class="icon" src="images/toolCommentsA.png" alt="">
+        </div>
     </div>
-    <div class="right">
-      <img class="icon star" src="images/star.png" alt="">
-      <img class="icon" src="images/exportA.png" alt="">
-    </div>    
-  </div>
-  <div class="heading">
-    <h1>Reports Archive</h1>
-  </div>
+    <div class="heading">
+        <h5>REPORT</h5>
+        <h1>REPORTS</h1>
+    </div>
 </div>
-<div class="container">
-	<input type="text" ng-model="reportFilter" placeholder="Search Reports Archive" class="search-contextual">
-	<i class="glyphicon glyphicon-search contextual"></i>
-	<button ng-click="modal.createReport = true" class="btn btn-success right col-md-2">CREATE REPORT</button>	
+<tab-bar tabs="tabs" on-add="addTab()" edit></tab-bar>
+<div class="container" ui-view>
 </div>
-<img class="placehold" src="images/placeholders/report/report_archive_1.png">
-<div id="placehold-bottom">
-	<div id="pagination"><img src="images/pagination.png"></div>
-</div>-->
