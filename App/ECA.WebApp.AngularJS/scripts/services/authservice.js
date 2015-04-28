@@ -8,22 +8,9 @@
  * Factory for handling authorization.
  */
 angular.module('staticApp')
-  .factory('AuthService', function ($rootScope, $http, $q, $window, DragonBreath, adalAuthenticationService) {
+  .factory('AuthService', function ($rootScope, $log, $http, $q, $window, DragonBreath, adalAuthenticationService) {
       
       var service = {
-          //var config = {
-          //    resourceType: 'project',
-          //    resourceId: 1,
-          //    "editProject": {
-          //        hasPermission: function() {
-          //
-          //        },
-          //        notAuthorized: function() {
-          //
-          //        }
-          //    }
-          //};
-
           getResourcePermissions: function (resourceType, resourceId, config) {
               var hasPermissionCallbackName = "hasPermission";
               var notAuthorizedCallbackName = "notAuthorized";
@@ -36,20 +23,26 @@ angular.module('staticApp')
                       for (var key in config) {
                           var userPermissions = responseData.data;
                           var permissionFound = false;
-                          for (var i = 0; i < userPermissions.length; i++) {
-                              var userPermission = userPermissions[i];
-                              console.assert(userPermission.permissionName, "The user permission object should have a permissionName property.");
-                              if (userPermission.permissionName === key) {
-                                  permissionFound = true;
-                                  var hasPermissionCallback = config[key][hasPermissionCallbackName];
-                                  console.assert(hasPermissionCallback, "The config object for the permission named [" + userPermission.permissionName + '] must have a callback function named [' + hasPermissionCallbackName + '].');
-                                  hasPermissionCallback();
-                              }
+                          if (userPermissions.length === 0) {
+                              permissionFound = true;
+                              $log.warn('Granting user permissions for resource [' + resourceId + '] of type [' + resourceType + '] because zero permissions were returned from the server.');
                           }
-                          if (!permissionFound) {
-                              var notAuthorizedCallback = config[key][notAuthorizedCallbackName];
-                              console.assert(notAuthorizedCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + notAuthorizedCallbackName + '].');
-                              notAuthorizedCallback();
+                          else {
+                              for (var i = 0; i < userPermissions.length; i++) {
+                                  var userPermission = userPermissions[i];
+                                  console.assert(userPermission.permissionName, "The user permission object should have a permissionName property.");
+                                  if (userPermission.permissionName === key) {
+                                      permissionFound = true;
+                                      var hasPermissionCallback = config[key][hasPermissionCallbackName];
+                                      console.assert(hasPermissionCallback, "The config object for the permission named [" + userPermission.permissionName + '] must have a callback function named [' + hasPermissionCallbackName + '].');
+                                      hasPermissionCallback();
+                                  }
+                              }
+                              if (!permissionFound) {
+                                  var notAuthorizedCallback = config[key][notAuthorizedCallbackName];
+                                  console.assert(notAuthorizedCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + notAuthorizedCallbackName + '].');
+                                  notAuthorizedCallback();
+                              }
                           }
                       }
                   }

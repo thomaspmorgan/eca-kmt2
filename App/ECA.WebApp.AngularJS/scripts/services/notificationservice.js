@@ -8,20 +8,24 @@
  * Factory for handling authorization.
  */
 angular.module('staticApp')
-  .factory('NotificationService', function ($rootScope, $http, $q, $window) {
+  .factory('NotificationService', function ($rootScope, $http, $q, $window, toaster) {
       var service = {};
       service.showMessage = function (type, message) {
-          $rootScope.areAlertsCollapsed = false;
-          $rootScope.notifications.push({ type: type, msg: message });
+          toaster.pop({
+              type: type,
+              title: '',
+              body: message,
+              showCloseButton: true
+          });
       };
       service.showErrorMessage = function(message){
-          service.showMessage('danger', message);
+          service.showMessage('error', message);
       };
       service.showSuccessMessage = function(message){
           service.showMessage('success', message);
       };
       service.showInfoMessage = function (message) {
-          service.showMessage('info', message);
+          service.showMessage('not', message);
       };
       service.showWarningMessage = function (message) {
           service.showMessage('warning', message);
@@ -29,12 +33,5 @@ angular.module('staticApp')
       service.showUnauthorizedMessage = function (message) {
           service.showMessage('warning', message);
       };
-      service.removeAlert = function (index) {
-          $rootScope.notifications.splice(index, 1);
-          if ($rootScope.notifications.length === 0) {
-              $rootScope.areAlertsCollapsed = true;
-          }
-      };
-
       return service;
   });
