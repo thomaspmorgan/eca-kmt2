@@ -30,6 +30,162 @@ namespace ViewProjectList1.Test
     {
         
         /// <summary>
+        /// Verify the control type of the content menu button is a functional toggle navigation button.
+        /// </summary>
+        public void AssertContentMenuButton()
+        {
+            #region Variable Declarations
+            HtmlButton uITogglenavigationButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
+            #endregion
+
+            // Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
+            Assert.AreEqual(this.AssertContentMenuButtonExpectedValues.UITogglenavigationButtonControlType, uITogglenavigationButton.ControlType.ToString(), "No content menu button available. Check Control Type.");
+        }
+        
+        /// <summary>
+        /// Verify the filter boxes display and are available for edit for the Projects List.
+        /// </summary>
+        public void AssertEditFilterBoxes_ProjectList()
+        {
+            #region Variable Declarations
+            HtmlEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemEdit;
+            HtmlEdit uIItemEdit1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemEdit1;
+            HtmlEdit uIItemEdit2 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemEdit2;
+            HtmlEdit uIItemEdit3 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemEdit3;
+            #endregion
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertEditFilterBoxes_ProjectListExpectedValues.UIItemEditControlType, uIItemEdit.ControlType.ToString(), "No title filter box available for edit for projects list. Check ControlType.");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertEditFilterBoxes_ProjectListExpectedValues.UIItemEdit1ControlType, uIItemEdit1.ControlType.ToString(), "No Status filter box available for edit. Check ControlType. ");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertEditFilterBoxes_ProjectListExpectedValues.UIItemEdit2ControlType, uIItemEdit2.ControlType.ToString(), "No filter box available to edit for year. ");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertEditFilterBoxes_ProjectListExpectedValues.UIItemEdit3ControlType, uIItemEdit3.ControlType.ToString(), "No edit filter box for region location. ");
+        }
+        
+        /// <summary>
+        /// Verify the (Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program) exists for selection on (page 4) of the All Programs list.
+        /// </summary>
+        public void AssertIndividualProgram()
+        {
+            #region Variable Declarations
+            HtmlCell uIECAPCAmbassadorsFundCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane2.UIItemTable.UIECAPCAmbassadorsFundCell;
+            HtmlHyperlink uIAmbassadorsFundforCuHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane2.UIAmbassadorsFundforCuHyperlink;
+            #endregion
+
+            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'ECA/P/C Ambassadors Fund for Cultural' cell contains 'ECA/P/C 
+            //Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program
+            //
+            //The AFCP Large Grants Program supports the preservation of major ancient archaeological sites, historic buildings and monuments, and museum collections that are accessible to the public and protected by law in the host country. This limited competition awards between 3 and 5 grants per year ranging from $500,000 to $1 million. Projects funded through this program advance U.S. foreign policy objectives and demonstrate U.S. respect for other cultures.'
+            Playback.Wait(5000);
+            StringAssert.Contains(uIECAPCAmbassadorsFundCell.InnerText, this.AssertIndividualProgramExpectedValues.UIECAPCAmbassadorsFundCellInnerText, "No cell value in list available for (Ambassadors Fund for Cultural Preservation -" +
+                    " Large Grants Competition). Check innertext.");
+
+            // Verify that the 'ControlType' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link contains 'Hyperlink'
+            StringAssert.Contains(uIAmbassadorsFundforCuHyperlink.ControlType.ToString(), this.AssertIndividualProgramExpectedValues.UIAmbassadorsFundforCuHyperlinkControlType, "No Hyperlink control type for (Ambassadors Fund for Cultural Preservation (AFCP) " +
+                    "- Large Grants). Check ControlType.");
+
+            // Verify that the 'InnerText' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link contains 'Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program'
+            StringAssert.Contains(uIAmbassadorsFundforCuHyperlink.InnerText, this.AssertIndividualProgramExpectedValues.UIAmbassadorsFundforCuHyperlinkInnerText, "Check innertext contains, for name of Program (Ambassadors Fund for Cultural Pres" +
+                    "ervation (AFCP) - Large Grants Program)");
+        }
+        
+        /// <summary>
+        /// Verify the project list displays names, status, year, and location for individual projects.
+        /// </summary>
+        public void AssertIndProg_ProjectList()
+        {
+            #region Variable Declarations
+            HtmlCell uIConservationofLatePrCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIConservationofLatePrCell;
+            HtmlCell uIConservationofQalaIkCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIConservationofQalaIkCell;
+            HtmlCell uIConservationofthe10tCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIConservationofthe10tCell;
+            HtmlCell uICompletedCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UICompletedCell;
+            HtmlCell uICompletedCell1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UICompletedCell1;
+            HtmlCell uIItem2008Cell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIItem2008Cell;
+            HtmlCell uIItem2010Cell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIItem2010Cell;
+            HtmlCell uIHeratCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIHeratCell;
+            HtmlCell uISanBartoloCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UISanBartoloCell;
+            #endregion
+
+            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Conservation of Late Preclassic Murals a' cell contains 'Conservation of Late Preclassic Murals at San Bartolo and the Temple of the Hieroglyphic Staircase at Yaxha-Nakum-Naranjo National Park, Ancient Maya Sites in the Eastern Petén'
+            Playback.Wait(5000);
+            StringAssert.Contains(uIConservationofLatePrCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIConservationofLatePrCellInnerText, "No project names in list available. (1) Check innertext.");
+
+            // Verify that the 'InnerText' property of 'Conservation of Qala Ikhtyaruddin, the 1' cell contains 'Conservation of Qala Ikhtyaruddin, the 15th-Century Citadel of Herat'
+            StringAssert.Contains(uIConservationofQalaIkCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIConservationofQalaIkCellInnerText, "No project names available in list (2). Check innertext.");
+
+            // Verify that the 'InnerText' property of 'Conservation of the 10th-Century Temple' cell contains 'Conservation of the 10th-Century Temple of Phnom Bakheng'
+            StringAssert.Contains(uIConservationofthe10tCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIConservationofthe10tCellInnerText, "No project names available in list (4). Check innertext.");
+
+            // Verify that the 'InnerText' property of 'Completed' cell contains 'Completed'
+            StringAssert.Contains(uICompletedCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UICompletedCellInnerText, "No project status available for project (1) in list. Check innertext.");
+
+            // Verify that the 'InnerText' property of 'Completed' cell contains 'Completed'
+            StringAssert.Contains(uICompletedCell1.InnerText, this.AssertIndProg_ProjectListExpectedValues.UICompletedCell1InnerText, "No project status available for project (2) in list. Check innertext.");
+
+            // Verify that the 'InnerText' property of '2008' cell contains '2008'
+            StringAssert.Contains(uIItem2008Cell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIItem2008CellInnerText, "No project year available for project (1) in list. Check innertext. ");
+
+            // Verify that the 'InnerText' property of '2010' cell contains '2010'
+            StringAssert.Contains(uIItem2010Cell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIItem2010CellInnerText, "No project year available for project (2) in list. Check innertext. ");
+
+            // Verify that the 'InnerText' property of 'Herat' cell contains 'Herat'
+            StringAssert.Contains(uIHeratCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIHeratCellInnerText, "No project location available for project (2) in list. Check innertext. ");
+
+            // Verify that the 'InnerText' property of 'San Bartolo' cell contains 'San Bartolo'
+            StringAssert.Contains(uISanBartoloCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UISanBartoloCellInnerText, "No project location available for project (1) in list. Check innertext. ");
+        }
+        
+        /// <summary>
+        /// Verify the Branches & Projects tab exists for selection as a hyperlink to navigate to the branches and projects.
+        /// </summary>
+        public void AssertIndProgram_BranchProjectTab()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIBranchesProjectsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIBranchesProjectsHyperlink;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Branches & Projects'
+            StringAssert.Contains(uIBranchesProjectsHyperlink.InnerText, this.AssertIndProgram_BranchProjectTabExpectedValues.UIBranchesProjectsHyperlinkInnerText, "No branches and projects tab available for selection. Check innertext.");
+
+            // Verify that the 'ControlType' property of 'Branches & Projects' link equals 'Hyperlink'
+            Assert.AreEqual(this.AssertIndProgram_BranchProjectTabExpectedValues.UIBranchesProjectsHyperlinkControlType, uIBranchesProjectsHyperlink.ControlType.ToString(), "No hyperlink available for branches and projects tab to navigate. Check ControlTy" +
+                    "pe.");
+        }
+        
+        /// <summary>
+        /// Verify the (page 3) for pagination controls is available for selection to navigate to (page 3) of the all programs list.
+        /// </summary>
+        public void AssertPageNum_ProgList()
+        {
+            #region Variable Declarations
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom;
+            #endregion
+
+            // Verify that the 'InnerText' property of custom control equals '3'
+            Assert.AreEqual(this.AssertPageNum_ProgListExpectedValues.UIItemCustomInnerText, uIItemCustom.InnerText, "No pagination (page 3) of all programs list available for selection. Check innert" +
+                    "ext.");
+        }
+        
+        /// <summary>
+        /// Verify that (page 4) is available for selection from the pagination bar.
+        /// </summary>
+        public void AssertPageNum4_ProgList()
+        {
+            #region Variable Declarations
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane1.UIItemCustom;
+            #endregion
+
+            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of custom control equals '4'
+            Playback.Wait(5000);
+            Assert.AreEqual(this.AssertPageNum4_ProgListExpectedValues.UIItemCustomInnerText, uIItemCustom.InnerText, "No (page 4) available for selection from the pagination bar. Check innertext.");
+        }
+        
+        /// <summary>
         /// Open browser; navigate to QA; select ECATest user; enter pw; click sign in.
         /// </summary>
         public void LogintoQA_ExistingUser()
@@ -54,36 +210,6 @@ namespace ViewProjectList1.Test
         }
         
         /// <summary>
-        /// Verify the control type of the content menu button is a functional toggle navigation button.
-        /// </summary>
-        public void AssertContentMenuButton()
-        {
-            #region Variable Declarations
-            HtmlButton uITogglenavigationButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
-            #endregion
-
-            // Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
-            Assert.AreEqual(this.AssertContentMenuButtonExpectedValues.UITogglenavigationButtonControlType, uITogglenavigationButton.ControlType.ToString(), "No content menu button available. Check Control Type.");
-        }
-        
-        /// <summary>
-        /// Expand the content menu; select the programs link; navigate to all programs page.
-        /// </summary>
-        public void SelectPrograms_ContentMenu()
-        {
-            #region Variable Declarations
-            HtmlButton uITogglenavigationButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
-            HtmlHyperlink uIProgramsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIProgramsHyperlink;
-            #endregion
-
-            // Click 'Toggle navigation' button
-            Mouse.Click(uITogglenavigationButton, new Point(18, 17));
-
-            // Click 'Programs' link
-            Mouse.Click(uIProgramsHyperlink, new Point(50, 33));
-        }
-        
-        /// <summary>
         /// Refresh/Reload All Programs Page (F5)
         /// </summary>
         public void RefreshAllProgramsPage()
@@ -94,101 +220,6 @@ namespace ViewProjectList1.Test
 
             // Type '{F5}' in 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
             Keyboard.SendKeys(uIHttpsecakmtqaazureweDocument1, this.RefreshAllProgramsPageParams.UIHttpsecakmtqaazureweDocument1SendKeys, ModifierKeys.None);
-        }
-        
-        /// <summary>
-        /// Verify the (page 3) for pagination controls is available for selection to navigate to (page 3) of the all programs list.
-        /// </summary>
-        public void AssertPageNum_ProgList()
-        {
-            #region Variable Declarations
-            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom;
-            #endregion
-
-            // Verify that the 'InnerText' property of custom control equals '3'
-            Assert.AreEqual(this.AssertPageNum_ProgListExpectedValues.UIItemCustomInnerText, uIItemCustom.InnerText, "No pagination (page 3) of all programs list available for selection. Check innert" +
-                    "ext.");
-        }
-        
-        /// <summary>
-        /// Select Page (3) to view in the All Programs List.
-        /// </summary>
-        public void SelectPageNum_ProgList()
-        {
-            #region Variable Declarations
-            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom;
-            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
-            HtmlCustom uIItemCustom1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument11.UISortlistPane.UIItemCustom;
-            #endregion
-
-            // Click custom control
-            Mouse.Click(uIItemCustom, new Point(19, 16));
-
-            // Perform Refresh on Browser Window
-            uINewtabInternetExplorWindow.Refresh();
-
-            // Click custom control
-            Mouse.Click(uIItemCustom1, new Point(17, 15));
-        }
-        
-        /// <summary>
-        /// Verify that (page 4) is available for selection from the pagination bar.
-        /// </summary>
-        public void AssertPageNum4_ProgList()
-        {
-            #region Variable Declarations
-            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane1.UIItemCustom;
-            #endregion
-
-            // Verify that the 'InnerText' property of custom control equals '4'
-            Assert.AreEqual(this.AssertPageNum4_ProgListExpectedValues.UIItemCustomInnerText, uIItemCustom.InnerText, "No (page 4) available for selection from the pagination bar. Check innertext.");
-        }
-        
-        /// <summary>
-        /// Select (page 4) from the pagination bar to navigate within the All Programs List.
-        /// </summary>
-        public void SelectPageNum4_ProgList()
-        {
-            #region Variable Declarations
-            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane1.UIItemCustom;
-            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
-            HtmlCustom uIItemCustom1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom1;
-            #endregion
-
-            // Click custom control
-            Mouse.Click(uIItemCustom, new Point(18, 16));
-
-            // Perform Refresh on Browser Window
-            uINewtabInternetExplorWindow.Refresh();
-
-            // Click custom control
-            Mouse.Click(uIItemCustom1, new Point(14, 12));
-        }
-        
-        /// <summary>
-        /// Verify the (Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program) exists for selection on (page 4) of the All Programs list.
-        /// </summary>
-        public void AssertIndividualProgram()
-        {
-            #region Variable Declarations
-            HtmlCell uIECAPCAmbassadorsFundCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane2.UIItemTable.UIECAPCAmbassadorsFundCell;
-            HtmlHyperlink uIAmbassadorsFundforCuHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane2.UIAmbassadorsFundforCuHyperlink;
-            #endregion
-
-            // Verify that the 'InnerText' property of 'ECA/P/C Ambassadors Fund for Cultural' cell contains 'ECA/P/C 
-            //Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program
-            //
-            //The AFCP Large Grants Program supports the preservation of major ancient archaeological sites, historic buildings and monuments, and museum collections that are accessible to the public and protected by law in the host country. This limited competition awards between 3 and 5 grants per year ranging from $500,000 to $1 million. Projects funded through this program advance U.S. foreign policy objectives and demonstrate U.S. respect for other cultures.'
-            StringAssert.Contains(uIECAPCAmbassadorsFundCell.InnerText, this.AssertIndividualProgramExpectedValues.UIECAPCAmbassadorsFundCellInnerText, "No cell value in list available for (Ambassadors Fund for Cultural Preservation -" +
-                    " Large Grants Competition). Check innertext.");
-
-            // Verify that the 'ControlType' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link contains 'Hyperlink'
-            StringAssert.Contains(uIAmbassadorsFundforCuHyperlink.ControlType.ToString(), this.AssertIndividualProgramExpectedValues.UIAmbassadorsFundforCuHyperlinkControlType, "No Hyperlink control type for (Ambassadors Fund for Cultural Preservation (AFCP) " +
-                    "- Large Grants). Check ControlType.");
-
-            // Verify that the 'InnerText' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link contains 'Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program'
-            StringAssert.Contains(uIAmbassadorsFundforCuHyperlink.InnerText, this.AssertIndividualProgramExpectedValues.UIAmbassadorsFundforCuHyperlinkInnerText, "Check innertext contains, for name of Program (Ambassadors Fund for Cultural Pres" +
-                    "ervation (AFCP) - Large Grants Program)");
         }
         
         /// <summary>
@@ -219,23 +250,6 @@ namespace ViewProjectList1.Test
         }
         
         /// <summary>
-        /// Verify the Branches & Projects tab exists for selection as a hyperlink to navigate to the branches and projects.
-        /// </summary>
-        public void AssertIndProgram_BranchProjectTab()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIBranchesProjectsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIBranchesProjectsHyperlink;
-            #endregion
-
-            // Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Branches & Projects'
-            StringAssert.Contains(uIBranchesProjectsHyperlink.InnerText, this.AssertIndProgram_BranchProjectTabExpectedValues.UIBranchesProjectsHyperlinkInnerText, "No branches and projects tab available for selection. Check innertext.");
-
-            // Verify that the 'ControlType' property of 'Branches & Projects' link equals 'Hyperlink'
-            Assert.AreEqual(this.AssertIndProgram_BranchProjectTabExpectedValues.UIBranchesProjectsHyperlinkControlType, uIBranchesProjectsHyperlink.ControlType.ToString(), "No hyperlink available for branches and projects tab to navigate. Check ControlTy" +
-                    "pe.");
-        }
-        
-        /// <summary>
         /// Select the Branches & Projects tab to display the branches and projects within the individual program.
         /// </summary>
         public void SelectIndProg_BranchesProjectTab()
@@ -260,88 +274,65 @@ namespace ViewProjectList1.Test
         }
         
         /// <summary>
-        /// Verify the project list displays names, status, year, and location for individual projects.
+        /// Select Page (3) to view in the All Programs List.
         /// </summary>
-        public void AssertIndProg_ProjectList()
+        public void SelectPageNum_ProgList()
         {
             #region Variable Declarations
-            HtmlCell uIConservationofLatePrCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIConservationofLatePrCell;
-            HtmlCell uIConservationofQalaIkCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIConservationofQalaIkCell;
-            HtmlCell uIConservationofthe10tCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIConservationofthe10tCell;
-            HtmlCell uICompletedCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UICompletedCell;
-            HtmlCell uICompletedCell1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UICompletedCell1;
-            HtmlCell uIItem2008Cell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIItem2008Cell;
-            HtmlCell uIItem2010Cell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIItem2010Cell;
-            HtmlCell uIHeratCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIHeratCell;
-            HtmlCell uISanBartoloCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UISanBartoloCell;
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom;
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            HtmlCustom uIItemCustom1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument11.UISortlistPane.UIItemCustom;
             #endregion
 
-            // Verify that the 'InnerText' property of 'Conservation of Late Preclassic Murals a' cell contains 'Conservation of Late Preclassic Murals at San Bartolo and the Temple of the Hieroglyphic Staircase at Yaxha-Nakum-Naranjo National Park, Ancient Maya Sites in the Eastern Petén'
-            StringAssert.Contains(uIConservationofLatePrCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIConservationofLatePrCellInnerText, "No project names in list available. (1) Check innertext.");
+            // Click custom control
+            Mouse.Click(uIItemCustom, new Point(19, 16));
 
-            // Verify that the 'InnerText' property of 'Conservation of Qala Ikhtyaruddin, the 1' cell contains 'Conservation of Qala Ikhtyaruddin, the 15th-Century Citadel of Herat'
-            StringAssert.Contains(uIConservationofQalaIkCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIConservationofQalaIkCellInnerText, "No project names available in list (2). Check innertext.");
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
 
-            // Verify that the 'InnerText' property of 'Conservation of the 10th-Century Temple' cell contains 'Conservation of the 10th-Century Temple of Phnom Bakheng'
-            StringAssert.Contains(uIConservationofthe10tCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIConservationofthe10tCellInnerText, "No project names available in list (4). Check innertext.");
-
-            // Verify that the 'InnerText' property of 'Completed' cell contains 'Completed'
-            StringAssert.Contains(uICompletedCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UICompletedCellInnerText, "No project status available for project (1) in list. Check innertext.");
-
-            // Verify that the 'InnerText' property of 'Completed' cell contains 'Completed'
-            StringAssert.Contains(uICompletedCell1.InnerText, this.AssertIndProg_ProjectListExpectedValues.UICompletedCell1InnerText, "No project status available for project (2) in list. Check innertext.");
-
-            // Verify that the 'InnerText' property of '2008' cell contains '2008'
-            StringAssert.Contains(uIItem2008Cell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIItem2008CellInnerText, "No project year available for project (1) in list. Check innertext. ");
-
-            // Verify that the 'InnerText' property of '2010' cell contains '2010'
-            StringAssert.Contains(uIItem2010Cell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIItem2010CellInnerText, "No project year available for project (2) in list. Check innertext. ");
-
-            // Verify that the 'InnerText' property of 'Herat' cell contains 'Herat'
-            StringAssert.Contains(uIHeratCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UIHeratCellInnerText, "No project location available for project (2) in list. Check innertext. ");
-
-            // Verify that the 'InnerText' property of 'San Bartolo' cell contains 'San Bartolo'
-            StringAssert.Contains(uISanBartoloCell.InnerText, this.AssertIndProg_ProjectListExpectedValues.UISanBartoloCellInnerText, "No project location available for project (1) in list. Check innertext. ");
+            // Click custom control
+            Mouse.Click(uIItemCustom1, new Point(17, 15));
         }
         
         /// <summary>
-        /// Verify the filter boxes display and are available for edit for the Projects List.
+        /// Select (page 4) from the pagination bar to navigate within the All Programs List.
         /// </summary>
-        public void AssertEditFilterBoxes_ProjectList()
+        public void SelectPageNum4_ProgList()
         {
             #region Variable Declarations
-            HtmlEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemEdit;
-            HtmlEdit uIItemEdit1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemEdit1;
-            HtmlEdit uIItemEdit2 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemEdit2;
-            HtmlEdit uIItemEdit3 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemEdit3;
+            HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane1.UIItemCustom;
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            HtmlCustom uIItemCustom1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom1;
             #endregion
 
-            // Verify that the 'ControlType' property of text box equals 'Edit'
-            Assert.AreEqual(this.AssertEditFilterBoxes_ProjectListExpectedValues.UIItemEditControlType, uIItemEdit.ControlType.ToString(), "No title filter box available for edit for projects list. Check ControlType.");
+            // Click custom control
+            Mouse.Click(uIItemCustom, new Point(18, 16));
 
-            // Verify that the 'ControlType' property of text box equals 'Edit'
-            Assert.AreEqual(this.AssertEditFilterBoxes_ProjectListExpectedValues.UIItemEdit1ControlType, uIItemEdit1.ControlType.ToString(), "No Status filter box available for edit. Check ControlType. ");
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
 
-            // Verify that the 'ControlType' property of text box equals 'Edit'
-            Assert.AreEqual(this.AssertEditFilterBoxes_ProjectListExpectedValues.UIItemEdit2ControlType, uIItemEdit2.ControlType.ToString(), "No filter box available to edit for year. ");
+            // Click custom control
+            Mouse.Click(uIItemCustom1, new Point(14, 12));
+        }
+        
+        /// <summary>
+        /// Expand the content menu; select the programs link; navigate to all programs page.
+        /// </summary>
+        public void SelectPrograms_ContentMenu()
+        {
+            #region Variable Declarations
+            HtmlButton uITogglenavigationButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
+            HtmlHyperlink uIProgramsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIProgramsHyperlink;
+            #endregion
 
-            // Verify that the 'ControlType' property of text box equals 'Edit'
-            Assert.AreEqual(this.AssertEditFilterBoxes_ProjectListExpectedValues.UIItemEdit3ControlType, uIItemEdit3.ControlType.ToString(), "No edit filter box for region location. ");
+            // Click 'Toggle navigation' button
+            Mouse.Click(uITogglenavigationButton, new Point(18, 17));
+
+            // Click 'Programs' link
+            Mouse.Click(uIProgramsHyperlink, new Point(50, 33));
         }
         
         #region Properties
-        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
-        {
-            get
-            {
-                if ((this.mLogintoQA_ExistingUserParams == null))
-                {
-                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
-                }
-                return this.mLogintoQA_ExistingUserParams;
-            }
-        }
-        
         public virtual AssertContentMenuButtonExpectedValues AssertContentMenuButtonExpectedValues
         {
             get
@@ -354,15 +345,51 @@ namespace ViewProjectList1.Test
             }
         }
         
-        public virtual RefreshAllProgramsPageParams RefreshAllProgramsPageParams
+        public virtual AssertEditFilterBoxes_ProjectListExpectedValues AssertEditFilterBoxes_ProjectListExpectedValues
         {
             get
             {
-                if ((this.mRefreshAllProgramsPageParams == null))
+                if ((this.mAssertEditFilterBoxes_ProjectListExpectedValues == null))
                 {
-                    this.mRefreshAllProgramsPageParams = new RefreshAllProgramsPageParams();
+                    this.mAssertEditFilterBoxes_ProjectListExpectedValues = new AssertEditFilterBoxes_ProjectListExpectedValues();
                 }
-                return this.mRefreshAllProgramsPageParams;
+                return this.mAssertEditFilterBoxes_ProjectListExpectedValues;
+            }
+        }
+        
+        public virtual AssertIndividualProgramExpectedValues AssertIndividualProgramExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertIndividualProgramExpectedValues == null))
+                {
+                    this.mAssertIndividualProgramExpectedValues = new AssertIndividualProgramExpectedValues();
+                }
+                return this.mAssertIndividualProgramExpectedValues;
+            }
+        }
+        
+        public virtual AssertIndProg_ProjectListExpectedValues AssertIndProg_ProjectListExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertIndProg_ProjectListExpectedValues == null))
+                {
+                    this.mAssertIndProg_ProjectListExpectedValues = new AssertIndProg_ProjectListExpectedValues();
+                }
+                return this.mAssertIndProg_ProjectListExpectedValues;
+            }
+        }
+        
+        public virtual AssertIndProgram_BranchProjectTabExpectedValues AssertIndProgram_BranchProjectTabExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertIndProgram_BranchProjectTabExpectedValues == null))
+                {
+                    this.mAssertIndProgram_BranchProjectTabExpectedValues = new AssertIndProgram_BranchProjectTabExpectedValues();
+                }
+                return this.mAssertIndProgram_BranchProjectTabExpectedValues;
             }
         }
         
@@ -390,51 +417,27 @@ namespace ViewProjectList1.Test
             }
         }
         
-        public virtual AssertIndividualProgramExpectedValues AssertIndividualProgramExpectedValues
+        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
         {
             get
             {
-                if ((this.mAssertIndividualProgramExpectedValues == null))
+                if ((this.mLogintoQA_ExistingUserParams == null))
                 {
-                    this.mAssertIndividualProgramExpectedValues = new AssertIndividualProgramExpectedValues();
+                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
                 }
-                return this.mAssertIndividualProgramExpectedValues;
+                return this.mLogintoQA_ExistingUserParams;
             }
         }
         
-        public virtual AssertIndProgram_BranchProjectTabExpectedValues AssertIndProgram_BranchProjectTabExpectedValues
+        public virtual RefreshAllProgramsPageParams RefreshAllProgramsPageParams
         {
             get
             {
-                if ((this.mAssertIndProgram_BranchProjectTabExpectedValues == null))
+                if ((this.mRefreshAllProgramsPageParams == null))
                 {
-                    this.mAssertIndProgram_BranchProjectTabExpectedValues = new AssertIndProgram_BranchProjectTabExpectedValues();
+                    this.mRefreshAllProgramsPageParams = new RefreshAllProgramsPageParams();
                 }
-                return this.mAssertIndProgram_BranchProjectTabExpectedValues;
-            }
-        }
-        
-        public virtual AssertIndProg_ProjectListExpectedValues AssertIndProg_ProjectListExpectedValues
-        {
-            get
-            {
-                if ((this.mAssertIndProg_ProjectListExpectedValues == null))
-                {
-                    this.mAssertIndProg_ProjectListExpectedValues = new AssertIndProg_ProjectListExpectedValues();
-                }
-                return this.mAssertIndProg_ProjectListExpectedValues;
-            }
-        }
-        
-        public virtual AssertEditFilterBoxes_ProjectListExpectedValues AssertEditFilterBoxes_ProjectListExpectedValues
-        {
-            get
-            {
-                if ((this.mAssertEditFilterBoxes_ProjectListExpectedValues == null))
-                {
-                    this.mAssertEditFilterBoxes_ProjectListExpectedValues = new AssertEditFilterBoxes_ProjectListExpectedValues();
-                }
-                return this.mAssertEditFilterBoxes_ProjectListExpectedValues;
+                return this.mRefreshAllProgramsPageParams;
             }
         }
         
@@ -452,45 +455,25 @@ namespace ViewProjectList1.Test
         #endregion
         
         #region Fields
-        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
-        
         private AssertContentMenuButtonExpectedValues mAssertContentMenuButtonExpectedValues;
         
-        private RefreshAllProgramsPageParams mRefreshAllProgramsPageParams;
+        private AssertEditFilterBoxes_ProjectListExpectedValues mAssertEditFilterBoxes_ProjectListExpectedValues;
+        
+        private AssertIndividualProgramExpectedValues mAssertIndividualProgramExpectedValues;
+        
+        private AssertIndProg_ProjectListExpectedValues mAssertIndProg_ProjectListExpectedValues;
+        
+        private AssertIndProgram_BranchProjectTabExpectedValues mAssertIndProgram_BranchProjectTabExpectedValues;
         
         private AssertPageNum_ProgListExpectedValues mAssertPageNum_ProgListExpectedValues;
         
         private AssertPageNum4_ProgListExpectedValues mAssertPageNum4_ProgListExpectedValues;
         
-        private AssertIndividualProgramExpectedValues mAssertIndividualProgramExpectedValues;
+        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
         
-        private AssertIndProgram_BranchProjectTabExpectedValues mAssertIndProgram_BranchProjectTabExpectedValues;
-        
-        private AssertIndProg_ProjectListExpectedValues mAssertIndProg_ProjectListExpectedValues;
-        
-        private AssertEditFilterBoxes_ProjectListExpectedValues mAssertEditFilterBoxes_ProjectListExpectedValues;
+        private RefreshAllProgramsPageParams mRefreshAllProgramsPageParams;
         
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'LogintoQA_ExistingUser'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class LogintoQA_ExistingUserParams
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-        /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
-        
-        /// <summary>
-        /// Type '********' in 'Password' text box
-        /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
         #endregion
     }
     
@@ -510,47 +493,32 @@ namespace ViewProjectList1.Test
     }
     
     /// <summary>
-    /// Parameters to be passed into 'RefreshAllProgramsPage'
+    /// Parameters to be passed into 'AssertEditFilterBoxes_ProjectList'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class RefreshAllProgramsPageParams
+    public class AssertEditFilterBoxes_ProjectListExpectedValues
     {
         
         #region Fields
         /// <summary>
-        /// Type '{F5}' in 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
         /// </summary>
-        public string UIHttpsecakmtqaazureweDocument1SendKeys = "{F5}";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertPageNum_ProgList'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertPageNum_ProgListExpectedValues
-    {
+        public string UIItemEditControlType = "Edit";
         
-        #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of custom control equals '3'
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
         /// </summary>
-        public string UIItemCustomInnerText = "3";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertPageNum4_ProgList'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertPageNum4_ProgListExpectedValues
-    {
+        public string UIItemEdit1ControlType = "Edit";
         
-        #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of custom control equals '4'
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
         /// </summary>
-        public string UIItemCustomInnerText = "4";
+        public string UIItemEdit2ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit3ControlType = "Edit";
         #endregion
     }
     
@@ -563,7 +531,7 @@ namespace ViewProjectList1.Test
         
         #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of 'ECA/P/C Ambassadors Fund for Cultural' cell contains 'ECA/P/C 
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'ECA/P/C Ambassadors Fund for Cultural' cell contains 'ECA/P/C 
         ///Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program
         ///
         ///The AFCP Large Grants Program supports the preservation of major ancient archaeological sites, historic buildings and monuments, and museum collections that are accessible to the public and protected by law in the host country. This limited competition awards between 3 and 5 grants per year ranging from $500,000 to $1 million. Projects funded through this program advance U.S. foreign policy objectives and demonstrate U.S. respect for other cultures.'
@@ -586,26 +554,6 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
     }
     
     /// <summary>
-    /// Parameters to be passed into 'AssertIndProgram_BranchProjectTab'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertIndProgram_BranchProjectTabExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Branches & Projects'
-        /// </summary>
-        public string UIBranchesProjectsHyperlinkInnerText = "Branches & Projects";
-        
-        /// <summary>
-        /// Verify that the 'ControlType' property of 'Branches & Projects' link equals 'Hyperlink'
-        /// </summary>
-        public string UIBranchesProjectsHyperlinkControlType = "Hyperlink";
-        #endregion
-    }
-    
-    /// <summary>
     /// Parameters to be passed into 'AssertIndProg_ProjectList'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
@@ -614,7 +562,7 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
         
         #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of 'Conservation of Late Preclassic Murals a' cell contains 'Conservation of Late Preclassic Murals at San Bartolo and the Temple of the Hieroglyphic Staircase at Yaxha-Nakum-Naranjo National Park, Ancient Maya Sites in the Eastern Petén'
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Conservation of Late Preclassic Murals a' cell contains 'Conservation of Late Preclassic Murals at San Bartolo and the Temple of the Hieroglyphic Staircase at Yaxha-Nakum-Naranjo National Park, Ancient Maya Sites in the Eastern Petén'
         /// </summary>
         public string UIConservationofLatePrCellInnerText = "Conservation of Late Preclassic Murals at San Bartolo and the Temple of the Hiero" +
             "glyphic Staircase at Yaxha-Nakum-Naranjo National Park, Ancient Maya Sites in th" +
@@ -663,32 +611,87 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
     }
     
     /// <summary>
-    /// Parameters to be passed into 'AssertEditFilterBoxes_ProjectList'
+    /// Parameters to be passed into 'AssertIndProgram_BranchProjectTab'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertEditFilterBoxes_ProjectListExpectedValues
+    public class AssertIndProgram_BranchProjectTabExpectedValues
     {
         
         #region Fields
         /// <summary>
-        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Branches & Projects'
         /// </summary>
-        public string UIItemEditControlType = "Edit";
+        public string UIBranchesProjectsHyperlinkInnerText = "Branches & Projects";
         
         /// <summary>
-        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// Verify that the 'ControlType' property of 'Branches & Projects' link equals 'Hyperlink'
         /// </summary>
-        public string UIItemEdit1ControlType = "Edit";
+        public string UIBranchesProjectsHyperlinkControlType = "Hyperlink";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertPageNum_ProgList'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertPageNum_ProgListExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of custom control equals '3'
+        /// </summary>
+        public string UIItemCustomInnerText = "3";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertPageNum4_ProgList'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertPageNum4_ProgListExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of custom control equals '4'
+        /// </summary>
+        public string UIItemCustomInnerText = "4";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'LogintoQA_ExistingUser'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class LogintoQA_ExistingUserParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+        /// </summary>
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
         
         /// <summary>
-        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// Type '********' in 'Password' text box
         /// </summary>
-        public string UIItemEdit2ControlType = "Edit";
+        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'RefreshAllProgramsPage'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class RefreshAllProgramsPageParams
+    {
         
+        #region Fields
         /// <summary>
-        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// Type '{F5}' in 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
         /// </summary>
-        public string UIItemEdit3ControlType = "Edit";
+        public string UIHttpsecakmtqaazureweDocument1SendKeys = "{F5}";
         #endregion
     }
     

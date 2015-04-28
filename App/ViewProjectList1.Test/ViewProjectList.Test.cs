@@ -13,25 +13,26 @@ using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 namespace ViewProjectList1.Test
 {
     /// <summary>
-    /// Summary description for CodedUITest1
+    /// Verifies the user can - login to QA; navigate to the All Programs page; select a program; view the program branches and projects section; view the list of projects available for the program; the project title displays; project year displays; project status displays; project region/location displays; filter boxes are available for edit for project list for each title, status, year, and region.
     /// </summary>
     [CodedUITest]
-    public class CodedUITest1
+    public class ViewProjectListCodedUITest1
     {
-        public CodedUITest1()
+        public ViewProjectListCodedUITest1()
         {
         }
 
         [TestMethod]
-        public void CodedUITestMethod1()
+        public void ViewProjectListCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
             this.UIMap.LogintoQA_ExistingUser();
             this.UIMap.AssertContentMenuButton();
             this.UIMap.SelectPrograms_ContentMenu();
             this.UIMap.RefreshAllProgramsPage();
-            this.UIMap.AssertPageNum_ProgList();
-            this.UIMap.SelectPageNum_ProgList();
+            this.UIMap.SelectPrograms_ContentMenu();
+            //this.UIMap.AssertPageNum_ProgList();
+            //this.UIMap.SelectPageNum_ProgList();
             this.UIMap.AssertPageNum4_ProgList();
             this.UIMap.SelectPageNum4_ProgList();
             this.UIMap.AssertIndividualProgram();

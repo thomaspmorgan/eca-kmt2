@@ -10,39 +10,47 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace ViewProjectsList.Test
+namespace ViewParticipantProfile.Test
 {
     /// <summary>
-    /// This test proves that the user is able to login to the QA site and navigate to the Programs section; drill down on a specific program; and view all the available projects under the program in the Projects List.
+    /// Originally View Participant Personal Information fields-- 
+    /// 4/13/15 -Changed to View Participant Profile to include Contact section. This test will add on the assertions for each section as developed.
+    /// This test verifies the login to QA, navigation to All Participants page, All Participants page display, participants list display, participant name hyperlink available, individual participant profile available by hyperlink navigation; participant profile display; PII section display; PII section fields display; PII fields available and display data when applicable; Contact section display; Contact section fields display; Contact fields available and display data when applicable.
+    /// 
+    /// Think about adding second participant with full data and access via Participant Search-- Nicole Yoo
     /// </summary>
     [CodedUITest]
-    public class ViewProjectsListCodedUITest1
+    public class ViewParticipantProfileCodedUITest1
     {
-        public ViewProjectsListCodedUITest1()
+        public ViewParticipantProfileCodedUITest1()
         {
         }
 
         [TestMethod]
-        public void ViewProjectsListCodedUITestMethod1()
+        public void ViewParticipantProfileCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
 
-            //this.UIMap.AssertContentMenuButton();
+            /*think about setting up the logintoQA to continue on fail for the existing user screen and the LogintoQA_existinguser to continue on fail to proceed to the next step*/
 
-            this.UIMap.LogintoQA_ExistingUser();
             //this.UIMap.LogintoQA();
-            this.UIMap.ContentMenuButton();
+            this.UIMap.LogintoQA_ExistingUser();
+            this.UIMap.AssertContentMenuButton();
             this.UIMap.SelectContentMenuButton();
-            this.UIMap.SelectProgramsLink();
-            this.UIMap.RefreshAllPrograms();
-            this.UIMap.IndividualProgramLink();
-            this.UIMap.SelectIndividualProgramLink();
-            this.UIMap.RefreshIndividualProgram();
-            this.UIMap.BranchesandProjectsLink();
-            this.UIMap.SelectBranchesandProjectsLink();
-            this.UIMap.RefreshBranchesandProjects();
-            this.UIMap.ScrollDown();
-            this.UIMap.TitleCell();
+            this.UIMap.AssertParticipantsLink();
+            this.UIMap.SelectContentMenu_ParticipantsLink();
+            this.UIMap.RefreshHomePage();
+            this.UIMap.SelectContentMenuButton();
+            this.UIMap.SelectContentMenu_ParticipantsLink();
+            this.UIMap.AssertParticipantsBanner();
+            this.UIMap.AssertParticipantsNameLink();
+            this.UIMap.SelectParticipant();
+            this.UIMap.RefreshParticipantsPage();
+            this.UIMap.SelectParticipant();
+            this.UIMap.AssertParticipantNameHeading();
+            this.UIMap.AssertPIISectionFields();
+            this.UIMap.AssertContactSectionFields();
+            //this.UIMap.AssertParticipantsPersonalInfo(); not needed based on individual section and field assertion
             this.UIMap.CloseBrowser();
         }
 
