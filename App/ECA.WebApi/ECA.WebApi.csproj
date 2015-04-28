@@ -347,6 +347,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Common\AdGraph.cs" />
+    <Compile Include="Controllers\Admin\JustificationObjectiveController.cs" />
     <Compile Include="Controllers\Admin\FocusCategoryController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\LogsController.cs" />

@@ -19,36 +19,31 @@ namespace ECA.WebApi.Controllers.Admin
     /// <summary>
     /// The Focus Controller provides lookup and crud operations for a focus.
     /// </summary>
-    public class FocusCategoriesController : ApiController
-    {
+    public class JustificationObjectivesController : ApiController
+    {            
         /// <summary>
-        /// The default sorter for a list of foci.
+        /// The default sorter for a list of objectives.
         /// </summary>
-        private static readonly ExpressionSorter<FocusCategoryDTO> DEFAULT_FOCUSCATEGORY_DTO_SORTER = new ExpressionSorter<FocusCategoryDTO>(x => x.FocusName, SortDirection.Ascending);
+        private static readonly ExpressionSorter<JustificationObjectiveDTO> DEFAULT_JUSTIFICATIONOBJECTIVES_DTO_SORTER = new ExpressionSorter<JustificationObjectiveDTO>(x => x.JustificationName, SortDirection.Ascending);
 
-        private IFocusCategoryService service;
+        private IJustificationObjectiveService service;
 
         /// <summary>
         /// Creates a new FocusController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
-        public FocusCategoriesController(IFocusCategoryService service)
+        public JustificationObjectivesController(IJustificationObjectiveService service)
         {
-            Debug.Assert(service != null, "The focusCategory service must not be null.");
+            Debug.Assert(service != null, "The objective service must not be null.");
             this.service = service;
         }
 
-        /// <summary>
-        /// Returns a listing of the foci..
-        /// </summary>
-        /// <param name="queryModel">The page, filter and sort information.</param>
-        /// <returns>The list of foci.</returns>
-        [ResponseType(typeof(PagedQueryResults<FocusCategoryDTO>))]
-        public async Task<IHttpActionResult> GetFocusCategoriesAsync([FromUri]PagingQueryBindingModel<FocusCategoryDTO> queryModel)
+        [ResponseType(typeof(PagedQueryResults<JustificationObjectiveDTO>))]
+        public async Task<IHttpActionResult> GetJustificationObjectivesAsync([FromUri]PagingQueryBindingModel<JustificationObjectiveDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_FOCUSCATEGORY_DTO_SORTER));
+                var results = await this.service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_JUSTIFICATIONOBJECTIVES_DTO_SORTER));
                 return Ok(results);
             }
             else
