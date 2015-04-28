@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAM.Business", "CAM.Busines
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAM.Business.Test", "CAM.Business.Test\CAM.Business.Test.csproj", "{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRole", "WorkerRole\WorkerRole.csproj", "{A9158A58-52ED-428B-82F6-8E20A4745EB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9158A58-52ED-428B-82F6-8E20A4745EB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9158A58-52ED-428B-82F6-8E20A4745EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9158A58-52ED-428B-82F6-8E20A4745EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9158A58-52ED-428B-82F6-8E20A4745EB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
