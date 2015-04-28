@@ -68,23 +68,3 @@ angular.module('staticApp')
       };
       return service;
   });
-
-
-//var requiredEditPermissionId = ConstantsService.permission.editproject;
-//function loadPermissions() {
-//    var projectId = $stateParams.projectId;
-//    return AuthService.getResourcePermissions('Project', projectId)
-//      .then(function (result) {
-//          var permissions = result.data;
-//          for (var i = 0; i < permissions.length; i++) {
-//              var permission = permissions[i];
-//              console.assert(permission.permissionId, 'The permission should have a permission id property');
-//              var permissionId = permission.permissionId;
-//              if (permissionId === requiredEditPermissionId) {
-//                  $scope.permissions.canEdit = true;
-//              }
-//          }
-//      }, function() {
-//          console.log('Unable to load user permissions.');
-//      });
-//}

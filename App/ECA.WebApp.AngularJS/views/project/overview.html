@@ -1,7 +1,3 @@
-<div collapse="view.areAlertsCollapsed">
-    <alert ng-repeat="notification in view.notifications" type="{{notification.type}}" close="closeAlert($index)">{{notification.msg}}</alert>
-</div>
-
 <div>
     <div class="pull-right" ng-show="editView.show">
         <button ng-click="view.onSaveClick($event)" class="btn btn-success">Save</button>

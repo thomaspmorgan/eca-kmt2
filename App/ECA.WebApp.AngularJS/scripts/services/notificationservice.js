@@ -25,7 +25,7 @@ angular.module('staticApp')
           service.showMessage('success', message);
       };
       service.showInfoMessage = function (message) {
-          service.showMessage('not', message);
+          service.showMessage('note', message);
       };
       service.showWarningMessage = function (message) {
           service.showMessage('warning', message);

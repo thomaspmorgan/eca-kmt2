@@ -67,24 +67,21 @@
                 <div style="margin-right: 50px;" class="navbar-right right">
                     <div id="search-bar-icon" class="glyphicon glyphicon-search col-sd-1" ng-click="spotlightModal=!spotlightModal"></div>
                 </div>
-                <div style="margin-right: 15px;margin-top:14px;" class="spinner pull-right" ng-show="currentUser.isRegistering">
-                    <div class="bounce1"></div>
-                    <div class="bounce2"></div>
-                    <div class="bounce3"></div>
+                <div ng-show="!userInfo.isAuthenticated || currentUser.isBusy" class=" pull-right" style="margin-top:14px;">
+                    <i style="margin-right:10px;" class="fa fa-spinner fa-pulse"></i>
                 </div>
-                <div ng-show="!currentUser.isRegistering">                    
+                <div ng-show="userInfo.isAuthenticated && !currentUser.isBusy">
                     <span style="margin-right: 25px;margin-top:14px;"
                           class="dropdown pull-right user"
-                          dropdown on-toggle="userMenuToggled(open)"
-                          ng-show="userInfo.isAuthenticated"
+                          dropdown on-toggle="currentUser.userMenuToggled(open)"
                           data-ng-model="userInfo">
-                        <div style="margin-right:10px;" class="glyphicon glyphicon-user"></div>
+                        <i style="margin-right:10px;" class="fa fa-user"></i>
                         <a href class="dropdown-toggle" dropdown-toggle>
                             {{userInfo.profile.name}}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" ng-click="logout()">Logout</a></li>
-                        </ul>                        
+                            <li><a href="#" ng-click="currentUser.logout()">Logout</a></li>
+                        </ul>
                     </span>
                 </div>
             </div>
