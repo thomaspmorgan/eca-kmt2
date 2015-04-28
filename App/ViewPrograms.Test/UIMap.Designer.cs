@@ -39,7 +39,8 @@ namespace ViewPrograms.Test
             HtmlDiv uIAllProgramsECAPane1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIAllProgramsECAPane1;
             #endregion
 
-            // Verify that the 'InnerText' property of 'All Programs ECA' pane contains 'All Programs'
+            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'All Programs ECA' pane contains 'All Programs'
+            Playback.Wait(5000);
             StringAssert.Contains(uIAllProgramsECAPane1.InnerText, this.AllProgramsHeadingExpectedValues.UIAllProgramsECAPane1InnerText, "No All Programs in Heading");
         }
         
@@ -119,6 +120,30 @@ namespace ViewPrograms.Test
         }
         
         /// <summary>
+        /// Open browser; navigate to QA site; select ECATest user; enter password; click sign in.
+        /// </summary>
+        public void LogintoQA_ExistingUser()
+        {
+            #region Variable Declarations
+            HtmlCell uIECATest1statedeptusCell = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable.UIECATest1statedeptusCell;
+            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
+            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
+            #endregion
+
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
+
+            // Click 'ECATest1@statedept.us' cell
+            Mouse.Click(uIECATest1statedeptusCell, new Point(2, 36));
+
+            // Type '********' in 'Password' text box
+            uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
+
+            // Click 'Sign in' pane
+            Mouse.Click(uISigninPane, new Point(31, 11));
+        }
+        
+        /// <summary>
         /// Select Programs Links
         /// </summary>
         public void SelectProgramsLink()
@@ -142,6 +167,126 @@ namespace ViewPrograms.Test
 
             // Click 'Toggle navigation' button
             Mouse.Click(uITogglenavigationButton, new Point(23, 19));
+        }
+        
+        /// <summary>
+        /// Refresh/Reload browser window.
+        /// </summary>
+        public void RefreshBrowser()
+        {
+            #region Variable Declarations
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            #endregion
+
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
+        }
+        
+        /// <summary>
+        /// Verify the default selection of Hierarchical order is selected via the radio button.
+        /// </summary>
+        public void AssertHierarchicalOrder()
+        {
+            #region Variable Declarations
+            HtmlRadioButton uIItem33RadioButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UIItem33RadioButton;
+            #endregion
+
+            // Verify that the 'Value' property of '33' radio button equals 'hierarchy'
+            Assert.AreEqual(this.AssertHierarchicalOrderExpectedValues.UIItem33RadioButtonValue, uIItem33RadioButton.Value, "Hierarchical Order not selected. (Should be default)");
+
+            // Verify that the 'ControlType' property of '33' radio button equals 'RadioButton'
+            Assert.AreEqual(this.AssertHierarchicalOrderExpectedValues.UIItem33RadioButtonControlType, uIItem33RadioButton.ControlType.ToString(), "Radio button not available for hierarchical order.");
+        }
+        
+        /// <summary>
+        /// Verify the Search Programs box exists on the All Programs page.
+        /// </summary>
+        public void AssertSearchProgramsBox()
+        {
+            #region Variable Declarations
+            HtmlEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane.UIItemEdit;
+            #endregion
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertSearchProgramsBoxExpectedValues.UIItemEditControlType, uIItemEdit.ControlType.ToString(), "No Search Programs box available.");
+        }
+        
+        /// <summary>
+        /// Verify the correct number of programs are showing in the All Programs list.
+        /// </summary>
+        public void AssertShowingPrograms()
+        {
+            #region Variable Declarations
+            HtmlDiv uIShowing125of190progrPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane.UIShowing125of190progrPane;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Showing 1 - 25 of 190 programs' pane contains 'Showing 1 - 25 of 190 programs'
+            StringAssert.Contains(uIShowing125of190progrPane.InnerText, this.AssertShowingProgramsExpectedValues.UIShowing125of190progrPaneInnerText, "Programs showing does not match.");
+
+            // Verify that the 'DisplayText' property of 'Showing 1 - 25 of 190 programs' pane contains 'Showing 1 - 25 of 190 programs'
+            StringAssert.Contains(uIShowing125of190progrPane.DisplayText, this.AssertShowingProgramsExpectedValues.UIShowing125of190progrPaneDisplayText, "The display text for \"showing\" programs does not match.");
+        }
+        
+        /// <summary>
+        /// Verify the (Academic Exchange Programs) displays in the Hierarchical order list on page 1.
+        /// </summary>
+        public void AssertIndividualProgram_HierarchicalDisplay()
+        {
+            #region Variable Declarations
+            HtmlCell uIECAAEAcademicExchangCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UIItemTable.UIECAAEAcademicExchangCell;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'ECA/A/E Academic Exchange Programs' cell contains 'ECA/A/E 
+            //Academic Exchange Programs
+            //
+            //Academic Exchange Programs'
+            StringAssert.Contains(uIECAAEAcademicExchangCell.InnerText, this.AssertIndividualProgram_HierarchicalDisplayExpectedValues.UIECAAEAcademicExchangCellInnerText, "No (Academic Exchange Programs) cell within Hierarchical order on page 1.");
+        }
+        
+        /// <summary>
+        /// Refresh page; Select the Alphabetical Order display for the All Programs list.
+        /// </summary>
+        public void SelectAlphabeticalOrder()
+        {
+            #region Variable Declarations
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            HtmlRadioButton uIItem22RadioButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIItem22RadioButton;
+            #endregion
+
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
+
+            // Select '22' radio button
+            uIItem22RadioButton.Selected = this.SelectAlphabeticalOrderParams.UIItem22RadioButtonSelected;
+        }
+        
+        /// <summary>
+        /// Verify the selection of displaying the alphabetical order program list can be performed.
+        /// </summary>
+        public void AssertAlphabeticalOrder()
+        {
+            #region Variable Declarations
+            HtmlRadioButton uIItem22RadioButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIItem22RadioButton;
+            #endregion
+
+            // Verify that the 'ControlType' property of '22' radio button equals 'RadioButton'
+            Assert.AreEqual(this.AssertAlphabeticalOrderExpectedValues.UIItem22RadioButtonControlType, uIItem22RadioButton.ControlType.ToString(), "No Alphabetical order radio button available.");
+
+            // Verify that the 'Value' property of '22' radio button equals 'alpha'
+            Assert.AreEqual(this.AssertAlphabeticalOrderExpectedValues.UIItem22RadioButtonValue, uIItem22RadioButton.Value, "Value for radio button is not alpha. ");
+        }
+        
+        /// <summary>
+        /// Verify the Search Programs box exists in Alphabetical Order display of the list.
+        /// </summary>
+        public void AssertSearchProgramsBox_AOdisplay()
+        {
+            #region Variable Declarations
+            HtmlEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane1.UIItemEdit;
+            #endregion
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertSearchProgramsBox_AOdisplayExpectedValues.UIItemEditControlType, uIItemEdit.ControlType.ToString(), "No search programs box available for display in alpha order.");
         }
         
         #region Properties
@@ -193,6 +338,102 @@ namespace ViewPrograms.Test
             }
         }
         
+        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
+        {
+            get
+            {
+                if ((this.mLogintoQA_ExistingUserParams == null))
+                {
+                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
+                }
+                return this.mLogintoQA_ExistingUserParams;
+            }
+        }
+        
+        public virtual AssertHierarchicalOrderExpectedValues AssertHierarchicalOrderExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertHierarchicalOrderExpectedValues == null))
+                {
+                    this.mAssertHierarchicalOrderExpectedValues = new AssertHierarchicalOrderExpectedValues();
+                }
+                return this.mAssertHierarchicalOrderExpectedValues;
+            }
+        }
+        
+        public virtual AssertSearchProgramsBoxExpectedValues AssertSearchProgramsBoxExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertSearchProgramsBoxExpectedValues == null))
+                {
+                    this.mAssertSearchProgramsBoxExpectedValues = new AssertSearchProgramsBoxExpectedValues();
+                }
+                return this.mAssertSearchProgramsBoxExpectedValues;
+            }
+        }
+        
+        public virtual AssertShowingProgramsExpectedValues AssertShowingProgramsExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertShowingProgramsExpectedValues == null))
+                {
+                    this.mAssertShowingProgramsExpectedValues = new AssertShowingProgramsExpectedValues();
+                }
+                return this.mAssertShowingProgramsExpectedValues;
+            }
+        }
+        
+        public virtual AssertIndividualProgram_HierarchicalDisplayExpectedValues AssertIndividualProgram_HierarchicalDisplayExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertIndividualProgram_HierarchicalDisplayExpectedValues == null))
+                {
+                    this.mAssertIndividualProgram_HierarchicalDisplayExpectedValues = new AssertIndividualProgram_HierarchicalDisplayExpectedValues();
+                }
+                return this.mAssertIndividualProgram_HierarchicalDisplayExpectedValues;
+            }
+        }
+        
+        public virtual SelectAlphabeticalOrderParams SelectAlphabeticalOrderParams
+        {
+            get
+            {
+                if ((this.mSelectAlphabeticalOrderParams == null))
+                {
+                    this.mSelectAlphabeticalOrderParams = new SelectAlphabeticalOrderParams();
+                }
+                return this.mSelectAlphabeticalOrderParams;
+            }
+        }
+        
+        public virtual AssertAlphabeticalOrderExpectedValues AssertAlphabeticalOrderExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertAlphabeticalOrderExpectedValues == null))
+                {
+                    this.mAssertAlphabeticalOrderExpectedValues = new AssertAlphabeticalOrderExpectedValues();
+                }
+                return this.mAssertAlphabeticalOrderExpectedValues;
+            }
+        }
+        
+        public virtual AssertSearchProgramsBox_AOdisplayExpectedValues AssertSearchProgramsBox_AOdisplayExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertSearchProgramsBox_AOdisplayExpectedValues == null))
+                {
+                    this.mAssertSearchProgramsBox_AOdisplayExpectedValues = new AssertSearchProgramsBox_AOdisplayExpectedValues();
+                }
+                return this.mAssertSearchProgramsBox_AOdisplayExpectedValues;
+            }
+        }
+        
         public UINewtabInternetExplorWindow UINewtabInternetExplorWindow
         {
             get
@@ -215,6 +456,22 @@ namespace ViewPrograms.Test
         
         private LogintoQAParams mLogintoQAParams;
         
+        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
+        
+        private AssertHierarchicalOrderExpectedValues mAssertHierarchicalOrderExpectedValues;
+        
+        private AssertSearchProgramsBoxExpectedValues mAssertSearchProgramsBoxExpectedValues;
+        
+        private AssertShowingProgramsExpectedValues mAssertShowingProgramsExpectedValues;
+        
+        private AssertIndividualProgram_HierarchicalDisplayExpectedValues mAssertIndividualProgram_HierarchicalDisplayExpectedValues;
+        
+        private SelectAlphabeticalOrderParams mSelectAlphabeticalOrderParams;
+        
+        private AssertAlphabeticalOrderExpectedValues mAssertAlphabeticalOrderExpectedValues;
+        
+        private AssertSearchProgramsBox_AOdisplayExpectedValues mAssertSearchProgramsBox_AOdisplayExpectedValues;
+        
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
         #endregion
     }
@@ -228,7 +485,7 @@ namespace ViewPrograms.Test
         
         #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of 'All Programs ECA' pane contains 'All Programs'
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'All Programs ECA' pane contains 'All Programs'
         /// </summary>
         public string UIAllProgramsECAPane1InnerText = "All Programs";
         #endregion
@@ -294,6 +551,149 @@ namespace ViewPrograms.Test
         #endregion
     }
     
+    /// <summary>
+    /// Parameters to be passed into 'LogintoQA_ExistingUser'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class LogintoQA_ExistingUserParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+        /// </summary>
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
+        
+        /// <summary>
+        /// Type '********' in 'Password' text box
+        /// </summary>
+        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertHierarchicalOrder'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertHierarchicalOrderExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'Value' property of '33' radio button equals 'hierarchy'
+        /// </summary>
+        public string UIItem33RadioButtonValue = "hierarchy";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of '33' radio button equals 'RadioButton'
+        /// </summary>
+        public string UIItem33RadioButtonControlType = "RadioButton";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertSearchProgramsBox'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertSearchProgramsBoxExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEditControlType = "Edit";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertShowingPrograms'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertShowingProgramsExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Showing 1 - 25 of 190 programs' pane contains 'Showing 1 - 25 of 190 programs'
+        /// </summary>
+        public string UIShowing125of190progrPaneInnerText = "Showing 1 - 25 of 190 programs";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Showing 1 - 25 of 190 programs' pane contains 'Showing 1 - 25 of 190 programs'
+        /// </summary>
+        public string UIShowing125of190progrPaneDisplayText = "Showing 1 - 25 of 190 programs";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertIndividualProgram_HierarchicalDisplay'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertIndividualProgram_HierarchicalDisplayExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'ECA/A/E Academic Exchange Programs' cell contains 'ECA/A/E 
+        ///Academic Exchange Programs
+        ///
+        ///Academic Exchange Programs'
+        /// </summary>
+        public string UIECAAEAcademicExchangCellInnerText = "ECA/A/E \r\nAcademic Exchange Programs\r\n\r\nAcademic Exchange Programs";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'SelectAlphabeticalOrder'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class SelectAlphabeticalOrderParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Select '22' radio button
+        /// </summary>
+        public bool UIItem22RadioButtonSelected = true;
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertAlphabeticalOrder'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertAlphabeticalOrderExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of '22' radio button equals 'RadioButton'
+        /// </summary>
+        public string UIItem22RadioButtonControlType = "RadioButton";
+        
+        /// <summary>
+        /// Verify that the 'Value' property of '22' radio button equals 'alpha'
+        /// </summary>
+        public string UIItem22RadioButtonValue = "alpha";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertSearchProgramsBox_AOdisplay'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertSearchProgramsBox_AOdisplayExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEditControlType = "Edit";
+        #endregion
+    }
+    
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
     public class UINewtabInternetExplorWindow : BrowserWindow
     {
@@ -306,6 +706,7 @@ namespace ViewPrograms.Test
             this.WindowTitles.Add("New tab");
             this.WindowTitles.Add("Sign in to Azure Active Directory");
             this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            this.WindowTitles.Add("Sign in to ECA Client");
             #endregion
         }
         
@@ -386,6 +787,42 @@ namespace ViewPrograms.Test
                 return this.mUIHttpsecakmtqaazureweDocument1;
             }
         }
+        
+        public UISignintoECAClientDocument UISignintoECAClientDocument
+        {
+            get
+            {
+                if ((this.mUISignintoECAClientDocument == null))
+                {
+                    this.mUISignintoECAClientDocument = new UISignintoECAClientDocument(this);
+                }
+                return this.mUISignintoECAClientDocument;
+            }
+        }
+        
+        public UIHttpsecakmtqaazureweDocument2 UIHttpsecakmtqaazureweDocument2
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument2 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument2 = new UIHttpsecakmtqaazureweDocument2(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument2;
+            }
+        }
+        
+        public UIHttpsecakmtqaazureweDocument3 UIHttpsecakmtqaazureweDocument3
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument3 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument3 = new UIHttpsecakmtqaazureweDocument3(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument3;
+            }
+        }
         #endregion
         
         #region Fields
@@ -400,6 +837,12 @@ namespace ViewPrograms.Test
         private UIHttpsecakmtqaazureweDocument mUIHttpsecakmtqaazureweDocument;
         
         private UIHttpsecakmtqaazureweDocument1 mUIHttpsecakmtqaazureweDocument1;
+        
+        private UISignintoECAClientDocument mUISignintoECAClientDocument;
+        
+        private UIHttpsecakmtqaazureweDocument2 mUIHttpsecakmtqaazureweDocument2;
+        
+        private UIHttpsecakmtqaazureweDocument3 mUIHttpsecakmtqaazureweDocument3;
         #endregion
     }
     
@@ -769,7 +1212,7 @@ namespace ViewPrograms.Test
             #region Search Criteria
             this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
             this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "All Programs\r\nECA \r\n\r\n \r\n\r\nAcademic Exch";
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "All Programs\nECA \n\n \n\nAcademic Exch";
             this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
             this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
             this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" ng-click=\"closeMenus()\" autoscroll=\"true\" ui-view=\"\"";
@@ -810,7 +1253,7 @@ namespace ViewPrograms.Test
                     #region Search Criteria
                     this.mUIAllProgramsECAPane1.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
                     this.mUIAllProgramsECAPane1.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-                    this.mUIAllProgramsECAPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "All Programs\r\nECA ";
+                    this.mUIAllProgramsECAPane1.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "All Programs\nECA ";
                     this.mUIAllProgramsECAPane1.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
                     this.mUIAllProgramsECAPane1.FilterProperties[HtmlDiv.PropertyNames.Class] = "heading";
                     this.mUIAllProgramsECAPane1.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"heading\"";
@@ -827,6 +1270,528 @@ namespace ViewPrograms.Test
         private HtmlDiv mUIAllProgramsECAPane;
         
         private HtmlDiv mUIAllProgramsECAPane1;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISignintoECAClientDocument : HtmlDocument
+    {
+        
+        public UISignintoECAClientDocument(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = "Sign in to ECA Client";
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/statedept.us/oauth2/authorize";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = @"https://login.microsoftonline.com/statedept.us/oauth2/authorize?response_type=id_token&client_id=e0356e55-e124-452c-837d-aeb7504185ff&redirect_uri=https%3A%2F%2Feca-kmt-qa.azurewebsites.net%2F&state=93496904-6d2f-461f-b4a6-f8f4b1ff3a71&x-client-SKU=Js&x-client-Ver=1.0.0&nonce=97ed0f40-c1fe-4cef-a4d6-91adaa913f41";
+            this.WindowTitles.Add("Sign in to ECA Client");
+            #endregion
+        }
+        
+        #region Properties
+        public UIEcatest1_statedept_uTable UIEcatest1_statedept_uTable
+        {
+            get
+            {
+                if ((this.mUIEcatest1_statedept_uTable == null))
+                {
+                    this.mUIEcatest1_statedept_uTable = new UIEcatest1_statedept_uTable(this);
+                }
+                return this.mUIEcatest1_statedept_uTable;
+            }
+        }
+        
+        public HtmlEdit UIPasswordEdit
+        {
+            get
+            {
+                if ((this.mUIPasswordEdit == null))
+                {
+                    this.mUIPasswordEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = "cred_password_inputtext";
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "passwd";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.LabeledBy] = "Password";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Type] = "PASSWORD";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "login_textfield textfield required field normaltext";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"passwd\" tabindex=\"2\" class=\"login_";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "2";
+                    this.mUIPasswordEdit.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUIPasswordEdit;
+            }
+        }
+        
+        public HtmlSpan UISigninPane
+        {
+            get
+            {
+                if ((this.mUISigninPane == null))
+                {
+                    this.mUISigninPane = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUISigninPane.SearchProperties[HtmlDiv.PropertyNames.Id] = "cred_sign_in_button";
+                    this.mUISigninPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Sign in";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "button normaltext cred_sign_in_button refresh_domain_state control-button button-" +
+                        "two button_primary";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "tabindex=\"11\" class=\"button normaltext cred_sign_in_button refresh_domain_state c" +
+                        "ontrol-button button-two button_primary\" id=\"cred_sign_in_button\" role=\"button\" " +
+                        "style=\"opacity: 1;\"";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "11";
+                    this.mUISigninPane.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUISigninPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIEcatest1_statedept_uTable mUIEcatest1_statedept_uTable;
+        
+        private HtmlEdit mUIPasswordEdit;
+        
+        private HtmlSpan mUISigninPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIEcatest1_statedept_uTable : HtmlTable
+    {
+        
+        public UIEcatest1_statedept_uTable(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlTable.PropertyNames.Id] = "ecatest1_statedept_us";
+            this.SearchProperties[HtmlTable.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlTable.PropertyNames.InnerText] = "ECATest1@statedept.us\r\n\r\n\r\n\r\n•••";
+            this.FilterProperties[HtmlTable.PropertyNames.ControlDefinition] = "class=\"user_tile\" id=\"ecatest1_statedept_us\" data-session-id=\"4e3a10ab-cac0-4a97-" +
+                "b17e-42fd45adc419\"";
+            this.FilterProperties[HtmlTable.PropertyNames.RowCount] = "1";
+            this.FilterProperties[HtmlTable.PropertyNames.ColumnCount] = "3";
+            this.FilterProperties[HtmlTable.PropertyNames.Class] = "user_tile";
+            this.FilterProperties[HtmlTable.PropertyNames.TagInstance] = "2";
+            this.WindowTitles.Add("Sign in to ECA Client");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlCell UIECATest1statedeptusCell
+        {
+            get
+            {
+                if ((this.mUIECATest1statedeptusCell == null))
+                {
+                    this.mUIECATest1statedeptusCell = new HtmlCell(this);
+                    #region Search Criteria
+                    this.mUIECATest1statedeptusCell.SearchProperties[HtmlCell.PropertyNames.Id] = null;
+                    this.mUIECATest1statedeptusCell.SearchProperties[HtmlCell.PropertyNames.Name] = null;
+                    this.mUIECATest1statedeptusCell.SearchProperties[HtmlCell.PropertyNames.MaxDepth] = "3";
+                    this.mUIECATest1statedeptusCell.SearchProperties[HtmlCell.PropertyNames.InnerText] = "ECATest1@statedept.us";
+                    this.mUIECATest1statedeptusCell.FilterProperties[HtmlCell.PropertyNames.ControlDefinition] = "class=\"tile_name\"";
+                    this.mUIECATest1statedeptusCell.FilterProperties[HtmlCell.PropertyNames.RowIndex] = "0";
+                    this.mUIECATest1statedeptusCell.FilterProperties[HtmlCell.PropertyNames.ColumnIndex] = "1";
+                    this.mUIECATest1statedeptusCell.FilterProperties[HtmlCell.PropertyNames.Class] = "tile_name";
+                    this.mUIECATest1statedeptusCell.FilterProperties[HtmlCell.PropertyNames.TagInstance] = "3";
+                    this.mUIECATest1statedeptusCell.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUIECATest1statedeptusCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlCell mUIECATest1statedeptusCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweDocument2 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument2(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/#/allprograms#top";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlRadioButton UIItem33RadioButton
+        {
+            get
+            {
+                if ((this.mUIItem33RadioButton == null))
+                {
+                    this.mUIItem33RadioButton = new HtmlRadioButton(this);
+                    #region Search Criteria
+                    this.mUIItem33RadioButton.SearchProperties[HtmlRadioButton.PropertyNames.Id] = null;
+                    this.mUIItem33RadioButton.SearchProperties[HtmlRadioButton.PropertyNames.Name] = "33";
+                    this.mUIItem33RadioButton.SearchProperties[HtmlRadioButton.PropertyNames.Value] = "hierarchy";
+                    this.mUIItem33RadioButton.SearchProperties[HtmlRadioButton.PropertyNames.LabeledBy] = null;
+                    this.mUIItem33RadioButton.FilterProperties[HtmlRadioButton.PropertyNames.Title] = null;
+                    this.mUIItem33RadioButton.FilterProperties[HtmlRadioButton.PropertyNames.ItemCount] = "1";
+                    this.mUIItem33RadioButton.FilterProperties[HtmlRadioButton.PropertyNames.Class] = "ng-pristine ng-untouched ng-valid";
+                    this.mUIItem33RadioButton.FilterProperties[HtmlRadioButton.PropertyNames.ControlDefinition] = "name=\"33\" class=\"ng-pristine ng-untouche";
+                    this.mUIItem33RadioButton.FilterProperties[HtmlRadioButton.PropertyNames.TagInstance] = "2";
+                    this.mUIItem33RadioButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItem33RadioButton;
+            }
+        }
+        
+        public UISortlistPane UISortlistPane
+        {
+            get
+            {
+                if ((this.mUISortlistPane == null))
+                {
+                    this.mUISortlistPane = new UISortlistPane(this);
+                }
+                return this.mUISortlistPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlRadioButton mUIItem33RadioButton;
+        
+        private UISortlistPane mUISortlistPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane : HtmlDiv
+    {
+        
+        public UISortlistPane(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Showing 1 - 25 of 190 programs\r\n\r\n \r\n\r\n\r";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-isolate-scope\" id=\"sort-list\" st-table=\"programs\" st-pipe=\"getPrograms\"" +
+                "";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "29";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "search-contextual";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"search-contextual\" type=\"search\" ";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "1";
+                    this.mUIItemEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        
+        public HtmlDiv UIShowing125of190progrPane
+        {
+            get
+            {
+                if ((this.mUIShowing125of190progrPane == null))
+                {
+                    this.mUIShowing125of190progrPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIShowing125of190progrPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIShowing125of190progrPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIShowing125of190progrPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Showing 1 - 25 of 190 programs";
+                    this.mUIShowing125of190progrPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIShowing125of190progrPane.FilterProperties[HtmlDiv.PropertyNames.Class] = null;
+                    this.mUIShowing125of190progrPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "style=\"margin-top: 25px; margin-bottom: -25px;\"";
+                    this.mUIShowing125of190progrPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "31";
+                    this.mUIShowing125of190progrPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIShowing125of190progrPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlEdit mUIItemEdit;
+        
+        private HtmlDiv mUIShowing125of190progrPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweDocument3 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument3(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UISortlistPane1 UISortlistPane
+        {
+            get
+            {
+                if ((this.mUISortlistPane == null))
+                {
+                    this.mUISortlistPane = new UISortlistPane1(this);
+                }
+                return this.mUISortlistPane;
+            }
+        }
+        
+        public HtmlRadioButton UIItem22RadioButton
+        {
+            get
+            {
+                if ((this.mUIItem22RadioButton == null))
+                {
+                    this.mUIItem22RadioButton = new HtmlRadioButton(this);
+                    #region Search Criteria
+                    this.mUIItem22RadioButton.SearchProperties[HtmlRadioButton.PropertyNames.Id] = null;
+                    this.mUIItem22RadioButton.SearchProperties[HtmlRadioButton.PropertyNames.Name] = "22";
+                    this.mUIItem22RadioButton.SearchProperties[HtmlRadioButton.PropertyNames.Value] = "alpha";
+                    this.mUIItem22RadioButton.SearchProperties[HtmlRadioButton.PropertyNames.LabeledBy] = null;
+                    this.mUIItem22RadioButton.FilterProperties[HtmlRadioButton.PropertyNames.Title] = null;
+                    this.mUIItem22RadioButton.FilterProperties[HtmlRadioButton.PropertyNames.ItemCount] = "1";
+                    this.mUIItem22RadioButton.FilterProperties[HtmlRadioButton.PropertyNames.Class] = "ng-pristine ng-untouched ng-valid";
+                    this.mUIItem22RadioButton.FilterProperties[HtmlRadioButton.PropertyNames.ControlDefinition] = "name=\"22\" class=\"ng-pristine ng-untouche";
+                    this.mUIItem22RadioButton.FilterProperties[HtmlRadioButton.PropertyNames.TagInstance] = "3";
+                    this.mUIItem22RadioButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItem22RadioButton;
+            }
+        }
+        
+        public HtmlRadioButton UIItem22RadioButton1
+        {
+            get
+            {
+                if ((this.mUIItem22RadioButton1 == null))
+                {
+                    this.mUIItem22RadioButton1 = new HtmlRadioButton(this);
+                    #region Search Criteria
+                    this.mUIItem22RadioButton1.SearchProperties[HtmlRadioButton.PropertyNames.Id] = null;
+                    this.mUIItem22RadioButton1.SearchProperties[HtmlRadioButton.PropertyNames.Name] = "22";
+                    this.mUIItem22RadioButton1.SearchProperties[HtmlRadioButton.PropertyNames.Value] = "alpha";
+                    this.mUIItem22RadioButton1.SearchProperties[HtmlRadioButton.PropertyNames.LabeledBy] = null;
+                    this.mUIItem22RadioButton1.FilterProperties[HtmlRadioButton.PropertyNames.Title] = null;
+                    this.mUIItem22RadioButton1.FilterProperties[HtmlRadioButton.PropertyNames.ItemCount] = "1";
+                    this.mUIItem22RadioButton1.FilterProperties[HtmlRadioButton.PropertyNames.Class] = "ng-valid ng-dirty ng-valid-parse ng-touched";
+                    this.mUIItem22RadioButton1.FilterProperties[HtmlRadioButton.PropertyNames.ControlDefinition] = "name=\"22\" class=\"ng-valid ng-dirty ng-va";
+                    this.mUIItem22RadioButton1.FilterProperties[HtmlRadioButton.PropertyNames.TagInstance] = "3";
+                    this.mUIItem22RadioButton1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItem22RadioButton1;
+            }
+        }
+        
+        public UISortlistPane11 UISortlistPane1
+        {
+            get
+            {
+                if ((this.mUISortlistPane1 == null))
+                {
+                    this.mUISortlistPane1 = new UISortlistPane11(this);
+                }
+                return this.mUISortlistPane1;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UISortlistPane1 mUISortlistPane;
+        
+        private HtmlRadioButton mUIItem22RadioButton;
+        
+        private HtmlRadioButton mUIItem22RadioButton1;
+        
+        private UISortlistPane11 mUISortlistPane1;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane1 : HtmlDiv
+    {
+        
+        public UISortlistPane1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Showing 1 - 25 of 190 programs\r\n\r\n \r\n\r\n\r";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-isolate-scope\" id=\"sort-list\" st-table=\"programs\" st-pipe=\"getPrograms\"" +
+                "";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "29";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UIItemTable UIItemTable
+        {
+            get
+            {
+                if ((this.mUIItemTable == null))
+                {
+                    this.mUIItemTable = new UIItemTable(this);
+                }
+                return this.mUIItemTable;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIItemTable mUIItemTable;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIItemTable : HtmlTable
+    {
+        
+        public UIItemTable(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlTable.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlTable.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlTable.PropertyNames.InnerText] = "Showing 1 - 25 of 190 programs\r\n\r\n \r\n\r\n\r";
+            this.FilterProperties[HtmlTable.PropertyNames.ControlDefinition] = "class=\"col-md-12\"";
+            this.FilterProperties[HtmlTable.PropertyNames.RowCount] = "28";
+            this.FilterProperties[HtmlTable.PropertyNames.ColumnCount] = "2";
+            this.FilterProperties[HtmlTable.PropertyNames.Class] = "col-md-12";
+            this.FilterProperties[HtmlTable.PropertyNames.TagInstance] = "1";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlCell UIECAAEAcademicExchangCell
+        {
+            get
+            {
+                if ((this.mUIECAAEAcademicExchangCell == null))
+                {
+                    this.mUIECAAEAcademicExchangCell = new HtmlCell(this);
+                    #region Search Criteria
+                    this.mUIECAAEAcademicExchangCell.SearchProperties[HtmlCell.PropertyNames.Id] = null;
+                    this.mUIECAAEAcademicExchangCell.SearchProperties[HtmlCell.PropertyNames.Name] = null;
+                    this.mUIECAAEAcademicExchangCell.SearchProperties[HtmlCell.PropertyNames.MaxDepth] = "3";
+                    this.mUIECAAEAcademicExchangCell.SearchProperties[HtmlCell.PropertyNames.InnerText] = "ECA/A/E \r\nAcademic Exchange Programs\r\n\r\n";
+                    this.mUIECAAEAcademicExchangCell.FilterProperties[HtmlCell.PropertyNames.ControlDefinition] = "class=\"col-md-9\" style=\"padding-left: 79px;\" ng-style=\"{\'padding-left\': 60+(20*pr" +
+                        "ogram.programLevel-1)}\"";
+                    this.mUIECAAEAcademicExchangCell.FilterProperties[HtmlCell.PropertyNames.RowIndex] = "2";
+                    this.mUIECAAEAcademicExchangCell.FilterProperties[HtmlCell.PropertyNames.ColumnIndex] = "0";
+                    this.mUIECAAEAcademicExchangCell.FilterProperties[HtmlCell.PropertyNames.Class] = "col-md-9";
+                    this.mUIECAAEAcademicExchangCell.FilterProperties[HtmlCell.PropertyNames.TagInstance] = "1";
+                    this.mUIECAAEAcademicExchangCell.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIECAAEAcademicExchangCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlCell mUIECAAEAcademicExchangCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane11 : HtmlDiv
+    {
+        
+        public UISortlistPane11(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Showing 1 - 25 of 223 programs\r\n\r\n \r\n\r\n\r";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-isolate-scope\" id=\"sort-list\" st-table=\"programs\" st-pipe=\"getPrograms\"" +
+                "";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "29";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "search-contextual";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"search-contextual\" type=\"search\" ";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "1";
+                    this.mUIItemEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlEdit mUIItemEdit;
         #endregion
     }
 }

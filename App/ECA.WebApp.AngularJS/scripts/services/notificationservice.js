@@ -26,6 +26,9 @@ angular.module('staticApp')
       service.showWarningMessage = function (message) {
           service.showMessage('warning', message);
       };
+      service.showUnauthorizedMessage = function (message) {
+          service.showMessage('warning', message);
+      };
       service.removeAlert = function (index) {
           $rootScope.notifications.splice(index, 1);
           if ($rootScope.notifications.length === 0) {

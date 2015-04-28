@@ -26,12 +26,24 @@ namespace ViewPrograms.Test
         public void ViewProgramsCodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
-            this.UIMap.LogintoQA();
+            //this.UIMap.LogintoQA();
+            this.UIMap.LogintoQA_ExistingUser();
             this.UIMap.ContentMenuButtonExists();
             this.UIMap.ToggleContentMenuButton();
             this.UIMap.ContentMenu_ProgramsLink();
             this.UIMap.SelectProgramsLink();
-            //this.UIMap.AllProgramsHeading();
+            this.UIMap.RefreshBrowser();
+            this.UIMap.ToggleContentMenuButton();
+            this.UIMap.SelectProgramsLink();
+            this.UIMap.AllProgramsHeading();
+            this.UIMap.AssertHierarchicalOrder();
+            this.UIMap.AssertSearchProgramsBox();
+            this.UIMap.AssertShowingPrograms();
+            this.UIMap.AssertIndividualProgram_HierarchicalDisplay();
+            this.UIMap.SelectAlphabeticalOrder();
+            this.UIMap.AssertAlphabeticalOrder();
+            this.UIMap.AssertSearchProgramsBox_AOdisplay();
+
             this.UIMap.CloserBrowser();
         }
 

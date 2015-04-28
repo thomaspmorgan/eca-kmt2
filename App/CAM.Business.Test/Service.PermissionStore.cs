@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CAM.Business;
 using CAM.Data;
 using System.Collections.Generic;
+using CAM.Business.Service;
 
 namespace CAM.Business.Test.Service
 {
@@ -13,7 +14,9 @@ namespace CAM.Business.Test.Service
         [TestMethod]
         public void TestSinglePermission()
         {
-            Business.Service.PermissionStore permissionStore = new Business.Service.PermissionStore();
+            var model = new TestInMemoryCamModel();
+            var permissionModelService = new PermissionModelService(model);
+            Business.Service.PermissionStore permissionStore = new Business.Service.PermissionStore(model, permissionModelService);
             permissionStore.Permissions.Add(new Business.Service.Permission(1,1,1));
             Assert.IsTrue(permissionStore.HasPermission(1,1,1));
         }

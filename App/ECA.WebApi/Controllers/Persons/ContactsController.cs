@@ -20,7 +20,7 @@ namespace ECA.WebApi.Controllers.Persons
     /// <summary>
     /// The ContactsController is used for crud operations on points of contact in the eca system.
     /// </summary>
-    //[Authorize]
+    [Authorize]
     public class ContactsController : ApiController
     {
         /// <summary>

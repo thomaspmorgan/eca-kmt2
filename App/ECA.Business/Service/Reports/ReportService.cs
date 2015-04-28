@@ -39,6 +39,16 @@ namespace ECA.Business.Service.Reports
         {
             return ReportQueries.CreateGetProjectAward(this.Context, programId, countryId);
         }
+
+        public string GetProgramName(int programId)
+        {
+            return ReportQueries.CreateGetProgramName(this.Context, programId);
+        }
+
+        public string GetCountryName(int countryId)
+        {
+            return ReportQueries.CreateGetCountryName(this.Context, countryId);
+        }
         #endregion
     }
 }

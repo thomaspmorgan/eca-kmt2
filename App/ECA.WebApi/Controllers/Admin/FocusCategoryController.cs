@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.Business.Service.Admin;
+using System.Diagnostics.Contracts;
 
 namespace ECA.WebApi.Controllers.Admin
 {
@@ -34,7 +35,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="service">The service.</param>
         public FocusCategoriesController(IFocusCategoryService service)
         {
-            Debug.Assert(service != null, "The focusCategory service must not be null.");
+            Contract.Requires(service != null, "The focusCategory service must not be null.");
             this.service = service;
         }
 

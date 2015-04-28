@@ -25,5 +25,15 @@ namespace ECA.Business.Queries.Programs
             }).OrderByDescending(p => p.Year).ThenBy(p => p.Title);
             return query;
         }
+
+        public static string CreateGetProgramName(EcaContext context, int programId)
+        {
+            return context.Programs.Find(programId).Name;
+        }
+
+        public static string CreateGetCountryName(EcaContext context, int countryId)
+        {
+            return context.Locations.Find(countryId).LocationName;
+        }
     }
 }

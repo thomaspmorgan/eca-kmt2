@@ -10,5 +10,9 @@ namespace ECA.Business.Service.Reports
     public interface IReportService
     {
         IQueryable<ProjectAwardDTO> GetProjectAwards(int year, int countryId);
+
+        string GetProgramName(int programId);
+
+        string GetCountryName(int countryId);
     }
 }

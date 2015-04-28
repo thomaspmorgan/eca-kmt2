@@ -120,7 +120,7 @@ public string CamelCase(string s)
 
 public void WriteStaticLookup(StaticLookup lookup)
 {
-	Write(String.Format("{0}: {1}", CamelCase(Pascalize(lookup.Value)), lookup.Id));
+	Write(String.Format("{0}: {{id: {1}, value: \"{2}\"}}", CamelCase(Pascalize(lookup.Value)), lookup.Id, lookup.Value));
 }
 
 public List<StaticLookup> GetStaticLookups(Type t)

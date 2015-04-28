@@ -20,7 +20,7 @@ namespace ECA.WebApi.Controllers.Admin
     /// <summary>
     /// The Project Status controller handles crud operations on project stati.
     /// </summary>
-    //[Authorize]
+    [Authorize]
     public class ProjectStatusesController : ApiController
     {
         /// <summary>
