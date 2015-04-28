@@ -19,7 +19,9 @@ namespace ECA.Data
         IConcurrentEntity, 
         IGoalable, 
         IThemeable, 
-        IContactable
+        IContactable,
+        ICategorizable,
+        IObjectivable
     {
         public Program()
         {
@@ -36,6 +38,8 @@ namespace ECA.Data
             this.ProgramType = new HashSet<ProgramType>();
             this.Impacts = new HashSet<Impact>();
             this.Contacts = new HashSet<Contact>();
+            this.Categories = new HashSet<Category>();
+            this.Objectives = new HashSet<Objective>();
 
             this.History = new History();
         }
@@ -137,8 +141,8 @@ namespace ECA.Data
         public ICollection<Impact> Impacts { get; set; }
         public ICollection<Contact> Contacts { get; set; }
 
-        public ICollection<Objective> JustificationObjectives { get; set; }
-        public ICollection<Category> FocusCategories { get; set; }
+        public ICollection<Objective> Objectives { get; set; }
+        public ICollection<Category> Categories { get; set; }
 
         public History History { get; set; }
 

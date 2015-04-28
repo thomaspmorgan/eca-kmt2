@@ -5,15 +5,27 @@ using System.Text;
 using CAM.Data;
 using System.Diagnostics;
 using NLog.Interface;
+using ECA.Core.Service;
+using System.Diagnostics.Contracts;
 
 namespace CAM.Business.Service
 {
-    public class PermissionStoreBase
+    public class PermissionStoreBase : DbContextService<CamModel>
     {
-        protected CamModel cam = new CamModel();
-
         private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
+        
 
+        public PermissionStoreBase(CamModel camModel, IPermissionModelService permissionModelService)
+            : base(camModel)
+        {
+            Contract.Requires(permissionModelService != null, "The permission model service must not be null.");
+            this.PermissionModelService = permissionModelService;
+        }
+
+        /// <summary>
+        /// Gets the permission model service.
+        /// </summary>
+        public IPermissionModelService PermissionModelService { get; private set; }
 
         /// <summary>
         /// List of Permissions that have been loaded for the user, from one of the Load methods
@@ -34,12 +46,6 @@ namespace CAM.Business.Service
         /// Principal Id property (optional), allows access to simpler HasPermission methods
         /// </summary>
         public int? PrincipalId { get; set; }
-
-        protected List<PermissionModel> GetPermissionLookup()
-        {
-                PermissionModel pm = new PermissionModel();
-                return pm.GetAllPermissions();
-        }
 
         /// <summary>
         /// Given a PermissionName, and property ApplicationResourceId and PrincipalId, determines if that permission exists in the list of permissions
@@ -155,6 +161,7 @@ namespace CAM.Business.Service
         /// <returns>PermissionId</returns>
         public int GetPermissionIdByName(string permissionName)
         {
+            Contract.Assert(PermissionLookup != null, "The permission lookup must not be null.");
             PermissionModel permission = PermissionLookup.Find(p => p.PermissionName == permissionName);
             if (permission == null)
                 logger.Warn("Permission not found for PermissionName = '{0}'", permissionName);
@@ -168,6 +175,7 @@ namespace CAM.Business.Service
         /// <returns>PermissionName</returns>
         public string GetPermissionNameById(int permissionId)
         {
+            Contract.Assert(PermissionLookup != null, "The permission lookup must not be null.");
             PermissionModel permission = PermissionLookup.Find(p => p.PermissionId == permissionId);
             if (permission == null)
                 logger.Warn("Permission not found for Permissionid = '{0}'", permissionId);
@@ -181,7 +189,7 @@ namespace CAM.Business.Service
         /// <returns>ResourceId</returns>
         public int GetResourceIdForApplicationId(int applicationId)
         {
-            int? result = (from p in cam.Resources
+            int? result = (from p in this.Context.Resources
                            where
                                p.ResourceType.ResourceTypeName == "Application" &&
                                p.Application.ResourceId == applicationId
@@ -199,7 +207,7 @@ namespace CAM.Business.Service
         /// <returns></returns>
         public int? GetResourceIdByForeignResourceId(int foreignResourceId, int resourceTypeId)
         {
-            int? result = (from p in cam.Resources
+            int? result = (from p in this.Context.Resources
                            where
                                p.ResourceTypeId == resourceTypeId &&
                                p.ForeignResourceId == foreignResourceId
@@ -211,7 +219,7 @@ namespace CAM.Business.Service
 
         public int? GetResourceTypeId(string resourceTypeName)
         {
-            int? result = (from p in cam.ResourceTypes
+            int? result = (from p in this.Context.ResourceTypes
                            where p.ResourceTypeName == resourceTypeName
                            select p.ResourceTypeId).FirstOrDefault();
             if (!result.HasValue)
@@ -229,8 +237,8 @@ namespace CAM.Business.Service
         protected List<IPermission> GetUserPermissionsForResource(int principalId, int resourceId)
         {
             var stopwatch = Stopwatch.StartNew();
-            IEnumerable<IPermission> rolePermissions = (from p in cam.RoleResourcePermissions
-                                                    join r in cam.PrincipalRoles on p.RoleId equals r.RoleId
+            IEnumerable<IPermission> rolePermissions = (from p in this.Context.RoleResourcePermissions
+                                                        join r in this.Context.PrincipalRoles on p.RoleId equals r.RoleId
                                                     where r.PrincipalId == principalId && p.ResourceId== resourceId
                                                     select new CAM.Business.Service.Permission
                                                     {
@@ -240,7 +248,7 @@ namespace CAM.Business.Service
                                                         ResourceId = p.ResourceId,
                                                     });
 
-            IEnumerable<IPermission> userPermissions = (from p in cam.PermissionAssignments
+            IEnumerable<IPermission> userPermissions = (from p in this.Context.PermissionAssignments
                                                  where p.PrincipalId == principalId && p.ResourceId == resourceId
                                                  select new CAM.Business.Service.Permission
                                                  {
@@ -277,8 +285,8 @@ namespace CAM.Business.Service
         protected List<IPermission> GetUserPermissions(int principalId)
         {
             var stopwatch = Stopwatch.StartNew();
-            IEnumerable<IPermission> rolePermissions = (from p in cam.RoleResourcePermissions
-                                                    join r in cam.PrincipalRoles on p.RoleId equals r.RoleId
+            IEnumerable<IPermission> rolePermissions = (from p in this.Context.RoleResourcePermissions
+                                                        join r in this.Context.PrincipalRoles on p.RoleId equals r.RoleId
                                                     where r.PrincipalId == principalId 
                                                     select new CAM.Business.Service.Permission
                                                     {
@@ -288,7 +296,7 @@ namespace CAM.Business.Service
                                                         ResourceId = p.ResourceId,
                                                     });
 
-            IEnumerable<IPermission> userPermissions = (from p in cam.PermissionAssignments
+            IEnumerable<IPermission> userPermissions = (from p in this.Context.PermissionAssignments
                                                  where p.PrincipalId == principalId 
                                                  select new CAM.Business.Service.Permission
                                                  {

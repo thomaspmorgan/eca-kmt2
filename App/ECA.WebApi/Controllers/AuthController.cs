@@ -12,10 +12,10 @@ using System.Net;
 
 namespace ECA.WebApi.Controllers
 {
-    public class TestBindingModel
-    {
-        public int ProgramId { get; set; }
-    }
+    //public class TestBindingModel
+    //{
+    //    public int ProgramId { get; set; }
+    //}
 
     /// <summary>
     /// The AuthController provide user authentication and authorization details.
@@ -24,23 +24,22 @@ namespace ECA.WebApi.Controllers
     {
         private IUserProvider provider;
         private IPermissionStore<IPermission> permissionStore;
+        private IUserService userService;
 
         /// <summary>
         /// The AuthController provides user authentication and authorization details.
         /// </summary>
         /// <param name="provider">The user provider.</param>
         /// <param name="permissionStore">The permissions store.</param>
-        public AuthController(IUserProvider provider, IPermissionStore<IPermission> permissionStore)
+        /// <param name="userService">The user service.</param>
+        public AuthController(IUserProvider provider, IPermissionStore<IPermission> permissionStore, IUserService userService)
         {
             Contract.Requires(provider != null, "The provider must not be null.");
             Contract.Requires(permissionStore != null, "The permission store must not be null.");
+            Contract.Requires(userService != null, "The user service must not be null.");
             this.provider = provider;
             this.permissionStore = permissionStore;
-        }
-
-        public void GetTestThrow(int id)
-        {
-            throw new NotSupportedException("exception message here...");
+            this.userService = userService;
         }
 
         /// <summary>
@@ -53,13 +52,19 @@ namespace ECA.WebApi.Controllers
         public async Task<IHttpActionResult> GetUserAsync()
         {
             var currentUser = this.provider.GetCurrentUser();
-            var principalId = await this.provider.GetPrincipalIdAsync(currentUser);
-            var viewModel = new UserViewModel
+            var camUser = await this.userService.GetUserByIdAsync(currentUser.Id);
+            var viewModel = new UserViewModel();
+            viewModel.UserId = currentUser.Id;
+            viewModel.UserName = currentUser.GetUsername();
+            if (camUser != null)
             {
-                PrincipalId = principalId,
-                UserId = currentUser.Id,
-                UserName = currentUser.GetUsername()
-            };
+                viewModel.IsRegistered = true;
+                viewModel.DisplayName = camUser.DisplayName;
+            }
+            else
+            {
+                viewModel.IsRegistered = false;
+            }
             return Ok(viewModel);
         }
 
@@ -157,22 +162,40 @@ namespace ECA.WebApi.Controllers
         }
 
         /// <summary>
+        /// Returns basic information about the currently authenticated user.
+        /// </summary>
+        /// <returns>Information about the currently authenticated user.</returns>
+        [Authorize]
+        [Route("api/auth/user/register")]
+        public async Task<IHttpActionResult> PostRegisterAsync()
+        {
+            var currentUser = this.provider.GetCurrentUser();
+            var camUser = await this.userService.GetUserByIdAsync(currentUser.Id);
+            if (camUser == null)
+            {
+                this.userService.Create(currentUser.ToAzureUser());
+                await this.userService.SaveChangesAsync();
+            }
+            return Ok();
+        }
+
+        /// <summary>
         /// A simple test method of the user permissions and authorization.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <param name="id">The id.</param>
         /// <returns>An Ok if the user is authorized.</returns>
-        [Authorize]
-        [Route("api/auth/user/{id}")]
+        //[Authorize]
+        //[Route("api/auth/user/{id}")]
         //[ResourceAuthorize(OrganizationType.BRANCH_VALUE, "Program", 1009)]
         //[ResourceAuthorize("EditProgram", "Program", 1009)]
         //[ResourceAuthorize("EditProgram", "Program", "id")]
-        [ResourceAuthorize("EditProgram", "Program")]
-        [ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
-        public IHttpActionResult PostTestResourceAuthorizeModelType([FromBody]TestBindingModel model, int id)
-        {
-            return Ok();
-        }
+        //[ResourceAuthorize("EditProgram", "Program")]
+        //[ResourceAuthorize("EditProgram", "Program", typeof(TestBindingModel), "model.ProgramId")]//model.ProgramId because we have more than one argument
+        //public IHttpActionResult PostTestResourceAuthorizeModelType([FromBody]TestBindingModel model, int id)
+        //{
+        //    return Ok();
+        //}
 
         //[Authorize]
         //[Route("api/auth/logout/{id}")]

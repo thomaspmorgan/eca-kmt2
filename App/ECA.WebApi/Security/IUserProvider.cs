@@ -95,6 +95,7 @@ namespace ECA.WebApi.Security
         /// <param name="impersonator">The user who will be impersonating another.</param>
         /// <param name="idOfUserToImpersonate">The id of user to impersonate.</param>
         Task ImpersonateAsync(IWebApiUser impersonator, Guid idOfUserToImpersonate);
+
     }
 
     /// <summary>

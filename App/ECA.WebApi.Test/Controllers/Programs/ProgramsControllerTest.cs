@@ -14,7 +14,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http.Results;
 
 namespace ECA.WebApi.Test.Controllers.Programs
@@ -39,6 +43,11 @@ namespace ECA.WebApi.Test.Controllers.Programs
             service.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>())).ReturnsAsync(new ProgramDTO { Id = 1, RowVersion = new byte[0] });
             controller = new ProgramsController(service.Object, userProvider.Object);
             ControllerHelper.InitializeController(controller);
+
+            HttpContext.Current = new HttpContext(
+                new HttpRequest("", "http://localhost", ""),
+                new HttpResponse(new StringWriter())
+                );
         }
 
         #region Get
@@ -95,7 +104,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         {
             var model = new DraftProgramBindingModel();
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PostProgramAsync(model); 
+            var response = await controller.PostProgramAsync(model);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion
@@ -104,6 +113,8 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestPutProgramAsync()
         {
+
+            var user = SetDebugUser();
             var model = new ProgramBindingModel
             {
                 Name = "name",
@@ -112,6 +123,8 @@ namespace ECA.WebApi.Test.Controllers.Programs
                 RowVersion = Convert.ToBase64String(new byte[0]),
             };
             model.ProgramStatusId = ProgramStatus.Active.Id;
+            userProvider.Setup(x => x.GetCurrentUser()).Returns(user);
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
             var response = await controller.PutProgramAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProgramViewModel>));
         }
@@ -125,5 +138,14 @@ namespace ECA.WebApi.Test.Controllers.Programs
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion
+
+        private DebugWebApiUser SetDebugUser()
+        {
+            var debugUser = new DebugWebApiUser();
+            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(debugUser.GetClaims(), "Bearer"));
+            Thread.CurrentPrincipal = claimsPrincipal;
+            HttpContext.Current.User = claimsPrincipal;
+            return debugUser;
+        }
     }
 }

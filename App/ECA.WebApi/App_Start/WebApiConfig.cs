@@ -4,6 +4,8 @@ using ECA.WebApi.Custom;
 using ECA.WebApi.Custom.Filters;
 using ECA.WebApi.Custom.Handlers;
 using ECA.WebApi.Security;
+using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.WebApi;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Diagnostics;
@@ -19,7 +21,10 @@ namespace ECA.WebApi
     {
         public static void Register(HttpConfiguration config)
         {
-            UnityConfig.RegisterComponents();
+            // Web API configuration and services
+            var unityContainer = new UnityContainer();
+            UnityConfig.RegisterComponents(unityContainer);
+            //WebApiUnityActionFilterProvider.RegisterFilterProviders(config, unityContainer);
 
             // Enable cross-origin resource sharing.
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
@@ -51,6 +56,7 @@ namespace ECA.WebApi
             config.Filters.Add(new UnknownStaticLookupExceptionFilter());
             config.Filters.Add(new ValidationExceptionFilter());
             config.Filters.Add(new DbEntityValidationExceptionFilter());
+            config.Filters.Add(new EcaBusinessExceptionFilter());
 
             //config.Services.Replace(typeof(System.Web.Http.Tracing.ITraceWriter), new NLogTraceWriter());
 #if DEBUG

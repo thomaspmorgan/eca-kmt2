@@ -1,11 +1,21 @@
-﻿using System;
+﻿using CAM.Business.Model;
+using CAM.Data;
+using ECA.Core.Service;
+using System;
 namespace CAM.Business.Service
 {
     /// <summary>
     /// An IUserService performs user validation and crud operations on a CAM user.
     /// </summary>
-    public interface IUserService
+    public interface IUserService : ISaveable
     {
+        /// <summary>
+        /// Creates a new user in the system.
+        /// </summary>
+        /// <param name="newUser">The new user.</param>
+        /// <returns>The created user.</returns>
+        UserAccount Create(AzureUser newUser);
+
         /// <summary>
         /// Returns the user with the given id.
         /// </summary>

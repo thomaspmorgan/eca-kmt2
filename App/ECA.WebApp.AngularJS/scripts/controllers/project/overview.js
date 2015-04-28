@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectOverviewCtrl', function ($scope, $stateParams, $q, $log, $timeout, ProjectService, ProgramService, TableService, LookupService, ConstantsService, AuthService) {
+  .controller('ProjectOverviewCtrl', function ($scope, $stateParams, $q, $log, $timeout, ProjectService, ProgramService, TableService, LookupService, ConstantsService, AuthService, NotificationService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -33,7 +33,7 @@ angular.module('staticApp')
       $scope.editView.selectedThemes = [];
 
       $scope.permissions = {};
-      $scope.permissions.canEdit = false;
+      $scope.permissions.canEdit = true;
       
 
       $scope.editView.loadProjectStati = function () {
@@ -95,6 +95,10 @@ angular.module('staticApp')
 
       $scope.view.updateStatusView = function () {
           $scope.$parent.project.status = getStatusById($scope.editView.projectStati, $scope.$parent.project.projectStatusId).name;
+      }
+
+      $scope.closeAlert = function (index) {
+          removeAlert(index);
       }
 
       var editProjectEventName = ConstantsService.editProjectEventName;
@@ -192,22 +196,26 @@ angular.module('staticApp')
             });
       }
 
-      var removeAlertTimeout = 1500;
-      var hideAlertsTimeout = 3000;
-      function showSaveSuccess() {
-          $scope.view.areAlertsCollapsed = false;
-          var index = $scope.view.notifications.push({ type: 'success', msg: 'Successfully saved project changes.' });
-          $timeout(function () {
+      function removeAlert(index) {
+          $scope.view.notifications.splice(index, 1);
+          if ($scope.view.notifications.length === 0) {
               $scope.view.areAlertsCollapsed = true;
-              $timeout(function () {
-                  removeAlert(index);
-              }, removeAlertTimeout);
-          }, hideAlertsTimeout);
+          }
       }
 
-      function removeAlert(index) {
-          $scope.view.notifications = $scope.view.notifications.splice(index, 1);
+      function showSaveSuccess() {
+          //showMessage('success', 'Successfully saved project changes.');
+          NotificationService.showSuccessMessage('Successfully saved project changes.');
       }
+
+      //function showUnauthorizedMessage() {
+      //    showMessage('danger', 'You are not authorized to view this project.');
+      //}
+
+      //function showMessage(type, message) {
+      //    $scope.view.areAlertsCollapsed = false;
+      //    $scope.view.notifications.push({ type: type, msg: message });
+      //}
 
       var maxLimit = 300;
       function loadProjectStati() {
@@ -252,7 +260,10 @@ angular.module('staticApp')
 
             }, function (errorResponse) {
                 $log.error('Failed to load project with id ' + projectId);
-            })
+                if (errorResponse.status === 401) {
+                    showUnauthorizedMessage();
+                }
+            });
       }
 
       function setSelectedItems(projectPropertyName, editViewSelectedPropertyName) {

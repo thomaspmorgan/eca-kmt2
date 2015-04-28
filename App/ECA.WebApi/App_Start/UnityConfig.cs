@@ -4,6 +4,7 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
+using ECA.Business.Service.Reports;
 using ECA.Business.Validation;
 using ECA.Core.Generation;
 using ECA.Data;
@@ -12,6 +13,7 @@ using ECA.WebApi.Security;
 using Microsoft.Practices.Unity;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Runtime.Caching;
 using System.Web.Http;
 using Unity.WebApi;
@@ -26,12 +28,12 @@ namespace ECA.WebApi
         /// <summary>
         /// Registers the components to a UnityContainer and sets the web api dependency resolver to a UnityDependencyResolver.
         /// </summary>
-        public static void RegisterComponents()
+        public static void RegisterComponents(IUnityContainer container)
         {
-            var container = new UnityContainer();
-            RegisterSecurityConcerns(container);
+            Contract.Requires(container != null, "The container must not be null.");
             RegisterContexts(container);
             RegisterServices(container);
+            RegisterSecurityConcerns(container);
             RegisterValidations(container);
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
@@ -45,7 +47,6 @@ namespace ECA.WebApi
             var connectionString = "EcaContext";
             container.RegisterType<EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
             container.RegisterType<DbContext, EcaContext>(new HierarchicalLifetimeManager(), new InjectionConstructor(connectionString));
-            container.RegisterType<CamModel>(new InjectionConstructor("CamModel"));
         }
 
         /// <summary>
@@ -71,6 +72,7 @@ namespace ECA.WebApi
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IGenderService, GenderService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusCategoryService, FocusCategoryService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
 
         }
 
@@ -90,9 +92,11 @@ namespace ECA.WebApi
 
         public static void RegisterSecurityConcerns(IUnityContainer container)
         {
-            
+            container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor("CamModel"));
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IPermissionStore<IPermission>, PermissionStoreCached>(new HierarchicalLifetimeManager(), new InjectionConstructor());
+            container.RegisterType<IPermissionModelService, PermissionModelService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPermissionStore<IPermission>, PermissionStore>(
+                new InjectionConstructor(new ResolvedParameter<CamModel>(), new ResolvedParameter<IPermissionModelService>()));
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
             {
@@ -101,20 +105,15 @@ namespace ECA.WebApi
             container.RegisterType<IUserCacheService>(new InjectionFactory((c) =>
             {
 #if DEBUG
-                var cacheLifeInSeconds = 10;
+                var cacheLifeInSeconds = 20;
                 CacheManager.CacheExpirationInMinutes = cacheLifeInSeconds / 60.0;
-#endif 
-                return new UserCacheService(c.Resolve<ObjectCache>() 
+#endif
+                return new UserCacheService(c.Resolve<ObjectCache>()
 #if DEBUG
 , cacheLifeInSeconds
 #endif
-                    );
+);
             }));
-            ResourceAuthorizeAttribute.UserProviderFactory = () =>
-            {
-                return container.Resolve<IUserProvider>();
-            };
-            ResourceAuthorizeAttribute.PermissionLookupFactory = () => container.Resolve<IPermissionStore<IPermission>>();
         }
     }
 }

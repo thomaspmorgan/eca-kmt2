@@ -71,5 +71,14 @@ namespace ECA.WebApi.Security
         {
             return impersonatorUsername;
         }
+
+        /// <summary>
+        /// Throws an exception a user must exist in CAM for it be impersonated; therefore, this method should never be invoked.
+        /// </summary>
+        /// <returns>Throws an Exception.</returns>
+        public CAM.Business.Model.AzureUser ToAzureUser()
+        {
+            throw new NotSupportedException("This method should not be executed.  A user must exist for it to be impersonated.");
+        }
     }
 }

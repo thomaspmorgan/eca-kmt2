@@ -30,6 +30,8 @@ namespace ECA.Business.Models.Programs
         /// <param name="pointOfContactIds">The points contact by id.</param>
         /// <param name="themeIds">The themese of the program by id.</param>
         /// <param name="regionIds">The regions the program is operating in by id.</param>
+        /// <param name="categoryIds">The focus categories by id.</param>
+        /// <param name="objectiveIds">The objectivs by id.</param>
         public DraftProgram(
             User createdBy,
             string name,
@@ -43,7 +45,9 @@ namespace ECA.Business.Models.Programs
             List<int> goalIds,
             List<int> pointOfContactIds,
             List<int> themeIds,
-            List<int> regionIds)
+            List<int> regionIds,
+            List<int> categoryIds,
+            List<int> objectiveIds)
             : base(
                 updatedBy: createdBy,
                 id: 0,
@@ -60,7 +64,9 @@ namespace ECA.Business.Models.Programs
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
                 themeIds: themeIds,
-                regionIds: regionIds
+                regionIds: regionIds,
+                categoryIds: categoryIds,
+                objectiveIds: objectiveIds
                 )
         {
             Contract.Requires(createdBy != null, "The created by user must not be null.");

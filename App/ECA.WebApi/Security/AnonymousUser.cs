@@ -37,5 +37,14 @@ namespace ECA.WebApi.Security
         {
             return ANONYMOUS_USER_NAME;
         }
+
+        /// <summary>
+        /// Throws an exception an anonymous user should never be inserted into the cam.
+        /// </summary>
+        /// <returns>Throws an Exception.</returns>
+        public CAM.Business.Model.AzureUser ToAzureUser()
+        {
+            throw new NotSupportedException("This method should not be executed.  An anonymous user must not be inserted into CAM.");
+        }
     }
 }

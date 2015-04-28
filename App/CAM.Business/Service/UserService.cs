@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CAM.Business.Model;
 
 namespace CAM.Business.Service
 {
@@ -27,6 +28,48 @@ namespace CAM.Business.Service
         {
             Contract.Requires(context != null, "The context must not be null.");
         }
+
+        #region Create
+
+        /// <summary>
+        /// Creates a new user in the system.
+        /// </summary>
+        /// <param name="newUser">The new user.</param>
+        /// <returns>The created user.</returns>
+        public UserAccount Create(AzureUser newUser)
+        {
+            return DoCreate(newUser);
+        }
+
+        private UserAccount DoCreate(AzureUser newUser)
+        {
+            var systemUserId = UserAccount.SYSTEM_USER_ACCOUNT_ID;
+            var now = DateTimeOffset.UtcNow;
+            var userAccount = new UserAccount
+            {
+                AccountStatusId = AccountStatus.Active.Id,
+                AdGuid = newUser.Id,
+                CreatedBy = systemUserId,
+                CreatedOn = now,
+                DisplayName = newUser.DisplayName,
+                EmailAddress = newUser.Email,
+                FirstName = newUser.FirstName,
+                LastAccessed = now,
+                LastName = newUser.LastName,
+                RevisedBy = systemUserId,
+                RevisedOn = now
+            };
+            var principal = new Principal
+            {
+                PrincipalTypeId = PrincipalType.Person.Id,
+            };
+            userAccount.Principal = principal;
+            principal.UserAccount = userAccount;
+            Context.UserAccounts.Add(userAccount);
+            Context.Principals.Add(principal);
+            return userAccount;
+        }
+        #endregion
 
         #region Get
 

@@ -139,11 +139,11 @@ namespace ECA.WebApi.Security
         /// <summary>
         /// Removes the user from the cache.
         /// </summary>
-        /// <param name="user">The user id of the user to remove.</param>
+        /// <param name="userId">The user id of the user to remove.</param>
         public void Remove(Guid userId)
         {            
             this.cache.Remove(GetKey(userId));
-            this.logger.Info("Removed user with id {0} cache.", userId);
+            this.logger.Info("Removed user with id [{0}] cache.", userId);
         }
 
     }

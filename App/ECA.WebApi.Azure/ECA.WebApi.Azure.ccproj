@@ -41,16 +41,6 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ECA.WebApi\ECA.WebApi.csproj">
-      <Name>ECA.WebApi</Name>
-      <Project>{72993aaf-4c9f-4ea3-a3cb-263d20c32de0}</Project>
-      <Private>True</Private>
-      <RoleType>Web</RoleType>
-      <RoleName>ECA.WebApi</RoleName>
-      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="ECA.WebApiContent\" />
     <Folder Include="Profiles" />
   </ItemGroup>

@@ -36,6 +36,8 @@ namespace ECA.Business.Models.Programs
         /// <param name="pointOfContactIds">The points of contact by id.</param>
         /// <param name="regionIds">The program's regions by id.</param>
         /// <param name="themeIds">The themes by id.</param>
+        /// <param name="categoryIds">The focus categories by id.</param>
+        /// <param name="objectiveIds">The objectivs by id.</param>
         public EcaProgram(
             User updatedBy,
             int id,
@@ -52,7 +54,9 @@ namespace ECA.Business.Models.Programs
             List<int> goalIds,
             List<int> pointOfContactIds,
             List<int> themeIds,
-            List<int> regionIds)
+            List<int> regionIds,
+            List<int> categoryIds,
+            List<int> objectiveIds)
         {
             Contract.Requires(updatedBy != null, "The updated by user must not be null.");
             var programStatus = ProgramStatus.GetStaticLookup(programStatusId);
@@ -74,6 +78,8 @@ namespace ECA.Business.Models.Programs
             this.ContactIds = pointOfContactIds ?? new List<int>();
             this.ThemeIds = themeIds ?? new List<int>();
             this.RegionIds = regionIds ?? new List<int>();
+            this.FocusCategoryIds = categoryIds ?? new List<int>();
+            this.JustificationObjectiveIds = objectiveIds ?? new List<int>();
             this.ProgramStatusId = programStatusId;
             this.Audit = new Update(updatedBy);
             this.RowVersion = programRowVersion;
@@ -82,6 +88,8 @@ namespace ECA.Business.Models.Programs
             this.ContactIds = this.ContactIds.Distinct().ToList();
             this.ThemeIds = this.ThemeIds.Distinct().ToList();
             this.RegionIds = this.RegionIds.Distinct().ToList();
+            this.FocusCategoryIds = this.FocusCategoryIds.Distinct().ToList();
+            this.JustificationObjectiveIds = this.JustificationObjectiveIds.Distinct().ToList();
         }
 
         /// <summary>
@@ -144,6 +152,9 @@ namespace ECA.Business.Models.Programs
         /// </summary>
         public List<int> ThemeIds { get; private set; }
 
+        public List<int> FocusCategoryIds { get; set; }
+
+        public List<int> JustificationObjectiveIds { get; set; }
         /// <summary>
         /// Gets the program contacts by id.
         /// </summary>
