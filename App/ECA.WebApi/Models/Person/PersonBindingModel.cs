@@ -41,7 +41,7 @@ namespace ECA.WebApi.Models.Person
         /// Gets or sets the date of birth
         /// </summary>
         [Required]
-        public DateTimeOffset DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the city of birth
