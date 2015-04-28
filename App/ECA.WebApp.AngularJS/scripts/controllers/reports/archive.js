@@ -8,8 +8,9 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ReportsArchiveCtrl', function ($scope, $stateParams, $q, ReportService, TableService) {
+  .controller('ReportsArchiveCtrl', function ($scope, $stateParams, $q, $modal, ReportService, TableService, $log) {
 
+      $scope.$log = $log;
       $scope.reports = [
           { Title: "Project Awards", Published: "4/28/2015", Author: "Tom Morgan", Clearance: "Cleared By Office"}
       ]
@@ -84,6 +85,22 @@ angular.module('staticApp')
             .then(function () {
                 $scope.reportsLoading = false;
             });
+      };
+
+      $scope.openReport = function (title) {
+          if (title == 'Project Awards') {
+              var modalInstance = $modal.open({
+                  templateUrl: '/views/reports/projectAwards.html',
+                  controller: 'ProjectAwardsCtrl',
+                  size: 'sm'
+              })
+          }
+
+          modalInstance.result.then(function () {
+              $log.info('Report: ' + title + ' run at: ' + new Date());
+          }, function () {
+              $log.info('Report: ' + title + '  Dismissed at: ' + new Date());
+          });
       };
 
   });

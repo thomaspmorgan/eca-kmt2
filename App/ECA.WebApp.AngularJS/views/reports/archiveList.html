@@ -35,7 +35,7 @@
             <tbody class="list2">
                 <tr ng-repeat="report in reports" class="hover" ng-show="!reportsLoading">
                     <td class="col-md-4">
-                        <h5 class="list-title">{{report.Title}}</h5>
+                        <h5 class="list-title"><a ng-click="openReport(report.Title)">{{report.Title}}</a></h5>
                     </td>
                     <td class="col-md-2">{{report.Published}}</td>
                     <td class="col-md-2">{{report.Author}}</td>
