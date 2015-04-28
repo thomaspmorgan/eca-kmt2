@@ -153,7 +153,7 @@ namespace ECA.WebApi.Controllers
         /// </summary>
         /// <returns>Ok.</returns>
         [Authorize]
-        [Route("api/auth/logout/")]
+        [Route("api/auth/user/logout/")]
         public IHttpActionResult PostLogout()
         {
             var currentUser = this.provider.GetCurrentUser();

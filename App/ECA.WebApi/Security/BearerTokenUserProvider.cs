@@ -254,7 +254,7 @@ namespace ECA.WebApi.Security
             if (this.cacheService.IsUserCached(userId))
             {
                 this.cacheService.Remove(userId);
-                logger.Trace("Removed user with [{0}] from cache.", userId);
+                logger.Info("Removed user with id [{0}] from cache.", userId);
             }
         }
 

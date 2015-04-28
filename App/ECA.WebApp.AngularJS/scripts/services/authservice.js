@@ -63,7 +63,14 @@ angular.module('staticApp')
           },
 
           logOut: function () {
-              adalAuthenticationService.logOut();
+              return DragonBreath.create({}, 'auth/user/logout')
+                  .then(function () {
+                      adalAuthenticationService.logOut();
+                  });
+          },
+
+          isAuthenticated: function () {
+              return $rootScope.userInfo.isAuthenticated;
           }
       };
       return service;
