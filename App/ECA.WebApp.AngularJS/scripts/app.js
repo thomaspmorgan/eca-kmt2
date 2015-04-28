@@ -22,7 +22,9 @@ angular
     'AdalAngular',
     'smart-table',
     'ui.select',
-    'ui.date'
+    'ui.date',
+    'toaster',
+    'ngAnimate'
   ])
   .config(function ($stateProvider, $httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider) {
 
@@ -126,7 +128,7 @@ angular
         .state('reports', {
             url: '/report',
             templateUrl: 'views/reports/archiveList.html',
-            controller: 'ReportCtrl',
+            controller: 'ReportsArchiveCtrl',
             requireADLogin: true
         })
 

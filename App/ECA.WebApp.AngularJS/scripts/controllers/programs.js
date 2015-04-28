@@ -17,6 +17,8 @@ angular.module('staticApp')
       $scope.isSavingProject = false;
       $scope.validations = [];
 
+      $scope.categoryLabel = 'Test Category Label';
+      $scope.objectiveLabel = 'Test Objective Label';
 
       $scope.newProject = {
           title: '',
