@@ -128,7 +128,7 @@ angular
         .state('reports', {
             url: '/report',
             templateUrl: 'views/reports/archiveList.html',
-            controller: 'ReportCtrl',
+            controller: 'ReportsArchiveCtrl',
             requireADLogin: true
         })
 
@@ -453,39 +453,23 @@ angular
             }
         };
 
-        $rootScope.logout = function () {
+        $rootScope.currentUser = {};
+        $rootScope.currentUser.isBusy = false;
+        $rootScope.currentUser.userMenuToggled = function (open) {};
+        $rootScope.currentUser.logout = function () {
             $rootScope.$broadcast(ConstantsService.logoutEventName);
         };
-
-        $rootScope.userMenuToggled = function (open) {
-
-        };
-
-        $rootScope.notifications = [];
-        $rootScope.areAlertsCollapsed = true;
-        $rootScope.closeAlert = function (index) {
-            NotificationService.removeAlert(index);
-        }
-
-        $rootScope.currentUser = {};
-        $rootScope.currentUser.isRegistering = false;
-        $rootScope.accountErrorView = {};
-        $rootScope.accountErrorView.showError = false;
         $rootScope.$on(ConstantsService.registeringUserEventName, function () {
-            $rootScope.currentUser.isRegistering = true;
+            $rootScope.currentUser.isBusy = true;
         });
         $rootScope.$on(ConstantsService.registerUserFailureEventName, function () {
-            $rootScope.accountErrorView.showError = true;
-            $rootScope.currentUser.isRegistering = false;
-            NotificationService.showErrorMessage('This was an error registering your user account in this application.');
+            $rootScope.currentUser.isBusy = false;
+            NotificationService.showErrorMessage('There was an error registering your user account in this application.');
         });
         $rootScope.$on(ConstantsService.registerUserSuccessEventName, function () {
-            $rootScope.currentUser.isRegistering = false;
-            NotificationService.showInfoMessage('This is your first visit to the application!  You have been successfully registered.');
+            $rootScope.currentUser.isBusy = false;
+            NotificationService.showSuccessMessage('This is your first visit to the application!  You have been successfully registered.');
         });
-        $rootScope.closeRegisterUserFailureModal = function () {
-            $rootScope.accountErrorView.showError = false;
-        }
 
         $rootScope.$on('$routeChangeSuccess', function () {
             $location.hash('top');
