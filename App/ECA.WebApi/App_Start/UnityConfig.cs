@@ -73,6 +73,7 @@ namespace ECA.WebApi
             container.RegisterType<IGenderService, GenderService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusCategoryService, FocusCategoryService>(new HierarchicalLifetimeManager());
             container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IJustificationObjectiveService, JustificationObjectiveService>(new HierarchicalLifetimeManager());
 
         }
 

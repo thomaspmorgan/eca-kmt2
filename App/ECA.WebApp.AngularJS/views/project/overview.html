@@ -58,16 +58,16 @@
                 <div class="col-md-6 title-label">Themes</div>
                 <div class="col-md-6" ng-show="!editView.show">
                     <ul>
-                        <li ng-repeat="theme in project.themes | orderBy:'value'">{{theme.value}}</li>
+                        <li ng-repeat="theme in project.themes | orderBy:'value'">&#149 {{theme.value}}</li>
                     </ul>
                 </div>
                 <div class="col-md-6" ng-show="editView.show">
-                    <ui-select multiple ng-model="editView.selectedThemes"  ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a theme." style="min-width: 200px;">
+                    <ui-select multiple ng-model="editView.selectedThemes" ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a theme." style="min-width: 200px;">
                         <ui-select-match placeholder="Select themes...">
                             <div>{{$item.value}}</div>
                         </ui-select-match>
 
-                        
+
                         <ui-select-choices repeat="theme in editView.themes">
                             <div ng-bind-html="theme.value | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -78,7 +78,7 @@
                 <div class="col-md-6 title-label">Strategic Goals</div>
                 <div class="col-md-6" ng-show="!editView.show">
                     <ul>
-                        <li ng-repeat="goal in project.goals | orderBy:'value'">{{goal.value}}</li>
+                        <li ng-repeat="goal in project.goals | orderBy:'value'">&#149 {{goal.value}}</li>
                     </ul>
                 </div>
                 <div class="col-md-6" ng-show="editView.show">
@@ -104,17 +104,19 @@
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Office</div>
-                <div class="col-md-6"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
+                <div class="col-md-6" ng-show="!editView.show"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
+                <div class="col-md-6" ng-show="editView.show">{{program.ownerName}}</div>
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Program</div>
-                <div class="col-md-6"><a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a></div>
+                <div class="col-md-6" ng-show="!editView.show"><a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a></div>
+                <div class="col-md-6" ng-show="editView.show">{{program.name}}</div>
             </div>
             <div class="row" ng-show="project.contacts">
                 <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                 <div class="col-md-6" ng-show="!editView.show">
                     <ul>
-                        <li ng-repeat="contact in project.contacts | orderBy:'value'">{{contact.value}}</li>
+                        <li ng-repeat="contact in project.contacts | orderBy:'value'">&#149 {{contact.value}}</li>
                     </ul>
                 </div>
                 <div class="col-md-6" ng-show="editView.show">
