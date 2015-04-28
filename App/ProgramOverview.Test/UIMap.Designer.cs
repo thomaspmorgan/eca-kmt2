@@ -39,7 +39,8 @@ namespace ProgramOverview.Test
             HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIItemCustom;
             #endregion
 
-            // Verify that the 'InnerText' property of custom control equals '3'
+            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of custom control equals '3'
+            Playback.Wait(5000);
             Assert.AreEqual(this.AllProgramsPageNavigationButtonExpectedValues.UIItemCustomInnerText, uIItemCustom.InnerText, "No Page 3 button to navigate to ");
         }
         
@@ -171,7 +172,7 @@ namespace ProgramOverview.Test
             HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
             #endregion
 
-            // Go to web page 'https://eca-kmt-qa-azurewebsites.net/' using new browser instance
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExisitingUserParams.UINewtabInternetExplorWindowUrl));
 
             // Click 'ECATest1@statedept.us •••' link
@@ -524,7 +525,7 @@ namespace ProgramOverview.Test
         
         #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of custom control equals '3'
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of custom control equals '3'
         /// </summary>
         public string UIItemCustomInnerText = "3";
         #endregion
@@ -614,9 +615,9 @@ namespace ProgramOverview.Test
         
         #region Fields
         /// <summary>
-        /// Go to web page 'https://eca-kmt-qa-azurewebsites.net/' using new browser instance
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
         /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa-azurewebsites.net/";
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
         
         /// <summary>
         /// Type '********' in 'Password' text box
