@@ -1,13 +1,7 @@
 <div class="jumbotron home">
-  <div class="heading">
-    <h1>ECA Knowledge Management Tool</h1>
-  </div>
-</div>
-<div ng-show="isAuthenticated">
-    <tab-bar tabs="tabs"></tab-bar>
-    <div class="container" ui-view>
+    <div class="heading">
+        <h1>ECA Knowledge Management Tool</h1>
     </div>
 </div>
-<div ng-show="!isAuthenticated">
-    Welcome to the ECA Knowledge Management Tool.  Please login.
-</div>
+<tab-bar tabs="tabs"></tab-bar>
+<div class="container" ui-view>

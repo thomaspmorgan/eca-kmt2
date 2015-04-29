@@ -137,7 +137,6 @@
     <Content Include="scripts\controllers\simple_test.js" />
     <Content Include="scripts\directives\datepickerpopup.js" />
     <Content Include="scripts\filters\highlight.js" />
-    <Content Include="scripts\services\logineventservice.js" />
     <Content Include="scripts\services\logouteventservice.js" />
     <Content Include="scripts\services\errorinterceptor.js" />
     <Content Include="scripts\services\constantsservice.js">

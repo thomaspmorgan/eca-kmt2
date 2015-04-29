@@ -18,6 +18,7 @@ angular.module('staticApp')
                   $q.when(AuthService.getUserInfo())
                   .then(function (userInfoResponse) {
                       var userInfo = userInfoResponse.data;
+                      $log.info('User [' + userInfo.userName + '] authenticated.');
                       if (!userInfo.isRegistered) {
                           $rootScope.$broadcast(ConstantsService.registeringUserEventName);
                           AuthService.register()

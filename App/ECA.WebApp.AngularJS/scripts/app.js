@@ -41,24 +41,23 @@ angular
       $stateProvider
         .state('home', {
             templateUrl: 'views/home.html',
-            controller: 'HomeCtrl'//,
-            //requireADLogin: true
+            controller: 'HomeCtrl',
+            requireADLogin: true
         })
-
         .state('home.shortcuts', {
             url: '/',
             templateUrl: 'views/home/shortcuts.html',
-            //requireADLogin: true
+            requireADLogin: true
         })
         .state('home.notifications', {
             url: '/',
             templateUrl: 'views/home/notifications.html',
-            //requireADLogin: true
+            requireADLogin: true
         })
         .state('home.news', {
             url: '/',
             templateUrl: 'views/home/news.html',
-            //requireADLogin: true
+            requireADLogin: true
         })
      
         .state('events', {
@@ -402,8 +401,8 @@ angular
         });
       $httpProvider.interceptors.push('ErrorInterceptor');
   })
-  .run(['$rootScope', '$location', '$state', 'editableOptions', '$anchorScroll', 'LoginEventService', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
-    function ($rootScope, $location, $state, editableOptions, $anchorScroll, LoginEventService, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
+  .run(['$rootScope', '$location', '$state', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
+    function ($rootScope, $location, $state, editableOptions, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
 
         console.assert(RegisterUserEventService, "The RegisterUserEventService is needed so that we can register on rootscope the handler to automatically register the user.");
         editableOptions.theme = 'bs3';
@@ -458,9 +457,6 @@ angular
         $rootScope.currentUser.logout = function () {
             $rootScope.currentUser.isBusy = true;
             $rootScope.$broadcast(ConstantsService.logoutEventName);
-        };
-        $rootScope.currentUser.login = function () {
-            $rootScope.$broadcast(ConstantsService.loginEventName);
         };
         $rootScope.$on(ConstantsService.registeringUserEventName, function () {
             $rootScope.currentUser.isBusy = true;

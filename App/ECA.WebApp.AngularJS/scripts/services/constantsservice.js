@@ -73,7 +73,6 @@
 		isNullComparisonType: 'null',
 		lessThanComparisonType: 'lt',
 		likeComparisonType: 'like',
-		loginEventName: 'login',
 		logoutEventName: 'logout',
 		notInComparisonType: 'notin',
 		registeringUserEventName: 'registeringUser',
