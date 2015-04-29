@@ -30,6 +30,7 @@
 	otherConstants["emptyGuid"] = Guid.Empty.ToString();
 	otherConstants["editProjectEventName"] = "EditProject";
 	otherConstants["logoutEventName"] = "logout";
+	otherConstants["loginEventName"] = "login";
 	otherConstants["adalLoginSuccessEventName"] = "adal:loginSuccess";
 	otherConstants["registeringUserEventName"] = "registeringUser";
 	otherConstants["registerUserSuccessEventName"] = "registerUserSuccess";
