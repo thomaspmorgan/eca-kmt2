@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name staticApp.authService
+ * @name staticApp.LogoutEventService
  * @description
- * # authService
- * Factory for handling authorization.
+ * # LogoutEventService
+ * Factory for handling logout events.
  */
 angular.module('staticApp')
   .factory('LogoutEventService', function ($rootScope, $q, AuthService, ConstantsService) {      
