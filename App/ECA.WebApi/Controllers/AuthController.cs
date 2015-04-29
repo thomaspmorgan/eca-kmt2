@@ -25,6 +25,7 @@ namespace ECA.WebApi.Controllers
         private IUserProvider provider;
         private IPermissionStore<IPermission> permissionStore;
         private IUserService userService;
+        private IResourceService resourceService;
 
         /// <summary>
         /// The AuthController provides user authentication and authorization details.
@@ -32,14 +33,16 @@ namespace ECA.WebApi.Controllers
         /// <param name="provider">The user provider.</param>
         /// <param name="permissionStore">The permissions store.</param>
         /// <param name="userService">The user service.</param>
-        public AuthController(IUserProvider provider, IPermissionStore<IPermission> permissionStore, IUserService userService)
+        public AuthController(IUserProvider provider, IPermissionStore<IPermission> permissionStore, IUserService userService, IResourceService resourceService)
         {
             Contract.Requires(provider != null, "The provider must not be null.");
             Contract.Requires(permissionStore != null, "The permission store must not be null.");
             Contract.Requires(userService != null, "The user service must not be null.");
+            Contract.Requires(resourceService != null, "The resource service must not be null.");
             this.provider = provider;
             this.permissionStore = permissionStore;
             this.userService = userService;
+            this.resourceService = resourceService;
         }
 
         /// <summary>
@@ -122,11 +125,11 @@ namespace ECA.WebApi.Controllers
         public async Task<List<ResourcePermissionViewModel>> GetUserPermissionsAsync(IWebApiUser user, string type, int id)
         {
             var principalId = await this.provider.GetPrincipalIdAsync(user);
-            var resourceTypeId = this.permissionStore.GetResourceTypeId(type);
+            var resourceTypeId = this.resourceService.GetResourceTypeId(type);
             var models = new List<ResourcePermissionViewModel>();
             if(resourceTypeId.HasValue)
             {
-                var resourceId = this.permissionStore.GetResourceIdByForeignResourceId(id, resourceTypeId.Value);
+                var resourceId = await this.resourceService.GetResourceIdByForeignResourceIdAsync(id, resourceTypeId.Value);
                 if (resourceId.HasValue)
                 {
                     this.permissionStore.LoadUserPermissions(principalId);

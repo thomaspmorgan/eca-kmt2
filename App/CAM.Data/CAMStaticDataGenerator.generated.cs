@@ -38,6 +38,19 @@ namespace CAM.Data
 			if (4 == id) return AccountStatus.Revoked;
 			return null;
 		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Active" == value) return AccountStatus.Active;
+			if ("Expired" == value) return AccountStatus.Expired;
+			if ("Suspended" == value) return AccountStatus.Suspended;
+			if ("Revoked" == value) return AccountStatus.Revoked;
+			return null;
+		}
 
 
 		/// <summary>
@@ -143,6 +156,21 @@ namespace CAM.Data
 			if (4 == id) return Permission.Editoffice;
 			if (5 == id) return Permission.Editprogram;
 			if (7 == id) return Permission.Editproject;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("ViewOffice" == value) return Permission.Viewoffice;
+			if ("ViewProgram" == value) return Permission.Viewprogram;
+			if ("ViewProject" == value) return Permission.Viewproject;
+			if ("EditOffice" == value) return Permission.Editoffice;
+			if ("EditProgram" == value) return Permission.Editprogram;
+			if ("EditProject" == value) return Permission.Editproject;
 			return null;
 		}
 
@@ -256,6 +284,17 @@ namespace CAM.Data
 			if (2 == id) return PrincipalType.Group;
 			return null;
 		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Person    " == value) return PrincipalType.Person;
+			if ("Group     " == value) return PrincipalType.Group;
+			return null;
+		}
 
 
 		/// <summary>
@@ -327,6 +366,19 @@ namespace CAM.Data
 			if (2 == id) return ResourceType.Office;
 			if (3 == id) return ResourceType.Program;
 			if (4 == id) return ResourceType.Project;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Application" == value) return ResourceType.Application;
+			if ("Office" == value) return ResourceType.Office;
+			if ("Program" == value) return ResourceType.Program;
+			if ("Project" == value) return ResourceType.Project;
 			return null;
 		}
 

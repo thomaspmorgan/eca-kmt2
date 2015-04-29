@@ -19,8 +19,8 @@ namespace CAM.Business.Service
         /// <summary>
         /// Instantiates the PermissionsStore
         /// </summary>
-        public PermissionStore(CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStore(CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
             ResourceId = null;
             PrincipalId = null;
@@ -32,10 +32,10 @@ namespace CAM.Business.Service
         /// Instantiates the PermissionsStore 
         /// </summary>
         /// <param name="applicationId">Sets the ApplicationResourceId property given the ApplicationId</param>
-        public PermissionStore(int resourceId, CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStore(int resourceId, CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
-            ResourceId = GetResourceIdForApplicationId(resourceId);
+            ResourceId = resourceService.GetResourceIdForApplicationId(resourceId);
             PrincipalId = null;
             LoadPermissionsLookup();
         }
@@ -45,10 +45,10 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="resourceId">Sets the ApplicationResourceId property</param>
         /// <param name="principalId">Sets the PrincipalId property</param>
-        public PermissionStore(int resourceId, int principalId, CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStore(int resourceId, int principalId, CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
-            ResourceId = GetResourceIdForApplicationId(resourceId);
+            ResourceId = resourceService.GetResourceIdForApplicationId(resourceId);
             PrincipalId = principalId;
             LoadPermissionsLookup();
         }

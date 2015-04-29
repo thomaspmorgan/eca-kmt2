@@ -15,17 +15,24 @@ namespace CAM.Business.Service
         private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
         
 
-        public PermissionStoreBase(CamModel camModel, IPermissionModelService permissionModelService)
+        public PermissionStoreBase(CamModel camModel, IPermissionModelService permissionModelService, IResourceService resourceService)
             : base(camModel)
         {
             Contract.Requires(permissionModelService != null, "The permission model service must not be null.");
+            Contract.Requires(resourceService != null, "The resource service must not be null.");
             this.PermissionModelService = permissionModelService;
+            this.ResourceService = resourceService;
         }
 
         /// <summary>
         /// Gets the permission model service.
         /// </summary>
         public IPermissionModelService PermissionModelService { get; private set; }
+
+        /// <summary>
+        /// Gets the Resource Service.
+        /// </summary>
+        public IResourceService ResourceService { get; private set; }
 
         /// <summary>
         /// List of Permissions that have been loaded for the user, from one of the Load methods
@@ -114,8 +121,9 @@ namespace CAM.Business.Service
         /// <returns>true if permission is found in list of permissions for the giving applicationId</returns>
         public bool HasPermissionForApplication(int principalId, string permissionName, int applicationId)
         {
-            int resourceId = GetResourceIdForApplicationId(applicationId);
-            return HasPermission(principalId, GetPermissionIdByName(permissionName), resourceId);
+            int? resourceId = this.ResourceService.GetResourceIdForApplicationId(applicationId);
+            Contract.Assert(resourceId.HasValue, "The application resource id should have a value.");
+            return HasPermission(principalId, GetPermissionIdByName(permissionName), resourceId.Value);
         }
 
         /// <summary>
@@ -180,52 +188,6 @@ namespace CAM.Business.Service
             if (permission == null)
                 logger.Warn("Permission not found for Permissionid = '{0}'", permissionId);
             return permission == null ? string.Empty : permission.PermissionName;
-        }
-
-        /// <summary>
-        /// Returns the resourceId for a given applicationId
-        /// </summary>
-        /// <param name="applicationId">ApplicationId (from table Application)</param>
-        /// <returns>ResourceId</returns>
-        public int GetResourceIdForApplicationId(int applicationId)
-        {
-            int? result = (from p in this.Context.Resources
-                           where
-                               p.ResourceType.ResourceTypeName == "Application" &&
-                               p.Application.ResourceId == applicationId
-                           select p.ResourceId).FirstOrDefault();
-            if (result == null)
-                logger.Warn("ResourceId not found for ApplicationId = '{0}'", applicationId);
-            return result.Value;
-        }
-
-        /// <summary>
-        /// Get a ResourceId giving a foreignResourceId and a ResourceTypeId
-        /// </summary>
-        /// <param name="foreignResourceId"></param>
-        /// <param name="resourceTypeId"></param>
-        /// <returns></returns>
-        public int? GetResourceIdByForeignResourceId(int foreignResourceId, int resourceTypeId)
-        {
-            int? result = (from p in this.Context.Resources
-                           where
-                               p.ResourceTypeId == resourceTypeId &&
-                               p.ForeignResourceId == foreignResourceId
-                           select p.ResourceId).FirstOrDefault();
-            if (!result.HasValue)
-                logger.Warn("ResourceId not found for foreignResourceId = '{0}', resourceTypeId='{2}'", foreignResourceId, resourceTypeId);
-            return result;
-        }
-
-        public int? GetResourceTypeId(string resourceTypeName)
-        {
-            int? result = (from p in this.Context.ResourceTypes
-                           where p.ResourceTypeName == resourceTypeName
-                           select p.ResourceTypeId).FirstOrDefault();
-            if (!result.HasValue)
-                logger.Warn("ResourceTypeId not found for resourceTypeName = '{0}'", resourceTypeName);
-            return result;
-
         }
 
         /// <summary>

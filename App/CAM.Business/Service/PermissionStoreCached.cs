@@ -20,8 +20,8 @@ namespace CAM.Business.Service
         /// <summary>
         /// Instantiates the PermissionsStore and loads a cached version of the PermissionLookups
         /// </summary>
-        public PermissionStoreCached(CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStoreCached(CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
             LoadPermissionsLookup();
             ResourceId = null;
@@ -33,10 +33,10 @@ namespace CAM.Business.Service
         /// Instantiates the PermissionsStore and loads a cached version of the PermissionLookups
         /// </summary>
         /// <param name="applicationId">Sets the ApplicationResourceId property given the ApplicationId</param>
-        public PermissionStoreCached(int applicationId, CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStoreCached(int applicationId, CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
-            ResourceId = GetResourceIdForApplicationId(applicationId);
+            ResourceId = resourceService.GetResourceIdForApplicationId(applicationId);
             PrincipalId = null;
             LoadPermissionsLookup();
         }
@@ -46,10 +46,10 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="applicationId">Sets the ApplicationResourceId property</param>
         /// <param name="principalId">Sets the PrincipalId property</param>
-        public PermissionStoreCached(int applicationId, int principalId, CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStoreCached(int applicationId, int principalId, CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
-            ResourceId = GetResourceIdForApplicationId(applicationId);
+            ResourceId = resourceService.GetResourceIdForApplicationId(applicationId);
             PrincipalId = principalId;
             LoadPermissionsLookup();
         }

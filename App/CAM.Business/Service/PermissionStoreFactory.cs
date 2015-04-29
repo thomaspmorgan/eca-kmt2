@@ -18,11 +18,12 @@ namespace CAM.Business.Service
         {
             var camModel = new CamModel();
             var permissionModelService = new PermissionModelService(camModel);
+            var resourceService = new ResourceService(camModel);
             IPermissionStore<IPermission> permissionStore;
             if (cached)
-                permissionStore = new PermissionStoreCached(camModel, permissionModelService);
+                permissionStore = new PermissionStoreCached(camModel, permissionModelService, resourceService);
             else
-                permissionStore = new PermissionStore(camModel, permissionModelService);
+                permissionStore = new PermissionStore(camModel, permissionModelService, resourceService);
 
             permissionStore.LoadUserPermissions(principalId);
             permissionStore.PrincipalId = principalId;
@@ -40,11 +41,12 @@ namespace CAM.Business.Service
         {
             var camModel = new CamModel();
             var permissionModelService = new PermissionModelService(camModel);
+            var resourceService = new ResourceService(camModel);
             IPermissionStore<IPermission> permissionStore;
             if (cached)
-                permissionStore = new PermissionStoreCached(camModel, permissionModelService);
+                permissionStore = new PermissionStoreCached(camModel, permissionModelService, resourceService);
             else
-                permissionStore = new PermissionStore(camModel, permissionModelService);
+                permissionStore = new PermissionStore(camModel, permissionModelService, resourceService);
 
             permissionStore.LoadUserPermissionsForResource(principalId,
                                                            resourceId);

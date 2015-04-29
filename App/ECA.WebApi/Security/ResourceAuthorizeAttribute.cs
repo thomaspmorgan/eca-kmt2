@@ -78,6 +78,29 @@ namespace ECA.WebApi.Security
             }
         }
 
+        private static Func<HttpRequestMessage, IResourceService> resourceServiceFactory;
+        /// <summary>
+        /// A Function to return a permission store.
+        /// </summary>
+        public static Func<HttpRequestMessage, IResourceService> ResourceServiceFactory
+        {
+            get
+            {
+                if (resourceServiceFactory == null)
+                {
+                    resourceServiceFactory = (msg) =>
+                    {
+                        return (IResourceService)msg.GetDependencyScope().GetService(typeof(IResourceService));
+                    };
+                }
+                return resourceServiceFactory;
+            }
+            set
+            {
+                resourceServiceFactory = value;
+            }
+        }
+
         private AuthorizationResult authorizationResult;
         private bool isAuthorizationResultSet;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
@@ -165,6 +188,7 @@ namespace ECA.WebApi.Security
         {
             var permissionStore = PermissionLookupFactory(actionContext.Request);
             var userProvider = UserProviderFactory(actionContext.Request);
+            var resourceService = ResourceServiceFactory(actionContext.Request);
             try
             {
                 var currentUser = userProvider.GetCurrentUser();
@@ -184,13 +208,13 @@ namespace ECA.WebApi.Security
                 var resourceTypeName = this.Permission.ResourceType;
                 var foreignResourceId = this.Permission.GetResourceId(actionArguments);
 
-                var resourceTypeId = permissionStore.GetResourceTypeId(resourceTypeName);
+                var resourceTypeId = resourceService.GetResourceTypeId(resourceTypeName);
                 if (!resourceTypeId.HasValue)
                 {
                     throw new NotSupportedException(String.Format("The resource type name [{0}] does not have a matching resource id in CAM.", resourceTypeName));
                 }
 
-                var resourceId = permissionStore.GetResourceIdByForeignResourceId(foreignResourceId, resourceTypeId.Value);
+                var resourceId = await resourceService.GetResourceIdByForeignResourceIdAsync(foreignResourceId, resourceTypeId.Value);
                 if (!resourceId.HasValue || resourceId.Value == 0)
                 {
                     this.logger.Warn("User [{0}] granted access to resource of type [{1}] with foreign key of [{2}] because the object is NOT in the CAM resources.",
