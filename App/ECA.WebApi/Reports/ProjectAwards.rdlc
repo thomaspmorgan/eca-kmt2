@@ -194,12 +194,13 @@
   <Width>7.5in</Width>
   <Page>
     <PageHeader>
-      <Height>0.77083in</Height>
+      <Height>0.96875in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
         <Textbox Name="Country">
           <CanGrow>true</CanGrow>
+          <CanShrink>true</CanShrink>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
@@ -218,12 +219,13 @@
           <rd:DefaultName>Country</rd:DefaultName>
           <Top>0.14458in</Top>
           <Left>0.19667in</Left>
-          <Height>0.50472in</Height>
-          <Width>1.96875in</Width>
+          <Height>0.75472in</Height>
+          <Width>2.80208in</Width>
           <Style>
             <Border>
               <Style>None</Style>
             </Border>
+            <VerticalAlign>Top</VerticalAlign>
             <PaddingLeft>2pt</PaddingLeft>
             <PaddingRight>2pt</PaddingRight>
             <PaddingTop>2pt</PaddingTop>
@@ -232,6 +234,7 @@
         </Textbox>
         <Textbox Name="Program">
           <CanGrow>true</CanGrow>
+          <CanShrink>true</CanShrink>
           <KeepTogether>true</KeepTogether>
           <Paragraphs>
             <Paragraph>
@@ -247,15 +250,16 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Program</rd:DefaultName>
-          <Top>0.3993in</Top>
-          <Left>2.20708in</Left>
-          <Height>0.25in</Height>
-          <Width>5.15528in</Width>
+          <Top>0.14458in</Top>
+          <Left>3.12375in</Left>
+          <Height>0.33806in</Height>
+          <Width>4.23861in</Width>
           <ZIndex>1</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
             </Border>
+            <VerticalAlign>Bottom</VerticalAlign>
             <PaddingLeft>2pt</PaddingLeft>
             <PaddingRight>2pt</PaddingRight>
             <PaddingTop>2pt</PaddingTop>
@@ -281,7 +285,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>="Page" &amp; Globals!PageNumber &amp; " of " &amp; Globals!TotalPages</Value>
+                  <Value>="Page " &amp; Globals!PageNumber &amp; " of " &amp; Globals!TotalPages</Value>
                   <Style>
                     <FontFamily>Calibri</FontFamily>
                   </Style>
@@ -320,7 +324,9 @@
                   </Style>
                 </TextRun>
               </TextRuns>
-              <Style />
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>ExecutionTime</rd:DefaultName>

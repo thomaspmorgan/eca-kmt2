@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[SocialMedia] (
     [SocialMediaId]     INT                IDENTITY (1, 1) NOT NULL,
     [SocialMediaTypeId] INT                NOT NULL,
-    [SocialMediaValue]  NVARCHAR (MAX)     NULL,
+    [SocialMediaValue]  NVARCHAR (100)     NULL,
     [OrganizationId]    INT                NULL,
     [PersonId]          INT                NULL,
     [History_CreatedBy] INT                NOT NULL,
