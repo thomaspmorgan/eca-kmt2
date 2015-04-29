@@ -12,7 +12,7 @@
 	[Alias]           NVARCHAR (50)     NULL,
     [GenderId]            INT                NOT NULL,
     [DateOfBirth]         DATETIME2 NOT NULL,
-    [Ethnicity]           NVARCHAR (MAX)     NULL,
+    [Ethnicity]           NVARCHAR (100)     NULL,
     [EvaluationRetention] NVARCHAR (MAX)     NULL,
     [History_CreatedBy]   INT                NOT NULL,
     [History_CreatedOn]   DATETIMEOFFSET (7) NOT NULL,

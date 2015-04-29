@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[EmailAddress] (
     [EmailAddressId]    INT            IDENTITY (1, 1) NOT NULL,
-	[EmailAddressTypeId] INT NULL,
-    [Address]           NVARCHAR (MAX) NULL,
+	[EmailAddressTypeId] INT NOT NULL,
+    [Address]           NVARCHAR (100) NOT NULL,
     [Contact_ContactId] INT            NULL,
     [Person_PersonId]   INT            NULL,
     CONSTRAINT [PK_dbo.EmailAddress] PRIMARY KEY CLUSTERED ([EmailAddressId] ASC),
