@@ -64,15 +64,15 @@ namespace ECA.WebApi.Controllers
             bytes = reportViewer.LocalReport.Render("Pdf", null, out mimeType, out encoding, out extension, out streamids, out warnings);
 
 
-            var cd = new System.Net.Mime.ContentDisposition
+            //var cd = new System.Net.Mime.ContentDisposition
 
-            {
+            //{
 
-                FileName = string.Format("ProjectAwards.pdf"),
+            //    FileName = string.Format("ProjectAwards.pdf"),
 
-                Inline = true,
+            //    Inline = true,
 
-            };
+            //};
 
 
 

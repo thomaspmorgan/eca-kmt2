@@ -8,12 +8,13 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ReportsArchiveCtrl', function ($scope, $stateParams, $q, $modal, ReportService, TableService, $log) {
+  .controller('ReportsArchiveCtrl', function ($scope, $stateParams, $q, $modal, ReportService, TableService, $log, $window) {
 
       $scope.$log = $log;
       $scope.reports = [
           { Title: "Project Awards", Published: "4/28/2015", Author: "Tom Morgan", Clearance: "Cleared By Office"}
       ]
+      $scope.parameters = [];
       $scope.currentpage = $stateParams.page || 1;
       $scope.limit = 200;
 
@@ -92,15 +93,25 @@ angular.module('staticApp')
               var modalInstance = $modal.open({
                   templateUrl: '/views/reports/projectAwards.html',
                   controller: 'ProjectAwardsCtrl',
-                  size: 'sm'
-              })
-          }
+                  resolve: {
+                      parameters: function () {
+                          return $scope.parameters;
+                      }
+                  },
+                  size: 'lg'
+              });
 
-          modalInstance.result.then(function () {
-              $log.info('Report: ' + title + ' run at: ' + new Date());
-          }, function () {
-              $log.info('Report: ' + title + '  Dismissed at: ' + new Date());
-          });
+
+              modalInstance.result.then(function (parameters) {
+                  $scope.parameters = parameters;
+                  var url = ReportService.getProjectAwards(parameters.program.programId, parameters.country.id);
+                  $log.debug('Report: ' + title + ' programId:[' + parameters.program.programId + '], countryId:[' + parameters.country.id + ']');
+                  $log.info('Report: ' + title + ' run at: ' + new Date());
+                  $window.open(url);
+              }, function () {
+                  $log.info('Report: ' + title + '  Dismissed at: ' + new Date());
+              });
+          }
       };
 
   });
