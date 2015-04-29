@@ -14,6 +14,7 @@ angular.module('staticApp')
           getResourcePermissions: function (resourceType, resourceId, config) {
               var hasPermissionCallbackName = "hasPermission";
               var notAuthorizedCallbackName = "notAuthorized";
+              $log.info('Requesting permissions for resource with id [' + resourceId + '] of type [' + resourceType + '].');
               var promise = DragonBreath.get({
                   type: resourceType,
                   id: resourceId
@@ -34,15 +35,16 @@ angular.module('staticApp')
                                   if (userPermission.permissionName === key) {
                                       permissionFound = true;
                                       var hasPermissionCallback = config[key][hasPermissionCallbackName];
-                                      console.assert(hasPermissionCallback, "The config object for the permission named [" + userPermission.permissionName + '] must have a callback function named [' + hasPermissionCallbackName + '].');
+                                      console.assert(hasPermissionCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + hasPermissionCallbackName + '].');
                                       hasPermissionCallback();
                                   }
                               }
                               if (!permissionFound) {
                                   var notAuthorizedCallback = config[key][notAuthorizedCallbackName];
-                                  console.assert(notAuthorizedCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + notAuthorizedCallbackName + '].');
+                                  console.assert(notAuthorizedCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + notAuthorizedCallbackName + '].');                                  
                                   notAuthorizedCallback();
                               }
+                              $log.info('User has [' + key + '] permission = ' + permissionFound);
                           }
                       }
                   }

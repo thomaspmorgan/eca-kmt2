@@ -373,26 +373,18 @@ angular.module('staticApp')
           config[ConstantsService.permission.editproject.value] = {
               hasPermission: function () {
                   allowEdit(true);
-                  console.log('has edit project permission.');
+                  $log.info('User has edit project permission.');
               },
               notAuthorized: function () {
                   allowEdit(false);
-                  console.log('not authorized to edit project.');
+                  $log.info('User not authorized to edit project.');
               }
           };
-          //config[ConstantsService.permission.viewproject.value] = {
-          //    hasPermission: function () {
-          //        console.log('has view project permission.');
-          //    },
-          //    notAuthorized: function () {
-          //        console.log('not authorized to view project.');
-          //    }
-          //};
           return AuthService.getResourcePermissions(resourceType, projectId, config)
             .then(function (result) {
-                console.log('successfully loaded permissions.');
+                $log.info('Successfully loaded permissions.');
             }, function() {
-                console.log('Unable to load user permissions.');
+                $log.error('Unable to load user permissions.');
             });
       }
 

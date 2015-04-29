@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name staticApp.authService
+ * @name staticApp.NotificationService
  * @description
- * # authService
- * Factory for handling authorization.
+ * # NotificationService
+ * Factory for handling notifications.
  */
 angular.module('staticApp')
   .factory('NotificationService', function ($rootScope, $http, $q, $window, toaster) {

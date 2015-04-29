@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name staticApp.authService
+ * @name staticApp.LoginEventService
  * @description
- * # authService
- * Factory for handling authorization.
+ * # LoginEventService
+ * Factory for handling login events.
  */
 angular.module('staticApp')
   .factory('LoginEventService', function ($rootScope, AuthService, ConstantsService) {      
