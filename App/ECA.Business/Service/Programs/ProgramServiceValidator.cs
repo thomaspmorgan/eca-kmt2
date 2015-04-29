@@ -16,6 +16,11 @@ namespace ECA.Business.Service.Programs
     /// </summary>
     public class ProgramServiceValidator : BusinessValidatorBase<ProgramServiceValidationEntity, ProgramServiceValidationEntity>
     {
+        public const string NO_CATEGORIES_GIVEN_ERROR_MESSAGE = "There must be at least one focus/category for a program with this organization.";
+
+        public const string NO_OBJECTIVES_GIVEN_ERROR_MESSAGE = "There must be at least one one justification/objective for a program with this organization.";
+
+
         /// <summary>
         /// The error message when a program is configured without any goals.
         /// </summary>
@@ -45,11 +50,6 @@ namespace ECA.Business.Service.Programs
         /// The error message when some locations are not regions.
         /// </summary>
         public const string NOT_ALL_LOCATIONS_ARE_REGIONS_ERROR_MESSAGE = "The given locations are not all regions.";
-
-        /// <summary>
-        /// The error message when focus is null.
-        /// </summary>
-        public const string FOCUS_DOES_NOT_EXIST_ERROR_MESSAGE = "The Focus does not exist.";
 
         /// <summary>
         /// The error message when organization does not exist.
@@ -86,10 +86,6 @@ namespace ECA.Business.Service.Programs
             {
                 yield return new BusinessValidationResult<EcaProgram>(x => x.RegionIds, GIVEN_LOCATION_IS_NOT_A_REGION_ERROR_MESSAGE);
             }
-            if (validationEntity.Focus == null)
-            {
-                yield return new BusinessValidationResult<EcaProgram>(x => x.FocusId, FOCUS_DOES_NOT_EXIST_ERROR_MESSAGE);
-            }
             if (validationEntity.OwnerOrganization == null)
             {
                 yield return new BusinessValidationResult<EcaProgram>(x => x.OwnerOrganizationId, ORGANIZATION_DOES_NOT_EXIST_ERROR_MESSAGE);
@@ -125,6 +121,25 @@ namespace ECA.Business.Service.Programs
             {
                 yield return new BusinessValidationResult<EcaProgram>(x => x.GoalIds, NO_GOALS_GIVEN_ERROR_MESSAGE);
             }
+
+            // Objectives only required if this office contains Justifications
+            if (validationEntity.OwnerOrganization.Justifications != null && validationEntity.OwnerOrganization.Justifications.Count != 0)
+            {
+                if (validationEntity.ObjectiveIds == null || validationEntity.ObjectiveIds.Count == 0)
+                {
+                    yield return new BusinessValidationResult<EcaProgram>(x => x.JustificationObjectiveIds, NO_OBJECTIVES_GIVEN_ERROR_MESSAGE);
+                }
+            }
+
+            // Categories only required if this office contains Foci
+            if (validationEntity.OwnerOrganization.Foci != null && validationEntity.OwnerOrganization.Foci.Count != 0)
+            {
+                if (validationEntity.CategoryIds == null || validationEntity.CategoryIds.Count == 0)
+                {
+                    yield return new BusinessValidationResult<EcaProgram>(x => x.JustificationObjectiveIds, NO_CATEGORIES_GIVEN_ERROR_MESSAGE);
+                }
+            }
+
         }
 
         /// <summary>

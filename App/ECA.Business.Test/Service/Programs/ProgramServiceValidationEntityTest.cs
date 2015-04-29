@@ -17,6 +17,8 @@ namespace ECA.Business.Test.Service.Programs
             var themeIds = new List<int> { 1 };
             var goalIds = new List<int> { 1 };
             var regionIds = new List<int> { 1 };
+            var categoryIds = new List<int> { 1 };
+            var objectiveIds = new List<int> { 1 };
             var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 2;
@@ -31,6 +33,8 @@ namespace ECA.Business.Test.Service.Programs
                 themeIds,
                 goalIds,
                 regionIds,
+                categoryIds,
+                objectiveIds,
                 focus,
                 owner,
                 parentProgramId,
