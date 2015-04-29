@@ -133,9 +133,11 @@
     </Content>
     <Content Include="scripts\controllers\project\overview.js" />
     <Content Include="scripts\controllers\project\overview_test.js" />
+    <Content Include="scripts\controllers\reports\ProjectAwards.js" />
     <Content Include="scripts\controllers\simple_test.js" />
     <Content Include="scripts\directives\datepickerpopup.js" />
     <Content Include="scripts\filters\highlight.js" />
+    <Content Include="scripts\services\logineventservice.js" />
     <Content Include="scripts\services\logouteventservice.js" />
     <Content Include="scripts\services\errorinterceptor.js" />
     <Content Include="scripts\services\constantsservice.js">
@@ -145,6 +147,7 @@
     </Content>
     <Content Include="scripts\services\moneyflow.js" />
     <Content Include="scripts\services\notificationservice.js" />
+    <Content Include="scripts\services\reportservice.js" />
     <Content Include="scripts\services\office.js" />
     <Content Include="scripts\services\person.js" />
     <Content Include="scripts\services\registerusereventservice.js" />
@@ -401,6 +404,7 @@
     <Content Include="views\reports\crunchingData.html" />
     <Content Include="views\reports\overviewOpen.html" />
     <Content Include="views\reports\preview.html" />
+    <Content Include="views\reports\projectAwards.html" />
     <Content Include="views\reports\publish.html" />
     <Content Include="views\reports\refineSearch.html" />
     <Content Include="views\reports\refineSearchDeselect.html" />

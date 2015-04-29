@@ -349,3 +349,23 @@ ul {
 h5.canEdit {
     cursor: pointer;
 }
+
+.user a {
+    color: $darkgray;
+    font-weight:bold;
+}
+
+.user a:hover {
+    color: $blue;
+    font-weight:bold;
+    text-decoration: none;
+}
+
+.user a:active {
+    color: $blue;
+    font-weight:bold;
+    text-decoration: none;
+}
+.user a:visited {
+    text-decoration: none;
+}

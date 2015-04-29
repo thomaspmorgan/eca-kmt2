@@ -282,8 +282,9 @@ angular.module('staticApp')
 
         $scope.programFilter = params.keyword;
 
-        if ($scope.programList.type == "alpha") {
-            $scope.refreshProgramsAlpha(params, tableState);
+      if ($scope.programList.type == "alpha") {
+          params.filter = [{ property: 'programstatusID', comparison: 'eq', value: 1 }];
+          $scope.refreshProgramsAlpha(params, tableState);
         }
         else {
             $scope.refreshProgramsHierarchy(params, tableState);

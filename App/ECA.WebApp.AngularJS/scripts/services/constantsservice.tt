@@ -30,11 +30,11 @@
 	otherConstants["emptyGuid"] = Guid.Empty.ToString();
 	otherConstants["editProjectEventName"] = "EditProject";
 	otherConstants["logoutEventName"] = "logout";
+	otherConstants["loginEventName"] = "login";
 	otherConstants["adalLoginSuccessEventName"] = "adal:loginSuccess";
 	otherConstants["registeringUserEventName"] = "registeringUser";
 	otherConstants["registerUserSuccessEventName"] = "registerUserSuccess";
 	otherConstants["registerUserFailureEventName"] = "registerUserFailure";
-
 
 	otherConstants["inComparisonType"] = ComparisonType.In.Value;
 	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;
@@ -44,8 +44,6 @@
 	otherConstants["equalComparisonType"] = ComparisonType.Equal.Value;
 	otherConstants["isNullComparisonType"] = ComparisonType.Null.Value;
 	otherConstants["isNotNullComparisonType"] = ComparisonType.NotNull.Value;
-	
-	
 
 	WriteTypes(types, otherConstants);
 #>

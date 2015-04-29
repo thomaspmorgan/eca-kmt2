@@ -51,6 +51,9 @@ angular.module('staticApp')
 	  delete: function () {
 		var dPath = new DragonPath(arguments, 1);
 		return $http.delete(dPath.path);	
+	  },
+	  getUrl: function() {
+	        return new DragonPath(arguments).path;
 	  }
 	};
   });

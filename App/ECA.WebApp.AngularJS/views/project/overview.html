@@ -1,7 +1,3 @@
-<div collapse="view.areAlertsCollapsed">
-    <alert ng-repeat="notification in view.notifications" type="{{notification.type}}" close="closeAlert($index)">{{notification.msg}}</alert>
-</div>
-
 <div>
     <div class="pull-right" ng-show="editView.show">
         <button ng-click="view.onSaveClick($event)" class="btn btn-success">Save</button>
@@ -62,12 +58,12 @@
                     </ul>
                 </div>
                 <div class="col-md-6" ng-show="editView.show">
-                    <ui-select multiple ng-model="editView.selectedThemes"  ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a theme." style="min-width: 200px;">
+                    <ui-select multiple ng-model="editView.selectedThemes" ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a theme." style="min-width: 200px;">
                         <ui-select-match placeholder="Select themes...">
                             <div>{{$item.value}}</div>
                         </ui-select-match>
 
-                        
+
                         <ui-select-choices repeat="theme in editView.themes">
                             <div ng-bind-html="theme.value | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -104,11 +100,13 @@
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Office</div>
-                <div class="col-md-6"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
+                <div class="col-md-6" ng-show="!editView.show"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
+                <div class="col-md-6" ng-show="editView.show">{{program.ownerName}}</div>
             </div>
             <div class="row">
                 <div class="col-md-6 title-label">Program</div>
-                <div class="col-md-6"><a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a></div>
+                <div class="col-md-6" ng-show="!editView.show"><a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a></div>
+                <div class="col-md-6" ng-show="editView.show">{{program.name}}</div>
             </div>
             <div class="row" ng-show="project.contacts">
                 <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>

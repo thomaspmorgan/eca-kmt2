@@ -22,7 +22,9 @@ angular
     'AdalAngular',
     'smart-table',
     'ui.select',
-    'ui.date'
+    'ui.date',
+    'toaster',
+    'ngAnimate'
   ])
   .config(function ($stateProvider, $httpProvider, $urlRouterProvider, adalAuthenticationServiceProvider) {
 
@@ -39,26 +41,26 @@ angular
       $stateProvider
         .state('home', {
             templateUrl: 'views/home.html',
-            controller: 'HomeCtrl',
-            requireADLogin: true
+            controller: 'HomeCtrl'//,
+            //requireADLogin: true
         })
 
         .state('home.shortcuts', {
             url: '/',
             templateUrl: 'views/home/shortcuts.html',
-            requireADLogin: true
+            //requireADLogin: true
         })
         .state('home.notifications', {
             url: '/',
             templateUrl: 'views/home/notifications.html',
-            requireADLogin: true
+            //requireADLogin: true
         })
         .state('home.news', {
             url: '/',
             templateUrl: 'views/home/news.html',
-            requireADLogin: true
+            //requireADLogin: true
         })
-
+     
         .state('events', {
             url: '/events',
             templateUrl: 'views/events/eventList.html',
@@ -126,7 +128,7 @@ angular
         .state('reports', {
             url: '/report',
             templateUrl: 'views/reports/archiveList.html',
-            controller: 'ReportCtrl',
+            controller: 'ReportsArchiveCtrl',
             requireADLogin: true
         })
 
@@ -400,8 +402,8 @@ angular
         });
       $httpProvider.interceptors.push('ErrorInterceptor');
   })
-  .run(['$rootScope', '$location', '$state', 'editableOptions', '$anchorScroll', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
-    function ($rootScope, $location, $state, editableOptions, $anchorScroll, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
+  .run(['$rootScope', '$location', '$state', 'editableOptions', '$anchorScroll', 'LoginEventService', 'LogoutEventService', 'ConstantsService', 'RegisterUserEventService', 'NotificationService',
+    function ($rootScope, $location, $state, editableOptions, $anchorScroll, LoginEventService, LogoutEventService, ConstantsService, RegisterUserEventService, NotificationService) {
 
         console.assert(RegisterUserEventService, "The RegisterUserEventService is needed so that we can register on rootscope the handler to automatically register the user.");
         editableOptions.theme = 'bs3';
@@ -451,39 +453,26 @@ angular
             }
         };
 
-        $rootScope.logout = function () {
+        $rootScope.currentUser = {};
+        $rootScope.currentUser.userMenuToggled = function (open) {};
+        $rootScope.currentUser.logout = function () {
+            $rootScope.currentUser.isBusy = true;
             $rootScope.$broadcast(ConstantsService.logoutEventName);
         };
-
-        $rootScope.userMenuToggled = function (open) {
-
+        $rootScope.currentUser.login = function () {
+            $rootScope.$broadcast(ConstantsService.loginEventName);
         };
-
-        $rootScope.notifications = [];
-        $rootScope.areAlertsCollapsed = true;
-        $rootScope.closeAlert = function (index) {
-            NotificationService.removeAlert(index);
-        }
-
-        $rootScope.currentUser = {};
-        $rootScope.currentUser.isRegistering = false;
-        $rootScope.accountErrorView = {};
-        $rootScope.accountErrorView.showError = false;
         $rootScope.$on(ConstantsService.registeringUserEventName, function () {
-            $rootScope.currentUser.isRegistering = true;
+            $rootScope.currentUser.isBusy = true;
         });
         $rootScope.$on(ConstantsService.registerUserFailureEventName, function () {
-            $rootScope.accountErrorView.showError = true;
-            $rootScope.currentUser.isRegistering = false;
-            NotificationService.showErrorMessage('This was an error registering your user account in this application.');
+            $rootScope.currentUser.isBusy = false;
+            NotificationService.showErrorMessage('There was an error registering your user account in this application.');
         });
         $rootScope.$on(ConstantsService.registerUserSuccessEventName, function () {
-            $rootScope.currentUser.isRegistering = false;
-            NotificationService.showInfoMessage('This is your first visit to the application!  You have been successfully registered.');
+            $rootScope.currentUser.isBusy = false;
+            NotificationService.showSuccessMessage('This is your first visit to the application!  You have been successfully registered.');
         });
-        $rootScope.closeRegisterUserFailureModal = function () {
-            $rootScope.accountErrorView.showError = false;
-        }
 
         $rootScope.$on('$routeChangeSuccess', function () {
             $location.hash('top');
