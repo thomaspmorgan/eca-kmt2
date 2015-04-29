@@ -122,6 +122,7 @@ namespace CAM.Business.Service
         {
             var item = GetForeignResourceCache(foreignResourceId, resourceTypeId);
             Contract.Assert(item != null, "The item must not be null.");
+            logger.Info("The foreign resource with id [{0}] of type [{1}] was cached with resource id [{2}].", foreignResourceId, resourceTypeId, item.ResourceId);
             return item.ResourceId;
         }
 
