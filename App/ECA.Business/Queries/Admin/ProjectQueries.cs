@@ -55,9 +55,6 @@ namespace ECA.Business.Queries.Admin
         public static IQueryable<ProjectDTO> CreateGetProjectByIdQuery(EcaContext context, int projectId)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            try
-            {
-
             var countryQuery = from country in context.Locations
                                where country.LocationTypeId == LocationType.Country.Id
                                select country;
@@ -94,13 +91,6 @@ namespace ECA.Business.Queries.Admin
 
                         };
                 return query;
-            }
-            catch (System.Exception e)
-            {
-                var message = e.Message;
-                return null;
-            }
-
 
         }
     }
