@@ -22,6 +22,9 @@ angular.module('staticApp')
           },
           getAll: function (params) {
               return DragonBreath.get(params, 'reports');
+          },
+          getProjectAwards: function(programId, countryId) {
+              return DragonBreath.getUrl('report/ProjectAwards') + "?programId=" + programId + "&countryId=" + countryId;
           }
       };
   });

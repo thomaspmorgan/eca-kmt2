@@ -17,7 +17,10 @@ namespace CAM.Business.Service
         public int? ResourceId { get; set; }
         public int? ResourceTypeId { get; set; }
         public string ResourceName { get; set; }
-        public bool IsAllowed { get; set; }
+    }
 
+    public class PrincipalPermissionModel : PermissionModel
+    {
+        public bool IsAllowed { get; set; }
     }
 }

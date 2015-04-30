@@ -3,6 +3,7 @@ using System.Linq;
 using CAM.Data;
 using NLog.Interface;
 using CAM.Business;
+using System.Threading.Tasks;
 
 namespace CAM.Business.Service
 {
@@ -19,25 +20,23 @@ namespace CAM.Business.Service
         /// <summary>
         /// Instantiates the PermissionsStore
         /// </summary>
-        public PermissionStore(CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStore(CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
             ResourceId = null;
             PrincipalId = null;
             Permissions = new List<IPermission>();
-            LoadPermissionsLookup();
         }
 
         /// <summary>
         /// Instantiates the PermissionsStore 
         /// </summary>
         /// <param name="applicationId">Sets the ApplicationResourceId property given the ApplicationId</param>
-        public PermissionStore(int resourceId, CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStore(int resourceId, CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
-            ResourceId = GetResourceIdForApplicationId(resourceId);
+            ResourceId = resourceService.GetResourceIdForApplicationId(resourceId);
             PrincipalId = null;
-            LoadPermissionsLookup();
         }
 
         /// <summary>
@@ -45,12 +44,11 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="resourceId">Sets the ApplicationResourceId property</param>
         /// <param name="principalId">Sets the PrincipalId property</param>
-        public PermissionStore(int resourceId, int principalId, CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStore(int resourceId, int principalId, CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
-            ResourceId = GetResourceIdForApplicationId(resourceId);
+            ResourceId = resourceService.GetResourceIdForApplicationId(resourceId);
             PrincipalId = principalId;
-            LoadPermissionsLookup();
         }
 
         #endregion
@@ -75,29 +73,6 @@ namespace CAM.Business.Service
         {
             Permissions = GetUserPermissions(principleId);
         }
-
-        /// <summary>
-        /// Gets a permission Id given the Name of the permission
-        /// </summary>
-        /// <param name="permissionName">Name of the permission</param>
-        /// <returns>PermissionId</returns>
-
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// used in PermissionStoreCached constructor to load a cached list (property PermissionLookup) to facilitate lookup by Id or Name
-        /// </summary>
-        private void LoadPermissionsLookup()
-        {
-            logger.Trace("Loading PermissionLookup");
-            if (PermissionLookup == null)
-            {
-                PermissionLookup = PermissionModelService.GetAllPermissions();
-            }
-        }
-
         #endregion
     }
 }

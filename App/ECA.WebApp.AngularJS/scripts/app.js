@@ -44,7 +44,6 @@ angular
             controller: 'HomeCtrl',
             requireADLogin: true
         })
-
         .state('home.shortcuts', {
             url: '/',
             templateUrl: 'views/home/shortcuts.html',
@@ -60,7 +59,7 @@ angular
             templateUrl: 'views/home/news.html',
             requireADLogin: true
         })
-
+     
         .state('events', {
             url: '/events',
             templateUrl: 'views/events/eventList.html',
@@ -454,9 +453,9 @@ angular
         };
 
         $rootScope.currentUser = {};
-        $rootScope.currentUser.isBusy = false;
         $rootScope.currentUser.userMenuToggled = function (open) {};
         $rootScope.currentUser.logout = function () {
+            $rootScope.currentUser.isBusy = true;
             $rootScope.$broadcast(ConstantsService.logoutEventName);
         };
         $rootScope.$on(ConstantsService.registeringUserEventName, function () {

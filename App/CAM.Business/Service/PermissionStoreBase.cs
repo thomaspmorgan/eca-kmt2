@@ -7,6 +7,7 @@ using System.Diagnostics;
 using NLog.Interface;
 using ECA.Core.Service;
 using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 
 namespace CAM.Business.Service
 {
@@ -15,11 +16,13 @@ namespace CAM.Business.Service
         private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
         
 
-        public PermissionStoreBase(CamModel camModel, IPermissionModelService permissionModelService)
+        public PermissionStoreBase(CamModel camModel, IPermissionModelService permissionModelService, IResourceService resourceService)
             : base(camModel)
         {
             Contract.Requires(permissionModelService != null, "The permission model service must not be null.");
+            Contract.Requires(resourceService != null, "The resource service must not be null.");
             this.PermissionModelService = permissionModelService;
+            this.ResourceService = resourceService;
         }
 
         /// <summary>
@@ -28,14 +31,14 @@ namespace CAM.Business.Service
         public IPermissionModelService PermissionModelService { get; private set; }
 
         /// <summary>
+        /// Gets the Resource Service.
+        /// </summary>
+        public IResourceService ResourceService { get; private set; }
+
+        /// <summary>
         /// List of Permissions that have been loaded for the user, from one of the Load methods
         /// </summary>
         public List<IPermission> Permissions { get; set; }
-
-        /// <summary>
-        /// List all the PermissionModel (permission Ids and Names)  Allows PermissionName to Id lookup and vice versa.
-        /// </summary>
-        public List<PermissionModel> PermissionLookup { get; set; }
 
         /// <summary>
         /// Application Id property (optional), allows access to simpler HasPermission methods
@@ -56,7 +59,8 @@ namespace CAM.Business.Service
         {
             if (ResourceId == null || PrincipalId == null)
                 return false;
-            return HasPermission(PrincipalId.Value, GetPermissionIdByName(permissionName), ResourceId.Value);
+            var permissionId = this.PermissionModelService.GetPermissionIdByName(permissionName);
+            return HasPermission(PrincipalId.Value, permissionId, ResourceId.Value);
         }
 
         /// <summary>
@@ -78,7 +82,8 @@ namespace CAM.Business.Service
         /// <returns>true if permission is found in list of permissions</returns>
         public bool HasPermission(int principalId, string permissionName, int resourceId)
         {
-            return HasPermission(principalId, GetPermissionIdByName(permissionName), resourceId);
+            var permissionId = this.PermissionModelService.GetPermissionIdByName(permissionName);
+            return HasPermission(principalId, permissionId, resourceId);
         }
 
         /// <summary>
@@ -114,8 +119,10 @@ namespace CAM.Business.Service
         /// <returns>true if permission is found in list of permissions for the giving applicationId</returns>
         public bool HasPermissionForApplication(int principalId, string permissionName, int applicationId)
         {
-            int resourceId = GetResourceIdForApplicationId(applicationId);
-            return HasPermission(principalId, GetPermissionIdByName(permissionName), resourceId);
+            int? resourceId = this.ResourceService.GetResourceIdForApplicationId(applicationId);
+            Contract.Assert(resourceId.HasValue, "The application resource id should have a value.");
+            var permissionId = this.PermissionModelService.GetPermissionIdByName(permissionName);
+            return HasPermission(principalId, permissionId, resourceId.Value);
         }
 
         /// <summary>
@@ -128,7 +135,8 @@ namespace CAM.Business.Service
         {
             if (ResourceId == null)
                 return false;
-            return HasPermission(principalId, GetPermissionIdByName(permissionName), ResourceId.Value);
+            var permissionId = this.PermissionModelService.GetPermissionIdByName(permissionName);
+            return HasPermission(principalId, permissionId, ResourceId.Value);
         }
 
         /// <summary>
@@ -145,87 +153,14 @@ namespace CAM.Business.Service
                 int maxPermissions = Permissions.Count;
                 foreach (string item in excludedPermissionNames)
                 {
-                    if (HasPermission(PrincipalId.Value, GetPermissionIdByName(item), ResourceId.Value))
+                    var permissionId = this.PermissionModelService.GetPermissionIdByName(item);
+                    if (HasPermission(PrincipalId.Value, permissionId, ResourceId.Value))
                         --maxPermissions;
                 }
                 if (maxPermissions > 0)
                     retCode = true;
             }
             return retCode;
-        }
-
-        /// <summary>
-        /// Gets a permission Id given the Name of the permission
-        /// </summary>
-        /// <param name="permissionName">Name of the permission</param>
-        /// <returns>PermissionId</returns>
-        public int GetPermissionIdByName(string permissionName)
-        {
-            Contract.Assert(PermissionLookup != null, "The permission lookup must not be null.");
-            PermissionModel permission = PermissionLookup.Find(p => p.PermissionName == permissionName);
-            if (permission == null)
-                logger.Warn("Permission not found for PermissionName = '{0}'", permissionName);
-            return permission == null ? 0 : permission.PermissionId;
-        }
-
-        /// <summary>
-        /// Gets a permission Name given a permission Id
-        /// </summary>
-        /// <param name="permissionId">PermissionId</param>
-        /// <returns>PermissionName</returns>
-        public string GetPermissionNameById(int permissionId)
-        {
-            Contract.Assert(PermissionLookup != null, "The permission lookup must not be null.");
-            PermissionModel permission = PermissionLookup.Find(p => p.PermissionId == permissionId);
-            if (permission == null)
-                logger.Warn("Permission not found for Permissionid = '{0}'", permissionId);
-            return permission == null ? string.Empty : permission.PermissionName;
-        }
-
-        /// <summary>
-        /// Returns the resourceId for a given applicationId
-        /// </summary>
-        /// <param name="applicationId">ApplicationId (from table Application)</param>
-        /// <returns>ResourceId</returns>
-        public int GetResourceIdForApplicationId(int applicationId)
-        {
-            int? result = (from p in this.Context.Resources
-                           where
-                               p.ResourceType.ResourceTypeName == "Application" &&
-                               p.Application.ResourceId == applicationId
-                           select p.ResourceId).FirstOrDefault();
-            if (result == null)
-                logger.Warn("ResourceId not found for ApplicationId = '{0}'", applicationId);
-            return result.Value;
-        }
-
-        /// <summary>
-        /// Get a ResourceId giving a foreignResourceId and a ResourceTypeId
-        /// </summary>
-        /// <param name="foreignResourceId"></param>
-        /// <param name="resourceTypeId"></param>
-        /// <returns></returns>
-        public int? GetResourceIdByForeignResourceId(int foreignResourceId, int resourceTypeId)
-        {
-            int? result = (from p in this.Context.Resources
-                           where
-                               p.ResourceTypeId == resourceTypeId &&
-                               p.ForeignResourceId == foreignResourceId
-                           select p.ResourceId).FirstOrDefault();
-            if (!result.HasValue)
-                logger.Warn("ResourceId not found for foreignResourceId = '{0}', resourceTypeId='{2}'", foreignResourceId, resourceTypeId);
-            return result;
-        }
-
-        public int? GetResourceTypeId(string resourceTypeName)
-        {
-            int? result = (from p in this.Context.ResourceTypes
-                           where p.ResourceTypeName == resourceTypeName
-                           select p.ResourceTypeId).FirstOrDefault();
-            if (!result.HasValue)
-                logger.Warn("ResourceTypeId not found for resourceTypeName = '{0}'", resourceTypeName);
-            return result;
-
         }
 
         /// <summary>
@@ -317,13 +252,12 @@ namespace CAM.Business.Service
             {
                 while (permissionsList.Remove(permissionsList.Find(s => s.PrincipalId == perm.PrincipalId &&
                                                                 s.PermissionId == perm.PermissionId &&
-                                                                s.ResourceId == perm.ResourceId))) ;
+                                                                s.ResourceId == perm.ResourceId)));
             }
             stopwatch.Stop();
             logger.Trace("Time Elasped: {0}", stopwatch.Elapsed);
             return permissionsList;
         }
-      
     }
 }
 

@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('HomeCtrl', function ($scope) {
+  .controller('HomeCtrl', function ($rootScope, $scope, AuthService) {
       $scope.tabs = {
           shortcuts: {
               title: 'Your Shortcuts',
@@ -29,4 +29,4 @@ angular.module('staticApp')
               order: 3
           }
       };
-  });
+});

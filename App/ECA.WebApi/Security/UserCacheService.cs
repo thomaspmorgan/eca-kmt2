@@ -105,7 +105,16 @@ namespace ECA.WebApi.Security
         {
             var policy = new CacheItemPolicy();
             policy.AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds((double)this.timeToLiveInSeconds);
+            policy.RemovedCallback = ItemRemoved;
             return policy;
+        }
+
+        private void ItemRemoved(CacheEntryRemovedArguments arguments)
+        {
+            // The arguments object contains information about the removed item such as: 
+            var key = arguments.CacheItem.Key;
+            var removedReason = arguments.RemovedReason;
+            logger.Info("User cache item with id [{0}] removed because [{1}].", key, removedReason.ToString());
         }
 
         /// <summary>

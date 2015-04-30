@@ -38,6 +38,19 @@ namespace CAM.Data
 			if (4 == id) return AccountStatus.Revoked;
 			return null;
 		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Active".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AccountStatus.Active;
+			if ("Expired".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AccountStatus.Expired;
+			if ("Suspended".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AccountStatus.Suspended;
+			if ("Revoked".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AccountStatus.Revoked;
+			return null;
+		}
 
 
 		/// <summary>
@@ -143,6 +156,21 @@ namespace CAM.Data
 			if (4 == id) return Permission.Editoffice;
 			if (5 == id) return Permission.Editprogram;
 			if (7 == id) return Permission.Editproject;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("ViewOffice".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Viewoffice;
+			if ("ViewProgram".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Viewprogram;
+			if ("ViewProject".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Viewproject;
+			if ("EditOffice".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editoffice;
+			if ("EditProgram".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editprogram;
+			if ("EditProject".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editproject;
 			return null;
 		}
 
@@ -256,6 +284,17 @@ namespace CAM.Data
 			if (2 == id) return PrincipalType.Group;
 			return null;
 		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Person    ".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PrincipalType.Person;
+			if ("Group     ".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PrincipalType.Group;
+			return null;
+		}
 
 
 		/// <summary>
@@ -327,6 +366,19 @@ namespace CAM.Data
 			if (2 == id) return ResourceType.Office;
 			if (3 == id) return ResourceType.Program;
 			if (4 == id) return ResourceType.Project;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Application".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ResourceType.Application;
+			if ("Office".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ResourceType.Office;
+			if ("Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ResourceType.Program;
+			if ("Project".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ResourceType.Project;
 			return null;
 		}
 

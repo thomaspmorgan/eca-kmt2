@@ -67,10 +67,7 @@
                 <div style="margin-right: 50px;" class="navbar-right right">
                     <div id="search-bar-icon" class="glyphicon glyphicon-search col-sd-1" ng-click="spotlightModal=!spotlightModal"></div>
                 </div>
-                <div ng-show="!userInfo.isAuthenticated || currentUser.isBusy" class=" pull-right" style="margin-top:14px;">
-                    <i style="margin-right:10px;" class="fa fa-spinner fa-pulse"></i>
-                </div>
-                <div ng-show="userInfo.isAuthenticated && !currentUser.isBusy">
+                <div ng-show="userInfo.isAuthenticated">
                     <span style="margin-right: 25px;margin-top:14px;"
                           class="dropdown pull-right user"
                           dropdown on-toggle="currentUser.userMenuToggled(open)"
@@ -83,6 +80,9 @@
                             <li><a href="#" ng-click="currentUser.logout()">Logout</a></li>
                         </ul>
                     </span>
+                </div>
+                <div ng-show="currentUser.isBusy" class=" pull-right" style="margin-top:14px;">
+                    <i style="margin-right:10px;" class="fa fa-spinner fa-pulse"></i>
                 </div>
             </div>
         </div>

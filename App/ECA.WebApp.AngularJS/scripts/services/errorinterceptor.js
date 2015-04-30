@@ -20,7 +20,6 @@ angular.module('staticApp')
             else if (response.status === 403) {               
                 $state.go('forbidden');
             }
-            
             else if (response.status === 500) {
                 $state.go('error');
             }
