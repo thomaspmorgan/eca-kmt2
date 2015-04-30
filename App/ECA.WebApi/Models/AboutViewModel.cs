@@ -22,7 +22,12 @@ namespace ECA.WebApi.Models
             var assembly = Assembly.GetExecutingAssembly();
             var fileVersion = FileVersionInfo.GetVersionInfo(assembly.Location);
             this.Version = fileVersion.FileVersion;
-            this.LookupErrors = ECA.Data.EcaDataValidator.ValidateAll(validator);
+            var ecaErrors = ECA.Data.EcaDataValidator.ValidateAll(validator);
+            var camErrors = CAM.Data.CamDataValidator.ValidateAll(validator);
+            this.LookupErrors = new List<string>();
+            this.LookupErrors.AddRange(ecaErrors);
+            this.LookupErrors.AddRange(camErrors);
+            this.LookupErrors = this.LookupErrors.OrderBy(x => x).ToList();
 
             this.BuildConfiguration = "Release";
 #if DEBUG

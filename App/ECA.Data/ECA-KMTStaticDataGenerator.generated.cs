@@ -35,8 +35,8 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Person" == value) return ActorType.Person;
-			if ("Organization" == value) return ActorType.Organization;
+			if ("Person".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.Person;
+			if ("Organization".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.Organization;
 			return null;
 		}
 
@@ -114,14 +114,14 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Home" == value) return AddressType.Home;
-			if ("Host" == value) return AddressType.Host;
-			if ("Business" == value) return AddressType.Business;
-			if ("Organization" == value) return AddressType.Organization;
-			if ("Country" == value) return AddressType.Country;
-			if ("Provider Implementation Location" == value) return AddressType.ProviderImplementationLocation;
-			if ("Visiting" == value) return AddressType.Visiting;
-			if ("Undetermined" == value) return AddressType.Undetermined;
+			if ("Home".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AddressType.Home;
+			if ("Host".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AddressType.Host;
+			if ("Business".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AddressType.Business;
+			if ("Organization".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AddressType.Organization;
+			if ("Country".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AddressType.Country;
+			if ("Provider Implementation Location".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AddressType.ProviderImplementationLocation;
+			if ("Visiting".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AddressType.Visiting;
+			if ("Undetermined".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AddressType.Undetermined;
 			return null;
 		}
 
@@ -179,10 +179,10 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Male" == value) return Gender.Male;
-			if ("Female" == value) return Gender.Female;
-			if ("Other" == value) return Gender.Other;
-			if ("Not Specified" == value) return Gender.NotSpecified;
+			if ("Male".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Male;
+			if ("Female".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Female;
+			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.Other;
+			if ("Not Specified".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Gender.NotSpecified;
 			return null;
 		}
 
@@ -235,9 +235,9 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Planned" == value) return ItineraryStatus.Planned;
-			if ("InProgress" == value) return ItineraryStatus.Inprogress;
-			if ("Completed" == value) return ItineraryStatus.Completed;
+			if ("Planned".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ItineraryStatus.Planned;
+			if ("InProgress".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ItineraryStatus.Inprogress;
+			if ("Completed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ItineraryStatus.Completed;
 			return null;
 		}
 
@@ -315,14 +315,14 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Region" == value) return LocationType.Region;
-			if ("Country" == value) return LocationType.Country;
-			if ("State" == value) return LocationType.State;
-			if ("City" == value) return LocationType.City;
-			if ("Building" == value) return LocationType.Building;
-			if ("Post" == value) return LocationType.Post;
-			if ("Place" == value) return LocationType.Place;
-			if ("Address" == value) return LocationType.Address;
+			if ("Region".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.Region;
+			if ("Country".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.Country;
+			if ("State".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.State;
+			if ("City".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.City;
+			if ("Building".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.Building;
+			if ("Post".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.Post;
+			if ("Place".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.Place;
+			if ("Address".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return LocationType.Address;
 			return null;
 		}
 
@@ -405,15 +405,15 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Organization" == value) return MoneyFlowSourceRecipientType.Organization;
-			if ("Program" == value) return MoneyFlowSourceRecipientType.Program;
-			if ("Project" == value) return MoneyFlowSourceRecipientType.Project;
-			if ("Participant" == value) return MoneyFlowSourceRecipientType.Participant;
-			if ("ItineraryStop" == value) return MoneyFlowSourceRecipientType.Itinerarystop;
-			if ("Accomodation" == value) return MoneyFlowSourceRecipientType.Accomodation;
-			if ("Transportation" == value) return MoneyFlowSourceRecipientType.Transportation;
-			if ("Expense" == value) return MoneyFlowSourceRecipientType.Expense;
-			if ("Post" == value) return MoneyFlowSourceRecipientType.Post;
+			if ("Organization".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Organization;
+			if ("Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Program;
+			if ("Project".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Project;
+			if ("Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Participant;
+			if ("ItineraryStop".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Itinerarystop;
+			if ("Accomodation".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Accomodation;
+			if ("Transportation".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Transportation;
+			if ("Expense".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Expense;
+			if ("Post".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowSourceRecipientType.Post;
 			return null;
 		}
 
@@ -466,9 +466,9 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Incoming" == value) return MoneyFlowType.Incoming;
-			if ("Outgoing" == value) return MoneyFlowType.Outgoing;
-			if ("Internal" == value) return MoneyFlowType.Internal;
+			if ("Incoming".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowType.Incoming;
+			if ("Outgoing".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowType.Outgoing;
+			if ("Internal".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowType.Internal;
 			return null;
 		}
 
@@ -561,17 +561,17 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Office" == value) return OrganizationType.Office;
-			if ("Branch" == value) return OrganizationType.Branch;
-			if ("Division" == value) return OrganizationType.Division;
-			if ("Foreign Educational Institution" == value) return OrganizationType.ForeignEducationalInstitution;
-			if ("Foreign Government" == value) return OrganizationType.ForeignGovernment;
-			if ("Foreign NGO/PVO" == value) return OrganizationType.ForeignNgoPvo;
-			if ("Other" == value) return OrganizationType.Other;
-			if ("Public International Organization (PIO)" == value) return OrganizationType.PublicInternationalOrganizationPio;
-			if ("U.S. Educational Institution" == value) return OrganizationType.USEducationalInstitution;
-			if ("U.S. Non-Profit Organization (501(c)(3))" == value) return OrganizationType.USNonProfitOrganization501C3;
-			if ("Individual" == value) return OrganizationType.Individual;
+			if ("Office".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.Office;
+			if ("Branch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.Branch;
+			if ("Division".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.Division;
+			if ("Foreign Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.ForeignEducationalInstitution;
+			if ("Foreign Government".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.ForeignGovernment;
+			if ("Foreign NGO/PVO".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.ForeignNgoPvo;
+			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.Other;
+			if ("Public International Organization (PIO)".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.PublicInternationalOrganizationPio;
+			if ("U.S. Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USEducationalInstitution;
+			if ("U.S. Non-Profit Organization (501(c)(3))".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.USNonProfitOrganization501C3;
+			if ("Individual".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return OrganizationType.Individual;
 			return null;
 		}
 
@@ -669,18 +669,18 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Foreign Educational Institution" == value) return ParticipantType.ForeignEducationalInstitution;
-			if ("Foreign Government" == value) return ParticipantType.ForeignGovernment;
-			if ("U.S. Educational Institution" == value) return ParticipantType.USEducationalInstitution;
-			if ("Public International Organization (PIO)" == value) return ParticipantType.PublicInternationalOrganizationPio;
-			if ("U.S. Non-Profit Organization (501(c)(3))" == value) return ParticipantType.USNonProfitOrganization501C3;
-			if ("Individual" == value) return ParticipantType.Individual;
-			if ("Foreign NGO/PVO" == value) return ParticipantType.ForeignNgoPvo;
-			if ("Other" == value) return ParticipantType.Other;
-			if ("Foreign Non Traveling Participant" == value) return ParticipantType.ForeignNonTravelingParticipant;
-			if ("U.S. Non Traveling Participant" == value) return ParticipantType.USNonTravelingParticipant;
-			if ("Foreign Traveling Participant" == value) return ParticipantType.ForeignTravelingParticipant;
-			if ("U.S. Traveling Participant" == value) return ParticipantType.USTravelingParticipant;
+			if ("Foreign Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignEducationalInstitution;
+			if ("Foreign Government".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignGovernment;
+			if ("U.S. Educational Institution".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.USEducationalInstitution;
+			if ("Public International Organization (PIO)".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.PublicInternationalOrganizationPio;
+			if ("U.S. Non-Profit Organization (501(c)(3))".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.USNonProfitOrganization501C3;
+			if ("Individual".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.Individual;
+			if ("Foreign NGO/PVO".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignNgoPvo;
+			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.Other;
+			if ("Foreign Non Traveling Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignNonTravelingParticipant;
+			if ("U.S. Non Traveling Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.USNonTravelingParticipant;
+			if ("Foreign Traveling Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.ForeignTravelingParticipant;
+			if ("U.S. Traveling Participant".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantType.USTravelingParticipant;
 			return null;
 		}
 
@@ -733,9 +733,9 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Home" == value) return PhoneNumberType.Home;
-			if ("Work" == value) return PhoneNumberType.Work;
-			if ("Cell" == value) return PhoneNumberType.Cell;
+			if ("Home".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Home;
+			if ("Work".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Work;
+			if ("Cell".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PhoneNumberType.Cell;
 			return null;
 		}
 
@@ -803,12 +803,12 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Active" == value) return ProgramStatus.Active;
-			if ("Pending" == value) return ProgramStatus.Pending;
-			if ("Completed" == value) return ProgramStatus.Completed;
-			if ("Draft" == value) return ProgramStatus.Draft;
-			if ("Canceled" == value) return ProgramStatus.Canceled;
-			if ("Other" == value) return ProgramStatus.Other;
+			if ("Active".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProgramStatus.Active;
+			if ("Pending".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProgramStatus.Pending;
+			if ("Completed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProgramStatus.Completed;
+			if ("Draft".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProgramStatus.Draft;
+			if ("Canceled".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProgramStatus.Canceled;
+			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProgramStatus.Other;
 			return null;
 		}
 
@@ -861,9 +861,9 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Program" == value) return ProgramType.Program;
-			if ("Office" == value) return ProgramType.Office;
-			if ("Branch" == value) return ProgramType.Branch;
+			if ("Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProgramType.Program;
+			if ("Office".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProgramType.Office;
+			if ("Branch".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProgramType.Branch;
 			return null;
 		}
 
@@ -951,16 +951,16 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Active" == value) return ProjectStatus.Active;
-			if ("Pending" == value) return ProjectStatus.Pending;
-			if ("Completed" == value) return ProjectStatus.Completed;
-			if ("Draft" == value) return ProjectStatus.Draft;
-			if ("Canceled" == value) return ProjectStatus.Canceled;
-			if ("Other" == value) return ProjectStatus.Other;
-			if ("Active - Use Actuals" == value) return ProjectStatus.ActiveUseActuals;
-			if ("Project Postponed" == value) return ProjectStatus.ProjectPostponed;
-			if ("Proposed" == value) return ProjectStatus.Proposed;
-			if ("Rejected" == value) return ProjectStatus.Rejected;
+			if ("Active".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Active;
+			if ("Pending".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Pending;
+			if ("Completed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Completed;
+			if ("Draft".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Draft;
+			if ("Canceled".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Canceled;
+			if ("Other".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Other;
+			if ("Active - Use Actuals".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.ActiveUseActuals;
+			if ("Project Postponed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.ProjectPostponed;
+			if ("Proposed".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Proposed;
+			if ("Rejected".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ProjectStatus.Rejected;
 			return null;
 		}
 
@@ -1018,10 +1018,10 @@ namespace ECA.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Facebook" == value) return SocialMediaType.Facebook;
-			if ("LinkedIn" == value) return SocialMediaType.Linkedin;
-			if ("Twitter" == value) return SocialMediaType.Twitter;
-			if ("Weibo" == value) return SocialMediaType.Weibo;
+			if ("Facebook".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Facebook;
+			if ("LinkedIn".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Linkedin;
+			if ("Twitter".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Twitter;
+			if ("Weibo".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return SocialMediaType.Weibo;
 			return null;
 		}
 

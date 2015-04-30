@@ -21,20 +21,20 @@ namespace ECA.WebApi.Test.Controllers
     [TestClass]
     public class AuthControllerTest
     {
-        private Mock<IPermissionStore<IPermission>> permissionStore;
         private Mock<IUserProvider> userProvider;
         private Mock<IUserService> userService;
         private Mock<IResourceService> resourceService;
+        private Mock<IPermissionModelService> permissionModelService;
         private AuthController controller;
 
         [TestInitialize]
         public void TestInit()
         {
-            permissionStore = new Mock<IPermissionStore<IPermission>>();
             userProvider = new Mock<IUserProvider>();
             userService = new Mock<IUserService>();
             resourceService = new Mock<IResourceService>();
-            controller = new AuthController(userProvider.Object, permissionStore.Object, userService.Object, resourceService.Object);
+            permissionModelService = new Mock<IPermissionModelService>();
+            controller = new AuthController(userProvider.Object, userService.Object, resourceService.Object, permissionModelService.Object);
         }
 
         [TestMethod]
@@ -141,8 +141,7 @@ namespace ECA.WebApi.Test.Controllers
             });
             resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(resourceTypeId);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resourceId);
-            permissionStore.Setup(x => x.LoadUserPermissions(It.IsAny<int>()));
-            permissionStore.Setup(x => x.GetPermissionNameById(It.IsAny<int>())).Returns(permissionName);
+            permissionModelService.Setup(x => x.GetPermissionNameById(It.IsAny<int>())).Returns(permissionName);
             userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(userPermissions);
             userProvider.Setup(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(principalId);
             userProvider.Setup(x => x.GetCurrentUser()).Returns(simpleUser);
@@ -245,14 +244,12 @@ namespace ECA.WebApi.Test.Controllers
             var userPermissions = new List<IPermission>();
             resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(1);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(1);
-            permissionStore.Setup(x => x.LoadUserPermissions(It.IsAny<int>()));
             userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(userPermissions);
 
             var permissions = await controller.GetUserPermissionsAsync(simpleUser, resourceType, resourceId);
             Assert.AreEqual(0, permissions.Count());
             resourceService.Verify(x => x.GetResourceTypeId(It.IsAny<string>()), Times.Once());
             resourceService.Verify(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
-            permissionStore.Verify(x => x.LoadUserPermissions(It.IsAny<int>()), Times.Once());
             userProvider.Verify(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>()), Times.Once());
         }
 
@@ -271,8 +268,7 @@ namespace ECA.WebApi.Test.Controllers
             var userPermissions = new List<IPermission>();
             resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(resourceTypeId);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resourceId);
-            permissionStore.Setup(x => x.LoadUserPermissions(It.IsAny<int>()));
-            permissionStore.Setup(x => x.GetPermissionNameById(It.IsAny<int>())).Returns(permissionName);
+            permissionModelService.Setup(x => x.GetPermissionNameById(It.IsAny<int>())).Returns(permissionName);
             userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(userPermissions);
             userProvider.Setup(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(principalId);
 
@@ -281,7 +277,6 @@ namespace ECA.WebApi.Test.Controllers
 
             resourceService.Verify(x => x.GetResourceTypeId(It.IsAny<string>()), Times.Once());
             resourceService.Verify(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
-            permissionStore.Verify(x => x.LoadUserPermissions(It.IsAny<int>()), Times.Once());
         }
 
         [TestMethod]
@@ -307,8 +302,7 @@ namespace ECA.WebApi.Test.Controllers
             });
             resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(resourceTypeId);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resourceId - 1);
-            permissionStore.Setup(x => x.LoadUserPermissions(It.IsAny<int>()));
-            permissionStore.Setup(x => x.GetPermissionNameById(It.IsAny<int>())).Returns(permissionName);
+            permissionModelService.Setup(x => x.GetPermissionNameById(It.IsAny<int>())).Returns(permissionName);
             userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(userPermissions);
             userProvider.Setup(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(principalId);
 
@@ -316,7 +310,6 @@ namespace ECA.WebApi.Test.Controllers
             Assert.AreEqual(0, permissions.Count());
             resourceService.Verify(x => x.GetResourceTypeId(It.IsAny<string>()), Times.Once());
             resourceService.Verify(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
-            permissionStore.Verify(x => x.LoadUserPermissions(It.IsAny<int>()), Times.Once());
             userProvider.Verify(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>()), Times.Once());
             userProvider.Verify(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>()), Times.Once());
         }
@@ -344,8 +337,7 @@ namespace ECA.WebApi.Test.Controllers
             });
             resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(resourceTypeId);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resourceId);
-            permissionStore.Setup(x => x.LoadUserPermissions(It.IsAny<int>()));
-            permissionStore.Setup(x => x.GetPermissionNameById(It.IsAny<int>())).Returns(permissionName);
+            permissionModelService.Setup(x => x.GetPermissionNameById(It.IsAny<int>())).Returns(permissionName);
             userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(userPermissions);
             userProvider.Setup(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(principalId - 1);
 
@@ -353,7 +345,6 @@ namespace ECA.WebApi.Test.Controllers
             Assert.AreEqual(0, permissions.Count());
             resourceService.Verify(x => x.GetResourceTypeId(It.IsAny<string>()), Times.Once());
             resourceService.Verify(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
-            permissionStore.Verify(x => x.LoadUserPermissions(It.IsAny<int>()), Times.Once());
             userProvider.Verify(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>()), Times.Once());
             userProvider.Verify(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>()), Times.Once());
         }
@@ -381,8 +372,7 @@ namespace ECA.WebApi.Test.Controllers
             });
             resourceService.Setup(x => x.GetResourceTypeId(It.IsAny<string>())).Returns(resourceTypeId);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resourceId);
-            permissionStore.Setup(x => x.LoadUserPermissions(It.IsAny<int>()));
-            permissionStore.Setup(x => x.GetPermissionNameById(It.IsAny<int>())).Returns(permissionName);
+            permissionModelService.Setup(x => x.GetPermissionNameById(It.IsAny<int>())).Returns(permissionName);
             userProvider.Setup(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(userPermissions);
             userProvider.Setup(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>())).ReturnsAsync(principalId);
 
@@ -392,8 +382,7 @@ namespace ECA.WebApi.Test.Controllers
             Assert.AreEqual(permissionName, firstPermission.PermissionName);
             resourceService.Verify(x => x.GetResourceTypeId(It.IsAny<string>()), Times.Once());
             resourceService.Verify(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
-            permissionStore.Verify(x => x.LoadUserPermissions(It.IsAny<int>()), Times.Once());
-            permissionStore.Verify(x => x.GetPermissionNameById(It.IsAny<int>()), Times.Once());
+            permissionModelService.Verify(x => x.GetPermissionNameById(It.IsAny<int>()), Times.Once());
             userProvider.Verify(x => x.GetPermissionsAsync(It.IsAny<IWebApiUser>()), Times.Once());
             userProvider.Verify(x => x.GetPrincipalIdAsync(It.IsAny<IWebApiUser>()), Times.Once());
         }

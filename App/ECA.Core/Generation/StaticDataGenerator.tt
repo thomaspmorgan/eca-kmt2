@@ -212,7 +212,7 @@
 				{
 					var propertyName = Pascalize(reader[config.ValueColumnName]);
 					var value = reader[config.ValueColumnName].ToString();
-					WriteLine(String.Format("if (\"{0}\" == value) return {1}.{2};", value, config.ClassName,  propertyName));
+					WriteLine(String.Format("if (\"{0}\".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return {1}.{2};", value, config.ClassName,  propertyName));
 				}
 			}
 		}

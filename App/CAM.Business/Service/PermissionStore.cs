@@ -3,6 +3,7 @@ using System.Linq;
 using CAM.Data;
 using NLog.Interface;
 using CAM.Business;
+using System.Threading.Tasks;
 
 namespace CAM.Business.Service
 {
@@ -25,7 +26,6 @@ namespace CAM.Business.Service
             ResourceId = null;
             PrincipalId = null;
             Permissions = new List<IPermission>();
-            LoadPermissionsLookup();
         }
 
         /// <summary>
@@ -37,7 +37,6 @@ namespace CAM.Business.Service
         {
             ResourceId = resourceService.GetResourceIdForApplicationId(resourceId);
             PrincipalId = null;
-            LoadPermissionsLookup();
         }
 
         /// <summary>
@@ -50,7 +49,6 @@ namespace CAM.Business.Service
         {
             ResourceId = resourceService.GetResourceIdForApplicationId(resourceId);
             PrincipalId = principalId;
-            LoadPermissionsLookup();
         }
 
         #endregion
@@ -75,29 +73,6 @@ namespace CAM.Business.Service
         {
             Permissions = GetUserPermissions(principleId);
         }
-
-        /// <summary>
-        /// Gets a permission Id given the Name of the permission
-        /// </summary>
-        /// <param name="permissionName">Name of the permission</param>
-        /// <returns>PermissionId</returns>
-
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// used in PermissionStoreCached constructor to load a cached list (property PermissionLookup) to facilitate lookup by Id or Name
-        /// </summary>
-        private void LoadPermissionsLookup()
-        {
-            logger.Trace("Loading PermissionLookup");
-            if (PermissionLookup == null)
-            {
-                PermissionLookup = PermissionModelService.GetAllPermissions();
-            }
-        }
-
         #endregion
     }
 }

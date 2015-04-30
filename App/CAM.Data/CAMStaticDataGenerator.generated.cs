@@ -45,10 +45,10 @@ namespace CAM.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Active" == value) return AccountStatus.Active;
-			if ("Expired" == value) return AccountStatus.Expired;
-			if ("Suspended" == value) return AccountStatus.Suspended;
-			if ("Revoked" == value) return AccountStatus.Revoked;
+			if ("Active".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AccountStatus.Active;
+			if ("Expired".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AccountStatus.Expired;
+			if ("Suspended".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AccountStatus.Suspended;
+			if ("Revoked".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return AccountStatus.Revoked;
 			return null;
 		}
 
@@ -165,12 +165,12 @@ namespace CAM.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("ViewOffice" == value) return Permission.Viewoffice;
-			if ("ViewProgram" == value) return Permission.Viewprogram;
-			if ("ViewProject" == value) return Permission.Viewproject;
-			if ("EditOffice" == value) return Permission.Editoffice;
-			if ("EditProgram" == value) return Permission.Editprogram;
-			if ("EditProject" == value) return Permission.Editproject;
+			if ("ViewOffice".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Viewoffice;
+			if ("ViewProgram".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Viewprogram;
+			if ("ViewProject".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Viewproject;
+			if ("EditOffice".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editoffice;
+			if ("EditProgram".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editprogram;
+			if ("EditProject".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editproject;
 			return null;
 		}
 
@@ -291,8 +291,8 @@ namespace CAM.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Person    " == value) return PrincipalType.Person;
-			if ("Group     " == value) return PrincipalType.Group;
+			if ("Person    ".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PrincipalType.Person;
+			if ("Group     ".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return PrincipalType.Group;
 			return null;
 		}
 
@@ -375,10 +375,10 @@ namespace CAM.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("Application" == value) return ResourceType.Application;
-			if ("Office" == value) return ResourceType.Office;
-			if ("Program" == value) return ResourceType.Program;
-			if ("Project" == value) return ResourceType.Project;
+			if ("Application".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ResourceType.Application;
+			if ("Office".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ResourceType.Office;
+			if ("Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ResourceType.Program;
+			if ("Project".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ResourceType.Project;
 			return null;
 		}
 
