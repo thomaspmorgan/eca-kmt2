@@ -353,6 +353,7 @@
     <Compile Include="Controllers\Admin\JustificationObjectiveController.cs" />
     <Compile Include="Controllers\Admin\FocusCategoryController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
+    <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Custom\Filters\EcaBusinessExceptionFilter.cs" />

@@ -78,6 +78,14 @@ angular.module('staticApp')
                     defer.resolve(data);
                 });
               return defer.promise;
+          },
+          getAllMaritalStatuses: function (params) {
+              var defer = $q.defer();
+              DragonBreath.get(params, 'maritalStatuses')
+                .success(function (data) {
+                    defer.resolve(data);
+                });
+              return defer.promise;
           }
   };
 });
