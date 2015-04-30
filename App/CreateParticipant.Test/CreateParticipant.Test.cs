@@ -25,6 +25,24 @@ namespace CreateParticipant.Test
         [TestMethod]
         public void CreateParticpantCodedUITestMethod1()
         {
+            this.UIMap.LogintoQA_ExistingUser();
+            this.UIMap.AssertContentMenuButton();
+            this.UIMap.SelectContentMenuButton_ProgramsLink();
+            this.UIMap.AssertIndividualProgram();
+            this.UIMap.SelectIndividualProgram();
+            this.UIMap.RefreshBrowserWindow();
+            this.UIMap.AssertBranches_ProjectsTab();
+            this.UIMap.SelectBranches_ProjectsTab();
+            this.UIMap.AssertIndividualProject();
+            this.UIMap.SelectIndividualProject();
+            this.UIMap.AssertParticipantsTab_IndProject();
+            this.UIMap.SelectParticipantsTab_IndProject();
+            this.UIMap.AssertParticipantList();
+            this.UIMap.SelectParticipantList();
+            this.UIMap.AssertParticipantAddButton();
+            this.UIMap.SelectParticipantADD();
+            this.UIMap.AssertADDParticipantModal_PersonalInformation();
+
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
@@ -64,5 +82,20 @@ namespace CreateParticipant.Test
             }
         }
         private TestContext testContextInstance;
+
+        public UIMap UIMap
+        {
+            get
+            {
+                if ((this.map == null))
+                {
+                    this.map = new UIMap();
+                }
+
+                return this.map;
+            }
+        }
+
+        private UIMap map;
     }
 }
