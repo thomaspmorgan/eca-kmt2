@@ -8,7 +8,9 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, PersonService, ProgramService, ParticipantService, LocationService, MoneyFlowService, TableService, ConstantsService, LookupService) {
+  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, PersonService,
+      ProgramService, ParticipantService, LocationService, MoneyFlowService,
+      TableService, ConstantsService, LookupService) {
 
       $scope.project = {};
 
@@ -136,8 +138,7 @@ angular.module('staticApp')
           $log.info('Firing event [' + eventName + '] in project.js controller.');
           $scope.$broadcast(eventName);
       };
-
-
+      
       $scope.params = $stateParams;
 
       ProgramService.get($stateParams.programId)

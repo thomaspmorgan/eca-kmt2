@@ -27,10 +27,11 @@ namespace ECA.Business.Service.Admin
         public ProjectServiceUpdateValidationEntity(
             PublishedProject updatedProject, 
             Project projectToUpdate, 
-            Focus focus,
             bool goalsExist, 
             bool themesExist, 
-            bool pointsOfContactExist)
+            bool pointsOfContactExist,
+            bool categoriesExist,
+            bool objectivesExist)
         {
             Contract.Requires(updatedProject != null, "The updated project must not be null.");
             Contract.Requires(projectToUpdate != null, "The project to update must not be null.");
@@ -43,10 +44,11 @@ namespace ECA.Business.Service.Admin
             Contract.Assert(ProjectStatus.GetStaticLookup(projectToUpdate.ProjectStatusId) != null, "The project to update should have a valid project status.");
             this.Name = updatedProject.Name;
             this.Description = updatedProject.Description;
-            this.Focus = focus;
             this.GoalsExist = goalsExist;
             this.ThemesExist = themesExist;
             this.PointsOfContactExist = pointsOfContactExist;
+            this.CategoriesExist = categoriesExist;
+            this.ObjectivesExist = objectivesExist;
             this.UpdatedProjectStatusId = updatedProject.ProjectStatusId;
             this.OriginalProjectStatusId = projectToUpdate.ProjectStatusId;
             this.StartDate = updatedProject.StartDate;
@@ -102,5 +104,9 @@ namespace ECA.Business.Service.Admin
         /// Gets the value indicating all points of contact exist.
         /// </summary>
         public bool PointsOfContactExist { get; private set; }
+
+        public bool CategoriesExist { get; private set; }
+
+        public bool ObjectivesExist { get; private set; }
     }
 }

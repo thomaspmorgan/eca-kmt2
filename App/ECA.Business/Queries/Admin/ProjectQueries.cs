@@ -24,6 +24,8 @@ namespace ECA.Business.Queries.Admin
             var query = from project in context.Projects
                         let parentProgram = project.ParentProgram
                         let locations = project.Locations
+                        let categories = project.Categories
+                        let objectives = project.Objectives
                         let status = project.Status
                         let startDate = project.StartDate
                         where project.ProgramId == programId
@@ -53,6 +55,8 @@ namespace ECA.Business.Queries.Admin
         public static IQueryable<ProjectDTO> CreateGetProjectByIdQuery(EcaContext context, int projectId)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            try
+            {
 
             var countryQuery = from country in context.Locations
                                where country.LocationTypeId == LocationType.Country.Id
@@ -66,6 +70,8 @@ namespace ECA.Business.Queries.Admin
                         let countries = countryQuery.Where(x => regions.Select(y => y.LocationId).Contains(x.Region.LocationId))
                         let goals = project.Goals
                         let contacts = project.Contacts
+                        let categories = project.Categories
+                        let objectives = project.Objectives
                         where project.ProjectId == projectId
                         select new ProjectDTO
                         {
@@ -82,9 +88,20 @@ namespace ECA.Business.Queries.Admin
                             Themes = themes.Select(x => new SimpleLookupDTO { Id = x.ThemeId, Value = x.ThemeName }),
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
                             Goals = goals.Select(x => new SimpleLookupDTO {Id = x.GoalId, Value = x.GoalName}),
-                            Contacts = contacts.Select(x => new SimpleLookupDTO {Id = x.ContactId, Value = x.FullName + " (" + x.Position + ")"})
+                            Contacts = contacts.Select(x => new SimpleLookupDTO {Id = x.ContactId, Value = x.FullName + " (" + x.Position + ")"}),
+                            Objectives = objectives.Select(o => new SimpleLookupDTO { Id = o.ObjectiveId, Value = o.ObjectiveName }),
+                            Categories = categories.Select(c => new SimpleLookupDTO { Id = c.CategoryId, Value = c.CategoryName }),
+
                         };
-            return query;
+                return query;
+            }
+            catch (System.Exception e)
+            {
+                var message = e.Message;
+                return null;
+            }
+
+
         }
     }
 }
