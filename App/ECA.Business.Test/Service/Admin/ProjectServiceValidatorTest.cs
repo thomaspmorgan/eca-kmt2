@@ -209,13 +209,11 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProjectStatusId = ProjectStatus.Completed.Id,
             };
-            var focus = new Focus
-            {
-
-            };
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -227,6 +225,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -237,10 +237,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -275,7 +276,9 @@ namespace ECA.Business.Test.Service.Admin
             };
             var goalsExist = true;
             var themesExist = true;
-            var pointsOfContactsExist = true;
+            var pointsOfContactsExist = true; 
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -287,6 +290,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                                        categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -297,10 +302,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -337,6 +343,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -348,6 +356,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -358,10 +368,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -397,6 +408,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -408,6 +421,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -418,10 +433,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -457,6 +473,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -468,6 +486,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -478,10 +498,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -518,6 +539,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -529,6 +552,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -539,10 +564,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -578,6 +604,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -589,6 +617,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -599,10 +629,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -638,6 +669,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -649,6 +682,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -659,10 +694,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -698,6 +734,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -709,6 +747,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -719,10 +759,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -758,6 +799,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -769,6 +812,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -779,10 +824,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -818,6 +864,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -829,6 +877,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -839,10 +889,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -879,6 +930,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -890,6 +943,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -900,10 +955,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -939,6 +995,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -950,6 +1008,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -960,10 +1020,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
@@ -992,6 +1053,8 @@ namespace ECA.Business.Test.Service.Admin
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1003,6 +1066,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
                     focusId: 1,
                     startDate: startDate,
                     endDate: endDate
@@ -1013,10 +1078,11 @@ namespace ECA.Business.Test.Service.Admin
                 return new ProjectServiceUpdateValidationEntity(
                   updatedProject: createUpdatedProject(),
                   projectToUpdate: projectToUpdate,
-                  focus: focus,
                   goalsExist: goalsExist,
                   themesExist: themesExist,
-                  pointsOfContactExist: pointsOfContactsExist
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist
                 );
 
             };
