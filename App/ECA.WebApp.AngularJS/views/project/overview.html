@@ -92,13 +92,6 @@
         </div>
         <div class="col-md-6">
             <div class="row">
-                <div class="col-md-6 title-label">Focus</div>
-                <div class="col-md-6" ng-show="!editView.show">{{project.focus}}</div>
-                <a href="#" editable-select="project.focusId" ng-show="editView.show" onshow="editView.loadFoci()" onaftersave="view.updateFocusView()" e-ng-options="s.id as s.name for s in editView.foci">
-                    {{ project.focus }}
-                </a>
-            </div>
-            <div class="row">
                 <div class="col-md-6 title-label">Office</div>
                 <div class="col-md-6" ng-show="!editView.show"><a ui-sref="offices.overview({officeId: program.ownerOrganizationId})">{{program.ownerName}}</a></div>
                 <div class="col-md-6" ng-show="editView.show">{{program.ownerName}}</div>
@@ -107,6 +100,44 @@
                 <div class="col-md-6 title-label">Program</div>
                 <div class="col-md-6" ng-show="!editView.show"><a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a></div>
                 <div class="col-md-6" ng-show="editView.show">{{program.name}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">{{categoryLabel}}</div>
+                <div class="col-md-6" ng-show="!editView.show">
+                    <ul>
+                        <li ng-repeat="category in project.categories | orderBy:'value'">&#149 {{category.value}}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6" ng-show="editView.show">
+                    <ui-select multiple ng-model="editView.selectedCategories" ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose a catgeory." style="min-width: 200px;">
+                        <ui-select-match placeholder="Select categories...">
+                            <div>{{$item.value}}</div>
+                        </ui-select-match>
+
+                        <ui-select-choices repeat="category in editView.categories">
+                            <div ng-bind-html="category.value | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 title-label">{{objectiveLabel}}</div>
+                <div class="col-md-6" ng-show="!editView.show">
+                    <ul>
+                        <li ng-repeat="objective in project.objectives | orderBy:'value'">&#149 {{objective.value}}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6" ng-show="editView.show">
+                    <ui-select multiple ng-model="editView.selectedObjectives" ng-disabled="!editView.show" theme="select2" close-on-select="false" title="Choose an objective." style="min-width: 200px;">
+                        <ui-select-match placeholder="Select objectives...">
+                            <div>{{$item.value}}</div>
+                        </ui-select-match>
+
+                        <ui-select-choices repeat="objective in editView.objectives">
+                            <div ng-bind-html="objective.value | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
             </div>
             <div class="row" ng-show="project.contacts">
                 <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>

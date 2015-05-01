@@ -37,20 +37,23 @@ angular.module('staticApp')
       $scope.editView.pointsOfContact = [];
       $scope.editView.themes = [];
       $scope.editView.goals = [];
+      $scope.editView.categories = [];
+      $scope.editView.objectives = [];
+
       $scope.editView.selectedPointsOfContact = [];
       $scope.editView.selectedGoals = [];
       $scope.editView.selectedThemes = [];
+      $scope.editView.selectedCategories = [];
+      $scope.editView.selectedObjectives = [];
 
       $scope.permissions = {};
       $scope.permissions.canEdit = true;
       
-
+      $scope.categoryLabel = "Focus/Categories";
+      $scope.objectiveLabel = "Justification/Objectives";
+      
       $scope.editView.loadProjectStati = function () {
           loadProjectStati();
-      }
-
-      $scope.editView.loadFoci = function () {
-          loadFoci();
       }
 
       $scope.editView.removePointsOfContact = function () {
@@ -75,6 +78,22 @@ angular.module('staticApp')
 
       $scope.editView.removeGoals = function () {
           $scope.$parent.project.goalIds = [];
+      }
+
+      $scope.editView.searchCategories = function (data) {
+          loadCategories(data);
+      }
+
+      $scope.editView.removeCategories = function () {
+          $scope.$parent.project.categoryIds = [];
+      }
+
+      $scope.editView.searchObjectives = function (data) {
+          loadObjectives(data);
+      }
+
+      $scope.editView.removeObjectives = function () {
+          $scope.$parent.project.ObjectiveIds = [];
       }
 
       $scope.view.confirmFailOk = function () {
@@ -172,6 +191,18 @@ angular.module('staticApp')
           updateRelationshipIds(propertyName, 'selectedThemes');
       }
 
+      function updateCategories() {
+          var propertyName = "categoryIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'selectedCategories');
+      }
+
+      function updateObjectives() {
+          var propertyName = "objectiveIds";
+          $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
+          updateRelationshipIds(propertyName, 'selectedObjectives');
+      }
+
       function updateGoals() {
           var propertyName = "goalIds";
           $scope.$parent.project[propertyName] = $scope.$parent.project[propertyName] || [];
@@ -185,6 +216,8 @@ angular.module('staticApp')
           updatePointsOfContactIds();
           updateThemes();
           updateGoals();
+          updateCategories();
+          updateObjectives();
 
           ProjectService.update($scope.$parent.project, $stateParams.projectId)
             .then(function (response) {
@@ -252,6 +285,8 @@ angular.module('staticApp')
                 setSelectedPointsOfContact();
                 setSelectedGoals();
                 setSelectedThemes();
+                setSelectedCategories();
+                setSelectedObjectives();
 
             }, function (errorResponse) {
                 $log.error('Failed to load project with id ' + projectId);
@@ -284,6 +319,14 @@ angular.module('staticApp')
 
       function setSelectedThemes() {
           setSelectedItems('themes', 'selectedThemes');
+      }
+
+      function setSelectedCategories() {
+          setSelectedItems('categories', 'selectedCategories');
+      }
+
+      function setSelectedThemes() {
+          setSelectedItems('objectives', 'selectedObjectives');
       }
 
       function normalizeLookupProperties(lookups) {
@@ -362,6 +405,50 @@ angular.module('staticApp')
                   }
                   normalizeLookupProperties(response.results);
                   $scope.editView.goals = response.results;
+              });
+      }
+
+      function loadCategories(search) {
+          var params = {
+              start: 0,
+              limit: maxLimit
+          };
+          if (search) {
+              params.filter = [{
+                  comparison: ConstantsService.likeComparisonType,
+                  property: 'name',
+                  value: search
+              }]
+          }
+          return LookupService.getAllCategories(params)
+              .then(function (response) {
+                  if (response.total > maxLimit) {
+                      $log.error('There are more categories in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                  }
+                  normalizeLookupProperties(response.results);
+                  $scope.editView.categories = response.results;
+              });
+      }
+
+      function loadObjectives(search) {
+          var params = {
+              start: 0,
+              limit: maxLimit
+          };
+          if (search) {
+              params.filter = [{
+                  comparison: ConstantsService.likeComparisonType,
+                  property: 'name',
+                  value: search
+              }]
+          }
+          return LookupService.getAllObjectives(params)
+              .then(function (response) {
+                  if (response.total > maxLimit) {
+                      $log.error('There are more objectives in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
+                  }
+                  normalizeLookupProperties(response.results);
+                  $scope.editView.objectives = response.results;
               });
       }
 
