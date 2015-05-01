@@ -98,27 +98,31 @@ angular.module('staticApp')
     ParticipantService.getParticipantById($stateParams.participantId)
       .then(function (data) {
           $scope.participant = data;
-          PersonService.getPiiById(data.personId)
-            .then(function (data) {
-                $scope.pii = data;
-                $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
-                    var location = {};
-                    location.id = obj.id;
-                    location.name = obj.value;
-                    return location;
-                });
-                if ($scope.pii.countryOfBirthId !== undefined) {
-                    getCitiesByCountryId($scope.pii.countryOfBirthId);
-                }
-                if ($scope.pii.homeAddresses[0].countryId !== undefined) {
-                    getAddressCitiesByCountryId($scope.pii.homeAddresses[0].countryId);
-                }
-            });
+          loadPii(data.personId);
           PersonService.getContactInfoById(data.personId)
             .then(function (data) {
                 $scope.contactInfo = data;
             });
       });
+
+    function loadPii(personId) {
+        PersonService.getPiiById(personId)
+           .then(function (data) {
+               $scope.pii = data;
+               $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
+                   var location = {};
+                   location.id = obj.id;
+                   location.name = obj.value;
+                   return location;
+               });
+               if ($scope.pii.countryOfBirthId !== undefined) {
+                   getCitiesByCountryId($scope.pii.countryOfBirthId);
+               }
+               if ($scope.pii.homeAddresses[0].countryId !== undefined) {
+                   getAddressCitiesByCountryId($scope.pii.homeAddresses[0].countryId);
+               }
+           });
+    };
 
     function getCitiesByCountryId(countryId) {
         LocationService.get({
@@ -157,23 +161,26 @@ angular.module('staticApp')
 
     $scope.cancelEditPii = function () {
         $scope.editPii = false;
+        console.log($scope.pii);
+        loadPii($scope.participant.personId);
+    };
 
-        PersonService.getPiiById($scope.participant.personId)
-            .then(function (data) {
-                $scope.pii = data;
-                $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
-                    var location = {};
-                    location.id = obj.id;
-                    location.name = obj.value;
-                    return location;
-                });
-                if ($scope.pii.countryOfBirthId !== undefined) {
-                    getCitiesByCountryId($scope.pii.countryOfBirthId);
-                }
-                if ($scope.pii.homeAddresses[0].countryId !== undefined) {
-                    getAddressCitiesByCountryId($scope.pii.homeAddresses[0].countryId);
-                }
+    $scope.saveEditPii = function () {
+        setupPii();
+        PersonService.updatePii($scope.pii, $scope.participant.personId)
+            .then(function () {
+                $scope.editPii = false;
+                loadPii($scope.participant.personId);
             });
+    };
+
+    function setupPii() {
+        $scope.pii.personId = $scope.participant.personId;
+        $scope.pii.participantId = $scope.participant.participantId;
+        $scope.pii.countriesOfCitizenship = $scope.selectedCountriesOfCitizenship.map(function (obj) {
+            return obj.id;
+        });
+        $scope.pii.sevisId = $scope.participant.sevisId;
     };
     
   });

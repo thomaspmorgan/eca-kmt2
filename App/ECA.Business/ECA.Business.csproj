@@ -144,9 +144,11 @@
     <Compile Include="Service\Lookup\ILookupService.cs" />
     <Compile Include="Service\Lookup\LookupService.cs" />
     <Compile Include="Service\Lookup\SimpleTypeLookupDTO.cs" />
+    <Compile Include="Service\Persons\HomeAddress.cs" />
     <Compile Include="Service\Persons\IPersonService.cs" />
     <Compile Include="Service\Persons\NewPerson.cs" />
     <Compile Include="Service\Persons\PersonService.cs" />
+    <Compile Include="Service\Persons\UpdatePii.cs" />
     <Compile Include="Service\Programs\DraftProgram.cs" />
     <Compile Include="Service\Admin\DraftProject.cs" />
     <Compile Include="Service\Lookup\SimpleLookupDTO.cs" />
