@@ -355,6 +355,7 @@
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Custom\Filters\ConcurrencyExceptionFilter.cs" />
     <Compile Include="Custom\Filters\EcaBusinessExceptionFilter.cs" />
     <Compile Include="Custom\Handlers\DebugWebApiUserHandler.cs" />
     <Compile Include="Custom\NLogTraceWriter.cs" />

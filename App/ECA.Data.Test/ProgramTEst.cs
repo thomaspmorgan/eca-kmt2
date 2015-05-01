@@ -19,6 +19,16 @@ namespace ECA.Data.Test
         }
 
         [TestMethod]
+        public void TestGetId()
+        {
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            Assert.AreEqual(program.ProgramId, program.GetId());
+        }
+
+        [TestMethod]
         public void TestNameIsUnique()
         {
             var existingProgram = new Program
