@@ -74,7 +74,7 @@
                           data-ng-model="userInfo">
                         <i style="margin-right:10px;" class="fa fa-user"></i>
                         <a href class="dropdown-toggle" dropdown-toggle>
-                            {{userInfo.isAuthenticated ? (userInfo.profile.name) : "User"}}
+                            {{userInfo.profile.name}}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="#" style="font-weight:normal;" ng-click="currentUser.logout()">Logout</a></li>
