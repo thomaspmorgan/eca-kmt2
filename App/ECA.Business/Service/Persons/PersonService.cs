@@ -195,5 +195,69 @@ namespace ECA.Business.Service.Persons
             return participant;
         }
 
+        public async Task<Person> UpdatePiiAsync(UpdatePii pii) {
+            var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
+            var participantToUpdate = await GetParticipantByIdAsync(pii.ParticipantId);
+            var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
+            DoUpdate(pii, personToUpdate, participantToUpdate, countriesOfCitizenship);
+            return personToUpdate;
+        }
+
+        public async Task<Person> GetPersonByIdAsync(int personId)
+        {
+            this.logger.Trace("Retrieving person with id {0}.", personId);
+            return await CreateGetPersonById(personId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<Person> CreateGetPersonById(int personId)
+        {
+            return Context.People.Where(x => x.PersonId == personId).Include("CountriesOfCitizenship");
+        }
+
+        private void DoUpdate(UpdatePii updatePii, Person person, Participant participant, List<Location> countriesOfCitizenship) {
+            Contract.Requires(updatePii != null, "The update pii must not be null.");
+            Contract.Requires(person != null, "The person to update must not be null.");
+            Contract.Requires(participant != null, "The participant to update must not be null.");
+            person.FirstName = updatePii.FirstName;
+            person.LastName = updatePii.LastName;
+            person.NamePrefix = updatePii.NamePrefix;
+            person.NameSuffix = updatePii.NameSuffix;
+            person.GivenName = updatePii.GivenName;
+            person.FamilyName = updatePii.FamilyName;
+            person.MiddleName = updatePii.MiddleName;
+            person.Patronym = updatePii.Patronym;
+            person.Alias = updatePii.Alias;
+            person.GenderId = updatePii.GenderId;
+            person.Ethnicity = updatePii.Ethnicity;
+            person.PlaceOfBirthId = updatePii.CityOfBirthId;
+            person.DateOfBirth = updatePii.DateOfBirth;
+            person.MedicalConditions = updatePii.MedicalConditions;
+            person.MaritalStatusId = updatePii.MaritalStatusId;
+            participant.SevisId = updatePii.SevisId;
+
+            SetCountriesOfCitizenship(countriesOfCitizenship, person);
+        }
+
+        private void SetCountriesOfCitizenship(List<Location> countriesOfCitizenship, Person person)
+        {
+            Contract.Requires(countriesOfCitizenship != null, "The country ids must not be null.");
+            Contract.Requires(person != null, "The person entity must not be null.");
+            person.CountriesOfCitizenship.Clear();
+            countriesOfCitizenship.ForEach(x =>
+            {
+                person.CountriesOfCitizenship.Add(x);
+            });
+        }
+
+        public async Task<Participant> GetParticipantByIdAsync(int participantId)
+        {
+            this.logger.Trace("Retrieving participant with id {0}.", participantId);
+            return await CreateGetParticipantById(participantId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<Participant> CreateGetParticipantById(int participantId)
+        {
+            return Context.Participants.Where(x => x.ParticipantId == participantId);
+        }
     }
 }

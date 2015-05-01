@@ -47,5 +47,7 @@ namespace ECA.Business.Service.Persons
         /// </summary>
         /// <returns>The person that was created</returns>
         Task<Person> CreateAsync(NewPerson person);
+
+        Task<Person> UpdatePiiAsync(UpdatePii pii);
     }
 }

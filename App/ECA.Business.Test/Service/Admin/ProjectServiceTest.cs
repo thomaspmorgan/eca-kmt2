@@ -902,6 +902,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -923,6 +925,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -973,6 +977,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -1034,6 +1040,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -1076,6 +1084,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: contactIds,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -1107,6 +1117,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: contactIds,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -1137,6 +1149,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: themeIds,
                 pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -1167,6 +1181,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: themeIds,
                 pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -1198,6 +1214,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: goalIds,
                 themeIds: null,
                 pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -1228,6 +1246,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: goalIds,
                 themeIds: null,
                 pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -1263,6 +1283,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: focus.FocusId,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
@@ -1296,6 +1318,8 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: focus.FocusId,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)

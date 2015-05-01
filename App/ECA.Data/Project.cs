@@ -18,7 +18,9 @@ namespace ECA.Data
         IValidatableObject,
         IGoalable,
         IThemeable,
-        IContactable
+        IContactable,
+        ICategorizable,
+        IObjectivable
     {
         /// <summary>
         /// Creates a new Project and initializes the collections.
@@ -40,6 +42,8 @@ namespace ECA.Data
             this.Impacts = new HashSet<Impact>();
             this.Contacts = new HashSet<Contact>();
             this.History = new History();
+            this.Categories = new HashSet<Category>();
+            this.Objectives = new HashSet<Objective>();
         }
 
         [Key]
@@ -82,8 +86,7 @@ namespace ECA.Data
         public Event Event { get; set; }
         public int? EventId { get; set; }
         public ICollection<Contact> Contacts { get; set; }
-
-
+        
         public ICollection<Objective> Objectives { get; set; }
         public ICollection<Category> Categories { get; set; }
 

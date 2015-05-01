@@ -35,6 +35,8 @@ namespace ECA.Business.Service.Admin
             IEnumerable<int> goalIds,
             IEnumerable<int> themeIds,
             IEnumerable<int> pointsOfContactIds,
+            IEnumerable<int> categoryIds,
+            IEnumerable<int> objectiveIds,
             int focusId,
             DateTimeOffset startDate,
             DateTimeOffset endDate
@@ -48,6 +50,8 @@ namespace ECA.Business.Service.Admin
             this.GoalIds = goalIds ?? new List<int>();
             this.ThemeIds = themeIds ?? new List<int>();
             this.PointsOfContactIds = pointsOfContactIds ?? new List<int>();
+            this.CategoryIds = categoryIds ?? new List<int>();
+            this.ObjectiveIds = objectiveIds ?? new List<int>();
             this.FocusId = focusId;
             this.StartDate = startDate;
             this.EndDate = endDate;
@@ -87,6 +91,11 @@ namespace ECA.Business.Service.Admin
         /// Gets the goals by Id.
         /// </summary>
         public IEnumerable<int> GoalIds { get; private set; }
+
+
+        
+        public IEnumerable<int> CategoryIds { get; private set; }
+        public IEnumerable<int> ObjectiveIds { get; private set; }
 
         /// <summary>
         /// Gets the points of contact by id.

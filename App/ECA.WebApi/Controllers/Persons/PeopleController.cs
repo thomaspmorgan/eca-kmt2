@@ -99,5 +99,21 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        [Route("People/Pii")]
+        public async Task<IHttpActionResult> PutPiiAsync(PiiBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var person = await service.UpdatePiiAsync(model.ToUpdatePii(businessUser));
+                await service.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
     }
 }

@@ -12,6 +12,11 @@ namespace ECA.Business.Queries.Models.Persons
     public class LocationDTO
     {
         /// <summary>
+        ///  Gets and sets location id for address
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets and sets street 1
         /// </summary>
         public string Street1 { get; set; }
@@ -32,6 +37,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string City { get; set; }
 
         /// <summary>
+        /// Gets or sets city id
+        /// </summary>
+        public int CityId { get; set; }
+
+        /// <summary>
         /// Gets and sets postal code
         /// </summary>
         public string PostalCode { get; set; }
@@ -40,5 +50,10 @@ namespace ECA.Business.Queries.Models.Persons
         /// Gets and sets country
         /// </summary>
         public string Country { get; set; }
+
+        /// <summary>
+        /// Gets and sets country id
+        /// </summary>
+        public int CountryId { get; set; }
     }
 }
