@@ -27,6 +27,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string Gender { get; set; }
 
         /// <summary>
+        /// Gets and sets gender id
+        /// </summary>
+        public int GenderId { get; set; }
+
+        /// <summary>
         /// Gets and sets date of birth
         /// </summary>
         public DateTime DateOfBirth { get; set; }
@@ -87,6 +92,11 @@ namespace ECA.Business.Queries.Models.Persons
         public string MaritalStatus { get; set; }
 
         /// <summary>
+        /// Gets and sets marital status id
+        /// </summary>
+        public int? MaritalStatusId { get; set; }
+
+        /// <summary>
         /// Gets and sets ethnicity
         /// </summary>
         public string Ethnicity { get; set; }
@@ -107,8 +117,18 @@ namespace ECA.Business.Queries.Models.Persons
         public string CityOfBirth { get; set; }
 
         /// <summary>
+        /// Gets and sets city of birth id
+        /// </summary>
+        public int? CityOfBirthId { get; set; }
+
+        /// <summary>
         /// Gets and sets country of birth 
         /// </summary>
         public string CountryOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets and sets country of birth id
+        /// </summary>
+        public int? CountryOfBirthId { get; set; }
     }
 }

@@ -30,6 +30,7 @@ namespace ECA.Business.Queries.Persons
                         select new PiiDTO
                         {
                             Gender = person.Gender.GenderName,
+                            GenderId = person.GenderId,
                             DateOfBirth = person.DateOfBirth,
                             CountriesOfCitizenship = person.CountriesOfCitizenship.Select(x => new SimpleLookupDTO{Id = x.LocationId, Value = x.LocationName}),
                             FirstName = person.FirstName,
@@ -42,19 +43,29 @@ namespace ECA.Business.Queries.Persons
                             Patronym = person.Patronym,
                             Alias = person.Alias,
                             MaritalStatus = person.MaritalStatus.Description,
+                            MaritalStatusId = person.MaritalStatus.MaritalStatusId,
                             Ethnicity = person.Ethnicity,
                             MedicalConditions = person.MedicalConditions,
                             HomeAddresses = person.Addresses.Where(x => x.AddressTypeId == AddressType.Home.Id)
                                                         .Select(x => new LocationDTO {
+                                                            Id = x.LocationId,
                                                             Street1 = x.Location.Street1, 
                                                             Street2 = x.Location.Street2, 
                                                             Street3 = x.Location.Street3,
                                                             City = x.Location.City,
+                                                            CityId = context.Locations.Where(y => y.CountryId == x.Location.Country.LocationId && 
+                                                                                             y.LocationName == x.Location.City &&
+                                                                                             y.LocationTypeId == LocationType.City.Id)
+                                                                                             .FirstOrDefault().LocationId,
+
                                                             PostalCode = x.Location.PostalCode,
-                                                            Country = x.Location.Country.LocationName
+                                                            Country = x.Location.Country.LocationName,
+                                                            CountryId = x.Location.Country.LocationId
                                                         }),
                             CityOfBirth = person.PlaceOfBirth.LocationName,
-                            CountryOfBirth = person.PlaceOfBirth.Country.LocationName
+                            CityOfBirthId = person.PlaceOfBirthId,
+                            CountryOfBirth = person.PlaceOfBirth.Country.LocationName,
+                            CountryOfBirthId = person.PlaceOfBirth.Country.LocationId
                         };
             return query;
         }

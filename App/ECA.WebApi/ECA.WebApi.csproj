@@ -353,6 +353,7 @@
     <Compile Include="Controllers\Admin\JustificationObjectiveController.cs" />
     <Compile Include="Controllers\Admin\FocusCategoryController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
+    <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Custom\Filters\EcaBusinessExceptionFilter.cs" />
@@ -366,6 +367,8 @@
     <Compile Include="Custom\SwaggerExtensions\AssignOAuth2SecurityRequirements.cs" />
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
     <Compile Include="Models\FocusCategoryDTO.cs" />
+    <Compile Include="Models\Person\AddressBindingModel.cs" />
+    <Compile Include="Models\Person\PiiBindingModel.cs" />
     <Compile Include="Models\Security\ResourcePermissionViewModel.cs" />
     <Compile Include="Models\Security\UserViewModel.cs" />
     <Compile Include="Models\Person\PersonBindingModel.cs" />
