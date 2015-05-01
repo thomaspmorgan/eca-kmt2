@@ -62,8 +62,6 @@
                         <ui-select-match placeholder="Select themes...">
                             <div>{{$item.value}}</div>
                         </ui-select-match>
-
-
                         <ui-select-choices repeat="theme in editView.themes">
                             <div ng-bind-html="theme.value | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -105,7 +103,12 @@
                 <div class="col-md-6 title-label">{{categoryLabel}}</div>
                 <div class="col-md-6" ng-show="!editView.show">
                     <ul>
-                        <li ng-repeat="category in project.categories | orderBy:'value'">&#149 {{category.value}}</li>
+                        <li ng-repeat="category in project.categories | orderBy:['focusName','name']">
+                            <ng-switch on="$first || category.focusName != project.categories[$index-1].focusName">
+                                <div ng-switch-when="true" class="title-label"><strong>{{category.focusName}}</strong></div>
+                            </ng-switch>
+                            &#149 {{category.name}}
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-6" ng-show="editView.show">
@@ -113,7 +116,6 @@
                         <ui-select-match placeholder="Select categories...">
                             <div>{{$item.value}}</div>
                         </ui-select-match>
-
                         <ui-select-choices repeat="category in editView.categories">
                             <div ng-bind-html="category.value | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -124,7 +126,12 @@
                 <div class="col-md-6 title-label">{{objectiveLabel}}</div>
                 <div class="col-md-6" ng-show="!editView.show">
                     <ul>
-                        <li ng-repeat="objective in project.objectives | orderBy:'value'">&#149 {{objective.value}}</li>
+                        <li ng-repeat="objective in project.objectives | orderBy:['justificationName','name']">
+                            <ng-switch on="$first || objective.justificationName != project.objectives[$index-1].justificationName">
+                                <div ng-switch-when="true" class="title-label"><strong>{{objective.justificationName}}</strong></div>
+                            </ng-switch>
+                            &#149 {{objective.name}}
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-6" ng-show="editView.show">
