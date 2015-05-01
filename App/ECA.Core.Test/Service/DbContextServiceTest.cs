@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Core.Service;
@@ -9,6 +10,8 @@ using System.Reflection;
 using ECA.Core.Data;
 using Moq;
 using System.Data.Entity.Infrastructure;
+using Microsoft.QualityTools.Testing.Fakes;
+using ECA.Core.Exceptions;
 
 namespace ECA.Core.Test.Service
 {
@@ -75,7 +78,33 @@ namespace ECA.Core.Test.Service
         }
     }
 
-    public class ConcurrentEntity : IConcurrent
+    public class ConcurrentDbContext : DbContext
+    {
+        //public bool IsDisposed { get; set; }
+
+        //public bool SaveChangesCalled { get; set; }
+
+        //public bool SaveChangesAsyncCalled { get; set; }
+
+        //public override int SaveChanges()
+        //{
+        //    SaveChangesCalled = true;
+        //    return 1;
+        //}
+
+        //public override Task<int> SaveChangesAsync()
+        //{
+        //    SaveChangesAsyncCalled = true;
+        //    return Task.FromResult<int>(1);
+        //}
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    this.IsDisposed = true;
+        //}
+    }
+
+    public class ConcurrentEntity : IConcurrentEntity
     {
         public int Id { get; set; }
 
@@ -98,6 +127,17 @@ namespace ECA.Core.Test.Service
         public TestDbSet<ConcurrentEntity> ConcurrentEntities { get; set; }
     }
 
+    //public class ConcurrencyTestDbContext : DbContext
+    //{
+    //    public ConcurrencyTestDbContext()
+    //    {
+    //        this.ConcurrentEntities = new TestDbSet<ConcurrentEntity>();
+    //    }
+
+    //    public TestDbSet<ConcurrentEntity> ConcurrentEntities { get; set; }
+
+    //}
+
     [TestClass]
     public class DbContextServiceTest
     {
@@ -105,6 +145,7 @@ namespace ECA.Core.Test.Service
         public void TestInitialize()
         {
             Database.SetInitializer<SampleDbContext>(null);
+            Database.SetInitializer<ConcurrentDbContext>(null);
         }
 
         #region Save Changes
@@ -210,6 +251,200 @@ namespace ECA.Core.Test.Service
 
             testService.Dispose();
             testService.Invoking(x => x.Dispose()).ShouldNotThrow();
+        }
+        #endregion
+
+        #region Concurrency
+        [TestMethod]
+        public void TestSaveChanges_CheckConcurrency()
+        {
+            using (ShimsContext.Create())
+            {
+                var exceptionCaught = false;
+                var concurrentEntity = new ConcurrentEntity
+                {
+                    Id = 1,
+
+                };
+                var shimEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                {
+                    EntityGet = () => 
+                    { 
+                        return concurrentEntity; 
+                    }
+                };
+                try
+                {
+                    System.Data.Entity.Infrastructure.Fakes.ShimDbUpdateException.AllInstances.EntriesGet = (exc) => 
+                    {
+                        var list = new List<DbEntityEntry> { shimEntry };
+                        return list;
+                    };
+                    System.Data.Entity.Fakes.ShimDbContext.AllInstances.SaveChanges = (c) =>
+                    {
+                        throw new DbUpdateConcurrencyException();
+                    };
+                    var service = new DbContextService<ConcurrentDbContext>(new ConcurrentDbContext());
+                    service.SaveChanges();
+                }
+                catch (EcaDbUpdateConcurrencyException e)
+                {
+                    exceptionCaught = true;
+                    var entries = e.Entries;
+                    Assert.AreEqual(1, entries.Count());
+                    Assert.AreEqual(1, e.ConcurrentEntities.Count());
+                    Assert.IsTrue(Object.ReferenceEquals(concurrentEntity, e.ConcurrentEntities.First()));
+                }
+                Assert.IsTrue(exceptionCaught);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSaveChangesAsync_CheckConcurrency()
+        {
+            using (ShimsContext.Create())
+            {
+                var exceptionCaught = false;
+                var concurrentEntity = new ConcurrentEntity
+                {
+                    Id = 1,
+
+                };
+                var shimEntry = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                {
+                    EntityGet = () =>
+                    {
+                        return concurrentEntity;
+                    }
+                };
+                try
+                {
+                    System.Data.Entity.Infrastructure.Fakes.ShimDbUpdateException.AllInstances.EntriesGet = (exc) =>
+                    {
+                        var list = new List<DbEntityEntry> { shimEntry };
+                        return list;
+                    };
+                    System.Data.Entity.Fakes.ShimDbContext.AllInstances.SaveChangesAsync = (c) =>
+                    {
+                        throw new DbUpdateConcurrencyException();
+                    };
+                    var service = new DbContextService<ConcurrentDbContext>(new ConcurrentDbContext());
+                    await service.SaveChangesAsync();
+                }
+                catch (EcaDbUpdateConcurrencyException e)
+                {
+                    exceptionCaught = true;
+                    var entries = e.Entries;
+                    Assert.AreEqual(1, entries.Count());
+                    Assert.AreEqual(1, e.ConcurrentEntities.Count());
+                    Assert.IsTrue(Object.ReferenceEquals(concurrentEntity, e.ConcurrentEntities.First()));
+                }
+                Assert.IsTrue(exceptionCaught);
+            }
+        }
+
+        [TestMethod]
+        public void TestSaveChanges_CheckConcurrency_MutlipleEntitiesWithEqualIds()
+        {
+            using (ShimsContext.Create())
+            {
+                var exceptionCaught = false;
+                var concurrentEntity1 = new ConcurrentEntity
+                {
+                    Id = 1,
+
+                };
+                var concurrentEntity2 = new ConcurrentEntity
+                {
+                    Id = 1,
+
+                };
+                var shimEntry1 = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                {
+                    EntityGet = () =>
+                    {
+                        return concurrentEntity1;
+                    }
+                };
+                var shimEntry2 = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                {
+                    EntityGet = () =>
+                    {
+                        return concurrentEntity2;
+                    }
+                };
+                try
+                {
+                    System.Data.Entity.Infrastructure.Fakes.ShimDbUpdateException.AllInstances.EntriesGet = (exc) =>
+                    {
+                        var list = new List<DbEntityEntry> { shimEntry1, shimEntry2 };
+                        return list;
+                    };
+                    System.Data.Entity.Fakes.ShimDbContext.AllInstances.SaveChanges = (c) =>
+                    {
+                        throw new DbUpdateConcurrencyException();
+                    };
+                    var service = new DbContextService<ConcurrentDbContext>(new ConcurrentDbContext());
+                    service.SaveChanges();
+                }
+                catch (NotSupportedException e)
+                {
+                    exceptionCaught = true;
+                }
+                Assert.IsTrue(exceptionCaught);
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSaveChangesAsync_CheckConcurrency_MutlipleEntitiesWithEqualIds()
+        {
+            using (ShimsContext.Create())
+            {
+                var exceptionCaught = false;
+                var concurrentEntity1 = new ConcurrentEntity
+                {
+                    Id = 1,
+
+                };
+                var concurrentEntity2 = new ConcurrentEntity
+                {
+                    Id = 1,
+
+                };
+                var shimEntry1 = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                {
+                    EntityGet = () =>
+                    {
+                        return concurrentEntity1;
+                    }
+                };
+                var shimEntry2 = new System.Data.Entity.Infrastructure.Fakes.ShimDbEntityEntry
+                {
+                    EntityGet = () =>
+                    {
+                        return concurrentEntity2;
+                    }
+                };
+                try
+                {
+                    System.Data.Entity.Infrastructure.Fakes.ShimDbUpdateException.AllInstances.EntriesGet = (exc) =>
+                    {
+                        var list = new List<DbEntityEntry> { shimEntry1, shimEntry2 };
+                        return list;
+                    };
+                    System.Data.Entity.Fakes.ShimDbContext.AllInstances.SaveChangesAsync = (c) =>
+                    {
+                        throw new DbUpdateConcurrencyException();
+                    };
+                    var service = new DbContextService<ConcurrentDbContext>(new ConcurrentDbContext());
+                    await service.SaveChangesAsync();
+                }
+                catch (NotSupportedException e)
+                {
+                    exceptionCaught = true;
+                }
+                Assert.IsTrue(exceptionCaught);
+            }
         }
         #endregion
     }

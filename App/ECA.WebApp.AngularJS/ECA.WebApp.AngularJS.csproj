@@ -309,7 +309,6 @@
     <Content Include="scripts\controllers\allprograms.js" />
     <Content Include="scripts\controllers\formvalidation.js" />
     <Content Include="scripts\controllers\home.js" />
-    <Content Include="scripts\controllers\login.js" />
     <Content Include="scripts\controllers\logout.js" />
     <Content Include="scripts\controllers\office.js" />
     <Content Include="scripts\controllers\participants.js" />
@@ -350,7 +349,6 @@
     <Content Include="views\home\offshoot.html" />
     <Content Include="views\home\shortcuts.html" />
     <Content Include="views\lastupdated.html" />
-    <Content Include="views\login.html" />
     <Content Include="views\logout.html" />
     <Content Include="views\offices.html" />
     <Content Include="views\office\activity.html" />
