@@ -2,6 +2,7 @@
 using ECA.Core.Data;
 using System;
 using System.Collections.Generic;
+using ECA.Business.Queries.Models.Admin;
 
 namespace ECA.Business.Queries.Models.Programs
 {
@@ -20,9 +21,8 @@ namespace ECA.Business.Queries.Models.Programs
             this.RegionIsos = new List<SimpleLookupDTO>();
             this.Goals = new List<SimpleLookupDTO>();
             this.Themes = new List<SimpleLookupDTO>();
-            this.Categories = new List<SimpleLookupDTO>();
-            this.Objectives = new List<SimpleLookupDTO>();
-
+            this.Categories = new List<FocusCategoryDTO>();
+            this.Objectives = new List<JustificationObjectiveDTO>();
         }
 
         /// <summary>
@@ -83,12 +83,12 @@ namespace ECA.Business.Queries.Models.Programs
         /// <summary>
         /// Gets or sets the Categories
         /// </summary>
-        public IEnumerable<SimpleLookupDTO> Categories { get; set; }
+        public IEnumerable<FocusCategoryDTO> Categories { get; set; }
 
         /// <summary>
         /// Gets or sets the Justification Objectives
         /// </summary>
-        public IEnumerable<SimpleLookupDTO> Objectives { get; set; }
+        public IEnumerable<JustificationObjectiveDTO> Objectives { get; set; }
 
         /// <summary>
         /// Gets or sets the focus.
@@ -114,6 +114,10 @@ namespace ECA.Business.Queries.Models.Programs
         /// Gets or sets the owner organization id.
         /// </summary>
         public int OwnerOrganizationId { get; set; }
+
+        public string OwnerOrganizationCategoryLabel { get; set; }
+
+        public string OwnerOrganizationObjectiveLabel { get; set; }
 
         /// <summary>
         /// Gets or sets the row version.

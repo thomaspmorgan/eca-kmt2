@@ -17,9 +17,6 @@ angular.module('staticApp')
       $scope.isSavingProject = false;
       $scope.validations = [];
 
-      $scope.categoryLabel = 'Test Category Label';
-      $scope.objectiveLabel = 'Test Objective Label';
-
       $scope.newProject = {
           title: '',
           description: ''
@@ -62,11 +59,18 @@ angular.module('staticApp')
       $scope.subprograms = [];
       $scope.projects = [];
 
+      $scope.sortedCategories = [];
+      $scope.sortedObjectives = [];
+      
       ProgramService.get($stateParams.programId)
           .then(function (program) {
               $scope.program = program;
+
+              $scope.categoryLabel = program.ownerOfficeCategoryLabel;
+              $scope.objectiveLabel = program.ownerOfficeObjectiveLabel;
           });
 
+     
       $scope.projectsLoading = false;
 
       $scope.getProjects = function (tableState) {

@@ -28,6 +28,7 @@ namespace ECA.Data.Configuration
 
             HasMany<Focus>(p => p.Foci).WithRequired(t => t.Office).HasForeignKey(p => p.OrganizationId);
             HasMany<Justification>(p => p.Justifications).WithRequired(t => t.Office).HasForeignKey(p => p.OrganizationId);
+            HasMany<OfficeSetting>(p => p.OfficeSettings).WithRequired(t => t.Office).HasForeignKey(p => p.OfficeId);
         }
     }
 }
