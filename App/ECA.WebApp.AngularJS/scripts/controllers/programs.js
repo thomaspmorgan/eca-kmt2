@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, ProjectService, TableService) {
+  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, ProjectService, TableService, orderByFilter) {
 
       $scope.confirmClose = false;
       $scope.confirmFail = false;
@@ -68,6 +68,9 @@ angular.module('staticApp')
 
               $scope.categoryLabel = program.ownerOfficeCategoryLabel;
               $scope.objectiveLabel = program.ownerOfficeObjectiveLabel;
+
+              $scope.sortedCategories = orderByFilter($scope.program.categories, '+focusName');
+              $scope.sortedObjectives = orderByFilter($scope.program.objectives, '+justificationName');
           });
 
      
