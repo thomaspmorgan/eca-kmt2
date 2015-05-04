@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, ProjectService, TableService) {
+  .controller('ProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, ProjectService, TableService, orderByFilter) {
 
       $scope.confirmClose = false;
       $scope.confirmFail = false;
@@ -16,9 +16,6 @@ angular.module('staticApp')
       $scope.newProjectId = null;
       $scope.isSavingProject = false;
       $scope.validations = [];
-
-      $scope.categoryLabel = 'Test Category Label';
-      $scope.objectiveLabel = 'Test Objective Label';
 
       $scope.newProject = {
           title: '',
@@ -62,11 +59,21 @@ angular.module('staticApp')
       $scope.subprograms = [];
       $scope.projects = [];
 
+      $scope.sortedCategories = [];
+      $scope.sortedObjectives = [];
+      
       ProgramService.get($stateParams.programId)
           .then(function (program) {
               $scope.program = program;
+
+              $scope.categoryLabel = program.ownerOfficeCategoryLabel;
+              $scope.objectiveLabel = program.ownerOfficeObjectiveLabel;
+
+              $scope.sortedCategories = orderByFilter($scope.program.categories, '+focusName');
+              $scope.sortedObjectives = orderByFilter($scope.program.objectives, '+justificationName');
           });
 
+     
       $scope.projectsLoading = false;
 
       $scope.getProjects = function (tableState) {
