@@ -18,6 +18,16 @@ namespace ECA.Data.Test
         }
 
         [TestMethod]
+        public void TestGetId()
+        {
+            var project = new Project
+            {
+                ProjectId = 1
+            };
+            Assert.AreEqual(project.ProjectId, project.GetId());
+        }
+
+        [TestMethod]
         public void TestProjectName_Unique()
         {
             var parentProgram = new Program

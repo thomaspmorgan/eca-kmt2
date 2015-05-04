@@ -187,6 +187,7 @@
     <Content Include="build.cmd" />
     <None Include="ECA.WebApp.AngularJS.wpp.targets" />
     <None Include="Properties\PublishProfiles\brian.pubxml" />
+    <None Include="Properties\PublishProfiles\eca-kmt-dev %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev - brandon.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\eca-kmt-dev-Web-Deploy.pubxml" />
@@ -309,7 +310,6 @@
     <Content Include="scripts\controllers\allprograms.js" />
     <Content Include="scripts\controllers\formvalidation.js" />
     <Content Include="scripts\controllers\home.js" />
-    <Content Include="scripts\controllers\login.js" />
     <Content Include="scripts\controllers\logout.js" />
     <Content Include="scripts\controllers\office.js" />
     <Content Include="scripts\controllers\participants.js" />
@@ -350,7 +350,6 @@
     <Content Include="views\home\offshoot.html" />
     <Content Include="views\home\shortcuts.html" />
     <Content Include="views\lastupdated.html" />
-    <Content Include="views\login.html" />
     <Content Include="views\logout.html" />
     <Content Include="views\offices.html" />
     <Content Include="views\office\activity.html" />

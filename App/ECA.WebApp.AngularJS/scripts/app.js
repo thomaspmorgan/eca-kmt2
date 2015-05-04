@@ -107,11 +107,6 @@ angular
             controller: 'SecuretestCtrl',
             requireADLogin: true
         })
-        .state('login', {
-            url: '/login',
-            templateUrl: 'views/login.html',
-            controller: 'LoginCtrl'
-        })
         .state('logout', {
             url: '/logout',
             templateUrl: 'views/logout.html',
@@ -476,9 +471,6 @@ angular
         });
 
         $rootScope.$on('$routeChangeError', function (event, current, previous, eventObj) {
-            if (eventObj.authenticated === false) {
-                $location.path('/login');
-            }
         });
 
         $rootScope.$on('$stateChangeSuccess', function () {
@@ -489,9 +481,6 @@ angular
         $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
             // Prevent the transition from happening
             event.preventDefault();
-            if (error.authenticated === false) {
-                $state.go('login');
-            }
         });
 
         $rootScope.spotlightModal = false;
