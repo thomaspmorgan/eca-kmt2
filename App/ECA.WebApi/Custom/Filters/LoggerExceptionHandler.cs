@@ -52,7 +52,6 @@ namespace ECA.WebApi.Custom.Filters
                 var actionArguments = actionContext.ActionArguments;
                 if (actionArguments != null && actionArguments.Count > 0)
                 {
-                    StringBuilder sb = new StringBuilder();
                     var actionArgumentsJson = Jsonify(actionArguments);
                     GlobalDiagnosticsContext.Set(ACTION_ARGUMENTS_CONTEXT_KEY, actionArgumentsJson);
                 }
