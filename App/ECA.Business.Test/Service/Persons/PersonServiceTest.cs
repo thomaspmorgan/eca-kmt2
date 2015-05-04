@@ -150,6 +150,14 @@ namespace ECA.Business.Test.Service.Persons
                 LocationName = "country"
             };
 
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "city",
+                LocationTypeId = LocationType.City.Id,
+                CountryId = country.LocationId
+            };
+
             var location = new Location
             {
                 LocationId = 1,
@@ -182,6 +190,7 @@ namespace ECA.Business.Test.Service.Persons
             
             person.Addresses.Add(address);
 
+            context.Locations.Add(city);
             context.Locations.Add(country);
             context.Locations.Add(location);
             context.Addresses.Add(address);
