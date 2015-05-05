@@ -179,7 +179,9 @@ angular.module('staticApp')
                 if (programs.length > 0) {
                     start = params.start + 1;
                 }
-                updatePagingDetails(total, start, programs.length);
+                var count = params.start + params.length;
+
+                updatePagingDetails(total, start, count);
                 $scope.programs = programs;
                 var limit = TableService.getLimit();
                 tableState.pagination.numberOfPages = Math.ceil(total / limit);
