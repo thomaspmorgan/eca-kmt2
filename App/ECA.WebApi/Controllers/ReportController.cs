@@ -14,6 +14,7 @@ using ECA.Business.Service;
 namespace ECA.WebApi.Controllers
 {
     [RoutePrefix("api/Report")]
+    [Authorize]
     public class ReportController : ApiController
     {
         private IReportService reportService;

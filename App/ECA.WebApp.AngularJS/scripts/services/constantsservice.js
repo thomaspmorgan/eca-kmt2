@@ -64,6 +64,7 @@
 			project: {id: 4, value: "Project"}
 		},
 		adalLoginSuccessEventName: 'adal:loginSuccess',
+		ecaKmtForeignResourceId: '1',
 		editProjectEventName: 'EditProject',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		equalComparisonType: 'eq',

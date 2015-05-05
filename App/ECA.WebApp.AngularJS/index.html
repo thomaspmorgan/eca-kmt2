@@ -46,7 +46,7 @@
     <toaster-container style="margin-top:53px;" toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
         <a ng-repeat="state in rootStates" ng-click="closeMenu()" ui-sref="{{state.state}}">{{state.name}}</a>
-        <a class="foot" href=""><img class="icon" src="images/settings.png" height="14" width="14" alt="">Settings</a>
+        <a class="foot" ui-sref="settings"><img class="icon" src="images/settings.png" height="14" width="14" alt="">Settings</a>
     </nav>
     <nav style="overflow-y: scroll" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
         <img src="images/placeholders/sidebar.png" height="1110" width="266" alt="">
@@ -153,6 +153,7 @@
     <script src="bower_components/angular-ui-select/dist/select.js"></script>
     <script src="bower_components/angularjs-toaster/toaster.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/file-saver-saveas-js/FileSaver.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js(.) scripts/scripts.js -->
@@ -194,6 +195,7 @@
     <script src="scripts/directives/staticswitcher.js"></script>
     <script src="scripts/controllers/report.js"></script>
     <script src="scripts/services/locationservice.js"></script>
+    <script src="scripts/services/downloadservice.js"></script>
     <script src="scripts/services/constantsservice.js"></script>
     <script src="scripts/services/logouteventservice.js"></script>
     <script src="scripts/services/moneyflow.js"></script>

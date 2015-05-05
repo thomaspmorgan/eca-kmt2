@@ -484,5 +484,4 @@ angular
         });
 
         $rootScope.spotlightModal = false;
-
     }]);

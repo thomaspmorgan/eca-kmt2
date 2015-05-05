@@ -15,6 +15,11 @@ namespace CAM.Data
         /// </summary>
         public const int SYSTEM_USER_ACCOUNT_ID = 1;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validationContext"></param>
+        /// <returns></returns>
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             Contract.Assert(validationContext != null, "The validation context must not be null.");
