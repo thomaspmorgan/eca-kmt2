@@ -90,7 +90,7 @@ namespace ECA.Business.Service.Persons
             var existingPerson = await GetExistingPerson(newPerson);
             if (existingPerson != null)
             {
-                this.logger.Trace("Found existing person {0}.");
+                this.logger.Trace("Found existing person {0}.", newPerson);
                 throw new EcaBusinessException("The person already exists.");
             }
             var project = await GetProjectByIdAsync(newPerson.ProjectId);
