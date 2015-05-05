@@ -359,6 +359,7 @@
     <Compile Include="Custom\Filters\ConcurrencyExceptionFilter.cs" />
     <Compile Include="Custom\Filters\EcaBusinessExceptionFilter.cs" />
     <Compile Include="Custom\Handlers\DebugWebApiUserHandler.cs" />
+    <Compile Include="Custom\LayoutRenders\ActionParametersLayoutRenderer.cs" />
     <Compile Include="Custom\NLogTraceWriter.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddDefaultResponse.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddFileUploadParams.cs" />

@@ -161,7 +161,6 @@ angular.module('staticApp')
 
     $scope.cancelEditPii = function () {
         $scope.editPii = false;
-        console.log($scope.pii);
         loadPii($scope.participant.personId);
     };
 

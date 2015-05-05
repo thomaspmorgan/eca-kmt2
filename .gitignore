@@ -205,3 +205,6 @@ App/ECA.WebApp.AngularJS/dist
 # Ignore database build artifacts
 bin/Development/
 obj/Development/
+
+# Ignore log files
+App/ECA.WebApi/log/
