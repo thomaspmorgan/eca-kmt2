@@ -429,6 +429,55 @@ namespace ECA.Data
 }
 #endregion
 
+#region MoneyFlowStatus
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class MoneyFlowStatus : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Budgeted lookup with id 1.
+		/// </summary>
+		public static StaticLookup Budgeted { get { return new StaticLookup("Budgeted", 1); } }
+		/// <summary>
+		/// Returns the Appropriated lookup with id 3.
+		/// </summary>
+		public static StaticLookup Appropriated { get { return new StaticLookup("Appropriated", 3); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return MoneyFlowStatus.Budgeted;
+			if (3 == id) return MoneyFlowStatus.Appropriated;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Budgeted".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Budgeted;
+			if ("Appropriated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Appropriated;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "MoneyFlowStatus", TableName = "MoneyFlowStatus", IdColumnName = "MoneyFlowStatusId", ValueColumnName = "MoneyFlowStatusName" };
+		}
+	}
+}
+#endregion
+
 #region MoneyFlowType
 namespace ECA.Data
 {
@@ -1059,6 +1108,7 @@ namespace ECA.Data
 			errors.AddRange(validator.Validate<ItineraryStatus>());
 			errors.AddRange(validator.Validate<LocationType>());
 			errors.AddRange(validator.Validate<MoneyFlowSourceRecipientType>());
+			errors.AddRange(validator.Validate<MoneyFlowStatus>());
 			errors.AddRange(validator.Validate<MoneyFlowType>());
 			errors.AddRange(validator.Validate<OrganizationType>());
 			errors.AddRange(validator.Validate<ParticipantType>());
