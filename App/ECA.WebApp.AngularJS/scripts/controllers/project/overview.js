@@ -325,7 +325,7 @@ angular.module('staticApp')
           setSelectedItems('categories', 'selectedCategories');
       }
 
-      function setSelectedThemes() {
+      function setSelectedObjectives() {
           setSelectedItems('objectives', 'selectedObjectives');
       }
 

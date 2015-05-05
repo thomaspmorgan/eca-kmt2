@@ -104,6 +104,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Data\TestDbSet.cs" />
+    <Compile Include="Exceptions\EcaDbUpdateConcurrencyException.cs" />
     <Compile Include="Exceptions\ModelNotFoundException.cs" />
     <Compile Include="Exceptions\UnknownStaticLookupException.cs" />
     <Compile Include="Generation\DbContextStaticLookupValidator.cs" />

@@ -211,7 +211,7 @@ namespace ECA.Business.Service.Persons
 
         private IQueryable<Person> CreateGetPersonById(int personId)
         {
-            return Context.People.Where(x => x.PersonId == personId).Include("CountriesOfCitizenship");
+            return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
         }
 
         private void DoUpdate(UpdatePii updatePii, Person person, Participant participant, List<Location> countriesOfCitizenship) {

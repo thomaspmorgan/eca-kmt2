@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Data;
@@ -74,15 +75,17 @@ namespace ECA.Business.Queries.Programs
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
                             Description = program.Description,
                             Focus = new SimpleLookupDTO { Id = focus.FocusId, Value = focus.FocusName },
-                            Categories = categories.Select(c => new SimpleLookupDTO { Id = c.CategoryId, Value = c.CategoryName}),
+                            Categories = categories.Select(c => new FocusCategoryDTO { Id = c.CategoryId, Name = c.CategoryName, FocusName = c.Focus.FocusName}),
                             Goals = goals.Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
                             Id = program.ProgramId,
-                            Objectives = objectives.Select(o => new SimpleLookupDTO { Id = o.ObjectiveId, Value = o.ObjectiveName}),
+                            Objectives = objectives.Select(o => new JustificationObjectiveDTO { Id = o.ObjectiveId, Name = o.ObjectiveName, JustificationName = o.Justification.JustificationName}),
                             Name = program.Name,
                             OwnerDescription = owner.Description,
                             OwnerName = owner.Name,
                             OwnerOfficeSymbol = owner.OfficeSymbol,
                             OwnerOrganizationId = owner.OrganizationId,
+                            OwnerOrganizationCategoryLabel = owner.OfficeSettings.FirstOrDefault(o => o.Name == "Focus").Value,
+                            OwnerOrganizationObjectiveLabel = owner.OfficeSettings.FirstOrDefault(o => o.Name == "Justification").Value,
                             ParentProgramId = parentProgram == null ? default(int?) : parentProgram.ProgramId,
                             RevisedOn = program.History.RevisedOn,
                             RegionIsos = regions.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),

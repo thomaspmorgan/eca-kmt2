@@ -86,8 +86,8 @@ namespace ECA.Business.Queries.Admin
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
                             Goals = goals.Select(x => new SimpleLookupDTO {Id = x.GoalId, Value = x.GoalName}),
                             Contacts = contacts.Select(x => new SimpleLookupDTO {Id = x.ContactId, Value = x.FullName + " (" + x.Position + ")"}),
-                            Objectives = objectives.Select(o => new SimpleLookupDTO { Id = o.ObjectiveId, Value = o.ObjectiveName }),
-                            Categories = categories.Select(c => new SimpleLookupDTO { Id = c.CategoryId, Value = c.CategoryName }),
+                            Objectives = objectives.Select(o => new JustificationObjectiveDTO { Id = o.ObjectiveId, Name = o.ObjectiveName, JustificationName = o.Justification.JustificationName }),
+                            Categories = categories.Select(c => new FocusCategoryDTO { Id = c.CategoryId, Name = c.CategoryName, FocusName = c.Focus.FocusName }),
 
                         };
                 return query;

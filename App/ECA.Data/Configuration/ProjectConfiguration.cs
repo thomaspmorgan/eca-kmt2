@@ -17,6 +17,7 @@ namespace ECA.Data.Configuration
         /// </summary>
         public ProjectConfiguration()
         {
+            Property(x => x.RowVersion).IsRowVersion();
             HasRequired(a => a.Focus).WithMany().Map(m =>
             {
                 m.MapKey("FocusId");

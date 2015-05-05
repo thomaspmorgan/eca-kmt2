@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Lookup;
 using System;
 using System.Collections.Generic;
@@ -24,8 +25,8 @@ namespace ECA.WebApi.Models.Programs
             this.RegionIsos = new List<SimpleLookupDTO>();
             this.Goals = new List<SimpleLookupDTO>();
             this.Themes = new List<SimpleLookupDTO>();
-            this.Categories = new List<SimpleLookupDTO>();
-            this.Objectives = new List<SimpleLookupDTO>();
+            this.Categories = new List<FocusCategoryDTO>();
+            this.Objectives = new List<JustificationObjectiveDTO>();
         }
 
         /// <summary>
@@ -47,6 +48,8 @@ namespace ECA.WebApi.Models.Programs
             this.OwnerName = program.OwnerName;
             this.OwnerOrganizationId = program.OwnerOrganizationId;
             this.OwnerOfficeSymbol = program.OwnerOfficeSymbol;
+            this.OwnerOfficeCategoryLabel = program.OwnerOrganizationCategoryLabel;
+            this.OwnerOfficeObjectiveLabel = program.OwnerOrganizationObjectiveLabel;
             this.ParentProgramId = program.ParentProgramId;
             this.RegionIsos = program.RegionIsos;
             this.RevisedOn = program.RevisedOn;
@@ -92,9 +95,9 @@ namespace ECA.WebApi.Models.Programs
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Themes { get; set; }
 
-        public IEnumerable<SimpleLookupDTO> Categories { get; set; }
+        public IEnumerable<FocusCategoryDTO> Categories { get; set; }
 
-        public IEnumerable<SimpleLookupDTO> Objectives { get; set; }
+        public IEnumerable<JustificationObjectiveDTO> Objectives { get; set; }
 
         /// <summary>
         /// Gets or sets the Country Isos.
@@ -140,6 +143,10 @@ namespace ECA.WebApi.Models.Programs
         /// Gets or sets the owner office symbol.
         /// </summary>
         public string OwnerOfficeSymbol { get; set; }
+
+        public string OwnerOfficeCategoryLabel { get; set; }
+
+        public string OwnerOfficeObjectiveLabel { get; set; }
 
         /// <summary>
         /// Gets or sets the row version.

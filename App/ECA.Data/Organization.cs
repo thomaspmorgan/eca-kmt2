@@ -71,6 +71,8 @@ namespace ECA.Data
         public ICollection<Focus> Foci { get; set; }
 
         public History History { get; set; }
+
+        public ICollection<OfficeSetting> OfficeSettings { get; set; }
     }
 
 }

@@ -18,23 +18,17 @@ namespace ECA.WebApi.Custom.Filters
     {
         public const string ACTION_ARGUMENTS_CONTEXT_KEY = "actionArguments";
 
-        public const string USER_CONTEXT_KEY = "azureUser";
-
         public const string CONTROLLER_CONTEXT_KEY = "controllerName";
 
         public const string ACTION_CONTEXT_KEY = "actionName";
-
-        public const string REQUEST_ID_CONTEXT_KEY = "requestId";
 
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
 
         public override void Log(ExceptionLoggerContext context)
         {
-            AddUser();
             AddActionArguments(context);
             AddControllerAndAction(context);
-            AddRequestId(context);
             logger.Log(LogLevel.Error, RequestToString(context.Request), context.Exception);
         }
 
@@ -58,7 +52,6 @@ namespace ECA.WebApi.Custom.Filters
                 var actionArguments = actionContext.ActionArguments;
                 if (actionArguments != null && actionArguments.Count > 0)
                 {
-                    StringBuilder sb = new StringBuilder();
                     var actionArgumentsJson = Jsonify(actionArguments);
                     GlobalDiagnosticsContext.Set(ACTION_ARGUMENTS_CONTEXT_KEY, actionArgumentsJson);
                 }
@@ -78,27 +71,11 @@ namespace ECA.WebApi.Custom.Filters
             }
         }
 
-        private void AddRequestId(ExceptionLoggerContext context)
-        {
-            GlobalDiagnosticsContext.Set(REQUEST_ID_CONTEXT_KEY, context.Request.GetCorrelationId().ToString());
-        }
-
         private string Jsonify(Dictionary<string, object> actionArguments)
         {
             var json = JsonConvert.SerializeObject(actionArguments);
             var prettyJson = JValue.Parse(json).ToString(Formatting.Indented);
             return prettyJson;
-        }
-
-        private void AddUser()
-        {
-            var userName = "UNKNOWN";
-            var user = HttpContext.Current.User;
-            if (user != null && user.Identity != null && user.Identity.IsAuthenticated)
-            {
-                userName = user.Identity.Name;
-            }
-            GlobalDiagnosticsContext.Set(USER_CONTEXT_KEY, userName);
         }
     }
 }

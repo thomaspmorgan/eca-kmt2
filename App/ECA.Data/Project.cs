@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Contracts;
+using ECA.Core.Data;
 
 namespace ECA.Data
 {
@@ -14,6 +15,7 @@ namespace ECA.Data
     /// A project is a specific, time-bounded instance of a program, such as a cohort, an event or an exchange.
     /// </summary>
     public class Project :
+        IConcurrentEntity,
         IHistorical,
         IValidatableObject,
         IGoalable,
@@ -91,6 +93,20 @@ namespace ECA.Data
         public ICollection<Category> Categories { get; set; }
 
         public History History { get; set; }
+
+        /// <summary>
+        /// Gets or sets the RowVersion.
+        /// </summary>
+        public byte[] RowVersion { get; set; }
+
+        /// <summary>
+        /// Returns the program id.
+        /// </summary>
+        /// <returns>The program id.</returns>
+        public object GetId()
+        {
+            return this.ProjectId;
+        }
 
         /// <summary>
         /// 
