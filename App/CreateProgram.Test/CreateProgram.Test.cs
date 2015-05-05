@@ -43,6 +43,14 @@ namespace CreateProgram.Test
             this.UIMap.InputParentProgramData_First();
             this.UIMap.AssertParentProgramInputValues_Modal();
             this.UIMap.AssertCreateButton_Modal();
+            this.UIMap.SelectCreateButton_Modal();
+            this.UIMap.AssertProgramCreatedWindow();
+            this.UIMap.SelectOKButton_ProgramCreated();
+
+            
+
+            
+
 
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }

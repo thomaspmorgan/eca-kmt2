@@ -16,15 +16,24 @@ namespace EditProgram.Test
     /// Summary description for CodedUITest1
     /// </summary>
     [CodedUITest]
-    public class CodedUITest1
+    public class EditProgramCodedUITest1
     {
-        public CodedUITest1()
+        public EditProgramCodedUITest1()
         {
         }
 
         [TestMethod]
-        public void CodedUITestMethod1()
+        public void EditProgramCodedUITestMethod1()
         {
+            this.UIMap.Login_NavigatetoAllPrograms();
+            this.UIMap.AssertEditProgButton();
+            this.UIMap.SelectEditProgramButton();
+            this.UIMap.AssertEditProgramModal();
+            this.UIMap.InputExtWebsiteData_Edit();
+            this.UIMap.InputProgDescrData_Edit();
+            this.UIMap.SelectSAVEandCLOSEButton();
+            this.UIMap.AssertEditProgSavedWindow();
+            this.UIMap.SelectOKButton_SavedProgWin();
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
@@ -64,5 +73,20 @@ namespace EditProgram.Test
             }
         }
         private TestContext testContextInstance;
+
+        public UIMap UIMap
+        {
+            get
+            {
+                if ((this.map == null))
+                {
+                    this.map = new UIMap();
+                }
+
+                return this.map;
+            }
+        }
+
+        private UIMap map;
     }
 }

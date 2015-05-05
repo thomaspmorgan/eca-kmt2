@@ -30,294 +30,6 @@ namespace CreateParticipant.Test
     {
         
         /// <summary>
-        /// Open browser; navigate to QA site; select ECATest user; enter pw; click sign in.
-        /// </summary>
-        public void LogintoQA_ExistingUser()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIECATest1statedeptusHyperlink;
-            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
-            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
-            #endregion
-
-            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
-
-            // Double-Click 'ECATest1@statedept.us •••' link
-            Mouse.DoubleClick(uIECATest1statedeptusHyperlink, new Point(106, 40));
-
-            // Type '********' in 'Password' text box
-            uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
-
-            // Click 'Sign in' pane
-            Mouse.Click(uISigninPane, new Point(36, 10));
-        }
-        
-        /// <summary>
-        /// Verify the content menu button is available to toggle and expand for display.
-        /// </summary>
-        public void AssertContentMenuButton()
-        {
-            #region Variable Declarations
-            HtmlButton uITogglenavigationButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
-            #endregion
-
-            // Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
-            Assert.AreEqual(this.AssertContentMenuButtonExpectedValues.UITogglenavigationButtonControlType, uITogglenavigationButton.ControlType.ToString(), "No Content Menu button available. Check ControlType.");
-        }
-        
-        /// <summary>
-        /// Toggle the Content Menu button to expand; select the Programs link to navigate to the All Programs page.  Refresh/Reload the page; then reselect for display.
-        /// </summary>
-        public void SelectContentMenuButton_ProgramsLink()
-        {
-            #region Variable Declarations
-            HtmlButton uITogglenavigationButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
-            HtmlHyperlink uIProgramsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIProgramsHyperlink;
-            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
-            HtmlSpan uIItemPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UIItemPane;
-            #endregion
-
-            // Click 'Toggle navigation' button
-            Mouse.Click(uITogglenavigationButton, new Point(22, 14));
-
-            // Click 'Programs' link
-            Mouse.Click(uIProgramsHyperlink, new Point(50, 33));
-
-            // Perform Refresh on Browser Window
-            uINewtabInternetExplorWindow.Refresh();
-
-            // Click pane
-            Mouse.Click(uIItemPane, new Point(11, 0));
-
-            // Click 'Programs' link
-            Mouse.Click(uIProgramsHyperlink, new Point(47, 35));
-        }
-        
-        /// <summary>
-        /// Verify the individual program (Academic Exchange Programs) is available and can be navigated to via the hyperlink text.
-        /// </summary>
-        public void AssertIndividualProgram()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIAcademicExchangeProgHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIAcademicExchangeProgHyperlink;
-            #endregion
-
-            // Verify that the 'ControlType' property of 'Academic Exchange Programs' link contains 'Hyperlink'
-            StringAssert.Contains(uIAcademicExchangeProgHyperlink.ControlType.ToString(), this.AssertIndividualProgramExpectedValues.UIAcademicExchangeProgHyperlinkControlType, "No hyperlink available for individual program (Academic Exchange Programs). ");
-
-            // Verify that the 'InnerText' property of 'Academic Exchange Programs' link contains 'Academic Exchange Programs'
-            StringAssert.Contains(uIAcademicExchangeProgHyperlink.InnerText, this.AssertIndividualProgramExpectedValues.UIAcademicExchangeProgHyperlinkInnerText, "No individual program (Academic Exchange Programs) available. check innertext. ");
-        }
-        
-        /// <summary>
-        /// Select the individual program (Academic Exchange Programs); refresh/reload the page for display.
-        /// </summary>
-        public void SelectIndividualProgram()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIAcademicExchangeProgHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIAcademicExchangeProgHyperlink;
-            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
-            #endregion
-
-            // Click 'Academic Exchange Programs' link
-            Mouse.Click(uIAcademicExchangeProgHyperlink, new Point(167, 14));
-
-            // Perform Refresh on Browser Window
-            uINewtabInternetExplorWindow.Refresh();
-        }
-        
-        /// <summary>
-        /// Refresh/Reload browser window for display.
-        /// </summary>
-        public void RefreshBrowserWindow()
-        {
-            #region Variable Declarations
-            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
-            #endregion
-
-            // Perform Refresh on Browser Window
-            uINewtabInternetExplorWindow.Refresh();
-        }
-        
-        /// <summary>
-        /// Verify the Branches & Projects tab exists and has a functional hyperlink to navigate to the project list for the program.
-        /// </summary>
-        public void AssertBranches_ProjectsTab()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIBranchesProjectsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIBranchesProjectsHyperlink;
-            #endregion
-
-            // Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Branches & Projects'
-            StringAssert.Contains(uIBranchesProjectsHyperlink.InnerText, this.AssertBranches_ProjectsTabExpectedValues.UIBranchesProjectsHyperlinkInnerText, "No innertext of branches and projects tab available.");
-
-            // Verify that the 'ControlType' property of 'Branches & Projects' link contains 'Hyperlink'
-            StringAssert.Contains(uIBranchesProjectsHyperlink.ControlType.ToString(), this.AssertBranches_ProjectsTabExpectedValues.UIBranchesProjectsHyperlinkControlType, "No hyperlink available for branches and projects tab . ");
-        }
-        
-        /// <summary>
-        /// Select the Branches & Projects tab to navigate to the Projects list.
-        /// </summary>
-        public void SelectBranches_ProjectsTab()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIBranchesProjectsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIBranchesProjectsHyperlink;
-            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
-            HtmlHyperlink uIBranchesProjectsHyperlink1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument11.UITopPane.UIBranchesProjectsHyperlink;
-            #endregion
-
-            // Click 'Branches & Projects' link
-            Mouse.Click(uIBranchesProjectsHyperlink, new Point(74, 5));
-
-            // Perform Refresh on Browser Window
-            uINewtabInternetExplorWindow.Refresh();
-
-            // Click 'Branches & Projects' link
-            Mouse.Click(uIBranchesProjectsHyperlink1, new Point(65, 7));
-        }
-        
-        /// <summary>
-        /// Verify (Test Project 1) is available for selection under the Branches and Projects of the current program.
-        /// </summary>
-        public void AssertIndividualProject()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uITestProject1Hyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UITestProject1Hyperlink;
-            #endregion
-
-            // Verify that the 'InnerText' property of 'Test Project 1' link contains 'Test Project 1'
-            StringAssert.Contains(uITestProject1Hyperlink.InnerText, this.AssertIndividualProjectExpectedValues.UITestProject1HyperlinkInnerText, "No (Test Project 1) available for selection.");
-
-            // Verify that the 'ControlType' property of 'Test Project 1' link contains 'Hyperlink'
-            StringAssert.Contains(uITestProject1Hyperlink.ControlType.ToString(), this.AssertIndividualProjectExpectedValues.UITestProject1HyperlinkControlType, "No hyperlink available for (Test Project 1). ");
-        }
-        
-        /// <summary>
-        /// Select (Test Project 1) individual project; refresh page for display to load.
-        /// </summary>
-        public void SelectIndividualProject()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uITestProject1Hyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UITestProject1Hyperlink;
-            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
-            #endregion
-
-            // Click 'Test Project 1' link
-            Mouse.Click(uITestProject1Hyperlink, new Point(55, 13));
-
-            // Perform Refresh on Browser Window
-            uINewtabInternetExplorWindow.Refresh();
-        }
-        
-        /// <summary>
-        /// Verify the Participants tab is available for selection under the individual project and the hyperlink is functional for navigating.
-        /// </summary>
-        public void AssertParticipantsTab_IndProject()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIParticipantsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UITopPane.UIParticipantsHyperlink;
-            #endregion
-
-            // Verify that the 'InnerText' property of 'Participants' link contains 'Participants'
-            StringAssert.Contains(uIParticipantsHyperlink.InnerText, this.AssertParticipantsTab_IndProjectExpectedValues.UIParticipantsHyperlinkInnerText, "No participants tab available for selection under the individual project. check i" +
-                    "nnertext. ");
-
-            // Verify that the 'ControlType' property of 'Participants' link contains 'Hyperlink'
-            StringAssert.Contains(uIParticipantsHyperlink.ControlType.ToString(), this.AssertParticipantsTab_IndProjectExpectedValues.UIParticipantsHyperlinkControlType, "No hyperlink available for the participants tab under the project. ");
-        }
-        
-        /// <summary>
-        /// Select the Participants tab to navigate to the Participants for the project page.
-        /// </summary>
-        public void SelectParticipantsTab_IndProject()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIParticipantsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UITopPane.UIParticipantsHyperlink;
-            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
-            HtmlHyperlink uIParticipantsHyperlink1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UITopPane1.UIParticipantsHyperlink;
-            #endregion
-
-            // Click 'Participants' link
-            Mouse.Click(uIParticipantsHyperlink, new Point(31, 6));
-
-            // Perform Refresh on Browser Window
-            uINewtabInternetExplorWindow.Refresh();
-
-            // Click 'Participants' link
-            Mouse.Click(uIParticipantsHyperlink1, new Point(33, 8));
-
-            // Type '{F5}' in 'Participants' link
-            Keyboard.SendKeys(uIParticipantsHyperlink1, this.SelectParticipantsTab_IndProjectParams.UIParticipantsHyperlinkSendKeys, ModifierKeys.None);
-        }
-        
-        /// <summary>
-        /// Verify the Participant List is available to expand and displays correctly.
-        /// </summary>
-        public void AssertParticipantList()
-        {
-            #region Variable Declarations
-            HtmlDiv uIParticipantListKeeptPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIParticipantListKeeptPane;
-            #endregion
-
-            // Verify that the 'InnerText' property of 'Participant List Keep track of partic' pane contains 'Participant List
-            //
-            //Keep track of participant data that has been added to this project.
-            //
-            //Participants: | Last updated '
-            StringAssert.Contains(uIParticipantListKeeptPane.InnerText, this.AssertParticipantListExpectedValues.UIParticipantListKeeptPaneInnerText, "Participant List not available for expansion.");
-
-            // Verify that the 'DisplayText' property of 'Participant List Keep track of partic' pane contains 'Participant List
-            //
-            //Keep track of participant data that has been added to this project.
-            //
-            //Participants: | Last updated '
-            StringAssert.Contains(uIParticipantListKeeptPane.DisplayText, this.AssertParticipantListExpectedValues.UIParticipantListKeeptPaneDisplayText, "Text does not match. Display check. ");
-        }
-        
-        /// <summary>
-        /// Expands Participant list to allow a Participant Add/Create.
-        /// </summary>
-        public void SelectParticipantList()
-        {
-            #region Variable Declarations
-            HtmlDiv uIParticipantListKeeptPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIParticipantListKeeptPane;
-            #endregion
-
-            // Click 'Participant List Keep track of partic' pane
-            Mouse.Click(uIParticipantListKeeptPane, new Point(472, 60));
-        }
-        
-        /// <summary>
-        /// Verify the ADD button is available for selection.
-        /// </summary>
-        public void AssertParticipantAddButton()
-        {
-            #region Variable Declarations
-            HtmlButton uIADDButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UIADDPane.UIADDButton;
-            #endregion
-
-            // Verify that the 'ControlType' property of 'ADD' button equals 'Button'
-            Assert.AreEqual(this.AssertParticipantAddButtonExpectedValues.UIADDButtonControlType, uIADDButton.ControlType.ToString(), "No button for adding/creating participant available. ");
-
-            // Verify that the 'DisplayText' property of 'ADD' button contains 'ADD'
-            StringAssert.Contains(uIADDButton.DisplayText, this.AssertParticipantAddButtonExpectedValues.UIADDButtonDisplayText, "Button text does not match. ");
-        }
-        
-        /// <summary>
-        /// Select the participant ADD button.
-        /// </summary>
-        public void SelectParticipantADD()
-        {
-            #region Variable Declarations
-            HtmlButton uIADDButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UIADDPane.UIADDButton;
-            #endregion
-
-            // Click 'ADD' button
-            Mouse.Click(uIADDButton, new Point(43, 18));
-        }
-        
-        /// <summary>
         /// Verify the fields exist under the Personal Information section of the ADD / Create Participant modal.
         /// </summary>
         public void AssertADDParticipantModal_PersonalInformation()
@@ -339,7 +51,8 @@ namespace CreateParticipant.Test
             HtmlButton uINoneSelectedButtonCOCit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument11.UIParticipantFormCustom.UINoneSelectedButtonCOCit;
             #endregion
 
-            // Verify that the 'InnerText' property of 'FIRST / GIVEN NAMEss *sp' pane contains 'FIRST / GIVEN NAMEss *sp'
+            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'FIRST / GIVEN NAMEss *sp' pane contains 'FIRST / GIVEN NAMEss *sp'
+            Playback.Wait(5000);
             StringAssert.Contains(uIFIRSTGIVENNAMEssspPane.InnerText, this.AssertADDParticipantModal_PersonalInformationExpectedValues.UIFIRSTGIVENNAMEssspPaneInnerText, "No FIRST / GIVEN NAMEss *sp pane displayed. ");
 
             // Verify that the 'ControlType' property of text box contains 'Edit'
@@ -368,7 +81,7 @@ namespace CreateParticipant.Test
             //  
             // Male
             //  
-            // NotSpecified
+            // Not Specified
             //  
             // Other  '
             StringAssert.Contains(uIGENDERNoneSelectedRePane.InnerText, this.AssertADDParticipantModal_PersonalInformationExpectedValues.UIGENDERNoneSelectedRePaneInnerText, "No Gender selections available. ");
@@ -1426,16 +1139,317 @@ namespace CreateParticipant.Test
             StringAssert.Contains(uINoneSelectedButtonCOCit.ControlType.ToString(), this.AssertADDParticipantModal_PersonalInformationExpectedValues.UINoneSelectedButtonCOCitControlType, "Drop down for Countries of Citizenship is unavailable. ");
         }
         
+        /// <summary>
+        /// Verify the Branches & Projects tab exists and has a functional hyperlink to navigate to the project list for the program.
+        /// </summary>
+        public void AssertBranches_ProjectsTab()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIBranchesProjectsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIBranchesProjectsHyperlink;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Branches & Projects'
+            StringAssert.Contains(uIBranchesProjectsHyperlink.InnerText, this.AssertBranches_ProjectsTabExpectedValues.UIBranchesProjectsHyperlinkInnerText, "No innertext of branches and projects tab available.");
+
+            // Verify that the 'ControlType' property of 'Branches & Projects' link contains 'Hyperlink'
+            StringAssert.Contains(uIBranchesProjectsHyperlink.ControlType.ToString(), this.AssertBranches_ProjectsTabExpectedValues.UIBranchesProjectsHyperlinkControlType, "No hyperlink available for branches and projects tab . ");
+        }
+        
+        /// <summary>
+        /// Verify the content menu button is available to toggle and expand for display.
+        /// </summary>
+        public void AssertContentMenuButton()
+        {
+            #region Variable Declarations
+            HtmlButton uITogglenavigationButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
+            #endregion
+
+            // Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
+            Assert.AreEqual(this.AssertContentMenuButtonExpectedValues.UITogglenavigationButtonControlType, uITogglenavigationButton.ControlType.ToString(), "No Content Menu button available. Check ControlType.");
+        }
+        
+        /// <summary>
+        /// Verify the individual program (Academic Exchange Programs) is available and can be navigated to via the hyperlink text.
+        /// </summary>
+        public void AssertIndividualProgram()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIAcademicExchangeProgHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIAcademicExchangeProgHyperlink;
+            #endregion
+
+            // Verify that the 'ControlType' property of 'Academic Exchange Programs' link contains 'Hyperlink'
+            StringAssert.Contains(uIAcademicExchangeProgHyperlink.ControlType.ToString(), this.AssertIndividualProgramExpectedValues.UIAcademicExchangeProgHyperlinkControlType, "No hyperlink available for individual program (Academic Exchange Programs). ");
+
+            // Verify that the 'InnerText' property of 'Academic Exchange Programs' link contains 'Academic Exchange Programs'
+            StringAssert.Contains(uIAcademicExchangeProgHyperlink.InnerText, this.AssertIndividualProgramExpectedValues.UIAcademicExchangeProgHyperlinkInnerText, "No individual program (Academic Exchange Programs) available. check innertext. ");
+        }
+        
+        /// <summary>
+        /// Verify (Test Project 1) is available for selection under the Branches and Projects of the current program.
+        /// </summary>
+        public void AssertIndividualProject()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uITestProject1Hyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UITestProject1Hyperlink;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Test Project 1' link contains 'Test Project 1'
+            StringAssert.Contains(uITestProject1Hyperlink.InnerText, this.AssertIndividualProjectExpectedValues.UITestProject1HyperlinkInnerText, "No (Test Project 1) available for selection.");
+
+            // Verify that the 'ControlType' property of 'Test Project 1' link contains 'Hyperlink'
+            StringAssert.Contains(uITestProject1Hyperlink.ControlType.ToString(), this.AssertIndividualProjectExpectedValues.UITestProject1HyperlinkControlType, "No hyperlink available for (Test Project 1). ");
+        }
+        
+        /// <summary>
+        /// Verify the ADD button is available for selection.
+        /// </summary>
+        public void AssertParticipantAddButton()
+        {
+            #region Variable Declarations
+            HtmlButton uIADDButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UIADDPane.UIADDButton;
+            #endregion
+
+            // Verify that the 'ControlType' property of 'ADD' button equals 'Button'
+            Assert.AreEqual(this.AssertParticipantAddButtonExpectedValues.UIADDButtonControlType, uIADDButton.ControlType.ToString(), "No button for adding/creating participant available. ");
+
+            // Verify that the 'DisplayText' property of 'ADD' button contains 'ADD'
+            StringAssert.Contains(uIADDButton.DisplayText, this.AssertParticipantAddButtonExpectedValues.UIADDButtonDisplayText, "Button text does not match. ");
+        }
+        
+        /// <summary>
+        /// Verify the Participant List is available to expand and displays correctly.
+        /// </summary>
+        public void AssertParticipantList()
+        {
+            #region Variable Declarations
+            HtmlDiv uIParticipantListKeeptPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIParticipantListKeeptPane;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Participant List Keep track of partic' pane contains 'Participant List
+            //
+            //Keep track of participant data that has been added to this project.
+            //
+            //Participants: | Last updated '
+            StringAssert.Contains(uIParticipantListKeeptPane.InnerText, this.AssertParticipantListExpectedValues.UIParticipantListKeeptPaneInnerText, "Participant List not available for expansion.");
+
+            // Verify that the 'DisplayText' property of 'Participant List Keep track of partic' pane contains 'Participant List
+            //
+            //Keep track of participant data that has been added to this project.
+            //
+            //Participants: | Last updated '
+            StringAssert.Contains(uIParticipantListKeeptPane.DisplayText, this.AssertParticipantListExpectedValues.UIParticipantListKeeptPaneDisplayText, "Text does not match. Display check. ");
+        }
+        
+        /// <summary>
+        /// Verify the Participants tab is available for selection under the individual project and the hyperlink is functional for navigating.
+        /// </summary>
+        public void AssertParticipantsTab_IndProject()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIParticipantsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UITopPane.UIParticipantsHyperlink;
+            #endregion
+
+            // Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of 'Participants' link contains 'Participants'
+            Playback.Wait(10000);
+            StringAssert.Contains(uIParticipantsHyperlink.InnerText, this.AssertParticipantsTab_IndProjectExpectedValues.UIParticipantsHyperlinkInnerText, "No participants tab available for selection under the individual project. check i" +
+                    "nnertext. ");
+
+            // Verify that the 'ControlType' property of 'Participants' link contains 'Hyperlink'
+            StringAssert.Contains(uIParticipantsHyperlink.ControlType.ToString(), this.AssertParticipantsTab_IndProjectExpectedValues.UIParticipantsHyperlinkControlType, "No hyperlink available for the participants tab under the project. ");
+        }
+        
+        /// <summary>
+        /// Open browser; navigate to QA site; select ECATest user; enter pw; click sign in.
+        /// </summary>
+        public void LogintoQA_ExistingUser()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIECATest1statedeptusHyperlink;
+            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
+            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
+            #endregion
+
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
+
+            // Double-Click 'ECATest1@statedept.us •••' link
+            Mouse.DoubleClick(uIECATest1statedeptusHyperlink, new Point(106, 40));
+
+            // Type '********' in 'Password' text box
+            uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
+
+            // Click 'Sign in' pane
+            Mouse.Click(uISigninPane, new Point(36, 10));
+        }
+        
+        /// <summary>
+        /// Refresh/Reload browser window for display.
+        /// </summary>
+        public void RefreshBrowserWindow()
+        {
+            #region Variable Declarations
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            #endregion
+
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
+        }
+        
+        /// <summary>
+        /// Select the Branches & Projects tab to navigate to the Projects list.
+        /// </summary>
+        public void SelectBranches_ProjectsTab()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIBranchesProjectsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIBranchesProjectsHyperlink;
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            HtmlHyperlink uIBranchesProjectsHyperlink1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument11.UITopPane.UIBranchesProjectsHyperlink;
+            #endregion
+
+            // Click 'Branches & Projects' link
+            Mouse.Click(uIBranchesProjectsHyperlink, new Point(74, 5));
+
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
+
+            // Click 'Branches & Projects' link
+            Mouse.Click(uIBranchesProjectsHyperlink1, new Point(65, 7));
+        }
+        
+        /// <summary>
+        /// Toggle the Content Menu button to expand; select the Programs link to navigate to the All Programs page.  Refresh/Reload the page; then reselect for display.
+        /// </summary>
+        public void SelectContentMenuButton_ProgramsLink()
+        {
+            #region Variable Declarations
+            HtmlButton uITogglenavigationButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
+            HtmlHyperlink uIProgramsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIProgramsHyperlink;
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            HtmlSpan uIItemPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UIItemPane;
+            #endregion
+
+            // Click 'Toggle navigation' button
+            Mouse.Click(uITogglenavigationButton, new Point(22, 14));
+
+            // Click 'Programs' link
+            Mouse.Click(uIProgramsHyperlink, new Point(50, 33));
+
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
+
+            // Click pane
+            Mouse.Click(uIItemPane, new Point(11, 0));
+
+            // Click 'Programs' link
+            Mouse.Click(uIProgramsHyperlink, new Point(47, 35));
+        }
+        
+        /// <summary>
+        /// Select the individual program (Academic Exchange Programs); refresh/reload the page for display.
+        /// </summary>
+        public void SelectIndividualProgram()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIAcademicExchangeProgHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIAcademicExchangeProgHyperlink;
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            #endregion
+
+            // Click 'Academic Exchange Programs' link
+            Mouse.Click(uIAcademicExchangeProgHyperlink, new Point(167, 14));
+
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
+        }
+        
+        /// <summary>
+        /// Select (Test Project 1) individual project; refresh page for display to load.
+        /// </summary>
+        public void SelectIndividualProject()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uITestProject1Hyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane.UITestProject1Hyperlink;
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            #endregion
+
+            // Click 'Test Project 1' link
+            Mouse.Click(uITestProject1Hyperlink, new Point(55, 13));
+
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
+        }
+        
+        /// <summary>
+        /// Select the participant ADD button.
+        /// </summary>
+        public void SelectParticipantADD()
+        {
+            #region Variable Declarations
+            HtmlButton uIADDButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UIADDPane.UIADDButton;
+            #endregion
+
+            // Click 'ADD' button
+            Mouse.Click(uIADDButton, new Point(43, 18));
+        }
+        
+        /// <summary>
+        /// Expands Participant list to allow a Participant Add/Create.
+        /// </summary>
+        public void SelectParticipantList()
+        {
+            #region Variable Declarations
+            HtmlDiv uIParticipantListKeeptPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIParticipantListKeeptPane;
+            #endregion
+
+            // Click 'Participant List Keep track of partic' pane
+            Mouse.Click(uIParticipantListKeeptPane, new Point(472, 60));
+        }
+        
+        /// <summary>
+        /// Select the Participants tab to navigate to the Participants for the project page.
+        /// </summary>
+        public void SelectParticipantsTab_IndProject()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIParticipantsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UITopPane.UIParticipantsHyperlink;
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            HtmlHyperlink uIParticipantsHyperlink1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UITopPane1.UIParticipantsHyperlink;
+            #endregion
+
+            // Click 'Participants' link
+            Mouse.Click(uIParticipantsHyperlink, new Point(31, 6));
+
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
+
+            // Click 'Participants' link
+            Mouse.Click(uIParticipantsHyperlink1, new Point(33, 8));
+
+            // Type '{F5}' in 'Participants' link
+            Keyboard.SendKeys(uIParticipantsHyperlink1, this.SelectParticipantsTab_IndProjectParams.UIParticipantsHyperlinkSendKeys, ModifierKeys.None);
+        }
+        
         #region Properties
-        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
+        public virtual AssertADDParticipantModal_PersonalInformationExpectedValues AssertADDParticipantModal_PersonalInformationExpectedValues
         {
             get
             {
-                if ((this.mLogintoQA_ExistingUserParams == null))
+                if ((this.mAssertADDParticipantModal_PersonalInformationExpectedValues == null))
                 {
-                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
+                    this.mAssertADDParticipantModal_PersonalInformationExpectedValues = new AssertADDParticipantModal_PersonalInformationExpectedValues();
                 }
-                return this.mLogintoQA_ExistingUserParams;
+                return this.mAssertADDParticipantModal_PersonalInformationExpectedValues;
+            }
+        }
+        
+        public virtual AssertBranches_ProjectsTabExpectedValues AssertBranches_ProjectsTabExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertBranches_ProjectsTabExpectedValues == null))
+                {
+                    this.mAssertBranches_ProjectsTabExpectedValues = new AssertBranches_ProjectsTabExpectedValues();
+                }
+                return this.mAssertBranches_ProjectsTabExpectedValues;
             }
         }
         
@@ -1463,18 +1477,6 @@ namespace CreateParticipant.Test
             }
         }
         
-        public virtual AssertBranches_ProjectsTabExpectedValues AssertBranches_ProjectsTabExpectedValues
-        {
-            get
-            {
-                if ((this.mAssertBranches_ProjectsTabExpectedValues == null))
-                {
-                    this.mAssertBranches_ProjectsTabExpectedValues = new AssertBranches_ProjectsTabExpectedValues();
-                }
-                return this.mAssertBranches_ProjectsTabExpectedValues;
-            }
-        }
-        
         public virtual AssertIndividualProjectExpectedValues AssertIndividualProjectExpectedValues
         {
             get
@@ -1484,42 +1486,6 @@ namespace CreateParticipant.Test
                     this.mAssertIndividualProjectExpectedValues = new AssertIndividualProjectExpectedValues();
                 }
                 return this.mAssertIndividualProjectExpectedValues;
-            }
-        }
-        
-        public virtual AssertParticipantsTab_IndProjectExpectedValues AssertParticipantsTab_IndProjectExpectedValues
-        {
-            get
-            {
-                if ((this.mAssertParticipantsTab_IndProjectExpectedValues == null))
-                {
-                    this.mAssertParticipantsTab_IndProjectExpectedValues = new AssertParticipantsTab_IndProjectExpectedValues();
-                }
-                return this.mAssertParticipantsTab_IndProjectExpectedValues;
-            }
-        }
-        
-        public virtual SelectParticipantsTab_IndProjectParams SelectParticipantsTab_IndProjectParams
-        {
-            get
-            {
-                if ((this.mSelectParticipantsTab_IndProjectParams == null))
-                {
-                    this.mSelectParticipantsTab_IndProjectParams = new SelectParticipantsTab_IndProjectParams();
-                }
-                return this.mSelectParticipantsTab_IndProjectParams;
-            }
-        }
-        
-        public virtual AssertParticipantListExpectedValues AssertParticipantListExpectedValues
-        {
-            get
-            {
-                if ((this.mAssertParticipantListExpectedValues == null))
-                {
-                    this.mAssertParticipantListExpectedValues = new AssertParticipantListExpectedValues();
-                }
-                return this.mAssertParticipantListExpectedValues;
             }
         }
         
@@ -1535,15 +1501,51 @@ namespace CreateParticipant.Test
             }
         }
         
-        public virtual AssertADDParticipantModal_PersonalInformationExpectedValues AssertADDParticipantModal_PersonalInformationExpectedValues
+        public virtual AssertParticipantListExpectedValues AssertParticipantListExpectedValues
         {
             get
             {
-                if ((this.mAssertADDParticipantModal_PersonalInformationExpectedValues == null))
+                if ((this.mAssertParticipantListExpectedValues == null))
                 {
-                    this.mAssertADDParticipantModal_PersonalInformationExpectedValues = new AssertADDParticipantModal_PersonalInformationExpectedValues();
+                    this.mAssertParticipantListExpectedValues = new AssertParticipantListExpectedValues();
                 }
-                return this.mAssertADDParticipantModal_PersonalInformationExpectedValues;
+                return this.mAssertParticipantListExpectedValues;
+            }
+        }
+        
+        public virtual AssertParticipantsTab_IndProjectExpectedValues AssertParticipantsTab_IndProjectExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertParticipantsTab_IndProjectExpectedValues == null))
+                {
+                    this.mAssertParticipantsTab_IndProjectExpectedValues = new AssertParticipantsTab_IndProjectExpectedValues();
+                }
+                return this.mAssertParticipantsTab_IndProjectExpectedValues;
+            }
+        }
+        
+        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
+        {
+            get
+            {
+                if ((this.mLogintoQA_ExistingUserParams == null))
+                {
+                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
+                }
+                return this.mLogintoQA_ExistingUserParams;
+            }
+        }
+        
+        public virtual SelectParticipantsTab_IndProjectParams SelectParticipantsTab_IndProjectParams
+        {
+            get
+            {
+                if ((this.mSelectParticipantsTab_IndProjectParams == null))
+                {
+                    this.mSelectParticipantsTab_IndProjectParams = new SelectParticipantsTab_IndProjectParams();
+                }
+                return this.mSelectParticipantsTab_IndProjectParams;
             }
         }
         
@@ -1561,207 +1563,27 @@ namespace CreateParticipant.Test
         #endregion
         
         #region Fields
-        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
+        private AssertADDParticipantModal_PersonalInformationExpectedValues mAssertADDParticipantModal_PersonalInformationExpectedValues;
+        
+        private AssertBranches_ProjectsTabExpectedValues mAssertBranches_ProjectsTabExpectedValues;
         
         private AssertContentMenuButtonExpectedValues mAssertContentMenuButtonExpectedValues;
         
         private AssertIndividualProgramExpectedValues mAssertIndividualProgramExpectedValues;
         
-        private AssertBranches_ProjectsTabExpectedValues mAssertBranches_ProjectsTabExpectedValues;
-        
         private AssertIndividualProjectExpectedValues mAssertIndividualProjectExpectedValues;
-        
-        private AssertParticipantsTab_IndProjectExpectedValues mAssertParticipantsTab_IndProjectExpectedValues;
-        
-        private SelectParticipantsTab_IndProjectParams mSelectParticipantsTab_IndProjectParams;
-        
-        private AssertParticipantListExpectedValues mAssertParticipantListExpectedValues;
         
         private AssertParticipantAddButtonExpectedValues mAssertParticipantAddButtonExpectedValues;
         
-        private AssertADDParticipantModal_PersonalInformationExpectedValues mAssertADDParticipantModal_PersonalInformationExpectedValues;
+        private AssertParticipantListExpectedValues mAssertParticipantListExpectedValues;
+        
+        private AssertParticipantsTab_IndProjectExpectedValues mAssertParticipantsTab_IndProjectExpectedValues;
+        
+        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
+        
+        private SelectParticipantsTab_IndProjectParams mSelectParticipantsTab_IndProjectParams;
         
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'LogintoQA_ExistingUser'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class LogintoQA_ExistingUserParams
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-        /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
-        
-        /// <summary>
-        /// Type '********' in 'Password' text box
-        /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertContentMenuButton'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertContentMenuButtonExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
-        /// </summary>
-        public string UITogglenavigationButtonControlType = "Button";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertIndividualProgram'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertIndividualProgramExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Verify that the 'ControlType' property of 'Academic Exchange Programs' link contains 'Hyperlink'
-        /// </summary>
-        public string UIAcademicExchangeProgHyperlinkControlType = "Hyperlink";
-        
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Academic Exchange Programs' link contains 'Academic Exchange Programs'
-        /// </summary>
-        public string UIAcademicExchangeProgHyperlinkInnerText = "Academic Exchange Programs";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertBranches_ProjectsTab'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertBranches_ProjectsTabExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Branches & Projects'
-        /// </summary>
-        public string UIBranchesProjectsHyperlinkInnerText = "Branches & Projects";
-        
-        /// <summary>
-        /// Verify that the 'ControlType' property of 'Branches & Projects' link contains 'Hyperlink'
-        /// </summary>
-        public string UIBranchesProjectsHyperlinkControlType = "Hyperlink";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertIndividualProject'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertIndividualProjectExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Test Project 1' link contains 'Test Project 1'
-        /// </summary>
-        public string UITestProject1HyperlinkInnerText = "Test Project 1";
-        
-        /// <summary>
-        /// Verify that the 'ControlType' property of 'Test Project 1' link contains 'Hyperlink'
-        /// </summary>
-        public string UITestProject1HyperlinkControlType = "Hyperlink";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertParticipantsTab_IndProject'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertParticipantsTab_IndProjectExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Participants' link contains 'Participants'
-        /// </summary>
-        public string UIParticipantsHyperlinkInnerText = "Participants";
-        
-        /// <summary>
-        /// Verify that the 'ControlType' property of 'Participants' link contains 'Hyperlink'
-        /// </summary>
-        public string UIParticipantsHyperlinkControlType = "Hyperlink";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'SelectParticipantsTab_IndProject'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class SelectParticipantsTab_IndProjectParams
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Type '{F5}' in 'Participants' link
-        /// </summary>
-        public string UIParticipantsHyperlinkSendKeys = "{F5}";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertParticipantList'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertParticipantListExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Participant List Keep track of partic' pane contains 'Participant List
-        ///
-        ///Keep track of participant data that has been added to this project.
-        ///
-        ///Participants: | Last updated '
-        /// </summary>
-        public string UIParticipantListKeeptPaneInnerText = "Participant List\r\n\r\nKeep track of participant data that has been added to this pr" +
-            "oject.\r\n\r\nParticipants: | Last updated ";
-        
-        /// <summary>
-        /// Verify that the 'DisplayText' property of 'Participant List Keep track of partic' pane contains 'Participant List
-        ///
-        ///Keep track of participant data that has been added to this project.
-        ///
-        ///Participants: | Last updated '
-        /// </summary>
-        public string UIParticipantListKeeptPaneDisplayText = "Participant List\r\n\r\nKeep track of participant data that has been added to this pr" +
-            "oject.\r\n\r\nParticipants: | Last updated ";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertParticipantAddButton'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertParticipantAddButtonExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Verify that the 'ControlType' property of 'ADD' button equals 'Button'
-        /// </summary>
-        public string UIADDButtonControlType = "Button";
-        
-        /// <summary>
-        /// Verify that the 'DisplayText' property of 'ADD' button contains 'ADD'
-        /// </summary>
-        public string UIADDButtonDisplayText = "ADD";
         #endregion
     }
     
@@ -1774,7 +1596,7 @@ namespace CreateParticipant.Test
         
         #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of 'FIRST / GIVEN NAMEss *sp' pane contains 'FIRST / GIVEN NAMEss *sp'
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'FIRST / GIVEN NAMEss *sp' pane contains 'FIRST / GIVEN NAMEss *sp'
         /// </summary>
         public string UIFIRSTGIVENNAMEssspPaneInnerText = "FIRST / GIVEN NAMEss *sp";
         
@@ -1813,12 +1635,12 @@ namespace CreateParticipant.Test
         ///  
         /// Male
         ///  
-        /// NotSpecified
+        /// Not Specified
         ///  
         /// Other  '
         /// </summary>
         public string UIGENDERNoneSelectedRePaneInnerText = "GENDER *\r\nNone Selected\r\n\r\n\r\n↶  Reset\r\n\r\n× \r\n  \r\n\r\n  \r\n Female\r\n  \r\n Male\r\n  \r\n N" +
-            "otSpecified\r\n  \r\n Other  ";
+            "ot Specified\r\n  \r\n Other  ";
         
         /// <summary>
         /// Verify that the 'ControlType' property of 'None Selected' button contains 'Button'
@@ -3002,6 +2824,186 @@ namespace CreateParticipant.Test
         /// Verify that the 'ControlType' property of 'None Selected' button contains 'Button'
         /// </summary>
         public string UINoneSelectedButtonCOCitControlType = "Button";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertBranches_ProjectsTab'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertBranches_ProjectsTabExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Branches & Projects'
+        /// </summary>
+        public string UIBranchesProjectsHyperlinkInnerText = "Branches & Projects";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Branches & Projects' link contains 'Hyperlink'
+        /// </summary>
+        public string UIBranchesProjectsHyperlinkControlType = "Hyperlink";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertContentMenuButton'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertContentMenuButtonExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
+        /// </summary>
+        public string UITogglenavigationButtonControlType = "Button";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertIndividualProgram'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertIndividualProgramExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Academic Exchange Programs' link contains 'Hyperlink'
+        /// </summary>
+        public string UIAcademicExchangeProgHyperlinkControlType = "Hyperlink";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Academic Exchange Programs' link contains 'Academic Exchange Programs'
+        /// </summary>
+        public string UIAcademicExchangeProgHyperlinkInnerText = "Academic Exchange Programs";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertIndividualProject'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertIndividualProjectExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Test Project 1' link contains 'Test Project 1'
+        /// </summary>
+        public string UITestProject1HyperlinkInnerText = "Test Project 1";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Test Project 1' link contains 'Hyperlink'
+        /// </summary>
+        public string UITestProject1HyperlinkControlType = "Hyperlink";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertParticipantAddButton'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertParticipantAddButtonExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'ADD' button equals 'Button'
+        /// </summary>
+        public string UIADDButtonControlType = "Button";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'ADD' button contains 'ADD'
+        /// </summary>
+        public string UIADDButtonDisplayText = "ADD";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertParticipantList'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertParticipantListExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Participant List Keep track of partic' pane contains 'Participant List
+        ///
+        ///Keep track of participant data that has been added to this project.
+        ///
+        ///Participants: | Last updated '
+        /// </summary>
+        public string UIParticipantListKeeptPaneInnerText = "Participant List\r\n\r\nKeep track of participant data that has been added to this pr" +
+            "oject.\r\n\r\nParticipants: | Last updated ";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Participant List Keep track of partic' pane contains 'Participant List
+        ///
+        ///Keep track of participant data that has been added to this project.
+        ///
+        ///Participants: | Last updated '
+        /// </summary>
+        public string UIParticipantListKeeptPaneDisplayText = "Participant List\r\n\r\nKeep track of participant data that has been added to this pr" +
+            "oject.\r\n\r\nParticipants: | Last updated ";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertParticipantsTab_IndProject'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertParticipantsTab_IndProjectExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of 'Participants' link contains 'Participants'
+        /// </summary>
+        public string UIParticipantsHyperlinkInnerText = "Participants";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Participants' link contains 'Hyperlink'
+        /// </summary>
+        public string UIParticipantsHyperlinkControlType = "Hyperlink";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'LogintoQA_ExistingUser'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class LogintoQA_ExistingUserParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+        /// </summary>
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
+        
+        /// <summary>
+        /// Type '********' in 'Password' text box
+        /// </summary>
+        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'SelectParticipantsTab_IndProject'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class SelectParticipantsTab_IndProjectParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '{F5}' in 'Participants' link
+        /// </summary>
+        public string UIParticipantsHyperlinkSendKeys = "{F5}";
         #endregion
     }
     

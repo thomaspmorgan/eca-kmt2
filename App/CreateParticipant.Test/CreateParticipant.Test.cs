@@ -35,6 +35,9 @@ namespace CreateParticipant.Test
             this.UIMap.SelectBranches_ProjectsTab();
             this.UIMap.AssertIndividualProject();
             this.UIMap.SelectIndividualProject();
+            this.UIMap.RefreshBrowserWindow();
+            this.UIMap.SelectIndividualProject();
+            this.UIMap.RefreshBrowserWindow();
             this.UIMap.AssertParticipantsTab_IndProject();
             this.UIMap.SelectParticipantsTab_IndProject();
             this.UIMap.AssertParticipantList();
