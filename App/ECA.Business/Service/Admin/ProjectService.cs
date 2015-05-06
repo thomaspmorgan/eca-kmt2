@@ -93,7 +93,9 @@ namespace ECA.Business.Service.Admin
                 Goals = program.Goals,
                 Focus = program.Focus,
                 Contacts = program.Contacts,
-                Regions = program.Regions
+                Regions = program.Regions,
+                Categories = program.Categories,
+                Objectives = program.Objectives
             };
             draftProject.Audit.SetHistory(project);
             this.Context.Projects.Add(project);
@@ -145,18 +147,22 @@ namespace ECA.Business.Service.Admin
 
             var contactsExist = CheckAllContactsExist(updatedProject.PointsOfContactIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
+            
+            var categoriesExist = CheckAllCategoriesExist(updatedProject.CategoryIds);
+            this.logger.Trace("Check all goals with ids {0} existed.", String.Join(", ", updatedProject.GoalIds));
 
-            var focus = GetFocusById(updatedProject.FocusId);
-            this.logger.Trace("Check focus with id {0}.", String.Join(", ", updatedProject.FocusId));
+            var objectivesExist = CheckAllObjectivesExist(updatedProject.ObjectiveIds);
+            this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
 
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
-                focus: focus,
                 goalsExist: goalsExist,
                 themesExist: themesExist,
-                pointsOfContactExist: contactsExist));
-            DoUpdate(updatedProject, projectToUpdate, focus);
+                pointsOfContactExist: contactsExist,
+                categoriesExist: categoriesExist,
+                objectivesExist: objectivesExist));
+            DoUpdate(updatedProject, projectToUpdate);
             
         }
 
@@ -181,31 +187,37 @@ namespace ECA.Business.Service.Admin
 
             var contactsExist = await CheckAllContactsExistAsync(updatedProject.PointsOfContactIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
+            
+            var categoriesExist = CheckAllCategoriesExist(updatedProject.CategoryIds);
+            this.logger.Trace("Check all goals with ids {0} existed.", String.Join(", ", updatedProject.GoalIds));
 
-            var focus = await GetFocusByIdAsync(updatedProject.FocusId);
-            this.logger.Trace("Check focus with id {0}.", String.Join(", ", updatedProject.FocusId));
+            var objectivesExist = CheckAllObjectivesExist(updatedProject.ObjectiveIds);
+            this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
+
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
-                focus: focus,
                 goalsExist: goalsExist,
                 themesExist: themesExist,
-                pointsOfContactExist: contactsExist));
+                pointsOfContactExist: contactsExist,
+                categoriesExist: categoriesExist,
+                objectivesExist: objectivesExist));
 
-            DoUpdate(updatedProject, projectToUpdate, focus);
+            DoUpdate(updatedProject, projectToUpdate);
         }
 
-        private void DoUpdate(PublishedProject updatedProject, Project projectToUpdate, Focus focus)
+        private void DoUpdate(PublishedProject updatedProject, Project projectToUpdate)
         {
             Contract.Requires(updatedProject != null, "The updated project must not be null.");
             Contract.Requires(projectToUpdate != null, "The project to update must not be null.");
             SetPointOfContacts(updatedProject.PointsOfContactIds.ToList(), projectToUpdate);
             SetThemes(updatedProject.ThemeIds.ToList(), projectToUpdate);
             SetGoals(updatedProject.GoalIds.ToList(), projectToUpdate);
+            SetCategories(updatedProject.CategoryIds.ToList(), projectToUpdate);
+            SetObjectives(updatedProject.ObjectiveIds.ToList(), projectToUpdate);
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.Description = updatedProject.Description;
             projectToUpdate.EndDate = updatedProject.EndDate;
-            projectToUpdate.Focus = focus;
             projectToUpdate.Name = updatedProject.Name;
             projectToUpdate.ProjectStatusId = updatedProject.ProjectStatusId;
             projectToUpdate.StartDate = updatedProject.StartDate;
@@ -217,18 +229,20 @@ namespace ECA.Business.Service.Admin
         private ProjectServiceUpdateValidationEntity GetUpdateValidationEntity(
             PublishedProject publishedProject,
             Project projectToUpdate,
-            Focus focus,
             bool goalsExist,
             bool themesExist,
-            bool pointsOfContactExist)
+            bool pointsOfContactExist,
+            bool categoriesExist,
+            bool objectivesExist)
         {
             return new ProjectServiceUpdateValidationEntity(
                 updatedProject: publishedProject,
                 projectToUpdate: projectToUpdate,
-                focus: focus,
                 goalsExist: goalsExist,
                 themesExist: themesExist,
-                pointsOfContactExist: pointsOfContactExist
+                pointsOfContactExist: pointsOfContactExist,
+                categoriesExist: categoriesExist,
+                objectivesExist: objectivesExist
                 );
         }
         #endregion
@@ -250,6 +264,8 @@ namespace ECA.Business.Service.Admin
                 .Include(x => x.Goals)
                 .Include(x => x.Contacts)
                 .Include(x => x.Regions)
+                .Include(x => x.Categories)
+                .Include(x => x.Objectives)
                 .Where(x => x.ProjectId == projectId);
         }
 
@@ -260,6 +276,8 @@ namespace ECA.Business.Service.Admin
                 .Include(x => x.Goals)
                 .Include(x => x.Contacts)
                 .Include(x => x.Regions)
+                .Include(x => x.Categories)
+                .Include(x => x.Objectives)
                 .Where(x => x.ProgramId == programId);
         }
 

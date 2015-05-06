@@ -27,7 +27,7 @@ namespace ECA.WebApi
             //WebApiUnityActionFilterProvider.RegisterFilterProviders(config, unityContainer);
 
             // Enable cross-origin resource sharing.
-            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*", "Content-Disposition"));
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -57,6 +57,7 @@ namespace ECA.WebApi
             config.Filters.Add(new ValidationExceptionFilter());
             config.Filters.Add(new DbEntityValidationExceptionFilter());
             config.Filters.Add(new EcaBusinessExceptionFilter());
+            config.Filters.Add(new ConcurrencyExceptionFilter());
 
             //config.Services.Replace(typeof(System.Web.Http.Tracing.ITraceWriter), new NLogTraceWriter());
 #if DEBUG

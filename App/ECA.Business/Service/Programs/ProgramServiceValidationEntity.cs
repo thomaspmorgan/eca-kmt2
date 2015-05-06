@@ -32,7 +32,9 @@ namespace ECA.Business.Service.Programs
             List<int> contactIds, 
             List<int> themeIds, 
             List<int> goalIds, 
-            List<int> regionIds, 
+            List<int> regionIds,
+            List<int> categoryIds,
+            List<int> objectiveIds,
             Focus focus, 
             Organization owner, 
             int? parentProgramId, 
@@ -49,7 +51,12 @@ namespace ECA.Business.Service.Programs
             this.GoalIds = goalIds;
             this.ThemeIds = themeIds;
             this.RegionIds = regionIds;
+            this.CategoryIds = categoryIds;
+            this.ObjectiveIds = objectiveIds;
         }
+
+        public List<int> CategoryIds { get; private set; }
+        public List<int> ObjectiveIds { get; private set; }
 
         /// <summary>
         /// Gets the goal ids.

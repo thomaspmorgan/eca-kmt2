@@ -23,23 +23,31 @@ namespace ECA.WebApi.Controllers
     public class AuthController : ApiController
     {
         private IUserProvider provider;
-        private IPermissionStore<IPermission> permissionStore;
         private IUserService userService;
+        private IResourceService resourceService;
+        private IPermissionModelService permissionModelService;
 
         /// <summary>
         /// The AuthController provides user authentication and authorization details.
         /// </summary>
         /// <param name="provider">The user provider.</param>
-        /// <param name="permissionStore">The permissions store.</param>
         /// <param name="userService">The user service.</param>
-        public AuthController(IUserProvider provider, IPermissionStore<IPermission> permissionStore, IUserService userService)
+        /// <param name="permissionModelService">The permission model service.</param>
+        /// <param name="resourceService">The resource service.</param>
+        public AuthController(
+            IUserProvider provider, 
+            IUserService userService, 
+            IResourceService resourceService,
+            IPermissionModelService permissionModelService)
         {
             Contract.Requires(provider != null, "The provider must not be null.");
-            Contract.Requires(permissionStore != null, "The permission store must not be null.");
             Contract.Requires(userService != null, "The user service must not be null.");
+            Contract.Requires(resourceService != null, "The resource service must not be null.");
+            Contract.Requires(permissionModelService != null, "The permission model service must not be null.");
             this.provider = provider;
-            this.permissionStore = permissionStore;
             this.userService = userService;
+            this.resourceService = resourceService;
+            this.permissionModelService = permissionModelService;
         }
 
         /// <summary>
@@ -122,21 +130,21 @@ namespace ECA.WebApi.Controllers
         public async Task<List<ResourcePermissionViewModel>> GetUserPermissionsAsync(IWebApiUser user, string type, int id)
         {
             var principalId = await this.provider.GetPrincipalIdAsync(user);
-            var resourceTypeId = this.permissionStore.GetResourceTypeId(type);
+            var resourceTypeId = this.resourceService.GetResourceTypeId(type);
             var models = new List<ResourcePermissionViewModel>();
             if(resourceTypeId.HasValue)
             {
-                var resourceId = this.permissionStore.GetResourceIdByForeignResourceId(id, resourceTypeId.Value);
+                var resourceId = await this.resourceService.GetResourceIdByForeignResourceIdAsync(id, resourceTypeId.Value);
                 if (resourceId.HasValue)
                 {
-                    this.permissionStore.LoadUserPermissions(principalId);
-                    (await this.provider.GetPermissionsAsync(user)).Where(x => x.IsAllowed
+                    (await this.provider.GetPermissionsAsync(user))
+                        .Where(x => x.IsAllowed
                         && x.PrincipalId == principalId
                         && x.ResourceId == resourceId.Value)
                         .ToList()
                         .ForEach((p) =>
                         {
-                            var permissionName = this.permissionStore.GetPermissionNameById(p.PermissionId);
+                            var permissionName = this.permissionModelService.GetPermissionNameById(p.PermissionId);
                             models.Add(new ResourcePermissionViewModel
                             {
                                 PermissionName = permissionName,

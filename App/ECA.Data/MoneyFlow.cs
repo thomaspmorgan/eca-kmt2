@@ -14,7 +14,7 @@ namespace ECA.Data
     /// Money Flows can be subdivided into children which can be allocated to projects, programs or participants. 
     /// For example, an allocation to the Fullbright program may be subdivided into the Fullbright sub-programs and again into those program's projects.
     /// </summary>
-    public class MoneyFlow
+    public class MoneyFlow : IHistorical
     {
         [Key]
         public int MoneyFlowId {get; set;}

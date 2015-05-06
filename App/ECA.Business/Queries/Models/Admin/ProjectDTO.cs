@@ -16,6 +16,8 @@ namespace ECA.Business.Queries.Models.Admin
             this.CountryIsos = new List<SimpleLookupDTO>();
             this.Goals = new List<SimpleLookupDTO>();
             this.Contacts = new List<SimpleLookupDTO>();
+            this.Categories = new List<FocusCategoryDTO>();
+            this.Objectives = new List<JustificationObjectiveDTO>();
         }
 
         public int Id { get; set; }
@@ -24,6 +26,7 @@ namespace ECA.Business.Queries.Models.Admin
         public string Status { get; set; }
         public int ProjectStatusId { get; set; }
         public string Focus { get; set; }
+        public int ProgramId { get; set; }
         public int FocusId { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
@@ -32,5 +35,7 @@ namespace ECA.Business.Queries.Models.Admin
         public IEnumerable<SimpleLookupDTO> CountryIsos { get; set; }
         public IEnumerable<SimpleLookupDTO> Goals { get; set; }
         public IEnumerable<SimpleLookupDTO> Contacts { get; set; }
+        public IEnumerable<FocusCategoryDTO> Categories { get; set; }
+        public IEnumerable<JustificationObjectiveDTO> Objectives { get; set; }
     }
 }

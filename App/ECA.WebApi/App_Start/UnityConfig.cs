@@ -74,6 +74,7 @@ namespace ECA.WebApi
             container.RegisterType<IFocusCategoryService, FocusCategoryService>(new HierarchicalLifetimeManager());
             container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
             container.RegisterType<IJustificationObjectiveService, JustificationObjectiveService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IMaritalStatusService, MaritalStatusService>(new HierarchicalLifetimeManager());
 
         }
 
@@ -93,27 +94,31 @@ namespace ECA.WebApi
 
         public static void RegisterSecurityConcerns(IUnityContainer container)
         {
+            var cacheLifeInSeconds = 10 * 60;
+#if DEBUG
+            cacheLifeInSeconds = 20;
+#endif
+            var cacheLifeInMinutes = cacheLifeInSeconds / 60.0;
+
             container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor("CamModel"));
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
+
             container.RegisterType<IPermissionModelService, PermissionModelService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPermissionStore<IPermission>, PermissionStore>(
-                new InjectionConstructor(new ResolvedParameter<CamModel>(), new ResolvedParameter<IPermissionModelService>()));
+                new InjectionConstructor(new ResolvedParameter<CamModel>(), new ResolvedParameter<IPermissionModelService>(), new ResolvedParameter<IResourceService>()));
             container.RegisterType<IUserProvider, BearerTokenUserProvider>(new HierarchicalLifetimeManager());
             container.RegisterType<ObjectCache>(new InjectionFactory((c) =>
             {
                 return MemoryCache.Default;
             }));
-            container.RegisterType<IUserCacheService>(new InjectionFactory((c) =>
+            container.RegisterType<IUserCacheService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
             {
-#if DEBUG
-                var cacheLifeInSeconds = 20;
-                CacheManager.CacheExpirationInMinutes = cacheLifeInSeconds / 60.0;
-#endif
-                return new UserCacheService(c.Resolve<ObjectCache>()
-#if DEBUG
-, cacheLifeInSeconds
-#endif
-);
+                CacheManager.CacheExpirationInMinutes = cacheLifeInMinutes;
+                return new UserCacheService(c.Resolve<ObjectCache>(), cacheLifeInSeconds);
+            }));
+            container.RegisterType<IResourceService, ResourceService>(new HierarchicalLifetimeManager(), new InjectionFactory((c) =>
+            {
+                return new ResourceService(c.Resolve<CamModel>(), c.Resolve<ObjectCache>(), cacheLifeInSeconds);
             }));
         }
     }

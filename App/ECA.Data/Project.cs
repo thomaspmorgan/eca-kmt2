@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Contracts;
+using ECA.Core.Data;
 
 namespace ECA.Data
 {
@@ -14,11 +15,14 @@ namespace ECA.Data
     /// A project is a specific, time-bounded instance of a program, such as a cohort, an event or an exchange.
     /// </summary>
     public class Project :
+        IConcurrentEntity,
         IHistorical,
         IValidatableObject,
         IGoalable,
         IThemeable,
-        IContactable
+        IContactable,
+        ICategorizable,
+        IObjectivable
     {
         /// <summary>
         /// Creates a new Project and initializes the collections.
@@ -40,6 +44,8 @@ namespace ECA.Data
             this.Impacts = new HashSet<Impact>();
             this.Contacts = new HashSet<Contact>();
             this.History = new History();
+            this.Categories = new HashSet<Category>();
+            this.Objectives = new HashSet<Objective>();
         }
 
         [Key]
@@ -82,12 +88,25 @@ namespace ECA.Data
         public Event Event { get; set; }
         public int? EventId { get; set; }
         public ICollection<Contact> Contacts { get; set; }
-
-
+        
         public ICollection<Objective> Objectives { get; set; }
         public ICollection<Category> Categories { get; set; }
 
         public History History { get; set; }
+
+        /// <summary>
+        /// Gets or sets the RowVersion.
+        /// </summary>
+        public byte[] RowVersion { get; set; }
+
+        /// <summary>
+        /// Returns the program id.
+        /// </summary>
+        /// <returns>The program id.</returns>
+        public object GetId()
+        {
+            return this.ProjectId;
+        }
 
         /// <summary>
         /// 

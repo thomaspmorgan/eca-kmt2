@@ -8,7 +8,9 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, PersonService, ProgramService, ParticipantService, LocationService, MoneyFlowService, TableService, ConstantsService, LookupService) {
+  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, PersonService,
+      ProgramService, ParticipantService, LocationService, MoneyFlowService,
+      TableService, ConstantsService, LookupService, orderByFilter) {
 
       $scope.project = {};
 
@@ -17,6 +19,8 @@ angular.module('staticApp')
       $scope.modal = {};
 
       $scope.newMoneyFlow = {};
+      $scope.sortedCategories =[];
+      $scope.sortedObjectives =[];
 
       $scope.tabs = {
           overview: {
@@ -81,6 +85,10 @@ angular.module('staticApp')
             if (angular.isArray($scope.project.moneyFlows)) {
                 $scope.tabs.moneyflows.active = true;
             }
+
+            $scope.sortedCategories = orderByFilter($scope.project.categories, '+focusName');
+            $scope.sortedObjectives = orderByFilter($scope.project.objectives, '+justificationName');
+
         });
 
       $scope.participantsLoading = false;
@@ -136,8 +144,7 @@ angular.module('staticApp')
           $log.info('Firing event [' + eventName + '] in project.js controller.');
           $scope.$broadcast(eventName);
       };
-
-
+      
       $scope.params = $stateParams;
 
       ProgramService.get($stateParams.programId)

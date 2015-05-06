@@ -20,10 +20,9 @@ namespace CAM.Business.Service
         /// <summary>
         /// Instantiates the PermissionsStore and loads a cached version of the PermissionLookups
         /// </summary>
-        public PermissionStoreCached(CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStoreCached(CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
-            LoadPermissionsLookup();
             ResourceId = null;
             PrincipalId = null;
             Permissions = new List<IPermission>();
@@ -33,12 +32,11 @@ namespace CAM.Business.Service
         /// Instantiates the PermissionsStore and loads a cached version of the PermissionLookups
         /// </summary>
         /// <param name="applicationId">Sets the ApplicationResourceId property given the ApplicationId</param>
-        public PermissionStoreCached(int applicationId, CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStoreCached(int applicationId, CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
-            ResourceId = GetResourceIdForApplicationId(applicationId);
+            ResourceId = resourceService.GetResourceIdForApplicationId(applicationId);
             PrincipalId = null;
-            LoadPermissionsLookup();
         }
 
         /// <summary>
@@ -46,12 +44,11 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="applicationId">Sets the ApplicationResourceId property</param>
         /// <param name="principalId">Sets the PrincipalId property</param>
-        public PermissionStoreCached(int applicationId, int principalId, CamModel model, IPermissionModelService permissionModelService)
-            : base(model, permissionModelService)
+        public PermissionStoreCached(int applicationId, int principalId, CamModel model, IPermissionModelService permissionModelService, IResourceService resourceService)
+            : base(model, permissionModelService, resourceService)
         {
-            ResourceId = GetResourceIdForApplicationId(applicationId);
+            ResourceId = resourceService.GetResourceIdForApplicationId(applicationId);
             PrincipalId = principalId;
-            LoadPermissionsLookup();
         }
 
         #endregion
@@ -105,31 +102,6 @@ namespace CAM.Business.Service
         }
 
    
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// used in PermissionStoreCached constructor to load a cached list (property PermissionLookup) to facilitate lookup by Id or Name
-        /// </summary>
-        private void LoadPermissionsLookup()
-        {
-            logger.Trace("Loading PermissionLookup");
-
-            string key = "PermissionsLookup";
-
-            PermissionLookup = CacheManager.Get<List<PermissionModel>>(key);
-
-            logger.Debug("PermissionLookup found in cache? {0}", (PermissionLookup != null) ? "Yes" : "No");
-
-            if (PermissionLookup == null)
-            {
-                PermissionLookup = PermissionModelService.GetAllPermissions();
-                if (PermissionLookup != null)
-                    CacheManager.Add<List<PermissionModel>>(PermissionLookup, key);
-            }
-        }
-
         #endregion
     }
 

@@ -1,4 +1,5 @@
 ﻿using ECA.Core.Data;
+using ECA.Core.Exceptions;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -54,8 +55,7 @@ namespace ECA.Core.Service
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                HandleDbUpdateConcurrencyException(ex);
-                throw ex;
+                throw HandleDbUpdateConcurrencyException(ex);
             }
             list.ForEach(x => x.AfterSaveChanges(this.Context));
             stopWatch.Stop();
@@ -84,14 +84,13 @@ namespace ECA.Core.Service
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                HandleDbUpdateConcurrencyException(ex);
-                throw ex;
+                throw HandleDbUpdateConcurrencyException(ex);
             }
             foreach (var saveAction in list)
             {
                 await saveAction.AfterSaveChangesAsync(this.Context);
             }
-            logger.Trace("Saved changes in DbContextService.");
+            logger.Trace("Saved changes async in DbContextService.");
             return i;
         }
 
@@ -107,13 +106,13 @@ namespace ECA.Core.Service
             }
         }
 
-        private void HandleDbUpdateConcurrencyException(DbUpdateConcurrencyException ex)
+        private EcaDbUpdateConcurrencyException HandleDbUpdateConcurrencyException(DbUpdateConcurrencyException ex)
         {
             var concurrentEntities = new List<IConcurrentEntity>();
             foreach (var entry in ex.Entries)
             {
-                Contract.Assert(entry is IConcurrentEntity, "The entity must be an IConcurrent entity.");
-                var iConcurrent = entry as IConcurrentEntity;
+                Contract.Assert(entry.Entity is IConcurrentEntity, "The entity must be an IConcurrent entity.");
+                var iConcurrent = entry.Entity as IConcurrentEntity;
                 concurrentEntities.Add(iConcurrent);
             }
             var likeEntityIds = from concurrentEntity in concurrentEntities
@@ -121,8 +120,12 @@ namespace ECA.Core.Service
                                 select new { Id = g.Key, Count = g.Count() };
             if (likeEntityIds.Where(x => x.Count > 1).Count() > 0)
             {
-                throw new NotSupportedException("There are multiple entities with concurrency issues with the same Id.  The system will be unable to reconcile automatically concurrent issues.");
+                throw new NotSupportedException("There are multiple entities with concurrency issues with the same Id.  The system will be unable to automatically reconcile concurrent issues.");
             }
+            return new EcaDbUpdateConcurrencyException(ex.Message, ex)
+            {
+                ConcurrentEntities = concurrentEntities
+            };
         }
 
         #region IDispose

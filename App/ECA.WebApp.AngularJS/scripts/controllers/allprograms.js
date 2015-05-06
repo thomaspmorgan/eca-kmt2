@@ -161,7 +161,9 @@ angular.module('staticApp')
             angular.forEach($scope.categories, function (value, key) {
 
                 if (value.focusName != focusName) {
-                    
+
+                    $scope.allCategoriesGrouped.push({ focusGroup: false });
+
                     focusName = value.focusName;
                     $scope.allCategoriesGrouped.push(
                       { name: '<strong>Focus: ' + value.focusName + '</strong>', focusGroup: true }
@@ -170,7 +172,7 @@ angular.module('staticApp')
                 $scope.allCategoriesGrouped.push(
                     { name: value.name, ticked: false }
                 );
-                $scope.allCategoriesGrouped.push({ focusGroup: false });
+
 
             });
         });
@@ -187,6 +189,8 @@ angular.module('staticApp')
 
               if (value.justificationName != justificationName) {
 
+                  $scope.allObjectivesGrouped.push({ justificationGroup: false });
+
                   justificationName = value.justificationName;
                   $scope.allObjectivesGrouped.push(
                     { name: '<strong>Justification: ' + value.justificationName + '</strong>', justificationGroup: true }
@@ -195,7 +199,7 @@ angular.module('staticApp')
               $scope.allObjectivesGrouped.push(
                   { name: value.name, ticked: false }
               );
-              $scope.allObjectivesGrouped.push({ justificationGroup: false });
+
 
           });
 
@@ -316,7 +320,9 @@ angular.module('staticApp')
         if (programs.length > 0) {
             start = params.start + 1;
         };
-        updatePagingDetails(total, start, programs.length);
+        var count = params.start + programs.length;
+
+        updatePagingDetails(total, start, count);
 
         var limit = TableService.getLimit();
         tableState.pagination.numberOfPages = Math.ceil(total / limit);

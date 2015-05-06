@@ -6214,4 +6214,7 @@ h5.canEdit {
 .user a:visited {
   text-decoration: none; }
 
+.user .dropdown-menu a {
+  font-weight: normal; }
+
 /*# sourceMappingURL=main.css.map */

@@ -373,6 +373,8 @@ namespace ECA.Business.Service.Programs
                 themeIds: program.ThemeIds,
                 goalIds: program.GoalIds,
                 regionIds: program.RegionIds,
+                categoryIds: program.FocusCategoryIds,
+                objectiveIds: program.JustificationObjectiveIds,
                 parentProgramId: program.ParentProgramId,
                 parentProgram: parentProgram
                 );

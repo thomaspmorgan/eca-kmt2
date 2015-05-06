@@ -22,6 +22,8 @@ namespace ECA.Business.Test.Service.Admin
                 themeIds: null,
                 goalIds: null,
                 pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: null,
                 focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow);
@@ -29,13 +31,13 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProjectStatusId = ProjectStatus.Draft.Id
             };
-            var focus = new Focus();
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
 
-            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, focus, goalsExist, themesExist, pointsOfContactExist);
-            Assert.IsTrue(object.ReferenceEquals(focus, instance.Focus));
+            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist);
             Assert.AreEqual(updatedProject.Name, instance.Name);
             Assert.AreEqual(updatedProject.Description, instance.Description);
             Assert.AreEqual(updatedProject.StartDate, instance.StartDate);
@@ -59,6 +61,7 @@ namespace ECA.Business.Test.Service.Admin
                 null,
                 null,
                 null,
+                null,null,
                 1,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow);
@@ -66,12 +69,13 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProjectStatusId = ProjectStatus.Other.Id
             };
-            var focus = new Focus();
             var goalsExist = false;
             var themesExist = true;
             var pointsOfContactExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
 
-            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, focus, goalsExist, themesExist, pointsOfContactExist);
+            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist);
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
@@ -88,6 +92,7 @@ namespace ECA.Business.Test.Service.Admin
                 1,
                 null,
                 null,
+                null, null,
                 null,
                 1,
                 DateTimeOffset.UtcNow,
@@ -96,12 +101,13 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProjectStatusId = ProjectStatus.Other.Id
             };
-            var focus = new Focus();
             var goalsExist = true;
             var themesExist = false;
-            var pointsOfContactExist = true;
+            var pointsOfContactExist = true; 
+            var categoriesExist = true;
+            var objectivesExist = true;
 
-            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, focus, goalsExist, themesExist, pointsOfContactExist);
+            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist);
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
@@ -118,6 +124,7 @@ namespace ECA.Business.Test.Service.Admin
                 1,
                 null,
                 null,
+                null, null,
                 null,
                 1,
                 DateTimeOffset.UtcNow,
@@ -126,12 +133,13 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProjectStatusId = ProjectStatus.Other.Id
             };
-            var focus = new Focus();
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactExist = false;
+            var categoriesExist = true;
+            var objectivesExist = true;
 
-            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, focus, goalsExist, themesExist, pointsOfContactExist);
+            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist);
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
@@ -150,6 +158,8 @@ namespace ECA.Business.Test.Service.Admin
                  themeIds: null,
                  goalIds: null,
                  pointsOfContactIds: null,
+                 categoryIds: null,
+                 objectiveIds: null,
                  focusId: 1,
                  startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                  endDate: DateTimeOffset.UtcNow);
@@ -157,12 +167,13 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProjectStatusId = ProjectStatus.Other.Id
             };
-            var focus = new Focus();
             var goalsExist = true;
             var themesExist = true;
             var pointsOfContactExist = false;
+            var categoriesExist = true;
+            var objectivesExist = true;
 
-            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, focus, goalsExist, themesExist, pointsOfContactExist);
+            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist);
         }
     }
 }

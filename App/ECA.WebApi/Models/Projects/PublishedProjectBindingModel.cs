@@ -53,6 +53,10 @@ namespace ECA.WebApi.Models.Projects
         [Required]
         public IEnumerable<int> PointsOfContactIds { get; set; }
 
+        public IEnumerable<int> CategoryIds { get; set; }
+
+        public IEnumerable<int> ObjectiveIds { get; set; }
+
         /// <summary>
         /// The start date of the project.
         /// </summary>
@@ -84,6 +88,8 @@ namespace ECA.WebApi.Models.Projects
                 goalIds: this.GoalIds,
                 themeIds: this.ThemeIds,
                 pointsOfContactIds: this.PointsOfContactIds,
+                categoryIds: this.CategoryIds,
+                objectiveIds: this.ObjectiveIds,
                 focusId: this.FocusId,
                 startDate: this.StartDate,
                 endDate: this.EndDate);
