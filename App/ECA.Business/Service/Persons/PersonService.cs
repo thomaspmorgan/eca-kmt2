@@ -195,6 +195,11 @@ namespace ECA.Business.Service.Persons
             return participant;
         }
 
+        /// <summary>
+        /// Update pii
+        /// </summary>
+        /// <param name="pii">The pii business model</param>
+        /// <returns>The person updated</returns>
         public async Task<Person> UpdatePiiAsync(UpdatePii pii) {
             var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
             var participantToUpdate = await GetParticipantByIdAsync(pii.ParticipantId);
@@ -203,6 +208,11 @@ namespace ECA.Business.Service.Persons
             return personToUpdate;
         }
 
+        /// <summary>
+        /// Get the person by id 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>The person</returns>
         public async Task<Person> GetPersonByIdAsync(int personId)
         {
             this.logger.Trace("Retrieving person with id {0}.", personId);
@@ -249,6 +259,11 @@ namespace ECA.Business.Service.Persons
             });
         }
 
+        /// <summary>
+        /// Get participant by id 
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>The participant</returns>
         public async Task<Participant> GetParticipantByIdAsync(int participantId)
         {
             this.logger.Trace("Retrieving participant with id {0}.", participantId);
