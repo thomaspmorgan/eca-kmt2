@@ -59,7 +59,7 @@ angular
             templateUrl: 'views/home/news.html',
             requireADLogin: true
         })
-     
+
         .state('events', {
             url: '/events',
             templateUrl: 'views/events/eventList.html',
@@ -304,6 +304,12 @@ angular
             controller: 'ProjectOverviewCtrl',
             retuireADLogin: true
         })
+        .state('projects.edit', {
+            url: '/edit',
+            templateUrl: 'views/project/edit.html',
+            controller: 'ProjectEditCtrl',
+            retuireADLogin: true
+        })
         .state('projects.participants', {
             url: '/participant',
             templateUrl: 'views/project/participant.html'
@@ -448,7 +454,7 @@ angular
         };
 
         $rootScope.currentUser = {};
-        $rootScope.currentUser.userMenuToggled = function (open) {};
+        $rootScope.currentUser.userMenuToggled = function (open) { };
         $rootScope.currentUser.logout = function () {
             $rootScope.currentUser.isBusy = true;
             $rootScope.$broadcast(ConstantsService.logoutEventName);

@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, PersonService,
+  .controller('ProjectCtrl', function ($scope, $state, $stateParams, $log, ProjectService, PersonService,
       ProgramService, ParticipantService, LocationService, MoneyFlowService,
       TableService, ConstantsService, LookupService, orderByFilter) {
 
@@ -140,9 +140,7 @@ angular.module('staticApp')
       };
 
       $scope.onDraftButtonClick = function ($event) {
-          var eventName = ConstantsService.editProjectEventName;
-          $log.info('Firing event [' + eventName + '] in project.js controller.');
-          $scope.$broadcast(eventName);
+          $state.go('projects.edit');
       };
       
       $scope.params = $stateParams;
