@@ -16,7 +16,7 @@ namespace ECA.Business.Queries.Persons
     public class PersonQueries
     {
         /// <summary>
-        /// 
+        /// Get pii by id
         /// </summary>
         /// <param name="context">The context to query</param>
         /// <param name="personId">The person id to lookup</param>
