@@ -99,6 +99,11 @@ namespace ECA.WebApi.Controllers.Persons
             }
         }
 
+        /// <summary>
+        /// Put method to update a person
+        /// </summary>
+        /// <param name="model">The model to update</param>
+        /// <returns></returns>
         [Route("People/Pii")]
         public async Task<IHttpActionResult> PutPiiAsync(PiiBindingModel model)
         {
