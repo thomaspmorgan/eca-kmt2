@@ -8,7 +8,7 @@
     <div class="row">
         <span class="left programTypeRadio">Show programs in<input type="radio" ng-change="changeProgramList()" ng-model="programList.type" value="hierarchy">Hierarchical order</span>
         <span class="left programTypeRadio"><input type="radio" ng-change="changeProgramList()" ng-model="programList.type" value="alpha">Alphabetical order</span>
-        <button ng-click="createProgramForm()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
+        <button ng-show="!programsLoading" ng-click="createProgramForm()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
     </div>
 
     <div st-pipe="getPrograms" st-table="programs" id="sort-list">

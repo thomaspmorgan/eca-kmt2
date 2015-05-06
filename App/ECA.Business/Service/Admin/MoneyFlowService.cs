@@ -1,26 +1,31 @@
-﻿using ECA.Data;
-using ECA.Core.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics.Contracts;
-using ECA.Core.Query;
+﻿using System.Linq;
+using System.Data.Entity;
+using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
-using ECA.Business.Queries.Admin;
+using ECA.Core.Query;
+using ECA.Core.Service;
+using ECA.Data;
+using System;
+using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
+using ECA.Business.Validation;
+using System.Collections.Generic;
 using System.Diagnostics;
+using ECA.Core.Exceptions;
 using NLog;
+using ECA.Business.Models.Admin;
 
 namespace ECA.Business.Service.Admin
 {
     /// <summary>
     /// A service to perform crud operations on moneyflows
     /// </summary>
-    public class MoneyFlowService : DbContextService<EcaContext>, IMoneyFlowService
+    public class MoneyFlowService : EcaService, IMoneyFlowService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly IBusinessValidator<MoneyFlowValidationEntity, MoneyFlowValidationEntity> validator;
+
 
         /// <summary>
         /// Constructor
@@ -55,6 +60,153 @@ namespace ECA.Business.Service.Admin
             var moneyFlows = await MoneyFlowQueries.CreateGetMoneyFlowsByProjectIdQuery(this.Context, projectId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
             this.logger.Trace("Retrieved money flows by id {0} with query operator {1}.", projectId, queryOperator);
             return moneyFlows;
+        }
+
+        public MoneyFlow Create(DraftMoneyFlow draftMoneyFlow)
+        {
+            validator.ValidateCreate(GetValidationEntity(draftMoneyFlow));
+            var moneyFlow = DoCreate(draftMoneyFlow);
+            this.logger.Trace("Created money flow {0}.", moneyFlow);
+            return moneyFlow;
+        }
+
+        public async Task<MoneyFlow> CreateAsync(DraftMoneyFlow draftMoneyFlow)
+        {
+            validator.ValidateCreate(GetValidationEntity(draftMoneyFlow));
+            var moneyFlow = await DoCreateAsync(draftMoneyFlow);
+            this.logger.Trace("Created money flow {0}.", moneyFlow);
+            return moneyFlow;
+        }
+
+        private MoneyFlow DoCreate(DraftMoneyFlow draftMoneyFlow)
+        {
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowTypeId = draftMoneyFlow.MoneyFlowTypeId,
+                MoneyFlowStatusId = draftMoneyFlow.MoneyFlowStatusId,
+                TransactionDate = draftMoneyFlow.TransactionDate,
+                Value = draftMoneyFlow.Value,
+                Description = draftMoneyFlow.Description,
+                FiscalYear = draftMoneyFlow.FiscalYear,
+                SourceTypeId = draftMoneyFlow.SourceTypeId,
+                RecipientTypeId = draftMoneyFlow.RecipientTypeId,
+        };
+
+            moneyFlow.Parent = GetParent(draftMoneyFlow.ParentMoneyFlowId);
+            moneyFlow.SourceOrganization = GetOrganization(draftMoneyFlow.SourceOrganizationId);
+            moneyFlow.RecipientOrganization = GetOrganization(draftMoneyFlow.RecipientOrganizationId);
+
+            moneyFlow.SourceProgram = GetProgram(draftMoneyFlow.SourceProgramId);
+            moneyFlow.RecipientProgram = GetProgram(draftMoneyFlow.RecipientProgramId);
+
+            moneyFlow.SourceProject = GetProject(draftMoneyFlow.SourceProjectId);
+            moneyFlow.RecipientProject = GetProject(draftMoneyFlow.RecipientProjectId);
+
+            moneyFlow.SourceParticipant = GetParticipant(draftMoneyFlow.SourceParticipantId);
+            moneyFlow.RecipientParticipant = GetParticipant(draftMoneyFlow.RecipientParticipantId);
+
+            moneyFlow.SourceItineraryStop = GetItineraryStop(draftMoneyFlow.SourceItineraryStopId);
+            moneyFlow.RecipientItineraryStop = GetItineraryStop(draftMoneyFlow.RecipientItineraryStopId);
+
+            moneyFlow.RecipientAccommodation = GetAccomodation(draftMoneyFlow.RecipientAccommodationId);
+            moneyFlow.RecipientTransportation = GetTransportation(draftMoneyFlow.RecipientTransportationId);
+
+            draftMoneyFlow.Audit.SetHistory(moneyFlow);
+            this.Context.MoneyFlows.Add(moneyFlow);
+            return moneyFlow;
+        }
+
+        private async Task<MoneyFlow> DoCreateAsync(DraftMoneyFlow draftMoneyFlow)
+        {
+            var moneyFlow = new MoneyFlow
+            {
+                MoneyFlowTypeId = draftMoneyFlow.MoneyFlowTypeId,
+                MoneyFlowStatusId = draftMoneyFlow.MoneyFlowStatusId,
+                TransactionDate = draftMoneyFlow.TransactionDate,
+                Value = draftMoneyFlow.Value,
+                Description = draftMoneyFlow.Description,
+                FiscalYear = draftMoneyFlow.FiscalYear,
+                SourceTypeId = draftMoneyFlow.SourceTypeId,
+                RecipientTypeId = draftMoneyFlow.RecipientTypeId,
+        };
+
+            moneyFlow.Parent = GetParent(draftMoneyFlow.ParentMoneyFlowId);
+            moneyFlow.SourceOrganization = GetOrganization(draftMoneyFlow.SourceOrganizationId);
+            moneyFlow.RecipientOrganization = GetOrganization(draftMoneyFlow.RecipientOrganizationId);
+
+            moneyFlow.SourceProgram = GetProgram(draftMoneyFlow.SourceProgramId);
+            moneyFlow.RecipientProgram = GetProgram(draftMoneyFlow.RecipientProgramId);
+
+            moneyFlow.SourceProject = GetProject(draftMoneyFlow.SourceProjectId);
+            moneyFlow.RecipientProject = GetProject(draftMoneyFlow.RecipientProjectId);
+
+            moneyFlow.SourceParticipant = GetParticipant(draftMoneyFlow.SourceParticipantId);
+            moneyFlow.RecipientParticipant = GetParticipant(draftMoneyFlow.RecipientParticipantId);
+
+            moneyFlow.SourceItineraryStop = GetItineraryStop(draftMoneyFlow.SourceItineraryStopId);
+            moneyFlow.RecipientItineraryStop = GetItineraryStop(draftMoneyFlow.RecipientItineraryStopId);
+
+            moneyFlow.RecipientAccommodation = GetAccomodation(draftMoneyFlow.RecipientAccommodationId);
+            moneyFlow.RecipientTransportation = GetTransportation(draftMoneyFlow.RecipientTransportationId);
+
+            draftMoneyFlow.Audit.SetHistory(moneyFlow);
+            this.Context.MoneyFlows.Add(moneyFlow);
+            return moneyFlow;
+        }
+
+
+        #region Update
+
+        public void Update(EcaMoneyFlow updatedMoneyFlow)
+        {
+            // stub 
+        }
+
+        public async Task UpdateAsync(EcaMoneyFlow updatedMoneyFlow) 
+        { 
+            // stub
+        }
+
+        #endregion
+
+        private MoneyFlow GetParent(int? parentId)
+        {
+            return this.Context.MoneyFlows.Find(parentId);
+        }
+        private Organization GetOrganization(int? organizationId)
+        {
+            return this.Context.Organizations.Find(organizationId);
+        }
+
+        private Program GetProgram(int? programId)
+        {
+            return this.Context.Programs.Find(programId);
+        }
+        private Participant GetParticipant(int? participantId)
+        {
+            return this.Context.Participants.Find(participantId);
+        }
+        private Project GetProject(int? projectId)
+        {
+            return this.Context.Projects.Find(projectId);
+        }
+        private ItineraryStop GetItineraryStop(int? itineraryStopId)
+        {
+            return this.Context.ItineraryStops.Find(itineraryStopId);
+        }
+        private Accommodation GetAccomodation(int? accomodationId)
+        {
+            return this.Context.Accommodations.Find(accomodationId);
+        }
+        private Transportation GetTransportation(int? transportationId)
+        {
+            return this.Context.Transportations.Find(transportationId);
+        }
+        
+        private MoneyFlowValidationEntity GetValidationEntity(DraftMoneyFlow draftMoneyFlow)
+        {
+            return new MoneyFlowValidationEntity(draftMoneyFlow.Description, draftMoneyFlow.Value,
+                draftMoneyFlow.TransactionDate);
         }
     }
 }
