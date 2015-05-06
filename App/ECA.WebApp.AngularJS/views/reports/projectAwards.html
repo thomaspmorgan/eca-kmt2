@@ -1,13 +1,14 @@
 ﻿<div class="modal-header">
     <h3 class="modal-title">Project Awards</h3>
 </div>
+
 <form name="projectAwardForm">
     <div class="modal-body">
         <div class="form-group">
             <label>Program<span class="asterisk"> *</span></label>
             <input name="program" ng-model="parameters.program" type="text" placeholder="Enter Program name..."
                    typeahead="p as p.name for p in getPrograms($viewValue)" typeahead-loading="loadingPrograms" typeahead-on-select="model=$item.id"
-                   typeahead-editable="false" class="form-control" required/><i ng-show="loadingPrograms" class="glyphicon glyphicon-refresh"></i>
+                   typeahead-editable="false" class="form-control" required /><i ng-show="loadingPrograms" class="glyphicon glyphicon-refresh"></i>
         </div>
         <div ng-show="projectAwardForm.program.$dirty">
             <div class="error" ng-show="!parameters.program">Please select a program.</div>
@@ -16,15 +17,20 @@
             <label>Country<span class="asterisk"> *</span></label>
             <input name="country" ng-model="parameters.country" type="text" placeholder="Enter Country name..."
                    typeahead="p as p.name for p in getCountries($viewValue)" typeahead-loading="loadingCountries" typeahead-on-select="model=$item.id"
-                   typeahead-editable="false" class="form-control" required/><i ng-show="loadingCountries" class="glyphicon glyphicon-refresh"></i>
+                   typeahead-editable="false" class="form-control" required /><i ng-show="loadingCountries" class="glyphicon glyphicon-refresh"></i>
         </div>
         <div ng-show="projectAwardForm.country.$dirty">
             <div class="error" ng-show="!parameters.country">Please select a country.</div>
         </div>
+        <div class="spinner" ng-show="isRunning">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
     </div>
 </form>
-    <div class="modal-footer">
-        <button ng-disabled="!parameters.program || !parameters.country" class="btn btn-primary" ng-click="run()">Run</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-    </div>
+<div class="modal-footer">
+    <button ng-disabled="!parameters.program || !parameters.country || isRunning" class="btn btn-primary" ng-click="run()">Run</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
 
