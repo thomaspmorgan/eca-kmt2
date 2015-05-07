@@ -134,6 +134,8 @@
     <Content Include="scripts\controllers\project\edit.js" />
     <Content Include="scripts\controllers\project\overview.js" />
     <Content Include="scripts\controllers\project\overview_test.js" />
+    <Content Include="scripts\controllers\project\unsavedchanges.js" />
+    <Content Include="views\project\unsavedchanges.html" />
     <Content Include="scripts\controllers\reports\ProjectAwards.js" />
     <Content Include="scripts\controllers\simple_test.js" />
     <Content Include="scripts\directives\datepickerpopup.js" />

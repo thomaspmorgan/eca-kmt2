@@ -14,6 +14,7 @@ angular.module('staticApp')
         $q,
         $log,
         $state,
+        $modal,
         ProjectService,
         ProgramService,
         TableService,
@@ -30,7 +31,6 @@ angular.module('staticApp')
       $scope.editView.validations = [];
       $scope.editView.isLoading = false;
       $scope.editView.isSaving = false;
-
       
       $scope.editView.show = false;
       $scope.editView.dateFormat = 'dd-MMMM-yyyy';
@@ -105,14 +105,36 @@ angular.module('staticApp')
           $scope.editView.saveFailed = false;
       }
 
-      $scope.editView.onCancelClick = function () {
-          if ($scope.form.projectForm.$dirty) {
 
+
+      $scope.$watch(function () {
+          return $scope.form.projectForm.$dirty;
+      }, function (newValue, oldValue) {
+          $log.info('new=' + newValue + ' old=' + oldValue);
+      });
+
+
+      $scope.editView.onCancelClick = function () {
+          
+          debugger;
+          if ($scope.form.projectForm.$dirty) {
+              var modalInstance = $modal.open({
+                  templateUrl: '/views/project/unsavedchanges.html',
+                  controller: 'UnsavedChangesCtrl',
+                  resolve: {},
+                  size: 'lg'
+              });
+              modalInstance.result.then(function () {
+                  $log.info('Cancelling changes...');
+                  goToProjectOverview();
+
+              }, function () {
+                  $log.info('Dismiss warning dialog and allow save changes...');
+              });
           }
           else {
-              $state.go('projects.overview');
+              goToProjectOverview();
           }
-          
       }
 
       $scope.editView.onSaveClick = function ($event) {
@@ -137,6 +159,10 @@ angular.module('staticApp')
           $event.preventDefault();
           $event.stopPropagation();
           $scope.editView.isEndDatePickerOpen = true;
+      }
+
+      function goToProjectOverview() {
+          $state.go('projects.overview');
       }
 
       function allowEdit(canEdit) {
@@ -286,18 +312,22 @@ angular.module('staticApp')
                 if (!isNaN(endDate.getTime())) {
                     $scope.$parent.project.endDate = endDate;
                 }
-                setSelectedPointsOfContact();
-                setSelectedGoals();
-                setSelectedThemes();
-                setSelectedCategories();
-                setSelectedObjectives();
+                //setSelectedPointsOfContact();
+                //setSelectedGoals();
+                //setSelectedThemes();
+                //setSelectedCategories();
+                //setSelectedObjectives();
+                setFormPristine();
 
             }, function (errorResponse) {
                 $log.error('Failed to load project with id ' + projectId);
-                if (errorResponse.status === 401) {
-                    showUnauthorizedMessage();
-                }
             });
+      }
+
+      function setFormPristine() {
+          debugger;
+          $scope.form.projectForm.$setPristine();
+          $scope.form.projectForm.$setUntouched();
       }
 
       function setSelectedItems(projectPropertyName, editViewSelectedPropertyName) {
