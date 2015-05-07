@@ -105,18 +105,7 @@ angular.module('staticApp')
           $scope.editView.saveFailed = false;
       }
 
-
-
-      $scope.$watch(function () {
-          return $scope.form.projectForm.$dirty;
-      }, function (newValue, oldValue) {
-          $log.info('new=' + newValue + ' old=' + oldValue);
-      });
-
-
       $scope.editView.onCancelClick = function () {
-          
-          debugger;
           if ($scope.form.projectForm.$dirty) {
               var modalInstance = $modal.open({
                   templateUrl: '/views/project/unsavedchanges.html',
@@ -312,22 +301,15 @@ angular.module('staticApp')
                 if (!isNaN(endDate.getTime())) {
                     $scope.$parent.project.endDate = endDate;
                 }
-                //setSelectedPointsOfContact();
-                //setSelectedGoals();
-                //setSelectedThemes();
-                //setSelectedCategories();
-                //setSelectedObjectives();
-                setFormPristine();
+                setSelectedPointsOfContact();
+                setSelectedGoals();
+                setSelectedThemes();
+                setSelectedCategories();
+                setSelectedObjectives();
 
             }, function (errorResponse) {
                 $log.error('Failed to load project with id ' + projectId);
             });
-      }
-
-      function setFormPristine() {
-          debugger;
-          $scope.form.projectForm.$setPristine();
-          $scope.form.projectForm.$setUntouched();
       }
 
       function setSelectedItems(projectPropertyName, editViewSelectedPropertyName) {
@@ -493,17 +475,15 @@ angular.module('staticApp')
           var config = {};
           config[ConstantsService.permission.editproject.value] = {
               hasPermission: function () {
-                  allowEdit(true);
-                  $log.info('User has edit project permission.');
+                  $log.info('User has edit project permission in edit.js controller.');
               },
               notAuthorized: function () {
-                  allowEdit(false);
-                  $log.info('User not authorized to edit project.');
+                  $state.go('forbidden');
               }
           };
           return AuthService.getResourcePermissions(resourceType, projectId, config)
             .then(function (result) {
-                $log.info('Successfully loaded permissions.');
+
             }, function () {
                 $log.error('Unable to load user permissions.');
             });
