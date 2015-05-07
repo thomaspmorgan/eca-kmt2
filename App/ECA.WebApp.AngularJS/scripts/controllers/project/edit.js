@@ -23,19 +23,17 @@ angular.module('staticApp')
         AuthService,
         NotificationService) {
 
-
       $scope.editView = {};
       $scope.editView.params = $stateParams;
       $scope.editView.saveFailed = false;
       $scope.editView.errorMessage = "";
       $scope.editView.validations = [];
       $scope.editView.isLoading = false;
-      $scope.editView.isSaving = false;
-      
-      $scope.editView.show = false;
+      $scope.editView.isSaving = false;      
       $scope.editView.dateFormat = 'dd-MMMM-yyyy';
       $scope.editView.isStartDatePickerOpen = false;
       $scope.editView.isEndDatePickerOpen = false;
+
       $scope.editView.foci = [];
       $scope.editView.projectStati = [];
       $scope.editView.pointsOfContact = [];
@@ -49,9 +47,6 @@ angular.module('staticApp')
       $scope.editView.selectedThemes = [];
       $scope.editView.selectedCategories = [];
       $scope.editView.selectedObjectives = [];
-
-      $scope.permissions = {};
-      $scope.permissions.canEdit = true;
 
       $scope.categoryLabel = "Focus/Categories";
       $scope.objectiveLabel = "Justification/Objectives";
@@ -156,23 +151,6 @@ angular.module('staticApp')
           $state.go('projects.overview');
       }
 
-      function allowEdit(canEdit) {
-          $scope.permissions.canEdit = canEdit;
-      }
-
-      function showEditView() {
-          if ($scope.permissions.canEdit) {
-              $scope.editView.show = true;
-          }
-          else {
-              NotificationService.showUnauthorizedMessage('You are not authorized to edit this project.');
-          }
-      }
-
-      function hideEditView() {
-          $scope.editView.show = false;
-      }
-
       function getStatusById(stati, id) {
           return getLookupById(stati, id);
       }
@@ -243,7 +221,6 @@ angular.module('staticApp')
           ProjectService.update($scope.$parent.project, $stateParams.projectId)
             .then(function (response) {
                 $scope.$parent.project = response.data;
-                hideEditView();
                 showSaveSuccess();
             }, function (errorResponse) {
                 $scope.editView.saveFailed = true;
