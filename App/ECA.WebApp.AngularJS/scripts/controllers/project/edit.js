@@ -110,6 +110,8 @@ angular.module('staticApp')
               var modalInstance = $modal.open({
                   templateUrl: '/views/project/unsavedchanges.html',
                   controller: 'UnsavedChangesCtrl',
+                  windowClass: 'modal-center',
+                  backdrop: 'static',
                   resolve: {},
                   size: 'lg'
               });
