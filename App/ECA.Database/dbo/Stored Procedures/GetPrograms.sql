@@ -1,44 +1,57 @@
 ﻿
 -- =============================================
--- Author:		Tom Morgan
--- Create date: 3/13/2015
--- Description:	Get all ECA programs recursively and ordered
+-- Author:		Doug Krehbel
+-- Create date: 5/5/2015
+-- Description:	Get all ECA programs recursively and ordered - updated from previous using cte and recursion
 -- =============================================
 CREATE PROCEDURE [dbo].[GetPrograms]
-	-- Add the parameters for the stored procedure here
+
 AS
 BEGIN
 
-With Programs As
-(SELECT TopLevelProgram.[ProgramId]
-,TopLevelProgram.[Name]
-,TopLevelProgram.[Description]
-      ,TopLevelProgram.[ParentProgram_ProgramId]
-	  ,TopLevelProgram.[Owner_OrganizationId]
-	  ,Org.Name As OrgName
-	  ,Org.OfficeSymbol as OfficeSymbol
-	  ,1 As ProgramLevel
-  FROM [Program] as TopLevelProgram
-  Join Organization As Org On TopLevelProgram.Owner_OrganizationId = Org.OrganizationId
-  where TopLevelProgram.ParentProgram_ProgramId Is Null and TopLevelProgram.ProgramStatusId = 1
-  
-  union all
 
-  SELECT Prog.[ProgramId]
-	,Prog.[Name]
-	,Prog.[Description]
-      ,Prog.[ParentProgram_ProgramId]
-	  	,Prog.[Owner_OrganizationId]
-		,Org.Name As OrgName
-		,Org.OfficeSymbol as OfficeSymbol
-	  , PL.ProgramLevel + 1
-  FROM [Program] as Prog
-    Join Organization as Org on Prog.Owner_OrganizationId = Org.OrganizationId
-  inner join Programs as PL On Prog.ParentProgram_ProgramId = PL.ProgramId
+with cte as
+(
+select
+    prog.ProgramID,
+    prog.name,
+	prog.[description],
+	prog.[Owner_OrganizationId],
+    prog.parentProgram_ProgramId,
+	Org.Name As OrgName,
+	Org.OfficeSymbol as OfficeSymbol,
+	dbo.NumberOfChildPrograms(prog.ProgramID) as NumChildren,
+    cast(row_number()over(partition by prog.parentProgram_ProgramId order by prog.name) as varchar(max)) as [path],
+    0 as programLevel,
+    row_number()over(partition by prog.parentProgram_ProgramId order by prog.name) / power(10.0,0) as x
+ 
+from program as prog
+Join Organization as Org on Owner_OrganizationId = Org.OrganizationId
+where ISNULL(parentProgram_ProgramId, 0) = 0
+and ProgramStatusId = 1
 
-  where Prog.ParentProgram_ProgramId Is Not Null and Prog.ProgramStatusId = 1)
+union all
+select
+    t.ProgramId,
+    t.name,
+	t.[description],
+	t.[Owner_OrganizationId],
+    t.parentProgram_ProgramId,
+	Org.Name As OrgName,
+	Org.OfficeSymbol as OfficeSymbol,
+	dbo.NumberOfChildPrograms(t.ProgramID) as NumChildren,
+    [path] +'-'+ cast(row_number()over(partition by t.parentProgram_ProgramId order by t.name) as varchar(max)),
+    programLevel+1,
+    x + row_number()over(partition by t.parentProgram_ProgramId order by t.name) / power(10.0,programlevel+1)
+ 
+from
+    cte
+Join Organization as Org on Owner_OrganizationId = Org.OrganizationId
+join program t on cte.ProgramId = t.parentProgram_ProgramId
+where t.programStatusId = 1
 
-  select * from Programs order by Name, ProgramLevel
+)
+   
+select * from cte order by x
 
-End
-GO
+END

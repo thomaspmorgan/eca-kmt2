@@ -252,6 +252,32 @@ angular.module('staticApp')
         $scope.objectiveLabel = 'Objectives';
     };
 
+    $scope.showHideChildren = function(program, showChild) {
+        // loop through rows after this one and show/hide while programLevel is less
+
+        $('#expand' + program.programId).toggle();
+        $('#contract' + program.programId).toggle();
+
+        var thisRow = $('#program' + program.programId);
+        var currentLevel = program.programLevel;
+
+        var start = thisRow[0].rowIndex + 1;
+
+        var rows = document.getElementById("programList").rows;
+        for (var rowIndex = start; rowIndex < rows.length; rowIndex++) {
+            var row = rows[rowIndex];
+
+            var level = $(row).attr('program-level');
+            if (level > currentLevel)
+            {
+                if (showChild) { $(row).show() } else { $(row).hide(); }
+            }
+            else
+            {
+                break;
+            }
+        }
+    };
 
     $scope.getParentPrograms = function (val) {
         $scope.parentLookupParams = {
