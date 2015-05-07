@@ -107,7 +107,7 @@
                         <li ng-repeat="country in pii.countriesOfCitizenship">{{country.value}}</li>
                     </ul>
                     <ul ng-show="editPii">
-                        <ui-select multiple ng-model="selectedCountriesOfCitizenship" ng-disabled="!editPii" theme="select2" close-on-select="false" title="Choose a country" style="min-width: 200px;">
+                        <ui-select multiple ng-model="$parent.selectedCountriesOfCitizenship" ng-disabled="!editPii" theme="select2" close-on-select="false" title="Choose a country" style="min-width: 200px;">
                             <ui-select-match placeholder="Select countries...">
                                 <div>{{$item.name}}</div>
                             </ui-select-match>

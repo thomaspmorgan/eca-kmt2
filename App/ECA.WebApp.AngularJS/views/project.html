@@ -5,8 +5,8 @@
     <div class="toolbar" sticky offset="50">
         <div class="left2">
             <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-danger" ng-click="onDraftButtonClick($event)">{{project.status}}</button>
-                <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle>
+                <button type="button" ng-class="{modified: isProjectModified}" class="btn project" ng-disabled="!isProjectStatusButtonEnabled" ng-click="onDraftButtonClick($event)">{{project.status}}</button>
+                <button type="button" ng-class="{modified: isProjectModified}" class="btn dropdown-toggle project" ng-disabled="!isProjectStatusButtonEnabled" dropdown-toggle>
                     <span class="caret"></span>
                     <span class="sr-only">Split button!</span>
                 </button>

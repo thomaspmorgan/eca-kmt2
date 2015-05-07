@@ -11,7 +11,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.99167in</Height>
+              <Height>1in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -136,9 +136,9 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Summary</rd:DefaultName>
-                          <Top>0.50348in</Top>
+                          <Top>0.44569in</Top>
                           <Left>0.68527in</Left>
-                          <Height>0.34375in</Height>
+                          <Height>0.45362in</Height>
                           <Width>6.67709in</Width>
                           <ZIndex>3</ZIndex>
                           <Style>
@@ -177,9 +177,10 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
+        <KeepTogether>true</KeepTogether>
         <DataSetName>ProjectAwardDS</DataSetName>
-        <Top>0.12153in</Top>
-        <Height>0.99167in</Height>
+        <Top>0.02778in</Top>
+        <Height>1in</Height>
         <Width>7.5in</Width>
         <Style>
           <Border>
@@ -188,7 +189,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>1.23958in</Height>
+    <Height>1.47222in</Height>
     <Style />
   </Body>
   <Width>7.5in</Width>
@@ -274,7 +275,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.47792in</Height>
+      <Height>0.37375in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -297,7 +298,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
-          <Top>0.06944in</Top>
+          <Top>0.05556in</Top>
           <Left>3.58208in</Left>
           <Height>0.25in</Height>
           <Width>3.78028in</Width>
@@ -330,7 +331,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>ExecutionTime</rd:DefaultName>
-          <Top>0.06944in</Top>
+          <Top>0.05556in</Top>
           <Left>0.19667in</Left>
           <Height>0.25in</Height>
           <Width>2.80208in</Width>

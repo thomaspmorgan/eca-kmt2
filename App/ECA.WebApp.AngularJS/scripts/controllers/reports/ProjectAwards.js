@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectAwardsCtrl', function ($scope, $modalInstance, ProgramService, LocationService, parameters) {
+  .controller('ProjectAwardsCtrl', function ($scope, $modalInstance, $log, ProgramService, LocationService, parameters, ReportService, DownloadService) {
 
     $scope.parameters = parameters;
 
@@ -17,12 +17,28 @@ angular.module('staticApp')
 
     var programParams = null;
     var locationParams = null;
-    
+    $scope.isRunning = false;
     $scope.run = function () {
-        $modalInstance.close($scope.parameters);
+        
+        var url = ReportService.getProjectAwards(parameters.program.programId, parameters.country.id);
+        $scope.isRunning = true;
+        $log.debug('Report: ProjectAwards programId:[' + parameters.program.programId + '], countryId:[' + parameters.country.id + ']');
+        $log.info('Report: ProjectAwards run at: ' + new Date());
+        DownloadService.get(url, 'application/pdf', 'ProgramAwards.pdf')
+        .then(function() {
+
+        }, function() {
+            $log.error('Unable to download project awards report.');
+        })
+        .then(function () {
+            $scope.isRunning = false;
+            $modalInstance.close($scope.parameters);
+        })
+        
     };
 
     $scope.cancel = function () {
+        $scope.isRunning = false;
         $modalInstance.dismiss('cancel');
     };
 

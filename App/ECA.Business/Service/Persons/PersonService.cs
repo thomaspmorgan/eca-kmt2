@@ -90,7 +90,7 @@ namespace ECA.Business.Service.Persons
             var existingPerson = await GetExistingPerson(newPerson);
             if (existingPerson != null)
             {
-                this.logger.Trace("Found existing person {0}.", newPerson);
+                this.logger.Trace("Found existing person {0}.", existingPerson);
                 throw new EcaBusinessException("The person already exists.");
             }
             var project = await GetProjectByIdAsync(newPerson.ProjectId);
@@ -102,31 +102,46 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
-        /// Query for an existing person
+        /// Get existing person
         /// </summary>
-        /// <param name="newPerson">The person to query for</param>
-        /// <returns>The existing person or null</returns>
+        /// <param name="newPerson">The person to lookup</param>
+        /// <returns>The person found</returns>
         public async Task<Person> GetExistingPerson(NewPerson newPerson)
         {
-            this.logger.Trace("Retrieving person with match to {0}.", newPerson);
-            return await CreateGetPerson(newPerson).FirstOrDefaultAsync();
+            this.logger.Trace("Retrieving person {0}.", newPerson);
+            return await CreateGetPerson(newPerson.FirstName, newPerson.LastName, newPerson.Gender, newPerson.DateOfBirth, newPerson.CityOfBirth).FirstOrDefaultAsync();
         }
 
         /// <summary>
-        /// Creates query for existing person
+        /// Get existing person 
         /// </summary>
-        /// <param name="newPerson">The person to query for</param>
-        /// <returns>The queryable person or null</returns>
-        private IQueryable<Person> CreateGetPerson(NewPerson newPerson)
+        /// <param name="pii">The pii to lookup</param>
+        /// <returns>The person found</returns>
+        public async Task<Person> GetExistingPerson(UpdatePii pii)
+        {
+            this.logger.Trace("Retrieving person {0}.", pii);
+            return await CreateGetPerson(pii.FirstName, pii.LastName, pii.GenderId, pii.DateOfBirth, pii.CityOfBirthId).FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Creates get person query
+        /// </summary>
+        /// <param name="firstName">The first name</param>
+        /// <param name="lastName">The last name</param>
+        /// <param name="genderId">The gender id</param>
+        /// <param name="dateOfBirth">The date of birth</param>
+        /// <param name="cityOfBirthId">The city of birth id</param>
+        /// <returns>Queryable person object</returns>
+        private IQueryable<Person> CreateGetPerson(string firstName, string lastName, int genderId, DateTime dateOfBirth, int cityOfBirthId)
         {
             return Context.People.Where(
-                    x => x.FirstName.ToLower().Trim() == newPerson.FirstName.ToLower().Trim() &&
-                         x.LastName.ToLower().Trim() == newPerson.LastName.ToLower().Trim() &&
-                         x.GenderId == newPerson.Gender &&
-                         x.DateOfBirth.Day == newPerson.DateOfBirth.Day &&
-                         x.DateOfBirth.Month == newPerson.DateOfBirth.Month &&
-                         x.DateOfBirth.Year == newPerson.DateOfBirth.Year &&
-                         x.PlaceOfBirthId == newPerson.CityOfBirth
+                    x => x.FirstName.ToLower().Trim() == firstName.ToLower().Trim() &&
+                         x.LastName.ToLower().Trim() == lastName.ToLower().Trim() &&
+                         x.GenderId == genderId &&
+                         x.DateOfBirth.Day == dateOfBirth.Day &&
+                         x.DateOfBirth.Month == dateOfBirth.Month &&
+                         x.DateOfBirth.Year == dateOfBirth.Year &&
+                         x.PlaceOfBirthId == cityOfBirthId
                     );
         }
 
@@ -195,7 +210,18 @@ namespace ECA.Business.Service.Persons
             return participant;
         }
 
+        /// <summary>
+        /// Update pii
+        /// </summary>
+        /// <param name="pii">The pii business model</param>
+        /// <returns>The person updated</returns>
         public async Task<Person> UpdatePiiAsync(UpdatePii pii) {
+            var existingPerson = await GetExistingPerson(pii);
+            if (existingPerson != null && pii.PersonId != existingPerson.PersonId)
+            {
+                this.logger.Trace("Found existing person {0}.", existingPerson);
+                throw new EcaBusinessException("The person already exists.");
+            }
             var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
             var participantToUpdate = await GetParticipantByIdAsync(pii.ParticipantId);
             var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
@@ -203,6 +229,11 @@ namespace ECA.Business.Service.Persons
             return personToUpdate;
         }
 
+        /// <summary>
+        /// Get the person by id 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>The person</returns>
         public async Task<Person> GetPersonByIdAsync(int personId)
         {
             this.logger.Trace("Retrieving person with id {0}.", personId);
@@ -249,6 +280,11 @@ namespace ECA.Business.Service.Persons
             });
         }
 
+        /// <summary>
+        /// Get participant by id 
+        /// </summary>
+        /// <param name="participantId">The participant id to lookup</param>
+        /// <returns>The participant</returns>
         public async Task<Participant> GetParticipantByIdAsync(int participantId)
         {
             this.logger.Trace("Retrieving participant with id {0}.", participantId);

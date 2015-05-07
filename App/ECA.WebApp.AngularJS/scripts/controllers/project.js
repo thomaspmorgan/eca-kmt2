@@ -8,8 +8,8 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, PersonService,
-      ProgramService, ParticipantService, LocationService, MoneyFlowService,
+  .controller('ProjectCtrl', function ($scope, $state, $stateParams, $log, $q, ProjectService, PersonService,
+      ProgramService, ParticipantService, LocationService, MoneyFlowService, AuthService,
       TableService, ConstantsService, LookupService, orderByFilter) {
 
       $scope.project = {};
@@ -20,7 +20,9 @@ angular.module('staticApp')
 
       $scope.newMoneyFlow = {};
       $scope.sortedCategories =[];
-      $scope.sortedObjectives =[];
+      $scope.sortedObjectives = [];
+      $scope.isProjectStatusButtonEnabled = false;
+      $scope.isProjectModified = false;
 
       $scope.tabs = {
           overview: {
@@ -72,6 +74,14 @@ angular.module('staticApp')
               order: 8
           }
       };
+
+      function enabledProjectStatusButton() {
+          $scope.isProjectStatusButtonEnabled = true;
+      }
+
+      function disableProjectStatusButton() {
+          $scope.isProjectStatusButtonEnabled = false;
+      }
 
       ProjectService.get($stateParams.projectId)
         .then(function (data) {
@@ -140,9 +150,7 @@ angular.module('staticApp')
       };
 
       $scope.onDraftButtonClick = function ($event) {
-          var eventName = ConstantsService.editProjectEventName;
-          $log.info('Firing event [' + eventName + '] in project.js controller.');
-          $scope.$broadcast(eventName);
+          $state.go('projects.edit');
       };
       
       $scope.params = $stateParams;
@@ -313,5 +321,34 @@ angular.module('staticApp')
           });
           $scope.cities = [];
       };
+
+      function loadPermissions() {
+          console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
+          var projectId = $stateParams.projectId;
+          var resourceType = ConstantsService.resourceType.project.value;
+          var config = {};
+          config[ConstantsService.permission.editproject.value] = {
+              hasPermission: function () {
+                  enabledProjectStatusButton();
+                  $log.info('User has edit project permission in project.js controller.');
+              },
+              notAuthorized: function () {
+                  disableProjectStatusButton();
+                  $log.info('User not authorized to edit project  in project.js controller.');
+              }
+          };
+          return AuthService.getResourcePermissions(resourceType, projectId, config)
+            .then(function (result) {
+            }, function () {
+                $log.error('Unable to load user permissions in project.js controller.');
+            });
+      }
+
+      $q.all([loadPermissions()])
+      .then(function () {
+
+      }, function () {
+
+      });
 
   });

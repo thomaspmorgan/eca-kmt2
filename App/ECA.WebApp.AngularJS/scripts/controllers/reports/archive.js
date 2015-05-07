@@ -104,10 +104,7 @@ angular.module('staticApp')
 
               modalInstance.result.then(function (parameters) {
                   $scope.parameters = parameters;
-                  var url = ReportService.getProjectAwards(parameters.program.programId, parameters.country.id);
-                  $log.debug('Report: ' + title + ' programId:[' + parameters.program.programId + '], countryId:[' + parameters.country.id + ']');
-                  $log.info('Report: ' + title + ' run at: ' + new Date());
-                  $window.open(url);
+                  
               }, function () {
                   $log.info('Report: ' + title + '  Dismissed at: ' + new Date());
               });

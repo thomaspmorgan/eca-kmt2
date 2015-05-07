@@ -1,0 +1,189 @@
+﻿
+<div class="spinner" ng-show="editView.isLoading || editView.isSaving">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+
+
+<div ng-show="!editView.isLoading && !editView.isSaving" in-context-form>
+    <div>
+        <div class="pull-right">
+            <button ng-click="editView.onSaveClick($event)" ng-disabled="form.projectForm.$invalid" class="btn btn-success">Save</button>
+            <button ng-click="editView.onCancelClick($event)" class="btn btn-cancel">Cancel</button>
+        </div>
+        <h2 class="project-color tab-header" ng-show="!editView.isLoading && !editView.isSaving">Overview</h2>
+    </div>
+    <form name="form.projectForm" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-md-2 title-label" for="projectName">Project Name <span class="asterisk"> *</span></label>
+            <div class="col-md-10">
+                <input name="name"
+                       ng-model="project.name"
+                       form-element guidance="This is the name of your project."
+                       type="text"
+                       class="form-control"
+                       placeholder="Enter project title..."
+                       id="projectName"
+                       required />
+                <div ng-show="form.projectForm.name.$dirty">
+                    <div class="error" ng-show="form.projectForm.name.$error.required">Please enter a project name.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 title-label" for="description">Description <span class="asterisk"> *</span></label>
+            <div class="col-md-10">
+                <textarea name="description"
+                          ng-model="project.description"
+                          form-element guidance="This is the description of your project."
+                          type="text"
+                          id="description"
+                          class="form-control"
+                          placeholder="Enter project description..."
+                          required />
+                <div ng-show="form.projectForm.description.$dirty">
+                    <div class="error" ng-show="form.projectForm.description.$error.required">Please enter a project description.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row tags">
+            <span ng-repeat="tag in project.tags" class="tag">#{{tag}}</span>
+        </div>
+        <div class="row table">
+            <h4 class="tab-subheader">Details</h4>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-md-3 title-label" for="status">Status <span class="asterisk"> *</span></label>
+                    <div class="col-md-9">
+                        <select class="form-control" id="status" ng-options="s.id as s.name for s in editView.projectStati" ng-model="project.projectStatusId" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 title-label" for="startDate">Start Date <span class="asterisk"> *</span></label>
+                    <div class="col-md-9">
+                        <p class="input-group">
+                            <input type="text"
+                                   class="form-control"
+                                   datepicker-popup="{{editView.dateFormat}}"
+                                   ng-model="project.startDate"
+                                   is-open="editView.isStartDatePickerOpen"
+                                   ng-required="true"
+                                   close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="editView.openStartDatePicker($event)"><i class="fa fa-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 title-label" for="startDate">End Date <span class="asterisk"> *</span></label>
+                    <div class="col-md-9">
+                        <p class="input-group">
+                            <input type="text"
+                                   class="form-control"
+                                   datepicker-popup="{{editView.dateFormat}}"
+                                   ng-model="project.endDate"
+                                   is-open="editView.isEndDatePickerOpen"
+                                   ng-required="true"
+                                   close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="editView.openEndDatePicker($event)"><i class="fa fa-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">Themes</div>
+                    <div class="col-md-6">
+                        <ui-select multiple ng-model="editView.selectedThemes" theme="select2" close-on-select="false" title="Choose a theme." style="min-width: 200px;">
+                            <ui-select-match placeholder="Select themes...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="theme in editView.themes">
+                                <div ng-bind-html="theme.value | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">Strategic Goals</div>
+                    <div class="col-md-6">
+                        <ui-select multiple ng-model="editView.selectedGoals" theme="select2" close-on-select="false" title="Choose a goal." style="min-width: 200px;">
+                            <ui-select-match placeholder="Select goals...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+
+                            <ui-select-choices repeat="goal in editView.goals">
+                                <div ng-bind-html="goal.value | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 title-label">Office</div>
+                    <div class="col-md-6">{{program.ownerName}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">Program</div>
+                    <div class="col-md-6">{{program.name}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">{{categoryLabel}}</div>
+                    <div class="col-md-6">
+                        <ui-select multiple ng-model="editView.selectedCategories" theme="select2" close-on-select="false" title="Choose a catgeory." style="min-width: 200px;">
+                            <ui-select-match placeholder="Select categories...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+                            <ui-select-choices repeat="category in editView.categories">
+                                <div ng-bind-html="category.value | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 title-label">{{objectiveLabel}}</div>
+                    <div class="col-md-6">
+                        <ui-select multiple ng-model="editView.selectedObjectives" theme="select2" close-on-select="false" title="Choose an objective." style="min-width: 200px;">
+                            <ui-select-match placeholder="Select objectives...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+
+                            <ui-select-choices repeat="objective in editView.objectives">
+                                <div ng-bind-html="objective.value | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="row" ng-show="project.contacts">
+                    <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
+                    <div class="col-md-6">
+                        <ui-select multiple ng-model="editView.selectedPointsOfContact" theme="select2" close-on-select="false" title="Choose a point of contact." style="min-width: 200px;">
+                            <ui-select-match placeholder="Select points of contact...">
+                                <div>{{$item.value}}</div>
+                            </ui-select-match>
+
+                            <ui-select-choices refresh="editView.searchPointsOfContact($select.search)" refresh-delay="250" repeat="person in editView.pointsOfContact">
+                                <div ng-bind-html="person.fullName | highlight: $select.search"></div>
+                                <div class="small">{{person.position}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+        </div>
+    </form>
+</div>
+
+<modal-dialog show="editView.saveFailed" dialog-title="Error Saving Project" before-close="editView.confirmFailOk()">
+    <p class="strong">There was an error updating the project.</p>
+    <p class="alert-warning">{{editView.errorMessage}}</p>
+    <div>
+        <ul>
+            <li class="alert-danger" ng-repeat="validation in editView.validations">{{validation}}</li>
+        </ul>
+    </div>
+    <button class="btn btn-default right" ng-click="editView.confirmFailOk()">OK</button>
+</modal-dialog>
+
