@@ -112,6 +112,7 @@ angular.module('staticApp')
               });
               modalInstance.result.then(function () {
                   $log.info('Cancelling changes...');
+                  $scope.form.projectForm.$setPristine();
                   goToProjectOverview();
 
               }, function () {
@@ -119,6 +120,7 @@ angular.module('staticApp')
               });
           }
           else {
+              $scope.form.projectForm.$setPristine();
               goToProjectOverview();
           }
       }
@@ -146,6 +148,13 @@ angular.module('staticApp')
           $event.stopPropagation();
           $scope.editView.isEndDatePickerOpen = true;
       }
+
+      $scope.$watch(function () {
+          return $scope.form.projectForm.$dirty;
+      }, function () {
+          console.assert(typeof $scope.$parent.isProjectModified !== 'undefined', 'The isProjectModified boolean property must be defined in the parent scope.');
+          $scope.$parent.isProjectModified = $scope.form.projectForm.$dirty;
+      });
 
       function goToProjectOverview() {
           $state.go('projects.overview');

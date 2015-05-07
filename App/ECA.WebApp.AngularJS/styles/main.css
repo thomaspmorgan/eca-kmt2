@@ -5449,14 +5449,17 @@ label {
     width: 100%;
     z-index: 99999; }
     .jumbotron .toolbar .btn-group .btn {
-      background: #55b267;
+      background: #297cb4;
       border: 0;
       font-size: 1em;
-      width: 147px; }
+      width: 147px;
+      color: white; }
       .jumbotron .toolbar .btn-group .btn.dropdown-toggle {
         border-left: 1px solid rgba(0, 0, 0, 0.15);
         margin-right: 20px;
         width: 40px; }
+    .jumbotron .toolbar .btn-group .modified {
+      background: #55b267; }
     .jumbotron .toolbar .detail {
       color: #fff; }
     .jumbotron .toolbar .left {

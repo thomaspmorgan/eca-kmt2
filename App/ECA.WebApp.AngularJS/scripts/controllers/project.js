@@ -22,6 +22,7 @@ angular.module('staticApp')
       $scope.sortedCategories =[];
       $scope.sortedObjectives = [];
       $scope.isProjectStatusButtonEnabled = false;
+      $scope.isProjectModified = false;
 
       $scope.tabs = {
           overview: {
