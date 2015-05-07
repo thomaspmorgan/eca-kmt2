@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ParticipantCtrl', function ($scope, ParticipantService, PersonService, LookupService, LocationService, ConstantsService, $stateParams) {
+  .controller('ParticipantCtrl', function ($scope, ParticipantService, PersonService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService) {
 
       $scope.tabs = {
           personalInformation: {
@@ -168,8 +168,14 @@ angular.module('staticApp')
         setupPii();
         PersonService.updatePii($scope.pii, $scope.participant.personId)
             .then(function () {
+                NotificationService.showSuccessMessage("The edit was successful.");
                 $scope.editPii = false;
                 loadPii($scope.participant.personId);
+            }, 
+            function (error) {
+                if (error.status == 400) {
+                    NotificationService.showErrorMessage(error.data);
+                }
             });
     };
 
