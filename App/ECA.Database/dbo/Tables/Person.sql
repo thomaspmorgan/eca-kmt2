@@ -11,7 +11,7 @@
 	[Patronym]           NVARCHAR (50)     NULL,
 	[Alias]           NVARCHAR (50)     NULL,
     [GenderId]            INT                NOT NULL,
-    [DateOfBirth]         DATETIME2 NOT NULL,
+    [DateOfBirth]         DATETIME2 NULL,
     [Ethnicity]           NVARCHAR (100)     NULL,
     [EvaluationRetention] NVARCHAR (MAX)     NULL,
     [History_CreatedBy]   INT                NOT NULL,
