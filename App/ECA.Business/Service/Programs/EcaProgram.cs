@@ -48,7 +48,6 @@ namespace ECA.Business.Models.Programs
             int ownerOrganizationId,
             int? parentProgramId,
             int programStatusId,
-            int focusId,
             string website,
             byte[] programRowVersion,
             List<int> goalIds,
@@ -72,7 +71,6 @@ namespace ECA.Business.Models.Programs
             this.EndDate = endDate;
             this.OwnerOrganizationId = ownerOrganizationId;
             this.ParentProgramId = parentProgramId;
-            this.FocusId = focusId;
             this.Website = website;
             this.GoalIds = goalIds ?? new List<int>();
             this.ContactIds = pointOfContactIds ?? new List<int>();
@@ -116,11 +114,6 @@ namespace ECA.Business.Models.Programs
         /// gets the program website.
         /// </summary>
         public string Website { get; private set; }
-
-        /// <summary>
-        /// Gets the program focus by id.
-        /// </summary>
-        public int FocusId { get; private set; }
 
         /// <summary>
         /// Gets the program state date.

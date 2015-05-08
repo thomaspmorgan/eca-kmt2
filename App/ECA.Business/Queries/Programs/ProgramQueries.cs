@@ -64,7 +64,6 @@ namespace ECA.Business.Queries.Programs
                         let parentProgram = program.ParentProgram
                         let goals = program.Goals
                         let contacts = program.Contacts
-                        let focus = program.Focus
                         let categories = program.Categories
                         let objectives = program.Objectives
                         let countries = countryQuery.Where(c => regions.Contains(c.Region))
@@ -74,7 +73,6 @@ namespace ECA.Business.Queries.Programs
                             Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
                             CountryIsos = countries.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
                             Description = program.Description,
-                            Focus = new SimpleLookupDTO { Id = focus.FocusId, Value = focus.FocusName },
                             Categories = categories.Select(c => new FocusCategoryDTO { Id = c.CategoryId, Name = c.CategoryName, FocusName = c.Focus.FocusName}),
                             Goals = goals.Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
                             Id = program.ProgramId,

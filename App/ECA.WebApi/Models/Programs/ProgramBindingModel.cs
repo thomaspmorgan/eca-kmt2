@@ -56,7 +56,6 @@ namespace ECA.WebApi.Models.Programs
                 ownerOrganizationId: this.OwnerOrganizationId,
                 parentProgramId: this.ParentProgramId,
                 programStatusId: this.ProgramStatusId,
-                focusId: this.FocusId,
                 programRowVersion: Convert.FromBase64String(this.RowVersion),
                 website: this.Website,
                 goalIds: this.Goals,
