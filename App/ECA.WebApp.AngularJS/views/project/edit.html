@@ -61,6 +61,7 @@
                     <div class="col-md-9">
                         <p class="input-group">
                             <input type="text"
+                                   id="startDate"
                                    class="form-control"
                                    datepicker-popup="{{editView.dateFormat}}"
                                    ng-model="project.startDate"
@@ -74,15 +75,17 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-md-3 title-label" for="startDate">End Date <span class="asterisk"> *</span></label>
+                    <label class="col-md-3 title-label" for="endDate">End Date <span class="asterisk"> *</span></label>
                     <div class="col-md-9">
                         <p class="input-group">
                             <input type="text"
                                    class="form-control"
+                                   id="endDate"
                                    datepicker-popup="{{editView.dateFormat}}"
                                    ng-model="project.endDate"
                                    is-open="editView.isEndDatePickerOpen"
                                    ng-required="true"
+                                   min-date="project.startDate"
                                    close-text="Close" />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" ng-click="editView.openEndDatePicker($event)"><i class="fa fa-calendar"></i></button>
