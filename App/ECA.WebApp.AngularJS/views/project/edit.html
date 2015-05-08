@@ -100,7 +100,7 @@
                             <ui-select-match placeholder="Select themes...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
-                            <ui-select-choices repeat="theme in editView.themes">
+                            <ui-select-choices repeat="theme in editView.themes | filter: {name: $select.search}">
                                 <div ng-bind-html="theme.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
@@ -114,7 +114,7 @@
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
 
-                            <ui-select-choices repeat="goal in editView.goals">
+                            <ui-select-choices repeat="goal in editView.goals | filter: {name: $select.search}">
                                 <div ng-bind-html="goal.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
