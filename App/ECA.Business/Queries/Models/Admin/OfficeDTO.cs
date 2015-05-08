@@ -58,10 +58,5 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the Contacts.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Contacts { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Foci.
-        /// </summary>
-        public IEnumerable<SimpleLookupDTO> Foci { get; set; }
     }
 }

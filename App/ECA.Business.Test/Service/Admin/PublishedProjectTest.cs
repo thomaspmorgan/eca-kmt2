@@ -24,7 +24,6 @@ namespace ECA.Business.Test.Service.Admin
             var themeIds = new List<int> { 3 };
             var categoryIds = new List<int> { 4 };
             var objectiveIds = new List<int> { 5 };
-            var focusId = 4;
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow.AddDays(1.0);
             var user = new User(1);
@@ -39,7 +38,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: pocIds,
                 categoryIds: categoryIds,
                 objectiveIds: objectiveIds,
-                focusId: focusId,
                 startDate: startDate,
                 endDate: endDate
                 );
@@ -48,7 +46,6 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(projectStatusId, instance.ProjectStatusId);
             Assert.AreEqual(name, instance.Name);
             Assert.AreEqual(description, instance.Description);
-            Assert.AreEqual(focusId, instance.FocusId);
             Assert.AreEqual(startDate, instance.StartDate);
             Assert.AreEqual(endDate, instance.EndDate);
             Assert.IsInstanceOfType(instance.Audit, typeof(Update));
@@ -76,7 +73,6 @@ namespace ECA.Business.Test.Service.Admin
             var themeIds = new List<int> { 3, 3 };
             var categoryIds = new List<int> { 4, 4 };
             var objectiveIds = new List<int> { 5 , 5 };
-            var focusId = 4;
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow.AddDays(1.0);
             var user = new User(1);
@@ -91,7 +87,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: pocIds,
                 categoryIds: categoryIds,
                 objectiveIds: objectiveIds,
-                focusId: focusId,
                 startDate: startDate,
                 endDate: endDate
                 );
@@ -110,7 +105,6 @@ namespace ECA.Business.Test.Service.Admin
             var projectStatusId = ProjectStatus.Active.Id;
             var name = "name";
             var description = "description";
-            var focusId = 4;
             var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
             var endDate = DateTimeOffset.UtcNow.AddDays(1.0);
             var user = new User(1);
@@ -125,7 +119,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: focusId,
                 startDate: startDate,
                 endDate: endDate
                 );

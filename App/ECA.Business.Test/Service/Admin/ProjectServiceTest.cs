@@ -904,7 +904,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -927,7 +926,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -979,7 +977,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1042,7 +1039,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1086,7 +1082,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: contactIds,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1119,7 +1114,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: contactIds,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1151,7 +1145,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1183,7 +1176,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1216,7 +1208,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1248,7 +1239,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1257,22 +1247,17 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(goalIds.First(), projectToUpdate.Goals.First().GoalId);
         }
 
-
         [TestMethod]
-        public async Task TestUpdateAsync_CheckFocus()
+        public void TestUpdate_CheckCategories()
         {
-            var focus = new Focus
-            {
-                FocusId = 10
-            };
             var projectToUpdate = new Project
             {
                 ProjectId = 1,
                 ProjectStatusId = ProjectStatus.Other.Id
             };
             context.Projects.Add(projectToUpdate);
-            context.Foci.Add(focus);
 
+            var categoryIds = new List<int> { 1 };
             var updater = new User(1);
             var updatedProject = new PublishedProject(
                 updatedBy: updater,
@@ -1283,50 +1268,109 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
-                categoryIds: null,
+                categoryIds: categoryIds,
                 objectiveIds: null,
-                focusId: focus.FocusId,
-                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
-                );
-            await service.UpdateAsync(updatedProject);
-            Assert.AreEqual(focus.FocusId, projectToUpdate.Focus.FocusId);
-        }
-
-        [TestMethod]
-        public void TestUpdate_CheckFocus()
-        {
-            var focus = new Focus
-            {
-                FocusId = 10
-            };
-            var projectToUpdate = new Project
-            {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
-            };
-            context.Projects.Add(projectToUpdate);
-            context.Foci.Add(focus);
-
-            var updater = new User(1);
-            var updatedProject = new PublishedProject(
-                updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
-                name: "new name",
-                description: "new description",
-                projectStatusId: ProjectStatus.Pending.Id,
-                goalIds: null,
-                themeIds: null,
-                pointsOfContactIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                focusId: focus.FocusId,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
             service.Update(updatedProject);
-            Assert.AreEqual(focus.FocusId, projectToUpdate.Focus.FocusId);
+            Assert.AreEqual(1, projectToUpdate.Categories.Count);
+            Assert.AreEqual(categoryIds.First(), projectToUpdate.Categories.First().CategoryId);
         }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckCategories()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var categoryIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: categoryIds,
+                objectiveIds: null,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            await service.UpdateAsync(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Categories.Count);
+            Assert.AreEqual(categoryIds.First(), projectToUpdate.Categories.First().CategoryId);
+        }
+
+        [TestMethod]
+        public void TestUpdate_CheckObjectives()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var objectiveIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: objectiveIds,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            service.Update(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Objectives.Count);
+            Assert.AreEqual(objectiveIds.First(), projectToUpdate.Objectives.First().ObjectiveId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckObjectives()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var objectiveIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: objectiveIds,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            await service.UpdateAsync(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Objectives.Count);
+            Assert.AreEqual(objectiveIds.First(), projectToUpdate.Objectives.First().ObjectiveId);
+        }
+
         #endregion
 
     }

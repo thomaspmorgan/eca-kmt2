@@ -67,15 +67,9 @@ namespace ECA.Business.Test.Service.Admin
                 ThemeId = 5,
                 ThemeName = "theme"
             };
-            var focus = new Focus
-            {
-                FocusId = 6,
-                FocusName = "focus"
-            };
 
             office.OwnerPrograms.Add(program);
             office.Contacts.Add(contact);
-            program.Focus = focus;
             program.Themes.Add(theme);
             program.Goals.Add(goal);
 
@@ -84,7 +78,6 @@ namespace ECA.Business.Test.Service.Admin
             context.Programs.Add(program);
             context.Goals.Add(goal);
             context.Themes.Add(theme);
-            context.Foci.Add(focus);
 
             Action<OfficeDTO> tester = (dto) =>
             {
@@ -106,10 +99,6 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(1, dto.Themes.Count());
                 Assert.AreEqual(theme.ThemeId, dto.Themes.First().Id);
                 Assert.AreEqual(theme.ThemeName, dto.Themes.First().Value);
-
-                Assert.AreEqual(1, dto.Foci.Count());
-                Assert.AreEqual(focus.FocusId, dto.Foci.First().Id);
-                Assert.AreEqual(focus.FocusName, dto.Foci.First().Value);
             };
 
             var serviceResults = service.GetOfficeById(office.OrganizationTypeId);
@@ -160,7 +149,6 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(0, dto.Contacts.Count());
                 Assert.AreEqual(0, dto.Goals.Count());
                 Assert.AreEqual(0, dto.Themes.Count());
-                Assert.AreEqual(0, dto.Foci.Count());
             };
 
             var serviceResults = service.GetOfficeById(office.OrganizationTypeId);
@@ -206,12 +194,6 @@ namespace ECA.Business.Test.Service.Admin
                 ThemeId = 5,
                 ThemeName = "theme"
             };
-            var focus = new Focus
-            {
-                FocusId = 6,
-                FocusName = "focus"
-            };
-
             office.OwnerPrograms.Add(program);
             office.OwnerPrograms.Add(program2);
             office.Contacts.Add(contact);
@@ -220,10 +202,6 @@ namespace ECA.Business.Test.Service.Admin
 
             program.Goals.Add(goal);
             program2.Goals.Add(goal);
-
-            program.Focus = focus;
-            program2.Focus = focus;
-
 
             context.Organizations.Add(office);
             context.Contacts.Add(contact);
@@ -242,7 +220,6 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(1, dto.Contacts.Count());
                 Assert.AreEqual(1, dto.Goals.Count());
                 Assert.AreEqual(1, dto.Themes.Count());
-                Assert.AreEqual(1, dto.Foci.Count());
             };
 
             var serviceResults = service.GetOfficeById(office.OrganizationTypeId);
