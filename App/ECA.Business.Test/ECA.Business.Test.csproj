@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="Service\Admin\DraftProjectTest.cs" />
     <Compile Include="Service\Admin\FocusServiceTest.cs" />
+    <Compile Include="Service\Admin\MaritalStatusServiceTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceTest.cs" />
     <Compile Include="Service\Admin\OfficeServiceTest.cs" />
     <Compile Include="Service\Admin\PublishedProjectTest.cs" />

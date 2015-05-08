@@ -63,6 +63,19 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
+        /// Returns the office settings with the given office id.
+        /// </summary>
+        /// <param name="id">The id of the office.</param>
+        /// <returns>The office settings.</returns>
+        [ResponseType(typeof(List<OfficeSettingDTO>))]
+        [Route("Offices/{id}/Settings")]
+        public async Task<IHttpActionResult> GetOfficeSettingsByIdAsync(int id)
+        {
+            var settings = await this.service.GetSettingsAsync(id);
+            return Ok(settings);
+        }
+
+        /// <summary>
         /// Returns the first level child offices/branches/divisions of the office with the given id.
         /// </summary>
         /// <param name="id">The office id.</param>
@@ -108,6 +121,7 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
+
         /// <summary>
         /// Returns a hierarchical list of offices
         /// </summary>

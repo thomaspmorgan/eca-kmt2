@@ -112,7 +112,7 @@
                                 <div>{{$item.name}}</div>
                             </ui-select-match>
 
-                            <ui-select-choices repeat="country in countries">
+                            <ui-select-choices repeat="country in countries | filter: {name: $select.search}">
                                 <div ng-bind-html="country.name | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>

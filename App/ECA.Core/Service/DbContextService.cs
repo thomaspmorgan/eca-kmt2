@@ -30,6 +30,7 @@ namespace ECA.Core.Service
         {
             Contract.Requires(context != null, "The context must not be null.");
             this.Context = context;
+            this.Context.Database.Log = (log) => logger.Trace(log);
         }
 
         /// <summary>

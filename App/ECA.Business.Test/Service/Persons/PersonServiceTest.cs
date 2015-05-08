@@ -67,7 +67,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.IsNotNull(serviceResult);
                 Assert.AreEqual(gender.GenderName, serviceResult.Gender);
-                DateTimeOffset.UtcNow.Should().BeCloseTo(serviceResult.DateOfBirth, DbContextHelper.DATE_PRECISION);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(serviceResult.DateOfBirth.Value, DbContextHelper.DATE_PRECISION);
                 Assert.AreEqual(person.FirstName, serviceResult.FirstName);
                 Assert.AreEqual(person.LastName, serviceResult.LastName);
                 Assert.AreEqual(person.NamePrefix, serviceResult.NamePrefix);
@@ -512,7 +512,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName, existingPerson.LastName,
-                                          existingPerson.GenderId, existingPerson.DateOfBirth, 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, 1,
                                           new List<int>());
             var person = await service.CreateAsync(newPerson);
         }
@@ -540,7 +540,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth, 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);
@@ -561,7 +561,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.Trim(), existingPerson.LastName.Trim(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth, 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value, 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);
@@ -583,7 +583,7 @@ namespace ECA.Business.Test.Service.Persons
             context.People.Add(existingPerson);
 
             var newPerson = new NewPerson(new User(0), 1, existingPerson.FirstName.ToUpper(), existingPerson.LastName.ToLower(),
-                                          existingPerson.GenderId, existingPerson.DateOfBirth.AddHours(2), 1,
+                                          existingPerson.GenderId, existingPerson.DateOfBirth.Value.AddHours(2), 1,
                                           new List<int>());
             var person = await service.GetExistingPerson(newPerson);
             Assert.IsNotNull(person);

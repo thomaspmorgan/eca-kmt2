@@ -24,7 +24,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow);
             var project = new Project
@@ -36,8 +35,19 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 10;
+            var numberOfObjectives = 20;
 
-            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist);
+            var instance = new ProjectServiceUpdateValidationEntity(
+                updatedProject, 
+                project, 
+                goalsExist, 
+                themesExist, 
+                pointsOfContactExist, 
+                categoriesExist, 
+                objectivesExist, 
+                numberOfObjectives, 
+                numberOfCategories);
             Assert.AreEqual(updatedProject.Name, instance.Name);
             Assert.AreEqual(updatedProject.Description, instance.Description);
             Assert.AreEqual(updatedProject.StartDate, instance.StartDate);
@@ -47,6 +57,8 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(goalsExist, instance.GoalsExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
+            Assert.AreEqual(numberOfCategories, instance.NumberOfCategories);
+            Assert.AreEqual(numberOfObjectives, instance.NumberOfObjectives);
         }
 
         [TestMethod]
@@ -61,8 +73,8 @@ namespace ECA.Business.Test.Service.Admin
                 null,
                 null,
                 null,
-                null,null,
-                1,
+                null,
+                null,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow);
             var project = new Project
@@ -74,8 +86,10 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 10;
+            var numberOfObjectives = 20;
 
-            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist);
+            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist, numberOfObjectives, numberOfCategories);
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
@@ -92,9 +106,9 @@ namespace ECA.Business.Test.Service.Admin
                 1,
                 null,
                 null,
-                null, null,
+                null, 
                 null,
-                1,
+                null,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow);
             var project = new Project
@@ -106,8 +120,10 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactExist = true; 
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 10;
+            var numberOfObjectives = 20;
 
-            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist);
+            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist, numberOfObjectives, numberOfCategories);
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
@@ -124,9 +140,9 @@ namespace ECA.Business.Test.Service.Admin
                 1,
                 null,
                 null,
-                null, null,
+                null, 
                 null,
-                1,
+                null,
                 DateTimeOffset.UtcNow,
                 DateTimeOffset.UtcNow);
             var project = new Project
@@ -138,8 +154,10 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactExist = false;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 10;
+            var numberOfObjectives = 20;
 
-            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist);
+            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist, numberOfObjectives, numberOfCategories);
             Assert.AreEqual(pointsOfContactExist, instance.PointsOfContactExist);
             Assert.AreEqual(themesExist, instance.ThemesExist);
             Assert.AreEqual(goalsExist, instance.GoalsExist);
@@ -160,7 +178,6 @@ namespace ECA.Business.Test.Service.Admin
                  pointsOfContactIds: null,
                  categoryIds: null,
                  objectiveIds: null,
-                 focusId: 1,
                  startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                  endDate: DateTimeOffset.UtcNow);
             var project = new Project
@@ -172,8 +189,10 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactExist = false;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 10;
+            var numberOfObjectives = 20;
 
-            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist);
+            var instance = new ProjectServiceUpdateValidationEntity(updatedProject, project, goalsExist, themesExist, pointsOfContactExist, categoriesExist, objectivesExist, numberOfObjectives, numberOfCategories);
         }
     }
 }

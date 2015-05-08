@@ -53,8 +53,16 @@ namespace ECA.WebApi.Models.Projects
         [Required]
         public IEnumerable<int> PointsOfContactIds { get; set; }
 
+        /// <summary>
+        /// The category ids.
+        /// </summary>
+        [Required]
         public IEnumerable<int> CategoryIds { get; set; }
 
+        /// <summary>
+        /// The objective ids.
+        /// </summary>
+        [Required]
         public IEnumerable<int> ObjectiveIds { get; set; }
 
         /// <summary>
@@ -66,11 +74,6 @@ namespace ECA.WebApi.Models.Projects
         /// The end date of the project.
         /// </summary>
         public DateTimeOffset EndDate { get; set; }
-
-        /// <summary>
-        /// The focus of the project by id.
-        /// </summary>
-        public int FocusId { get; set; }
 
         /// <summary>
         /// Returns a business entity from this binding model.
@@ -90,7 +93,6 @@ namespace ECA.WebApi.Models.Projects
                 pointsOfContactIds: this.PointsOfContactIds,
                 categoryIds: this.CategoryIds,
                 objectiveIds: this.ObjectiveIds,
-                focusId: this.FocusId,
                 startDate: this.StartDate,
                 endDate: this.EndDate);
         }

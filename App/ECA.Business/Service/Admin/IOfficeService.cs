@@ -71,6 +71,36 @@ namespace ECA.Business.Service.Admin
         /// <returns></returns>
         Task<PagedQueryResults<SimpleOfficeDTO>> GetOfficesAsync(QueryableOperator<SimpleOfficeDTO> queryOperator);
 
+        /// <summary>
+        /// Returns all settings for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The settings.</returns>
+        List<OfficeSettingDTO> GetSettings(int officeId);
+
+        /// <summary>
+        /// Returns all settings for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The settings.</returns>
+        Task<List<OfficeSettingDTO>> GetSettingsAsync(int officeId);
+
+        /// <summary>
+        /// Returns the setting value for the settings with the given name.
+        /// </summary>
+        /// <param name="officeId">The office to get a setting for.</param>
+        /// <param name="name">The name of the setting.</param>
+        /// <returns>The value of the setting, or null if it does not exist.</returns>
+        string GetValue(int officeId, string name);
+
+        /// <summary>
+        /// Returns the setting value for the settings with the given name.
+        /// </summary>
+        /// <param name="officeId">The office to get a setting for.</param>
+        /// <param name="name">The name of the setting.</param>
+        /// <returns>The value of the setting, or null if it does not exist.</returns>
+        Task<string> GetValueAsync(int officeId, string name);
+
     }
 
     /// <summary>
@@ -160,6 +190,48 @@ namespace ECA.Business.Service.Admin
         public Task<List<SimpleOfficeDTO>> GetChildOfficesAsync(int officeId)
         {
             return Task.FromResult<List<SimpleOfficeDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <returns></returns>
+        public List<OfficeSettingDTO> GetSettings(int officeId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <returns></returns>
+        public Task<List<OfficeSettingDTO>> GetSettingsAsync(int officeId)
+        {
+            return Task.FromResult<List<OfficeSettingDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string GetValue(int officeId, string name)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Task<string> GetValueAsync(int officeId, string name)
+        {
+            return Task.FromResult<string>(null);
         }
     }
 }

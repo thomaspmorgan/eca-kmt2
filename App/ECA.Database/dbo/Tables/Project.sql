@@ -4,7 +4,6 @@
     [Description]                     NVARCHAR (3000)     NOT NULL,
     [ProjectTypeId]                   INT                NOT NULL,
 	[FocusArea]                       NVARCHAR (100)     NULL,
-    [FocusId]						  INT                NOT NULL DEFAULT 0,
     [StartDate]                       DATETIMEOFFSET (7) NOT NULL,
     [EndDate]                         DATETIMEOFFSET (7) NULL,
     [Language]                        NVARCHAR (100)     NULL,
@@ -21,8 +20,7 @@
     CONSTRAINT [PK_dbo.Project] PRIMARY KEY CLUSTERED ([ProjectId] ASC),
     CONSTRAINT [FK_dbo.Project_dbo.Event_EventId] FOREIGN KEY ([EventId]) REFERENCES [dbo].[Event] ([EventId]),
     CONSTRAINT [FK_dbo.Project_dbo.Organization_NominationSource_OrganizationId] FOREIGN KEY ([NominationSource_OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
-    CONSTRAINT [FK_dbo.Project_dbo.ProgramId] FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Program] ([ProgramId]), 
-    CONSTRAINT [FK_Project_ToFocus] FOREIGN KEY ([FocusId]) REFERENCES [Focus]([FocusId])
+    CONSTRAINT [FK_dbo.Project_dbo.ProgramId] FOREIGN KEY ([ProgramId]) REFERENCES [dbo].[Program] ([ProgramId]) 
 );
 
 

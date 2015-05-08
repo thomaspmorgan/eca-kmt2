@@ -84,10 +84,6 @@ namespace ECA.Business.Test.Service.Admin
             var program = new Program
             {
                 ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>() 
             };
 
             program.Themes.Add(theme);
@@ -122,10 +118,6 @@ namespace ECA.Business.Test.Service.Admin
             var program = new Program
             {
                 ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>() 
             };
 
             program.Goals.Add(goal);
@@ -159,10 +151,6 @@ namespace ECA.Business.Test.Service.Admin
             var program = new Program
             {
                 ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>() 
             };
 
             program.Contacts.Add(contact);
@@ -197,10 +185,6 @@ namespace ECA.Business.Test.Service.Admin
             var program = new Program
             {
                 ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>() 
             };
 
             program.Regions.Add(region);
@@ -218,6 +202,75 @@ namespace ECA.Business.Test.Service.Admin
 
             var createdProject = service.Create(draftProject);
             var createdProjectAsync = await service.CreateAsync(draftProject);
+            tester(createdProject);
+            tester(createdProjectAsync);
+        }
+
+
+        [TestMethod]
+        public async Task TestCreate_CheckCategories()
+        {
+            var category = new Category
+            {
+                CategoryId = 1,
+                CategoryName = "name"
+            };
+
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+
+            program.Categories.Add(category);
+
+            context.Categories.Add(category);
+            context.Programs.Add(program);
+
+            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
+
+            Action<Project> tester = (project) =>
+            {
+                Assert.IsNotNull(project);
+                CollectionAssert.AreEqual(context.Categories.Select(x => x.CategoryId).ToList(), project.Categories.Select(x => x.CategoryId).ToList());
+            };
+
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+            tester(createdProject);
+            tester(createdProjectAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_CheckObjectives()
+        {
+            var objective = new Objective
+            {
+                ObjectiveId = 1,
+                ObjectiveName = "name"
+            };
+
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+
+            program.Objectives.Add(objective);
+
+            context.Objectives.Add(objective);
+            context.Programs.Add(program);
+
+            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
+
+            Action<Project> tester = (project) =>
+            {
+                Assert.IsNotNull(project);
+                CollectionAssert.AreEqual(context.Objectives.Select(x => x.ObjectiveId).ToList(), project.Objectives.Select(x => x.ObjectiveId).ToList());
+            };
+
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+            tester(createdProject);
+            tester(createdProjectAsync);
         }
 
         [TestMethod]
@@ -226,10 +279,6 @@ namespace ECA.Business.Test.Service.Admin
             var program = new Program
             {
                 ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>()
             };
 
             context.Programs.Add(program);
@@ -706,12 +755,6 @@ namespace ECA.Business.Test.Service.Admin
                 Status = "status" 
             };
 
-            var focus = new Focus
-            {
-                FocusId = 1,
-                FocusName = "focusName"
-            };
-
             var contact = new Contact
             {
                 ContactId = 1,
@@ -724,7 +767,6 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                Focus = focus,
                 Themes = new HashSet<Theme>(),
                 StartDate = yesterday,
                 EndDate = now,
@@ -752,7 +794,6 @@ namespace ECA.Business.Test.Service.Admin
             context.Locations.Add(region);
             context.Goals.Add(goal);
             context.ProjectStatuses.Add(status);
-            context.Foci.Add(focus);
             context.Contacts.Add(contact);
 
             Action<ProjectDTO> tester = (serviceResult) =>
@@ -762,8 +803,6 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(status.ProjectStatusId, serviceResult.ProjectStatusId);
                 Assert.AreEqual(yesterday, serviceResult.StartDate);
                 Assert.AreEqual(now, serviceResult.EndDate);
-                Assert.AreEqual(context.Foci.Select(x => x.FocusName).FirstOrDefault(), serviceResult.Focus);
-                Assert.AreEqual(context.Foci.Select(x => x.FocusId).FirstOrDefault(), serviceResult.FocusId);
                 Assert.AreEqual(revisedOn, serviceResult.RevisedOn);
 
                 CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),
@@ -793,7 +832,6 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                Focus = new Focus(),
                 Themes = new HashSet<Theme>(),
                 Regions = new HashSet<Location>(),
                 Goals = new HashSet<Goal>(),
@@ -829,7 +867,6 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                Focus = new Focus(),
                 Themes = new HashSet<Theme>(),
                 Regions = new HashSet<Location>(),
                 Goals = new HashSet<Goal>()
@@ -867,7 +904,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -890,7 +926,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -942,7 +977,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1005,7 +1039,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1049,7 +1082,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: contactIds,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1082,7 +1114,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: contactIds,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1114,7 +1145,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1146,7 +1176,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1179,7 +1208,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1211,7 +1239,6 @@ namespace ECA.Business.Test.Service.Admin
                 pointsOfContactIds: null,
                 categoryIds: null,
                 objectiveIds: null,
-                focusId: 1,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
@@ -1220,22 +1247,17 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual(goalIds.First(), projectToUpdate.Goals.First().GoalId);
         }
 
-
         [TestMethod]
-        public async Task TestUpdateAsync_CheckFocus()
+        public void TestUpdate_CheckCategories()
         {
-            var focus = new Focus
-            {
-                FocusId = 10
-            };
             var projectToUpdate = new Project
             {
                 ProjectId = 1,
                 ProjectStatusId = ProjectStatus.Other.Id
             };
             context.Projects.Add(projectToUpdate);
-            context.Foci.Add(focus);
 
+            var categoryIds = new List<int> { 1 };
             var updater = new User(1);
             var updatedProject = new PublishedProject(
                 updatedBy: updater,
@@ -1246,50 +1268,109 @@ namespace ECA.Business.Test.Service.Admin
                 goalIds: null,
                 themeIds: null,
                 pointsOfContactIds: null,
-                categoryIds: null,
+                categoryIds: categoryIds,
                 objectiveIds: null,
-                focusId: focus.FocusId,
-                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
-                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
-                );
-            await service.UpdateAsync(updatedProject);
-            Assert.AreEqual(focus.FocusId, projectToUpdate.Focus.FocusId);
-        }
-
-        [TestMethod]
-        public void TestUpdate_CheckFocus()
-        {
-            var focus = new Focus
-            {
-                FocusId = 10
-            };
-            var projectToUpdate = new Project
-            {
-                ProjectId = 1,
-                ProjectStatusId = ProjectStatus.Other.Id
-            };
-            context.Projects.Add(projectToUpdate);
-            context.Foci.Add(focus);
-
-            var updater = new User(1);
-            var updatedProject = new PublishedProject(
-                updatedBy: updater,
-                projectId: projectToUpdate.ProjectId,
-                name: "new name",
-                description: "new description",
-                projectStatusId: ProjectStatus.Pending.Id,
-                goalIds: null,
-                themeIds: null,
-                pointsOfContactIds: null,
-                categoryIds: null,
-                objectiveIds: null,
-                focusId: focus.FocusId,
                 startDate: DateTimeOffset.UtcNow.AddDays(1.0),
                 endDate: DateTimeOffset.UtcNow.AddDays(3.0)
                 );
             service.Update(updatedProject);
-            Assert.AreEqual(focus.FocusId, projectToUpdate.Focus.FocusId);
+            Assert.AreEqual(1, projectToUpdate.Categories.Count);
+            Assert.AreEqual(categoryIds.First(), projectToUpdate.Categories.First().CategoryId);
         }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckCategories()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var categoryIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: categoryIds,
+                objectiveIds: null,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            await service.UpdateAsync(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Categories.Count);
+            Assert.AreEqual(categoryIds.First(), projectToUpdate.Categories.First().CategoryId);
+        }
+
+        [TestMethod]
+        public void TestUpdate_CheckObjectives()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var objectiveIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: objectiveIds,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            service.Update(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Objectives.Count);
+            Assert.AreEqual(objectiveIds.First(), projectToUpdate.Objectives.First().ObjectiveId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateAsync_CheckObjectives()
+        {
+            var projectToUpdate = new Project
+            {
+                ProjectId = 1,
+                ProjectStatusId = ProjectStatus.Other.Id
+            };
+            context.Projects.Add(projectToUpdate);
+
+            var objectiveIds = new List<int> { 1 };
+            var updater = new User(1);
+            var updatedProject = new PublishedProject(
+                updatedBy: updater,
+                projectId: projectToUpdate.ProjectId,
+                name: "new name",
+                description: "new description",
+                projectStatusId: ProjectStatus.Pending.Id,
+                goalIds: null,
+                themeIds: null,
+                pointsOfContactIds: null,
+                categoryIds: null,
+                objectiveIds: objectiveIds,
+                startDate: DateTimeOffset.UtcNow.AddDays(1.0),
+                endDate: DateTimeOffset.UtcNow.AddDays(3.0)
+                );
+            await service.UpdateAsync(updatedProject);
+            Assert.AreEqual(1, projectToUpdate.Objectives.Count);
+            Assert.AreEqual(objectiveIds.First(), projectToUpdate.Objectives.First().ObjectiveId);
+        }
+
         #endregion
 
     }

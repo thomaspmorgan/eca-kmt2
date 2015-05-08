@@ -88,8 +88,8 @@ namespace ECA.Data
         public Gender Gender { get; set; }
         [Required]
         public int GenderId { get; set; }
-        [Required]
-        public DateTime DateOfBirth { get; set; }
+
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets FirstName.

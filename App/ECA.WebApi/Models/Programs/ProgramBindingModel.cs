@@ -17,7 +17,7 @@ namespace ECA.WebApi.Models.Programs
         /// <summary>
         /// A base 64 regular expression.
         /// </summary>
-        public const string BASE64_REGULAR_EXPRESSION = @"[^-A-Za-z0-9+/=]|=[^=]|={3,}$";
+        public const string BASE64_REGULAR_EXPRESSION = @"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$";
 
         /// <summary>
         /// The Program Id.

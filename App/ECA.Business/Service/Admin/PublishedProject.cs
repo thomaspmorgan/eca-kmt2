@@ -23,9 +23,10 @@ namespace ECA.Business.Service.Admin
         /// <param name="goalIds">The goals by id.</param>
         /// <param name="themeIds">The themes by id.</param>
         /// <param name="pointsOfContactIds">The points of contact by id.</param>
-        /// <param name="focusId">The focus of the project.</param>
         /// <param name="startDate">The start date of the project.</param>
         /// <param name="endDate">The end date of the project.</param>
+        /// <param name="categoryIds">The categories by id.</param>
+        /// <param name="objectiveIds">The objectives by id.</param>
         public PublishedProject(
             User updatedBy,
             int projectId,
@@ -37,7 +38,6 @@ namespace ECA.Business.Service.Admin
             IEnumerable<int> pointsOfContactIds,
             IEnumerable<int> categoryIds,
             IEnumerable<int> objectiveIds,
-            int focusId,
             DateTimeOffset startDate,
             DateTimeOffset endDate
             )
@@ -52,7 +52,6 @@ namespace ECA.Business.Service.Admin
             this.PointsOfContactIds = pointsOfContactIds ?? new List<int>();
             this.CategoryIds = categoryIds ?? new List<int>();
             this.ObjectiveIds = objectiveIds ?? new List<int>();
-            this.FocusId = focusId;
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.Audit = new Update(updatedBy);
@@ -60,6 +59,8 @@ namespace ECA.Business.Service.Admin
             this.GoalIds = this.GoalIds.Distinct();
             this.ThemeIds = this.ThemeIds.Distinct();
             this.PointsOfContactIds = this.PointsOfContactIds.Distinct();
+            this.CategoryIds = this.CategoryIds.Distinct();
+            this.ObjectiveIds = this.ObjectiveIds.Distinct();
         }
 
         /// <summary>
@@ -92,9 +93,14 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         public IEnumerable<int> GoalIds { get; private set; }
 
-
-        
+        /// <summary>
+        /// Gets the category ids.
+        /// </summary>
         public IEnumerable<int> CategoryIds { get; private set; }
+
+        /// <summary>
+        /// Gets the objective ids.
+        /// </summary>
         public IEnumerable<int> ObjectiveIds { get; private set; }
 
         /// <summary>
@@ -111,11 +117,6 @@ namespace ECA.Business.Service.Admin
         /// Gets the end date.
         /// </summary>
         public DateTimeOffset EndDate { get; private set; }
-
-        /// <summary>
-        /// Gets the focus by id.
-        /// </summary>
-        public int FocusId { get; private set; }
 
         /// <summary>
         /// Gets the Audit.

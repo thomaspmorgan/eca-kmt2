@@ -33,6 +33,7 @@ namespace ECA.Data
             this.OwnerPrograms = new HashSet<Program>();
             this.Contacts = new HashSet<Contact>();
             this.Addresses = new HashSet<Address>();
+            this.OfficeSettings = new HashSet<OfficeSetting>();
 
         }
 
