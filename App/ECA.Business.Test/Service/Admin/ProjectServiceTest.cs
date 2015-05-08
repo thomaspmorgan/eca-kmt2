@@ -832,9 +832,6 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                Themes = new HashSet<Theme>(),
-                Regions = new HashSet<Location>(),
-                Goals = new HashSet<Goal>(),
                 Status = new ProjectStatus()
             };
 
@@ -850,6 +847,10 @@ namespace ECA.Business.Test.Service.Admin
                     serviceResult.CountryIsos.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(),
                     serviceResult.Goals.Select(x => x.Value).ToList());
+                CollectionAssert.AreEqual(context.Objectives.Select(x => x.ObjectiveName).ToList(),
+                    serviceResult.Objectives.Select(x => x.Name).ToList());
+                CollectionAssert.AreEqual(context.Categories.Select(x => x.CategoryName).ToList(),
+                    serviceResult.Categories.Select(x => x.Name).ToList());
             };
 
             var result = service.GetProjectById(project.ProjectId);
@@ -867,9 +868,6 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                Themes = new HashSet<Theme>(),
-                Regions = new HashSet<Location>(),
-                Goals = new HashSet<Goal>()
             };
 
             context.Projects.Add(project);

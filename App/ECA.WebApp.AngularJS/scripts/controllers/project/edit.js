@@ -318,11 +318,15 @@ angular.module('staticApp')
       }
 
       function setSelectedCategories() {
-          setSelectedItems('categories', 'selectedCategories');
+          var categoriesName = 'categories';
+          normalizeLookupProperties($scope.$parent.project[categoriesName]);
+          setSelectedItems(categoriesName, 'selectedCategories');
       }
 
       function setSelectedObjectives() {
-          setSelectedItems('objectives', 'selectedObjectives');
+          var objectivesName = 'objectives';
+          normalizeLookupProperties($scope.$parent.project[objectivesName]);
+          setSelectedItems(objectivesName, 'selectedObjectives');
       }
 
       function normalizeLookupProperties(lookups) {
