@@ -35,7 +35,6 @@ namespace ECA.Business.Test.Service.Programs
                 regionIds,
                 categoryIds,
                 objectiveIds,
-                focus,
                 owner,
                 parentProgramId,
                 parentProgram

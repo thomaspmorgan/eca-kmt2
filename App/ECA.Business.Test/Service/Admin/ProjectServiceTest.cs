@@ -73,43 +73,6 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         [TestMethod]
-        public async Task TestCreate_CheckFocus()
-        {
-            var focus = new Focus
-            {
-                FocusId = 1,
-                FocusName = "focusName"
-            };
-            
-            var program = new Program
-            {
-                ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>(),
-                Focus = focus
-            };
-
-            context.Foci.Add(focus);
-            context.Programs.Add(program);
-
-            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
-
-            Action<Project> tester = (project) => 
-            {
-                Assert.IsNotNull(project);
-                Assert.AreEqual(context.Foci.Select(x => x.FocusName).FirstOrDefault(), project.Focus.FocusName);
-            };
-           
-            var createdProject = service.Create(draftProject);
-            var createdProjectAsync = await service.CreateAsync(draftProject);
-
-            tester(createdProject);
-            tester(createdProjectAsync);
-        }
-
-        [TestMethod]
         public async Task TestCreate_CheckThemes()
         {
             var theme = new Theme

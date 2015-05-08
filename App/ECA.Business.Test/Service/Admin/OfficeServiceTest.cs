@@ -75,7 +75,6 @@ namespace ECA.Business.Test.Service.Admin
 
             office.OwnerPrograms.Add(program);
             office.Contacts.Add(contact);
-            program.Focus = focus;
             program.Themes.Add(theme);
             program.Goals.Add(goal);
 
@@ -84,7 +83,6 @@ namespace ECA.Business.Test.Service.Admin
             context.Programs.Add(program);
             context.Goals.Add(goal);
             context.Themes.Add(theme);
-            context.Foci.Add(focus);
 
             Action<OfficeDTO> tester = (dto) =>
             {
@@ -220,10 +218,6 @@ namespace ECA.Business.Test.Service.Admin
 
             program.Goals.Add(goal);
             program2.Goals.Add(goal);
-
-            program.Focus = focus;
-            program2.Focus = focus;
-
 
             context.Organizations.Add(office);
             context.Contacts.Add(contact);
