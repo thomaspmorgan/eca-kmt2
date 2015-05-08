@@ -33,7 +33,7 @@
             </thead>
             <tbody class="list2">
                 <tr ng-repeat="program in programs" ng-show="!programsLoading" id="program{{program.programId}}" program-level="{{program.programLevel}}">
-                        <td class="col-md-9" ng-style="{'padding-left': 60+(30*program.programLevel-1)}" ng-class="'childColor' + program.programLevel">
+                        <td class="col-md-9" ng-style="{'padding-left': 60+(30*program.programLevel-1)}">
                             <span class="owner-office">{{program.officeSymbol}}</span>
                             <h4>
                                 <span ng-show="program.numChildren > 0">
