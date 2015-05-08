@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using FluentAssertions;
 using ECA.Business.Queries.Models.Office;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
@@ -1223,6 +1224,173 @@ namespace ECA.Business.Test.Service.Admin
                 tester(serviceResultsAsync);
             }
         }
+        #endregion
+
+        #region Settings
+        [TestMethod]
+        public async Task TestGetSettings()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+            };
+            var officeSetting = new OfficeSetting
+            {
+                Name = "Name",
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "value"
+            };
+            office.OfficeSettings.Add(officeSetting);
+            context.OfficeSettings.Add(officeSetting);
+            context.Organizations.Add(office);
+
+            Action<IEnumerable<OfficeSettingDTO>> tester = (settings) =>
+            {
+                Assert.AreEqual(1, settings.Count());
+                var first = settings.First();
+                Assert.AreEqual(officeSetting.Name, first.Name);
+                Assert.AreEqual(officeSetting.OfficeId, first.OfficeId);
+                Assert.AreEqual(officeSetting.Value, first.Value);
+            };
+
+            var serviceResult = service.GetSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetSettings_OfficeDoesNotExist()
+        {
+            Action<IEnumerable<OfficeSettingDTO>> tester = (settings) =>
+            {
+                Assert.AreEqual(0, settings.Count());
+            };
+            var serviceResult = service.GetSettings(1);
+            var serviceResultAsync = await service.GetSettingsAsync(1);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetSettings_DuplicatedKeys()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+            };
+            var officeSetting1 = new OfficeSetting
+            {
+                Name = "Name",
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "value1"
+            };
+            var officeSetting2 = new OfficeSetting
+            {
+                Name = "Name",
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "value2"
+            };
+            context.OfficeSettings.Add(officeSetting1);
+            context.OfficeSettings.Add(officeSetting2);
+            service.Invoking(x => x.GetSettings(office.OrganizationId)).ShouldThrow<NotSupportedException>()
+                .WithMessage(String.Format("The office with id [{0}] has duplicated settings with keys [{1}].", office.OrganizationId, "Name"));
+
+            Func<Task> f = async () =>
+            {
+                await service.GetSettingsAsync(office.OrganizationId);
+            };
+            
+            f.ShouldThrow<NotSupportedException>()
+                .WithMessage(String.Format("The office with id [{0}] has duplicated settings with keys [{1}].", office.OrganizationId, "Name"));
+
+        }
+
+        [TestMethod]
+        public async Task TestGetValue()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+            };
+            var officeSetting = new OfficeSetting
+            {
+                Name = "Name",
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "value"
+            };
+            office.OfficeSettings.Add(officeSetting);
+            context.OfficeSettings.Add(officeSetting);
+            context.Organizations.Add(office);
+
+            Action<string> tester = (setting) =>
+            {
+                Assert.AreEqual(setting, officeSetting.Value);
+            };
+
+            var serviceResult = service.GetValue(office.OrganizationId, officeSetting.Name);
+            var serviceResultAsync = await service.GetValueAsync(office.OrganizationId, officeSetting.Name);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetValue_KeyDoesNotExist()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+            };
+            context.Organizations.Add(office);
+
+            Action<string> tester = (setting) =>
+            {
+                Assert.IsNull(setting);
+            };
+
+            var serviceResult = service.GetValue(office.OrganizationId, "x");
+            var serviceResultAsync = await service.GetValueAsync(office.OrganizationId, "x");
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetValue_OfficeDoesNotExist()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+            };
+            var officeSetting = new OfficeSetting
+            {
+                Name = "Name",
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "value"
+            };
+            office.OfficeSettings.Add(officeSetting);
+            context.OfficeSettings.Add(officeSetting);
+            context.Organizations.Add(office);
+            Action<string> tester = (setting) =>
+            {
+                Assert.IsNull(setting);
+            };
+
+            var serviceResult = service.GetValue(-1, officeSetting.Name);
+            var serviceResultAsync = await service.GetValueAsync(-1, officeSetting.Name);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
         #endregion
     }
 }

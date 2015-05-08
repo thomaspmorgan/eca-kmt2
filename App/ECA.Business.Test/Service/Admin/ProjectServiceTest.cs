@@ -743,12 +743,6 @@ namespace ECA.Business.Test.Service.Admin
                 Status = "status" 
             };
 
-            var focus = new Focus
-            {
-                FocusId = 1,
-                FocusName = "focusName"
-            };
-
             var contact = new Contact
             {
                 ContactId = 1,
@@ -761,7 +755,6 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                Focus = focus,
                 Themes = new HashSet<Theme>(),
                 StartDate = yesterday,
                 EndDate = now,
@@ -789,7 +782,6 @@ namespace ECA.Business.Test.Service.Admin
             context.Locations.Add(region);
             context.Goals.Add(goal);
             context.ProjectStatuses.Add(status);
-            context.Foci.Add(focus);
             context.Contacts.Add(contact);
 
             Action<ProjectDTO> tester = (serviceResult) =>
@@ -799,8 +791,6 @@ namespace ECA.Business.Test.Service.Admin
                 Assert.AreEqual(status.ProjectStatusId, serviceResult.ProjectStatusId);
                 Assert.AreEqual(yesterday, serviceResult.StartDate);
                 Assert.AreEqual(now, serviceResult.EndDate);
-                Assert.AreEqual(context.Foci.Select(x => x.FocusName).FirstOrDefault(), serviceResult.Focus);
-                Assert.AreEqual(context.Foci.Select(x => x.FocusId).FirstOrDefault(), serviceResult.FocusId);
                 Assert.AreEqual(revisedOn, serviceResult.RevisedOn);
 
                 CollectionAssert.AreEqual(context.Themes.Select(x => x.ThemeName).ToList(),

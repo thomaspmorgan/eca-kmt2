@@ -23,7 +23,6 @@ namespace ECA.Data
         /// </summary>
         public OfficeSetting()
         {
-            //this.Office = new Organization();
         }
 
         /// <summary>
@@ -54,8 +53,6 @@ namespace ECA.Data
         /// <summary>
         /// Office of the Focus Area
         /// </summary>
-        ///
-
         [ForeignKey("OfficeId")]
         public Organization Office { get; set; }
 

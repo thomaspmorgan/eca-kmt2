@@ -77,5 +77,34 @@ namespace ECA.Business.Queries.Admin
             Contract.Requires(context != null, "The context must not be null.");
             return CreateGetSimpleOfficeDTO(context).Where(x => x.ParentOrganization_OrganizationId == officeId);
         }
+
+        /// <summary>
+        /// Returns a query to select office setting dtos from the given context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query to retrieve office settings.</returns>
+        public static IQueryable<OfficeSettingDTO> CreateGetOfficeSettingDTOQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return context.OfficeSettings.Select(x => new OfficeSettingDTO
+            {
+                Id = x.OfficeSettingId,
+                Name = x.Name,
+                OfficeId = x.OfficeId,
+                Value = x.Value
+            });
+        }
+
+        /// <summary>
+        /// Returns a query to select office setting dtos from the given context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The query to retrieve office settings.</returns>
+        public static IQueryable<OfficeSettingDTO> CreateGetOfficeSettingDTOByOfficeIdQuery(EcaContext context, int officeId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetOfficeSettingDTOQuery(context).Where(x => x.OfficeId == officeId);
+        }
     }
 }
