@@ -26,6 +26,8 @@ namespace ECA.Business.Service.Admin
         /// <param name="focusId">The focus of the project.</param>
         /// <param name="startDate">The start date of the project.</param>
         /// <param name="endDate">The end date of the project.</param>
+        /// <param name="categoryIds">The categories by id.</param>
+        /// <param name="objectiveIds">The objectives by id.</param>
         public PublishedProject(
             User updatedBy,
             int projectId,
@@ -60,6 +62,8 @@ namespace ECA.Business.Service.Admin
             this.GoalIds = this.GoalIds.Distinct();
             this.ThemeIds = this.ThemeIds.Distinct();
             this.PointsOfContactIds = this.PointsOfContactIds.Distinct();
+            this.CategoryIds = this.CategoryIds.Distinct();
+            this.ObjectiveIds = this.ObjectiveIds.Distinct();
         }
 
         /// <summary>
