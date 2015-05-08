@@ -100,6 +100,13 @@ angular.module('staticApp')
           $scope.editView.saveFailed = false;
       }
 
+      $scope.$watch(function () {
+          return $scope.form.projectForm.$dirty;
+      }, function () {
+          console.assert(typeof $scope.$parent.isProjectModified !== 'undefined', 'The isProjectModified boolean property must be defined in the parent scope.');
+          $scope.$parent.isProjectModified = $scope.form.projectForm.$dirty;
+      });
+
       $scope.editView.onCancelClick = function () {
           if ($scope.form.projectForm.$dirty) {
               var modalInstance = $modal.open({
@@ -112,7 +119,6 @@ angular.module('staticApp')
               });
               modalInstance.result.then(function () {
                   $log.info('Cancelling changes...');
-                  $scope.form.projectForm.$setPristine();
                   goToProjectOverview();
 
               }, function () {
@@ -120,7 +126,6 @@ angular.module('staticApp')
               });
           }
           else {
-              $scope.form.projectForm.$setPristine();
               goToProjectOverview();
           }
       }
@@ -149,14 +154,10 @@ angular.module('staticApp')
           $scope.editView.isEndDatePickerOpen = true;
       }
 
-      $scope.$watch(function () {
-          return $scope.form.projectForm.$dirty;
-      }, function () {
-          console.assert(typeof $scope.$parent.isProjectModified !== 'undefined', 'The isProjectModified boolean property must be defined in the parent scope.');
-          $scope.$parent.isProjectModified = $scope.form.projectForm.$dirty;
-      });
-
       function goToProjectOverview() {
+          $scope.$parent.isProjectModified = false;
+          $scope.form.projectForm.$setUntouched();
+          $scope.form.projectForm.$setPristine();
           $state.go('projects.overview');
       }
 
@@ -263,16 +264,6 @@ angular.module('staticApp')
             }, function (errorResponse) {
 
             });
-      }
-
-      function loadFoci() {
-          return LookupService.getAllFocusAreas({ start: 0, limit: maxLimit })
-              .then(function (response) {
-                  if (response.total > maxLimit) {
-                      $log.error('There are more foci in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
-                  }
-                  $scope.editView.foci = response.results;
-              });
       }
 
       function loadProject() {
@@ -478,7 +469,7 @@ angular.module('staticApp')
       }
 
       $scope.editView.isLoading = true;
-      $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadFoci(), loadProjectStati(), loadGoals(null), loadProject()])
+      $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadGoals(null), loadProject()])
       .then(function (results) {
           //results is an array
 
