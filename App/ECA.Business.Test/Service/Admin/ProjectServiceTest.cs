@@ -832,7 +832,6 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                Focus = new Focus(),
                 Themes = new HashSet<Theme>(),
                 Regions = new HashSet<Location>(),
                 Goals = new HashSet<Goal>(),
@@ -868,7 +867,6 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 Name = "name",
                 Description = "description",
-                Focus = new Focus(),
                 Themes = new HashSet<Theme>(),
                 Regions = new HashSet<Location>(),
                 Goals = new HashSet<Goal>()
