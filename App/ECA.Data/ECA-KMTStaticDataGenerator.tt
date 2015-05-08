@@ -150,5 +150,15 @@
 		Namespace = nameSpace
 	});
 
+
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "MaritalStatus",
+		ClassName = "MaritalStatus",
+		IdColumnName = "MaritalStatusId",
+		ValueColumnName = "Description",
+		Namespace = nameSpace
+	});
+
 	WriteTypes(types, connectionString);
 #>

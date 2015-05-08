@@ -35,13 +35,11 @@ namespace ECA.Business.Service.Programs
             List<int> regionIds,
             List<int> categoryIds,
             List<int> objectiveIds,
-            Focus focus, 
             Organization owner, 
             int? parentProgramId, 
             Program parentProgram)
         {
             this.RegionLocationTypeIds = regionLocationTypeIds;
-            this.Focus = focus;
             this.OwnerOrganization = owner;
             this.ParentProgramId = parentProgramId;
             this.ParentProgram = parentProgram;
