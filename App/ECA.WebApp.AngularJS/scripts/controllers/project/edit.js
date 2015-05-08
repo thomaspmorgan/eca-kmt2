@@ -266,16 +266,6 @@ angular.module('staticApp')
             });
       }
 
-      function loadFoci() {
-          return LookupService.getAllFocusAreas({ start: 0, limit: maxLimit })
-              .then(function (response) {
-                  if (response.total > maxLimit) {
-                      $log.error('There are more foci in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
-                  }
-                  $scope.editView.foci = response.results;
-              });
-      }
-
       function loadProject() {
           var projectId = $stateParams.projectId;
           return ProjectService.get(projectId)
@@ -479,7 +469,7 @@ angular.module('staticApp')
       }
 
       $scope.editView.isLoading = true;
-      $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadFoci(), loadProjectStati(), loadGoals(null), loadProject()])
+      $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadGoals(null), loadProject()])
       .then(function (results) {
           //results is an array
 
