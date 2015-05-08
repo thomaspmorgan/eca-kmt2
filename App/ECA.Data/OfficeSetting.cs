@@ -14,6 +14,26 @@ namespace ECA.Data
     public class OfficeSetting
     {
         /// <summary>
+        /// The office setting key for justifications.
+        /// </summary>
+        public const string JUSTIFICATION_SETTING_KEY = "Justification";
+
+        /// <summary>
+        /// The office setting key for categories.
+        /// </summary>
+        public const string CATEGORY_SETTING_KEY = "Category";
+
+        /// <summary>
+        /// The office setting key for objective.
+        /// </summary>
+        public const string OBJECTIVE_SETTING_KEY = "Objective";
+
+        /// <summary>
+        /// The office setting key for focus.
+        /// </summary>
+        public const string FOCUS_SETTING_KEY = "Focus";
+
+        /// <summary>
         /// The max length of the focus.
         /// </summary>
         public const int NAME_MAX_LENGTH = 50;

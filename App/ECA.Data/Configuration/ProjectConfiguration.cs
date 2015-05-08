@@ -18,10 +18,6 @@ namespace ECA.Data.Configuration
         public ProjectConfiguration()
         {
             Property(x => x.RowVersion).IsRowVersion();
-            HasRequired(a => a.Focus).WithMany().Map(m =>
-            {
-                m.MapKey("FocusId");
-            }).WillCascadeOnDelete(false);
             HasMany(x => x.RelatedProjects)
                 .WithMany(x => x.OtherRelatedProjects)
                 .Map(x =>

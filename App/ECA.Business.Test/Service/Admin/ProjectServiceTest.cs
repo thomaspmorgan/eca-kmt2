@@ -73,43 +73,6 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         [TestMethod]
-        public async Task TestCreate_CheckFocus()
-        {
-            var focus = new Focus
-            {
-                FocusId = 1,
-                FocusName = "focusName"
-            };
-            
-            var program = new Program
-            {
-                ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>(),
-                Focus = focus
-            };
-
-            context.Foci.Add(focus);
-            context.Programs.Add(program);
-
-            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
-
-            Action<Project> tester = (project) => 
-            {
-                Assert.IsNotNull(project);
-                Assert.AreEqual(context.Foci.Select(x => x.FocusName).FirstOrDefault(), project.Focus.FocusName);
-            };
-           
-            var createdProject = service.Create(draftProject);
-            var createdProjectAsync = await service.CreateAsync(draftProject);
-
-            tester(createdProject);
-            tester(createdProjectAsync);
-        }
-
-        [TestMethod]
         public async Task TestCreate_CheckThemes()
         {
             var theme = new Theme
@@ -121,10 +84,6 @@ namespace ECA.Business.Test.Service.Admin
             var program = new Program
             {
                 ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>() 
             };
 
             program.Themes.Add(theme);
@@ -159,10 +118,6 @@ namespace ECA.Business.Test.Service.Admin
             var program = new Program
             {
                 ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>() 
             };
 
             program.Goals.Add(goal);
@@ -196,10 +151,6 @@ namespace ECA.Business.Test.Service.Admin
             var program = new Program
             {
                 ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>() 
             };
 
             program.Contacts.Add(contact);
@@ -234,10 +185,6 @@ namespace ECA.Business.Test.Service.Admin
             var program = new Program
             {
                 ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>() 
             };
 
             program.Regions.Add(region);
@@ -255,6 +202,75 @@ namespace ECA.Business.Test.Service.Admin
 
             var createdProject = service.Create(draftProject);
             var createdProjectAsync = await service.CreateAsync(draftProject);
+            tester(createdProject);
+            tester(createdProjectAsync);
+        }
+
+
+        [TestMethod]
+        public async Task TestCreate_CheckCategories()
+        {
+            var category = new Category
+            {
+                CategoryId = 1,
+                CategoryName = "name"
+            };
+
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+
+            program.Categories.Add(category);
+
+            context.Categories.Add(category);
+            context.Programs.Add(program);
+
+            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
+
+            Action<Project> tester = (project) =>
+            {
+                Assert.IsNotNull(project);
+                CollectionAssert.AreEqual(context.Categories.Select(x => x.CategoryId).ToList(), project.Categories.Select(x => x.CategoryId).ToList());
+            };
+
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+            tester(createdProject);
+            tester(createdProjectAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCreate_CheckObjectives()
+        {
+            var objective = new Objective
+            {
+                ObjectiveId = 1,
+                ObjectiveName = "name"
+            };
+
+            var program = new Program
+            {
+                ProgramId = 1,
+            };
+
+            program.Objectives.Add(objective);
+
+            context.Objectives.Add(objective);
+            context.Programs.Add(program);
+
+            var draftProject = new DraftProject(new User(1), "name", "description", program.ProgramId);
+
+            Action<Project> tester = (project) =>
+            {
+                Assert.IsNotNull(project);
+                CollectionAssert.AreEqual(context.Objectives.Select(x => x.ObjectiveId).ToList(), project.Objectives.Select(x => x.ObjectiveId).ToList());
+            };
+
+            var createdProject = service.Create(draftProject);
+            var createdProjectAsync = await service.CreateAsync(draftProject);
+            tester(createdProject);
+            tester(createdProjectAsync);
         }
 
         [TestMethod]
@@ -263,10 +279,6 @@ namespace ECA.Business.Test.Service.Admin
             var program = new Program
             {
                 ProgramId = 1,
-                Themes = new List<Theme>(),
-                Goals = new List<Goal>(),
-                Contacts = new List<Contact>(),
-                Regions = new List<Location>()
             };
 
             context.Programs.Add(program);

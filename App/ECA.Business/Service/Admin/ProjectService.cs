@@ -91,7 +91,6 @@ namespace ECA.Business.Service.Admin
                 ProgramId = draftProject.ProgramId,
                 Themes = program.Themes,
                 Goals = program.Goals,
-                Focus = program.Focus,
                 Contacts = program.Contacts,
                 Regions = program.Regions,
                 Categories = program.Categories,

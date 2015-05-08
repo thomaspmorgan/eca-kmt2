@@ -23,26 +23,6 @@ namespace ECA.Business.Service.Admin
     public class OfficeService : DbContextService<EcaContext>, ECA.Business.Service.Admin.IOfficeService
     {
         /// <summary>
-        /// The office setting key for justifications.
-        /// </summary>
-        public const string JUSTIFICATION_SETTING_KEY = "Justification";
-
-        /// <summary>
-        /// The office setting key for categories.
-        /// </summary>
-        public const string CATEGORY_SETTING_KEY = "Category";
-
-        /// <summary>
-        /// The office setting key for objective.
-        /// </summary>
-        public const string OBJECTIVE_SETTING_KEY = "Objective";
-
-        /// <summary>
-        /// The office setting key for focus.
-        /// </summary>
-        public const string FOCUS_SETTING_KEY = "Focus";
-
-        /// <summary>
         /// Gets the name of the GetPrograms sproc in the database.
         /// </summary>
         private const string GET_PROGRAMS_SPROC_NAME = "GetPrograms";

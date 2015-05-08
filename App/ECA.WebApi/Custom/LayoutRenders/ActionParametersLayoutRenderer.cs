@@ -46,6 +46,7 @@ namespace ECA.WebApi.Custom.LayoutRenders
                 builder.AppendLine();
                 builder.AppendLine("Action argument logging disabled.");
             }
+            GlobalDiagnosticsContext.Clear();
         }
     }
 }

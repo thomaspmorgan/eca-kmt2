@@ -21,6 +21,7 @@ angular.module('staticApp')
         LookupService,
         ConstantsService,
         AuthService,
+        OfficeService,
         NotificationService) {
 
       $scope.editView = {};
@@ -48,8 +49,8 @@ angular.module('staticApp')
       $scope.editView.selectedCategories = [];
       $scope.editView.selectedObjectives = [];
 
-      $scope.categoryLabel = "Focus/Categories";
-      $scope.objectiveLabel = "Justification/Objectives";
+      $scope.categoryLabel = "...";
+      $scope.objectiveLabel = "...";
 
 
       $scope.editView.loadProjectStati = function () {
@@ -447,6 +448,24 @@ angular.module('staticApp')
               });
       }
 
+      function loadOfficeSettings() {
+          var officeId = $stateParams.officeId;
+          return OfficeService.getSettings(officeId)
+              .then(function (response) {
+                  $log.info('Loading office settings for office with id ' + officeId);
+                  var categorySetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeCategorySettingName) || 'Category';
+                  var focusSetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeFocusSettingName) || 'Focus';
+                  var justificationSetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeJustificationSettingName) || 'Justification';
+                  var objectiveSetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeObjectiveSettingName) || 'Objective';
+
+                  $scope.categoryLabel = focusSetting + '/' + categorySetting;
+                  $scope.objectiveLabel = objectiveSetting + '/' + justificationSetting;
+
+              }, function (errorResponse) {
+                  $log.error('Failed to load office settings.');
+              });
+      }
+
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
           var projectId = $stateParams.projectId;
@@ -469,7 +488,7 @@ angular.module('staticApp')
       }
 
       $scope.editView.isLoading = true;
-      $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadGoals(null), loadProject()])
+      $q.all([loadPermissions(), loadThemes(null), loadPointsOfContact(null), loadObjectives(), loadCategories(), loadProjectStati(), loadGoals(null), loadProject(), loadOfficeSettings()])
       .then(function (results) {
           //results is an array
 
