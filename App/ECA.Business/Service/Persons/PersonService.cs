@@ -138,9 +138,10 @@ namespace ECA.Business.Service.Persons
                     x => x.FirstName.ToLower().Trim() == firstName.ToLower().Trim() &&
                          x.LastName.ToLower().Trim() == lastName.ToLower().Trim() &&
                          x.GenderId == genderId &&
-                         x.DateOfBirth.Day == dateOfBirth.Day &&
-                         x.DateOfBirth.Month == dateOfBirth.Month &&
-                         x.DateOfBirth.Year == dateOfBirth.Year &&
+                         x.DateOfBirth.HasValue &&
+                         x.DateOfBirth.Value.Day == dateOfBirth.Day &&
+                         x.DateOfBirth.Value.Month == dateOfBirth.Month &&
+                         x.DateOfBirth.Value.Year == dateOfBirth.Year &&
                          x.PlaceOfBirthId == cityOfBirthId
                     );
         }

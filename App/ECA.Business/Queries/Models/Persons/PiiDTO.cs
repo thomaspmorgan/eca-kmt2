@@ -34,7 +34,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets and sets date of birth
         /// </summary>
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets and sets countries of citizenship
