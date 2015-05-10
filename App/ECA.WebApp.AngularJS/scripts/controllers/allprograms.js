@@ -63,6 +63,7 @@ angular.module('staticApp')
           description: '',
           parentProgramId: null,
           ownerOrganizationId: 1,
+          programStatusId:null,
           startDate: new Date(),
           themes: [],
           categories: [],
