@@ -244,6 +244,114 @@ namespace ECA.Business.Service.Admin
             var settings = await GetSettingsAsync(officeId);
             return DoGetValue(officeId, name, settings);
         }
+
+        /// <summary>
+        /// Returns the string value or the default value given the settings for an office and a key.
+        /// </summary>
+        /// <param name="name">The name of the setting to get a value for.</param>
+        /// <param name="settings">The office settings.</param>
+        /// <param name="defaultValue">The default value to return if the setting does not exist.</param>
+        /// <returns>The string value for the setting with the given name, or the default value if it does not exist.</returns>
+        public string GetStringValue(string name, List<OfficeSettingDTO> settings, string defaultValue)
+        {
+            Contract.Requires(name != null, "The name must not be null.");
+            Contract.Requires(settings != null, "The settings must not be null.");
+            var setting = settings.Where(x => x.Name.ToLower().Trim() == name.Trim().ToLower()).FirstOrDefault();
+            if (setting != null)
+            {
+                logger.Info("Returning office setting value [{0}] for office setting [{1}] with office id [{2}].", setting.Value, name, setting.OfficeId);
+                return setting.Value;
+            }
+            else
+            {
+                logger.Info("Returning default value [{0}] for office setting [{1}].", defaultValue, name);
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// Returns the boolean value or the default value given the settings for an office and a key.
+        /// </summary>
+        /// <param name="name">The name of the setting to get a value for.</param>
+        /// <param name="settings">The office settings.</param>
+        /// <param name="defaultValue">The default value to return if the setting does not exist.</param>
+        /// <returns>The boolean value for the setting with the given name, or the default value if it does not exist.</returns>
+        public bool GetStringValueAsBool(string name, List<OfficeSettingDTO> settings, bool defaultValue)
+        {
+            Contract.Requires(name != null, "The name must not be null.");
+            Contract.Requires(settings != null, "The settings must not be null.");
+            var setting = settings.Where(x => x.Name.ToLower().Trim() == name.Trim().ToLower()).FirstOrDefault();
+            if (setting != null)
+            {
+                bool b;
+                if (Boolean.TryParse(setting.Value, out b))
+                {
+                    logger.Info("Returning boolean value [{0}] for office setting [{1}] with office id [{2}].", b, setting.Name, setting.OfficeId);
+                    return b;
+                }
+                else
+                {
+                    logger.Error("Unable to parse boolean value from string [{0}] for office setting with id [{1}].", setting.Value, setting.OfficeId);
+                    return defaultValue;
+                }
+            }
+            else
+            {
+                logger.Info("Returning default value [{0}] for office setting [{1}] with office id [{2}].", defaultValue, name);
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// Returns a boolean value indicating whether the given settings has a setting with the given name.
+        /// </summary>
+        /// <param name="name">The name i.e. key of the setting.</param>
+        /// <param name="settings">The office settings.</param>
+        /// <returns>True, if the settings contains the setting with the given name.</returns>
+        public bool HasSetting(string name, List<OfficeSettingDTO> settings)
+        {
+            Contract.Requires(name != null, "The name must not be null.");
+            Contract.Requires(settings != null, "The settings must not be null.");
+            return settings.Where(x => x.Name.ToLower().Trim() == name.Trim().ToLower()).FirstOrDefault() != null;
+        }
+
+        private OfficeSettings DoGetOfficeSettings(List<OfficeSettingDTO> settings)
+        {
+            var officeSettings = new OfficeSettings();
+            officeSettings.ObjectiveLabel = GetStringValue(OfficeSetting.OBJECTIVE_SETTING_KEY, settings, OfficeSettings.OBJECTIVE_DEFAULT_LABEL);
+            officeSettings.CategoryLabel = GetStringValue(OfficeSetting.CATEGORY_SETTING_KEY, settings, OfficeSettings.CATEGORY_DEFAULT_LABEL);
+            officeSettings.FocusLabel = GetStringValue(OfficeSetting.FOCUS_SETTING_KEY, settings, OfficeSettings.FOCUS_DEFAULT_LABEL);
+            officeSettings.JustificationLabel = GetStringValue(OfficeSetting.JUSTIFICATION_SETTING_KEY, settings, OfficeSettings.JUSTIFICATION_DEFAULT_LABEL);
+            
+            officeSettings.IsObjectiveRequired = HasSetting(OfficeSetting.OBJECTIVE_SETTING_KEY, settings) || HasSetting(OfficeSetting.JUSTIFICATION_SETTING_KEY, settings);
+            officeSettings.IsCategoryRequired = HasSetting(OfficeSetting.CATEGORY_SETTING_KEY, settings) || HasSetting(OfficeSetting.FOCUS_SETTING_KEY, settings);
+
+            return officeSettings;
+        }
+
+        /// <summary>
+        /// Returns a business entity containing settings for an office with the given id.
+        /// </summary>
+        /// <param name="officeId">The id of the office.</param>
+        /// <returns>The settings of the office.</returns>
+        public OfficeSettings GetOfficeSettings(int officeId)
+        {
+            logger.Info("Retrieving office settings for office with id [{0}].", officeId);
+            var settingDtos = GetSettings(officeId);
+            return DoGetOfficeSettings(settingDtos);
+        }
+
+        /// <summary>
+        /// Returns a business entity containing settings for an office with the given id.
+        /// </summary>
+        /// <param name="officeId">The id of the office.</param>
+        /// <returns>The settings of the office.</returns>
+        public async Task<OfficeSettings> GetOfficeSettingsAsync(int officeId)
+        {
+            logger.Info("Retrieving office settings for office with id [{0}].", officeId);
+            var settingDtos = await GetSettingsAsync(officeId);
+            return DoGetOfficeSettings(settingDtos);
+        }
         #endregion
     }
 }

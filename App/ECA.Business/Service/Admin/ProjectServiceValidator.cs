@@ -14,16 +14,15 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class ProjectServiceValidator : BusinessValidatorBase<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>
     {
-
         /// <summary>
         /// The error message when at least one category is required.
         /// </summary>
-        public const string CATEGORIES_REQUIRED_ERROR_MESSAGE = "At least one of the category is required.";
+        public const string CATEGORIES_REQUIRED_ERROR_MESSAGE = "At least one category is required.";
 
         /// <summary>
         /// The error message when at least one objective is required.
         /// </summary>
-        public const string OBJECTIVES_REQUIRED_ERROR_MESSAGE = "At least one of the objective is required.";
+        public const string OBJECTIVES_REQUIRED_ERROR_MESSAGE = "At least one objective is required.";
 
         /// <summary>
         /// The error message when at least one objective does not exist.
@@ -104,6 +103,7 @@ namespace ECA.Business.Service.Admin
 
         public override IEnumerable<BusinessValidationResult> DoValidateUpdate(ProjectServiceUpdateValidationEntity validationEntity)
         {
+            Contract.Requires(validationEntity.OfficeSettings != null, "The office settings must not be null.");
             if (!validationEntity.ThemesExist)
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.ThemeIds, THEMES_DO_NOT_EXIST_ERROR_MESSAGE);
@@ -124,11 +124,11 @@ namespace ECA.Business.Service.Admin
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.CategoryIds, CATEGORIES_DO_NOT_EXIST_ERROR_MESSAGE);
             }
-            if (validationEntity.NumberOfObjectives < 1)
+            if (validationEntity.OfficeSettings.IsObjectiveRequired && validationEntity.NumberOfObjectives < 1)
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.ObjectiveIds, OBJECTIVES_REQUIRED_ERROR_MESSAGE);
             }
-            if (validationEntity.NumberOfCategories < 1)
+            if (validationEntity.OfficeSettings.IsCategoryRequired && validationEntity.NumberOfCategories < 1)
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.CategoryIds, CATEGORIES_REQUIRED_ERROR_MESSAGE);
             }

@@ -1391,6 +1391,510 @@ namespace ECA.Business.Test.Service.Admin
             tester(serviceResultAsync);
         }
 
+        [TestMethod]
+        public void TestGetStringValue()
+        {
+            var name = "name";
+            var value = "value";
+            var defaultValue = "default";
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value
+            };
+            var settings = new List<OfficeSettingDTO>
+            {
+                setting
+            };
+
+            var testValue = service.GetStringValue(name, settings, defaultValue);
+            Assert.AreEqual(value, testValue);
+        }
+
+        [TestMethod]
+        public void TestGetStringValue_ShouldReturnDefaultValue()
+        {
+            var name = "name";
+            var value = "value";
+            var defaultValue = "default";
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value
+            };
+            var settings = new List<OfficeSettingDTO>
+            {
+                setting
+            };
+
+            var testValue = service.GetStringValue("idontexist", settings, defaultValue);
+            Assert.AreEqual(defaultValue, testValue);
+        }
+
+        [TestMethod]
+        public void TestGetStringValue_NoSettings()
+        {
+            var name = "name";
+            var value = "value";
+            var defaultValue = "default";
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value
+            };
+            var settings = new List<OfficeSettingDTO>();
+
+            var testValue = service.GetStringValue(name, settings, defaultValue);
+            Assert.AreEqual(defaultValue, testValue);
+        }
+
+        [TestMethod]
+        public void TestGetStringValueAsBool()
+        {
+            var name = "name";
+            var value = true;
+            var defaultValue = false;
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value.ToString()
+            };
+            var settings = new List<OfficeSettingDTO>
+            {
+                setting
+            };
+
+            var testValue = service.GetStringValueAsBool(name, settings, defaultValue);
+            Assert.AreEqual(value, testValue);
+        }
+
+        [TestMethod]
+        public void TestGetStringValueAsBool_DefaultValue()
+        {
+            var name = "name";
+            var value = false;
+            var defaultValue = true;
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value.ToString()
+            };
+            var settings = new List<OfficeSettingDTO>
+            {
+                setting
+            };
+
+            var testValue = service.GetStringValueAsBool("idontexist", settings, defaultValue);
+            Assert.AreEqual(defaultValue, testValue);
+        }
+
+        [TestMethod]
+        public void TestGetStringValueAsBool_NoSettings()
+        {
+            var name = "name";
+            var value = false;
+            var defaultValue = true;
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value.ToString()
+            };
+            var settings = new List<OfficeSettingDTO>();
+            var testValue = service.GetStringValueAsBool(name, settings, defaultValue);
+            Assert.AreEqual(defaultValue, testValue);
+        }
+
+        [TestMethod]
+        public void TestGetStringValueAsBool_UnableToParseBoolString()
+        {
+            var name = "name";
+            var value = "xyz";
+            var defaultValue = true;
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value
+            };
+            var settings = new List<OfficeSettingDTO>
+            {
+                setting
+            };
+            var testValue = service.GetStringValueAsBool(name, settings, defaultValue);
+            Assert.AreEqual(defaultValue, testValue);
+        }
+
+        [TestMethod]
+        public void TestHasSetting()
+        {
+            var name = "name";
+            var value = "xyz";
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value
+            };
+            var settings = new List<OfficeSettingDTO>
+            {
+                setting
+            };
+            Assert.IsTrue(service.HasSetting(name, settings));
+        }
+
+        [TestMethod]
+        public void TestHasSetting_NoSettings()
+        {
+            var name = "name";
+            var value = "xyz";
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value
+            };
+            var settings = new List<OfficeSettingDTO>();
+            Assert.IsFalse(service.HasSetting(name, settings));
+        }
+
+        [TestMethod]
+        public void TestHasSetting_DoesNotHaveSetting()
+        {
+            var name = "name";
+            var value = "xyz";
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value
+            };
+            var settings = new List<OfficeSettingDTO>();
+            Assert.IsFalse(service.HasSetting("idontexist", settings));
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckLabels_LabelsHaveValues()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            var objectiveLabelSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.OBJECTIVE_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "obj"
+            };
+            var categoryLabelSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.CATEGORY_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 2,
+                Value = "cat"
+            };
+            var focusLabelSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.FOCUS_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 3,
+                Value = "foc"
+            };
+            var justificationLabelSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.JUSTIFICATION_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 4,
+                Value = "jus"
+            };
+            context.OfficeSettings.Add(objectiveLabelSetting);
+            context.OfficeSettings.Add(categoryLabelSetting);
+            context.OfficeSettings.Add(focusLabelSetting);
+            context.OfficeSettings.Add(justificationLabelSetting);
+            context.Organizations.Add(office);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.AreEqual(objectiveLabelSetting.Value, testOfficeSettings.ObjectiveLabel);
+                Assert.AreEqual(categoryLabelSetting.Value, testOfficeSettings.CategoryLabel);
+                Assert.AreEqual(focusLabelSetting.Value, testOfficeSettings.FocusLabel);
+                Assert.AreEqual(justificationLabelSetting.Value, testOfficeSettings.JustificationLabel);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckLabels_LabelsDoNotValues()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            context.Organizations.Add(office);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.AreEqual(OfficeSettings.OBJECTIVE_DEFAULT_LABEL, testOfficeSettings.ObjectiveLabel);
+                Assert.AreEqual(OfficeSettings.CATEGORY_DEFAULT_LABEL, testOfficeSettings.CategoryLabel);
+                Assert.AreEqual(OfficeSettings.FOCUS_DEFAULT_LABEL, testOfficeSettings.FocusLabel);
+                Assert.AreEqual(OfficeSettings.JUSTIFICATION_DEFAULT_LABEL, testOfficeSettings.JustificationLabel);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckIsObjectiveRequired_NoSettings()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            context.Organizations.Add(office);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.IsFalse(testOfficeSettings.IsObjectiveRequired);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckIsCategoryRequired_NoSettings()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            context.Organizations.Add(office);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.IsFalse(testOfficeSettings.IsCategoryRequired);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckIsObjectiveRequired_HasObjectiveSetting()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            var objectiveLabelSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.OBJECTIVE_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "obj"
+            };
+            context.Organizations.Add(office);
+            context.OfficeSettings.Add(objectiveLabelSetting);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.IsTrue(testOfficeSettings.IsObjectiveRequired);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckIsObjectiveRequired_HasJustificationSetting()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            var setting = new OfficeSetting
+            {
+                Name = OfficeSetting.JUSTIFICATION_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "setting"
+            };
+            context.Organizations.Add(office);
+            context.OfficeSettings.Add(setting);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.IsTrue(testOfficeSettings.IsObjectiveRequired);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckIsObjectiveRequired_DoesNotHaveObjectiveOrJustificationSetting()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            var setting = new OfficeSetting
+            {
+                Name = OfficeSetting.FOCUS_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "setting"
+            };
+            context.Organizations.Add(office);
+            context.OfficeSettings.Add(setting);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.IsFalse(testOfficeSettings.IsObjectiveRequired);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckIsCategoryRequired_HasCategorySetting()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            var objectiveLabelSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.CATEGORY_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "obj"
+            };
+            context.Organizations.Add(office);
+            context.OfficeSettings.Add(objectiveLabelSetting);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.IsTrue(testOfficeSettings.IsCategoryRequired);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckIsCategoryRequired_HasFocusSetting()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            var setting = new OfficeSetting
+            {
+                Name = OfficeSetting.FOCUS_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "setting"
+            };
+            context.Organizations.Add(office);
+            context.OfficeSettings.Add(setting);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.IsTrue(testOfficeSettings.IsCategoryRequired);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckIsCategoryRequired_DoesNotHaveCategoryOrFocusSetting()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            var setting = new OfficeSetting
+            {
+                Name = OfficeSetting.OBJECTIVE_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "setting"
+            };
+            context.Organizations.Add(office);
+            context.OfficeSettings.Add(setting);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.IsFalse(testOfficeSettings.IsCategoryRequired);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+
         #endregion
     }
 }

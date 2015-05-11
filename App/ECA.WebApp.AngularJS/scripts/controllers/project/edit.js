@@ -34,6 +34,8 @@ angular.module('staticApp')
       $scope.editView.dateFormat = 'dd-MMMM-yyyy';
       $scope.editView.isStartDatePickerOpen = false;
       $scope.editView.isEndDatePickerOpen = false;
+      $scope.editView.showCategoryFocus = true;
+      $scope.editView.showObjectiveJustification = true;
 
       $scope.editView.foci = [];
       $scope.editView.projectStati = [];
@@ -49,8 +51,8 @@ angular.module('staticApp')
       $scope.editView.selectedCategories = [];
       $scope.editView.selectedObjectives = [];
 
-      $scope.categoryLabel = "...";
-      $scope.objectiveLabel = "...";
+      $scope.editView.categoryLabel = "...";
+      $scope.editView.objectiveLabel = "...";
 
 
       $scope.editView.loadProjectStati = function () {
@@ -121,7 +123,6 @@ angular.module('staticApp')
               modalInstance.result.then(function () {
                   $log.info('Cancelling changes...');
                   goToProjectOverview();
-
               }, function () {
                   $log.info('Dismiss warning dialog and allow save changes...');
               });
@@ -222,6 +223,7 @@ angular.module('staticApp')
       function saveProject($event) {
           $scope.editView.isSaving = true;
           $scope.editView.saveFailed = false;
+          $scope.editView.validations = [];
 
           updatePointsOfContactIds();
           updateThemes();
@@ -233,6 +235,7 @@ angular.module('staticApp')
             .then(function (response) {
                 $scope.$parent.project = response.data;
                 showSaveSuccess();
+                goToProjectOverview();
             }, function (errorResponse) {
                 $scope.editView.saveFailed = true;
                 $scope.editView.errorMessage = "An error occurred while saving the project.";
@@ -409,10 +412,13 @@ angular.module('staticApp')
       }
 
       function loadCategories(search) {
+          console.assert($stateParams.officeId, "The office id must be defined.");
           var params = {
               start: 0,
-              limit: maxLimit
+              limit: maxLimit,
+              officeId: $stateParams.officeId
           };
+
           if (search) {
               params.filter = [{
                   comparison: ConstantsService.likeComparisonType,
@@ -431,9 +437,11 @@ angular.module('staticApp')
       }
 
       function loadObjectives(search) {
+          console.assert($stateParams.officeId, "The office id must be defined.");
           var params = {
               start: 0,
-              limit: maxLimit
+              limit: maxLimit,
+              officeId: $stateParams.officeId
           };
           if (search) {
               params.filter = [{
@@ -457,14 +465,31 @@ angular.module('staticApp')
           return OfficeService.getSettings(officeId)
               .then(function (response) {
                   $log.info('Loading office settings for office with id ' + officeId);
-                  var categorySetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeCategorySettingName) || 'Category';
-                  var focusSetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeFocusSettingName) || 'Focus';
-                  var justificationSetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeJustificationSettingName) || 'Justification';
-                  var objectiveSetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeObjectiveSettingName) || 'Objective';
+                  console.assert(response.data.objectiveLabel, "The objective label must exist.");
+                  console.assert(response.data.categoryLabel, "The category label must exist.");
+                  console.assert(response.data.focusLabel, "The focus label must exist.");
+                  console.assert(response.data.justificationLabel, "The justification label must exist.");
+                  console.assert(typeof(response.data.isCategoryRequired) !== 'undefined', "The is category required bool must exist.");
+                  console.assert(typeof(response.data.isObjectiveRequired) !== 'undefined', "The is objective required bool must exist.");
 
-                  $scope.categoryLabel = focusSetting + '/' + categorySetting;
-                  $scope.objectiveLabel = objectiveSetting + '/' + justificationSetting;
+                  var objectiveLabel = response.data.objectiveLabel;
+                  var categoryLabel = response.data.categoryLabel;
+                  var focusLabel = response.data.focusLabel;
+                  var justificationLabel = response.data.justificationLabel;
+                  var isCategoryRequired = response.data.isCategoryRequired;
+                  var isObjectiveRequired = response.data.isObjectiveRequired;
 
+                  if (isCategoryRequired) {
+                      $log.info('Category is required by office, category focus fields should be visible');
+                  }
+                  if (isObjectiveRequired) {
+                      $log.info('Objective is required by office, objective justification fields should be visible.');
+                  }
+
+                  $scope.editView.categoryLabel = categoryLabel + '/' + focusLabel;
+                  $scope.editView.objectiveLabel = objectiveLabel + '/' + justificationLabel;
+                  $scope.editView.showCategoryFocus = isCategoryRequired;
+                  $scope.editView.showObjectiveJustification = isObjectiveRequired;
               }, function (errorResponse) {
                   $log.error('Failed to load office settings.');
               });

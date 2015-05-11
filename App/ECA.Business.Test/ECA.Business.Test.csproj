@@ -87,6 +87,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Service\Admin\DraftProjectTest.cs" />
+    <Compile Include="Service\Admin\JustificationObjectiveServiceTest.cs" />
+    <Compile Include="Service\Admin\FocusCategoryServiceTest.cs" />
     <Compile Include="Service\Admin\FocusServiceTest.cs" />
     <Compile Include="Service\Admin\MaritalStatusServiceTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceTest.cs" />

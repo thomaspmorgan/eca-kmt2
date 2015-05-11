@@ -16,18 +16,18 @@ using System.Web.Http.Results;
 namespace ECA.WebApi.Test.Controllers.Admin
 {
     [TestClass]
-    public class FocusControllerTest
+    public class FocusCategoriesControllerTest
     {
-        private Mock<IFocusService> serviceMock;
-        private FocusController controller;
+        private Mock<IFocusCategoryService> serviceMock;
+        private FocusCategoriesController controller;
 
         [TestInitialize]
         public void TestInit()
         {
-            serviceMock = new Mock<IFocusService>();
-            serviceMock.Setup(x => x.GetAsync(It.IsAny<QueryableOperator<FocusDTO>>()))
-                .ReturnsAsync(new PagedQueryResults<FocusDTO>(1, new List<FocusDTO>()));
-            controller = new FocusController(serviceMock.Object);
+            serviceMock = new Mock<IFocusCategoryService>();
+            serviceMock.Setup(x => x.GetFocusCategoriesByOfficeIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<FocusCategoryDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<FocusCategoryDTO>(1, new List<FocusCategoryDTO>()));
+            controller = new FocusCategoriesController(serviceMock.Object);
             ControllerHelper.InitializeController(controller);
         }
 
@@ -35,15 +35,15 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestGetThemesAsync()
         {
-            var response = await controller.GetFociAsync(new PagingQueryBindingModel<FocusDTO>());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<FocusDTO>>));
+            var response = await controller.GetFocusCategoriesAsync(new PagingQueryBindingModel<FocusCategoryDTO>(), 1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<FocusCategoryDTO>>));
         }
 
         [TestMethod]
         public async Task TestGetThemesAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetFociAsync(new PagingQueryBindingModel<FocusDTO>());
+            var response = await controller.GetFocusCategoriesAsync(new PagingQueryBindingModel<FocusCategoryDTO>(), 1);
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
         #endregion

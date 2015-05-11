@@ -67,11 +67,11 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="id">The id of the office.</param>
         /// <returns>The office settings.</returns>
-        [ResponseType(typeof(List<OfficeSettingDTO>))]
+        [ResponseType(typeof(List<OfficeSettings>))]
         [Route("Offices/{id}/Settings")]
         public async Task<IHttpActionResult> GetOfficeSettingsByIdAsync(int id)
         {
-            var settings = await this.service.GetSettingsAsync(id);
+            var settings = await this.service.GetOfficeSettingsAsync(id);
             return Ok(settings);
         }
 

@@ -34,16 +34,6 @@ angular.module('staticApp')
           getSettings: function (officeId) {
               var path = 'offices/' + officeId + '/Settings';
               return DragonBreath.get(path);
-          },
-          getSettingsValue: function (allSettings, settingName) {
-              for (var i = 0; i < allSettings.length; i++) {
-                  var setting = allSettings[i];
-                  if (setting.name === settingName) {
-                      return setting.value;
-                  }
-              }
-              return null;
           }
-
       };
   });

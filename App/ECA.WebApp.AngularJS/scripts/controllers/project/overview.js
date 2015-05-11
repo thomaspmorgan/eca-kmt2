@@ -13,15 +13,42 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
-        ProjectService,        
+        ProjectService,
+        OfficeService,
+        ConstantsService,
         NotificationService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.isLoading = false;
-      $scope.categoryLabel = "Focus/Categories";
-      $scope.objectiveLabel = "Justification/Objectives";
+      $scope.categoryLabel = "...";
+      $scope.objectiveLabel = "...";
       
+      function loadOfficeSettings() {
+          var officeId = $stateParams.officeId;
+          return OfficeService.getSettings(officeId)
+              .then(function (response) {
+                  $log.info('Loading office settings for office with id ' + officeId);
+                  console.assert(response.data.objectiveLabel, "The objective label must exist.");
+                  console.assert(response.data.categoryLabel, "The category label must exist.");
+                  console.assert(response.data.focusLabel, "The focus label must exist.");
+                  console.assert(response.data.justificationLabel, "The justification label must exist.");
+                  console.assert(typeof (response.data.isCategoryRequired) !== 'undefined', "The is category required bool must exist.");
+                  console.assert(typeof (response.data.isObjectiveRequired) !== 'undefined', "The is objective required bool must exist.");
+
+                  var objectiveLabel = response.data.objectiveLabel;
+                  var categoryLabel = response.data.categoryLabel;
+                  var focusLabel = response.data.focusLabel;
+                  var justificationLabel = response.data.justificationLabel;
+
+                  $scope.categoryLabel = categoryLabel + '/' + focusLabel;
+                  $scope.objectiveLabel = objectiveLabel + '/' + justificationLabel;
+
+              }, function (errorResponse) {
+                  $log.error('Failed to load office settings.');
+              });
+      }
+
       function loadProject() {
           var projectId = $stateParams.projectId;
           return ProjectService.get(projectId)
@@ -44,7 +71,7 @@ angular.module('staticApp')
       }
 
       $scope.view.isLoading = true;
-      $q.all([loadProject()])
+      $q.all([loadProject(), loadOfficeSettings()])
       .then(function (results) {
           //results is an array
 

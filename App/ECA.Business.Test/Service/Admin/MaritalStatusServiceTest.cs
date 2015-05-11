@@ -52,6 +52,8 @@ namespace ECA.Business.Test.Service.Admin
 
             var serviceResults = service.Get(queryOperator);
             var serviceResultsAsync = await service.GetAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
         }
     }
 }

@@ -20,14 +20,13 @@ namespace ECA.Business.Service.Admin
     /// <summary>
     /// The FocusService is capable of performing crud operations on ECA Foci.
     /// </summary>
-    public class FocusCategoryService : LookupService<FocusCategoryDTO>, ECA.Business.Service.Admin.IFocusCategoryService
+    public class FocusCategoryService : DbContextService<EcaContext>, ECA.Business.Service.Admin.IFocusCategoryService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Creates a new FocusCategorySerivce with the given context.
         /// </summary>
         /// <param name="context">The context to operate against.</param>
-        /// <param name="logger">The logger.</param>
         public FocusCategoryService(EcaContext context)
             : base(context)
         {
@@ -37,39 +36,30 @@ namespace ECA.Business.Service.Admin
         #region Get
 
         /// <summary>
-        /// Returns a query to dtos.
+        /// Returns the focus categories for the office with the given id.
         /// </summary>
-        /// <returns>A query to return focusCategory dtos.</returns>
-        protected override IQueryable<FocusCategoryDTO> GetSelectDTOQuery()
+        /// <param name="officeId">The office by id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The focus categories.</returns>
+        public PagedQueryResults<FocusCategoryDTO> GetFocusCategoriesByOfficeId(int officeId, QueryableOperator<FocusCategoryDTO> queryOperator)
         {
-            return FocusCategoryQueries.CreateGetFocusCategoryDTOQuery(this.Context);
+            var results = FocusCategoryQueries.CreateGetFocusCategoryDTOQuery(this.Context, officeId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved focus categories for office with id [{0}].", officeId);
+            return results;
         }
 
         /// <summary>
-        /// Returns the focusCategory with the given id or null if not found.
+        /// Returns the focus categories for the office with the given id.
         /// </summary>
-        /// <param name="id">The id of the focusCategory.</param>
-        /// <returns>The focus with the given id, or null if not found.</returns>
-        public FocusCategoryDTO GetFocusCategoryById(int id)
+        /// <param name="officeId">The office by id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The focus categories.</returns>
+        public async Task<PagedQueryResults<FocusCategoryDTO>> GetFocusCategoriesByOfficeIdAsync(int officeId, QueryableOperator<FocusCategoryDTO> queryOperator)
         {
-            var focusCategory = FocusCategoryQueries.CreateGetFocusCategoryByIdQuery(this.Context, id).FirstOrDefault();
-            this.logger.Trace("Retrieved focus category by id {id}.", id);            
-            return focusCategory;
-        }
-
-        /// <summary>
-        /// Returns the focusCategory with the given id or null if not found.
-        /// </summary>
-        /// <param name="id">The id of the focus.</param>
-        /// <returns>The focusCategory with the given id, or null if not found.</returns>
-        public async Task<FocusCategoryDTO> GetFocusCategoryByIdAsync(int id)
-        {
-            var focusCategory = await FocusCategoryQueries.CreateGetFocusCategoryByIdQuery(this.Context, id).FirstOrDefaultAsync();
-            this.logger.Trace("Retrieved focus category by id {id}.", id);
-            return focusCategory;
+            var results = await FocusCategoryQueries.CreateGetFocusCategoryDTOQuery(this.Context, officeId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved focus categories for office with id [{0}].", officeId);
+            return results;
         }
         #endregion
-
-
     }
 }

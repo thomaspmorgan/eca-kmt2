@@ -41,14 +41,11 @@ namespace ECA.Data
         /// <summary>
         /// Office for the Focus area
         /// </summary>
-
-        public int OrganizationId { get; set;}
+        public int OfficeId { get; set;}
 
         /// <summary>
         /// Office of the Focus Area
         /// </summary>
-        ///
-
         public Organization Office { get; set; }
 
         /// <summary>

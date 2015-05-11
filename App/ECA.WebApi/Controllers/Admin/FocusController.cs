@@ -46,7 +46,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="queryModel">The page, filter and sort information.</param>
         /// <returns>The list of foci.</returns>
         [ResponseType(typeof(PagedQueryResults<FocusDTO>))]
-        public async Task<IHttpActionResult> GetLocationsAsync([FromUri]PagingQueryBindingModel<FocusDTO> queryModel)
+        public async Task<IHttpActionResult> GetFociAsync([FromUri]PagingQueryBindingModel<FocusDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
