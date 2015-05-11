@@ -133,12 +133,12 @@
                 <div class="row">
                     <div class="col-md-6 title-label">{{categoryLabel}}</div>
                     <div class="col-md-6">
-                        <ui-select multiple ng-model="editView.selectedCategories" theme="select2" close-on-select="false" title="Choose a catgeory." style="min-width: 200px;">
+                        <ui-select multiple ng-model="editView.selectedCategories" theme="select2" close-on-select="false" title="Choose a category." style="min-width: 200px;">
                             <ui-select-match placeholder="Select categories...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
-                            <ui-select-choices repeat="category in editView.categories">
-                                <div ng-bind-html="category.value | highlight: $select.search"></div>
+                            <ui-select-choices repeat="category in editView.categories | filter: {name: $select.search}">
+                                <div ng-bind-html="category.value | filter: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
                     </div>
@@ -151,7 +151,7 @@
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
 
-                            <ui-select-choices repeat="objective in editView.objectives">
+                            <ui-select-choices repeat="objective in editView.objectives | filter: {name: $select.search}">
                                 <div ng-bind-html="objective.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>

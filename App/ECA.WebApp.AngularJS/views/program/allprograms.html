@@ -33,7 +33,7 @@
             </thead>
             <tbody class="list2">
                 <tr ng-repeat="program in programs" ng-show="!programsLoading" id="program{{program.programId}}" program-level="{{program.programLevel}}">
-                        <td class="col-md-9" ng-style="{'padding-left': 60+(30*program.programLevel-1)}" ng-class="'childColor' + program.programLevel">
+                        <td class="col-md-9" ng-style="{'padding-left': 60+(30*program.programLevel-1)}">
                             <span class="owner-office">{{program.officeSymbol}}</span>
                             <h4>
                                 <span ng-show="program.numChildren > 0">
@@ -83,6 +83,7 @@
     <div id="modal" class="row" in-context-form>
         <div class="col-md-10">
             <form name="modalForm.editProgramForm">
+                <input type="hidden" ng-model="newProgram.programStatusId" />
                 <div class="form-group">
                     <label>Program Name<span class="asterisk"> *</span></label>
                     <input name="name" ng-model="newProgram.name" form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" type="text" class="form-control" placeholder="Enter program title..." required>

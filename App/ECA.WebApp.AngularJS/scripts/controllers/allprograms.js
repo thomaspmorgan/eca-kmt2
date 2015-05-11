@@ -54,7 +54,6 @@ angular.module('staticApp')
       $scope.goals = [];
       $scope.regions = [];
       $scope.pointsOfContact = [];
-      $scope.foci = [];
 
       $scope.programList = { type: 'hierarchy' };
 
@@ -64,13 +63,13 @@ angular.module('staticApp')
           description: '',
           parentProgramId: null,
           ownerOrganizationId: 1,
+          programStatusId:null,
           startDate: new Date(),
           themes: [],
           categories: [],
           objectives: [],
           goals: [],
           regions: [],
-          focusId: null,
           contacts: [],
           website: null
       };
@@ -212,7 +211,6 @@ angular.module('staticApp')
     x = $scope.goals[1];
     x = $scope.pointsOfContact[1];
     x = $scope.regions[1];
-    x = $scope.foci[1];
     x = $scope.categories[1];
     x = $scope.objectives[1];
 
@@ -564,7 +562,8 @@ angular.module('staticApp')
         $scope.newProgram.startDate = new Date();
         $scope.newProgram.parentProgramId = null;
 
-        $scope.currentForm.$setPristine();
+        $scope.modalForm.editProgramForm.$setPristine();
+        $scope.modalForm.programForm.$setPristine();
 
         var elements = angular.element(document.querySelectorAll('.multiSelect .reset'));
         angular.forEach(elements, function (value, key) {
