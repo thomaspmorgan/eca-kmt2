@@ -13,11 +13,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ECA.Business.Service.Admin;
+using System.Diagnostics.Contracts;
 
 namespace ECA.WebApi.Controllers.Admin
 {
     /// <summary>
-    /// The Focus Controller provides lookup and crud operations for a focus.
+    /// The JustificationObjectives provides lookup and crud operations for a justification objectives.
     /// </summary>
     public class JustificationObjectivesController : ApiController
     {            
@@ -29,21 +30,27 @@ namespace ECA.WebApi.Controllers.Admin
         private IJustificationObjectiveService service;
 
         /// <summary>
-        /// Creates a new FocusController with the given service.
+        /// Creates a new JustificationObjectivesController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
         public JustificationObjectivesController(IJustificationObjectiveService service)
         {
-            Debug.Assert(service != null, "The objective service must not be null.");
+            Contract.Requires(service != null, "The objective service must not be null.");
             this.service = service;
         }
 
+        /// <summary>
+        /// Returns the justification objectives for the office.
+        /// </summary>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="queryModel">The query operator.</param>
+        /// <returns>The justification objectives.</returns>
         [ResponseType(typeof(PagedQueryResults<JustificationObjectiveDTO>))]
-        public async Task<IHttpActionResult> GetJustificationObjectivesAsync([FromUri]PagingQueryBindingModel<JustificationObjectiveDTO> queryModel)
+        public async Task<IHttpActionResult> GetJustificationObjectivesAsync(int officeId, [FromUri]PagingQueryBindingModel<JustificationObjectiveDTO> queryModel)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_JUSTIFICATIONOBJECTIVES_DTO_SORTER));
+                var results = await this.service.GetJustificationObjectivesByOfficeIdAsync(officeId, queryModel.ToQueryableOperator(DEFAULT_JUSTIFICATIONOBJECTIVES_DTO_SORTER));
                 return Ok(results);
             }
             else

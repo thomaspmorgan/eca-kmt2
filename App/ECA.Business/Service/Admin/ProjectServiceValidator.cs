@@ -14,16 +14,15 @@ namespace ECA.Business.Service.Admin
     /// </summary>
     public class ProjectServiceValidator : BusinessValidatorBase<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>
     {
-
         /// <summary>
         /// The error message when at least one category is required.
         /// </summary>
-        public const string CATEGORIES_REQUIRED_ERROR_MESSAGE = "At least one of the category is required.";
+        public const string CATEGORIES_REQUIRED_ERROR_MESSAGE = "At least one category is required.";
 
         /// <summary>
         /// The error message when at least one objective is required.
         /// </summary>
-        public const string OBJECTIVES_REQUIRED_ERROR_MESSAGE = "At least one of the objective is required.";
+        public const string OBJECTIVES_REQUIRED_ERROR_MESSAGE = "At least one objective is required.";
 
         /// <summary>
         /// The error message when at least one objective does not exist.

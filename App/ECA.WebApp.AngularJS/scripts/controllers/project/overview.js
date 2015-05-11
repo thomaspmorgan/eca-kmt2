@@ -29,13 +29,20 @@ angular.module('staticApp')
           return OfficeService.getSettings(officeId)
               .then(function (response) {
                   $log.info('Loading office settings for office with id ' + officeId);
-                  var categorySetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeCategorySettingName) || 'Category';
-                  var focusSetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeFocusSettingName) || 'Focus';
-                  var justificationSetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeJustificationSettingName) || 'Justification';
-                  var objectiveSetting = OfficeService.getSettingsValue(response.data, ConstantsService.officeObjectiveSettingName) || 'Objective';
+                  console.assert(response.data.objectiveLabel, "The objective label must exist.");
+                  console.assert(response.data.categoryLabel, "The category label must exist.");
+                  console.assert(response.data.focusLabel, "The focus label must exist.");
+                  console.assert(response.data.justificationLabel, "The justification label must exist.");
+                  console.assert(typeof (response.data.isCategoryRequired) !== 'undefined', "The is category required bool must exist.");
+                  console.assert(typeof (response.data.isObjectiveRequired) !== 'undefined', "The is objective required bool must exist.");
 
-                  $scope.categoryLabel = focusSetting + '/' + categorySetting;
-                  $scope.objectiveLabel = objectiveSetting + '/' + justificationSetting;
+                  var objectiveLabel = response.data.objectiveLabel;
+                  var categoryLabel = response.data.categoryLabel;
+                  var focusLabel = response.data.focusLabel;
+                  var justificationLabel = response.data.justificationLabel;
+
+                  $scope.categoryLabel = categoryLabel + '/' + focusLabel;
+                  $scope.objectiveLabel = objectiveLabel + '/' + justificationLabel;
 
               }, function (errorResponse) {
                   $log.error('Failed to load office settings.');

@@ -130,8 +130,8 @@
                     <div class="col-md-6 title-label">Program</div>
                     <div class="col-md-6">{{program.name}}</div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 title-label">{{categoryLabel}}</div>
+                <div class="row" ng-show="editView.showCategoryFocus">
+                    <div class="col-md-6 title-label">{{editView.categoryLabel}}</div>
                     <div class="col-md-6">
                         <ui-select multiple ng-model="editView.selectedCategories" theme="select2" close-on-select="false" title="Choose a category." style="min-width: 200px;">
                             <ui-select-match placeholder="Select categories...">
@@ -143,8 +143,8 @@
                         </ui-select>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 title-label">{{objectiveLabel}}</div>
+                <div class="row" ng-show="editView.showObjectiveJustification">
+                    <div class="col-md-6 title-label">{{editView.objectiveLabel}}</div>
                     <div class="col-md-6">
                         <ui-select multiple ng-model="editView.selectedObjectives" theme="select2" close-on-select="false" title="Choose an objective." style="min-width: 200px;">
                             <ui-select-match placeholder="Select objectives...">

@@ -53,7 +53,7 @@
                 <div class="col-md-6 title-label">Program</div>
                 <div class="col-md-6"><a ui-sref="programs.overview({programId: program.id})">{{program.name}}</a></div>
             </div>
-            <div class="row">
+            <div class="row" ng-show="project.categories.length > 0">
                 <div class="col-md-6 title-label">{{categoryLabel}}</div>
                 <div class="col-md-6">
                     <ul>
@@ -66,7 +66,7 @@
                     </ul>
                 </div>               
             </div>
-            <div class="row">
+            <div class="row" ng-show="project.objectives.length > 0">
                 <div class="col-md-6 title-label">{{objectiveLabel}}</div>
                 <div class="col-md-6">
                     <ul>
