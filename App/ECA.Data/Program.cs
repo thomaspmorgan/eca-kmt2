@@ -21,7 +21,8 @@ namespace ECA.Data
         IThemeable, 
         IContactable,
         ICategorizable,
-        IObjectivable
+        IObjectivable,
+        ILocationable
     {
         public Program()
         {
