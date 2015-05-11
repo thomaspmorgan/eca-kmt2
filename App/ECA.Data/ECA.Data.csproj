@@ -126,6 +126,7 @@
     <Compile Include="IGoalable.cs" />
     <Compile Include="IHistorical.cs" />
     <Compile Include="ICategorizable.cs" />
+    <Compile Include="ILocationable.cs" />
     <Compile Include="IThemeable.cs" />
     <Compile Include="ItineraryStatus.cs" />
     <Compile Include="Justification.cs" />

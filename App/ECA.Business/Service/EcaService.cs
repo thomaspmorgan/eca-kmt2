@@ -359,16 +359,27 @@ namespace ECA.Business.Service
         /// </summary>
         /// <param name="regionIds">The regions by id.</param>
         /// <param name="programEntity">The program to update.</param>
-        public void SetRegions(List<int> regionIds, Program programEntity)
+        public void SetRegions(List<int> regionIds, ILocationable locationable)
         {
             Contract.Requires(regionIds != null, "The region ids must not be null.");
-            Contract.Requires(programEntity != null, "The program entity must not be null.");
-            programEntity.Regions.Clear();
-            regionIds.ForEach(x =>
+            Contract.Requires(locationable != null, "The contactable entity must not be null.");
+            var regionsToRemove = locationable.Locations.Where(x => !regionIds.Contains(x.LocationId)).ToList();
+            var regionsToAdd = new List<Location>();
+            regionIds.Where(x => !locationable.Locations.Select(c => c.LocationId).ToList().Contains(x)).ToList()
+                .Select(x => new Location { LocationId = x }).ToList()
+                .ForEach(x => regionsToAdd.Add(x));
+
+            regionsToAdd.ForEach(x =>
             {
-                var location = new Location { LocationId = x };
-                this.Context.Locations.Attach(location);
-                programEntity.Regions.Add(location);
+                if (Context.GetEntityState(x) == EntityState.Detached)
+                {
+                    Context.Locations.Attach(x);
+                }
+                locationable.Locations.Add(x);
+            });
+            regionsToRemove.ForEach(x =>
+            {
+                locationable.Locations.Remove(x);
             });
         }
 
