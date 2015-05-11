@@ -44,12 +44,12 @@ namespace ECA.Business.Test.Service.Programs
             Assert.IsTrue(Object.ReferenceEquals(contactIds, entity.ContactIds));
             Assert.IsTrue(Object.ReferenceEquals(themeIds, entity.ThemeIds));
             Assert.IsTrue(Object.ReferenceEquals(goalIds, entity.GoalIds));
-            Assert.IsTrue(Object.ReferenceEquals(focus, entity.Focus));
+            Assert.IsTrue(Object.ReferenceEquals(categoryIds, entity.CategoryIds));
+            Assert.IsTrue(Object.ReferenceEquals(objectiveIds, entity.ObjectiveIds));
             Assert.IsTrue(Object.ReferenceEquals(owner, entity.OwnerOrganization));
             Assert.IsTrue(Object.ReferenceEquals(parentProgram, entity.ParentProgram));
             Assert.IsTrue(Object.ReferenceEquals(name, entity.Name));
             Assert.IsTrue(Object.ReferenceEquals(description, entity.Description));
-            Assert.IsTrue(Object.ReferenceEquals(contactIds, entity.ContactIds));
 
             Assert.AreEqual(parentProgramId, entity.ParentProgramId);
         }

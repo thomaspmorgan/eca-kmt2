@@ -17,7 +17,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -48,7 +47,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -78,7 +76,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -111,7 +108,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -141,7 +137,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -171,7 +166,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -201,7 +195,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -232,7 +225,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -264,7 +256,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -281,7 +272,7 @@ namespace ECA.Business.Test.Service.Programs
             var results = validator.Validate(entity).ToList();
             Assert.AreEqual(0, results.Count);
 
-            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, themeIds, goalIds, regionIds, categoryIds, objectiveIds,  null, parentProgramId, parentProgram);
+            entity = new ProgramServiceValidationEntity(name, description, locationTypeIds, contactIds, themeIds, goalIds, regionIds, categoryIds, objectiveIds, null, parentProgramId, parentProgram);
             results = validator.Validate(entity).ToList();
             Assert.AreEqual(1, results.Count);
             var validationResult = results.First();
@@ -294,7 +285,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -325,7 +315,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -353,7 +342,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -385,7 +373,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -418,7 +405,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -450,7 +436,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -482,7 +467,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -514,7 +498,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -547,7 +530,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -579,7 +561,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -611,7 +592,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
@@ -635,7 +615,6 @@ namespace ECA.Business.Test.Service.Programs
         {
             var validator = new ProgramServiceValidator();
             var locationTypeIds = new List<int>();
-            var focus = new Focus();
             var owner = new Organization();
             var parentProgramId = 1;
             var parentProgram = new Program();
