@@ -233,6 +233,7 @@ angular.module('staticApp')
             .then(function (response) {
                 $scope.$parent.project = response.data;
                 showSaveSuccess();
+                goToProjectOverview();
             }, function (errorResponse) {
                 $scope.editView.saveFailed = true;
                 $scope.editView.errorMessage = "An error occurred while saving the project.";

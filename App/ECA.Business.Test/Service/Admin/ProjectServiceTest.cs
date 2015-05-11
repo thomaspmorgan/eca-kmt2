@@ -25,13 +25,15 @@ namespace ECA.Business.Test.Service.Admin
         private TestEcaContext context;
         private ProjectService service;
         private Mock<IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>> validator;
+        private Mock<IOfficeService> officeService;
 
         [TestInitialize]
         public void TestInit()
         {
             context = new TestEcaContext();
             validator = new Mock<IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>>();
-            service = new ProjectService(context, validator.Object);
+            officeService = new Mock<IOfficeService>();
+            service = new ProjectService(context, officeService.Object, validator.Object);
         }
 
         [TestCleanup]
@@ -949,7 +951,6 @@ namespace ECA.Business.Test.Service.Admin
                 RevisedBy = 1,
                 RevisedOn = createdDate
             };
-
             var projectToUpdate = new Project
             {
                 Description = oldDescription,
@@ -961,6 +962,14 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectStatusId = ProjectStatus.Other.Id
 
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var updater = new User(updaterId);
@@ -1023,6 +1032,14 @@ namespace ECA.Business.Test.Service.Admin
                 StartDate = oldStartDate,
                 ProjectStatusId = ProjectStatus.Other.Id
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var updater = new User(updaterId);
@@ -1065,6 +1082,14 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectStatusId = ProjectStatus.Other.Id
 
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var contactIds = new List<int> { 1 };
@@ -1097,6 +1122,14 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectStatusId = ProjectStatus.Other.Id
 
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var contactIds = new List<int> { 1 };
@@ -1128,6 +1161,14 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 ProjectStatusId = ProjectStatus.Other.Id
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var themeIds = new List<int> { 1 };
@@ -1159,6 +1200,14 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 ProjectStatusId = ProjectStatus.Other.Id
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var themeIds = new List<int> { 1 };
@@ -1191,6 +1240,14 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 ProjectStatusId = ProjectStatus.Other.Id
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var goalIds = new List<int> { 1 };
@@ -1222,6 +1279,14 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 ProjectStatusId = ProjectStatus.Other.Id
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var goalIds = new List<int> { 1 };
@@ -1253,6 +1318,14 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 ProjectStatusId = ProjectStatus.Other.Id
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var categoryIds = new List<int> { 1 };
@@ -1284,6 +1357,14 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 ProjectStatusId = ProjectStatus.Other.Id
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var categoryIds = new List<int> { 1 };
@@ -1315,6 +1396,14 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 ProjectStatusId = ProjectStatus.Other.Id
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var objectiveIds = new List<int> { 1 };
@@ -1346,6 +1435,14 @@ namespace ECA.Business.Test.Service.Admin
                 ProjectId = 1,
                 ProjectStatusId = ProjectStatus.Other.Id
             };
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            projectToUpdate.ProgramId = program.ProgramId;
+            projectToUpdate.ParentProgram = program;
+            program.Projects.Add(projectToUpdate);
+            context.Programs.Add(program);
             context.Projects.Add(projectToUpdate);
 
             var objectiveIds = new List<int> { 1 };

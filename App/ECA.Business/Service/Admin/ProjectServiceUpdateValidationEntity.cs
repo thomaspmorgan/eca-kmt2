@@ -25,7 +25,9 @@ namespace ECA.Business.Service.Admin
         /// <param name="goalsExist">The boolean value indicating whether all goals exist in the system.</param>
         /// <param name="themesExist">The boolean value indicating whether all themes exist in the system.</param>
         /// <param name="pointsOfContactExist">the boolean valud indicating whether all points of contact in the system.</param>
-        /// <param name="numberOfCategories">The number of categories </param>
+        /// <param name="numberOfCategories">The number of categories.</param>
+        /// <param name="numberOfObjectives">The number of objectives.</param>
+        /// <param name="officeSettings">The office settings.</param>
         public ProjectServiceUpdateValidationEntity(
             PublishedProject updatedProject, 
             Project projectToUpdate, 
@@ -35,7 +37,8 @@ namespace ECA.Business.Service.Admin
             bool categoriesExist,
             bool objectivesExist,
             int numberOfObjectives,
-            int numberOfCategories)
+            int numberOfCategories,
+            OfficeSettings officeSettings)
         {
             Contract.Requires(updatedProject != null, "The updated project must not be null.");
             Contract.Requires(projectToUpdate != null, "The project to update must not be null.");
@@ -59,7 +62,13 @@ namespace ECA.Business.Service.Admin
             this.EndDate = updatedProject.EndDate;
             this.NumberOfCategories = numberOfCategories;
             this.NumberOfObjectives = numberOfObjectives;
+            this.OfficeSettings = officeSettings;
         }
+
+        /// <summary>
+        /// Gets the office settings.
+        /// </summary>
+        public OfficeSettings OfficeSettings { get; private set; }
 
         /// <summary>
         /// Gets the number of categories associated to the project.

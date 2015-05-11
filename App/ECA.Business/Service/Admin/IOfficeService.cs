@@ -101,6 +101,19 @@ namespace ECA.Business.Service.Admin
         /// <returns>The value of the setting, or null if it does not exist.</returns>
         Task<string> GetValueAsync(int officeId, string name);
 
+        /// <summary>
+        /// Returns a business entity containing settings for an office with the given id.
+        /// </summary>
+        /// <param name="officeId">The id of the office.</param>
+        /// <returns>The settings of the office.</returns>
+        OfficeSettings GetOfficeSettings(int officeId);
+
+        /// <summary>
+        /// Returns a business entity containing settings for an office with the given id.
+        /// </summary>
+        /// <param name="officeId">The id of the office.</param>
+        /// <returns>The settings of the office.</returns>
+        Task<OfficeSettings> GetOfficeSettingsAsync(int officeId);
     }
 
     /// <summary>
@@ -232,6 +245,26 @@ namespace ECA.Business.Service.Admin
         public Task<string> GetValueAsync(int officeId, string name)
         {
             return Task.FromResult<string>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <returns></returns>
+        public OfficeSettings GetOfficeSettings(int officeId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeId"></param>
+        /// <returns></returns>
+        public Task<OfficeSettings> GetOfficeSettingsAsync(int officeId)
+        {
+            return Task.FromResult<OfficeSettings>(null);
         }
     }
 }
