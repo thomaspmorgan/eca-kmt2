@@ -5460,6 +5460,12 @@ label {
         width: 40px; }
     .jumbotron .toolbar .btn-group .modified {
       background: #55b267; }
+    .jumbotron .toolbar .btn-group .cancel {
+      background: #e7e7e7;
+      color: black; }
+    .jumbotron .toolbar .btn-group .cancel:hover {
+      background: #a0a9ab;
+      color: white; }
     .jumbotron .toolbar .detail {
       color: #fff; }
     .jumbotron .toolbar .left {

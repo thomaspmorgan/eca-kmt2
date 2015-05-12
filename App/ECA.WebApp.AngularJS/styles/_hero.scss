@@ -31,6 +31,15 @@
 	  .modified {
 		background: $green;
 	  }
+
+      .cancel {
+          background: $gray;
+          color: black;
+      }
+      .cancel:hover{
+          background: $mediumgray;
+          color: white;
+      }
     }
     
     .detail {
