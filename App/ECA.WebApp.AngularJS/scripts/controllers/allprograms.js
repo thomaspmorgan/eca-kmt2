@@ -46,6 +46,9 @@ angular.module('staticApp')
 
       $scope.initialTableState = null;
 
+      $scope.showCategories = true;
+      $scope.showObjectives = true;
+
       $scope.alerts = [];
 
       $scope.themes = [];
@@ -108,12 +111,10 @@ angular.module('staticApp')
     };
 
     $scope.officeSpecificLookupParams = {
-        start: null,
-        limit: 10,
-        sort: null,
-        filter: null
-        /*filter: [{ property: 'officeId', comparison: 'eq', value: $scope.currentOffice }]*/
-    };
+            start: 0,
+            limit: maxLimit,
+            officeId: 1036 // testing for now until create programs is moved to an office-specific space
+        };
 
      // #region Lookup Services
 
@@ -151,7 +152,9 @@ angular.module('staticApp')
 
     $scope.allCategoriesGrouped = [];
 
-    LookupService.getAllCategories($scope.lookupParams)
+
+
+      LookupService.getAllCategories($scope.officeSpecificLookupParams)
         .then(function (data) {
 
             var focusName = '';
@@ -171,14 +174,14 @@ angular.module('staticApp')
                 $scope.allCategoriesGrouped.push(
                     { name: value.name, ticked: false }
                 );
-
-
             });
+
+            $scope.showCategories = $scope.allCategoriesGrouped.length > 0;
         });
 
     $scope.allObjectivesGrouped = [];
 
-      LookupService.getAllObjectives($scope.lookupParams)
+      LookupService.getAllObjectives($scope.officeSpecificLookupParams)
       .then(function (data) {
 
           var justificationName = '';
@@ -198,9 +201,9 @@ angular.module('staticApp')
               $scope.allObjectivesGrouped.push(
                   { name: value.name, ticked: false }
               );
-
-
           });
+
+          $scope.showObjectives = $scope.allObjectivesGrouped.length > 0;
 
       });
       
