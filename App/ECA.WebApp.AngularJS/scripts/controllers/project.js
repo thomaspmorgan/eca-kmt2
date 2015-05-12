@@ -19,10 +19,10 @@ angular.module('staticApp')
       $scope.modal = {};
 
       $scope.newMoneyFlow = {};
-      $scope.sortedCategories =[];
-      $scope.sortedObjectives = [];
       $scope.isProjectStatusButtonEnabled = false;
-      $scope.isProjectModified = false;
+      $scope.isProjectStatusButtonInEditMode = false;
+      $scope.isInEditViewState = false;
+      $scope.projectStatusButtonText = "...";
 
       $scope.tabs = {
           overview: {
@@ -95,10 +95,6 @@ angular.module('staticApp')
             if (angular.isArray($scope.project.moneyFlows)) {
                 $scope.tabs.moneyflows.active = true;
             }
-
-            $scope.sortedCategories = orderByFilter($scope.project.categories, '+focusName');
-            $scope.sortedObjectives = orderByFilter($scope.project.objectives, '+justificationName');
-
         });
 
       $scope.participantsLoading = false;
@@ -149,9 +145,16 @@ angular.module('staticApp')
              });
       };
 
-      $scope.onDraftButtonClick = function ($event) {
-          $state.go('projects.edit');
-      };
+      var editStateName = 'projects.edit';
+      $scope.isInEditViewState = $state.current.name === editStateName;
+      $scope.onProjectStatusButtonClick = function ($event) {
+          if ($state.current.name === editStateName) {
+              $scope.$broadcast(ConstantsService.saveProjectEventName);
+          }
+          else {
+              $state.go(editStateName);
+          }
+      };     
       
       $scope.params = $stateParams;
 

@@ -966,6 +966,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);
@@ -1036,6 +1040,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);
@@ -1086,6 +1094,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);
@@ -1126,6 +1138,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);
@@ -1165,6 +1181,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);
@@ -1204,6 +1224,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);
@@ -1244,6 +1268,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);
@@ -1283,6 +1311,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);
@@ -1322,6 +1354,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);
@@ -1361,6 +1397,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);
@@ -1400,6 +1440,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);
@@ -1439,6 +1483,10 @@ namespace ECA.Business.Test.Service.Admin
             {
                 ProgramId = 1
             };
+            var office = new Organization();
+            office.OwnerPrograms.Add(program);
+            program.Owner = office;
+            context.Organizations.Add(office);
             projectToUpdate.ProgramId = program.ProgramId;
             projectToUpdate.ParentProgram = program;
             program.Projects.Add(projectToUpdate);

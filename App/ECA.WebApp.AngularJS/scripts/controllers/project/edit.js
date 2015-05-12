@@ -24,6 +24,9 @@ angular.module('staticApp')
         OfficeService,
         NotificationService) {
 
+      console.assert(typeof ($scope.$parent.isInEditViewState) !== 'undefined', 'The isInEditViewState property on the parent scope must be defined.');
+      $scope.$parent.isInEditViewState = true;
+
       $scope.editView = {};
       $scope.editView.params = $stateParams;
       $scope.editView.saveFailed = false;
@@ -103,11 +106,8 @@ angular.module('staticApp')
           $scope.editView.saveFailed = false;
       }
 
-      $scope.$watch(function () {
-          return $scope.form.projectForm.$dirty;
-      }, function () {
-          console.assert(typeof $scope.$parent.isProjectModified !== 'undefined', 'The isProjectModified boolean property must be defined in the parent scope.');
-          $scope.$parent.isProjectModified = $scope.form.projectForm.$dirty;
+      $scope.$on(ConstantsService.saveProjectEventName, function () {
+          saveProject();
       });
 
       $scope.editView.onCancelClick = function () {
@@ -156,8 +156,17 @@ angular.module('staticApp')
           $scope.editView.isEndDatePickerOpen = true;
       }
 
+      function disableProjectStatusButton() {
+          $scope.$parent.isProjectStatusButtonEnabled = false;
+      }
+
+      function enableProjectStatusButton() {
+          $scope.$parent.isProjectStatusButtonEnabled = true;
+      }
+
       function goToProjectOverview() {
-          $scope.$parent.isProjectModified = false;
+          console.assert(typeof ($scope.$parent.isInEditViewState) !== 'undefined', 'The isInEditViewState property on the parent scope must be defined.');
+          $scope.$parent.isInEditViewState = false;
           $scope.form.projectForm.$setUntouched();
           $scope.form.projectForm.$setPristine();
           $state.go('projects.overview');
@@ -230,7 +239,7 @@ angular.module('staticApp')
           updateGoals();
           updateCategories();
           updateObjectives();
-
+          disableProjectStatusButton();
           ProjectService.update($scope.$parent.project, $stateParams.projectId)
             .then(function (response) {
                 $scope.$parent.project = response.data;
@@ -250,6 +259,7 @@ angular.module('staticApp')
             })
             .then(function () {
                 $scope.editView.isSaving = false;
+                enableProjectStatusButton();
             });
       }
 

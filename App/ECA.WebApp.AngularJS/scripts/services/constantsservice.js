@@ -81,6 +81,7 @@
 		registeringUserEventName: 'registeringUser',
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
+		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' '
 	};
 });

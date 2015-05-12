@@ -38,7 +38,7 @@ namespace ECA.Business.Service.Admin
             var query = this.Context.MaritalStatuses.Select(x => new SimpleLookupDTO
             {
                 Id = x.MaritalStatusId,
-                Value = x.Description
+                Value = x.Status
             });
             return query;
         }

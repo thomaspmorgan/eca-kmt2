@@ -49,8 +49,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="draftProject">The project to create</param>
         /// <returns>The project that was created</returns>
         public Project Create(DraftProject draftProject)
-        {
-            
+        {   
             var program = GetProgramById(draftProject.ProgramId);
             this.logger.Trace("Retrieved program by id {0}.", draftProject.ProgramId);
             validator.ValidateCreate(GetCreateValidationEntity(draftProject, program));
@@ -157,13 +156,10 @@ namespace ECA.Business.Service.Admin
             var objectivesExist = CheckAllObjectivesExist(updatedProject.ObjectiveIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
 
-            var program = CreateGetProgramByIdQuery(projectToUpdate.ProgramId).FirstOrDefault();
-            Contract.Assert(program != null, "The project must have a program.");
-            var officeId = program.OwnerId;
-            var officeSettings = officeService.GetOfficeSettings(officeId);
+            var office = CreateGetOrganizationByProjectIdQuery(updatedProject.ProjectId).FirstOrDefault();
+            Contract.Assert(office != null, "The project must have an office.");
+            var officeSettings = officeService.GetOfficeSettings(office.OrganizationId);
 
-            Contract.Assert(updatedProject.CategoryIds != null, "The category ids must not be null.");
-            Contract.Assert(updatedProject.ObjectiveIds != null, "The objective ids must not be null.");
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
@@ -175,8 +171,7 @@ namespace ECA.Business.Service.Admin
                 objectivesExist: objectivesExist,
                 numberOfCategories: updatedProject.CategoryIds.Count(),
                 numberOfObjectives: updatedProject.ObjectiveIds.Count()));
-            DoUpdate(updatedProject, projectToUpdate);
-            
+            DoUpdate(updatedProject, projectToUpdate);            
         }
 
         /// <summary>
@@ -207,13 +202,10 @@ namespace ECA.Business.Service.Admin
             var objectivesExist = await CheckAllObjectivesExistAsync(updatedProject.ObjectiveIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
 
-            var program = await CreateGetProgramByIdQuery(projectToUpdate.ProgramId).FirstOrDefaultAsync();
-            Contract.Assert(program != null, "The project must have a program.");
-            var officeId = program.OwnerId;
-            var officeSettings = await officeService.GetOfficeSettingsAsync(officeId);
+            var office = await CreateGetOrganizationByProjectIdQuery(updatedProject.ProjectId).FirstOrDefaultAsync();
+            Contract.Assert(office != null, "The project must have an office.");
+            var officeSettings = await officeService.GetOfficeSettingsAsync(office.OrganizationId);
 
-            Contract.Assert(updatedProject.CategoryIds != null, "The category ids must not be null.");
-            Contract.Assert(updatedProject.ObjectiveIds != null, "The objective ids must not be null.");
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
@@ -225,7 +217,6 @@ namespace ECA.Business.Service.Admin
                 settings: officeSettings,
                 numberOfCategories: updatedProject.CategoryIds.Count(),
                 numberOfObjectives: updatedProject.ObjectiveIds.Count()));
-
             DoUpdate(updatedProject, projectToUpdate);
         }
 
@@ -307,9 +298,16 @@ namespace ECA.Business.Service.Admin
                 .Include(x => x.Regions)
                 .Include(x => x.Categories)
                 .Include(x => x.Objectives)
-                .Include(x => x.Owner)
                 .Where(x => x.ProgramId == programId);
         }
+
+        private IQueryable<Organization> CreateGetOrganizationByProjectIdQuery(int projectId)
+        {
+            var query = Context.Projects.Where(x => x.ProjectId == projectId).Select(x => x.ParentProgram.Owner);
+            return query;
+        }
+
+
 
         #region Get
 

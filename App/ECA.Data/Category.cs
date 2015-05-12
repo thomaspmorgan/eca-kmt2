@@ -24,18 +24,21 @@ namespace ECA.Data
         public Category()
         {
             this.History = new History();
+            this.Programs = new HashSet<Program>();
+            this.Projects = new HashSet<Project>();
         }
 
         /// <summary>
         /// Gets or set the Id.
         /// </summary>
+        [Key]
         public int CategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets the Name.
         /// </summary>
-        ///
         [MaxLength(NAME_MAX_LENGTH)]
+        [Required]
         public string CategoryName { get; set; }
 
         /// <summary>
@@ -46,7 +49,6 @@ namespace ECA.Data
         /// <summary>
         /// Office of the Focus Area
         /// </summary>
-        ///
         public Focus Focus { get; set; }
 
         /// <summary>
@@ -59,7 +61,7 @@ namespace ECA.Data
         /// </summary>
         public ICollection<Project> Projects { get; set; }
 
-       /// <summary>
+        /// <summary>
         /// Gets or sets the history.
         /// </summary>
         /// 

@@ -237,6 +237,248 @@ namespace ECA.Business.Test.Service
         }
         #endregion
 
+        #region Categories Existence Validation Tests
+        [TestMethod]
+        public async Task TestCheckAllCategoriesExist_NoIdsGiven()
+        {
+            var ids = new List<int>();
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsTrue(results);
+            };
+            var serviceResults = service.CheckAllCategoriesExist(ids);
+            var serviceResultsAsync = await service.CheckAllCategoriesExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCheckAllCategoriesExist_NoCategoriesInContext()
+        {
+            var ids = new List<int> { 1 };
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsFalse(results);
+            };
+            var serviceResults = service.CheckAllCategoriesExist(ids);
+            var serviceResultsAsync = await service.CheckAllCategoriesExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCheckAllCategoriesExist_NoCategoriesByIdInContext()
+        {
+            var ids = new List<int> { 1 };
+            context.Categories.Add(new Category
+            {
+                CategoryId = 0
+            });
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsFalse(results);
+            };
+            var serviceResults = service.CheckAllCategoriesExist(ids);
+            var serviceResultsAsync = await service.CheckAllCategoriesExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCheckAllCategoriesExist_AllCategoriesExist()
+        {
+            var ids = new List<int> { 1, 2 };
+            context.Categories.Add(new Category
+            {
+                CategoryId = 1
+            });
+            context.Categories.Add(new Category
+            {
+                CategoryId = 2
+            });
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsTrue(results);
+            };
+            var serviceResults = service.CheckAllCategoriesExist(ids);
+            var serviceResultsAsync = await service.CheckAllCategoriesExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        #endregion
+
+        #region Objective Existence Validation Tests
+        [TestMethod]
+        public async Task TestCheckAllObjectivesExist_NoIdsGiven()
+        {
+            var ids = new List<int>();
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsTrue(results);
+            };
+            var serviceResults = service.CheckAllObjectivesExist(ids);
+            var serviceResultsAsync = await service.CheckAllObjectivesExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCheckAllObjectivesExist_NoObjectivesInContext()
+        {
+            var ids = new List<int> { 1 };
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsFalse(results);
+            };
+            var serviceResults = service.CheckAllObjectivesExist(ids);
+            var serviceResultsAsync = await service.CheckAllObjectivesExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCheckAllObjectivesExist_NoObjectivesByIdInContext()
+        {
+            var ids = new List<int> { 1 };
+            context.Objectives.Add(new Objective
+            {
+                ObjectiveId = 0
+            });
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsFalse(results);
+            };
+            var serviceResults = service.CheckAllObjectivesExist(ids);
+            var serviceResultsAsync = await service.CheckAllObjectivesExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestCheckAllObjectivesExist_AllObjectivesExist()
+        {
+            var ids = new List<int> { 1, 2 };
+            context.Objectives.Add(new Objective
+            {
+                ObjectiveId = 1
+            });
+            context.Objectives.Add(new Objective
+            {
+                ObjectiveId = 2
+            });
+            Action<bool> tester = (results) =>
+            {
+                Assert.IsTrue(results);
+            };
+            var serviceResults = service.CheckAllObjectivesExist(ids);
+            var serviceResultsAsync = await service.CheckAllObjectivesExistAsync(ids);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        #endregion
+
+        [TestMethod]
+        public void TestSetObjectives_IsDetached()
+        {
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Objective>(It.IsAny<Objective>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Objective { ObjectiveId = 1 };
+
+            var program = new Program();
+            program.Objectives.Add(original);
+
+            var newObjective = new Objective { ObjectiveId = 2 };
+            var newObjectiveIds = new List<int> { newObjective.ObjectiveId };
+            service.SetObjectives(newObjectiveIds, program);
+            Assert.AreEqual(1, program.Objectives.Count);
+            Assert.AreEqual(newObjective.ObjectiveId, program.Objectives.First().ObjectiveId);
+
+        }
+
+        [TestMethod]
+        public void TestSetObjectives_IsAdded()
+        {
+            var state = System.Data.Entity.EntityState.Added;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Objective>(It.IsAny<Objective>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Objective { ObjectiveId = 1 };
+
+            var program = new Program();
+            program.Objectives.Add(original);
+
+            var newObjective = new Objective { ObjectiveId = 2 };
+            var newObjectiveIds = new List<int> { newObjective.ObjectiveId };
+            service.SetObjectives(newObjectiveIds, program);
+            Assert.AreEqual(1, program.Objectives.Count);
+            Assert.AreEqual(newObjective.ObjectiveId, program.Objectives.First().ObjectiveId);
+
+        }
+
+        [TestMethod]
+        public void TestSetCategories_IsDetached()
+        {
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Category>(It.IsAny<Category>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Category { CategoryId = 1 };
+
+            var program = new Program();
+            program.Categories.Add(original);
+
+            var newCategory = new Category { CategoryId = 2 };
+            var newCategoryIds = new List<int> { newCategory.CategoryId };
+            service.SetCategories(newCategoryIds, program);
+            Assert.AreEqual(1, program.Categories.Count);
+            Assert.AreEqual(newCategory.CategoryId, program.Categories.First().CategoryId);
+
+        }
+
+        [TestMethod]
+        public void TestSetCategories_IsAdded()
+        {
+            var state = System.Data.Entity.EntityState.Added;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Category>(It.IsAny<Category>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Category { CategoryId = 1 };
+
+            var program = new Program();
+            program.Categories.Add(original);
+
+            var newCategory = new Category { CategoryId = 2 };
+            var newCategoryIds = new List<int> { newCategory.CategoryId };
+            service.SetCategories(newCategoryIds, program);
+            Assert.AreEqual(1, program.Categories.Count);
+            Assert.AreEqual(newCategory.CategoryId, program.Categories.First().CategoryId);
+
+        }
+
         [TestMethod]
         public void TestSetGoals_IsDetached()
         {
