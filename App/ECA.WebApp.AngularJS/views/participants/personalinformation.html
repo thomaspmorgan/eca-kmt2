@@ -94,7 +94,7 @@
                 <div class="col-md-8" ng-show="!editPii">{{pii.dateOfBirth | date }}</div>
                 <div class="col-md-8" ng-show="editPii">
                     <a href="#" editable-date="pii.dateOfBirth">
-                        {{pii.dateOfBirth | date}}
+                        {{(pii.dateOfBirth | date) || 'No date of birth'}}
                     </a>
                 </div>
             </div>
