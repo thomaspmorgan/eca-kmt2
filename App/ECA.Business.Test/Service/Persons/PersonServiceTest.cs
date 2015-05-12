@@ -589,5 +589,387 @@ namespace ECA.Business.Test.Service.Persons
             Assert.IsNotNull(person);
         }
         #endregion
+
+        #region Update
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_CheckProperties()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "",
+                LastName = "",
+                GenderId = Gender.Male.Id,
+                PlaceOfBirthId = default(int)
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person.PersonId
+            };
+            
+            context.People.Add(person);
+            context.Participants.Add(participant);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    participant.ParticipantId,
+                                    "firstName",
+                                    "lastName",
+                                    "namePrefix",
+                                    "nameSuffix",
+                                    "givenName",
+                                    "familyName",
+                                    "middleName",
+                                    "patronym",
+                                    "alias",
+                                    default(int),
+                                    "ethnicity",
+                                    default(int),
+                                    DateTime.Now,
+                                    new List<int>(),
+                                    new List<HomeAddress>(),
+                                    "medicalConditions",
+                                    default(int),
+                                    null);
+            var updatedPerson = await service.UpdatePiiAsync(pii);
+            Assert.AreEqual(pii.FirstName, updatedPerson.FirstName);
+            Assert.AreEqual(pii.LastName, updatedPerson.LastName);
+            Assert.AreEqual(pii.NamePrefix, updatedPerson.NamePrefix);
+            Assert.AreEqual(pii.NameSuffix, updatedPerson.NameSuffix);
+            Assert.AreEqual(pii.GivenName, updatedPerson.GivenName);
+            Assert.AreEqual(pii.FamilyName, updatedPerson.FamilyName);
+            Assert.AreEqual(pii.MiddleName, updatedPerson.MiddleName);
+            Assert.AreEqual(pii.Patronym, updatedPerson.Patronym);
+            Assert.AreEqual(pii.Alias, updatedPerson.Alias);
+            Assert.AreEqual(pii.Ethnicity, updatedPerson.Ethnicity);
+            Assert.AreEqual(pii.DateOfBirth, updatedPerson.DateOfBirth);
+            Assert.AreEqual(pii.MedicalConditions, updatedPerson.MedicalConditions);
+        }
+
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_CheckGender()
+        {
+            var gender = new Gender
+            {
+                GenderId = Gender.Female.Id,
+                GenderName = Gender.Female.Value
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "",
+                LastName = "",
+                GenderId = Gender.Male.Id,
+                PlaceOfBirthId = default(int)
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person.PersonId
+            };
+
+            context.Genders.Add(gender);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    participant.ParticipantId,
+                                    "firstName",
+                                    "lastName",
+                                    "namePrefix",
+                                    "nameSuffix",
+                                    "givenName",
+                                    "familyName",
+                                    "middleName",
+                                    "patronym",
+                                    "alias",
+                                    gender.GenderId,
+                                    "ethnicity",
+                                    default(int),
+                                    DateTime.Now,
+                                    new List<int>(),
+                                    new List<HomeAddress>(),
+                                    "medicalConditions",
+                                    default(int),
+                                    null);
+            var updatedPerson = await service.UpdatePiiAsync(pii);
+            Assert.AreEqual(gender.GenderId, updatedPerson.GenderId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_CheckPlaceOfBirth()
+        {
+            var placeOfBirth = new Location
+            {
+                LocationId = 1
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "",
+                LastName = "",
+                GenderId = Gender.Male.Id,
+                PlaceOfBirthId = default(int)
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person.PersonId
+            };
+
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    participant.ParticipantId,
+                                    "firstName",
+                                    "lastName",
+                                    "namePrefix",
+                                    "nameSuffix",
+                                    "givenName",
+                                    "familyName",
+                                    "middleName",
+                                    "patronym",
+                                    "alias",
+                                    default(int),
+                                    "ethnicity",
+                                    placeOfBirth.LocationId,
+                                    DateTime.Now,
+                                    new List<int>(),
+                                    new List<HomeAddress>(),
+                                    "medicalConditions",
+                                    default(int),
+                                    null);
+            var updatedPerson = await service.UpdatePiiAsync(pii);
+            Assert.AreEqual(placeOfBirth.LocationId, updatedPerson.PlaceOfBirthId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_CheckCountriesOfCitizenship()
+        {
+            var country = new Location
+            {
+                LocationId = 1
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "",
+                LastName = "",
+                GenderId = Gender.Male.Id,
+                PlaceOfBirthId = default(int)
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person.PersonId
+            };
+
+            context.Locations.Add(country);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+
+            var countriesOfCitizenship = new List<int>();
+            countriesOfCitizenship.Add(country.LocationId);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    participant.ParticipantId,
+                                    "firstName",
+                                    "lastName",
+                                    "namePrefix",
+                                    "nameSuffix",
+                                    "givenName",
+                                    "familyName",
+                                    "middleName",
+                                    "patronym",
+                                    "alias",
+                                    default(int),
+                                    "ethnicity",
+                                    default(int),
+                                    DateTime.Now,
+                                    countriesOfCitizenship,
+                                    new List<HomeAddress>(),
+                                    "medicalConditions",
+                                    default(int),
+                                    null);
+            var updatedPerson = await service.UpdatePiiAsync(pii);
+
+            CollectionAssert.AreEqual(countriesOfCitizenship, updatedPerson.CountriesOfCitizenship.Select(x => x.LocationId).ToList());
+        }
+
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_CheckMaritalStatus()
+        {
+            var maritalStatus = new MaritalStatus
+            {
+                MaritalStatusId = MaritalStatus.Single.Id,
+                Status = MaritalStatus.Single.Value
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "",
+                LastName = "",
+                GenderId = Gender.Male.Id,
+                PlaceOfBirthId = default(int)
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person.PersonId
+            };
+
+            context.MaritalStatuses.Add(maritalStatus);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    participant.ParticipantId,
+                                    "firstName",
+                                    "lastName",
+                                    "namePrefix",
+                                    "nameSuffix",
+                                    "givenName",
+                                    "familyName",
+                                    "middleName",
+                                    "patronym",
+                                    "alias",
+                                    default(int),
+                                    "ethnicity",
+                                    default(int),
+                                    DateTime.Now,
+                                    new List<int>(),
+                                    new List<HomeAddress>(),
+                                    "medicalConditions",
+                                    maritalStatus.MaritalStatusId,
+                                    null);
+            var updatedPerson = await service.UpdatePiiAsync(pii);
+            Assert.AreEqual(maritalStatus.MaritalStatusId, updatedPerson.MaritalStatusId);
+        }
+
+        [TestMethod]
+        public async Task TestUpdatePiiAsync_CheckSevisId()
+        {
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "",
+                LastName = "",
+                GenderId = Gender.Male.Id,
+                PlaceOfBirthId = default(int)
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person.PersonId
+            };
+
+            context.People.Add(person);
+            context.Participants.Add(participant);
+
+            var pii = new UpdatePii(new User(0),
+                                    person.PersonId,
+                                    participant.ParticipantId,
+                                    "firstName",
+                                    "lastName",
+                                    "namePrefix",
+                                    "nameSuffix",
+                                    "givenName",
+                                    "familyName",
+                                    "middleName",
+                                    "patronym",
+                                    "alias",
+                                    default(int),
+                                    "ethnicity",
+                                    default(int),
+                                    DateTime.Now,
+                                    new List<int>(),
+                                    new List<HomeAddress>(),
+                                    "medicalConditions",
+                                    default(int),
+                                    "1234567890");
+            var updatedPerson = await service.UpdatePiiAsync(pii);
+            var updatedParticipant = await context.Participants.Where(x => x.ParticipantId == participant.ParticipantId).FirstOrDefaultAsync();
+            Assert.AreEqual("1234567890", updatedParticipant.SevisId);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(EcaBusinessException), "The person already exists.")]
+        public async Task TestUpdatePiiAsync_CheckDuplicate()
+        {
+            var gender = new Gender
+            {
+                GenderId = Gender.Male.Id,
+                GenderName = Gender.Male.Value
+            };
+
+            var placeOfBirth = new Location
+            {
+                LocationId = 1
+            };
+
+            var dateOfBirth = DateTime.Now;
+
+            var person = new Person
+            {
+                PersonId = 1,
+                FirstName = "firstName",
+                LastName = "lastName",
+                GenderId = gender.GenderId,
+                PlaceOfBirthId = placeOfBirth.LocationId,
+                DateOfBirth = dateOfBirth
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person.PersonId
+            };
+
+            context.Genders.Add(gender);
+            context.Locations.Add(placeOfBirth);
+            context.People.Add(person);
+            context.Participants.Add(participant);
+
+            var pii = new UpdatePii(new User(0),
+                                    2,
+                                    participant.ParticipantId,
+                                    "firstName",
+                                    "lastName",
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    gender.GenderId,
+                                    null,
+                                    placeOfBirth.LocationId,
+                                    dateOfBirth,
+                                    new List<int>(),
+                                    new List<HomeAddress>(),
+                                    null,
+                                    default(int),
+                                    null);
+            var updatedPerson = await service.UpdatePiiAsync(pii);
+        }
+        #endregion
     }
 } 

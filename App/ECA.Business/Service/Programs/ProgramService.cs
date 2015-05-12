@@ -187,6 +187,7 @@ namespace ECA.Business.Service.Programs
             SetRegions(draftProgram.RegionIds, program);
             SetCategories(draftProgram.FocusCategoryIds, program);
             SetObjectives(draftProgram.JustificationObjectiveIds, program);
+
             Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
             draftProgram.Audit.SetHistory(program);
             this.Context.Programs.Add(program);
@@ -196,9 +197,24 @@ namespace ECA.Business.Service.Programs
         #endregion
 
         #region Update
-        private IQueryable<Program> CreateGetProgramByIdQuery(int programId)
+
+        private Task<Program> GetProgramEntityByIdAsync(int programId)
         {
-            return this.Context.Programs.Where(x => x.ProgramId == programId);
+            return GetProgramByIdQuery(programId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<Program> GetProgramByIdQuery(int programId)
+        {
+
+            return this.Context.Programs
+                .Include(x => x.Themes)
+                .Include(x => x.Goals)
+                .Include(x => x.Contacts)
+                .Include(x => x.Regions).AsNoTracking()
+                .Include(x => x.Categories)
+                .Include(x => x.Objectives)
+                .Where(x => x.ProgramId == programId);
+
         }
 
         /// <summary>
@@ -207,7 +223,7 @@ namespace ECA.Business.Service.Programs
         /// <param name="updatedProgram">The updated program.</param>
         public void Update(EcaProgram updatedProgram)
         {
-            var programToUpdate = CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefault();
+            var programToUpdate = GetProgramEntityById(updatedProgram.Id);
             this.logger.Trace("Retrieved program with id [{0}].", updatedProgram.Id);
 
             var regionTypeIds = GetLocationTypeIds(updatedProgram.RegionIds);
@@ -235,7 +251,7 @@ namespace ECA.Business.Service.Programs
         /// <param name="updatedProgram">The updated program.</param>
         public async Task UpdateAsync(EcaProgram updatedProgram)
         {
-            var programToUpdate = await CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefaultAsync();
+            var programToUpdate = await GetProgramEntityByIdAsync(updatedProgram.Id);
             this.logger.Trace("Retrieved program with id [{0}].", updatedProgram.Id);
 
             var regionTypeIds = await GetLocationTypeIdsAsync(updatedProgram.RegionIds);
@@ -340,10 +356,6 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="parentProgramId">The program id.</param>
         /// <returns>The program.</returns>
-        protected async Task<Program> GetProgramEntityByIdAsync(int parentProgramId)
-        {
-            return await this.Context.Programs.FindAsync(parentProgramId);
-        }
 
         private ProgramServiceValidationEntity GetValidationEntity(EcaProgram program, Organization owner, Program parentProgram, List<int> regionTypesIds)
         {
