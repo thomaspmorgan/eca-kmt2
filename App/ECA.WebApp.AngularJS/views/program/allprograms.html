@@ -397,7 +397,7 @@
     &nbsp;
     <button class="btn btn-success right" ng-click="confirmCloseNo()">NO</button>
 </modal-dialog>
-<modal-dialog show="confirmSave" dialog-title="Success!">
+<modal-dialog show="confirmSave" dialog-title="Success!" before-close="confirmSaveYes()">
     <p class="strong">The program was saved sucessfully</p>
     <button class="btn btn-default right" ng-click="confirmSaveYes()">OK</button>
 </modal-dialog>
@@ -411,4 +411,10 @@
     </div>
     <button class="btn btn-default right" ng-click="confirmFailOk()">OK</button>
 </modal-dialog>
+
+<style>
+    .ng-modal-close-x {
+        display: none;
+    }
+</style>
 
