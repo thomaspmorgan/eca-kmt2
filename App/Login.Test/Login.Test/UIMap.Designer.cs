@@ -55,39 +55,27 @@ namespace Login.Test
         }
         
         /// <summary>
-        /// Open browser; navigate to QA; select ECATest user; enter password; click sign in.
+        /// Open browser; navigate to QA; select ECATest1 user; enter password; click sign in.
         /// </summary>
         public void LogintoQA_ExistingUser()
         {
             #region Variable Declarations
-            WinEdit uIAddressandsearchusinEdit1 = this.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit1;
-            WinEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit;
-            WinButton uIGotohttpsecakmtqaazuButton = this.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton;
-            HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument3.UIECATest1statedeptusHyperlink;
-            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument3.UIPasswordEdit;
-            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument3.UISigninPane;
+            HtmlCell uIECATest1statedeptusCell = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument4.UIEcatest1_statedept_uTable.UIECATest1statedeptusCell;
+            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument4.UIPasswordEdit;
+            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument4.UISigninPane;
             #endregion
 
-            // Go to web page 'about:Tabs' using new browser instance
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
 
-            // Click 'Address and search using Bing' text box
-            Mouse.Click(uIAddressandsearchusinEdit1, new Point(13, 7));
-
-            // Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-            Keyboard.SendKeys(uIItemEdit, this.LogintoQA_ExistingUserParams.UIItemEditSendKeys, ModifierKeys.None);
-
-            // Click 'Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt...' button
-            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(8, 15));
-
-            // Click 'ECATest1@statedept.us •••' link
-            Mouse.Click(uIECATest1statedeptusHyperlink, new Point(109, 34));
+            // Click 'ECATest1@statedept.us' cell
+            Mouse.Click(uIECATest1statedeptusCell, new Point(49, 41));
 
             // Type '********' in 'Password' text box
             uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
 
             // Click 'Sign in' pane
-            Mouse.Click(uISigninPane, new Point(32, 12));
+            Mouse.Click(uISigninPane, new Point(20, 13));
         }
         
         #region Properties
@@ -166,19 +154,14 @@ namespace Login.Test
         
         #region Fields
         /// <summary>
-        /// Go to web page 'about:Tabs' using new browser instance
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
         /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "about:Tabs";
-        
-        /// <summary>
-        /// Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-        /// </summary>
-        public string UIItemEditSendKeys = "https://eca-kmt-qa.azurewebsites.net/";
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
         
         /// <summary>
         /// Type '********' in 'Password' text box
         /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
+        public string UIPasswordEditPassword = "pnl8gvcmh7n9Hp5j+06Q16vTeHomf4bql8vy/6wcjU0=";
         #endregion
     }
     
@@ -297,6 +280,18 @@ namespace Login.Test
                 return this.mUISignintoECAClientDocument3;
             }
         }
+        
+        public UISignintoECAClientDocument4 UISignintoECAClientDocument4
+        {
+            get
+            {
+                if ((this.mUISignintoECAClientDocument4 == null))
+                {
+                    this.mUISignintoECAClientDocument4 = new UISignintoECAClientDocument4(this);
+                }
+                return this.mUISignintoECAClientDocument4;
+            }
+        }
         #endregion
         
         #region Fields
@@ -315,6 +310,8 @@ namespace Login.Test
         private UISignintoECAClientDocument2 mUISignintoECAClientDocument2;
         
         private UISignintoECAClientDocument3 mUISignintoECAClientDocument3;
+        
+        private UISignintoECAClientDocument4 mUISignintoECAClientDocument4;
         #endregion
     }
     
@@ -957,6 +954,147 @@ namespace Login.Test
         private HtmlEdit mUIPasswordEdit;
         
         private HtmlSpan mUISigninPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISignintoECAClientDocument4 : HtmlDocument
+    {
+        
+        public UISignintoECAClientDocument4(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = "Sign in to ECA Client";
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/statedept.us/oauth2/authorize";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = @"https://login.microsoftonline.com/statedept.us/oauth2/authorize?response_type=id_token&client_id=e0356e55-e124-452c-837d-aeb7504185ff&redirect_uri=https%3A%2F%2Feca-kmt-qa.azurewebsites.net%2F&state=3aa1e8db-d36b-4878-a2fd-91588e86c2ff&x-client-SKU=Js&x-client-Ver=1.0.0&nonce=7db7d67a-90cd-4a90-910d-5a3a4fbeb080";
+            this.WindowTitles.Add("Sign in to ECA Client");
+            #endregion
+        }
+        
+        #region Properties
+        public UIEcatest1_statedept_uTable UIEcatest1_statedept_uTable
+        {
+            get
+            {
+                if ((this.mUIEcatest1_statedept_uTable == null))
+                {
+                    this.mUIEcatest1_statedept_uTable = new UIEcatest1_statedept_uTable(this);
+                }
+                return this.mUIEcatest1_statedept_uTable;
+            }
+        }
+        
+        public HtmlEdit UIPasswordEdit
+        {
+            get
+            {
+                if ((this.mUIPasswordEdit == null))
+                {
+                    this.mUIPasswordEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = "cred_password_inputtext";
+                    this.mUIPasswordEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = "passwd";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.LabeledBy] = "Password";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Type] = "PASSWORD";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "login_textfield textfield required field normaltext";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "name=\"passwd\" tabindex=\"2\" class=\"login_";
+                    this.mUIPasswordEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "2";
+                    this.mUIPasswordEdit.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUIPasswordEdit;
+            }
+        }
+        
+        public HtmlSpan UISigninPane
+        {
+            get
+            {
+                if ((this.mUISigninPane == null))
+                {
+                    this.mUISigninPane = new HtmlSpan(this);
+                    #region Search Criteria
+                    this.mUISigninPane.SearchProperties[HtmlDiv.PropertyNames.Id] = "cred_sign_in_button";
+                    this.mUISigninPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Sign in";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "button normaltext cred_sign_in_button refresh_domain_state control-button button-" +
+                        "two button_primary";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "tabindex=\"11\" class=\"button normaltext cred_sign_in_button refresh_domain_state c" +
+                        "ontrol-button button-two button_primary\" id=\"cred_sign_in_button\" role=\"button\" " +
+                        "style=\"opacity: 1;\"";
+                    this.mUISigninPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "12";
+                    this.mUISigninPane.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUISigninPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIEcatest1_statedept_uTable mUIEcatest1_statedept_uTable;
+        
+        private HtmlEdit mUIPasswordEdit;
+        
+        private HtmlSpan mUISigninPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIEcatest1_statedept_uTable : HtmlTable
+    {
+        
+        public UIEcatest1_statedept_uTable(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlTable.PropertyNames.Id] = "ecatest1_statedept_us";
+            this.SearchProperties[HtmlTable.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlTable.PropertyNames.InnerText] = "ECATest1@statedept.us\r\n\r\n\r\n\r\n•••";
+            this.FilterProperties[HtmlTable.PropertyNames.ControlDefinition] = "class=\"user_tile\" id=\"ecatest1_statedept_us\" data-session-id=\"bc0c9e5c-3019-4d54-" +
+                "96d7-309894cf75da\"";
+            this.FilterProperties[HtmlTable.PropertyNames.RowCount] = "1";
+            this.FilterProperties[HtmlTable.PropertyNames.ColumnCount] = "3";
+            this.FilterProperties[HtmlTable.PropertyNames.Class] = "user_tile";
+            this.FilterProperties[HtmlTable.PropertyNames.TagInstance] = "2";
+            this.WindowTitles.Add("Sign in to ECA Client");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlCell UIECATest1statedeptusCell
+        {
+            get
+            {
+                if ((this.mUIECATest1statedeptusCell == null))
+                {
+                    this.mUIECATest1statedeptusCell = new HtmlCell(this);
+                    #region Search Criteria
+                    this.mUIECATest1statedeptusCell.SearchProperties[HtmlCell.PropertyNames.Id] = null;
+                    this.mUIECATest1statedeptusCell.SearchProperties[HtmlCell.PropertyNames.Name] = null;
+                    this.mUIECATest1statedeptusCell.SearchProperties[HtmlCell.PropertyNames.MaxDepth] = "3";
+                    this.mUIECATest1statedeptusCell.SearchProperties[HtmlCell.PropertyNames.InnerText] = "ECATest1@statedept.us";
+                    this.mUIECATest1statedeptusCell.FilterProperties[HtmlCell.PropertyNames.ControlDefinition] = "class=\"tile_name\"";
+                    this.mUIECATest1statedeptusCell.FilterProperties[HtmlCell.PropertyNames.RowIndex] = "0";
+                    this.mUIECATest1statedeptusCell.FilterProperties[HtmlCell.PropertyNames.ColumnIndex] = "1";
+                    this.mUIECATest1statedeptusCell.FilterProperties[HtmlCell.PropertyNames.Class] = "tile_name";
+                    this.mUIECATest1statedeptusCell.FilterProperties[HtmlCell.PropertyNames.TagInstance] = "3";
+                    this.mUIECATest1statedeptusCell.WindowTitles.Add("Sign in to ECA Client");
+                    #endregion
+                }
+                return this.mUIECATest1statedeptusCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlCell mUIECATest1statedeptusCell;
         #endregion
     }
 }

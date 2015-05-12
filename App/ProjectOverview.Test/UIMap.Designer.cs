@@ -762,7 +762,7 @@ namespace ProjectOverview.Test
         /// <summary>
         /// Type '********' in 'Password' text box
         /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7nq2IDxDyIPucvLUfiP5WCkCWyYApPZam4=";
+        public string UIPasswordEditPassword = "pnl8gvcmh7n9Hp5j+06Q16vTeHomf4bql8vy/6wcjU0=";
         #endregion
     }
     
