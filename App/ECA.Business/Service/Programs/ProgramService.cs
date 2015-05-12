@@ -205,16 +205,15 @@ namespace ECA.Business.Service.Programs
 
         private IQueryable<Program> GetProgramByIdQuery(int programId)
         {
-
             return this.Context.Programs
                 .Include(x => x.Themes)
                 .Include(x => x.Goals)
                 .Include(x => x.Contacts)
-                .Include(x => x.Regions).AsNoTracking()
+                .Include(x => x.Regions)
                 .Include(x => x.Categories)
                 .Include(x => x.Objectives)
+                .Include(x => x.Owner)
                 .Where(x => x.ProgramId == programId);
-
         }
 
         /// <summary>
