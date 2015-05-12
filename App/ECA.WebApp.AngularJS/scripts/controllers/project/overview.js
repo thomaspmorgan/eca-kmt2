@@ -13,6 +13,7 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
+        orderByFilter,
         ProjectService,
         OfficeService,
         ConstantsService,
@@ -23,6 +24,9 @@ angular.module('staticApp')
       $scope.view.isLoading = false;
       $scope.categoryLabel = "...";
       $scope.objectiveLabel = "...";
+      $scope.sortedCategories = [];
+      $scope.sortedObjectives = [];
+      
       
       function loadOfficeSettings() {
           var officeId = $stateParams.officeId;
@@ -64,6 +68,8 @@ angular.module('staticApp')
                 if (!isNaN(endDate.getTime())) {
                     $scope.$parent.project.endDate = endDate;
                 }
+                $scope.sortedCategories = orderByFilter($scope.$parent.project.categories, '+focusName');
+                $scope.sortedObjectives = orderByFilter($scope.$parent.project.objectives, '+justificationName');
 
             }, function (errorResponse) {
                 $log.error('Failed to load project with id ' + projectId);
