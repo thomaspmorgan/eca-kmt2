@@ -19,8 +19,6 @@ angular.module('staticApp')
       $scope.modal = {};
 
       $scope.newMoneyFlow = {};
-      $scope.sortedCategories =[];
-      $scope.sortedObjectives = [];
       $scope.isProjectStatusButtonEnabled = false;
       $scope.isProjectModified = false;
 
@@ -95,10 +93,6 @@ angular.module('staticApp')
             if (angular.isArray($scope.project.moneyFlows)) {
                 $scope.tabs.moneyflows.active = true;
             }
-
-            $scope.sortedCategories = orderByFilter($scope.project.categories, '+focusName');
-            $scope.sortedObjectives = orderByFilter($scope.project.objectives, '+justificationName');
-
         });
 
       $scope.participantsLoading = false;
