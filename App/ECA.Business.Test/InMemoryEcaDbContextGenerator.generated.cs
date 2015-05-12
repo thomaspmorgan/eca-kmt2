@@ -100,6 +100,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.ArtifactType>(this.SingleOrDefault(x => x.ArtifactTypeId.Equals(keyValues.First())));
 		}
 	}
+	public class CategoryTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Category>
+	{
+		public override ECA.Data.Category Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///CategoryId
+			return this.SingleOrDefault(x => x.CategoryId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.Category> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///CategoryId
+			return Task.FromResult<ECA.Data.Category>(this.SingleOrDefault(x => x.CategoryId.Equals(keyValues.First())));
+		}
+	}
 	public class ContactTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Contact>
 	{
 		public override ECA.Data.Contact Find(params object[] keyValues)
@@ -310,6 +325,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.ItineraryStop>(this.SingleOrDefault(x => x.ItineraryStopId.Equals(keyValues.First())));
 		}
 	}
+	public class JustificationTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Justification>
+	{
+		public override ECA.Data.Justification Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///JustificationId
+			return this.SingleOrDefault(x => x.JustificationId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.Justification> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///JustificationId
+			return Task.FromResult<ECA.Data.Justification>(this.SingleOrDefault(x => x.JustificationId.Equals(keyValues.First())));
+		}
+	}
 	public class LanguageProficiencyTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.LanguageProficiency>
 	{
 		public override ECA.Data.LanguageProficiency Find(params object[] keyValues)
@@ -458,6 +488,36 @@ namespace ECA.Business.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///MoneyFlowTypeId
 			return Task.FromResult<ECA.Data.MoneyFlowType>(this.SingleOrDefault(x => x.MoneyFlowTypeId.Equals(keyValues.First())));
+		}
+	}
+	public class ObjectiveTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Objective>
+	{
+		public override ECA.Data.Objective Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ObjectiveId
+			return this.SingleOrDefault(x => x.ObjectiveId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.Objective> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ObjectiveId
+			return Task.FromResult<ECA.Data.Objective>(this.SingleOrDefault(x => x.ObjectiveId.Equals(keyValues.First())));
+		}
+	}
+	public class OfficeSettingTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.OfficeSetting>
+	{
+		public override ECA.Data.OfficeSetting Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///OfficeSettingId
+			return this.SingleOrDefault(x => x.OfficeSettingId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.OfficeSetting> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///OfficeSettingId
+			return Task.FromResult<ECA.Data.OfficeSetting>(this.SingleOrDefault(x => x.OfficeSettingId.Equals(keyValues.First())));
 		}
 	}
 	public class OrganizationTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Organization>
@@ -770,6 +830,7 @@ namespace ECA.Business.Test
 			this.AddressTypes = new AddressTypeTestDbSet();
 			this.Artifacts = new ArtifactTestDbSet();
 			this.ArtifactTypes = new ArtifactTypeTestDbSet();
+			this.Categories = new CategoryTestDbSet();
 			this.Contacts = new ContactTestDbSet();
 			this.Courses = new CourseTestDbSet();
 			this.EmailAddresses = new EmailAddressTestDbSet();
@@ -784,6 +845,7 @@ namespace ECA.Business.Test
 			this.InterestSpecializations = new InterestSpecializationTestDbSet();
 			this.Itineraries = new ItineraryTestDbSet();
 			this.ItineraryStops = new ItineraryStopTestDbSet();
+			this.Justifications = new JustificationTestDbSet();
 			this.LanguangeProficiencies = new LanguageProficiencyTestDbSet();
 			this.Locations = new LocationTestDbSet();
 			this.LocationTypes = new LocationTypeTestDbSet();
@@ -794,6 +856,8 @@ namespace ECA.Business.Test
 			this.MoneyFlowSourceRecipientTypes = new MoneyFlowSourceRecipientTypeTestDbSet();
 			this.MoneyFlowStatuses = new MoneyFlowStatusTestDbSet();
 			this.MoneyFlowTypes = new MoneyFlowTypeTestDbSet();
+			this.Objectives = new ObjectiveTestDbSet();
+			this.OfficeSettings = new OfficeSettingTestDbSet();
 			this.Organizations = new OrganizationTestDbSet();
 			this.OrganizationTypes = new OrganizationTypeTestDbSet();
 			this.Participants = new ParticipantTestDbSet();

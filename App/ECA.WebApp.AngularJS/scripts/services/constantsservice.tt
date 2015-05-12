@@ -28,12 +28,12 @@
 	var otherConstants = new Dictionary<string, string>();
 	otherConstants["searchDelimiter"] = " ";
 	otherConstants["emptyGuid"] = Guid.Empty.ToString();
-	otherConstants["editProjectEventName"] = "EditProject";
 	otherConstants["logoutEventName"] = "logout";
 	otherConstants["adalLoginSuccessEventName"] = "adal:loginSuccess";
 	otherConstants["registeringUserEventName"] = "registeringUser";
 	otherConstants["registerUserSuccessEventName"] = "registerUserSuccess";
 	otherConstants["registerUserFailureEventName"] = "registerUserFailure";
+	otherConstants["saveProjectEventName"] = "saveProject";
 
 	otherConstants["inComparisonType"] = ComparisonType.In.Value;
 	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;
@@ -43,6 +43,11 @@
 	otherConstants["equalComparisonType"] = ComparisonType.Equal.Value;
 	otherConstants["isNullComparisonType"] = ComparisonType.Null.Value;
 	otherConstants["isNotNullComparisonType"] = ComparisonType.NotNull.Value;
+
+	otherConstants["officeFocusSettingName"] = OfficeSetting.FOCUS_SETTING_KEY;
+	otherConstants["officeJustificationSettingName"] = OfficeSetting.JUSTIFICATION_SETTING_KEY;
+	otherConstants["officeCategorySettingName"] = OfficeSetting.CATEGORY_SETTING_KEY;
+	otherConstants["officeObjectiveSettingName"] = OfficeSetting.OBJECTIVE_SETTING_KEY;
 
 	WriteTypes(types, otherConstants);
 #>

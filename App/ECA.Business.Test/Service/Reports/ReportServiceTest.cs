@@ -51,7 +51,8 @@ namespace ECA.Business.Test.Service.Reports
             float value4 = 25.31F;
             int locationId = 1;
             int countryId = 500;
-            DateTime date1 = new DateTime(2014, 10, 4);
+            int programId = 501;
+            DateTime date1 = new DateTime(2014, 1, 5);
 
             var locationInFrance = new Location
             {
@@ -90,12 +91,18 @@ namespace ECA.Business.Test.Service.Reports
                 RecipientProjectId = 4
             };
 
+            var program1 = new Program
+            {
+                ProgramId = programId
+            };
+
             var project1 = new Project
             {
                 ProjectId = 1,
                 Name = "Test Project 1",
                 Description = "This is a long description",
-                StartDate = new DateTimeOffset(date1)
+                StartDate = new DateTimeOffset(date1),
+                ProgramId = programId
             };
 
             var project2 = new Project
@@ -103,7 +110,8 @@ namespace ECA.Business.Test.Service.Reports
                 ProjectId = 2,
                 Name = "Test Project 2",
                 Description = "This is a long description",
-                StartDate = new DateTimeOffset(date1)
+                StartDate = new DateTimeOffset(date1),
+                ProgramId = programId
             };
 
             var project3 = new Project
@@ -111,7 +119,8 @@ namespace ECA.Business.Test.Service.Reports
                 ProjectId = 3,
                 Name = "Test Project 3",
                 Description = "This is a long description",
-                StartDate = new DateTimeOffset(date1)
+                StartDate = new DateTimeOffset(date1),
+                ProgramId = programId
             };
 
 
@@ -170,7 +179,7 @@ namespace ECA.Business.Test.Service.Reports
                 CollectionAssert.AreEqual(resultList.Select(p => p.Summary).ToList(), projectAwards.Select(p => p.Summary).ToList());
                 CollectionAssert.AreEqual(resultList.Select(p => p.Award).ToList(), projectAwards.Select(p => p.Award).ToList());
             };
-            var result = service.GetProjectAwards(2014, countryId);
+            var result = service.GetProjectAwards(programId, countryId);
             tester(result);
         }
         #endregion

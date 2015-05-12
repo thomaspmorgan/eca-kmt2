@@ -18,7 +18,7 @@ using System.Diagnostics.Contracts;
 namespace ECA.WebApi.Controllers.Admin
 {
     /// <summary>
-    /// The Focus Controller provides lookup and crud operations for a focus.
+    /// The FocusCategoriesController provides lookup and crud operations for a focus.
     /// </summary>
     public class FocusCategoriesController : ApiController
     {
@@ -30,7 +30,7 @@ namespace ECA.WebApi.Controllers.Admin
         private IFocusCategoryService service;
 
         /// <summary>
-        /// Creates a new FocusController with the given service.
+        /// Creates a new FocusCategoriesController with the given service.
         /// </summary>
         /// <param name="service">The service.</param>
         public FocusCategoriesController(IFocusCategoryService service)
@@ -40,16 +40,17 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
-        /// Returns a listing of the foci..
+        /// Returns the focus categories for the office.
         /// </summary>
-        /// <param name="queryModel">The page, filter and sort information.</param>
-        /// <returns>The list of foci.</returns>
+        /// <param name="officeId">The office id.</param>
+        /// <param name="queryModel">The query operator.</param>
+        /// <returns>The focus categories.</returns>
         [ResponseType(typeof(PagedQueryResults<FocusCategoryDTO>))]
-        public async Task<IHttpActionResult> GetFocusCategoriesAsync([FromUri]PagingQueryBindingModel<FocusCategoryDTO> queryModel)
+        public async Task<IHttpActionResult> GetFocusCategoriesAsync([FromUri]PagingQueryBindingModel<FocusCategoryDTO> queryModel, int officeId)
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetAsync(queryModel.ToQueryableOperator(DEFAULT_FOCUSCATEGORY_DTO_SORTER));
+                var results = await this.service.GetFocusCategoriesByOfficeIdAsync(officeId, queryModel.ToQueryableOperator(DEFAULT_FOCUSCATEGORY_DTO_SORTER));
                 return Ok(results);
             }
             else

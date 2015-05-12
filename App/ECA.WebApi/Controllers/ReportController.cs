@@ -14,6 +14,7 @@ using ECA.Business.Service;
 namespace ECA.WebApi.Controllers
 {
     [RoutePrefix("api/Report")]
+    [Authorize]
     public class ReportController : ApiController
     {
         private IReportService reportService;
@@ -28,7 +29,6 @@ namespace ECA.WebApi.Controllers
             this.reportService = reportService;
         }
 
-        [HttpGet]
         [Route("ProjectAwards")]
         public HttpResponseMessage GetProjectAwards(int programId, int countryId)
         {
@@ -79,9 +79,7 @@ namespace ECA.WebApi.Controllers
             var result = new HttpResponseMessage(HttpStatusCode.OK);
 
             Stream stream = new MemoryStream(bytes);
-
             result.Content = new StreamContent(stream);
-
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
 
             return result;

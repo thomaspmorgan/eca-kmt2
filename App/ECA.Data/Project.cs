@@ -59,7 +59,6 @@ namespace ECA.Data
         public ProjectStatus Status { get; set; }
         [Required]
         public int ProjectStatusId { get; set; }
-        public virtual Focus Focus { get; set; }
         public ICollection<MoneyFlow> SourceProjectMoneyFlows { get; set; }
         public ICollection<MoneyFlow> RecipientProjectMoneyFlows { get; set; }
         public Organization NominationSource { get; set; }

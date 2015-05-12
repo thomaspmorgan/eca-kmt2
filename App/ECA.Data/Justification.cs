@@ -29,6 +29,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or set the Id.
         /// </summary>
+        [Key]
         public int JustificationId { get; set; }
 
         /// <summary>
@@ -41,14 +42,11 @@ namespace ECA.Data
         /// <summary>
         /// Office for the Focus area
         /// </summary>
-
-        public int OrganizationId { get; set;}
+        public int OfficeId { get; set;}
 
         /// <summary>
         /// Office of the Focus Area
         /// </summary>
-        ///
-
         public Organization Office { get; set; }
 
         /// <summary>

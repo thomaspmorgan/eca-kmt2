@@ -21,7 +21,8 @@ namespace ECA.Data
         IThemeable, 
         IContactable,
         ICategorizable,
-        IObjectivable
+        IObjectivable,
+        ILocationable
     {
         public Program()
         {
@@ -93,11 +94,6 @@ namespace ECA.Data
         /// Gets or sets the ProgramStatus.
         /// </summary>
         public virtual ProgramStatus ProgramStatus { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Focus.
-        /// </summary>
-        public virtual Focus Focus { get; set; }
 
         /// <summary>
         /// Gets or sets the program status id.

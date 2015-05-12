@@ -24,7 +24,8 @@ namespace ECA.Business.Test.Service.Admin
             var name = "name";
             var description = "description";
             var program = new Program();
-            Func<ProjectServiceCreateValidationEntity> createEntity = () => {
+            Func<ProjectServiceCreateValidationEntity> createEntity = () =>
+            {
                 return new ProjectServiceCreateValidationEntity(
                 name: name,
                 description: description,
@@ -214,6 +215,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -227,7 +231,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -241,7 +244,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                  numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -276,9 +282,12 @@ namespace ECA.Business.Test.Service.Admin
             };
             var goalsExist = true;
             var themesExist = true;
-            var pointsOfContactsExist = true; 
+            var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -290,9 +299,8 @@ namespace ECA.Business.Test.Service.Admin
                     goalIds: null,
                     themeIds: null,
                     pointsOfContactIds: null,
-                                        categoryIds: null,
+                    categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -306,7 +314,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                  numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -345,6 +356,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -358,7 +372,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -372,7 +385,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -410,6 +426,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -423,7 +442,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -437,7 +455,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -475,6 +496,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -488,7 +512,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -502,7 +525,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -541,6 +567,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -554,7 +583,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -568,7 +596,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                  numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -606,6 +637,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -619,7 +653,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -633,7 +666,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                  numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -671,6 +707,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -684,7 +723,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -698,7 +736,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                  numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -736,6 +777,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -749,7 +793,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -763,7 +806,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -780,7 +826,7 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         [TestMethod]
-        public void TestDoValidateUpdate_FocusIsNull()
+        public void TestDoValidateUpdate_CateogriesExist()
         {
             var user = new User(1);
             var name = "name";
@@ -801,6 +847,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -814,7 +863,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -828,7 +876,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -836,13 +887,636 @@ namespace ECA.Business.Test.Service.Admin
             var entity = createEntity();
             Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
 
-            focus = null;
+            categoriesExist = false;
             entity = createEntity();
             var validationErrors = validator.DoValidateUpdate(entity).ToList();
             Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(ProjectServiceValidator.FOCUS_REQUIRED_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
-            Assert.AreEqual("FocusId", validationErrors.First().Property);
+            Assert.AreEqual(ProjectServiceValidator.CATEGORIES_DO_NOT_EXIST_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("CategoryIds", validationErrors.First().Property);
         }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_ObjectivesExist()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            objectivesExist = false;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(ProjectServiceValidator.OBJECTIVES_DO_NOT_EXIST_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("ObjectiveIds", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_ZeroObjectivesGiven_ObjectiveRequired()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            officeSettings.IsObjectiveRequired = true;
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            numberOfObjectives = 0;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(ProjectServiceValidator.OBJECTIVES_REQUIRED_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("ObjectiveIds", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_ZeroCategoriesGiven_CategoryRequired()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            officeSettings.IsCategoryRequired = true;
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            numberOfCategories = 0;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(ProjectServiceValidator.CATEGORIES_REQUIRED_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("CategoryIds", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_ZeroObjectivesGiven_ObjectiveNotRequired()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            officeSettings.IsObjectiveRequired = false;
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            numberOfObjectives = 0;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_ZeroCategoriesGiven_CategoryNotRequired()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            officeSettings.IsCategoryRequired = false;
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            numberOfCategories = 0;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_OneCategoryGiven_CategoryRequired()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            numberOfCategories = 1;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_OneObjectiveGiven()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            numberOfObjectives = 1;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_MoreThanOneCategoryGiven()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            numberOfCategories = 2;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_MoreThanOneObjectiveGiven()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            numberOfObjectives = 2;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
 
         [TestMethod]
         public void TestDoValidateUpdate_StartDateIsEqualEndDate()
@@ -866,6 +1540,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -879,7 +1556,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -893,7 +1569,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -932,6 +1611,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -945,7 +1627,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -959,7 +1640,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
@@ -997,6 +1681,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1010,7 +1697,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -1024,13 +1710,16 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                  numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };
 
             var entity = createEntity();
-            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());            
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
         }
 
         [TestMethod]
@@ -1055,6 +1744,9 @@ namespace ECA.Business.Test.Service.Admin
             var pointsOfContactsExist = true;
             var categoriesExist = true;
             var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1068,7 +1760,6 @@ namespace ECA.Business.Test.Service.Admin
                     pointsOfContactIds: null,
                     categoryIds: null,
                     objectiveIds: null,
-                    focusId: 1,
                     startDate: startDate,
                     endDate: endDate
                     );
@@ -1082,7 +1773,10 @@ namespace ECA.Business.Test.Service.Admin
                   themesExist: themesExist,
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
-                  objectivesExist: objectivesExist
+                  objectivesExist: objectivesExist,
+                  numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
                 );
 
             };

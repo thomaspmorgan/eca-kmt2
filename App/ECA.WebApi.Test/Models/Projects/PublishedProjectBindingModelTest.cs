@@ -18,7 +18,6 @@ namespace ECA.WebApi.Test.Models.Projects
             {
                 Description = "desc",
                 EndDate = DateTimeOffset.UtcNow.AddDays(1.0),
-                FocusId = 1,
                 GoalIds = new List<int> { 1 },
                 Name = "name",
                 PointsOfContactIds = new List<int> { 2 },
@@ -26,13 +25,14 @@ namespace ECA.WebApi.Test.Models.Projects
                 ProjectStatusId = ProjectStatus.Completed.Id,
                 StartDate = DateTimeOffset.UtcNow.AddDays(-1.0),
                 ThemeIds = new List<int> { 4 },
+                ObjectiveIds = new List<int> { 5 },
+                CategoryIds = new List<int> { 6 }
             };
             var user = new User(1);
             var publishedProject = model.ToPublishedProject(user);
             Assert.AreEqual(user.Id, publishedProject.Audit.User.Id);
             Assert.AreEqual(model.Description, publishedProject.Description);
             Assert.AreEqual(model.EndDate, publishedProject.EndDate);
-            Assert.AreEqual(model.FocusId, publishedProject.FocusId);
             Assert.AreEqual(model.Name, publishedProject.Name);
             Assert.AreEqual(model.Id, publishedProject.ProjectId);
             Assert.AreEqual(model.ProjectStatusId, publishedProject.ProjectStatusId);
@@ -41,6 +41,8 @@ namespace ECA.WebApi.Test.Models.Projects
             CollectionAssert.AreEqual(model.GoalIds.ToList(), publishedProject.GoalIds.ToList());
             CollectionAssert.AreEqual(model.PointsOfContactIds.ToList(), publishedProject.PointsOfContactIds.ToList());
             CollectionAssert.AreEqual(model.ThemeIds.ToList(), publishedProject.ThemeIds.ToList());
+            CollectionAssert.AreEqual(model.ObjectiveIds.ToList(), publishedProject.ObjectiveIds.ToList());
+            CollectionAssert.AreEqual(model.CategoryIds.ToList(), publishedProject.CategoryIds.ToList());
         }
     }
 }

@@ -68,6 +68,15 @@
 		Namespace = nameSpace
 	});
 
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "MoneyFlowStatus",
+		ClassName = "MoneyFlowStatus",
+		IdColumnName = "MoneyFlowStatusId",
+		ValueColumnName = "MoneyFlowStatusName",
+		Namespace = nameSpace
+	});
+
 
 	types.Add(new StaticLookupConfig
 	{
@@ -138,6 +147,16 @@
 		ClassName = "AddressType",
 		IdColumnName = "AddressTypeId",
 		ValueColumnName = "AddressName",
+		Namespace = nameSpace
+	});
+
+
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "MaritalStatus",
+		ClassName = "MaritalStatus",
+		IdColumnName = "MaritalStatusId",
+		ValueColumnName = "Description",
 		Namespace = nameSpace
 	});
 

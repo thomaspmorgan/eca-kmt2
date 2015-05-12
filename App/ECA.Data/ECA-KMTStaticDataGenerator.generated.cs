@@ -338,6 +338,85 @@ namespace ECA.Data
 }
 #endregion
 
+#region MaritalStatus
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class MaritalStatus : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Married              lookup with id 1.
+		/// </summary>
+		public static StaticLookup Married { get { return new StaticLookup("Married             ", 1); } }
+		/// <summary>
+		/// Returns the Unmarried            lookup with id 2.
+		/// </summary>
+		public static StaticLookup Unmarried { get { return new StaticLookup("Unmarried           ", 2); } }
+		/// <summary>
+		/// Returns the Divorced             lookup with id 3.
+		/// </summary>
+		public static StaticLookup Divorced { get { return new StaticLookup("Divorced            ", 3); } }
+		/// <summary>
+		/// Returns the Single               lookup with id 4.
+		/// </summary>
+		public static StaticLookup Single { get { return new StaticLookup("Single              ", 4); } }
+		/// <summary>
+		/// Returns the Separated            lookup with id 5.
+		/// </summary>
+		public static StaticLookup Separated { get { return new StaticLookup("Separated           ", 5); } }
+		/// <summary>
+		/// Returns the Widowed              lookup with id 6.
+		/// </summary>
+		public static StaticLookup Widowed { get { return new StaticLookup("Widowed             ", 6); } }
+		/// <summary>
+		/// Returns the Not Disclosed        lookup with id 7.
+		/// </summary>
+		public static StaticLookup NotDisclosed { get { return new StaticLookup("Not Disclosed       ", 7); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return MaritalStatus.Married;
+			if (2 == id) return MaritalStatus.Unmarried;
+			if (3 == id) return MaritalStatus.Divorced;
+			if (4 == id) return MaritalStatus.Single;
+			if (5 == id) return MaritalStatus.Separated;
+			if (6 == id) return MaritalStatus.Widowed;
+			if (7 == id) return MaritalStatus.NotDisclosed;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Married             ".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MaritalStatus.Married;
+			if ("Unmarried           ".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MaritalStatus.Unmarried;
+			if ("Divorced            ".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MaritalStatus.Divorced;
+			if ("Single              ".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MaritalStatus.Single;
+			if ("Separated           ".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MaritalStatus.Separated;
+			if ("Widowed             ".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MaritalStatus.Widowed;
+			if ("Not Disclosed       ".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MaritalStatus.NotDisclosed;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "MaritalStatus", TableName = "MaritalStatus", IdColumnName = "MaritalStatusId", ValueColumnName = "Description" };
+		}
+	}
+}
+#endregion
+
 #region MoneyFlowSourceRecipientType
 namespace ECA.Data
 {
@@ -424,6 +503,55 @@ namespace ECA.Data
 		public StaticLookupConfig GetConfig()
 		{
 			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "MoneyFlowSourceRecipientType", TableName = "MoneyFlowSourceRecipientType", IdColumnName = "MoneyFlowSourceRecipientTypeId", ValueColumnName = "TypeName" };
+		}
+	}
+}
+#endregion
+
+#region MoneyFlowStatus
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class MoneyFlowStatus : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Budgeted lookup with id 1.
+		/// </summary>
+		public static StaticLookup Budgeted { get { return new StaticLookup("Budgeted", 1); } }
+		/// <summary>
+		/// Returns the Appropriated lookup with id 3.
+		/// </summary>
+		public static StaticLookup Appropriated { get { return new StaticLookup("Appropriated", 3); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (1 == id) return MoneyFlowStatus.Budgeted;
+			if (3 == id) return MoneyFlowStatus.Appropriated;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Budgeted".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Budgeted;
+			if ("Appropriated".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return MoneyFlowStatus.Appropriated;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "MoneyFlowStatus", TableName = "MoneyFlowStatus", IdColumnName = "MoneyFlowStatusId", ValueColumnName = "MoneyFlowStatusName" };
 		}
 	}
 }
@@ -1058,7 +1186,9 @@ namespace ECA.Data
 			errors.AddRange(validator.Validate<Gender>());
 			errors.AddRange(validator.Validate<ItineraryStatus>());
 			errors.AddRange(validator.Validate<LocationType>());
+			errors.AddRange(validator.Validate<MaritalStatus>());
 			errors.AddRange(validator.Validate<MoneyFlowSourceRecipientType>());
+			errors.AddRange(validator.Validate<MoneyFlowStatus>());
 			errors.AddRange(validator.Validate<MoneyFlowType>());
 			errors.AddRange(validator.Validate<OrganizationType>());
 			errors.AddRange(validator.Validate<ParticipantType>());

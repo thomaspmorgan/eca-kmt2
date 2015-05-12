@@ -29,6 +29,7 @@ namespace ECA.Data
         /// <summary>
         /// Gets or set the Id.
         /// </summary>
+        [Key]
         public int ObjectiveId { get; set; }
 
         /// <summary>

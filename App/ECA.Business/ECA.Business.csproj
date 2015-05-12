@@ -108,6 +108,7 @@
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationProgramDTO.cs" />
     <Compile Include="Queries\Models\Admin\ProjectStatusDTO.cs" />
+    <Compile Include="Queries\Models\Office\OfficeSettingDTO.cs" />
     <Compile Include="Queries\Models\Office\SimpleOfficeDTO.cs" />
     <Compile Include="Queries\Models\Persons\ContactInfoDTO.cs" />
     <Compile Include="Queries\Models\Persons\LocationDTO.cs" />
@@ -116,6 +117,8 @@
     <Compile Include="Queries\Persons\PersonQueries.cs" />
     <Compile Include="Queries\Reports\ReportQueries.cs" />
     <Compile Include="Queries\Models\Reports\ProjectAwardDTO.cs" />
+    <Compile Include="Service\Admin\DraftMoneyFlow.cs" />
+    <Compile Include="Service\Admin\EcaMoneyFlow.cs" />
     <Compile Include="Service\Admin\IMaritalStatusService.cs" />
     <Compile Include="Service\Admin\JustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\FocusCategoryService.cs" />
@@ -125,6 +128,8 @@
     <Compile Include="Service\Admin\IGenderService.cs" />
     <Compile Include="Service\Admin\IProjectStatusService.cs" />
     <Compile Include="Service\Admin\MaritalStatusService.cs" />
+    <Compile Include="Service\Admin\MoneyFlowValidationEntity.cs" />
+    <Compile Include="Service\Admin\OfficeSettings.cs" />
     <Compile Include="Service\Admin\ProjectServiceCreateValidationEntity.cs" />
     <Compile Include="Service\Admin\ProjectServiceUpdateValidationEntity.cs" />
     <Compile Include="Service\Admin\ProjectServiceValidator.cs" />

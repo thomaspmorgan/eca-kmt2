@@ -13,7 +13,7 @@ angular.module('staticApp')
       return {
           get: function (id) {
               return DragonBreath.get('offices', id);
-          },          
+          },
           update: function (program, id) {
               return DragonBreath.save(program, 'offices', id);
           },
@@ -30,6 +30,10 @@ angular.module('staticApp')
           },
           getAll: function (params) {
               return DragonBreath.get(params, 'offices');
+          },
+          getSettings: function (officeId) {
+              var path = 'offices/' + officeId + '/Settings';
+              return DragonBreath.get(path);
           }
       };
   });

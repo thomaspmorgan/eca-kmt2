@@ -21,7 +21,6 @@ namespace ECA.Business.Test.Service.Programs
             var endDate = DateTime.UtcNow.AddDays(1.0);
             var ownerOrganizationId = 2;
             var parentProgramId = 3;
-            var focusId = 100;
             var website = "http://www.google.com";
             var goalIds = new List<int> { 10 };
             var themeIds = new List<int> { 20 };
@@ -39,7 +38,6 @@ namespace ECA.Business.Test.Service.Programs
                 endDate: endDate,
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
-                focusId: focusId,
                 website: website,
                 goalIds: goalIds,
                 pointOfContactIds: pointOfContactIds,
@@ -59,7 +57,6 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(ownerOrganizationId, program.OwnerOrganizationId);
             Assert.AreEqual(parentProgramId, program.ParentProgramId);
             Assert.AreEqual(ProgramStatus.Draft.Id, program.ProgramStatusId);
-            Assert.AreEqual(focusId, program.FocusId);
             Assert.AreEqual(website, program.Website);
             Assert.IsNull(program.RowVersion);
 
@@ -93,7 +90,6 @@ namespace ECA.Business.Test.Service.Programs
                 endDate: endDate,
                 ownerOrganizationId: ownerOrganizationId,
                 parentProgramId: parentProgramId,
-                focusId: focusId,
                 website: website,
                 goalIds: null,
                 pointOfContactIds: null,

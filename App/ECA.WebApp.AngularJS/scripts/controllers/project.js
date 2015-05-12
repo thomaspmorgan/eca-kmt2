@@ -8,8 +8,8 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ProjectCtrl', function ($scope, $stateParams, $log, ProjectService, PersonService,
-      ProgramService, ParticipantService, LocationService, MoneyFlowService,
+  .controller('ProjectCtrl', function ($scope, $state, $stateParams, $log, $q, ProjectService, PersonService,
+      ProgramService, ParticipantService, LocationService, MoneyFlowService, AuthService,
       TableService, ConstantsService, LookupService, orderByFilter) {
 
       $scope.project = {};
@@ -19,8 +19,10 @@ angular.module('staticApp')
       $scope.modal = {};
 
       $scope.newMoneyFlow = {};
-      $scope.sortedCategories =[];
-      $scope.sortedObjectives =[];
+      $scope.isProjectStatusButtonEnabled = false;
+      $scope.isProjectStatusButtonInEditMode = false;
+      $scope.isInEditViewState = false;
+      $scope.projectStatusButtonText = "...";
 
       $scope.tabs = {
           overview: {
@@ -73,6 +75,14 @@ angular.module('staticApp')
           }
       };
 
+      function enabledProjectStatusButton() {
+          $scope.isProjectStatusButtonEnabled = true;
+      }
+
+      function disableProjectStatusButton() {
+          $scope.isProjectStatusButtonEnabled = false;
+      }
+
       ProjectService.get($stateParams.projectId)
         .then(function (data) {
             $scope.project = data.data;
@@ -85,10 +95,6 @@ angular.module('staticApp')
             if (angular.isArray($scope.project.moneyFlows)) {
                 $scope.tabs.moneyflows.active = true;
             }
-
-            $scope.sortedCategories = orderByFilter($scope.project.categories, '+focusName');
-            $scope.sortedObjectives = orderByFilter($scope.project.objectives, '+justificationName');
-
         });
 
       $scope.participantsLoading = false;
@@ -139,11 +145,16 @@ angular.module('staticApp')
              });
       };
 
-      $scope.onDraftButtonClick = function ($event) {
-          var eventName = ConstantsService.editProjectEventName;
-          $log.info('Firing event [' + eventName + '] in project.js controller.');
-          $scope.$broadcast(eventName);
-      };
+      var editStateName = 'projects.edit';
+      $scope.isInEditViewState = $state.current.name === editStateName;
+      $scope.onProjectStatusButtonClick = function ($event) {
+          if ($state.current.name === editStateName) {
+              $scope.$broadcast(ConstantsService.saveProjectEventName);
+          }
+          else {
+              $state.go(editStateName);
+          }
+      };     
       
       $scope.params = $stateParams;
 
@@ -313,5 +324,34 @@ angular.module('staticApp')
           });
           $scope.cities = [];
       };
+
+      function loadPermissions() {
+          console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
+          var projectId = $stateParams.projectId;
+          var resourceType = ConstantsService.resourceType.project.value;
+          var config = {};
+          config[ConstantsService.permission.editproject.value] = {
+              hasPermission: function () {
+                  enabledProjectStatusButton();
+                  $log.info('User has edit project permission in project.js controller.');
+              },
+              notAuthorized: function () {
+                  disableProjectStatusButton();
+                  $log.info('User not authorized to edit project  in project.js controller.');
+              }
+          };
+          return AuthService.getResourcePermissions(resourceType, projectId, config)
+            .then(function (result) {
+            }, function () {
+                $log.error('Unable to load user permissions in project.js controller.');
+            });
+      }
+
+      $q.all([loadPermissions()])
+      .then(function () {
+
+      }, function () {
+
+      });
 
   });

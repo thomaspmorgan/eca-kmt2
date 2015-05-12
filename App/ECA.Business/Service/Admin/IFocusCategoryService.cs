@@ -11,31 +11,19 @@ namespace ECA.Business.Service.Admin
     public interface IFocusCategoryService
     {
         /// <summary>
-        /// Returns the foci currently in the system.
+        /// Returns the focus categories for the office with the given id.
         /// </summary>
-        /// <param name="queryOperator">The query oprator.</param>
-        /// <returns>The foci in the system.</returns>
-        PagedQueryResults<FocusCategoryDTO> Get(QueryableOperator<FocusCategoryDTO> queryOperator);
+        /// <param name="officeId">The office by id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The focus categories.</returns>
+        PagedQueryResults<FocusCategoryDTO> GetFocusCategoriesByOfficeId(int officeId, QueryableOperator<FocusCategoryDTO> queryOperator);
 
         /// <summary>
-        /// Returns the foci currently in the system.
+        /// Returns the focus categories for the office with the given id.
         /// </summary>
-        /// <param name="queryOperator">The query oprator.</param>
-        /// <returns>The foci in the system.</returns>
-        Task<PagedQueryResults<FocusCategoryDTO>> GetAsync(QueryableOperator<FocusCategoryDTO> queryOperator);
-
-        /// <summary>
-        /// Returns the focus with the given id or null if not found.
-        /// </summary>
-        /// <param name="id">The id of the focus.</param>
-        /// <returns>The focus with the given id, or null if not found.</returns>
-        FocusCategoryDTO GetFocusCategoryById(int id);
-
-        /// <summary>
-        /// Returns the focus with the given id or null if not found.
-        /// </summary>
-        /// <param name="id">The id of the focus.</param>
-        /// <returns>The focus with the given id, or null if not found.</returns>
-        Task<FocusCategoryDTO> GetFocusCategoryByIdAsync(int id);
+        /// <param name="officeId">The office by id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The focus categories.</returns>
+        Task<PagedQueryResults<FocusCategoryDTO>> GetFocusCategoriesByOfficeIdAsync(int officeId, QueryableOperator<FocusCategoryDTO> queryOperator);
     }
 }

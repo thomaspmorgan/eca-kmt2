@@ -92,6 +92,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContextUtil.cs" />
+    <Compile Include="Controllers\Admin\JustificationObjectiveControllerTest.cs" />
+    <Compile Include="Controllers\Admin\FocusCategoriesControllerTest.cs" />
     <Compile Include="Controllers\Admin\FocusControllerTest.cs" />
     <Compile Include="Controllers\Admin\GendersControllerTest.cs" />
     <Compile Include="Controllers\Admin\GoalsControllerTest.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="Controllers\Admin\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsControllerTest.cs" />
     <Compile Include="Controllers\Admin\ProjectStatusControllerTest.cs" />
+    <Compile Include="Controllers\Admin\MaritalStatusesControllerTest.cs" />
     <Compile Include="Controllers\AuthControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ContactsControllerTest.cs" />
