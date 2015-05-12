@@ -20,7 +20,9 @@ angular.module('staticApp')
 
       $scope.newMoneyFlow = {};
       $scope.isProjectStatusButtonEnabled = false;
-      $scope.isProjectModified = false;
+      $scope.isProjectStatusButtonInEditMode = false;
+      $scope.isInEditViewState = false;
+      $scope.projectStatusButtonText = "...";
 
       $scope.tabs = {
           overview: {
@@ -143,9 +145,16 @@ angular.module('staticApp')
              });
       };
 
-      $scope.onDraftButtonClick = function ($event) {
-          $state.go('projects.edit');
-      };
+      var editStateName = 'projects.edit';
+      $scope.isInEditViewState = $state.current.name === editStateName;
+      $scope.onProjectStatusButtonClick = function ($event) {
+          if ($state.current.name === editStateName) {
+              $scope.$broadcast(ConstantsService.saveProjectEventName);
+          }
+          else {
+              $state.go(editStateName);
+          }
+      };     
       
       $scope.params = $stateParams;
 

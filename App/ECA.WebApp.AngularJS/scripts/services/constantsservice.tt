@@ -33,6 +33,7 @@
 	otherConstants["registeringUserEventName"] = "registeringUser";
 	otherConstants["registerUserSuccessEventName"] = "registerUserSuccess";
 	otherConstants["registerUserFailureEventName"] = "registerUserFailure";
+	otherConstants["saveProjectEventName"] = "saveProject";
 
 	otherConstants["inComparisonType"] = ComparisonType.In.Value;
 	otherConstants["notInComparisonType"] = ComparisonType.NotIn.Value;
