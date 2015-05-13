@@ -5452,12 +5452,18 @@ label {
       background: #297cb4;
       border: 0;
       font-size: 1em;
-      width: 147px;
-      color: white; }
+      min-width: 147px;
+      color: white;
+      border-bottom-left-radius: 4px;
+      border-top-left-radius: 4px; }
       .jumbotron .toolbar .btn-group .btn.dropdown-toggle {
         border-left: 1px solid rgba(0, 0, 0, 0.15);
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
         margin-right: 20px;
-        width: 40px; }
+        min-width: 40px;
+        width: 40px;
+        max-width: 40px; }
     .jumbotron .toolbar .btn-group .modified {
       background: #55b267; }
     .jumbotron .toolbar .btn-group .cancel {
@@ -6250,5 +6256,8 @@ h5.canEdit {
   left: 0;
   right: 0;
   margin: auto; }
+
+#toast-container > div {
+  opacity: 1; }
 
 /*# sourceMappingURL=main.css.map */
