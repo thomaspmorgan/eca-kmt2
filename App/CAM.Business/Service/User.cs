@@ -28,18 +28,6 @@ namespace CAM.Business.Service
         public Guid AdGuid { get; set; }
         public string EmailAddress { get; set; }
 
-        //public Enums.AccountStatus AccountStatus
-        //{
-        //    get
-        //    {
-        //        return (Enums.AccountStatus)Enum.ToObject(typeof(Enums.AccountStatus), this.AccountStatusId);
-        //    }
-        //    set
-        //    {
-        //        this.AccountStatusId = (int)value;
-        //    }
-        //}
-
         /// <summary>
         /// Creates a new user.
         /// </summary>
@@ -48,48 +36,6 @@ namespace CAM.Business.Service
 
         }
 
-        //public virtual bool AuthenticateUserWithGuid(Guid userGuid, CamModel cam)
-        //{
-        //        var results = (from r in cam.UserAccounts
-        //                       where r.AdGuid == userGuid
-        //                       select r).FirstOrDefault();
-
-        //        if (results != null)
-        //        {
-        //            //if (results.ExpirationDate > DateTime.Now && results.AccountStatusId == (int)Enums.AccountStatus.Active)
-        //            if(results.AccountStatusId == (int)Enums.AccountStatus.Active)
-        //            {
-        //                // update last accessed property
-        //                results.LastAccessed = DateTime.Now;
-        //                cam.SaveChanges();
-        //            }
-        //            // fill in User properties
-        //            PrincipalId = results.PrincipalId;
-        //            LastAccessed = results.LastAccessed;
-        //            SuspendedDate = results.SuspendedDate;
-        //            RevokedDate = results.RevokedDate;
-        //            RestoredDate = results.RestoredDate;
-        //            ExpiredDate = results.ExpiredDate;
-        //            if (ExpiredDate > DateTime.Now)
-        //            {
-        //                AccountStatusText = results.AccountStatus.Status;
-        //                AccountStatus = (Enums.AccountStatus)results.AccountStatusId;
-        //            }
-        //            else
-        //            {
-        //                AccountStatusText = Enums.AccountStatus.Expired.ToString();
-        //                AccountStatus = Enums.AccountStatus.Expired;
-        //            }
-
-        //            FirstName = results.FirstName;
-        //            LastName = results.LastName;
-        //            DisplayName = results.DisplayName;
-        //            EmailAddress = results.EmailAddress;
-        //            // return true means user found, check status to see if active.
-        //            return true;
-        //        }
-        //        return false; // user not found
-        //}
 
         /// <summary>
         /// Returns true if the given object equals this object.

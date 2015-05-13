@@ -6,6 +6,11 @@ using CAM.Business.Service;
 using System.Threading.Tasks;
 using CAM.Data;
 using CAM.Business.Model;
+using ECA.Core.Query;
+using CAM.Business.Queries.Models;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.DynamicLinq.Filter;
 
 namespace CAM.Business.Test.Service
 {
@@ -284,6 +289,193 @@ namespace CAM.Business.Test.Service
             DateTimeOffset.Now.Should().BeCloseTo(userAccount.LastAccessed.Value, 2000);
             Assert.AreEqual(0, context.SaveChangesCount);
             Assert.AreEqual(1, context.SaveChangesAsyncCount);
+        }
+
+        [TestMethod]
+        public async Task TestGetUsers_CheckProperties()
+        {
+            var user1 = new UserAccount
+            {
+                AdGuid = Guid.NewGuid(),
+                DisplayName = "display1",
+                EmailAddress = "email1",
+                FirstName = "first1",
+                LastName = "last1",
+                PrincipalId = 1,
+            };
+            context.UserAccounts.Add(user1);
+
+            Action<PagedQueryResults<UserDTO>> tester = (testResults) =>
+            {
+                Assert.AreEqual(1, testResults.Total);
+                Assert.AreEqual(1, testResults.Results.Count);
+                var firstResult = testResults.Results.First();
+                Assert.AreEqual(user1.AdGuid, firstResult.AdGuid);
+                Assert.AreEqual(user1.DisplayName, firstResult.DisplayName);
+                Assert.AreEqual(user1.EmailAddress, firstResult.Email);
+                Assert.AreEqual(user1.FirstName, firstResult.FirstName);
+                Assert.AreEqual(user1.PrincipalId, firstResult.PrincipalId);
+            };
+            var defaultSorter = new ExpressionSorter<UserDTO>(x => x.AdGuid, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<UserDTO>(0, 10, defaultSorter);
+            var results = service.GetUsers(queryOperator);
+            var resultsAsync = await service.GetUsersAsync(queryOperator);
+            tester(results);
+            tester(resultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetUsers_DefaultSort()
+        {
+            var user1 = new UserAccount
+            {
+                AdGuid = Guid.NewGuid(),
+                DisplayName = "display1",
+                EmailAddress = "email1",
+                FirstName = "first1",
+                LastName = "last1",
+                PrincipalId = 1,
+            };
+            var user2 = new UserAccount
+            {
+                AdGuid = Guid.NewGuid(),
+                DisplayName = "display2",
+                EmailAddress = "email2",
+                FirstName = "first2",
+                LastName = "last2",
+                PrincipalId = 2,
+            };
+            context.UserAccounts.Add(user1);
+            context.UserAccounts.Add(user2);
+
+            Action<PagedQueryResults<UserDTO>> tester = (testResults) =>
+            {
+                Assert.AreEqual(2, testResults.Total);
+                Assert.AreEqual(2, testResults.Results.Count);
+                Assert.AreEqual(user1.AdGuid, testResults.Results.First().AdGuid);
+            };
+            var defaultSorter = new ExpressionSorter<UserDTO>(x => x.PrincipalId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<UserDTO>(0, 10, defaultSorter);
+            var results = service.GetUsers(queryOperator);
+            var resultsAsync = await service.GetUsersAsync(queryOperator);
+            tester(results);
+            tester(resultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetUsers_Sort()
+        {
+            var user1 = new UserAccount
+            {
+                AdGuid = Guid.NewGuid(),
+                DisplayName = "display1",
+                EmailAddress = "email1",
+                FirstName = "first1",
+                LastName = "last1",
+                PrincipalId = 1,
+            };
+            var user2 = new UserAccount
+            {
+                AdGuid = Guid.NewGuid(),
+                DisplayName = "display2",
+                EmailAddress = "email2",
+                FirstName = "first2",
+                LastName = "last2",
+                PrincipalId = 2,
+            };
+            context.UserAccounts.Add(user1);
+            context.UserAccounts.Add(user2);
+
+            Action<PagedQueryResults<UserDTO>> tester = (testResults) =>
+            {
+                Assert.AreEqual(2, testResults.Total);
+                Assert.AreEqual(2, testResults.Results.Count);
+                Assert.AreEqual(user2.AdGuid, testResults.Results.First().AdGuid);
+            };
+            var defaultSorter = new ExpressionSorter<UserDTO>(x => x.PrincipalId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<UserDTO>(0, 10, defaultSorter);
+            queryOperator.Sorters.Add(new ExpressionSorter<UserDTO>(x => x.Email, SortDirection.Descending));
+            var results = service.GetUsers(queryOperator);
+            var resultsAsync = await service.GetUsersAsync(queryOperator);
+            tester(results);
+            tester(resultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetUsers_Filter()
+        {
+            var user1 = new UserAccount
+            {
+                AdGuid = Guid.NewGuid(),
+                DisplayName = "display1",
+                EmailAddress = "email1",
+                FirstName = "first1",
+                LastName = "last1",
+                PrincipalId = 1,
+            };
+            var user2 = new UserAccount
+            {
+                AdGuid = Guid.NewGuid(),
+                DisplayName = "display2",
+                EmailAddress = "email2",
+                FirstName = "first2",
+                LastName = "last2",
+                PrincipalId = 2,
+            };
+            context.UserAccounts.Add(user1);
+            context.UserAccounts.Add(user2);
+
+            Action<PagedQueryResults<UserDTO>> tester = (testResults) =>
+            {
+                Assert.AreEqual(1, testResults.Total);
+                Assert.AreEqual(1, testResults.Results.Count);
+                Assert.AreEqual(user1.AdGuid, testResults.Results.First().AdGuid);
+            };
+            var defaultSorter = new ExpressionSorter<UserDTO>(x => x.PrincipalId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<UserDTO>(0, 10, defaultSorter);
+            queryOperator.Filters.Add(new ExpressionFilter<UserDTO>(x => x.Email, ComparisonType.Equal, user1.EmailAddress));
+            var results = service.GetUsers(queryOperator);
+            var resultsAsync = await service.GetUsersAsync(queryOperator);
+            tester(results);
+            tester(resultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetUsers_Paged()
+        {
+            var user1 = new UserAccount
+            {
+                AdGuid = Guid.NewGuid(),
+                DisplayName = "display1",
+                EmailAddress = "email1",
+                FirstName = "first1",
+                LastName = "last1",
+                PrincipalId = 1,
+            };
+            var user2 = new UserAccount
+            {
+                AdGuid = Guid.NewGuid(),
+                DisplayName = "display2",
+                EmailAddress = "email2",
+                FirstName = "first2",
+                LastName = "last2",
+                PrincipalId = 2,
+            };
+            context.UserAccounts.Add(user1);
+            context.UserAccounts.Add(user2);
+
+            Action<PagedQueryResults<UserDTO>> tester = (testResults) =>
+            {
+                Assert.AreEqual(2, testResults.Total);
+                Assert.AreEqual(1, testResults.Results.Count);
+                Assert.AreEqual(user1.AdGuid, testResults.Results.First().AdGuid);
+            };
+            var defaultSorter = new ExpressionSorter<UserDTO>(x => x.PrincipalId, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<UserDTO>(0, 1, defaultSorter);
+            var results = service.GetUsers(queryOperator);
+            var resultsAsync = await service.GetUsersAsync(queryOperator);
+            tester(results);
+            tester(resultsAsync);
         }
 
         #endregion

@@ -29,7 +29,6 @@ namespace ECA.WebApi.Test.Controllers.Programs
                 .ReturnsAsync(new PagedQueryResults<ContactDTO>(1, new List<ContactDTO>()));
 
             controller = new ContactsController(serviceMock.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get

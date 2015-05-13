@@ -25,7 +25,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
         {
             mock = new Mock<IMaritalStatusService>();
             controller = new MaritalStatusesController(mock.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         [TestMethod]

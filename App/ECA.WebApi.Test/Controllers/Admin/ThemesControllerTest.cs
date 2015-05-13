@@ -28,7 +28,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
             serviceMock.Setup(x => x.GetAsync(It.IsAny<QueryableOperator<LocationDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<LocationDTO>(1, new List<LocationDTO>()));
             controller = new LocationsController(serviceMock.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get

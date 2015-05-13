@@ -24,7 +24,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
         {
             mock = new Mock<IMoneyFlowService>();
             controller = new MoneyFlowsController(mock.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get moneyflows by project

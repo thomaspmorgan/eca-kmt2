@@ -33,7 +33,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
             service.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<SimpleProjectDTO>(1, new List<SimpleProjectDTO>()));
             controller = new ProjectsController(service.Object, userProvider.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get
@@ -76,6 +75,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestPostProjectAsync()
         {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             service.Setup(x => x.CreateAsync(It.IsAny<DraftProject>()))
                 .ReturnsAsync(new Project());
             service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
@@ -96,6 +96,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
         [TestMethod]
         public async Task TestPutProjectAsync()
         {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             service.Setup(x => x.UpdateAsync(It.IsAny<PublishedProject>())).Returns(Task.FromResult<object>(null));
             service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
             var response = await controller.PutProjectAsync(new PublishedProjectBindingModel());
