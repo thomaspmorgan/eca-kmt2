@@ -112,7 +112,7 @@ angular.module('staticApp')
 
     $scope.officeSpecificLookupParams = {
             start: 0,
-            limit: maxLimit,
+            limit: 25,
             officeId: 1036 // testing for now until create programs is moved to an office-specific space
         };
 
