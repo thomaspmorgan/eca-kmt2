@@ -172,7 +172,7 @@ angular.module('staticApp')
                     );
                 }
                 $scope.allCategoriesGrouped.push(
-                    { name: value.name, ticked: false }
+                    { id: value.id, name: value.name, ticked: false }
                 );
             });
 
@@ -199,7 +199,7 @@ angular.module('staticApp')
                   );
               }
               $scope.allObjectivesGrouped.push(
-                  { name: value.name, ticked: false }
+                  { id: value.id, name: value.name, ticked: false }
               );
           });
 
