@@ -134,7 +134,7 @@
     <Build Include="dbo\Tables\ItineraryStatus.sql" />
     <Build Include="dbo\Tables\ItineraryStop.sql" />
     <Build Include="dbo\Tables\ItineraryStopAccommodation.sql" />
-    <Build Include="dbo\Tables\ItineraryStopParticipant.sql" />
+    <Build Include="dbo\Tables\ItineraryStopPerson.sql" />
     <Build Include="dbo\Tables\LanguageProficiency.sql" />
     <Build Include="dbo\Tables\LanguageProficiencyPerson.sql" />
     <Build Include="dbo\Tables\Location.sql" />
