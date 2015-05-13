@@ -19,7 +19,8 @@ angular.module('staticApp')
       $scope.modal = {};
 
       $scope.newMoneyFlow = {};
-      $scope.isProjectStatusButtonEnabled = false;
+      $scope.isProjectEditCancelButtonVisible = false;
+      $scope.showProjectEditCancelButton = false;
       $scope.isProjectStatusButtonInEditMode = false;
       $scope.isInEditViewState = false;
       $scope.projectStatusButtonText = "...";
@@ -146,15 +147,37 @@ angular.module('staticApp')
       };
 
       var editStateName = 'projects.edit';
+
+      $scope.showProjectEditCancelButton = function() {
+          $scope.isProjectEditCancelButtonVisible = true;
+      }
+
+      $scope.hideProjectEditCancelButton = function() {
+          $scope.isProjectEditCancelButtonVisible = false;
+      }
+
       $scope.isInEditViewState = $state.current.name === editStateName;
+      if ($scope.isInEditViewState) {
+          $scope.showProjectEditCancelButton();
+      }
+      else {
+          $scope.hideProjectEditCancelButton();
+      }
       $scope.onProjectStatusButtonClick = function ($event) {
           if ($state.current.name === editStateName) {
               $scope.$broadcast(ConstantsService.saveProjectEventName);
           }
           else {
+              $scope.showProjectEditCancelButton();
               $state.go(editStateName);
           }
-      };     
+      };
+
+      $scope.onCancelButtonClick = function ($event) {
+          $scope.$broadcast(ConstantsService.cancelProjectEventName);
+      }
+
+
       
       $scope.params = $stateParams;
 

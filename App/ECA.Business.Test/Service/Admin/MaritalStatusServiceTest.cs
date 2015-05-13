@@ -44,7 +44,7 @@ namespace ECA.Business.Test.Service.Admin
 
                 var firstResult = results.Results.First();
                 Assert.AreEqual(maritalStatus.MaritalStatusId, firstResult.Id);
-                Assert.AreEqual(maritalStatus.Status, firstResult.Value);
+                Assert.AreEqual(maritalStatus.Description, firstResult.Value);
             };
 
             var defaultSorter = new ExpressionSorter<SimpleLookupDTO>(x => x.Id, SortDirection.Ascending);

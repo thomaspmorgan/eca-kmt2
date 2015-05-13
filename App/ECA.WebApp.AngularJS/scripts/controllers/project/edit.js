@@ -26,6 +26,9 @@ angular.module('staticApp')
 
       console.assert(typeof ($scope.$parent.isInEditViewState) !== 'undefined', 'The isInEditViewState property on the parent scope must be defined.');
       $scope.$parent.isInEditViewState = true;
+      console.assert($scope.$parent.showProjectEditCancelButton, 'The $scope.$parent.showProjectEditCancelButton function must be defined.');
+      console.assert($scope.$parent.hideProjectEditCancelButton, 'The $scope.$parent.hideProjectEditCancelButton function must be defined.');
+      
 
       $scope.editView = {};
       $scope.editView.params = $stateParams;
@@ -110,26 +113,12 @@ angular.module('staticApp')
           saveProject();
       });
 
+      $scope.$on(ConstantsService.cancelProjectEventName, function () {
+          cancelEdit();
+      });
+
       $scope.editView.onCancelClick = function () {
-          if ($scope.form.projectForm.$dirty) {
-              var modalInstance = $modal.open({
-                  templateUrl: '/views/project/unsavedchanges.html',
-                  controller: 'UnsavedChangesCtrl',
-                  windowClass: 'modal-center',
-                  backdrop: 'static',
-                  resolve: {},
-                  size: 'lg'
-              });
-              modalInstance.result.then(function () {
-                  $log.info('Cancelling changes...');
-                  goToProjectOverview();
-              }, function () {
-                  $log.info('Dismiss warning dialog and allow save changes...');
-              });
-          }
-          else {
-              goToProjectOverview();
-          }
+          cancelEdit();
       }
 
       $scope.editView.onSaveClick = function ($event) {
@@ -153,7 +142,30 @@ angular.module('staticApp')
       $scope.editView.openEndDatePicker = function ($event) {
           $event.preventDefault();
           $event.stopPropagation();
+          $scope.$parent.hideProjectEditCancelButton();
           $scope.editView.isEndDatePickerOpen = true;
+      }
+
+      function cancelEdit() {
+          if ($scope.form.projectForm.$dirty) {
+              var modalInstance = $modal.open({
+                  templateUrl: '/views/project/unsavedchanges.html',
+                  controller: 'UnsavedChangesCtrl',
+                  windowClass: 'modal-center',
+                  backdrop: 'static',
+                  resolve: {},
+                  size: 'lg'
+              });
+              modalInstance.result.then(function () {
+                  $log.info('Cancelling changes...');
+                  goToProjectOverview();
+              }, function () {
+                  $log.info('Dismiss warning dialog and allow save changes...');
+              });
+          }
+          else {
+              goToProjectOverview();
+          }
       }
 
       function disableProjectStatusButton() {
@@ -167,6 +179,7 @@ angular.module('staticApp')
       function goToProjectOverview() {
           console.assert(typeof ($scope.$parent.isInEditViewState) !== 'undefined', 'The isInEditViewState property on the parent scope must be defined.');
           $scope.$parent.isInEditViewState = false;
+          $scope.$parent.hideProjectEditCancelButton();
           $scope.form.projectForm.$setUntouched();
           $scope.form.projectForm.$setPristine();
           $state.go('projects.overview');
@@ -240,6 +253,7 @@ angular.module('staticApp')
           updateCategories();
           updateObjectives();
           disableProjectStatusButton();
+          $scope.$parent.hideProjectEditCancelButton();
           ProjectService.update($scope.$parent.project, $stateParams.projectId)
             .then(function (response) {
                 $scope.$parent.project = response.data;
