@@ -7,8 +7,16 @@ namespace ECA.Data
     public interface ILocationable
     {
         /// <summary>
-        /// Gets or sets the themes.
+        /// Gets or sets the locations.
         /// </summary>
         System.Collections.Generic.ICollection<Location> Locations { get; set; }
+    }
+
+    public interface IRegionable
+    {
+        /// <summary>
+        /// Gets or sets the locations.
+        /// </summary>
+        System.Collections.Generic.ICollection<Location> Regions { get; set; }
     }
 }
