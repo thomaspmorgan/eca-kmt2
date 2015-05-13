@@ -354,24 +354,29 @@ namespace ECA.Business.Service
             });
         }
 
-        /// <summary>
-        /// Updates the regions on the given program to the regions with the given ids.
-        /// </summary>
-        /// <param name="regionIds">The regions by id.</param>
-        /// <param name="programEntity">The program to update.</param>
-        public void SetRegions(List<int> regionIds, Program programEntity)
+        public void SetRegions(List<int> regionIds, IRegionable regionable)
         {
-            Contract.Requires(regionIds != null, "The region ids must not be null.");
-            Contract.Requires(programEntity != null, "The program entity must not be null.");
-            programEntity.Regions.Clear();
-            regionIds.ForEach(x =>
+            Contract.Requires(regionIds != null, "The theme ids must not be null.");
+            Contract.Requires(regionable != null, "The themeable entity must not be null.");
+            var regionsToRemove = regionable.Regions.Where(x => !regionIds.Contains(x.LocationId)).ToList();
+            var regionsToAdd = new List<Location>();
+            regionIds.Where(x => !regionable.Regions.Select(c => c.LocationId).ToList().Contains(x)).ToList()
+                .Select(x => new Location { LocationId = x }).ToList()
+                .ForEach(x => regionsToAdd.Add(x));
+
+            regionsToAdd.ForEach(x =>
             {
-                var location = new Location { LocationId = x };
-                this.Context.Locations.Attach(location);
-                programEntity.Regions.Add(location);
+                if (Context.GetEntityState(x) == EntityState.Detached)
+                {
+                    Context.Locations.Attach(x);
+                }
+                regionable.Regions.Add(x);
+            });
+            regionsToRemove.ForEach(x =>
+            {
+                regionable.Regions.Remove(x);
             });
         }
-
         /// <summary>
         /// Updates the themes on the given program to the themes with the given ids.  Ensure the themes
         /// are already loaded via the context before calling this method.

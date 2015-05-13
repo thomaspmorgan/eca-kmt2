@@ -22,7 +22,7 @@ namespace ECA.Data
         IContactable,
         ICategorizable,
         IObjectivable,
-        ILocationable
+        IRegionable
     {
         public Program()
         {
