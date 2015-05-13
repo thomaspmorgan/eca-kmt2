@@ -101,7 +101,7 @@
     <None Include="Scripts\SampleData\CAM.Role.data.sql" />
     <None Include="Scripts\SampleData\CAM.RoleResourcePermission.data.sql" />
     <None Include="CAM.Database.publish.xml" />
-    <None Include="ECA_Dev.publish.publish.xml" />
+    <None Include="ECA_Dev.publish.xml" />
     <None Include="ECA_KMT_QA.publish.publish.xml" />
   </ItemGroup>
   <ItemGroup>
