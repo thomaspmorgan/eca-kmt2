@@ -42,8 +42,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
             service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
             service.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>())).ReturnsAsync(new ProgramDTO { Id = 1, RowVersion = new byte[0] });
             controller = new ProgramsController(service.Object, userProvider.Object);
-            ControllerHelper.InitializeController(controller);
-
+            controller.ControllerContext = ContextUtil.CreateControllerContext();
             HttpContext.Current = new HttpContext(
                 new HttpRequest("", "http://localhost", ""),
                 new HttpResponse(new StringWriter())
@@ -89,6 +88,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestPostProgramAsync()
         {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             var model = new ProgramBindingModel
             {
                 Name = "name",
@@ -113,7 +113,6 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestPutProgramAsync()
         {
-
             var user = SetDebugUser();
             var model = new ProgramBindingModel
             {

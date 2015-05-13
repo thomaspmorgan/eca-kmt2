@@ -29,7 +29,6 @@ namespace ECA.WebApi.Test.Controllers.Persons
             mock = new Mock<IPersonService>();
             userProvider = new Mock<IUserProvider>();
             controller = new PeopleController(mock.Object, userProvider.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get Pii By Id
@@ -76,6 +75,7 @@ namespace ECA.WebApi.Test.Controllers.Persons
         [TestMethod]
         public async Task TestPostPersonAsync()
         {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             mock.Setup(x => x.CreateAsync(It.IsAny<NewPerson>()))
                 .ReturnsAsync(new Person());
             mock.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);

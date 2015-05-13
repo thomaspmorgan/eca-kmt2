@@ -93,6 +93,10 @@
       <Project>{b1d42987-aee5-431a-bdbf-480f6d8822e1}</Project>
       <Name>CAM.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ECA.Core.DynamicLinq\ECA.Core.DynamicLinq.csproj">
+      <Project>{2ffe2c53-412a-43ae-840d-470901649ed8}</Project>
+      <Name>ECA.Core.DynamicLinq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ECA.Core\ECA.Core.csproj">
       <Project>{983c0be6-5e42-494d-9947-0d67b84016c1}</Project>
       <Name>ECA.Core</Name>

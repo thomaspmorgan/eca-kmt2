@@ -27,7 +27,6 @@ namespace ECA.WebApi.Test.Controllers.Programs
                 .ReturnsAsync(new PagedQueryResults<ThemeDTO>(1, new List<ThemeDTO>()));
 
             controller = new ThemesController(serviceMock.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get

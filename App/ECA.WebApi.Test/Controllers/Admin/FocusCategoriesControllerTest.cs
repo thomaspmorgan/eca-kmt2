@@ -28,7 +28,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
             serviceMock.Setup(x => x.GetFocusCategoriesByOfficeIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<FocusCategoryDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<FocusCategoryDTO>(1, new List<FocusCategoryDTO>()));
             controller = new FocusCategoriesController(serviceMock.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get

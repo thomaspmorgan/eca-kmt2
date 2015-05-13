@@ -26,7 +26,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
             serviceMock.Setup(x => x.GetAsync(It.IsAny<QueryableOperator<ProjectStatusDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<ProjectStatusDTO>(1, new List<ProjectStatusDTO>()));
             controller = new ProjectStatusesController(serviceMock.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get

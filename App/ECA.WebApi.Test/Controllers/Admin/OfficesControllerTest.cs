@@ -31,7 +31,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
                 .ReturnsAsync(new PagedQueryResults<OrganizationProgramDTO>(0, new List<OrganizationProgramDTO>()));
             serviceMock.Setup(x => x.GetOfficeSettingsAsync(It.IsAny<int>())).ReturnsAsync(new OfficeSettings());
             controller = new OfficesController(serviceMock.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get

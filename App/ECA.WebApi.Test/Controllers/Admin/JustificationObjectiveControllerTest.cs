@@ -28,7 +28,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
             serviceMock.Setup(x => x.GetJustificationObjectivesByOfficeIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<JustificationObjectiveDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<JustificationObjectiveDTO>(1, new List<JustificationObjectiveDTO>()));
             controller = new JustificationObjectivesController(serviceMock.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get

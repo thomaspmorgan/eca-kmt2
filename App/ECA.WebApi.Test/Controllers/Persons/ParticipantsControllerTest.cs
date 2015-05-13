@@ -32,7 +32,6 @@ namespace ECA.WebApi.Test.Controllers.Programs
                 ReturnsAsync(new PagedQueryResults<SimpleParticipantDTO>(1, new List<SimpleParticipantDTO>()));
 
             controller = new ParticipantsController(serviceMock.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get

@@ -9,6 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CAM.Business.Model;
+using CAM.Business.Queries.Models;
+using ECA.Core.Query;
+using ECA.Core.DynamicLinq;
+using CAM.Business.Queries;
 
 namespace CAM.Business.Service
 {
@@ -160,6 +164,30 @@ namespace CAM.Business.Service
                 logger.Trace("No user found for id {0}.", id);
             }
             return user;
+        }
+
+        /// <summary>
+        /// Returns the users in the CAM system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The users.</returns>
+        public PagedQueryResults<UserDTO> GetUsers(QueryableOperator<UserDTO> queryOperator)
+        {
+            var users = UserQueries.CreateGetUsersQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved users from CAM with query operator [{0}].", queryOperator);
+            return users;
+        }
+
+        /// <summary>
+        /// Returns the users in the CAM system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The users.</returns>
+        public async Task<PagedQueryResults<UserDTO>> GetUsersAsync(QueryableOperator<UserDTO> queryOperator)
+        {
+            var users = await UserQueries.CreateGetUsersQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved users from CAM with query operator [{0}].", queryOperator);
+            return users;
         }
 
         #endregion

@@ -26,7 +26,6 @@ namespace ECA.WebApi.Test.Controllers.Admin
         {
             mock = new Mock<IGenderService>();
             controller = new GendersController(mock.Object);
-            ControllerHelper.InitializeController(controller);
         }
 
         #region Get
