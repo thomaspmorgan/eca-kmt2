@@ -102,7 +102,7 @@
     <None Include="Scripts\SampleData\CAM.RoleResourcePermission.data.sql" />
     <None Include="CAM.Database.publish.xml" />
     <None Include="ECA_Dev.publish.xml" />
-    <None Include="ECA_QA.publish.publish.xml" />
+    <None Include="ECA_QA.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\CAM.PostDeployment.sql" />
