@@ -20,11 +20,22 @@ SELECT @CityLocationTypeID,ip.BIRTH_CITY,l1.locationid,l1.region_locationid,
        0, CAST(N'2015-04-11T00:00:00.0000000-05:00' AS DateTimeOffset), 0, CAST(N'2015-04-11T00:00:00.0000000-05:00' AS DateTimeOffset)
   FROM CE_Person ip
   LEFT JOIN ECA_Dev_local_copy.dbo.location l1 ON (l1.locationtypeid = 3 AND l1.locationname = ip.BIRTH_COUNTRY  )
-  LEFT JOIN ECA_Dev_local_copy.dbo.location l ON (l.locationtypeid = 5 AND l.locationname = ip.BIRTH_CITY AND (l.country_locationid IS NULL OR l.Country_LocationId = l1.locationid ))
- WHERE ip.birth_city IS NOT NULL AND ip.birth_country IS NOT NULL AND l.locationid IS NULL
+  LEFT JOIN ECA_Dev.eca_dev.dbo.location l ON (l.locationtypeid = 5 AND 
+        /* Birth City Null and birth country Exists */
+     	(l.locationname IS NULL AND ip.birth_city IS NULL AND l.country_locationid = l1.locationid) OR
+        /* Birth City Exists and Birth Country does not exist OR Birth Country DOES exist */      
+	(l.locationname = ip.BIRTH_CITY AND ((l.country_locationid IS NULL AND l1.locationid IS NULL) OR l.country_locationid = l1.locationid)))
+ WHERE ((ip.birth_city IS NOT NULL OR ip.birth_country IS NOT NULL) AND l.locationid IS NULL) AND
+       (ip.birth_city IS NOT NULL OR l1.locationid IS NOT NULL OR l1.region_locationid IS NOT NULL)
  GROUP BY ip.Birth_City,l1.locationid,l1.region_locationid
 
 GO
+
+
+
+
+
+
 
 
 /* Create the update statements to switch birthlocation assignments */
