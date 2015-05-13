@@ -11,6 +11,8 @@ using FluentAssertions;
 using ECA.Business.Service;
 using System.Data.Entity;
 using ECA.Business.Exceptions;
+using ECA.Business.Validation;
+using Moq;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -19,12 +21,15 @@ namespace ECA.Business.Test.Service.Persons
     {
         private TestEcaContext context;
         private PersonService service;
+        private Mock<IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity>> validator;
+
 
         [TestInitialize]
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new PersonService(context);
+            validator = new Mock<IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity>>();
+            service = new PersonService(context, validator.Object);
         }
 
         #region Get Pii By Id

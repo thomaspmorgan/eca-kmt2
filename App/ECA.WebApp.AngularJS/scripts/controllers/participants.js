@@ -174,7 +174,18 @@ angular.module('staticApp')
             }, 
             function (error) {
                 if (error.status == 400) {
-                    NotificationService.showErrorMessage(error.data);
+                    if (error.data.message && error.data.modelState) {
+                        for (var key in error.data.modelState) {
+                            NotificationService.showErrorMessage(error.data.modelState[key][0]);
+                        }
+                    }
+                    else if (error.data.Message && error.data.ValidationErrors) {
+                        for (var key in error.data.ValidationErrors) {
+                            NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
+                        }
+                    } else {
+                        NotificationService.showErrorMessage(error.data);
+                    }
                 }
             });
     };

@@ -477,5 +477,29 @@ namespace ECA.Business.Service
             logger.Trace("Retrieved locations by ids {0}.", String.Join(", ", locationIds));
             return locations;
         }
+
+        /// <summary>
+        /// Gets a location by id
+        /// </summary>
+        /// <param name="locationId">Location id to lookup</param>
+        /// <returns>Location</returns>
+        protected async Task<Location> GetLocationByIdAsync(int locationId)
+        {
+            var location = await CreateGetLocationById(locationId).FirstOrDefaultAsync();
+            logger.Trace("Retrieved location by id {0}.", locationId);
+            return location;
+        }
+
+        /// <summary>
+        /// Creates query to lookup a single location
+        /// </summary>
+        /// <param name="locationId">The location id to lookup</param>
+        /// <returns>Location</returns>
+        private IQueryable<Location> CreateGetLocationById(int locationId)
+        {
+            var location = Context.Locations.Where(x => x.LocationId == locationId);
+            logger.Trace("Retrieved location by id {0}.", locationId);
+            return location;
+        }
     }
 }
