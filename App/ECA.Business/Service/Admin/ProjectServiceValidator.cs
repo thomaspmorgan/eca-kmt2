@@ -15,6 +15,26 @@ namespace ECA.Business.Service.Admin
     public class ProjectServiceValidator : BusinessValidatorBase<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>
     {
         /// <summary>
+        /// The error message when at least one category is required.
+        /// </summary>
+        public const string CATEGORIES_REQUIRED_ERROR_MESSAGE = "At least one category is required.";
+
+        /// <summary>
+        /// The error message when at least one objective is required.
+        /// </summary>
+        public const string OBJECTIVES_REQUIRED_ERROR_MESSAGE = "At least one objective is required.";
+
+        /// <summary>
+        /// The error message when at least one objective does not exist.
+        /// </summary>
+        public const string OBJECTIVES_DO_NOT_EXIST_ERROR_MESSAGE = "At least one of the given objectives does not exist in the system.";
+
+        /// <summary>
+        /// The error message when at least one categories does not exist.
+        /// </summary>
+        public const string CATEGORIES_DO_NOT_EXIST_ERROR_MESSAGE = "At least one of the given categories does not exist in the system.";
+
+        /// <summary>
         /// The error message when at least one contact does not exist.
         /// </summary>
         public const string CONTACTS_DO_NOT_EXIST_ERROR_MESSAGE = "At least one of the given contacts does not exist in the system.";
@@ -38,11 +58,6 @@ namespace ECA.Business.Service.Admin
         /// The error message when a project is given an invalid description.
         /// </summary>
         public const string INVALID_DESCRIPTION_ERROR_MESSAGE = "The description of the project is invalid.";
-
-        /// <summary>
-        /// The error message when the focus given is invalid.
-        /// </summary>
-        public const string FOCUS_REQUIRED_ERROR_MESSAGE = "The focus is required.";
 
         /// <summary>
         /// The error message when the program given is invalid.
@@ -88,6 +103,7 @@ namespace ECA.Business.Service.Admin
 
         public override IEnumerable<BusinessValidationResult> DoValidateUpdate(ProjectServiceUpdateValidationEntity validationEntity)
         {
+            Contract.Requires(validationEntity.OfficeSettings != null, "The office settings must not be null.");
             if (!validationEntity.ThemesExist)
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.ThemeIds, THEMES_DO_NOT_EXIST_ERROR_MESSAGE);
@@ -100,6 +116,22 @@ namespace ECA.Business.Service.Admin
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.PointsOfContactIds, CONTACTS_DO_NOT_EXIST_ERROR_MESSAGE);
             }
+            if (!validationEntity.ObjectivesExist)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.ObjectiveIds, OBJECTIVES_DO_NOT_EXIST_ERROR_MESSAGE);
+            }
+            if (!validationEntity.CategoriesExist)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.CategoryIds, CATEGORIES_DO_NOT_EXIST_ERROR_MESSAGE);
+            }
+            if (validationEntity.OfficeSettings.IsObjectiveRequired && validationEntity.NumberOfObjectives < 1)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.ObjectiveIds, OBJECTIVES_REQUIRED_ERROR_MESSAGE);
+            }
+            if (validationEntity.OfficeSettings.IsCategoryRequired && validationEntity.NumberOfCategories < 1)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.CategoryIds, CATEGORIES_REQUIRED_ERROR_MESSAGE);
+            }
             if (String.IsNullOrWhiteSpace(validationEntity.Name))
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.Name, INVALID_NAME_ERROR_MESSAGE);
@@ -107,10 +139,6 @@ namespace ECA.Business.Service.Admin
             if (String.IsNullOrWhiteSpace(validationEntity.Description))
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.Description, INVALID_DESCRIPTION_ERROR_MESSAGE);
-            }
-            if (validationEntity.Focus == null)
-            {
-                yield return new BusinessValidationResult<PublishedProject>(x => x.FocusId, FOCUS_REQUIRED_ERROR_MESSAGE);
             }
             if (validationEntity.StartDate >= validationEntity.EndDate)
             {

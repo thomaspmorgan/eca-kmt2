@@ -5449,14 +5449,23 @@ label {
     width: 100%;
     z-index: 99999; }
     .jumbotron .toolbar .btn-group .btn {
-      background: #55b267;
+      background: #297cb4;
       border: 0;
       font-size: 1em;
-      width: 147px; }
+      width: 147px;
+      color: white; }
       .jumbotron .toolbar .btn-group .btn.dropdown-toggle {
         border-left: 1px solid rgba(0, 0, 0, 0.15);
         margin-right: 20px;
         width: 40px; }
+    .jumbotron .toolbar .btn-group .modified {
+      background: #55b267; }
+    .jumbotron .toolbar .btn-group .cancel {
+      background: #e7e7e7;
+      color: black; }
+    .jumbotron .toolbar .btn-group .cancel:hover {
+      background: #a0a9ab;
+      color: white; }
     .jumbotron .toolbar .detail {
       color: #fff; }
     .jumbotron .toolbar .left {
@@ -6216,5 +6225,30 @@ h5.canEdit {
 
 .user .dropdown-menu a {
   font-weight: normal; }
+
+.listExpander {
+  cursor: pointer;
+  padding-right: 30px;
+  display: none; }
+
+.listContractor {
+  cursor: pointer;
+  padding-right: 30px; }
+
+.childColor2 {
+  background-color: none; }
+
+.childColor3 {
+  background-color: none; }
+
+.modal-center .modal-dialog {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto; }
 
 /*# sourceMappingURL=main.css.map */

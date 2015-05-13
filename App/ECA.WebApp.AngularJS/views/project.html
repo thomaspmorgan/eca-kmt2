@@ -5,8 +5,10 @@
     <div class="toolbar" sticky offset="50">
         <div class="left2">
             <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-danger" ng-click="onDraftButtonClick($event)">{{project.status}}</button>
-                <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle>
+                <button type="button" ng-class="{modified: isInEditViewState}" class="btn project" ng-disabled="!isProjectStatusButtonEnabled" ng-click="onProjectStatusButtonClick($event)">
+                    {{isInEditViewState ? 'Save Changes' : project.status}}
+                </button>
+                <button type="button" ng-class="{modified: isInEditViewState}" class="btn dropdown-toggle project" ng-disabled="!isProjectStatusButtonEnabled" dropdown-toggle>
                     <span class="caret"></span>
                     <span class="sr-only">Split button!</span>
                 </button>
@@ -16,6 +18,9 @@
                     <li class="divider"></li>
                     <li><a href="#">DELETE PERMANENTLY</a></li>
                 </ul>
+                <button type="button" class="btn btn-cancel cancel" style="margin-right:10px;margin-left:5px;" ng-show="isProjectEditCancelButtonVisible" ng-click="onCancelButtonClick($event)">
+                    Cancel
+                </button>
             </div>
             <span class="detail">Last Updated {{(project.revisedOn | date:"MMM dd, yyyy") || 'No revised on date.'}}</span>
         </div>

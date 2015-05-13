@@ -40,7 +40,6 @@ namespace ECA.WebApi.Models.Programs
             this.Contacts = program.Contacts;
             this.CountryIsos = program.CountryIsos;
             this.Description = program.Description;
-            this.Focus = program.Focus;
             this.Goals = program.Goals;
             this.Id = program.Id;
             this.Name = program.Name;
@@ -58,6 +57,7 @@ namespace ECA.WebApi.Models.Programs
             this.Themes = program.Themes;
             this.Categories = program.Categories;
             this.Objectives = program.Objectives;
+            this.ProgramStatusId = program.ProgramStatusId;
         }
 
         /// <summary>
@@ -120,11 +120,6 @@ namespace ECA.WebApi.Models.Programs
         public IEnumerable<SimpleLookupDTO> Contacts { get; set; }
 
         /// <summary>
-        /// Gets or sets the focus.
-        /// </summary>
-        public SimpleLookupDTO Focus { get; set; }
-
-        /// <summary>
         /// Gets or sets the Owner Name.
         /// </summary>
         public string OwnerName { get; set; }
@@ -153,15 +148,6 @@ namespace ECA.WebApi.Models.Programs
         /// </summary>
         public string RowVersion { get; set; }
 
-        /// <summary>
-        /// Gets the permalink URL for this program (TBD)
-        /// </summary>
-        public string PermaLink {
-            get 
-            {
-                // temporary until proper permalink scheme in place
-                return "/#/programs/" + this.Id + "/overview#top";
-            }
-        }
+        public int ProgramStatusId { get; set; }
     }
 }

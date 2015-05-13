@@ -39,7 +39,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets city id
         /// </summary>
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
 
         /// <summary>
         /// Gets and sets postal code

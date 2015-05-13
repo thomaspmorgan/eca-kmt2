@@ -46,6 +46,9 @@ angular.module('staticApp')
 
       $scope.initialTableState = null;
 
+      $scope.showCategories = true;
+      $scope.showObjectives = true;
+
       $scope.alerts = [];
 
       $scope.themes = [];
@@ -54,7 +57,6 @@ angular.module('staticApp')
       $scope.goals = [];
       $scope.regions = [];
       $scope.pointsOfContact = [];
-      $scope.foci = [];
 
       $scope.programList = { type: 'hierarchy' };
 
@@ -64,13 +66,13 @@ angular.module('staticApp')
           description: '',
           parentProgramId: null,
           ownerOrganizationId: 1,
+          programStatusId:null,
           startDate: new Date(),
           themes: [],
           categories: [],
           objectives: [],
           goals: [],
           regions: [],
-          focusId: null,
           contacts: [],
           website: null
       };
@@ -109,12 +111,10 @@ angular.module('staticApp')
     };
 
     $scope.officeSpecificLookupParams = {
-        start: null,
-        limit: 10,
-        sort: null,
-        filter: null
-        /*filter: [{ property: 'officeId', comparison: 'eq', value: $scope.currentOffice }]*/
-    };
+            start: 0,
+            limit: maxLimit,
+            officeId: 1036 // testing for now until create programs is moved to an office-specific space
+        };
 
      // #region Lookup Services
 
@@ -152,7 +152,9 @@ angular.module('staticApp')
 
     $scope.allCategoriesGrouped = [];
 
-    LookupService.getAllCategories($scope.lookupParams)
+
+
+      LookupService.getAllCategories($scope.officeSpecificLookupParams)
         .then(function (data) {
 
             var focusName = '';
@@ -172,14 +174,14 @@ angular.module('staticApp')
                 $scope.allCategoriesGrouped.push(
                     { name: value.name, ticked: false }
                 );
-
-
             });
+
+            $scope.showCategories = $scope.allCategoriesGrouped.length > 0;
         });
 
     $scope.allObjectivesGrouped = [];
 
-      LookupService.getAllObjectives($scope.lookupParams)
+      LookupService.getAllObjectives($scope.officeSpecificLookupParams)
       .then(function (data) {
 
           var justificationName = '';
@@ -199,9 +201,9 @@ angular.module('staticApp')
               $scope.allObjectivesGrouped.push(
                   { name: value.name, ticked: false }
               );
-
-
           });
+
+          $scope.showObjectives = $scope.allObjectivesGrouped.length > 0;
 
       });
       
@@ -212,7 +214,6 @@ angular.module('staticApp')
     x = $scope.goals[1];
     x = $scope.pointsOfContact[1];
     x = $scope.regions[1];
-    x = $scope.foci[1];
     x = $scope.categories[1];
     x = $scope.objectives[1];
 
@@ -252,6 +253,32 @@ angular.module('staticApp')
         $scope.objectiveLabel = 'Objectives';
     };
 
+    $scope.showHideChildren = function(program, showChild) {
+        // loop through rows after this one and show/hide while programLevel is less
+
+        $('#expand' + program.programId).toggle();
+        $('#contract' + program.programId).toggle();
+
+        var thisRow = $('#program' + program.programId);
+        var currentLevel = program.programLevel;
+
+        var start = thisRow[0].rowIndex + 1;
+
+        var rows = document.getElementById("programList").rows;
+        for (var rowIndex = start; rowIndex < rows.length; rowIndex++) {
+            var row = rows[rowIndex];
+
+            var level = $(row).attr('program-level');
+            if (level > currentLevel)
+            {
+                if (showChild) { $(row).show() } else { $(row).hide(); }
+            }
+            else
+            {
+                break;
+            }
+        }
+    };
 
     $scope.getParentPrograms = function (val) {
         $scope.parentLookupParams = {
@@ -538,7 +565,8 @@ angular.module('staticApp')
         $scope.newProgram.startDate = new Date();
         $scope.newProgram.parentProgramId = null;
 
-        $scope.currentForm.$setPristine();
+        $scope.modalForm.editProgramForm.$setPristine();
+        $scope.modalForm.programForm.$setPristine();
 
         var elements = angular.element(document.querySelectorAll('.multiSelect .reset'));
         angular.forEach(elements, function (value, key) {

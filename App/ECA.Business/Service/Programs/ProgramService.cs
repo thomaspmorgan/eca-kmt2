@@ -130,15 +130,12 @@ namespace ECA.Business.Service.Programs
             var regionTypeIds = GetLocationTypeIds(draftProgram.RegionIds);
             this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", draftProgram.RegionIds));
 
-            var focus = GetFocusById(draftProgram.FocusId);
-            this.logger.Trace("Retrieved focus by id [{0}].", draftProgram.FocusId);
-
             var owner = GetOrganizationById(draftProgram.OwnerOrganizationId);
             this.logger.Trace("Retrieved owner organization by id [{0}].", draftProgram.OwnerOrganizationId);
 
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null;
-            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, focus, owner, parentProgram, regionTypeIds));
+            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, owner, parentProgram, regionTypeIds));
             this.logger.Trace("Created program.");
             
             return program;
@@ -154,16 +151,13 @@ namespace ECA.Business.Service.Programs
             var regionTypeIds = await GetLocationTypeIdsAsync(draftProgram.RegionIds);
             this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", draftProgram.RegionIds));
 
-            var focus = await GetFocusByIdAsync(draftProgram.FocusId);
-            this.logger.Trace("Retrieved focusby id [{0}].", draftProgram.FocusId);
-
             var owner = await GetOrganizationByIdAsync(draftProgram.OwnerOrganizationId);
             this.logger.Trace("Retrieved owner organization by id [{0}].", draftProgram.OwnerOrganizationId);
 
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(draftProgram.ParentProgramId.Value) : null;
             
-            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, focus, owner, parentProgram, regionTypeIds));
+            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, owner, parentProgram, regionTypeIds));
             this.logger.Trace("Created program.");
             return program;
         }
@@ -173,12 +167,10 @@ namespace ECA.Business.Service.Programs
             Contract.Requires(draftProgram != null, "The draft program must not be null.");
             validator.ValidateCreate(validationEntity);
             var owner = GetOrganizationById(draftProgram.OwnerOrganizationId);
-            var focus = GetFocusById(draftProgram.FocusId);
             var program = new Program
             {
                 Description = draftProgram.Description,
                 EndDate = draftProgram.EndDate,
-                Focus = focus,
                 Name = draftProgram.Name,
 
                 ParentProgram = draftProgram.ParentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null,
@@ -195,6 +187,7 @@ namespace ECA.Business.Service.Programs
             SetRegions(draftProgram.RegionIds, program);
             SetCategories(draftProgram.FocusCategoryIds, program);
             SetObjectives(draftProgram.JustificationObjectiveIds, program);
+
             Debug.Assert(draftProgram.Audit != null, "The audit must not be null.");
             draftProgram.Audit.SetHistory(program);
             this.Context.Programs.Add(program);
@@ -204,9 +197,23 @@ namespace ECA.Business.Service.Programs
         #endregion
 
         #region Update
-        private IQueryable<Program> CreateGetProgramByIdQuery(int programId)
+
+        private Task<Program> GetProgramEntityByIdAsync(int programId)
         {
-            return this.Context.Programs.Where(x => x.ProgramId == programId);
+            return GetProgramByIdQuery(programId).FirstOrDefaultAsync();
+        }
+
+        private IQueryable<Program> GetProgramByIdQuery(int programId)
+        {
+            return this.Context.Programs
+                .Include(x => x.Themes)
+                .Include(x => x.Goals)
+                .Include(x => x.Contacts)
+                .Include(x => x.Regions)
+                .Include(x => x.Categories)
+                .Include(x => x.Objectives)
+                .Include(x => x.Owner)
+                .Where(x => x.ProgramId == programId);
         }
 
         /// <summary>
@@ -215,14 +222,11 @@ namespace ECA.Business.Service.Programs
         /// <param name="updatedProgram">The updated program.</param>
         public void Update(EcaProgram updatedProgram)
         {
-            var programToUpdate = CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefault();
+            var programToUpdate = GetProgramEntityById(updatedProgram.Id);
             this.logger.Trace("Retrieved program with id [{0}].", updatedProgram.Id);
 
             var regionTypeIds = GetLocationTypeIds(updatedProgram.RegionIds);
             this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", updatedProgram.RegionIds));
-
-            var focus = GetFocusById(updatedProgram.FocusId);
-            this.logger.Trace("Retrieved focus by id [{0}].", updatedProgram.FocusId);
 
             var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
             this.logger.Trace("Retrieved owner organization by id [{0}].", updatedProgram.OwnerOrganizationId);
@@ -231,7 +235,7 @@ namespace ECA.Business.Service.Programs
             Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(updatedProgram.ParentProgramId.Value) : null;
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, focus, owner, parentProgram, regionTypeIds));
+                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, owner, parentProgram, regionTypeIds));
                 this.logger.Trace("Performed update on program.");
             }
             else
@@ -246,14 +250,11 @@ namespace ECA.Business.Service.Programs
         /// <param name="updatedProgram">The updated program.</param>
         public async Task UpdateAsync(EcaProgram updatedProgram)
         {
-            var programToUpdate = await CreateGetProgramByIdQuery(updatedProgram.Id).FirstOrDefaultAsync();
+            var programToUpdate = await GetProgramEntityByIdAsync(updatedProgram.Id);
             this.logger.Trace("Retrieved program with id [{0}].", updatedProgram.Id);
 
             var regionTypeIds = await GetLocationTypeIdsAsync(updatedProgram.RegionIds);
             this.logger.Trace("Retrieved region type by region ids [{0}].", String.Join(", ", updatedProgram.RegionIds));
-
-            var focus = await GetFocusByIdAsync(updatedProgram.FocusId);
-            this.logger.Trace("Retrieved focus by id [{0}].", updatedProgram.FocusId);
 
             var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
             this.logger.Trace("Retrieved owner organization by id [{0}].", updatedProgram.OwnerOrganizationId);
@@ -263,7 +264,7 @@ namespace ECA.Business.Service.Programs
 
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, focus, owner, parentProgram, regionTypeIds));
+                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram,owner, parentProgram, regionTypeIds));
                 this.logger.Trace("Performed update on program.");
             }
             else
@@ -277,10 +278,8 @@ namespace ECA.Business.Service.Programs
             Contract.Requires(updatedProgram != null, "The updated program must not be null.");
             validator.ValidateUpdate(validationEntity);
             var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
-            var focus = GetFocusById(updatedProgram.FocusId);
             programToUpdate.Description = updatedProgram.Description;
             programToUpdate.EndDate = updatedProgram.EndDate;
-            programToUpdate.Focus = focus;
             programToUpdate.Name = updatedProgram.Name;
             programToUpdate.Owner = owner;
             programToUpdate.OwnerId = owner.OrganizationId;
@@ -356,19 +355,14 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="parentProgramId">The program id.</param>
         /// <returns>The program.</returns>
-        protected async Task<Program> GetProgramEntityByIdAsync(int parentProgramId)
-        {
-            return await this.Context.Programs.FindAsync(parentProgramId);
-        }
 
-        private ProgramServiceValidationEntity GetValidationEntity(EcaProgram program, Focus focus, Organization owner, Program parentProgram, List<int> regionTypesIds)
+        private ProgramServiceValidationEntity GetValidationEntity(EcaProgram program, Organization owner, Program parentProgram, List<int> regionTypesIds)
         {
             return new ProgramServiceValidationEntity(
                 name: program.Name,
                 description: program.Description,
                 regionLocationTypeIds: regionTypesIds,
                 contactIds: program.ContactIds,
-                focus: focus,
                 owner: owner,
                 themeIds: program.ThemeIds,
                 goalIds: program.GoalIds,

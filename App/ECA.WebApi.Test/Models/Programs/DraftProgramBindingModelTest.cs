@@ -15,7 +15,6 @@ namespace ECA.WebApi.Test.Models.Programs
             var model = new DraftProgramBindingModel();
             model.Description = "desc";
             model.EndDate = DateTimeOffset.UtcNow;
-            model.FocusId = 100;
             model.Goals = new List<int> { 1 };
             model.Name = "name";
             model.OwnerOrganizationId = 2;
@@ -30,7 +29,6 @@ namespace ECA.WebApi.Test.Models.Programs
             var draftProgram = model.ToDraftProgram(user);
             Assert.AreEqual(model.Description, draftProgram.Description);
             Assert.AreEqual(model.EndDate, draftProgram.EndDate);
-            Assert.AreEqual(model.FocusId, draftProgram.FocusId);
             Assert.AreEqual(model.Name, draftProgram.Name);
             Assert.AreEqual(model.OwnerOrganizationId, draftProgram.OwnerOrganizationId);
             Assert.AreEqual(model.ParentProgramId, draftProgram.ParentProgramId);

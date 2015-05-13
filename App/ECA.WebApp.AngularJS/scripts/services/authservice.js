@@ -24,9 +24,11 @@ angular.module('staticApp')
                       for (var key in config) {
                           var userPermissions = responseData.data;
                           var permissionFound = false;
+                          var hasPermissionCallback = config[key][hasPermissionCallbackName];
+                          console.assert(hasPermissionCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + hasPermissionCallbackName + '].');
                           if (userPermissions.length === 0) {
-                              permissionFound = true;
-                              $log.warn('Granting user permissions for resource [' + resourceId + '] of type [' + resourceType + '] because zero permissions were returned from the server.');
+                              $log.warn('Granting user permission [' + key + '] for resource [' + resourceId + '] of type [' + resourceType + '] because zero permissions were returned from the server.');
+                              hasPermissionCallback();                              
                           }
                           else {
                               for (var i = 0; i < userPermissions.length; i++) {
@@ -34,8 +36,6 @@ angular.module('staticApp')
                                   console.assert(userPermission.permissionName, "The user permission object should have a permissionName property.");
                                   if (userPermission.permissionName === key) {
                                       permissionFound = true;
-                                      var hasPermissionCallback = config[key][hasPermissionCallbackName];
-                                      console.assert(hasPermissionCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + hasPermissionCallbackName + '].');
                                       hasPermissionCallback();
                                   }
                               }

@@ -64,8 +64,7 @@
 			project: {id: 4, value: "Project"}
 		},
 		adalLoginSuccessEventName: 'adal:loginSuccess',
-		ecaKmtForeignResourceId: '1',
-		editProjectEventName: 'EditProject',
+		cancelProjectEventName: 'cancelProjectEdit',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
 		equalComparisonType: 'eq',
 		greaterComparisonType: 'gt',
@@ -76,9 +75,14 @@
 		likeComparisonType: 'like',
 		logoutEventName: 'logout',
 		notInComparisonType: 'notin',
+		officeCategorySettingName: 'Category',
+		officeFocusSettingName: 'Focus',
+		officeJustificationSettingName: 'Justification',
+		officeObjectiveSettingName: 'Objective',
 		registeringUserEventName: 'registeringUser',
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
+		saveProjectEventName: 'saveProject',
 		searchDelimiter: ' '
 	};
 });

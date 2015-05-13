@@ -24,17 +24,21 @@ namespace ECA.Business.Service.Admin
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator;
+        private readonly IOfficeService officeService;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="context">The db context</param>
-        public ProjectService(EcaContext context, IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator)
+        /// <param name="officeService">The office service.</param>
+        /// <param name="validator">The project business validator.</param>
+        public ProjectService(EcaContext context, IOfficeService officeService, IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator)
             : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(validator != null, "The validator must not be null.");
             this.validator = validator;
+            this.officeService = officeService;
         }
 
         #region Create
@@ -45,8 +49,7 @@ namespace ECA.Business.Service.Admin
         /// <param name="draftProject">The project to create</param>
         /// <returns>The project that was created</returns>
         public Project Create(DraftProject draftProject)
-        {
-            
+        {   
             var program = GetProgramById(draftProject.ProgramId);
             this.logger.Trace("Retrieved program by id {0}.", draftProject.ProgramId);
             validator.ValidateCreate(GetCreateValidationEntity(draftProject, program));
@@ -91,7 +94,6 @@ namespace ECA.Business.Service.Admin
                 ProgramId = draftProject.ProgramId,
                 Themes = program.Themes,
                 Goals = program.Goals,
-                Focus = program.Focus,
                 Contacts = program.Contacts,
                 Regions = program.Regions,
                 Categories = program.Categories,
@@ -154,16 +156,22 @@ namespace ECA.Business.Service.Admin
             var objectivesExist = CheckAllObjectivesExist(updatedProject.ObjectiveIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
 
+            var office = CreateGetOrganizationByProjectIdQuery(updatedProject.ProjectId).FirstOrDefault();
+            Contract.Assert(office != null, "The project must have an office.");
+            var officeSettings = officeService.GetOfficeSettings(office.OrganizationId);
+
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
                 goalsExist: goalsExist,
                 themesExist: themesExist,
                 pointsOfContactExist: contactsExist,
+                settings: officeSettings,
                 categoriesExist: categoriesExist,
-                objectivesExist: objectivesExist));
-            DoUpdate(updatedProject, projectToUpdate);
-            
+                objectivesExist: objectivesExist,
+                numberOfCategories: updatedProject.CategoryIds.Count(),
+                numberOfObjectives: updatedProject.ObjectiveIds.Count()));
+            DoUpdate(updatedProject, projectToUpdate);            
         }
 
         /// <summary>
@@ -188,11 +196,15 @@ namespace ECA.Business.Service.Admin
             var contactsExist = await CheckAllContactsExistAsync(updatedProject.PointsOfContactIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
             
-            var categoriesExist = CheckAllCategoriesExist(updatedProject.CategoryIds);
+            var categoriesExist = await CheckAllCategoriesExistAsync(updatedProject.CategoryIds);
             this.logger.Trace("Check all goals with ids {0} existed.", String.Join(", ", updatedProject.GoalIds));
 
-            var objectivesExist = CheckAllObjectivesExist(updatedProject.ObjectiveIds);
+            var objectivesExist = await CheckAllObjectivesExistAsync(updatedProject.ObjectiveIds);
             this.logger.Trace("Check all contacts with ids {0} existed.", String.Join(", ", updatedProject.PointsOfContactIds));
+
+            var office = await CreateGetOrganizationByProjectIdQuery(updatedProject.ProjectId).FirstOrDefaultAsync();
+            Contract.Assert(office != null, "The project must have an office.");
+            var officeSettings = await officeService.GetOfficeSettingsAsync(office.OrganizationId);
 
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
@@ -201,8 +213,10 @@ namespace ECA.Business.Service.Admin
                 themesExist: themesExist,
                 pointsOfContactExist: contactsExist,
                 categoriesExist: categoriesExist,
-                objectivesExist: objectivesExist));
-
+                objectivesExist: objectivesExist,
+                settings: officeSettings,
+                numberOfCategories: updatedProject.CategoryIds.Count(),
+                numberOfObjectives: updatedProject.ObjectiveIds.Count()));
             DoUpdate(updatedProject, projectToUpdate);
         }
 
@@ -233,7 +247,10 @@ namespace ECA.Business.Service.Admin
             bool themesExist,
             bool pointsOfContactExist,
             bool categoriesExist,
-            bool objectivesExist)
+            bool objectivesExist,
+            int numberOfCategories,
+            int numberOfObjectives,
+            OfficeSettings settings)
         {
             return new ProjectServiceUpdateValidationEntity(
                 updatedProject: publishedProject,
@@ -242,7 +259,10 @@ namespace ECA.Business.Service.Admin
                 themesExist: themesExist,
                 pointsOfContactExist: pointsOfContactExist,
                 categoriesExist: categoriesExist,
-                objectivesExist: objectivesExist
+                objectivesExist: objectivesExist,
+                numberOfCategories: numberOfCategories,
+                numberOfObjectives: numberOfObjectives,
+                officeSettings: settings
                 );
         }
         #endregion
@@ -280,6 +300,14 @@ namespace ECA.Business.Service.Admin
                 .Include(x => x.Objectives)
                 .Where(x => x.ProgramId == programId);
         }
+
+        private IQueryable<Organization> CreateGetOrganizationByProjectIdQuery(int projectId)
+        {
+            var query = Context.Projects.Where(x => x.ProjectId == projectId).Select(x => x.ParentProgram.Owner);
+            return query;
+        }
+
+
 
         #region Get
 

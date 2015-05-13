@@ -20,10 +20,14 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="updatedProject">The updated project.</param>
         /// <param name="projectToUpdate">The project to be updated.</param>
-        /// <param name="focus">The focus of the project.</param>
+        /// <param name="categoriesExist">The boolean value indicating whether all categories exist in the system.</param>
+        /// <param name="objectivesExist">The boolean value indicating whether all objectives exist in the system.</param>
         /// <param name="goalsExist">The boolean value indicating whether all goals exist in the system.</param>
         /// <param name="themesExist">The boolean value indicating whether all themes exist in the system.</param>
         /// <param name="pointsOfContactExist">the boolean valud indicating whether all points of contact in the system.</param>
+        /// <param name="numberOfCategories">The number of categories.</param>
+        /// <param name="numberOfObjectives">The number of objectives.</param>
+        /// <param name="officeSettings">The office settings.</param>
         public ProjectServiceUpdateValidationEntity(
             PublishedProject updatedProject, 
             Project projectToUpdate, 
@@ -31,7 +35,10 @@ namespace ECA.Business.Service.Admin
             bool themesExist, 
             bool pointsOfContactExist,
             bool categoriesExist,
-            bool objectivesExist)
+            bool objectivesExist,
+            int numberOfObjectives,
+            int numberOfCategories,
+            OfficeSettings officeSettings)
         {
             Contract.Requires(updatedProject != null, "The updated project must not be null.");
             Contract.Requires(projectToUpdate != null, "The project to update must not be null.");
@@ -53,7 +60,25 @@ namespace ECA.Business.Service.Admin
             this.OriginalProjectStatusId = projectToUpdate.ProjectStatusId;
             this.StartDate = updatedProject.StartDate;
             this.EndDate = updatedProject.EndDate;
+            this.NumberOfCategories = numberOfCategories;
+            this.NumberOfObjectives = numberOfObjectives;
+            this.OfficeSettings = officeSettings;
         }
+
+        /// <summary>
+        /// Gets the office settings.
+        /// </summary>
+        public OfficeSettings OfficeSettings { get; private set; }
+
+        /// <summary>
+        /// Gets the number of categories associated to the project.
+        /// </summary>
+        public int NumberOfCategories { get; private set; }
+
+        /// <summary>
+        /// Gets the number of objectives associated to the project.
+        /// </summary>
+        public int NumberOfObjectives { get; private set; }
 
         /// <summary>
         /// Gets the start date.
@@ -86,11 +111,6 @@ namespace ECA.Business.Service.Admin
         public string Description { get; private set; }
 
         /// <summary>
-        /// Gets the focus of the project.
-        /// </summary>
-        public Focus Focus { get; private set; }
-
-        /// <summary>
         /// Gets the value indicating whether all goals exist.
         /// </summary>
         public bool GoalsExist { get; private set; }
@@ -105,8 +125,14 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         public bool PointsOfContactExist { get; private set; }
 
+        /// <summary>
+        /// Gets the value indicating all categories exist.
+        /// </summary>
         public bool CategoriesExist { get; private set; }
 
+        /// <summary>
+        /// Gets the value indicating all objectives exist.
+        /// </summary>
         public bool ObjectivesExist { get; private set; }
     }
 }

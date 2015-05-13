@@ -17,7 +17,7 @@ namespace ECA.WebApi.Models.Programs
         /// <summary>
         /// A base 64 regular expression.
         /// </summary>
-        public const string BASE64_REGULAR_EXPRESSION = @"[^-A-Za-z0-9+/=]|=[^=]|={3,}$";
+        public const string BASE64_REGULAR_EXPRESSION = @"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$";
 
         /// <summary>
         /// The Program Id.
@@ -56,7 +56,6 @@ namespace ECA.WebApi.Models.Programs
                 ownerOrganizationId: this.OwnerOrganizationId,
                 parentProgramId: this.ParentProgramId,
                 programStatusId: this.ProgramStatusId,
-                focusId: this.FocusId,
                 programRowVersion: Convert.FromBase64String(this.RowVersion),
                 website: this.Website,
                 goalIds: this.Goals,

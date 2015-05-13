@@ -12,7 +12,7 @@
     </div>
 
     <div st-pipe="getPrograms" st-table="programs" id="sort-list">
-        <table class="col-md-12">
+        <table class="col-md-12" id="programList">
             <thead>
                 <tr>
                     <th class="col-md-7"></th>
@@ -32,27 +32,32 @@
                 </tr>
             </thead>
             <tbody class="list2">
-                <tr ng-repeat="program in programs" ng-show="!programsLoading">
-                    <td class="col-md-9" ng-style="{'padding-left': 60+(20*program.programLevel-1)}">
-                        <span class="owner-office">{{program.officeSymbol}}</span>
-                        <h4><a ng-bind-html="program.name | highlight:programFilter" ng-href="#/programs/{{program.programId}}/overview">>{{program.name}}</a></h4>
-                        <p ng-bind-html="program.description | highlight:programFilter">{{program.description}}</p>
-                    </td>
-                    <td class="col-md-3 tools" style="padding: 0 50px 0 0;">
-                        <div class="right" style="display:none;" showonparentrow>
-                            <div class="programOptions" ng-click="copyProgram(program.programId)">
-                                <i class="fa fa-files-o fa-2x programOption" ng-show="!copyProgramLoading"></i>
-                                <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyProgramLoading"></i>
+                <tr ng-repeat="program in programs" ng-show="!programsLoading" id="program{{program.programId}}" program-level="{{program.programLevel}}">
+                        <td class="col-md-9" ng-style="{'padding-left': 60+(30*program.programLevel-1)}">
+                            <span class="owner-office">{{program.officeSymbol}}</span>
+                            <h4>
+                                <span ng-show="program.numChildren > 0">
+                                    <i id="expand{{program.programId}}" ng-click="showHideChildren(program, true)" class="fa fa-caret-right listExpander"></i>
+                                    <i id="contract{{program.programId}}" ng-click="showHideChildren(program, false)" class="fa fa-caret-down listContractor"></i>
+                                </span>
+                                <a ng-bind-html="program.name | highlight:programFilter" ng-href="#/programs/{{program.programId}}/overview">>{{program.name}}</a>
+                            </h4>
+                            <p ng-bind-html="program.description | highlight:programFilter">{{program.description}}</p>
+                        </td>
+                        <td class="col-md-3 tools" style="padding: 0 50px 0 0;">
+                            <div class="right" style="display:none;" showonparentrow>
+                                <div class="programOptions" ng-click="copyProgram(program.programId)">
+                                    <i class="fa fa-files-o fa-2x programOption" ng-show="!copyProgramLoading"></i>
+                                    <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyProgramLoading"></i>
+                                </div>
+                                <div class="programOptions" ng-click="editProgram(program.programId)">
+                                    <i class="fa fa-pencil-square-o fa-2x programOption" ng-show="!editProgramLoading"></i>
+                                    <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="editProgramLoading"></i>
+                                </div>
+                                <div class="programOptions" ng-click="deleteProgram(program.programId)">
+                                    <i class="fa fa-trash-o fa-2x programOption"></i>
+                                </div>
                             </div>
-                            <div class="programOptions" ng-click="editProgram(program.programId)">
-                                <i class="fa fa-pencil-square-o fa-2x programOption" ng-show="!editProgramLoading"></i>
-                                <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="editProgramLoading"></i>
-                            </div>
-                            <div class="programOptions" ng-click="deleteProgram(program.programId)">
-                                <i class="fa fa-trash-o fa-2x programOption"></i>
-                            </div>
-                        </div>
-
                     </td>
                 </tr>
                 <tr ng-show="programsLoading">
@@ -78,6 +83,7 @@
     <div id="modal" class="row" in-context-form>
         <div class="col-md-10">
             <form name="modalForm.editProgramForm">
+                <input type="hidden" ng-model="newProgram.programStatusId" />
                 <div class="form-group">
                     <label>Program Name<span class="asterisk"> *</span></label>
                     <input name="name" ng-model="newProgram.name" form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" type="text" class="form-control" placeholder="Enter program title..." required>
@@ -157,7 +163,7 @@
                         <span class="error">Please select at least one goal.</span>
                     </div>
                 </div>
-                <div class="form-group" ng-show="categoryLabel != ''">
+                <div class="form-group" ng-show="allCategoriesGrouped.>
                     <label>{{categoryLabel}}<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="allCategoriesGrouped"
                                           output-model="out.Categories"
@@ -391,8 +397,8 @@
     &nbsp;
     <button class="btn btn-success right" ng-click="confirmCloseNo()">NO</button>
 </modal-dialog>
-<modal-dialog show="confirmSave" dialog-title="Program Created">
-    <p class="strong">The program was saved sucessfully!</p>
+<modal-dialog show="confirmSave" dialog-title="Success!" before-close="confirmSaveYes()">
+    <p class="strong">The program was saved sucessfully</p>
     <button class="btn btn-default right" ng-click="confirmSaveYes()">OK</button>
 </modal-dialog>
 <modal-dialog show="confirmFail" dialog-title="Error Saving Program" before-close="confirmFailOk()">
@@ -405,4 +411,10 @@
     </div>
     <button class="btn btn-default right" ng-click="confirmFailOk()">OK</button>
 </modal-dialog>
+
+<style>
+    .ng-modal-close-x {
+        display: none;
+    }
+</style>
 

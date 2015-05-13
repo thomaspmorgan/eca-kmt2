@@ -31,14 +31,12 @@ namespace ECA.Business.Queries.Admin
                         let programs = office.OwnerPrograms
                         let goals = programs.SelectMany(x => x.Goals).Distinct()
                         let themes = programs.SelectMany(x => x.Themes).Distinct()
-                        //let foci = programs.Select(x => x.Focus).Distinct()
 
                         where Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(office.OrganizationTypeId) && office.OrganizationId == officeId
                         select new OfficeDTO
                         {
                             Contacts = contacts.OrderBy(x => x.FullName).Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName }),
                             Description = office.Description,
-                            //Foci = foci.OrderBy(x => x.FocusName).Select(x => new SimpleLookupDTO { Id = x.FocusId, Value = x.FocusName }),
                             Goals = goals.OrderBy(x => x.GoalName).Select(x => new SimpleLookupDTO { Id = x.GoalId, Value = x.GoalName }),
                             Id = office.OrganizationId,
                             Name = office.Name,
@@ -78,6 +76,35 @@ namespace ECA.Business.Queries.Admin
         {
             Contract.Requires(context != null, "The context must not be null.");
             return CreateGetSimpleOfficeDTO(context).Where(x => x.ParentOrganization_OrganizationId == officeId);
+        }
+
+        /// <summary>
+        /// Returns a query to select office setting dtos from the given context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query to retrieve office settings.</returns>
+        public static IQueryable<OfficeSettingDTO> CreateGetOfficeSettingDTOQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return context.OfficeSettings.Select(x => new OfficeSettingDTO
+            {
+                Id = x.OfficeSettingId,
+                Name = x.Name,
+                OfficeId = x.OfficeId,
+                Value = x.Value
+            });
+        }
+
+        /// <summary>
+        /// Returns a query to select office setting dtos from the given context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="officeId">The office id.</param>
+        /// <returns>The query to retrieve office settings.</returns>
+        public static IQueryable<OfficeSettingDTO> CreateGetOfficeSettingDTOByOfficeIdQuery(EcaContext context, int officeId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            return CreateGetOfficeSettingDTOQuery(context).Where(x => x.OfficeId == officeId);
         }
     }
 }

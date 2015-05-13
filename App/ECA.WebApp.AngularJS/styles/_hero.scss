@@ -15,16 +15,30 @@
     .btn-group {
       
       .btn {
-        background: #55b267;
+        background: $blue;
         border: 0;
         font-size: 1em;
         width: 147px;
+        color: white;
 
         &.dropdown-toggle {
           border-left: 1px solid rgba(0, 0, 0, .15);
           margin-right: 20px;
           width: 40px;
         }
+      }
+	  
+	  .modified {
+		background: $green;
+	  }
+
+      .cancel {
+          background: $gray;
+          color: black;
+      }
+      .cancel:hover{
+          background: $mediumgray;
+          color: white;
       }
     }
     

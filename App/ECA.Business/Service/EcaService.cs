@@ -185,7 +185,7 @@ namespace ECA.Business.Service
         #region Categories Existence Validation
         private IQueryable<Category> CreateGetCategoriesByIdsQuery(IEnumerable<int> categoryIds)
         {
-            Contract.Requires(categoryIds != null, "The theme ids must not be null.");
+            Contract.Requires(categoryIds != null, "The category ids must not be null.");
             return Context.Categories.Where(x => categoryIds.Distinct().Contains(x.CategoryId)).Distinct();
         }
 
@@ -202,7 +202,7 @@ namespace ECA.Business.Service
                 var distinctIds = categoryIds.Distinct().ToList();
                 response = await CreateGetCategoriesByIdsQuery(categoryIds).CountAsync() == distinctIds.Count();
             }
-            logger.Trace("Checked all themes with ids {0} exist.", String.Join(", ", categoryIds));
+            logger.Trace("Checked all categories with ids {0} exist.", String.Join(", ", categoryIds));
             return response;
         }
 
@@ -213,7 +213,7 @@ namespace ECA.Business.Service
         /// <returns>True, if all themes exist, otherwise false.</returns>
         public bool CheckAllCategoriesExist(IEnumerable<int> categoryIds)
         {
-            Contract.Requires(categoryIds != null, "The theme ids must not be null.");
+            Contract.Requires(categoryIds != null, "The category ids must not be null.");
             bool response = false;
             if (categoryIds.Count() == 0)
             {
@@ -222,9 +222,9 @@ namespace ECA.Business.Service
             else
             {
                 var distinctIds = categoryIds.Distinct().ToList();
-                response = CreateGetThemesByIdsQuery(categoryIds).Count() == distinctIds.Count();
+                response = CreateGetCategoriesByIdsQuery(categoryIds).Count() == distinctIds.Count();
             }
-            logger.Trace("Checked all themes exist.");
+            logger.Trace("Checked all categories with ids {0} exist.", String.Join(", ", categoryIds));
             return response;
         }
         #endregion
@@ -232,7 +232,7 @@ namespace ECA.Business.Service
         #region Objectives Existence Validation
         private IQueryable<Objective> CreateGetObjectivesByIdsQuery(IEnumerable<int> objectiveIds)
         {
-            Contract.Requires(objectiveIds != null, "The theme ids must not be null.");
+            Contract.Requires(objectiveIds != null, "The objective ids must not be null.");
             return Context.Objectives.Where(x => objectiveIds.Distinct().Contains(x.ObjectiveId)).Distinct();
         }
         public async Task<bool> CheckAllObjectivesExistAsync(IEnumerable<int> objectiveIds)
@@ -254,7 +254,7 @@ namespace ECA.Business.Service
 
         public bool CheckAllObjectivesExist(IEnumerable<int> objectiveIds)
         {
-            Contract.Requires(objectiveIds != null, "The theme ids must not be null.");
+            Contract.Requires(objectiveIds != null, "The objectives ids must not be null.");
             bool response = false;
             if (objectiveIds.Count() == 0)
             {
@@ -265,7 +265,7 @@ namespace ECA.Business.Service
                 var distinctIds = objectiveIds.Distinct().ToList();
                 response = CreateGetObjectivesByIdsQuery(objectiveIds).Count() == objectiveIds.Count();
             }
-            logger.Trace("Checked all objectives exist.");
+            logger.Trace("Checked all ojectives with ids {0} exist.", String.Join(", ", objectiveIds));
             return response;
         }
         #endregion

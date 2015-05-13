@@ -60,7 +60,6 @@ namespace ECA.Business.Queries.Admin
                                select country;
 
             var query = from project in context.Projects
-                        let focus = project.Focus
                         let status = project.Status
                         let themes = project.Themes
                         let regions = project.Regions
@@ -77,8 +76,6 @@ namespace ECA.Business.Queries.Admin
                             Description = project.Description,
                             ProjectStatusId = status.ProjectStatusId,
                             Status = status.Status,
-                            Focus = focus.FocusName,
-                            FocusId = focus.FocusId,
                             RevisedOn = project.History.RevisedOn,
                             StartDate = project.StartDate,
                             EndDate = project.EndDate,

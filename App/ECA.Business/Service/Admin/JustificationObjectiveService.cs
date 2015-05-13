@@ -20,7 +20,7 @@ namespace ECA.Business.Service.Admin
     /// <summary>
     /// The FocusService is capable of performing crud operations on ECA Foci.
     /// </summary>
-    public class JustificationObjectiveService : LookupService<JustificationObjectiveDTO>, 
+    public class JustificationObjectiveService : DbContextService<EcaContext>, 
         ECA.Business.Service.Admin.IJustificationObjectiveService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
@@ -31,30 +31,33 @@ namespace ECA.Business.Service.Admin
             Contract.Requires(context != null, "The context must not be null.");
         }
 
+
         #region Get
 
-        protected override IQueryable<JustificationObjectiveDTO> GetSelectDTOQuery()
+        /// <summary>
+        /// Returns the justification objectives for the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The office by id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The justification objectives.</returns>
+        public PagedQueryResults<JustificationObjectiveDTO> GetJustificationObjectivesByOfficeId(int officeId, QueryableOperator<JustificationObjectiveDTO> queryOperator)
         {
-            return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTOQuery(this.Context);
+            var results = JustificationObjectiveQueries.CreateGetJustificationObjectiveDTOQuery(this.Context, officeId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved justification objectives for office with id [{0}].", officeId);
+            return results;
         }
 
         /// <summary>
-        /// Returns the objective with the given id or null if not found.
+        /// Returns the justification objectives for the office with the given id.
         /// </summary>
-        /// <param name="id">The id of the objective.</param>
-        /// <returns>The objective with the given id, or null if not found.</returns>
-        public JustificationObjectiveDTO GetJustificationObjectiveById(int id)
+        /// <param name="officeId">The office by id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The justification objectives.</returns>
+        public async Task<PagedQueryResults<JustificationObjectiveDTO>> GetJustificationObjectivesByOfficeIdAsync(int officeId, QueryableOperator<JustificationObjectiveDTO> queryOperator)
         {
-            var objective = JustificationObjectiveQueries.CreateGetJustificationObjectiveByIdQuery(this.Context, id).FirstOrDefault();
-            this.logger.Trace("Retrieved objective by id {id}.", id);
-            return objective;
-        }
-
-        public async Task<JustificationObjectiveDTO> GetJustificationObjectiveByIdAsync(int id)
-        {
-            var objective = await JustificationObjectiveQueries.CreateGetJustificationObjectiveByIdQuery(this.Context, id).FirstOrDefaultAsync();
-            this.logger.Trace("Retrieved objective by id {id}.", id);
-            return objective;
+            var results = await JustificationObjectiveQueries.CreateGetJustificationObjectiveDTOQuery(this.Context, officeId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved justification objectives for office with id [{0}].", officeId);
+            return results;
         }
         #endregion
         

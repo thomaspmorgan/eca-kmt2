@@ -373,3 +373,34 @@ h5.canEdit {
 .user .dropdown-menu a {
      font-weight:normal;
 }
+
+.listExpander {
+    cursor:pointer;
+    padding-right: 30px;
+    display: none;
+}
+
+.listContractor {
+    cursor:pointer;
+    padding-right: 30px;
+}
+
+.childColor2 {
+    background-color: none;
+}
+
+.childColor3 {
+    background-color: none;
+}
+
+.modal-center .modal-dialog {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto; 
+
+}
