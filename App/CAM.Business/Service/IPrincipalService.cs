@@ -17,5 +17,17 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="grantedPermission">The permission granted to a principal by another principal.</param>
         System.Threading.Tasks.Task GrantPermissionsAsync(CAM.Business.Model.GrantedPermission grantedPermission);
+
+        /// <summary>
+        /// Revoke a permission explicity from a user.
+        /// </summary>
+        /// <param name="revokedPermission">The revoked permission.</param>
+        void RevokePermission(CAM.Business.Model.RevokedPermission revokedPermission);
+
+        /// <summary>
+        /// Revoke a permission explicity from a user.
+        /// </summary>
+        /// <param name="revokedPermission">The revoked permission.</param>
+        System.Threading.Tasks.Task RevokePermissionAsync(CAM.Business.Model.RevokedPermission revokedPermission);
     }
 }

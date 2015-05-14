@@ -99,34 +99,19 @@ namespace CAM.Business.Service
         /// <param name="grantedPermission">The permission granted to a principal by another principal.</param>
         public void GrantPermission(GrantedPermission grantedPermission)
         {
-            var resourceId = resourceService.GetResourceIdByForeignResourceId(grantedPermission.ForeignResourceId, grantedPermission.GetResourceType().Id);
-            throwIfForeignResourceNotFound(grantedPermission, resourceId);
-
-            var grantee = CreateGetPrincipalByIdQuery(grantedPermission.GranteePrincipalId).FirstOrDefault();
-            throwIfGranteeNotFound(grantedPermission, grantee);
-
-            var camPermission = CreateGetPermissionByIdQuery(grantedPermission.PermissionId).FirstOrDefault();
-            throwIfPermissionNotFound(grantedPermission, camPermission);
-
-            var grantor = CreateGetPrincipalByIdQuery(grantedPermission.Audit.UserId).FirstOrDefault();
-            throwIfGrantorNotFound(grantedPermission, grantor);
-
-            var existingPermissions = CreateGetPermissionAssignmentQuery(grantee.PrincipalId, camPermission.PermissionId, resourceId.Value).ToList();
-            if (existingPermissions.Count == 0)
-            {
-                DoGrantPermission(grantee, grantor, resourceId, grantedPermission);
-            }
-            else
-            {
-                SetIsAllowed(existingPermissions);
-            }
+            Handle(grantedPermission);
         }
 
         /// <summary>
         /// Grants a permission to a principal in the system.  If the permission had been previously granted it is set active.
         /// </summary>
         /// <param name="grantedPermission">The permission granted to a principal by another principal.</param>
-        public async Task GrantPermissionsAsync(GrantedPermission grantedPermission)
+        public Task GrantPermissionsAsync(GrantedPermission grantedPermission)
+        {
+            return HandleAsync(grantedPermission);
+        }
+
+        private async Task HandleAsync(GrantedPermission grantedPermission)
         {
             var resourceId = await resourceService.GetResourceIdByForeignResourceIdAsync(grantedPermission.ForeignResourceId, grantedPermission.GetResourceType().Id);
             throwIfForeignResourceNotFound(grantedPermission, resourceId);
@@ -143,24 +128,49 @@ namespace CAM.Business.Service
             var existingPermissions = await CreateGetPermissionAssignmentQuery(grantee.PrincipalId, camPermission.PermissionId, resourceId.Value).ToListAsync();
             if (existingPermissions.Count == 0)
             {
-                DoGrantPermission(grantee, grantor, resourceId, grantedPermission);
+                DoInsertPermissionAssignment(grantee, grantor, resourceId, grantedPermission);
             }
             else
             {
-                SetIsAllowed(existingPermissions);
+                UpdateIsAllowed(grantedPermission, existingPermissions);
             }
         }
 
-        private void SetIsAllowed(List<PermissionAssignment> permissionAssignments)
+        private void Handle(GrantedPermission grantedPermission)
         {
-            permissionAssignments.ForEach(x => x.IsAllowed = true);
+            var resourceId = resourceService.GetResourceIdByForeignResourceId(grantedPermission.ForeignResourceId, grantedPermission.GetResourceType().Id);
+            throwIfForeignResourceNotFound(grantedPermission, resourceId);
+
+            var grantee = CreateGetPrincipalByIdQuery(grantedPermission.GranteePrincipalId).FirstOrDefault();
+            throwIfGranteeNotFound(grantedPermission, grantee);
+
+            var camPermission = CreateGetPermissionByIdQuery(grantedPermission.PermissionId).FirstOrDefault();
+            throwIfPermissionNotFound(grantedPermission, camPermission);
+
+            var grantor = CreateGetPrincipalByIdQuery(grantedPermission.Audit.UserId).FirstOrDefault();
+            throwIfGrantorNotFound(grantedPermission, grantor);
+
+            var existingPermissions = CreateGetPermissionAssignmentQuery(grantee.PrincipalId, camPermission.PermissionId, resourceId.Value).ToList();
+            if (existingPermissions.Count == 0)
+            {
+                DoInsertPermissionAssignment(grantee, grantor, resourceId, grantedPermission);
+            }
+            else
+            {
+                UpdateIsAllowed(grantedPermission, existingPermissions);
+            }
+        }
+
+        private void UpdateIsAllowed(GrantedPermission grantedPermission, List<PermissionAssignment> permissionAssignments)
+        {
+            permissionAssignments.ForEach(x => x.IsAllowed = grantedPermission.IsAllowed);
             if (permissionAssignments.Count > 1)
             {
                 throw new NotSupportedException("There should not be more than one permission assignment to set is allowed true.");
             }
         }
 
-        private PermissionAssignment DoGrantPermission(
+        private PermissionAssignment DoInsertPermissionAssignment(
             Principal grantee,
             Principal grantor,
             int? resourceId,
@@ -174,7 +184,7 @@ namespace CAM.Business.Service
             {
                 AssignedBy = grantedPermission.Audit.UserId,
                 AssignedOn = grantedPermission.Audit.Date,
-                IsAllowed = true,
+                IsAllowed = grantedPermission.IsAllowed,
                 PermissionId = grantedPermission.PermissionId,
                 PrincipalId = grantedPermission.GranteePrincipalId,
                 ResourceId = resourceId.Value
@@ -183,5 +193,23 @@ namespace CAM.Business.Service
             return permissionAssignment;
         }
         #endregion
+
+        /// <summary>
+        /// Revoke a permission explicity from a user.
+        /// </summary>
+        /// <param name="revokedPermission">The revoked permission.</param>
+        public void RevokePermission(RevokedPermission revokedPermission)
+        {
+            Handle(revokedPermission);
+        }
+
+        /// <summary>
+        /// Revoke a permission explicity from a user.
+        /// </summary>
+        /// <param name="revokedPermission">The revoked permission.</param>
+        public Task RevokePermissionAsync(RevokedPermission revokedPermission)
+        {
+            return HandleAsync(revokedPermission);
+        }
     }
 }

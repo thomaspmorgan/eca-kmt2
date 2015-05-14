@@ -24,6 +24,7 @@ namespace CAM.Business.Model
             this.ResourceTypeAsString = resourceType;
             this.PermissionId = permissionId;
             this.Audit = new Audit(grantorUserId);
+            this.IsAllowed = true;
         }
 
         public int GranteePrincipalId { get; private set; }
@@ -33,6 +34,8 @@ namespace CAM.Business.Model
         public string ResourceTypeAsString { get; private set; }
 
         public int PermissionId { get; private set; }
+
+        public bool IsAllowed { get; protected set; }
 
         public Audit Audit { get; private set; }
 

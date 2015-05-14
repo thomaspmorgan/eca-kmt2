@@ -21,6 +21,7 @@ namespace CAM.Business.Test.Model
 
             var grantedPermission = new GrantedPermission(granteePrincipalId, permissionId, foreignResourceId, resourceType, grantorPrincipalId);
             Assert.IsNotNull(grantedPermission.Audit);
+            Assert.IsTrue(grantedPermission.IsAllowed);
             Assert.AreEqual(granteePrincipalId, grantedPermission.GranteePrincipalId);
             Assert.AreEqual(grantorPrincipalId, grantedPermission.Audit.UserId);
             Assert.AreEqual(permissionId, grantedPermission.PermissionId);

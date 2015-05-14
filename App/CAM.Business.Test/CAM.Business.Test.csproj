@@ -78,6 +78,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Model\AzureUserTest.cs" />
+    <Compile Include="Model\RevokedPermissionTest.cs" />
     <Compile Include="Model\GrantedPermissionTest.cs" />
     <Compile Include="Service.PermissionStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
