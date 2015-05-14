@@ -155,7 +155,6 @@ angular.module('staticApp')
       $scope.hideProjectEditCancelButton = function() {
           $scope.isProjectEditCancelButtonVisible = false;
       }
-
       $scope.isInEditViewState = $state.current.name === editStateName;
       if ($scope.isInEditViewState) {
           $scope.showProjectEditCancelButton();
@@ -167,9 +166,9 @@ angular.module('staticApp')
           if ($state.current.name === editStateName) {
               $scope.$broadcast(ConstantsService.saveProjectEventName);
           }
-          else {
-              $scope.showProjectEditCancelButton();
+          else {              
               $state.go(editStateName);
+              $scope.showProjectEditCancelButton();
           }
       };
 

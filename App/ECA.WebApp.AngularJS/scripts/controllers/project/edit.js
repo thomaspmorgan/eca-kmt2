@@ -176,6 +176,11 @@ angular.module('staticApp')
           $scope.$parent.isProjectStatusButtonEnabled = true;
       }
 
+      function showProjectEditCancelButton() {
+          console.assert($scope.$parent.showProjectEditCancelButton, 'The $scope.$parent.showProjectEditCancelButton function should be defined.');
+          $scope.showProjectEditCancelButton();
+      }
+
       function goToProjectOverview() {
           console.assert(typeof ($scope.$parent.isInEditViewState) !== 'undefined', 'The isInEditViewState property on the parent scope must be defined.');
           $scope.$parent.isInEditViewState = false;
@@ -260,6 +265,7 @@ angular.module('staticApp')
                 showSaveSuccess();
                 goToProjectOverview();
             }, function (errorResponse) {
+                showProjectEditCancelButton();
                 $scope.editView.saveFailed = true;
                 $scope.editView.errorMessage = "An error occurred while saving the project.";
                 if (errorResponse.data && errorResponse.data.Message) {
@@ -272,7 +278,7 @@ angular.module('staticApp')
                 }
             })
             .then(function () {
-                $scope.editView.isSaving = false;
+                $scope.editView.isSaving = false;                
                 enableProjectStatusButton();
             });
       }
@@ -316,6 +322,9 @@ angular.module('staticApp')
 
             }, function (errorResponse) {
                 $log.error('Failed to load project with id ' + projectId);
+            })
+            .then(function() {
+                showProjectEditCancelButton();
             });
       }
 

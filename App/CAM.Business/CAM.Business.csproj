@@ -75,6 +75,7 @@
     <Compile Include="Service\PermissionStoreBase.cs" />
     <Compile Include="Service\PermissionStoreCached.cs" />
     <Compile Include="Service\PermissionStoreFactory.cs" />
+    <Compile Include="Service\PrincipalService.cs" />
     <Compile Include="Service\ResourceService.cs" />
     <Compile Include="Service\User.cs" />
     <Compile Include="Service\UserService.cs" />
