@@ -9,6 +9,8 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Security
 {
@@ -40,6 +42,7 @@ namespace ECA.WebApi.Controllers.Security
         /// </summary>
         /// <returns>An ok result.</returns>
         [Route("Grant/Permission")]
+        [ResponseType(typeof(OkResult))]
         public Task<IHttpActionResult> PostGrantPermissionAsync(GrantedPermissionBindingModel model)
         {
             return PostGrantPermissionsAsync(new List<GrantedPermissionBindingModel> { model });
@@ -50,6 +53,7 @@ namespace ECA.WebApi.Controllers.Security
         /// </summary>
         /// <returns>An ok result.</returns>
         [Route("Grant/Permissions")]
+        [ResponseType(typeof(OkResult))]
         public async Task<IHttpActionResult> PostGrantPermissionsAsync(List<GrantedPermissionBindingModel> models)
         {
             if (ModelState.IsValid)
@@ -59,6 +63,42 @@ namespace ECA.WebApi.Controllers.Security
                 foreach(var model in models)
                 {
                     await principalService.GrantPermissionsAsync(model.ToGrantedPermission(user.Id));
+                }
+                await principalService.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Grants the given permission to the user.
+        /// </summary>
+        /// <returns>An ok result.</returns>
+        [Route("Revoke/Permission")]
+        [ResponseType(typeof(OkResult))]
+        public Task<IHttpActionResult> PostRevokePermissionAsync(RevokedPermissionBindingModel model)
+        {
+            return PostRevokePermissionsAsync(new List<RevokedPermissionBindingModel> { model });
+        }
+
+        /// <summary>
+        /// Grants the given permissions to the user.
+        /// </summary>
+        /// <returns>An ok result.</returns>
+        [Route("Revoke/Permissions")]
+        [ResponseType(typeof(OkResult))]
+        public async Task<IHttpActionResult> PostRevokePermissionsAsync(List<RevokedPermissionBindingModel> models)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var user = userProvider.GetBusinessUser(currentUser);
+                foreach (var model in models)
+                {
+                    await principalService.RevokePermissionAsync(model.ToRevokedPermission(user.Id));
                 }
                 await principalService.SaveChangesAsync();
                 return Ok();

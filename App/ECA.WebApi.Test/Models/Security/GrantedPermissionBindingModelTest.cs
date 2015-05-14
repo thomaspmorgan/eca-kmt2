@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.WebApi.Models.Security;
 using CAM.Data;
 
-namespace ECA.WebApi.Test.Security
+namespace ECA.WebApi.Test.Models.Security
 {
     [TestClass]
     public class GrantedPermissionBindingModelTest

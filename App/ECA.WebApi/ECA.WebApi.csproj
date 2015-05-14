@@ -374,6 +374,7 @@
     <Compile Include="Models\Person\PiiBindingModel.cs" />
     <Compile Include="Models\Security\GrantedPermissionBindingModel.cs" />
     <Compile Include="Models\Security\ResourcePermissionViewModel.cs" />
+    <Compile Include="Models\Security\RevokedPermissionBindingModel.cs" />
     <Compile Include="Models\Security\UserViewModel.cs" />
     <Compile Include="Models\Person\PersonBindingModel.cs" />
     <Compile Include="Security\ActionPermission.cs" />
