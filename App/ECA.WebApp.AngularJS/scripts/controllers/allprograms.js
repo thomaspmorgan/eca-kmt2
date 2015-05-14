@@ -285,7 +285,7 @@ angular.module('staticApp')
             filter: [{ property: 'name', comparison: 'like', value: val },
                     { property: 'programstatusid', comparison: 'eq', value: 1 }]
         };
-        return ProgramService.getAllPrograms($scope.parentLookupParams)
+        return ProgramService.getAllProgramsAlpha($scope.parentLookupParams)
             .then(function (data) {
                 return data.results;
             });
