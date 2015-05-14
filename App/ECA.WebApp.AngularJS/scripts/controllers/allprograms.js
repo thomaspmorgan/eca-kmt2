@@ -151,9 +151,6 @@ angular.module('staticApp')
         });
 
     $scope.allCategoriesGrouped = [];
-
-
-
       LookupService.getAllCategories($scope.officeSpecificLookupParams)
         .then(function (data) {
 
@@ -615,6 +612,8 @@ angular.module('staticApp')
     $scope.confirmSaveYes = function () {
         $scope.confirmSave = false;
         $scope.closeEditingModal();
+        $scope.changeProgramList();
+
     };
 
     $scope.confirmFailOk = function () {
