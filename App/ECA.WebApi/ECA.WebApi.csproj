@@ -372,6 +372,7 @@
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
     <Compile Include="Models\Person\AddressBindingModel.cs" />
     <Compile Include="Models\Person\PiiBindingModel.cs" />
+    <Compile Include="Models\Projects\AddCollaboratorBindingModel.cs" />
     <Compile Include="Models\Security\GrantedPermissionBindingModel.cs" />
     <Compile Include="Models\Security\ResourcePermissionViewModel.cs" />
     <Compile Include="Models\Security\RevokedPermissionBindingModel.cs" />
