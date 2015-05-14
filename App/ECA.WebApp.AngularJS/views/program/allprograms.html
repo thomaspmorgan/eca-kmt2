@@ -163,7 +163,7 @@
                         <span class="error">Please select at least one goal.</span>
                     </div>
                 </div>
-                <div class="form-group" ng-show="allCategoriesGrouped.>
+                <div class="form-group" ng-show="allCategoriesGrouped">
                     <label>{{categoryLabel}}<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="allCategoriesGrouped"
                                           output-model="out.Categories"
@@ -239,6 +239,7 @@
         <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
         <div class="required">* Marks required fields</div>
     </div>
+
     <div id="modal" class="row" in-context-form>
         <div class="col-md-10">
             <form name="modalForm.programForm">
