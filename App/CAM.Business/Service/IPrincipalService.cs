@@ -1,10 +1,13 @@
-﻿using System;
+﻿using ECA.Core.Service;
+using System;
+using System.Diagnostics.Contracts;
 namespace CAM.Business.Service
 {
     /// <summary>
     /// The PrincipalService is responsible for handling operations for cam principals.
     /// </summary>
-    public interface IPrincipalService
+    [ContractClass(typeof(PrincipalServiceContract))]
+    public interface IPrincipalService : ISaveable
     {
         /// <summary>
         /// Grants a permission to a principal in the system.  If the permission had been previously granted it is set active.
@@ -29,5 +32,68 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="revokedPermission">The revoked permission.</param>
         System.Threading.Tasks.Task RevokePermissionAsync(CAM.Business.Model.RevokedPermission revokedPermission);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [ContractClassFor(typeof(IPrincipalService))]
+    public abstract class PrincipalServiceContract : IPrincipalService
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="grantedPermission"></param>
+        public void GrantPermission(Model.GrantedPermission grantedPermission)
+        {
+            Contract.Requires(grantedPermission != null, "The granted permission must not be null.");
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="grantedPermission"></param>
+        /// <returns></returns>
+        public System.Threading.Tasks.Task GrantPermissionsAsync(Model.GrantedPermission grantedPermission)
+        {
+            Contract.Requires(grantedPermission != null, "The granted permission must not be null.");
+            return System.Threading.Tasks.Task.FromResult<object>(null);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="revokedPermission"></param>
+        public void RevokePermission(Model.RevokedPermission revokedPermission)
+        {
+            Contract.Requires(revokedPermission != null, "The revoked permission must not be null.");
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="revokedPermission"></param>
+        /// <returns></returns>
+        public System.Threading.Tasks.Task RevokePermissionAsync(Model.RevokedPermission revokedPermission)
+        {
+            Contract.Requires(revokedPermission != null, "The revoked permission must not be null.");
+            return System.Threading.Tasks.Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="saveActions"></param>
+        /// <returns></returns>
+        public int SaveChanges(System.Collections.Generic.IList<ISaveAction> saveActions = null)
+        {
+            return 1;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="saveActions"></param>
+        /// <returns></returns>
+        public System.Threading.Tasks.Task<int> SaveChangesAsync(System.Collections.Generic.IList<ISaveAction> saveActions = null)
+        {
+            return System.Threading.Tasks.Task.FromResult<int>(1);
+        }
     }
 }

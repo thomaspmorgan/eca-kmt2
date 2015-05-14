@@ -10,7 +10,7 @@ using CAM.Business.Service;
 using System;
 using System.Net;
 
-namespace ECA.WebApi.Controllers
+namespace ECA.WebApi.Controllers.Security
 {
     //public class TestBindingModel
     //{

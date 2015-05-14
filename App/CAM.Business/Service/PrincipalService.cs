@@ -113,6 +113,7 @@ namespace CAM.Business.Service
 
         private async Task HandleAsync(GrantedPermission grantedPermission)
         {
+            logger.Info("Handling granted permission [{0}].", grantedPermission);
             var resourceId = await resourceService.GetResourceIdByForeignResourceIdAsync(grantedPermission.ForeignResourceId, grantedPermission.GetResourceType().Id);
             throwIfForeignResourceNotFound(grantedPermission, resourceId);
 
@@ -138,6 +139,7 @@ namespace CAM.Business.Service
 
         private void Handle(GrantedPermission grantedPermission)
         {
+            logger.Info("Handling granted permission [{0}].", grantedPermission);
             var resourceId = resourceService.GetResourceIdByForeignResourceId(grantedPermission.ForeignResourceId, grantedPermission.GetResourceType().Id);
             throwIfForeignResourceNotFound(grantedPermission, resourceId);
 
@@ -163,11 +165,18 @@ namespace CAM.Business.Service
 
         private void UpdateIsAllowed(GrantedPermission grantedPermission, List<PermissionAssignment> permissionAssignments)
         {
-            permissionAssignments.ForEach(x => x.IsAllowed = grantedPermission.IsAllowed);
             if (permissionAssignments.Count > 1)
             {
                 throw new NotSupportedException("There should not be more than one permission assignment to set is allowed true.");
             }
+            permissionAssignments.ForEach(x => {
+                logger.Info("Setting IsAllowed [{0}] to permission with id [PermissionId:  {1}, ResourceId:  {2}, PrincipalId:  {3}].", 
+                    grantedPermission.IsAllowed, 
+                    x.PermissionId, 
+                    x.ResourceId, 
+                    x.PrincipalId);
+                x.IsAllowed = grantedPermission.IsAllowed;
+            });
         }
 
         private PermissionAssignment DoInsertPermissionAssignment(
@@ -180,6 +189,7 @@ namespace CAM.Business.Service
             Contract.Requires(resourceId.HasValue, "The resource id should have a value here.");
             Contract.Requires(grantee != null, "The grantee must not be null.");
             Contract.Requires(grantor != null, "The grantor must not be null.");
+            logger.Info("Inserting permission assignment for granted permission [{0}].", grantedPermission);
             var permissionAssignment = new PermissionAssignment
             {
                 AssignedBy = grantedPermission.Audit.UserId,

@@ -29,6 +29,32 @@ namespace CAM.Business.Test.Model
             Assert.AreEqual(resourceType, grantedPermission.ResourceTypeAsString);
             DateTimeOffset.Now.Should().BeCloseTo(grantedPermission.Audit.Date, 2000);
         }
+
+        [TestMethod]
+        public void TestGetResourceType()
+        {
+            var granteePrincipalId = 1;
+            var grantorPrincipalId = 2;
+            var permissionId = 3;
+            var foreignResourceId = 4;
+            var resourceType = ResourceType.Program;
+
+            var grantedPermission = new RevokedPermission(granteePrincipalId, permissionId, foreignResourceId, resourceType.Value, grantorPrincipalId);
+            Assert.AreEqual(resourceType, grantedPermission.GetResourceType());
+        }
+
+        [TestMethod]
+        public void TestToString()
+        {
+            var granteePrincipalId = 1;
+            var grantorPrincipalId = 2;
+            var permissionId = 3;
+            var foreignResourceId = 4;
+            var resourceType = ResourceType.Program;
+
+            var grantedPermission = new RevokedPermission(granteePrincipalId, permissionId, foreignResourceId, resourceType.Value, grantorPrincipalId);
+            Assert.IsNotNull(grantedPermission.ToString());
+        }
     }
 }
 

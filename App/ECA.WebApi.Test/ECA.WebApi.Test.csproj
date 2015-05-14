@@ -102,14 +102,15 @@
     <Compile Include="Controllers\Admin\MoneyFlowsControllerTest.cs" />
     <Compile Include="Controllers\Admin\ProjectStatusControllerTest.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesControllerTest.cs" />
-    <Compile Include="Controllers\AuthControllerTest.cs" />
+    <Compile Include="Controllers\Security\AuthControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ContactsControllerTest.cs" />
     <Compile Include="Controllers\Persons\PersonControllerTest.cs" />
     <Compile Include="Controllers\Programs\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Programs\ProgramsControllerTest.cs" />
     <Compile Include="Controllers\Admin\ProjectsControllerTest.cs" />
-    <Compile Include="Controllers\UsersControllerTest.cs" />
+    <Compile Include="Controllers\Security\PrincipalsControllerTest.cs" />
+    <Compile Include="Controllers\Security\UsersControllerTest.cs" />
     <Compile Include="InMemoryCamModelGenerator.generated.cs">
       <DependentUpon>InMemoryCamModelGenerator.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -130,6 +131,7 @@
     <Compile Include="Security\AnonymousUserTest.cs" />
     <Compile Include="Security\BearerTokenUserProviderTest.cs" />
     <Compile Include="Security\BearerTokenUserProviderTest_Impersonation.cs" />
+    <Compile Include="Security\GrantedPermissionBindingModelTest.cs" />
     <Compile Include="Security\ImpersonatedUserTest.cs" />
     <Compile Include="Security\ModelPermissionTest.cs" />
     <Compile Include="Security\ResourceAuthorizeAttributeTest.cs" />

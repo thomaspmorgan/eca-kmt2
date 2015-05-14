@@ -355,8 +355,9 @@
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
+    <Compile Include="Controllers\Security\PrincipalsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\Security\UsersController.cs" />
     <Compile Include="Custom\Filters\ConcurrencyExceptionFilter.cs" />
     <Compile Include="Custom\Filters\EcaBusinessExceptionFilter.cs" />
     <Compile Include="Custom\Handlers\DebugWebApiUserHandler.cs" />
@@ -371,6 +372,7 @@
     <Compile Include="Custom\SwaggerExtensions\DescendingAlphabeticComparer.cs" />
     <Compile Include="Models\Person\AddressBindingModel.cs" />
     <Compile Include="Models\Person\PiiBindingModel.cs" />
+    <Compile Include="Models\Security\GrantedPermissionBindingModel.cs" />
     <Compile Include="Models\Security\ResourcePermissionViewModel.cs" />
     <Compile Include="Models\Security\UserViewModel.cs" />
     <Compile Include="Models\Person\PersonBindingModel.cs" />
@@ -397,7 +399,7 @@
     <Compile Include="Controllers\Admin\LocationsController.cs" />
     <Compile Include="Controllers\Admin\OfficesController.cs" />
     <Compile Include="Controllers\Admin\ProjectStatusesController.cs" />
-    <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\Security\AuthController.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsController.cs" />
     <Compile Include="Controllers\Admin\ProjectsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantsController.cs" />
