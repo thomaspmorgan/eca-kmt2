@@ -175,15 +175,3 @@
         </div>
     </form>
 </div>
-
-<modal-dialog show="editView.saveFailed" dialog-title="Error Saving Project" before-close="editView.confirmFailOk()">
-    <p class="strong">There was an error updating the project.</p>
-    <p class="alert-warning">{{editView.errorMessage}}</p>
-    <div>
-        <ul>
-            <li class="alert-danger" ng-repeat="validation in editView.validations">{{validation}}</li>
-        </ul>
-    </div>
-    <button class="btn btn-default right" ng-click="editView.confirmFailOk()">OK</button>
-</modal-dialog>
-
