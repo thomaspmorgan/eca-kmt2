@@ -151,9 +151,6 @@ angular.module('staticApp')
         });
 
     $scope.allCategoriesGrouped = [];
-
-
-
       LookupService.getAllCategories($scope.officeSpecificLookupParams)
         .then(function (data) {
 
@@ -288,7 +285,7 @@ angular.module('staticApp')
             filter: [{ property: 'name', comparison: 'like', value: val },
                     { property: 'programstatusid', comparison: 'eq', value: 1 }]
         };
-        return ProgramService.getAllPrograms($scope.parentLookupParams)
+        return ProgramService.getAllProgramsAlpha($scope.parentLookupParams)
             .then(function (data) {
                 return data.results;
             });
@@ -615,6 +612,8 @@ angular.module('staticApp')
     $scope.confirmSaveYes = function () {
         $scope.confirmSave = false;
         $scope.closeEditingModal();
+        $scope.changeProgramList();
+
     };
 
     $scope.confirmFailOk = function () {
