@@ -56,12 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\AzureUser.cs" />
-    <Compile Include="Model\CamUser.cs" />
     <Compile Include="Model\GrantedPermission.cs" />
     <Compile Include="Queries\Models\UserDTO.cs" />
     <Compile Include="Queries\UserQueries.cs" />
     <Compile Include="Service\ForeignResourceCache.cs" />
     <Compile Include="Service\IPermissionModelService.cs" />
+    <Compile Include="Service\IPrincipalService.cs" />
     <Compile Include="Service\IResourceService.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\Permission.cs" />

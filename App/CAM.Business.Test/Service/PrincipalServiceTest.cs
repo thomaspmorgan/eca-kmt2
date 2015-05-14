@@ -26,6 +26,7 @@ namespace CAM.Business.Test.Service
             service = new PrincipalService(context, resourceService.Object);
         }
 
+        #region Grant
         [TestMethod]
         public async Task TestGrantPermission()
         {
@@ -341,5 +342,6 @@ namespace CAM.Business.Test.Service
                 .WithMessage("There should not be more than one permission assignment to set is allowed true.");
 
         }
+        #endregion
     }
 }
