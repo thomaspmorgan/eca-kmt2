@@ -56,15 +56,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\AzureUser.cs" />
+    <Compile Include="Model\GrantedPermission.cs" />
+    <Compile Include="Model\RevokedPermission.cs" />
     <Compile Include="Queries\Models\UserDTO.cs" />
     <Compile Include="Queries\UserQueries.cs" />
     <Compile Include="Service\ForeignResourceCache.cs" />
     <Compile Include="Service\IPermissionModelService.cs" />
+    <Compile Include="Service\IPrincipalService.cs" />
     <Compile Include="Service\IResourceService.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\Audit.cs" />
+    <Compile Include="Model\Audit.cs" />
     <Compile Include="Service\CacheManager.cs" />
     <Compile Include="Service\IAuditable.cs" />
     <Compile Include="Service\IPermission.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="Service\PermissionStoreBase.cs" />
     <Compile Include="Service\PermissionStoreCached.cs" />
     <Compile Include="Service\PermissionStoreFactory.cs" />
+    <Compile Include="Service\PrincipalService.cs" />
     <Compile Include="Service\ResourceService.cs" />
     <Compile Include="Service\User.cs" />
     <Compile Include="Service\UserService.cs" />

@@ -153,6 +153,8 @@
     <Compile Include="Service\Persons\IPersonService.cs" />
     <Compile Include="Service\Persons\NewPerson.cs" />
     <Compile Include="Service\Persons\PersonService.cs" />
+    <Compile Include="Service\Persons\PersonServiceValidationEntity.cs" />
+    <Compile Include="Service\Persons\PersonServiceValidator.cs" />
     <Compile Include="Service\Persons\UpdatePii.cs" />
     <Compile Include="Service\Programs\DraftProgram.cs" />
     <Compile Include="Service\Admin\DraftProject.cs" />

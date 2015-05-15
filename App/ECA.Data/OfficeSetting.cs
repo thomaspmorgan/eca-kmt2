@@ -34,6 +34,16 @@ namespace ECA.Data
         public const string FOCUS_SETTING_KEY = "Focus";
 
         /// <summary>
+        /// The office setting key for minimum foci count.
+        /// </summary>
+        public const string MIN_FOCUS_KEY = "Min Foci";
+
+        /// <summary>
+        /// The office setting key for maximum foci count.
+        /// </summary>
+        public const string MAX_FOCUS_KEY = "Max Foci";
+
+        /// <summary>
         /// The max length of the focus.
         /// </summary>
         public const int NAME_MAX_LENGTH = 50;

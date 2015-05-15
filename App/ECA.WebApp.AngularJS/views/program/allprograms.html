@@ -163,8 +163,8 @@
                         <span class="error">Please select at least one goal.</span>
                     </div>
                 </div>
-                <div class="form-group" ng-show="allCategoriesGrouped.>
-                    <label>{{categoryLabel}}<span class="asterisk"> *</span></label>
+                <div class="form-group" ng-show="allCategoriesGrouped">
+                    <label>{{categoryLabel}}</label>
                     <isteven-multi-select input-model="allCategoriesGrouped"
                                           output-model="out.Categories"
                                           button-label="name"
@@ -181,7 +181,7 @@
                     </div>
                 </div>
                 <div class="form-group" ng-show="objectiveLabel != ''">
-                    <label>{{objectiveLabel}}<span class="asterisk"> *</span></label>
+                    <label>{{objectiveLabel}}</label>
                     <isteven-multi-select input-model="allObjectivesGrouped"
                                           output-model="out.Objectives"
                                           button-label="name"
@@ -239,6 +239,7 @@
         <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
         <div class="required">* Marks required fields</div>
     </div>
+
     <div id="modal" class="row" in-context-form>
         <div class="col-md-10">
             <form name="modalForm.programForm">
@@ -321,7 +322,7 @@
                     </div>
                 </div>
                 <div class="form-group" ng-show="categoryLabel != ''">
-                    <label>{{categoryLabel}}<span class="asterisk"> *</span></label>
+                    <label>{{categoryLabel}}</label>
                     <isteven-multi-select input-model="allCategoriesGrouped"
                                           output-model="out.Categories"
                                           button-label="name"
@@ -338,7 +339,7 @@
                     </div>
                 </div>
                 <div class="form-group" ng-show="objectiveLabel != ''">
-                    <label>{{objectiveLabel}}<span class="asterisk"> *</span></label>
+                    <label>{{objectiveLabel}}</label>
                     <isteven-multi-select input-model="allObjectivesGrouped"
                                           output-model="out.Objectives"
                                           button-label="name"

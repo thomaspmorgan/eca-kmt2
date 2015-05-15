@@ -13,6 +13,7 @@ using System.Diagnostics;
 using ECA.Business.Queries.Admin;
 using NLog;
 using ECA.Business.Exceptions;
+using ECA.Business.Validation;
 
 namespace ECA.Business.Service.Persons
 {
@@ -22,13 +23,18 @@ namespace ECA.Business.Service.Persons
     public class PersonService : EcaService, IPersonService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity> validator;
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="context">The context to query</param>
-        public PersonService(EcaContext context) : base(context)
+        public PersonService(EcaContext context, IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity> validator)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(validator != null, "The validator must not be null.");
+            this.validator = validator;
         }
 
         /// <summary>
@@ -225,8 +231,12 @@ namespace ECA.Business.Service.Persons
             }
             var personToUpdate = await GetPersonByIdAsync(pii.PersonId);
             var participantToUpdate = await GetParticipantByIdAsync(pii.ParticipantId);
+            var cityOfBirth = await GetLocationByIdAsync(pii.CityOfBirthId);
             var countriesOfCitizenship = await GetLocationsByIdAsync(pii.CountriesOfCitizenship);
-            DoUpdate(pii, personToUpdate, participantToUpdate, countriesOfCitizenship);
+            var validationEntity = GetValidationEntity(pii, personToUpdate, participantToUpdate, cityOfBirth, countriesOfCitizenship);
+            validator.ValidateUpdate(validationEntity);
+            DoUpdate(pii, personToUpdate, participantToUpdate, cityOfBirth, countriesOfCitizenship);
+            
             return personToUpdate;
         }
 
@@ -246,10 +256,7 @@ namespace ECA.Business.Service.Persons
             return Context.People.Where(x => x.PersonId == personId).Include(x => x.CountriesOfCitizenship);
         }
 
-        private void DoUpdate(UpdatePii updatePii, Person person, Participant participant, List<Location> countriesOfCitizenship) {
-            Contract.Requires(updatePii != null, "The update pii must not be null.");
-            Contract.Requires(person != null, "The person to update must not be null.");
-            Contract.Requires(participant != null, "The participant to update must not be null.");
+        private void DoUpdate(UpdatePii updatePii, Person person, Participant participant, Location cityOfBirth, List<Location> countriesOfCitizenship) {
             person.FirstName = updatePii.FirstName;
             person.LastName = updatePii.LastName;
             person.NamePrefix = updatePii.NamePrefix;
@@ -295,6 +302,12 @@ namespace ECA.Business.Service.Persons
         private IQueryable<Participant> CreateGetParticipantById(int participantId)
         {
             return Context.Participants.Where(x => x.ParticipantId == participantId);
+        }
+
+        private PersonServiceValidationEntity GetValidationEntity(UpdatePii pii, Person person, Participant participant, 
+                                                                  Location cityOfBirth, List<Location> countriesOfCititzenship) {
+            return new PersonServiceValidationEntity(person, participant, pii.GenderId, pii.DateOfBirth, cityOfBirth, 
+                                                     countriesOfCititzenship);
         }
     }
 }

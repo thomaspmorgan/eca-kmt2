@@ -32,9 +32,6 @@ angular.module('staticApp')
 
       $scope.editView = {};
       $scope.editView.params = $stateParams;
-      $scope.editView.saveFailed = false;
-      $scope.editView.errorMessage = "";
-      $scope.editView.validations = [];
       $scope.editView.isLoading = false;
       $scope.editView.isSaving = false;      
       $scope.editView.dateFormat = 'dd-MMMM-yyyy';
@@ -176,6 +173,11 @@ angular.module('staticApp')
           $scope.$parent.isProjectStatusButtonEnabled = true;
       }
 
+      function showProjectEditCancelButton() {
+          console.assert($scope.$parent.showProjectEditCancelButton, 'The $scope.$parent.showProjectEditCancelButton function should be defined.');
+          $scope.showProjectEditCancelButton();
+      }
+
       function goToProjectOverview() {
           console.assert(typeof ($scope.$parent.isInEditViewState) !== 'undefined', 'The isInEditViewState property on the parent scope must be defined.');
           $scope.$parent.isInEditViewState = false;
@@ -259,20 +261,25 @@ angular.module('staticApp')
                 $scope.$parent.project = response.data;
                 showSaveSuccess();
                 goToProjectOverview();
-            }, function (errorResponse) {
-                $scope.editView.saveFailed = true;
-                $scope.editView.errorMessage = "An error occurred while saving the project.";
-                if (errorResponse.data && errorResponse.data.Message) {
-                    $scope.editView.errorMessage = errorResponse.data.Message;
-                }
-                if (errorResponse.data && errorResponse.data.ValidationErrors) {
-                    for (var key in errorResponse.data.ValidationErrors) {
-                        $scope.editView.validations.push(errorResponse.data.ValidationErrors[key]);
+            }, function (error) {
+                showProjectEditCancelButton();
+                if (error.status == 400) {
+                    if (error.data.message && error.data.modelState) {
+                        for (var key in error.data.modelState) {
+                            NotificationService.showErrorMessage(error.data.modelState[key][0]);
+                        }
+                    }
+                    else if (error.data.Message && error.data.ValidationErrors) {
+                        for (var key in error.data.ValidationErrors) {
+                            NotificationService.showErrorMessage(error.data.ValidationErrors[key]);
+                        }
+                    } else {
+                        NotificationService.showErrorMessage(error.data);
                     }
                 }
             })
             .then(function () {
-                $scope.editView.isSaving = false;
+                $scope.editView.isSaving = false;                
                 enableProjectStatusButton();
             });
       }
@@ -316,6 +323,9 @@ angular.module('staticApp')
 
             }, function (errorResponse) {
                 $log.error('Failed to load project with id ' + projectId);
+            })
+            .then(function() {
+                showProjectEditCancelButton();
             });
       }
 

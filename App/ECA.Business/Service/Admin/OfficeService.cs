@@ -297,7 +297,40 @@ namespace ECA.Business.Service.Admin
             }
             else
             {
-                logger.Info("Returning default value [{0}] for office setting [{1}] with office id [{2}].", defaultValue, name);
+                logger.Info("Returning default value [{0}] for office setting [{1}].", defaultValue, name);
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// Returns the int value or the default value given the settings for an office and a key.
+        /// </summary>
+        /// <param name="name">The name of the setting to get a value for.</param>
+        /// <param name="settings">The office settings.</param>
+        /// <param name="defaultValue">The default value to return if the setting does not exist.</param>
+        /// <returns>The boolean value for the setting with the given name, or the default value if it does not exist.</returns>
+        public int GetStringValueAsInt(string name, List<OfficeSettingDTO> settings, int defaultValue)
+        {
+            Contract.Requires(name != null, "The name must not be null.");
+            Contract.Requires(settings != null, "The settings must not be null.");
+            var setting = settings.Where(x => x.Name.ToLower().Trim() == name.Trim().ToLower()).FirstOrDefault();
+            if (setting != null)
+            {
+                int i;
+                if (Int32.TryParse(setting.Value, out i))
+                {
+                    logger.Info("Returning int value [{0}] for office setting [{1}] with office id [{2}].", i, setting.Name, setting.OfficeId);
+                    return i;
+                }
+                else
+                {
+                    logger.Error("Unable to parse int value from string [{0}] for office setting with id [{1}].", setting.Value, setting.OfficeId);
+                    return defaultValue;
+                }
+            }
+            else
+            {
+                logger.Info("Returning default value [{0}] for office setting [{1}].", defaultValue, name);
                 return defaultValue;
             }
         }
@@ -325,6 +358,17 @@ namespace ECA.Business.Service.Admin
             
             officeSettings.IsObjectiveRequired = HasSetting(OfficeSetting.OBJECTIVE_SETTING_KEY, settings) || HasSetting(OfficeSetting.JUSTIFICATION_SETTING_KEY, settings);
             officeSettings.IsCategoryRequired = HasSetting(OfficeSetting.CATEGORY_SETTING_KEY, settings) || HasSetting(OfficeSetting.FOCUS_SETTING_KEY, settings);
+
+            if (officeSettings.IsCategoryRequired)
+            {
+                officeSettings.MaximumRequiredFoci = GetStringValueAsInt(OfficeSetting.MAX_FOCUS_KEY, settings, 1);
+                officeSettings.MinimumRequiredFoci = GetStringValueAsInt(OfficeSetting.MIN_FOCUS_KEY, settings, 1);
+            }
+            else
+            {
+                officeSettings.MaximumRequiredFoci = -1;
+                officeSettings.MinimumRequiredFoci = -1;
+            }
 
             return officeSettings;
         }
