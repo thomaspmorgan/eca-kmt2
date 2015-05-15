@@ -13,7 +13,7 @@
                 <i class="fa fa-chevron-up fa-lg pull-right" ng-show="!showPii"></i>
             </a>
             <div class="pull-right" ng-show="editPii">
-                <button ng-click="saveEditPii()" class="btn btn-success">Save</button>
+                <button ng-click="saveEditPii()" class="btn btn-success" ng-disabled="piiForm.$invalid || piiForm.$pristine">Save</button>
                 <button ng-click="cancelEditPii()" class="btn btn-cancel">Cancel</button>
             </div>
             <a ng-show="!editPii" ng-click="editPii = true">
@@ -21,165 +21,343 @@
             </a>
         </div>
     </div>
-    <div class="row" ng-show="showPii">
+    <form name="piiForm" class="form-horizontal" ng-show="showPii">
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-4 title-label">Names & Alternatives</div>
-                <div class="col-md-8">
-                    <ul ng-show="!editPii">
-                        <li ng-show="pii.firstName">First name: {{pii.firstName}}</li>
-                        <li ng-show="pii.lastName">Last name: {{pii.lastName}}</li>
-                        <li ng-show="pii.namePrefix">Name prefix: {{pii.namePrefix}}</li>
-                        <li ng-show="pii.nameSuffix">Name suffix: {{pii.nameSuffix}}</li>
-                        <li ng-show="pii.givenName">Given name: {{pii.givenName}}</li>
-                        <li ng-show="pii.familyName">Family name: {{pii.familyName}}</li>
-                        <li ng-show="pii.middleName">Middle name: {{pii.middleName}}</li>
-                        <li ng-show="pii.patronym">Patronym: {{pii.patronym}}</li>
-                        <li ng-show="pii.alias">Alias: {{pii.alias}}</li>
-                    </ul>
-                    <ul ng-show="editPii">
-                        <li>First name: <a href="#" editable-text="pii.firstName">{{pii.firstName}}</a></li>
-                        <li>Last name: <a href="#" editable-text="pii.lastName">{{pii.lastName}}</a></li>
-                        <li>Name prefix: <a href="#" editable-text="pii.namePrefix">{{pii.namePrefix || 'No name prefix'}}</a></li>
-                        <li>Name suffix: <a href="#" editable-text="pii.nameSuffix">{{pii.nameSuffix || 'No name suffix'}}</a></li>
-                        <li>Given name: <a href="#" editable-text="pii.givenName">{{pii.givenName || 'No given name'}}</a></li>
-                        <li>Family name: <a href="#" editable-text="pii.familyName">{{pii.familyName || 'No family name'}}</a></li>
-                        <li>Middle name: <a href="#" editable-text="pii.middleName">{{pii.middleName || 'No middle name'}}</a></li>
-                        <li>Patronym: <a href="#" editable-text="pii.patronym">{{pii.patronym || 'No patronym'}}</a></li>
-                        <li>Alias: <a href="#" editable-text="pii.alias">{{pii.alias || 'No alias'}}</a></li>
-                    </ul>
+                <div class="col-md-8" ng-show="!editPii">
+                    <div class="form-group" ng-show="pii.firstName">
+                        <label class="col-md-4 title-label">First name<span class="asterisk"> *</span></label>
+                        <div class="col-md-8">
+                            {{pii.firstName}}
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="pii.lastName">
+                        <label class="col-md-4 title-label">Last name<span class="asterisk"> *</span></label>
+                        <div class="col-md-8">
+                            {{pii.lastName}}
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="pii.namePrefix">
+                        <label class="col-md-4 title-label">Name prefix</label>
+                        <div class="col-md-8">
+                            {{pii.namePrefix}}
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="pii.nameSuffix">
+                        <label class="col-md-4 title-label">Name suffix</label>
+                        <div class="col-md-8">
+                            {{pii.nameSuffix}}
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="pii.givenName">
+                        <label class="col-md-4 title-label">Given name</label>
+                        <div class="col-md-8">
+                            {{pii.givenName}}
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="pii.familyName">
+                        <label class="col-md-4 title-label">Family name</label>
+                        <div class="col-md-8">
+                            {{pii.familyName}}
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="pii.middleName">
+                        <label class="col-md-4 title-label">Middle name</label>
+                        <div class="col-md-8">
+                            {{pii.middleName}}
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="pii.patronym">
+                        <label class="col-md-4 title-label">Patronym</label>
+                        <div class="col-md-8">
+                            {{pii.patronym}}
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="pii.alias">
+                        <label class="col-md-4 title-label">Alias</label>
+                        <div class="col-md-8">
+                            {{pii.alias}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8" ng-show="editPii">
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">First name<span class="asterisk"> *</span></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pii.firstName" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">Last name<span class="asterisk"> *</span></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pii.lastName" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">Name prefix</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pii.namePrefix" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">Name suffix</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pii.nameSuffix" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">Given name</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pii.givenName" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">Family name</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pii.familyName" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">Middle name</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pii.middleName" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">Patronym</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pii.patronym" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">Alias</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pii.alias" />
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 title-label">Gender</div>
-                <div class="col-md-8" ng-show="!editPii">{{pii.gender}}</div>
+                <div class="col-md-4 title-label">Gender<span class="asterisk"> *</span></div>
+                <div class="col-md-8" ng-show="!editPii">
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            {{pii.gender}}
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-8" ng-show="editPii">
-                    <a href="#" editable-select="pii.genderId" onaftersave="updateGender()" e-ng-options="gender.id as gender.value for gender in genders">
-                        {{pii.gender}}
-                    </a>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="pii.genderId" ng-options="gender.id as gender.value for gender in genders" ng-change="updateGender()" required />
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 title-label">Ethnicity</div>
-                <div class="col-md-8" ng-show="!editPii">{{pii.ethnicity}}</div>
+                <div class="col-md-8" ng-show="!editPii">
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            {{pii.ethnicity}}
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-8" ng-show="editPii">
-                    <a href="#" editable-text="pii.ethnicity">
-                        {{pii.ethnicity || 'No ethnicity'}}
-                    </a>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pii.ethnicity" />
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 title-label">Place of Birth</div>
-                <div class="col-md-8">
-                    <ul ng-show="!editPii">
-                        <li ng-show="pii.countryOfBirth">Country: {{pii.countryOfBirth}}</li>
-                        <li ng-show="pii.cityOfBirth">City: {{pii.cityOfBirth}}</li>
-                    </ul>
-                    <ul ng-show="editPii">
-                        <li>
-                            Country: <a href="#" ng-show="editPii" editable-select="pii.countryOfBirthId" onaftersave="updateCountryOfBirth()" e-ng-options="country.id as country.name for country in countries">
-                                {{pii.countryOfBirth || 'No country'}}
-                            </a>
-                        </li>
-                        <li>
-                            City: <a href="#" ng-show="editPii" editable-select="pii.cityOfBirthId" onaftersave="updateCityOfBirth()" e-ng-options="city.id as city.name for city in cities">
-                                {{pii.cityOfBirth || 'No city'}}
-                            </a>
-                        </li>
-                    </ul>
+                <div class="col-md-8" ng-show="!editPii">
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">Country<span class="asterisk"> *</span></label>
+                        <div class="col-md-8">
+                            {{pii.countryOfBirth}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">City<span class="asterisk"> *</span></label>
+                        <div class="col-md-8">
+                            {{pii.cityOfBirth}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8" ng-show="editPii">
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">Country<span class="asterisk"> *</span></label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="pii.countryOfBirthId" ng-options="country.id as country.name for country in countries" ng-change="updateCountryOfBirth()" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label">City<span class="asterisk"> *</span></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="pii.cityOfBirthId" typeahead="city.id as city.name for city in getCities($viewValue) | filter : $viewValue | limitTo : 25"
+                                   typeahead-editable="false" typeahead-input-formatter="formatCityOfBirth($model)" required />
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 title-label">Date of Birth</div>
-                <div class="col-md-8" ng-show="!editPii">{{pii.dateOfBirth | date }}</div>
+                <div class="col-md-4 title-label">Date of Birth<span class="asterisk"> *</span></div>
+                <div class="col-md-8" ng-show="!editPii">
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            {{pii.dateOfBirth | date }}
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-8" ng-show="editPii">
-                    <a href="#" editable-date="pii.dateOfBirth">
-                        {{(pii.dateOfBirth | date) || 'No date of birth'}}
-                    </a>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            <input type="date" class="form-control" ng-model="pii.dateOfBirth" required />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="row">
-                <div class="col-md-4 title-label">Countries of Citizenship</div>
-                <div class="col-md-8">
-                    <ul ng-show="!editPii">
-                        <li ng-repeat="country in pii.countriesOfCitizenship">{{country.value}}</li>
-                    </ul>
-                    <ul ng-show="editPii">
-                        <ui-select multiple ng-model="$parent.selectedCountriesOfCitizenship" ng-disabled="!editPii" theme="select2" title="Choose a country" style="min-width: 200px;">
-                            <ui-select-match placeholder="Select countries...">
-                                <div>{{$item.name}}</div>
-                            </ui-select-match>
+                <div class="col-md-4 title-label">Countries of Citizenship<span class="asterisk"> *</span></div>
+                <div class="col-md-8" ng-show="!editPii">
+                    <div class="form-group" ng-repeat="country in pii.countriesOfCitizenship">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            {{country.value}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8" ng-show="editPii">
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            <ui-select multiple ng-model="$parent.selectedCountriesOfCitizenship" ng-disabled="!editPii" theme="select2" title="Choose a country" style="min-width: 200px;">
+                                <ui-select-match placeholder="Select countries...">
+                                    <div>{{$item.name}}</div>
+                                </ui-select-match>
 
-                            <ui-select-choices repeat="country in countries | filter: {name: $select.search}">
-                                <div ng-bind-html="country.name | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                    </ul>
+                                <ui-select-choices repeat="country in countries | filter: {name: $select.search}">
+                                    <div ng-bind-html="country.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 title-label">Residence Address</div>
                 <div class="col-md-8">
                     <div ng-repeat="address in pii.homeAddresses">
-                        <ul ng-show="!editPii">
-                            <li ng-show="address.street1">Street 1: {{address.street1}}</li>
-                            <li ng-show="address.street2">Street 2: {{address.street2}}</li>
-                            <li ng-show="address.street3">Street 3: {{address.street3}}</li>
-                            <li ng-show="address.country">Country: {{address.country}}</li>
-                            <li ng-show="address.city">City: {{address.city}}</li>
-                            <li ng-show="address.postalCode">Postal Code: {{address.postalCode}}</li>
-                        </ul>
-
-                        <ul ng-show="editPii">
-                            <li>Street 1: <a href="#" editable-text="address.street1">{{address.street1 || 'No street 1'}}</a></li>
-                            <li>Street 2: <a href="#" editable-text="address.street2">{{address.street2 || 'No street 2'}}</a></li>
-                            <li>Street 3: <a href="#" editable-text="address.street3">{{address.street3 || 'No street 3'}}</a></li>
-                            <li>
-                                Country: <a href="#" ng-show="editPii" editable-select="address.countryId" onaftersave="updateAddressCountry(address.id)" e-ng-options="country.id as country.name for country in countries">
-                                    {{address.country || 'No country'}}
-                                </a>
-                            </li>
-                            <li>
-                                City: <a href="#" ng-show="editPii" editable-select="address.cityId" onaftersave="updateAddressCity(address.id)" e-ng-options="city.id as city.name for city in addressCities">
-                                    {{address.city || 'No city'}}
-                                </a>
-                            </li>
-                            <li>Postal Code: <a href="#" editable-text="address.postalCode">{{address.postalCode || 'No postal code'}}</a></li>
-                        </ul>
+                        <div class="form-group" ng-show="address.street1">
+                            <label class="col-md-4 title-label">Street 1</label>
+                            <div class="col-md-8">
+                                {{address.street1}}
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="address.street2">
+                            <label class="col-md-4 title-label">Street 2</label>
+                            <div class="col-md-8">
+                                {{address.street2}}
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="address.street3">
+                            <label class="col-md-4 title-label">Street 3</label>
+                            <div class="col-md-8">
+                                {{address.street3}}
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="address.country">
+                            <label class="col-md-4 title-label">Country</label>
+                            <div class="col-md-8">
+                                {{address.country}}
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="address.city">
+                            <label class="col-md-4 title-label">City</label>
+                            <div class="col-md-8">
+                                {{address.city}}
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="address.postalCode">
+                            <label class="col-md-4 title-label">Postal Code</label>
+                            <div class="col-md-8">
+                                {{address.postalCode}}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 title-label">Medical Conditions</div>
-                <div class="col-md-8" ng-show="!editPii">{{pii.medicalConditions}}</div>
+                <div class="col-md-8" ng-show="!editPii">
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            {{pii.medicalConditions}}
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-8" ng-show="editPii">
-                    <a href="#" editable-textarea="pii.medicalConditions">
-                        {{pii.medicalConditions || 'No medical conditions'}}
-                    </a>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            <textarea class="form-control" class="form-control" ng-model="pii.medicalConditions"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 title-label">Marital Status</div>
-                <div class="col-md-8" ng-show="!editPii">{{pii.maritalStatus}}</div>
+                <div class="col-md-8" ng-show="!editPii">
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            {{pii.maritalStatus}}
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-8" ng-show="editPii">
-                    <a href="#" editable-select="pii.maritalStatusId" onaftersave="updateMaritalStatus()" e-ng-options="maritalStatus.id as maritalStatus.value for maritalStatus in maritalStatuses">
-                        {{pii.maritalStatus || 'No marital status'}}
-                    </a>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="pii.maritalStatusId" ng-options="maritalStatus.id as maritalStatus.value for maritalStatus in maritalStatuses" ng-change="updateMaritalStatus()" />
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4 title-label">Sevis Id</div>
-                <div class="col-md-8" ng-show="!editPii">{{participant.sevisId}}</div>
+                <div class="col-md-8" ng-show="!editPii">
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            {{participant.sevisId}}
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-8" ng-show="editPii">
-                    <a href="#" editable-text="participant.sevisId">
-                        {{participant.sevisId || 'No sevis id'}}
-                    </a>
+                    <div class="form-group">
+                        <label class="col-md-4 title-label"></label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="participant.sevisId" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
     <div class="row">
         <div class="col-md-10">
             <h4 class="tab-subheader">Contact</h4>
