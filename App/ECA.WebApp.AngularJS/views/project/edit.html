@@ -133,7 +133,7 @@
                 <div class="row" ng-show="editView.showCategoryFocus">
                     <div class="col-md-6 title-label">{{editView.categoryLabel}}</div>
                     <div class="col-md-6">
-                        <ui-select multiple close-on-select="true" ng-model="editView.selectedCategories" theme="select2" close-on-select="false" title="Choose a category." style="min-width: 200px;">
+                        <ui-select multiple close-on-select="true" ng-model="editView.selectedCategories" theme="select2" title="Choose a category." style="min-width: 200px;">
                             <ui-select-match placeholder="Select categories...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
@@ -146,7 +146,7 @@
                 <div class="row" ng-show="editView.showObjectiveJustification">
                     <div class="col-md-6 title-label">{{editView.objectiveLabel}}</div>
                     <div class="col-md-6">
-                        <ui-select multiple close-on-select="true" ng-model="editView.selectedObjectives" theme="select2" close-on-select="false" title="Choose an objective." style="min-width: 200px;">
+                        <ui-select multiple close-on-select="true" ng-model="editView.selectedObjectives" theme="select2" title="Choose an objective." style="min-width: 200px;">
                             <ui-select-match placeholder="Select objectives...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
@@ -160,7 +160,7 @@
                 <div class="row" ng-show="project.contacts">
                     <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                     <div class="col-md-6">
-                        <ui-select multiple close-on-select="true" ng-model="editView.selectedPointsOfContact" theme="select2" close-on-select="false" title="Choose a point of contact." style="min-width: 200px;">
+                        <ui-select multiple close-on-select="true" ng-model="editView.selectedPointsOfContact" theme="select2" title="Choose a point of contact." style="min-width: 200px;">
                             <ui-select-match placeholder="Select points of contact...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
@@ -175,15 +175,3 @@
         </div>
     </form>
 </div>
-
-<modal-dialog show="editView.saveFailed" dialog-title="Error Saving Project" before-close="editView.confirmFailOk()">
-    <p class="strong">There was an error updating the project.</p>
-    <p class="alert-warning">{{editView.errorMessage}}</p>
-    <div>
-        <ul>
-            <li class="alert-danger" ng-repeat="validation in editView.validations">{{validation}}</li>
-        </ul>
-    </div>
-    <button class="btn btn-default right" ng-click="editView.confirmFailOk()">OK</button>
-</modal-dialog>
-

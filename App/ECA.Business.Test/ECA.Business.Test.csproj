@@ -103,6 +103,8 @@
     <Compile Include="Service\Lookup\SimpleLookupDTOTest.cs" />
     <Compile Include="Service\Lookup\LookupServiceTest.cs" />
     <Compile Include="Service\Persons\PersonServiceTest.cs" />
+    <Compile Include="Service\Persons\PersonServiceValidatorTest.cs" />
+    <Compile Include="Service\Persons\PersonServiceValidationEntityTest.cs" />
     <Compile Include="Service\Programs\DraftProgramTest.cs" />
     <Compile Include="Service\Programs\EcaProgramTest.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidationEntityTest.cs" />

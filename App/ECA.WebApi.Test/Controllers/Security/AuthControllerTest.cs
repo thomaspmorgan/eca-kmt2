@@ -1,22 +1,21 @@
-﻿using CAM.Business.Service;
-using FluentAssertions;
-using ECA.WebApi.Controllers;
+﻿using CAM.Business.Model;
+using CAM.Business.Service;
+using ECA.Core.Service;
+using ECA.WebApi.Controllers.Security;
 using ECA.WebApi.Models.Security;
 using ECA.WebApi.Security;
 using ECA.WebApi.Test.Security;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http.Results;
 using System.Web.Http;
-using CAM.Business.Model;
-using ECA.Core.Service;
+using System.Web.Http.Results;
 
-namespace ECA.WebApi.Test.Controllers
+namespace ECA.WebApi.Test.Controllers.Security
 {
     [TestClass]
     public class AuthControllerTest

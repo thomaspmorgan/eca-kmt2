@@ -100,7 +100,7 @@ namespace ECA.Business.Service.Persons
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.CountriesOfCitizenship, COUNTRIES_OF_CITIZENSHIP_NOT_FOUND);
             }
 
-            if (validationEntity.CountriesOfCitizenship.Count == 0)
+            if (validationEntity.CountriesOfCitizenship != null && validationEntity.CountriesOfCitizenship.Count == 0)
             {
                 yield return new BusinessValidationResult<PersonServiceValidationEntity>(x => x.CountriesOfCitizenship, COUNTRIES_OF_CITIZENSHIP_REQUIRED);
             }

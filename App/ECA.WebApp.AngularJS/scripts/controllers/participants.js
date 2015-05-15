@@ -51,12 +51,11 @@ angular.module('staticApp')
 
       $scope.updateGender = function () {
           $scope.pii.gender = getObjectById($scope.pii.genderId, $scope.genders).value;
-          console.log($scope.pii);
       };
 
       $scope.updateCountryOfBirth = function () {
           $scope.pii.countryOfBirth = getObjectById($scope.pii.countryOfBirthId, $scope.countries).name;
-          getCitiesByCountryId($scope.pii.countryOfBirthId);
+          $scope.getCities("");
           clearCityOfBirth();
       }
 
@@ -73,17 +72,13 @@ angular.module('staticApp')
           $scope.pii.maritalStatus = getObjectById($scope.pii.maritalStatusId, $scope.maritalStatuses).value;
       }
 
-      $scope.updateAddressCountry = function (id) {
-          var address = getObjectById(id, $scope.pii.homeAddresses);
-          address.country = getObjectById(address.countryId, $scope.countries).name;
-          getAddressCitiesByCountryId(address.countryId);
-          delete address.cityId;
-          delete address.city;
-      }
-
-      $scope.updateAddressCity = function (id) {
-          var address = getObjectById(id, $scope.pii.homeAddresses);
-          address.city = getObjectById(address.cityId, $scope.addressCities).name;
+      $scope.formatCityOfBirth = function (model) {
+          if (model && !$scope.cities) {
+              return $scope.pii.cityOfBirth;
+          }
+          if (model && $scope.cities) {
+              return getObjectById(model, $scope.cities).name;
+          }
       }
 
       function getObjectById(id, array) {
@@ -109,40 +104,33 @@ angular.module('staticApp')
         PersonService.getPiiById(personId)
            .then(function (data) {
                $scope.pii = data;
+               if ($scope.pii.dateOfBirth) {
+                   $scope.pii.dateOfBirth = new Date($scope.pii.dateOfBirth);
+               }
                $scope.selectedCountriesOfCitizenship = $scope.pii.countriesOfCitizenship.map(function (obj) {
                    var location = {};
                    location.id = obj.id;
                    location.name = obj.value;
                    return location;
                });
-               if ($scope.pii.countryOfBirthId !== undefined) {
-                   getCitiesByCountryId($scope.pii.countryOfBirthId);
-               }
-               if ($scope.pii.homeAddresses[0].countryId !== undefined) {
-                   getAddressCitiesByCountryId($scope.pii.homeAddresses[0].countryId);
+               if ($scope.pii.countryOfBirthId) {
+                   $scope.getCities("");
                }
            });
     };
 
-    function getCitiesByCountryId(countryId) {
-        LocationService.get({
-            limit: 300,
-            filter: [{ property: 'countryId', comparison: 'eq', value: countryId },
+    $scope.getCities = function (val) {
+        return LocationService.get({
+            start: 0,
+            limit: 25,
+            filter: [{ property: 'name', comparison: 'like', value: val },
+                     { property: 'countryId', comparison: 'eq', value: $scope.pii.countryOfBirthId },
                      { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city.id }]
         }).then(function (data) {
             $scope.cities = data.results;
+            return $scope.cities;
         });
-    };
-
-    function getAddressCitiesByCountryId(countryId) {
-        LocationService.get({
-            limit: 300,
-            filter: [{ property: 'countryId', comparison: 'eq', value: countryId },
-                     { property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.city.id }]
-        }).then(function (data) {
-            $scope.addressCities = data.results;
-        });
-    };
+    }
 
     LookupService.getAllGenders({ limit: 300 })
        .then(function (data) {

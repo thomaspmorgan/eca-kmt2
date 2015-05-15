@@ -59,18 +59,30 @@ namespace ECA.Business.Service.Admin
         public bool IsCategoryRequired { get; set; }
 
         /// <summary>
+        /// Gets the minimum required foci.
+        /// </summary>
+        public int MinimumRequiredFoci { get; set; }
+
+        /// <summary>
+        /// Gets the maximum number of foci allowed.
+        /// </summary>
+        public int MaximumRequiredFoci { get; set; }
+
+        /// <summary>
         /// Returns a formatted string of this OfficeSetting.
         /// </summary>
         /// <returns>A formatted string of this OfficeSetting.</returns>
         public override string ToString()
         {
-            return String.Format("ObjectiveLabel:  [{0}], CategoryLabel:  [{1}], FocusLabel:  [{2}], JustificationLabel:  [{3}], IsObjectiveRequired:  [{4}], IsCategoryRequired:  [{5}]",
+            return String.Format("ObjectiveLabel:  [{0}], CategoryLabel:  [{1}], FocusLabel:  [{2}], JustificationLabel:  [{3}], IsObjectiveRequired:  [{4}], IsCategoryRequired:  [{5}], MinimumRequiredFoci:  [{6}], MaximumRequiredFoci:  [{7}]",
                 this.ObjectiveLabel,
                 this.CategoryLabel,
                 this.FocusLabel,
                 this.JustificationLabel,
                 this.IsObjectiveRequired,
-                this.IsCategoryRequired
+                this.IsCategoryRequired,
+                this.MinimumRequiredFoci,
+                this.MaximumRequiredFoci
                 );
         }
     }

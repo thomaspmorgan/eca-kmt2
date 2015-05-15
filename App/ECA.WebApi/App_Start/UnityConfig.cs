@@ -59,8 +59,12 @@ namespace ECA.WebApi
 
             container.RegisterType<IContactService, ContactService>(new HierarchicalLifetimeManager());
             container.RegisterType<IFocusService, FocusService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IFocusCategoryService, FocusCategoryService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IGenderService, GenderService>(new HierarchicalLifetimeManager());
             container.RegisterType<IGoalService, GoalService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IJustificationObjectiveService, JustificationObjectiveService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILocationService, LocationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IMaritalStatusService, MaritalStatusService>(new HierarchicalLifetimeManager());
             container.RegisterType<IMoneyFlowService, MoneyFlowService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOfficeService, OfficeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantService, ParticipantService>(new HierarchicalLifetimeManager());
@@ -68,14 +72,9 @@ namespace ECA.WebApi
             container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProjectStatusService, ProjectStatusService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IGenderService, GenderService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IFocusCategoryService, FocusCategoryService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IJustificationObjectiveService, JustificationObjectiveService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IMaritalStatusService, MaritalStatusService>(new HierarchicalLifetimeManager());
-
         }
 
         /// <summary>
@@ -105,6 +104,7 @@ namespace ECA.WebApi
 
             container.RegisterType<CamModel>(new HierarchicalLifetimeManager(), new InjectionConstructor("CamModel"));
             container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IPrincipalService, PrincipalService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IPermissionModelService, PermissionModelService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPermissionStore<IPermission>, PermissionStore>(
