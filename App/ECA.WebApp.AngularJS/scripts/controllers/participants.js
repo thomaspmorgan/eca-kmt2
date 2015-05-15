@@ -154,7 +154,6 @@ angular.module('staticApp')
 
     $scope.saveEditPii = function () {
         setupPii();
-        console.log($scope.pii);
         PersonService.updatePii($scope.pii, $scope.participant.personId)
             .then(function () {
                 NotificationService.showSuccessMessage("The edit was successful.");
