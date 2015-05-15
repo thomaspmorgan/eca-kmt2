@@ -1,6 +1,8 @@
 ﻿using ECA.Business.Exceptions;
 using ECA.Business.Models.Programs;
+using ECA.Business.Models.Admin;
 using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service;
 using ECA.Business.Service.Programs;
 using ECA.Business.Validation;
@@ -251,7 +253,7 @@ namespace ECA.Business.Test.Service.Programs
             context.Organizations.Add(org);
             context.Programs.Add(program);
 
-            Action<PagedQueryResults<SimpleProgramDTO>> tester = (queryResults) =>
+            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
             {
                 Assert.AreEqual(1, queryResults.Total);
                 var results = queryResults.Results;
@@ -263,7 +265,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(program.Description, firstResult.Description);
             };
 
-            var queryOperator = new QueryableOperator<SimpleProgramDTO>(0, 10, new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Ascending));
+            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
             var serviceResults = service.GetPrograms(queryOperator);
             var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
             tester(serviceResults);
@@ -296,7 +298,7 @@ namespace ECA.Business.Test.Service.Programs
             context.Programs.Add(program1);
             context.Programs.Add(program2);
 
-            Action<PagedQueryResults<SimpleProgramDTO>> tester = (queryResults) =>
+            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
             {
                 Assert.AreEqual(1, queryResults.Total);
                 var results = queryResults.Results;
@@ -306,8 +308,8 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(program2.ProgramId, firstResult.ProgramId);
             };
 
-            var queryOperator = new QueryableOperator<SimpleProgramDTO>(0, 10, new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Ascending));
-            queryOperator.Filters.Add(new ExpressionFilter<SimpleProgramDTO>(x => x.Name, ComparisonType.Equal, program2.Name));
+            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
+            queryOperator.Filters.Add(new ExpressionFilter<OrganizationProgramDTO>(x => x.Name, ComparisonType.Equal, program2.Name));
             var serviceResults = service.GetPrograms(queryOperator);
             var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
             tester(serviceResults);
@@ -340,7 +342,7 @@ namespace ECA.Business.Test.Service.Programs
             context.Programs.Add(program1);
             context.Programs.Add(program2);
 
-            Action<PagedQueryResults<SimpleProgramDTO>> tester = (queryResults) =>
+            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
             {
                 Assert.AreEqual(2, queryResults.Total);
                 var results = queryResults.Results;
@@ -350,7 +352,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(program2.ProgramId, firstResult.ProgramId);
             };
 
-            var queryOperator = new QueryableOperator<SimpleProgramDTO>(0, 1, new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Descending));
+            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 1, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Descending));
             var serviceResults = service.GetPrograms(queryOperator);
             var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
             tester(serviceResults);
@@ -383,7 +385,7 @@ namespace ECA.Business.Test.Service.Programs
             context.Programs.Add(program1);
             context.Programs.Add(program2);
 
-            Action<PagedQueryResults<SimpleProgramDTO>> tester = (queryResults) =>
+            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
             {
                 Assert.AreEqual(2, queryResults.Total);
                 var results = queryResults.Results;
@@ -393,8 +395,8 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(program2.ProgramId, firstResult.ProgramId);
             };
 
-            var queryOperator = new QueryableOperator<SimpleProgramDTO>(0, 1, new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Ascending));
-            queryOperator.Sorters.Add(new ExpressionSorter<SimpleProgramDTO>(x => x.ProgramId, SortDirection.Descending));
+            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 1, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
+            queryOperator.Sorters.Add(new ExpressionSorter<OrganizationProgramDTO>(x => x.ProgramId, SortDirection.Descending));
             var serviceResults = service.GetPrograms(queryOperator);
             var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
             tester(serviceResults);
@@ -427,14 +429,14 @@ namespace ECA.Business.Test.Service.Programs
             context.Programs.Add(program1);
             context.Programs.Add(program2);
 
-            Action<PagedQueryResults<SimpleProgramDTO>> tester = (queryResults) =>
+            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
             {
                 Assert.AreEqual(2, queryResults.Total);
                 var results = queryResults.Results;
                 Assert.AreEqual(1, results.Count);
             };
 
-            var queryOperator = new QueryableOperator<SimpleProgramDTO>(0, 1, new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Descending));
+            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 1, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Descending));
             var serviceResults = service.GetPrograms(queryOperator);
             var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
             tester(serviceResults);
