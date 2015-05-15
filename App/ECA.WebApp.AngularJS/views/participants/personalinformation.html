@@ -27,13 +27,13 @@
                 <div class="col-md-4 title-label">Names & Alternatives</div>
                 <div class="col-md-8" ng-show="!editPii">
                     <div class="form-group" ng-show="pii.firstName">
-                        <label class="col-md-4 title-label">First name<span class="asterisk"> *</span></label>
+                        <label class="col-md-4 title-label">First name</label>
                         <div class="col-md-8">
                             {{pii.firstName}}
                         </div>
                     </div>
                     <div class="form-group" ng-show="pii.lastName">
-                        <label class="col-md-4 title-label">Last name<span class="asterisk"> *</span></label>
+                        <label class="col-md-4 title-label">Last name</label>
                         <div class="col-md-8">
                             {{pii.lastName}}
                         </div>
@@ -139,7 +139,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 title-label">Gender<span class="asterisk"> *</span></div>
+                <div class="col-md-4 title-label">Gender<span class="asterisk" ng-show="editPii"> *</span></div>
                 <div class="col-md-8" ng-show="!editPii">
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
@@ -180,13 +180,13 @@
                 <div class="col-md-4 title-label">Place of Birth</div>
                 <div class="col-md-8" ng-show="!editPii">
                     <div class="form-group">
-                        <label class="col-md-4 title-label">Country<span class="asterisk"> *</span></label>
+                        <label class="col-md-4 title-label">Country</label>
                         <div class="col-md-8">
                             {{pii.countryOfBirth}}
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 title-label">City<span class="asterisk"> *</span></label>
+                        <label class="col-md-4 title-label">City</label>
                         <div class="col-md-8">
                             {{pii.cityOfBirth}}
                         </div>
@@ -209,7 +209,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 title-label">Date of Birth<span class="asterisk"> *</span></div>
+                <div class="col-md-4 title-label">Date of Birth<span class="asterisk" ng-show="editPii"> *</span></div>
                 <div class="col-md-8" ng-show="!editPii">
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
@@ -230,7 +230,7 @@
         </div>
         <div class="col-md-6">
             <div class="row">
-                <div class="col-md-4 title-label">Countries of Citizenship<span class="asterisk"> *</span></div>
+                <div class="col-md-4 title-label">Countries of Citizenship<span class="asterisk" ng-show="editPii"> *</span></div>
                 <div class="col-md-8" ng-show="!editPii">
                     <div class="form-group" ng-repeat="country in pii.countriesOfCitizenship">
                         <label class="col-md-4 title-label"></label>
