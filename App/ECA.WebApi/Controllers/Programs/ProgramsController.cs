@@ -54,8 +54,9 @@ namespace ECA.WebApi.Controllers.Programs
         /// </summary>
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of programs.</returns>
-        [ResponseType(typeof(PagedQueryResults<SimpleProgramDTO>))]
-        public async Task<IHttpActionResult> GetProgramsAsync([FromUri]PagingQueryBindingModel<SimpleProgramDTO> queryModel)
+        [ResponseType(typeof(PagedQueryResults<OrganizationProgramDTO>))]
+        [Route("Programs/Alpha")]
+        public async Task<IHttpActionResult> GetProgramsAsync([FromUri]PagingQueryBindingModel<OrganizationProgramDTO> queryModel)
         {
             if (ModelState.IsValid)
             {

@@ -30,7 +30,8 @@ angular.module('staticApp')
           },
           getAllProgramsAlpha: function (params) {
               var defer = $q.defer();
-              DragonBreath.get(params, 'programs')
+              var path = 'programs/Alpha';
+              DragonBreath.get(params, path)
                 .success(function (data) {
                     defer.resolve(data);
                 });

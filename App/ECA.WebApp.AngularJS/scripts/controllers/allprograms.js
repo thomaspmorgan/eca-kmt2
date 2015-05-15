@@ -60,6 +60,8 @@ angular.module('staticApp')
 
       $scope.programList = { type: 'hierarchy' };
 
+      $scope.draftsOnly = false;
+
       // initialize new Program record
       $scope.newProgram = {
           name: '',
@@ -310,8 +312,12 @@ angular.module('staticApp')
 
         $scope.programFilter = params.keyword;
 
+        if ($scope.draftsOnly)
+        {
+            params.filter = [{ property: 'programstatusID', comparison: 'eq', value: 4 }];
+        }
+
       if ($scope.programList.type == "alpha") {
-          params.filter = [{ property: 'programstatusID', comparison: 'eq', value: 1 }];
           $scope.refreshProgramsAlpha(params, tableState);
         }
         else {
@@ -321,7 +327,6 @@ angular.module('staticApp')
 
     $scope.refreshProgramsAlpha = function (params, tableState) {
         $scope.programsLoading = true;
-
         ProgramService.getAllProgramsAlpha(params)
         .then(function (data) {
             processData(data, tableState, params);

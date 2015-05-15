@@ -6247,6 +6247,14 @@ h5.canEdit {
 .childColor3 {
   background-color: none; }
 
+.draft-program1 {
+  display: none; }
+
+.draft-program4 {
+  display: inline;
+  color: red;
+  font-style: italic; }
+
 .modal-center .modal-dialog {
   width: 400px;
   height: 400px;
