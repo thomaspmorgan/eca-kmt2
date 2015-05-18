@@ -87,6 +87,352 @@ namespace EditParticipant.Test
             Mouse.Click(uINicoleYooHyperlink, new Point(55, 9));
         }
         
+        /// <summary>
+        /// Select the edit control for the PII section.
+        /// </summary>
+        public void SelectEdit_PIISection()
+        {
+            #region Variable Declarations
+            HtmlCustom uIItemCustom = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UITopPane.UIItemCustom;
+            #endregion
+
+            // Click custom control
+            Mouse.Click(uIItemCustom, new Point(563, 6));
+        }
+        
+        /// <summary>
+        /// Verify the function of the text boxes/fields, and controls for allowing the edit to this information.
+        /// </summary>
+        public void AssertPII_Fields_Controls()
+        {
+            #region Variable Declarations
+            HtmlDiv uIFirstnamePane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIFirstnamePane;
+            HtmlDiv uILastnamePane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UILastnamePane;
+            HtmlDiv uINamesuffixPane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UINamesuffixPane;
+            HtmlDiv uIGivennamePane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIGivennamePane;
+            HtmlDiv uIFamilynamePane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIFamilynamePane;
+            HtmlDiv uIMiddlenamePane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIMiddlenamePane;
+            HtmlDiv uIPatronymPane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIPatronymPane;
+            HtmlDiv uIAliasPane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIAliasPane;
+            HtmlDiv uIGenderFemaleFePane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIGenderFemaleFePane;
+            HtmlDiv uIEthnicityKoreanPane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIEthnicityKoreanPane;
+            HtmlDiv uICountryAfghanistanAlPane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UICountryAfghanistanAlPane;
+            HtmlDiv uICityPane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UICityPane;
+            HtmlDiv uIDateofBirthJan11980Pane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIDateofBirthJan11980Pane;
+            HtmlDiv uICountriesofCitizenshPane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UICountriesofCitizenshPane;
+            HtmlCustom uIItemCustom = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemCustom;
+            HtmlDiv uIResidenceAddressStrePane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIResidenceAddressStrePane;
+            HtmlDiv uIMedicalConditionsAstPane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIMedicalConditionsAstPane;
+            HtmlDiv uIMaritalStatusSinglePane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIMaritalStatusSinglePane;
+            HtmlDiv uISevisIdN0011638275Pane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UISevisIdN0011638275Pane;
+            HtmlEdit uIItemEdit = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit;
+            HtmlEdit uIItemEdit1 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit1;
+            HtmlEdit uIItemEdit2 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit2;
+            HtmlEdit uIItemEdit3 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit3;
+            HtmlEdit uIItemEdit4 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit4;
+            HtmlEdit uIItemEdit5 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit5;
+            HtmlEdit uIItemEdit6 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit6;
+            HtmlEdit uIItemEdit7 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit7;
+            HtmlEdit uIItemEdit8 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit8;
+            HtmlComboBox uIItemComboBox = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemComboBox;
+            HtmlEdit uIItemEdit9 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit9;
+            HtmlComboBox uIItemComboBox1 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemComboBox1;
+            HtmlEdit uIItemEdit10 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit10;
+            HtmlEdit uIItemEdit11 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit11;
+            HtmlEdit uIItemEdit12 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit12;
+            HtmlTextArea uIItemEdit13 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit13;
+            HtmlComboBox uIItemComboBox2 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemComboBox2;
+            HtmlEdit uIItemEdit14 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit14;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'First name *' pane contains 'First name *'
+            StringAssert.Contains(uIFirstnamePane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIFirstnamePaneInnerText, "InnerText does not match for first name.");
+
+            // Verify that the 'InnerText' property of 'Last name *' pane contains 'Last name *'
+            StringAssert.Contains(uILastnamePane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UILastnamePaneInnerText, "InnerText does not match for Last Name");
+
+            // Verify that the 'InnerText' property of 'Name suffix' pane contains 'Name suffix'
+            StringAssert.Contains(uINamesuffixPane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UINamesuffixPaneInnerText, "Does not match for Name Suffix");
+
+            // Verify that the 'InnerText' property of 'Given name' pane contains 'Given name'
+            StringAssert.Contains(uIGivennamePane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIGivennamePaneInnerText, "Does not match for Given Name.");
+
+            // Verify that the 'InnerText' property of 'Family name' pane contains 'Family name'
+            StringAssert.Contains(uIFamilynamePane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIFamilynamePaneInnerText, "Does not match for Family Name. ");
+
+            // Verify that the 'InnerText' property of 'Middle name' pane contains 'Middle name'
+            StringAssert.Contains(uIMiddlenamePane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIMiddlenamePaneInnerText, "Does not match for middle name.");
+
+            // Verify that the 'InnerText' property of 'Patronym' pane contains 'Patronym'
+            StringAssert.Contains(uIPatronymPane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIPatronymPaneInnerText, "Does not match for Patronym");
+
+            // Verify that the 'InnerText' property of 'Alias' pane contains 'Alias'
+            StringAssert.Contains(uIAliasPane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIAliasPaneInnerText, "Does not match for Alias.");
+
+            // Verify that the 'InnerText' property of 'Gender * Female Fe' pane contains 'Gender *
+            //
+            //
+            //
+            //
+            // Female 
+            //
+            //
+            //
+            //
+            //
+            //FemaleMaleNot SpecifiedOther'
+            StringAssert.Contains(uIGenderFemaleFePane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIGenderFemaleFePaneInnerText, "Does not match for Gender.");
+
+            // Verify that the 'InnerText' property of 'Ethnicity Korean' pane contains 'Ethnicity
+            //
+            //
+            //
+            //
+            // Korean '
+            StringAssert.Contains(uIEthnicityKoreanPane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIEthnicityKoreanPaneInnerText, "Does not match for Ethnicity.");
+
+            // Verify that the 'InnerText' property of 'Country * AfghanistanAland IslandsA' pane contains 'Country *
+            //
+            //
+            //AfghanistanAland IslandsAlbaniaAlgeria American SamoaAndorra Angola AnguillaAntarcticaAntigua and BarbudaArgentinaArmeniaArubaAustraliaAustriaAzerbaijanBahamasBahrainBangladeshBarbadosBelarusBelgiumBelizeBeninBermudaBhutanBoliviaBosnia and HerzegovinaBotswanaBouvet IslandBrazilBritish Indian Ocean TerritoryBritish Virgin IslandsBruneiBulgariaBurkina FasoBurmaBurundiCabo VerdeCambodiaCameroonCanadaCayman IslandsCentral African RepublicChadChileChinaChristmas IslandCocos (Keeling) IslandsColombiaComorosCook IslandsCosta RicaCôte d'IvoireCroatiaCubaCuracaoCyprusCzech RepublicDemocratic Republic of the CongoDenmarkDjiboutiDominicaDominican RepublicEcuadorEgyptEl SalvadorEquatorial GuineaEritreaEstoniaEthiopiaFalkland Islands (Malvinas)Faroe IslandsFijiFinlandFranceFrench GuianaFrench PolynesiaFrench Southern TerritoriesGabonGambiaGeorgiaGermanyGhanaGibraltarGreeceGreenlandGrenadaGuadeloupeGuamGuatemalaGuernseyGuineaGuinea-BissauGuyanaHaitiHeard Island and Mcdonald IslandsHoly See (Vatican City State)HondurasHong Kong and MacauHungaryIcelandIndiaIndonesiaInternationalIranIraqIrelandIsle of ManIsraelItalyJamaicaJapanJerseyJordanKazakhstanKenyaKiribatiKorea, Democratic People's Republic ofKorea, Republic ofKosovoKuwaitKyrgyzstanLaos People's Democratic RepublicLatviaLebanonLesothoLiberiaLibyaLiechtensteinLithuaniaLuxembourgMacao, Special Administrative Region of ChinaMacedonia, The Republic ofMadagascarMalawiMalaysiaMaldivesMaliMaltaMarshall IslandsMartiniqueMauritaniaMauritiusMayotteMexicoMicronesia, Federated States ofMoldova, Republic ofMonacoMongoliaMontenegroMontserratMoroccoMozambiqueNamibiaNauruNepalNetherlandsNetherlands AntillesNew CaledoniaNew ZealandNicaraguaNigerNigeriaNiueNorfolk IslandNorthern Mariana IslandsNorwayOmanPakistanPalauPalestine, State ofPanamaPapua New GuineaParaguayPeruPhilippinesPitcairnPolandPortugalPuerto RicoQatarRepublic of the CongoRéunionRomaniaRussiaRwandaSaint HelenaSaint Kitts and NevisSaint LuciaSaint Pierre and MiquelonSaint Vincent and the GrenadinesSaint-BarthélemySaint-Martin (French part)SamoaSan MarinoSao Tome and PrincipeSaudi ArabiaSenegalSerbiaSeychellesSierra LeoneSingaporeSlovakiaSloveniaSolomon IslandsSomaliaSouth AfricaSouth Georgia and the South Sandwich IslandsSouth SudanSpainSri LankaSudanSurinameSvalbard and Jan Mayen IslandsSwazilandSwedenSwitzerlandSyrian Arab RepublicTaiwanTajikistanTanzania, United Republic ofThailandTimor-LesteTogoTokelauTongaTrinidad and TobagoTunisiaTurkeyTurkmenistanTurks and Caicos IslandsTuvaluUgandaUkraineUnited Arab EmiratesUnited KingdomUnited States Minor Outlying IslandsUnited States of AmericaUruguayUzbekistanVanuatuVenezuelaVietnamVirgin Islands, USWallis and Futuna IslandsWestern SaharaYemenZambiaZimbabwe'
+            StringAssert.Contains(uICountryAfghanistanAlPane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UICountryAfghanistanAlPaneInnerText, "Does not match for Country POB");
+
+            // Verify that the 'InnerText' property of 'City *' pane equals 'City *
+            //
+            // '
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UICityPaneInnerText, uICityPane.InnerText, "Does not match for City POB");
+
+            // Verify that the 'InnerText' property of 'Date of Birth * Jan 1, 1980' pane contains 'Date of Birth *
+            //
+            //
+            //
+            //
+            // Jan 1, 1980 '
+            StringAssert.Contains(uIDateofBirthJan11980Pane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIDateofBirthJan11980PaneInnerText, "Does not match for DOB");
+
+            // Verify that the 'InnerText' property of 'Countries of Citizenship * Af' pane contains 'Countries of Citizenship *
+            //
+            //
+            // 
+            //
+            // Afghanistan 
+            //
+            // 
+            //
+            // Belgium 
+            //
+            // 
+            //
+            // Zimbabwe 
+            // 
+            //
+            //
+            //
+            //
+            // 
+            //Afghanistan
+            // 
+            //
+            // 
+            //Belgium
+            // 
+            //
+            // 
+            //Zimbabwe
+            // '
+            StringAssert.Contains(uICountriesofCitizenshPane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UICountriesofCitizenshPaneInnerText, "Does not match for Countries of Citizenship.");
+
+            // Verify that the 'ControlType' property of custom control equals 'Custom'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemCustomControlType, uIItemCustom.ControlType.ToString(), "Control type check for CoC ");
+
+            // Verify that the 'InnerText' property of 'Residence Address Street 1' pane contains 'Residence Address
+            //
+            //
+            // 
+            //
+            //Street 1
+            //
+            //Rue Juliette Wytsman 63A 
+            //
+            //
+            //Street 2
+            //
+            // 
+            //
+            //
+            //Street 3
+            //
+            // 
+            //
+            //
+            //Country
+            //
+            //Belgium 
+            //
+            //
+            //City
+            //
+            //Brussels 
+            //
+            //
+            //Postal Code
+            //
+            //1050 
+            // '
+            StringAssert.Contains(uIResidenceAddressStrePane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIResidenceAddressStrePaneInnerText, "Does not match Residence Address");
+
+            // Verify that the 'InnerText' property of 'Medical Conditions Asthma' pane contains 'Medical Conditions
+            //
+            //
+            //
+            //
+            // Asthma 
+            //
+            //
+            //
+            //
+            //Asthma'
+            StringAssert.Contains(uIMedicalConditionsAstPane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIMedicalConditionsAstPaneInnerText, "Does not match for Medical Conditions.");
+
+            // Verify that the 'InnerText' property of 'Marital Status Single' pane contains 'Marital Status
+            //
+            //
+            //
+            //
+            // Single 
+            //
+            //
+            //
+            //
+            //
+            //Divorced Married Not Disclosed Separated Single Unmarried Widowed '
+            StringAssert.Contains(uIMaritalStatusSinglePane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UIMaritalStatusSinglePaneInnerText, "Does not match for Marital Status.");
+
+            // Verify that the 'InnerText' property of 'Sevis Id N0011638275' pane contains 'Sevis Id
+            //
+            //
+            //
+            //
+            // N0011638275 '
+            StringAssert.Contains(uISevisIdN0011638275Pane.InnerText, this.AssertPII_Fields_ControlsExpectedValues.UISevisIdN0011638275PaneInnerText, "Does not match for SEVIS ID");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEditControlType, uIItemEdit.ControlType.ToString(), "Edit control missing for First Name");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit1ControlType, uIItemEdit1.ControlType.ToString(), "Edit control missing for Last Name");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit2ControlType, uIItemEdit2.ControlType.ToString(), "Edit control missing for Name Prefix");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit3ControlType, uIItemEdit3.ControlType.ToString(), "Edit control missing for Name Suffix");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit4ControlType, uIItemEdit4.ControlType.ToString(), "Edit control missing for Given Name");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit5ControlType, uIItemEdit5.ControlType.ToString(), "Edit control missing for Family Name");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit6ControlType, uIItemEdit6.ControlType.ToString(), "Edit control missing for Middle Name");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit7ControlType, uIItemEdit7.ControlType.ToString(), "Edit control missing for Patronym");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit8ControlType, uIItemEdit8.ControlType.ToString(), "Edit control missing for Alias");
+
+            // Verify that the 'ControlType' property of combo box equals 'ComboBox'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemComboBoxControlType, uIItemComboBox.ControlType.ToString(), "ComboBox control missing for Gender");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit9ControlType, uIItemEdit9.ControlType.ToString(), "Edit control missing for Ethnicity.");
+
+            // Verify that the 'ControlType' property of combo box equals 'ComboBox'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemComboBox1ControlType, uIItemComboBox1.ControlType.ToString(), "ComboBox control missing for Country POB");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit10ControlType, uIItemEdit10.ControlType.ToString(), "Edit control missing for City POB");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit11ControlType, uIItemEdit11.ControlType.ToString(), "Edit control missing for DOB");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit12ControlType, uIItemEdit12.ControlType.ToString(), "Edit control missing from CoC for adds.");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit13ControlType, uIItemEdit13.ControlType.ToString(), "Edit control missing for Medical Conditions");
+
+            // Verify that the 'ControlType' property of combo box equals 'ComboBox'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemComboBox2ControlType, uIItemComboBox2.ControlType.ToString(), "ComboBox control missing from Marital Status");
+
+            // Verify that the 'ControlType' property of text box equals 'Edit'
+            Assert.AreEqual(this.AssertPII_Fields_ControlsExpectedValues.UIItemEdit14ControlType, uIItemEdit14.ControlType.ToString(), "Edit control missing from SEVIS ID");
+        }
+        
+        /// <summary>
+        /// Add "Ashley" to the middle name field.
+        /// </summary>
+        public void InputMiddleName()
+        {
+            #region Variable Declarations
+            HtmlEdit uIItemEdit6 = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom.UIItemEdit6;
+            #endregion
+
+            // Type 'Ashley' in text box
+            uIItemEdit6.Text = this.InputMiddleNameParams.UIItemEdit6Text;
+        }
+        
+        /// <summary>
+        /// Type in the field "Bahamas" and add it to the CoC field by selecting it from the list returned in the filter.
+        /// </summary>
+        public void AddBahamas_CoC()
+        {
+            #region Variable Declarations
+            HtmlEdit uIItemEdit = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIPiiFormCustom1.UIItemEdit;
+            HtmlDiv uIBahamasPane = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UIBahamasCustom.UIBahamasPane;
+            #endregion
+
+            // Type 'Bahamas' in text box
+            uIItemEdit.Text = this.AddBahamas_CoCParams.UIItemEditText;
+
+            // Click 'Bahamas' pane
+            Mouse.Click(uIBahamasPane, new Point(43, 9));
+        }
+        
+        /// <summary>
+        /// Verify the existing Save button is functional and displays.
+        /// </summary>
+        public void AssertSaveButton()
+        {
+            #region Variable Declarations
+            HtmlButton uISaveButton = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UITopPane.UISaveButton;
+            #endregion
+
+            // Verify that the 'ControlType' property of 'Save' button equals 'Button'
+            Assert.AreEqual(this.AssertSaveButtonExpectedValues.UISaveButtonControlType, uISaveButton.ControlType.ToString(), "Save button is not functional.");
+
+            // Verify that the 'DisplayText' property of 'Save' button contains 'Save'
+            StringAssert.Contains(uISaveButton.DisplayText, this.AssertSaveButtonExpectedValues.UISaveButtonDisplayText, "Save button does not display.");
+        }
+        
+        /// <summary>
+        /// Verify the cancel button exists and is functional.
+        /// </summary>
+        public void AssertCancelButton()
+        {
+            #region Variable Declarations
+            HtmlButton uICancelButton = this.UIHttpsecakmtqaazureweWindow1.UIHttpsecakmtqaazureweDocument.UITopPane.UICancelButton;
+            #endregion
+
+            // Verify that the 'ControlType' property of 'Cancel' button equals 'Button'
+            Assert.AreEqual(this.AssertCancelButtonExpectedValues.UICancelButtonControlType, uICancelButton.ControlType.ToString(), "Cancel button is not functional.");
+
+            // Verify that the 'DisplayText' property of 'Cancel' button contains 'Cancel'
+            StringAssert.Contains(uICancelButton.DisplayText, this.AssertCancelButtonExpectedValues.UICancelButtonDisplayText, "Cancel button does not display.");
+        }
+        
         #region Properties
         public virtual AssertEditPIIButtonExpectedValues AssertEditPIIButtonExpectedValues
         {
@@ -121,6 +467,66 @@ namespace EditParticipant.Test
                     this.mSearchandSelectParticipantParams = new SearchandSelectParticipantParams();
                 }
                 return this.mSearchandSelectParticipantParams;
+            }
+        }
+        
+        public virtual AssertPII_Fields_ControlsExpectedValues AssertPII_Fields_ControlsExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertPII_Fields_ControlsExpectedValues == null))
+                {
+                    this.mAssertPII_Fields_ControlsExpectedValues = new AssertPII_Fields_ControlsExpectedValues();
+                }
+                return this.mAssertPII_Fields_ControlsExpectedValues;
+            }
+        }
+        
+        public virtual InputMiddleNameParams InputMiddleNameParams
+        {
+            get
+            {
+                if ((this.mInputMiddleNameParams == null))
+                {
+                    this.mInputMiddleNameParams = new InputMiddleNameParams();
+                }
+                return this.mInputMiddleNameParams;
+            }
+        }
+        
+        public virtual AddBahamas_CoCParams AddBahamas_CoCParams
+        {
+            get
+            {
+                if ((this.mAddBahamas_CoCParams == null))
+                {
+                    this.mAddBahamas_CoCParams = new AddBahamas_CoCParams();
+                }
+                return this.mAddBahamas_CoCParams;
+            }
+        }
+        
+        public virtual AssertSaveButtonExpectedValues AssertSaveButtonExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertSaveButtonExpectedValues == null))
+                {
+                    this.mAssertSaveButtonExpectedValues = new AssertSaveButtonExpectedValues();
+                }
+                return this.mAssertSaveButtonExpectedValues;
+            }
+        }
+        
+        public virtual AssertCancelButtonExpectedValues AssertCancelButtonExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertCancelButtonExpectedValues == null))
+                {
+                    this.mAssertCancelButtonExpectedValues = new AssertCancelButtonExpectedValues();
+                }
+                return this.mAssertCancelButtonExpectedValues;
             }
         }
         
@@ -168,6 +574,16 @@ namespace EditParticipant.Test
         
         private SearchandSelectParticipantParams mSearchandSelectParticipantParams;
         
+        private AssertPII_Fields_ControlsExpectedValues mAssertPII_Fields_ControlsExpectedValues;
+        
+        private InputMiddleNameParams mInputMiddleNameParams;
+        
+        private AddBahamas_CoCParams mAddBahamas_CoCParams;
+        
+        private AssertSaveButtonExpectedValues mAssertSaveButtonExpectedValues;
+        
+        private AssertCancelButtonExpectedValues mAssertCancelButtonExpectedValues;
+        
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
         
         private UIHttpsecakmtqaazureweWindow mUIHttpsecakmtqaazureweWindow;
@@ -212,7 +628,7 @@ namespace EditParticipant.Test
         /// <summary>
         /// Type '********' in 'Password' text box
         /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7n9Hp5j+06Q16vTeHomf4bql8vy/6wcjU0=";
+        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
         #endregion
     }
     
@@ -228,6 +644,423 @@ namespace EditParticipant.Test
         /// Type 'Nicole Yoo' in text box
         /// </summary>
         public string UIItemEditText = "Nicole Yoo";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertPII_Fields_Controls'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertPII_Fields_ControlsExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'First name *' pane contains 'First name *'
+        /// </summary>
+        public string UIFirstnamePaneInnerText = "First name *";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Last name *' pane contains 'Last name *'
+        /// </summary>
+        public string UILastnamePaneInnerText = "Last name *";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Name suffix' pane contains 'Name suffix'
+        /// </summary>
+        public string UINamesuffixPaneInnerText = "Name suffix";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Given name' pane contains 'Given name'
+        /// </summary>
+        public string UIGivennamePaneInnerText = "Given name";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Family name' pane contains 'Family name'
+        /// </summary>
+        public string UIFamilynamePaneInnerText = "Family name";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Middle name' pane contains 'Middle name'
+        /// </summary>
+        public string UIMiddlenamePaneInnerText = "Middle name";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Patronym' pane contains 'Patronym'
+        /// </summary>
+        public string UIPatronymPaneInnerText = "Patronym";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Alias' pane contains 'Alias'
+        /// </summary>
+        public string UIAliasPaneInnerText = "Alias";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Gender * Female Fe' pane contains 'Gender *
+        ///
+        ///
+        ///
+        ///
+        /// Female 
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///FemaleMaleNot SpecifiedOther'
+        /// </summary>
+        public string UIGenderFemaleFePaneInnerText = "Gender *\r\n\r\n\r\n\r\n\r\n Female \r\n\r\n\r\n\r\n\r\n\r\nFemaleMaleNot SpecifiedOther";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Ethnicity Korean' pane contains 'Ethnicity
+        ///
+        ///
+        ///
+        ///
+        /// Korean '
+        /// </summary>
+        public string UIEthnicityKoreanPaneInnerText = "Ethnicity\r\n\r\n\r\n\r\n\r\n Korean ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Country * AfghanistanAland IslandsA' pane contains 'Country *
+        ///
+        ///
+        ///AfghanistanAland IslandsAlbaniaAlgeria American SamoaAndorra Angola AnguillaAntarcticaAntigua and BarbudaArgentinaArmeniaArubaAustraliaAustriaAzerbaijanBahamasBahrainBangladeshBarbadosBelarusBelgiumBelizeBeninBermudaBhutanBoliviaBosnia and HerzegovinaBotswanaBouvet IslandBrazilBritish Indian Ocean TerritoryBritish Virgin IslandsBruneiBulgariaBurkina FasoBurmaBurundiCabo VerdeCambodiaCameroonCanadaCayman IslandsCentral African RepublicChadChileChinaChristmas IslandCocos (Keeling) IslandsColombiaComorosCook IslandsCosta RicaCôte d'IvoireCroatiaCubaCuracaoCyprusCzech RepublicDemocratic Republic of the CongoDenmarkDjiboutiDominicaDominican RepublicEcuadorEgyptEl SalvadorEquatorial GuineaEritreaEstoniaEthiopiaFalkland Islands (Malvinas)Faroe IslandsFijiFinlandFranceFrench GuianaFrench PolynesiaFrench Southern TerritoriesGabonGambiaGeorgiaGermanyGhanaGibraltarGreeceGreenlandGrenadaGuadeloupeGuamGuatemalaGuernseyGuineaGuinea-BissauGuyanaHaitiHeard Island and Mcdonald IslandsHoly See (Vatican City State)HondurasHong Kong and MacauHungaryIcelandIndiaIndonesiaInternationalIranIraqIrelandIsle of ManIsraelItalyJamaicaJapanJerseyJordanKazakhstanKenyaKiribatiKorea, Democratic People's Republic ofKorea, Republic ofKosovoKuwaitKyrgyzstanLaos People's Democratic RepublicLatviaLebanonLesothoLiberiaLibyaLiechtensteinLithuaniaLuxembourgMacao, Special Administrative Region of ChinaMacedonia, The Republic ofMadagascarMalawiMalaysiaMaldivesMaliMaltaMarshall IslandsMartiniqueMauritaniaMauritiusMayotteMexicoMicronesia, Federated States ofMoldova, Republic ofMonacoMongoliaMontenegroMontserratMoroccoMozambiqueNamibiaNauruNepalNetherlandsNetherlands AntillesNew CaledoniaNew ZealandNicaraguaNigerNigeriaNiueNorfolk IslandNorthern Mariana IslandsNorwayOmanPakistanPalauPalestine, State ofPanamaPapua New GuineaParaguayPeruPhilippinesPitcairnPolandPortugalPuerto RicoQatarRepublic of the CongoRéunionRomaniaRussiaRwandaSaint HelenaSaint Kitts and NevisSaint LuciaSaint Pierre and MiquelonSaint Vincent and the GrenadinesSaint-BarthélemySaint-Martin (French part)SamoaSan MarinoSao Tome and PrincipeSaudi ArabiaSenegalSerbiaSeychellesSierra LeoneSingaporeSlovakiaSloveniaSolomon IslandsSomaliaSouth AfricaSouth Georgia and the South Sandwich IslandsSouth SudanSpainSri LankaSudanSurinameSvalbard and Jan Mayen IslandsSwazilandSwedenSwitzerlandSyrian Arab RepublicTaiwanTajikistanTanzania, United Republic ofThailandTimor-LesteTogoTokelauTongaTrinidad and TobagoTunisiaTurkeyTurkmenistanTurks and Caicos IslandsTuvaluUgandaUkraineUnited Arab EmiratesUnited KingdomUnited States Minor Outlying IslandsUnited States of AmericaUruguayUzbekistanVanuatuVenezuelaVietnamVirgin Islands, USWallis and Futuna IslandsWestern SaharaYemenZambiaZimbabwe'
+        /// </summary>
+        public string UICountryAfghanistanAlPaneInnerText = "Country *\r\n\r\n\r\nAfghanistanAland IslandsAlbaniaAlgeria American SamoaAndorra Angol" +
+            "a AnguillaAntarcticaAntigua and BarbudaArgentinaArmeniaArubaAustraliaAustriaAzer" +
+            "baijanBahamasBahrainBangladeshBarbadosBelarusBelgiumBelizeBeninBermudaBhutanBoli" +
+            "viaBosnia and HerzegovinaBotswanaBouvet IslandBrazilBritish Indian Ocean Territo" +
+            "ryBritish Virgin IslandsBruneiBulgariaBurkina FasoBurmaBurundiCabo VerdeCambodia" +
+            "CameroonCanadaCayman IslandsCentral African RepublicChadChileChinaChristmas Isla" +
+            "ndCocos (Keeling) IslandsColombiaComorosCook IslandsCosta RicaCôte d\'IvoireCroat" +
+            "iaCubaCuracaoCyprusCzech RepublicDemocratic Republic of the CongoDenmarkDjibouti" +
+            "DominicaDominican RepublicEcuadorEgyptEl SalvadorEquatorial GuineaEritreaEstonia" +
+            "EthiopiaFalkland Islands (Malvinas)Faroe IslandsFijiFinlandFranceFrench GuianaFr" +
+            "ench PolynesiaFrench Southern TerritoriesGabonGambiaGeorgiaGermanyGhanaGibraltar" +
+            "GreeceGreenlandGrenadaGuadeloupeGuamGuatemalaGuernseyGuineaGuinea-BissauGuyanaHa" +
+            "itiHeard Island and Mcdonald IslandsHoly See (Vatican City State)HondurasHong Ko" +
+            "ng and MacauHungaryIcelandIndiaIndonesiaInternationalIranIraqIrelandIsle of ManI" +
+            "sraelItalyJamaicaJapanJerseyJordanKazakhstanKenyaKiribatiKorea, Democratic Peopl" +
+            "e\'s Republic ofKorea, Republic ofKosovoKuwaitKyrgyzstanLaos People\'s Democratic " +
+            "RepublicLatviaLebanonLesothoLiberiaLibyaLiechtensteinLithuaniaLuxembourgMacao, S" +
+            "pecial Administrative Region of ChinaMacedonia, The Republic ofMadagascarMalawiM" +
+            "alaysiaMaldivesMaliMaltaMarshall IslandsMartiniqueMauritaniaMauritiusMayotteMexi" +
+            "coMicronesia, Federated States ofMoldova, Republic ofMonacoMongoliaMontenegroMon" +
+            "tserratMoroccoMozambiqueNamibiaNauruNepalNetherlandsNetherlands AntillesNew Cale" +
+            "doniaNew ZealandNicaraguaNigerNigeriaNiueNorfolk IslandNorthern Mariana IslandsN" +
+            "orwayOmanPakistanPalauPalestine, State ofPanamaPapua New GuineaParaguayPeruPhili" +
+            "ppinesPitcairnPolandPortugalPuerto RicoQatarRepublic of the CongoRéunionRomaniaR" +
+            "ussiaRwandaSaint HelenaSaint Kitts and NevisSaint LuciaSaint Pierre and Miquelon" +
+            "Saint Vincent and the GrenadinesSaint-BarthélemySaint-Martin (French part)SamoaS" +
+            "an MarinoSao Tome and PrincipeSaudi ArabiaSenegalSerbiaSeychellesSierra LeoneSin" +
+            "gaporeSlovakiaSloveniaSolomon IslandsSomaliaSouth AfricaSouth Georgia and the So" +
+            "uth Sandwich IslandsSouth SudanSpainSri LankaSudanSurinameSvalbard and Jan Mayen" +
+            " IslandsSwazilandSwedenSwitzerlandSyrian Arab RepublicTaiwanTajikistanTanzania, " +
+            "United Republic ofThailandTimor-LesteTogoTokelauTongaTrinidad and TobagoTunisiaT" +
+            "urkeyTurkmenistanTurks and Caicos IslandsTuvaluUgandaUkraineUnited Arab Emirates" +
+            "United KingdomUnited States Minor Outlying IslandsUnited States of AmericaUrugua" +
+            "yUzbekistanVanuatuVenezuelaVietnamVirgin Islands, USWallis and Futuna IslandsWes" +
+            "tern SaharaYemenZambiaZimbabwe";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'City *' pane equals 'City *
+        ///
+        /// '
+        /// </summary>
+        public string UICityPaneInnerText = "City *\r\n\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Date of Birth * Jan 1, 1980' pane contains 'Date of Birth *
+        ///
+        ///
+        ///
+        ///
+        /// Jan 1, 1980 '
+        /// </summary>
+        public string UIDateofBirthJan11980PaneInnerText = "Date of Birth *\r\n\r\n\r\n\r\n\r\n Jan 1, 1980 ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Countries of Citizenship * Af' pane contains 'Countries of Citizenship *
+        ///
+        ///
+        /// 
+        ///
+        /// Afghanistan 
+        ///
+        /// 
+        ///
+        /// Belgium 
+        ///
+        /// 
+        ///
+        /// Zimbabwe 
+        /// 
+        ///
+        ///
+        ///
+        ///
+        /// 
+        ///Afghanistan
+        /// 
+        ///
+        /// 
+        ///Belgium
+        /// 
+        ///
+        /// 
+        ///Zimbabwe
+        /// '
+        /// </summary>
+        public string UICountriesofCitizenshPaneInnerText = "Countries of Citizenship *\r\n\r\n\r\n \r\n\r\n Afghanistan \r\n\r\n \r\n\r\n Belgium \r\n\r\n \r\n\r\n Zim" +
+            "babwe \r\n \r\n\r\n\r\n\r\n\r\n \r\nAfghanistan\r\n \r\n\r\n \r\nBelgium\r\n \r\n\r\n \r\nZimbabwe\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of custom control equals 'Custom'
+        /// </summary>
+        public string UIItemCustomControlType = "Custom";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Residence Address Street 1' pane contains 'Residence Address
+        ///
+        ///
+        /// 
+        ///
+        ///Street 1
+        ///
+        ///Rue Juliette Wytsman 63A 
+        ///
+        ///
+        ///Street 2
+        ///
+        /// 
+        ///
+        ///
+        ///Street 3
+        ///
+        /// 
+        ///
+        ///
+        ///Country
+        ///
+        ///Belgium 
+        ///
+        ///
+        ///City
+        ///
+        ///Brussels 
+        ///
+        ///
+        ///Postal Code
+        ///
+        ///1050 
+        /// '
+        /// </summary>
+        public string UIResidenceAddressStrePaneInnerText = "Residence Address\r\n\r\n\r\n \r\n\r\nStreet 1\r\n\r\nRue Juliette Wytsman 63A \r\n\r\n\r\nStreet 2\r\n" +
+            "\r\n \r\n\r\n\r\nStreet 3\r\n\r\n \r\n\r\n\r\nCountry\r\n\r\nBelgium \r\n\r\n\r\nCity\r\n\r\nBrussels \r\n\r\n\r\nPost" +
+            "al Code\r\n\r\n1050 \r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Medical Conditions Asthma' pane contains 'Medical Conditions
+        ///
+        ///
+        ///
+        ///
+        /// Asthma 
+        ///
+        ///
+        ///
+        ///
+        ///Asthma'
+        /// </summary>
+        public string UIMedicalConditionsAstPaneInnerText = "Medical Conditions\r\n\r\n\r\n\r\n\r\n Asthma \r\n\r\n\r\n\r\n\r\nAsthma";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Marital Status Single' pane contains 'Marital Status
+        ///
+        ///
+        ///
+        ///
+        /// Single 
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Divorced Married Not Disclosed Separated Single Unmarried Widowed '
+        /// </summary>
+        public string UIMaritalStatusSinglePaneInnerText = "Marital Status\r\n\r\n\r\n\r\n\r\n Single \r\n\r\n\r\n\r\n\r\n\r\nDivorced Married Not Disclosed Separa" +
+            "ted Single Unmarried Widowed ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Sevis Id N0011638275' pane contains 'Sevis Id
+        ///
+        ///
+        ///
+        ///
+        /// N0011638275 '
+        /// </summary>
+        public string UISevisIdN0011638275PaneInnerText = "Sevis Id\r\n\r\n\r\n\r\n\r\n N0011638275 ";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEditControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit1ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit2ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit3ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit4ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit5ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit6ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit7ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit8ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of combo box equals 'ComboBox'
+        /// </summary>
+        public string UIItemComboBoxControlType = "ComboBox";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit9ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of combo box equals 'ComboBox'
+        /// </summary>
+        public string UIItemComboBox1ControlType = "ComboBox";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit10ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit11ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit12ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit13ControlType = "Edit";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of combo box equals 'ComboBox'
+        /// </summary>
+        public string UIItemComboBox2ControlType = "ComboBox";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of text box equals 'Edit'
+        /// </summary>
+        public string UIItemEdit14ControlType = "Edit";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'InputMiddleName'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class InputMiddleNameParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type 'Ashley' in text box
+        /// </summary>
+        public string UIItemEdit6Text = "Ashley";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AddBahamas_CoC'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AddBahamas_CoCParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type 'Bahamas' in text box
+        /// </summary>
+        public string UIItemEditText = "Bahamas";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertSaveButton'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertSaveButtonExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Save' button equals 'Button'
+        /// </summary>
+        public string UISaveButtonControlType = "Button";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Save' button contains 'Save'
+        /// </summary>
+        public string UISaveButtonDisplayText = "Save";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertCancelButton'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertCancelButtonExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Cancel' button equals 'Button'
+        /// </summary>
+        public string UICancelButtonControlType = "Button";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Cancel' button contains 'Cancel'
+        /// </summary>
+        public string UICancelButtonDisplayText = "Cancel";
         #endregion
     }
     
@@ -589,10 +1422,52 @@ namespace EditParticipant.Test
                 return this.mUITopPane;
             }
         }
+        
+        public UIPiiFormCustom UIPiiFormCustom
+        {
+            get
+            {
+                if ((this.mUIPiiFormCustom == null))
+                {
+                    this.mUIPiiFormCustom = new UIPiiFormCustom(this);
+                }
+                return this.mUIPiiFormCustom;
+            }
+        }
+        
+        public UIPiiFormCustom1 UIPiiFormCustom1
+        {
+            get
+            {
+                if ((this.mUIPiiFormCustom1 == null))
+                {
+                    this.mUIPiiFormCustom1 = new UIPiiFormCustom1(this);
+                }
+                return this.mUIPiiFormCustom1;
+            }
+        }
+        
+        public UIBahamasCustom UIBahamasCustom
+        {
+            get
+            {
+                if ((this.mUIBahamasCustom == null))
+                {
+                    this.mUIBahamasCustom = new UIBahamasCustom(this);
+                }
+                return this.mUIBahamasCustom;
+            }
+        }
         #endregion
         
         #region Fields
         private UITopPane mUITopPane;
+        
+        private UIPiiFormCustom mUIPiiFormCustom;
+        
+        private UIPiiFormCustom1 mUIPiiFormCustom1;
+        
+        private UIBahamasCustom mUIBahamasCustom;
         #endregion
     }
     
@@ -679,6 +1554,52 @@ namespace EditParticipant.Test
                 return this.mUIPersonalIdentifiablePane;
             }
         }
+        
+        public HtmlButton UISaveButton
+        {
+            get
+            {
+                if ((this.mUISaveButton == null))
+                {
+                    this.mUISaveButton = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUISaveButton.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUISaveButton.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUISaveButton.SearchProperties[HtmlButton.PropertyNames.DisplayText] = "Save";
+                    this.mUISaveButton.SearchProperties[HtmlButton.PropertyNames.Type] = "submit";
+                    this.mUISaveButton.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUISaveButton.FilterProperties[HtmlButton.PropertyNames.Class] = "btn btn-success";
+                    this.mUISaveButton.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"btn btn-success\" ng-click=\"saveEd";
+                    this.mUISaveButton.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "2";
+                    this.mUISaveButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISaveButton;
+            }
+        }
+        
+        public HtmlButton UICancelButton
+        {
+            get
+            {
+                if ((this.mUICancelButton == null))
+                {
+                    this.mUICancelButton = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUICancelButton.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUICancelButton.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUICancelButton.SearchProperties[HtmlButton.PropertyNames.DisplayText] = "Cancel";
+                    this.mUICancelButton.SearchProperties[HtmlButton.PropertyNames.Type] = "submit";
+                    this.mUICancelButton.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUICancelButton.FilterProperties[HtmlButton.PropertyNames.Class] = "btn btn-cancel";
+                    this.mUICancelButton.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"btn btn-cancel\" ng-click=\"cancelE";
+                    this.mUICancelButton.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "3";
+                    this.mUICancelButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICancelButton;
+            }
+        }
         #endregion
         
         #region Fields
@@ -687,6 +1608,1085 @@ namespace EditParticipant.Test
         private HtmlCustom mUIItemCustom1;
         
         private HtmlDiv mUIPersonalIdentifiablePane;
+        
+        private HtmlButton mUISaveButton;
+        
+        private HtmlButton mUICancelButton;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIPiiFormCustom : HtmlCustom
+    {
+        
+        public UIPiiFormCustom(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties["TagName"] = "FORM";
+            this.SearchProperties["Id"] = null;
+            this.SearchProperties[UITestControl.PropertyNames.Name] = "piiForm";
+            this.FilterProperties["Class"] = "form-horizontal ng-pristine ng-valid ng-valid-required";
+            this.FilterProperties["ControlDefinition"] = "name=\"piiForm\" class=\"form-horizontal ng";
+            this.FilterProperties["TagInstance"] = "1";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlDiv UIFirstnamePane
+        {
+            get
+            {
+                if ((this.mUIFirstnamePane == null))
+                {
+                    this.mUIFirstnamePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIFirstnamePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIFirstnamePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIFirstnamePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "First name *";
+                    this.mUIFirstnamePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIFirstnamePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "form-group";
+                    this.mUIFirstnamePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"form-group\"";
+                    this.mUIFirstnamePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "71";
+                    this.mUIFirstnamePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIFirstnamePane;
+            }
+        }
+        
+        public HtmlDiv UILastnamePane
+        {
+            get
+            {
+                if ((this.mUILastnamePane == null))
+                {
+                    this.mUILastnamePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUILastnamePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUILastnamePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUILastnamePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Last name *";
+                    this.mUILastnamePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUILastnamePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "form-group";
+                    this.mUILastnamePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"form-group\"";
+                    this.mUILastnamePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "73";
+                    this.mUILastnamePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUILastnamePane;
+            }
+        }
+        
+        public HtmlDiv UINamesuffixPane
+        {
+            get
+            {
+                if ((this.mUINamesuffixPane == null))
+                {
+                    this.mUINamesuffixPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUINamesuffixPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUINamesuffixPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUINamesuffixPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Name suffix";
+                    this.mUINamesuffixPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUINamesuffixPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "form-group";
+                    this.mUINamesuffixPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"form-group\"";
+                    this.mUINamesuffixPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "77";
+                    this.mUINamesuffixPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINamesuffixPane;
+            }
+        }
+        
+        public HtmlDiv UIGivennamePane
+        {
+            get
+            {
+                if ((this.mUIGivennamePane == null))
+                {
+                    this.mUIGivennamePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIGivennamePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIGivennamePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIGivennamePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Given name";
+                    this.mUIGivennamePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIGivennamePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "form-group";
+                    this.mUIGivennamePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"form-group\"";
+                    this.mUIGivennamePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "79";
+                    this.mUIGivennamePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIGivennamePane;
+            }
+        }
+        
+        public HtmlDiv UIFamilynamePane
+        {
+            get
+            {
+                if ((this.mUIFamilynamePane == null))
+                {
+                    this.mUIFamilynamePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIFamilynamePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIFamilynamePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIFamilynamePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Family name";
+                    this.mUIFamilynamePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIFamilynamePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "form-group";
+                    this.mUIFamilynamePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"form-group\"";
+                    this.mUIFamilynamePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "81";
+                    this.mUIFamilynamePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIFamilynamePane;
+            }
+        }
+        
+        public HtmlDiv UIMiddlenamePane
+        {
+            get
+            {
+                if ((this.mUIMiddlenamePane == null))
+                {
+                    this.mUIMiddlenamePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIMiddlenamePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIMiddlenamePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIMiddlenamePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Middle name";
+                    this.mUIMiddlenamePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIMiddlenamePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "form-group";
+                    this.mUIMiddlenamePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"form-group\"";
+                    this.mUIMiddlenamePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "83";
+                    this.mUIMiddlenamePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIMiddlenamePane;
+            }
+        }
+        
+        public HtmlDiv UIPatronymPane
+        {
+            get
+            {
+                if ((this.mUIPatronymPane == null))
+                {
+                    this.mUIPatronymPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIPatronymPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIPatronymPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIPatronymPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Patronym";
+                    this.mUIPatronymPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIPatronymPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "form-group";
+                    this.mUIPatronymPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"form-group\"";
+                    this.mUIPatronymPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "85";
+                    this.mUIPatronymPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIPatronymPane;
+            }
+        }
+        
+        public HtmlDiv UIAliasPane
+        {
+            get
+            {
+                if ((this.mUIAliasPane == null))
+                {
+                    this.mUIAliasPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIAliasPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIAliasPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIAliasPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Alias";
+                    this.mUIAliasPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIAliasPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "form-group";
+                    this.mUIAliasPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"form-group\"";
+                    this.mUIAliasPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "87";
+                    this.mUIAliasPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAliasPane;
+            }
+        }
+        
+        public HtmlDiv UIGenderFemaleFePane
+        {
+            get
+            {
+                if ((this.mUIGenderFemaleFePane == null))
+                {
+                    this.mUIGenderFemaleFePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIGenderFemaleFePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIGenderFemaleFePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIGenderFemaleFePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Gender *\r\n\r\n\r\n\r\n\r\n Female \r\n\r\n\r\n\r\n\r\n\r\nFe";
+                    this.mUIGenderFemaleFePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIGenderFemaleFePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIGenderFemaleFePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIGenderFemaleFePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "89";
+                    this.mUIGenderFemaleFePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIGenderFemaleFePane;
+            }
+        }
+        
+        public HtmlDiv UIEthnicityKoreanPane
+        {
+            get
+            {
+                if ((this.mUIEthnicityKoreanPane == null))
+                {
+                    this.mUIEthnicityKoreanPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEthnicityKoreanPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEthnicityKoreanPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEthnicityKoreanPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Ethnicity\r\n\r\n\r\n\r\n\r\n Korean ";
+                    this.mUIEthnicityKoreanPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEthnicityKoreanPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIEthnicityKoreanPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIEthnicityKoreanPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "97";
+                    this.mUIEthnicityKoreanPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEthnicityKoreanPane;
+            }
+        }
+        
+        public HtmlDiv UIPlaceofBirthCountryBPane
+        {
+            get
+            {
+                if ((this.mUIPlaceofBirthCountryBPane == null))
+                {
+                    this.mUIPlaceofBirthCountryBPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIPlaceofBirthCountryBPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIPlaceofBirthCountryBPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIPlaceofBirthCountryBPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Place of Birth\r\n\r\n\r\n\r\nCountry\r\n\r\n Belgiu";
+                    this.mUIPlaceofBirthCountryBPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIPlaceofBirthCountryBPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIPlaceofBirthCountryBPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIPlaceofBirthCountryBPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "105";
+                    this.mUIPlaceofBirthCountryBPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIPlaceofBirthCountryBPane;
+            }
+        }
+        
+        public HtmlDiv UICountryAfghanistanAlPane
+        {
+            get
+            {
+                if ((this.mUICountryAfghanistanAlPane == null))
+                {
+                    this.mUICountryAfghanistanAlPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICountryAfghanistanAlPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICountryAfghanistanAlPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICountryAfghanistanAlPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Country *\r\n\r\n\r\nAfghanistanAland IslandsA";
+                    this.mUICountryAfghanistanAlPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICountryAfghanistanAlPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "form-group";
+                    this.mUICountryAfghanistanAlPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"form-group\"";
+                    this.mUICountryAfghanistanAlPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "113";
+                    this.mUICountryAfghanistanAlPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICountryAfghanistanAlPane;
+            }
+        }
+        
+        public HtmlDiv UICityPane
+        {
+            get
+            {
+                if ((this.mUICityPane == null))
+                {
+                    this.mUICityPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICityPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICityPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICityPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "City *\r\n\r\n ";
+                    this.mUICityPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICityPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "form-group";
+                    this.mUICityPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"form-group\"";
+                    this.mUICityPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "115";
+                    this.mUICityPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICityPane;
+            }
+        }
+        
+        public HtmlDiv UIDateofBirthJan11980Pane
+        {
+            get
+            {
+                if ((this.mUIDateofBirthJan11980Pane == null))
+                {
+                    this.mUIDateofBirthJan11980Pane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIDateofBirthJan11980Pane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIDateofBirthJan11980Pane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIDateofBirthJan11980Pane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Date of Birth *\r\n\r\n\r\n\r\n\r\n Jan 1, 1980 ";
+                    this.mUIDateofBirthJan11980Pane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIDateofBirthJan11980Pane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIDateofBirthJan11980Pane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIDateofBirthJan11980Pane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "117";
+                    this.mUIDateofBirthJan11980Pane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIDateofBirthJan11980Pane;
+            }
+        }
+        
+        public HtmlDiv UICountriesofCitizenshPane
+        {
+            get
+            {
+                if ((this.mUICountriesofCitizenshPane == null))
+                {
+                    this.mUICountriesofCitizenshPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICountriesofCitizenshPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICountriesofCitizenshPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICountriesofCitizenshPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Countries of Citizenship *\r\n\r\n\r\n \r\n\r\n Af";
+                    this.mUICountriesofCitizenshPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICountriesofCitizenshPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUICountriesofCitizenshPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUICountriesofCitizenshPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "126";
+                    this.mUICountriesofCitizenshPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICountriesofCitizenshPane;
+            }
+        }
+        
+        public HtmlCustom UIItemCustom
+        {
+            get
+            {
+                if ((this.mUIItemCustom == null))
+                {
+                    this.mUIItemCustom = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIItemCustom.SearchProperties["TagName"] = "UL";
+                    this.mUIItemCustom.SearchProperties["Id"] = null;
+                    this.mUIItemCustom.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIItemCustom.FilterProperties["Class"] = "select2-choices";
+                    this.mUIItemCustom.FilterProperties["ControlDefinition"] = "class=\"select2-choices\"";
+                    this.mUIItemCustom.FilterProperties["TagInstance"] = "2";
+                    this.mUIItemCustom.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemCustom;
+            }
+        }
+        
+        public HtmlDiv UIResidenceAddressStrePane
+        {
+            get
+            {
+                if ((this.mUIResidenceAddressStrePane == null))
+                {
+                    this.mUIResidenceAddressStrePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIResidenceAddressStrePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIResidenceAddressStrePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIResidenceAddressStrePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Residence Address\r\n\r\n\r\n \r\n\r\nStreet 1\r\n\r\n";
+                    this.mUIResidenceAddressStrePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIResidenceAddressStrePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIResidenceAddressStrePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIResidenceAddressStrePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "144";
+                    this.mUIResidenceAddressStrePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIResidenceAddressStrePane;
+            }
+        }
+        
+        public HtmlDiv UIMedicalConditionsAstPane
+        {
+            get
+            {
+                if ((this.mUIMedicalConditionsAstPane == null))
+                {
+                    this.mUIMedicalConditionsAstPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIMedicalConditionsAstPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIMedicalConditionsAstPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIMedicalConditionsAstPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Medical Conditions\r\n\r\n\r\n\r\n\r\n Asthma \r\n\r\n";
+                    this.mUIMedicalConditionsAstPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIMedicalConditionsAstPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIMedicalConditionsAstPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIMedicalConditionsAstPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "160";
+                    this.mUIMedicalConditionsAstPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIMedicalConditionsAstPane;
+            }
+        }
+        
+        public HtmlDiv UIMaritalStatusSinglePane
+        {
+            get
+            {
+                if ((this.mUIMaritalStatusSinglePane == null))
+                {
+                    this.mUIMaritalStatusSinglePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIMaritalStatusSinglePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIMaritalStatusSinglePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIMaritalStatusSinglePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Marital Status\r\n\r\n\r\n\r\n\r\n Single \r\n\r\n\r\n\r\n";
+                    this.mUIMaritalStatusSinglePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIMaritalStatusSinglePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIMaritalStatusSinglePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIMaritalStatusSinglePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "168";
+                    this.mUIMaritalStatusSinglePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIMaritalStatusSinglePane;
+            }
+        }
+        
+        public HtmlDiv UISevisIdN0011638275Pane
+        {
+            get
+            {
+                if ((this.mUISevisIdN0011638275Pane == null))
+                {
+                    this.mUISevisIdN0011638275Pane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISevisIdN0011638275Pane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISevisIdN0011638275Pane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISevisIdN0011638275Pane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Sevis Id\r\n\r\n\r\n\r\n\r\n N0011638275 ";
+                    this.mUISevisIdN0011638275Pane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISevisIdN0011638275Pane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUISevisIdN0011638275Pane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUISevisIdN0011638275Pane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "176";
+                    this.mUISevisIdN0011638275Pane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISevisIdN0011638275Pane;
+            }
+        }
+        
+        public HtmlDiv UIFirstnameLastnameNPane
+        {
+            get
+            {
+                if ((this.mUIFirstnameLastnameNPane == null))
+                {
+                    this.mUIFirstnameLastnameNPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIFirstnameLastnameNPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIFirstnameLastnameNPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIFirstnameLastnameNPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "First name *\r\n\r\n\r\n\r\nLast name *\r\n\r\n\r\n\r\nN";
+                    this.mUIFirstnameLastnameNPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIFirstnameLastnameNPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "col-md-8";
+                    this.mUIFirstnameLastnameNPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"col-md-8\" ng-show=\"editPii\"";
+                    this.mUIFirstnameLastnameNPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "70";
+                    this.mUIFirstnameLastnameNPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIFirstnameLastnameNPane;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid ng-valid-required";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "1";
+                    this.mUIItemEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit1
+        {
+            get
+            {
+                if ((this.mUIItemEdit1 == null))
+                {
+                    this.mUIItemEdit1 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit1.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit1.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit1.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit1.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit1.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit1.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid ng-valid-required";
+                    this.mUIItemEdit1.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit1.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "2";
+                    this.mUIItemEdit1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit1;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit2
+        {
+            get
+            {
+                if ((this.mUIItemEdit2 == null))
+                {
+                    this.mUIItemEdit2 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit2.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit2.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit2.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit2.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit2.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit2.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit2.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit2.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "3";
+                    this.mUIItemEdit2.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit2;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit3
+        {
+            get
+            {
+                if ((this.mUIItemEdit3 == null))
+                {
+                    this.mUIItemEdit3 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit3.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit3.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit3.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit3.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit3.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit3.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit3.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit3.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "4";
+                    this.mUIItemEdit3.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit3;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit4
+        {
+            get
+            {
+                if ((this.mUIItemEdit4 == null))
+                {
+                    this.mUIItemEdit4 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit4.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit4.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit4.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit4.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit4.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit4.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit4.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit4.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "5";
+                    this.mUIItemEdit4.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit4;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit5
+        {
+            get
+            {
+                if ((this.mUIItemEdit5 == null))
+                {
+                    this.mUIItemEdit5 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit5.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit5.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit5.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit5.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit5.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit5.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit5.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit5.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "6";
+                    this.mUIItemEdit5.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit5;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit6
+        {
+            get
+            {
+                if ((this.mUIItemEdit6 == null))
+                {
+                    this.mUIItemEdit6 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit6.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit6.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit6.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit6.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit6.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit6.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit6.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit6.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "7";
+                    this.mUIItemEdit6.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit6;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit7
+        {
+            get
+            {
+                if ((this.mUIItemEdit7 == null))
+                {
+                    this.mUIItemEdit7 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit7.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit7.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit7.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit7.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit7.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit7.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit7.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit7.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "8";
+                    this.mUIItemEdit7.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit7;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit8
+        {
+            get
+            {
+                if ((this.mUIItemEdit8 == null))
+                {
+                    this.mUIItemEdit8 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit8.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit8.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit8.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit8.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit8.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit8.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit8.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit8.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "9";
+                    this.mUIItemEdit8.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit8;
+            }
+        }
+        
+        public HtmlComboBox UIItemComboBox
+        {
+            get
+            {
+                if ((this.mUIItemComboBox == null))
+                {
+                    this.mUIItemComboBox = new HtmlComboBox(this);
+                    #region Search Criteria
+                    this.mUIItemComboBox.SearchProperties[HtmlComboBox.PropertyNames.Id] = null;
+                    this.mUIItemComboBox.SearchProperties[HtmlComboBox.PropertyNames.Name] = null;
+                    this.mUIItemComboBox.SearchProperties[HtmlComboBox.PropertyNames.LabeledBy] = null;
+                    this.mUIItemComboBox.FilterProperties[HtmlComboBox.PropertyNames.Size] = "0";
+                    this.mUIItemComboBox.FilterProperties[HtmlComboBox.PropertyNames.Title] = null;
+                    this.mUIItemComboBox.FilterProperties[HtmlComboBox.PropertyNames.ItemCount] = "4";
+                    this.mUIItemComboBox.FilterProperties[HtmlComboBox.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid ng-valid-required";
+                    this.mUIItemComboBox.FilterProperties[HtmlComboBox.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemComboBox.FilterProperties[HtmlComboBox.PropertyNames.TagInstance] = "1";
+                    this.mUIItemComboBox.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemComboBox;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit9
+        {
+            get
+            {
+                if ((this.mUIItemEdit9 == null))
+                {
+                    this.mUIItemEdit9 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit9.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit9.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit9.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit9.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit9.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit9.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit9.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit9.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "10";
+                    this.mUIItemEdit9.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit9;
+            }
+        }
+        
+        public HtmlComboBox UIItemComboBox1
+        {
+            get
+            {
+                if ((this.mUIItemComboBox1 == null))
+                {
+                    this.mUIItemComboBox1 = new HtmlComboBox(this);
+                    #region Search Criteria
+                    this.mUIItemComboBox1.SearchProperties[HtmlComboBox.PropertyNames.Id] = null;
+                    this.mUIItemComboBox1.SearchProperties[HtmlComboBox.PropertyNames.Name] = null;
+                    this.mUIItemComboBox1.SearchProperties[HtmlComboBox.PropertyNames.LabeledBy] = null;
+                    this.mUIItemComboBox1.FilterProperties[HtmlComboBox.PropertyNames.Size] = "0";
+                    this.mUIItemComboBox1.FilterProperties[HtmlComboBox.PropertyNames.Title] = null;
+                    this.mUIItemComboBox1.FilterProperties[HtmlComboBox.PropertyNames.ItemCount] = "250";
+                    this.mUIItemComboBox1.FilterProperties[HtmlComboBox.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid ng-valid-required";
+                    this.mUIItemComboBox1.FilterProperties[HtmlComboBox.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemComboBox1.FilterProperties[HtmlComboBox.PropertyNames.TagInstance] = "2";
+                    this.mUIItemComboBox1.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemComboBox1;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit10
+        {
+            get
+            {
+                if ((this.mUIItemEdit10 == null))
+                {
+                    this.mUIItemEdit10 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit10.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit10.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit10.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit10.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit10.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit10.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid ng-valid-required";
+                    this.mUIItemEdit10.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit10.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "11";
+                    this.mUIItemEdit10.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit10;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit11
+        {
+            get
+            {
+                if ((this.mUIItemEdit11 == null))
+                {
+                    this.mUIItemEdit11 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit11.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit11.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit11.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit11.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit11.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit11.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid ng-valid-required";
+                    this.mUIItemEdit11.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit11.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "12";
+                    this.mUIItemEdit11.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit11;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit12
+        {
+            get
+            {
+                if ((this.mUIItemEdit12 == null))
+                {
+                    this.mUIItemEdit12 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit12.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit12.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit12.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit12.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit12.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit12.FilterProperties[HtmlEdit.PropertyNames.Class] = "select2-input ui-select-search ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit12.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"select2-input ui-select-search ng";
+                    this.mUIItemEdit12.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "13";
+                    this.mUIItemEdit12.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit12;
+            }
+        }
+        
+        public HtmlTextArea UIItemEdit13
+        {
+            get
+            {
+                if ((this.mUIItemEdit13 == null))
+                {
+                    this.mUIItemEdit13 = new HtmlTextArea(this);
+                    #region Search Criteria
+                    this.mUIItemEdit13.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit13.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit13.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit13.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit13.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit13.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit13.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "1";
+                    this.mUIItemEdit13.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit13;
+            }
+        }
+        
+        public HtmlComboBox UIItemComboBox2
+        {
+            get
+            {
+                if ((this.mUIItemComboBox2 == null))
+                {
+                    this.mUIItemComboBox2 = new HtmlComboBox(this);
+                    #region Search Criteria
+                    this.mUIItemComboBox2.SearchProperties[HtmlComboBox.PropertyNames.Id] = null;
+                    this.mUIItemComboBox2.SearchProperties[HtmlComboBox.PropertyNames.Name] = null;
+                    this.mUIItemComboBox2.SearchProperties[HtmlComboBox.PropertyNames.LabeledBy] = null;
+                    this.mUIItemComboBox2.FilterProperties[HtmlComboBox.PropertyNames.Size] = "0";
+                    this.mUIItemComboBox2.FilterProperties[HtmlComboBox.PropertyNames.Title] = null;
+                    this.mUIItemComboBox2.FilterProperties[HtmlComboBox.PropertyNames.ItemCount] = "7";
+                    this.mUIItemComboBox2.FilterProperties[HtmlComboBox.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIItemComboBox2.FilterProperties[HtmlComboBox.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemComboBox2.FilterProperties[HtmlComboBox.PropertyNames.TagInstance] = "3";
+                    this.mUIItemComboBox2.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemComboBox2;
+            }
+        }
+        
+        public HtmlEdit UIItemEdit14
+        {
+            get
+            {
+                if ((this.mUIItemEdit14 == null))
+                {
+                    this.mUIItemEdit14 = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit14.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit14.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit14.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit14.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit14.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit14.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit14.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIItemEdit14.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "14";
+                    this.mUIItemEdit14.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit14;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlDiv mUIFirstnamePane;
+        
+        private HtmlDiv mUILastnamePane;
+        
+        private HtmlDiv mUINamesuffixPane;
+        
+        private HtmlDiv mUIGivennamePane;
+        
+        private HtmlDiv mUIFamilynamePane;
+        
+        private HtmlDiv mUIMiddlenamePane;
+        
+        private HtmlDiv mUIPatronymPane;
+        
+        private HtmlDiv mUIAliasPane;
+        
+        private HtmlDiv mUIGenderFemaleFePane;
+        
+        private HtmlDiv mUIEthnicityKoreanPane;
+        
+        private HtmlDiv mUIPlaceofBirthCountryBPane;
+        
+        private HtmlDiv mUICountryAfghanistanAlPane;
+        
+        private HtmlDiv mUICityPane;
+        
+        private HtmlDiv mUIDateofBirthJan11980Pane;
+        
+        private HtmlDiv mUICountriesofCitizenshPane;
+        
+        private HtmlCustom mUIItemCustom;
+        
+        private HtmlDiv mUIResidenceAddressStrePane;
+        
+        private HtmlDiv mUIMedicalConditionsAstPane;
+        
+        private HtmlDiv mUIMaritalStatusSinglePane;
+        
+        private HtmlDiv mUISevisIdN0011638275Pane;
+        
+        private HtmlDiv mUIFirstnameLastnameNPane;
+        
+        private HtmlEdit mUIItemEdit;
+        
+        private HtmlEdit mUIItemEdit1;
+        
+        private HtmlEdit mUIItemEdit2;
+        
+        private HtmlEdit mUIItemEdit3;
+        
+        private HtmlEdit mUIItemEdit4;
+        
+        private HtmlEdit mUIItemEdit5;
+        
+        private HtmlEdit mUIItemEdit6;
+        
+        private HtmlEdit mUIItemEdit7;
+        
+        private HtmlEdit mUIItemEdit8;
+        
+        private HtmlComboBox mUIItemComboBox;
+        
+        private HtmlEdit mUIItemEdit9;
+        
+        private HtmlComboBox mUIItemComboBox1;
+        
+        private HtmlEdit mUIItemEdit10;
+        
+        private HtmlEdit mUIItemEdit11;
+        
+        private HtmlEdit mUIItemEdit12;
+        
+        private HtmlTextArea mUIItemEdit13;
+        
+        private HtmlComboBox mUIItemComboBox2;
+        
+        private HtmlEdit mUIItemEdit14;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIPiiFormCustom1 : HtmlCustom
+    {
+        
+        public UIPiiFormCustom1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties["TagName"] = "FORM";
+            this.SearchProperties["Id"] = null;
+            this.SearchProperties[UITestControl.PropertyNames.Name] = "piiForm";
+            this.FilterProperties["Class"] = "form-horizontal ng-valid ng-valid-required ng-dirty ng-valid-parse";
+            this.FilterProperties["ControlDefinition"] = "name=\"piiForm\" class=\"form-horizontal ng";
+            this.FilterProperties["TagInstance"] = "1";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "select2-input ui-select-search ng-pristine ng-untouched ng-valid";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"select2-input ui-select-search ng";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "13";
+                    this.mUIItemEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlEdit mUIItemEdit;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIBahamasCustom : HtmlCustom
+    {
+        
+        public UIBahamasCustom(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties["TagName"] = "LI";
+            this.SearchProperties["Id"] = "ui-select-choices-row-0-0";
+            this.SearchProperties[UITestControl.PropertyNames.Name] = null;
+            this.FilterProperties["Class"] = "ui-select-choices-row ng-scope select2-highlighted";
+            this.FilterProperties["ControlDefinition"] = "class=\"ui-select-choices-row ng-scope se";
+            this.FilterProperties["InnerText"] = "Bahamas";
+            this.FilterProperties["TagInstance"] = "11";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlDiv UIBahamasPane
+        {
+            get
+            {
+                if ((this.mUIBahamasPane == null))
+                {
+                    this.mUIBahamasPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIBahamasPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIBahamasPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIBahamasPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Bahamas";
+                    this.mUIBahamasPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIBahamasPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-binding ng-scope";
+                    this.mUIBahamasPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-binding ng-scope\" ng-bind-html=\"country.name | highlight: $select.searc" +
+                        "h\"";
+                    this.mUIBahamasPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "145";
+                    this.mUIBahamasPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIBahamasPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlDiv mUIBahamasPane;
         #endregion
     }
 }
