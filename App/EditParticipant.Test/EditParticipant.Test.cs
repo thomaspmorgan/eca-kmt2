@@ -29,6 +29,13 @@ namespace EditParticipant.Test
             this.UIMap.Login_NavigatetoAllParticipantsPage();
             this.UIMap.SearchandSelectParticipant();
             this.UIMap.AssertEditPIIButton();
+            this.UIMap.SelectEdit_PIISection();
+            this.UIMap.AssertPII_Fields_Controls();
+            this.UIMap.InputMiddleName();
+            this.UIMap.AddBahamas_CoC();
+            this.UIMap.AssertSaveButton();
+            this.UIMap.AssertCancelButton();
+
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
