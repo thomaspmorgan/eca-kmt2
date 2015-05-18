@@ -433,6 +433,19 @@ namespace EditParticipant.Test
             StringAssert.Contains(uICancelButton.DisplayText, this.AssertCancelButtonExpectedValues.UICancelButtonDisplayText, "Cancel button does not display.");
         }
         
+        /// <summary>
+        /// Select the Save button to save the edits.
+        /// </summary>
+        public void SelectSaveButton()
+        {
+            #region Variable Declarations
+            HtmlButton uISaveButton = this.UIHttpsecakmtqaazureweWindow2.UIHttpsecakmtqaazureweDocument.UITopPane.UISaveButton;
+            #endregion
+
+            // Click 'Save' button
+            Mouse.Click(uISaveButton, new Point(61, 11));
+        }
+        
         #region Properties
         public virtual AssertEditPIIButtonExpectedValues AssertEditPIIButtonExpectedValues
         {
@@ -565,6 +578,18 @@ namespace EditParticipant.Test
                 return this.mUIHttpsecakmtqaazureweWindow1;
             }
         }
+        
+        public UIHttpsecakmtqaazureweWindow2 UIHttpsecakmtqaazureweWindow2
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweWindow2 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweWindow2 = new UIHttpsecakmtqaazureweWindow2();
+                }
+                return this.mUIHttpsecakmtqaazureweWindow2;
+            }
+        }
         #endregion
         
         #region Fields
@@ -589,6 +614,8 @@ namespace EditParticipant.Test
         private UIHttpsecakmtqaazureweWindow mUIHttpsecakmtqaazureweWindow;
         
         private UIHttpsecakmtqaazureweWindow1 mUIHttpsecakmtqaazureweWindow1;
+        
+        private UIHttpsecakmtqaazureweWindow2 mUIHttpsecakmtqaazureweWindow2;
         #endregion
     }
     
@@ -2687,6 +2714,129 @@ namespace EditParticipant.Test
         
         #region Fields
         private HtmlDiv mUIBahamasPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweWindow2 : BrowserWindow
+    {
+        
+        public UIHttpsecakmtqaazureweWindow2()
+        {
+            #region Search Criteria
+            this.SearchProperties[UITestControl.PropertyNames.Name] = "https://eca-kmt-qa.azurewebsites.net/";
+            this.SearchProperties[UITestControl.PropertyNames.ClassName] = "IEFrame";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        public void LaunchUrl(System.Uri url)
+        {
+            this.CopyFrom(BrowserWindow.Launch(url));
+        }
+        
+        #region Properties
+        public UIHttpsecakmtqaazureweDocument2 UIHttpsecakmtqaazureweDocument
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument = new UIHttpsecakmtqaazureweDocument2(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIHttpsecakmtqaazureweDocument2 mUIHttpsecakmtqaazureweDocument;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweDocument2 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument2(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UITopPane1 UITopPane
+        {
+            get
+            {
+                if ((this.mUITopPane == null))
+                {
+                    this.mUITopPane = new UITopPane1(this);
+                }
+                return this.mUITopPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UITopPane1 mUITopPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UITopPane1 : HtmlDiv
+    {
+        
+        public UITopPane1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants • Nicole Yoo\r\n\r\n\r\n\r\nLast Up";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" autoscroll=\"true\" ui-view=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "27";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlButton UISaveButton
+        {
+            get
+            {
+                if ((this.mUISaveButton == null))
+                {
+                    this.mUISaveButton = new HtmlButton(this);
+                    #region Search Criteria
+                    this.mUISaveButton.SearchProperties[HtmlButton.PropertyNames.Id] = null;
+                    this.mUISaveButton.SearchProperties[HtmlButton.PropertyNames.Name] = null;
+                    this.mUISaveButton.SearchProperties[HtmlButton.PropertyNames.DisplayText] = "Save";
+                    this.mUISaveButton.SearchProperties[HtmlButton.PropertyNames.Type] = "submit";
+                    this.mUISaveButton.FilterProperties[HtmlButton.PropertyNames.Title] = null;
+                    this.mUISaveButton.FilterProperties[HtmlButton.PropertyNames.Class] = "btn btn-success";
+                    this.mUISaveButton.FilterProperties[HtmlButton.PropertyNames.ControlDefinition] = "class=\"btn btn-success\" ng-click=\"saveEd";
+                    this.mUISaveButton.FilterProperties[HtmlButton.PropertyNames.TagInstance] = "2";
+                    this.mUISaveButton.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISaveButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlButton mUISaveButton;
         #endregion
     }
 }
