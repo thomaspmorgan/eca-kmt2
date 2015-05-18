@@ -35,6 +35,7 @@ namespace EditParticipant.Test
             this.UIMap.AddBahamas_CoC();
             this.UIMap.AssertSaveButton();
             this.UIMap.AssertCancelButton();
+            this.UIMap.SelectSaveButton();
 
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
