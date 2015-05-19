@@ -187,11 +187,4 @@ angular.module('staticApp')
         $scope.pii.sevisId = $scope.participant.sevisId;
     };
 
-    $scope.activate = function () {
-        var uiSelect = angular.element('#countriesOfCitizenship').controller('uiSelect');
-        $timeout(function () {
-            uiSelect.activate(false, true);
-        }, 50);
-    }
-    
   });
