@@ -30,7 +30,16 @@ namespace EditProject.Test
             this.UIMap.SelectContentMenuButton();
             this.UIMap.AssertProgramsLink_ContentMenu();
             this.UIMap.SelectProgramsLink_ContentMenu();
-            
+            this.UIMap.InputText_SearchPrograms();
+            this.UIMap.SelectIndividualProgram();
+            this.UIMap.SelectIndividualProject_BranchesProjectsTab();
+            this.UIMap.AssertEditProjectButton();
+            this.UIMap.RefreshBrowser();
+            this.UIMap.SelectEditProjectButton();
+            this.UIMap.AssertEditProjectFields();
+            this.UIMap.AssertSave_Cancel();
+            this.UIMap.AssertSaveChanges_Cancel_TopPage();
+
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 
