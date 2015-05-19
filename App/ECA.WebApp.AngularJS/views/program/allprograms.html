@@ -8,6 +8,7 @@
     <div class="row">
         <span class="left programTypeRadio">Show programs in<input type="radio" ng-change="changeProgramList()" ng-model="programList.type" value="hierarchy">Hierarchical order</span>
         <span class="left programTypeRadio"><input type="radio" ng-change="changeProgramList()" ng-model="programList.type" value="alpha">Alphabetical order</span>
+        <span class="left programTypeRadio"><input type="checkbox" ng-change=changeProgramList() ng-model="draftsOnly">Show my drafts only</span>
         <button ng-show="!programsLoading" ng-click="createProgramForm()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
     </div>
 
@@ -35,6 +36,7 @@
                 <tr ng-repeat="program in programs" ng-show="!programsLoading" id="program{{program.programId}}" program-level="{{program.programLevel}}">
                         <td class="col-md-9" ng-style="{'padding-left': 60+(30*program.programLevel-1)}">
                             <span class="owner-office">{{program.officeSymbol}}</span>
+                            <span class="draft-program{{program.programStatusId}}">DRAFT</span>
                             <h4>
                                 <span ng-show="program.numChildren > 0">
                                     <i id="expand{{program.programId}}" ng-click="showHideChildren(program, true)" class="fa fa-caret-right listExpander"></i>
@@ -163,8 +165,8 @@
                         <span class="error">Please select at least one goal.</span>
                     </div>
                 </div>
-                <div class="form-group" ng-show="allCategoriesGrouped.>
-                    <label>{{categoryLabel}}<span class="asterisk"> *</span></label>
+                <div class="form-group" ng-show="allCategoriesGrouped">
+                    <label>{{categoryLabel}}</label>
                     <isteven-multi-select input-model="allCategoriesGrouped"
                                           output-model="out.Categories"
                                           button-label="name"
@@ -181,7 +183,7 @@
                     </div>
                 </div>
                 <div class="form-group" ng-show="objectiveLabel != ''">
-                    <label>{{objectiveLabel}}<span class="asterisk"> *</span></label>
+                    <label>{{objectiveLabel}}</label>
                     <isteven-multi-select input-model="allObjectivesGrouped"
                                           output-model="out.Objectives"
                                           button-label="name"
@@ -239,6 +241,7 @@
         <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
         <div class="required">* Marks required fields</div>
     </div>
+
     <div id="modal" class="row" in-context-form>
         <div class="col-md-10">
             <form name="modalForm.programForm">
@@ -321,7 +324,7 @@
                     </div>
                 </div>
                 <div class="form-group" ng-show="categoryLabel != ''">
-                    <label>{{categoryLabel}}<span class="asterisk"> *</span></label>
+                    <label>{{categoryLabel}}</label>
                     <isteven-multi-select input-model="allCategoriesGrouped"
                                           output-model="out.Categories"
                                           button-label="name"
@@ -338,7 +341,7 @@
                     </div>
                 </div>
                 <div class="form-group" ng-show="objectiveLabel != ''">
-                    <label>{{objectiveLabel}}<span class="asterisk"> *</span></label>
+                    <label>{{objectiveLabel}}</label>
                     <isteven-multi-select input-model="allObjectivesGrouped"
                                           output-model="out.Objectives"
                                           button-label="name"

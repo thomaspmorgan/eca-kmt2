@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
-namespace ECA.WebApi.Controllers
+namespace ECA.WebApi.Controllers.Security
 {
     /// <summary>
     /// The UsersController is used to manage other user's access to resources.

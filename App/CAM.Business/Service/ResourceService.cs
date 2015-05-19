@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Caching;
+using CAM.Business.Queries;
 
 namespace CAM.Business.Service
 {
@@ -67,17 +68,6 @@ namespace CAM.Business.Service
             return GetResourceIdByForeignResourceIdAsync(applicationId, ResourceType.Application.Id);
         }
 
-
-        private IQueryable<Resource> CreateGetResourceByForeignResourceIdQuery(int foreignResourceId, int resourceTypeId)
-        {
-            var query = from p in this.Context.Resources
-                        where
-                            p.ResourceTypeId == resourceTypeId &&
-                            p.ForeignResourceId == foreignResourceId
-                        select p;
-            return query;
-        }
-
         /// <summary>
         /// Get a ResourceId giving a foreignResourceId and a ResourceTypeId
         /// </summary>
@@ -92,7 +82,7 @@ namespace CAM.Business.Service
             }
             else
             {
-                var resource = CreateGetResourceByForeignResourceIdQuery(foreignResourceId, resourceTypeId).FirstOrDefault();
+                var resource = ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, foreignResourceId, resourceTypeId).FirstOrDefault();
                 var resourceId = resource != null ? resource.ResourceId : default(int?);
                 return HandleNonCachedResource(foreignResourceId, resourceId, resourceTypeId);
             }
@@ -112,7 +102,7 @@ namespace CAM.Business.Service
             }
             else
             {
-                var resource = await CreateGetResourceByForeignResourceIdQuery(foreignResourceId, resourceTypeId).FirstOrDefaultAsync();
+                var resource = await ResourceQueries.CreateGetResourceByForeignResourceIdQuery(this.Context, foreignResourceId, resourceTypeId).FirstOrDefaultAsync();
                 var resourceId = resource != null ? resource.ResourceId : default(int?);
                 return HandleNonCachedResource(foreignResourceId, resourceId, resourceTypeId);
             }

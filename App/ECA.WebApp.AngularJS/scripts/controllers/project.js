@@ -19,6 +19,15 @@ angular.module('staticApp')
       $scope.modal = {};
 
       $scope.newMoneyFlow = {};
+
+      $scope.genders = {};
+      $scope.currencyTypes = {};
+
+      $scope.sourceRecipientLabel = "SOURCE";
+
+      $scope.flowInward = "";
+      $scope.flowOutward = "directionSelected";
+
       $scope.isProjectEditCancelButtonVisible = false;
       $scope.showProjectEditCancelButton = false;
       $scope.isProjectStatusButtonInEditMode = false;
@@ -100,6 +109,8 @@ angular.module('staticApp')
 
       $scope.participantsLoading = false;
 
+
+
       $scope.getParticipants = function (tableState) {
 
           $scope.participantsLoading = true;
@@ -155,7 +166,6 @@ angular.module('staticApp')
       $scope.hideProjectEditCancelButton = function() {
           $scope.isProjectEditCancelButtonVisible = false;
       }
-
       $scope.isInEditViewState = $state.current.name === editStateName;
       if ($scope.isInEditViewState) {
           $scope.showProjectEditCancelButton();
@@ -167,9 +177,9 @@ angular.module('staticApp')
           if ($state.current.name === editStateName) {
               $scope.$broadcast(ConstantsService.saveProjectEventName);
           }
-          else {
-              $scope.showProjectEditCancelButton();
+          else {              
               $state.go(editStateName);
+              $scope.showProjectEditCancelButton();
           }
       };
 
@@ -177,8 +187,6 @@ angular.module('staticApp')
           $scope.$broadcast(ConstantsService.cancelProjectEventName);
       }
 
-
-      
       $scope.params = $stateParams;
 
       ProgramService.get($stateParams.programId)
@@ -215,6 +223,12 @@ angular.module('staticApp')
             $scope.genders = data.results;
         });
 
+      /*
+      LookupService.getGeneric({ limit: 100 }, 'currencyTypes')
+      .then(function (data) {
+          $scope.currencyTypes = data.results;
+      });
+      */
       LocationService.get({ limit: 300, filter: {property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id}})
         .then(function (data) {
             $scope.countries = data.results;
@@ -376,5 +390,25 @@ angular.module('staticApp')
       }, function () {
 
       });
+
+      // Money Flow Section
+      $scope.changeFlowDirection = function (direction) {
+          if (direction == 'inward')
+          {
+              $scope.flowInward = "directionSelected";
+              $scope.flowOutward = "";
+          }
+          else
+          {
+              $scope.flowInward = "";
+              $scope.flowOutward = "directionSelected";
+          }
+      };
+
+      $scope.cancelMoneyFlowModalForm = function () {
+          $scope.modal.addMoneyFlow = false;
+      };
+
+
 
   });

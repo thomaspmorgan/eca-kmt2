@@ -58,6 +58,7 @@ namespace ECA.WebApi.Models.Programs
             this.Categories = program.Categories;
             this.Objectives = program.Objectives;
             this.ProgramStatusId = program.ProgramStatusId;
+            this.Website = program.Website;
         }
 
         /// <summary>
@@ -149,5 +150,7 @@ namespace ECA.WebApi.Models.Programs
         public string RowVersion { get; set; }
 
         public int ProgramStatusId { get; set; }
+
+        public string Website { get; set; }
     }
 }

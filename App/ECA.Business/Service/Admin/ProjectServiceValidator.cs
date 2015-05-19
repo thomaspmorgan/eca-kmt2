@@ -15,9 +15,14 @@ namespace ECA.Business.Service.Admin
     public class ProjectServiceValidator : BusinessValidatorBase<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>
     {
         /// <summary>
-        /// The error message when at least one category is required.
+        /// The error message when a project exceeds the max categories.
         /// </summary>
-        public const string CATEGORIES_REQUIRED_ERROR_MESSAGE = "At least one category is required.";
+        public const string MAX_CATEGORIES_REQUIRED_ERROR_MESSAGE = "The project can have up to {0} categories.";
+
+        /// <summary>
+        /// The error message when a project does not have the minimum categories.
+        /// </summary>
+        public const string MIN_CATEGORIES_REQUIRED_ERROR_MESSAGE = "The project must have at least {0} category/categories.";
 
         /// <summary>
         /// The error message when at least one objective is required.
@@ -128,9 +133,15 @@ namespace ECA.Business.Service.Admin
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.ObjectiveIds, OBJECTIVES_REQUIRED_ERROR_MESSAGE);
             }
-            if (validationEntity.OfficeSettings.IsCategoryRequired && validationEntity.NumberOfCategories < 1)
+            if (validationEntity.OfficeSettings.IsCategoryRequired && validationEntity.NumberOfCategories > validationEntity.OfficeSettings.MaximumRequiredFoci)
             {
-                yield return new BusinessValidationResult<PublishedProject>(x => x.CategoryIds, CATEGORIES_REQUIRED_ERROR_MESSAGE);
+                yield return new BusinessValidationResult<PublishedProject>(x => x.CategoryIds, 
+                    String.Format(MAX_CATEGORIES_REQUIRED_ERROR_MESSAGE, validationEntity.OfficeSettings.MaximumRequiredFoci));
+            }
+            if (validationEntity.OfficeSettings.IsCategoryRequired && validationEntity.NumberOfCategories < validationEntity.OfficeSettings.MinimumRequiredFoci)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.CategoryIds,
+                    String.Format(MIN_CATEGORIES_REQUIRED_ERROR_MESSAGE, validationEntity.OfficeSettings.MinimumRequiredFoci));
             }
             if (String.IsNullOrWhiteSpace(validationEntity.Name))
             {

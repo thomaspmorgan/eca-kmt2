@@ -60,6 +60,8 @@ angular.module('staticApp')
 
       $scope.programList = { type: 'hierarchy' };
 
+      $scope.draftsOnly = false;
+
       // initialize new Program record
       $scope.newProgram = {
           name: '',
@@ -151,9 +153,6 @@ angular.module('staticApp')
         });
 
     $scope.allCategoriesGrouped = [];
-
-
-
       LookupService.getAllCategories($scope.officeSpecificLookupParams)
         .then(function (data) {
 
@@ -172,7 +171,7 @@ angular.module('staticApp')
                     );
                 }
                 $scope.allCategoriesGrouped.push(
-                    { name: value.name, ticked: false }
+                    { id: value.id, name: value.name, ticked: false }
                 );
             });
 
@@ -199,7 +198,7 @@ angular.module('staticApp')
                   );
               }
               $scope.allObjectivesGrouped.push(
-                  { name: value.name, ticked: false }
+                  { id: value.id, name: value.name, ticked: false }
               );
           });
 
@@ -288,7 +287,7 @@ angular.module('staticApp')
             filter: [{ property: 'name', comparison: 'like', value: val },
                     { property: 'programstatusid', comparison: 'eq', value: 1 }]
         };
-        return ProgramService.getAllPrograms($scope.parentLookupParams)
+        return ProgramService.getAllProgramsAlpha($scope.parentLookupParams)
             .then(function (data) {
                 return data.results;
             });
@@ -313,8 +312,12 @@ angular.module('staticApp')
 
         $scope.programFilter = params.keyword;
 
+        if ($scope.draftsOnly)
+        {
+            params.filter = [{ property: 'programstatusID', comparison: 'eq', value: 4 }];
+        }
+
       if ($scope.programList.type == "alpha") {
-          params.filter = [{ property: 'programstatusID', comparison: 'eq', value: 1 }];
           $scope.refreshProgramsAlpha(params, tableState);
         }
         else {
@@ -324,7 +327,6 @@ angular.module('staticApp')
 
     $scope.refreshProgramsAlpha = function (params, tableState) {
         $scope.programsLoading = true;
-
         ProgramService.getAllProgramsAlpha(params)
         .then(function (data) {
             processData(data, tableState, params);
@@ -615,6 +617,8 @@ angular.module('staticApp')
     $scope.confirmSaveYes = function () {
         $scope.confirmSave = false;
         $scope.closeEditingModal();
+        $scope.changeProgramList();
+
     };
 
     $scope.confirmFailOk = function () {

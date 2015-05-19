@@ -42,7 +42,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
     <!-- Add your site or application content here -->
-    <toaster-container style="margin-top:53px;" toaster-options="{'position-class': 'toast-top-full-width'}"></toaster-container>
+    <toaster-container style="margin-top:53px;" toaster-options="{'position-class': 'toast-top-full-width', 'time-out': 5000}"></toaster-container>
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
         <a ng-repeat="state in rootStates" ng-click="closeMenu()" ui-sref="{{state.state}}">{{state.name}}</a>
         <a class="foot" ui-sref="settings"><img class="icon" src="images/settings.png" height="14" width="14" alt="">Settings</a>

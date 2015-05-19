@@ -93,6 +93,7 @@
     <Compile Include="Service\Admin\MaritalStatusServiceTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceTest.cs" />
     <Compile Include="Service\Admin\OfficeServiceTest.cs" />
+    <Compile Include="Service\Admin\OfficeSettingsTest.cs" />
     <Compile Include="Service\Admin\PublishedProjectTest.cs" />
     <Compile Include="Service\Admin\ProjectServiceUpdateValidationEntityTest.cs" />
     <Compile Include="Service\Admin\ProjectServiceValidatorTest.cs" />
@@ -103,6 +104,8 @@
     <Compile Include="Service\Lookup\SimpleLookupDTOTest.cs" />
     <Compile Include="Service\Lookup\LookupServiceTest.cs" />
     <Compile Include="Service\Persons\PersonServiceTest.cs" />
+    <Compile Include="Service\Persons\PersonServiceValidatorTest.cs" />
+    <Compile Include="Service\Persons\PersonServiceValidationEntityTest.cs" />
     <Compile Include="Service\Programs\DraftProgramTest.cs" />
     <Compile Include="Service\Programs\EcaProgramTest.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidationEntityTest.cs" />

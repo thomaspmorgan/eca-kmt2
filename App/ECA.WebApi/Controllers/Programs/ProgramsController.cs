@@ -31,7 +31,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// </summary>
         private static readonly ExpressionSorter<SimpleProgramDTO> ALPHA_PROGRAM_SORTER = new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Ascending);
 
-        private static readonly ExpressionSorter<OrganizationProgramDTO> HIERARCHY_PROGRAM_SORTER = new ExpressionSorter<OrganizationProgramDTO>(x => x.OfficeSymbol, SortDirection.Ascending);
+        private static readonly ExpressionSorter<OrganizationProgramDTO> HIERARCHY_PROGRAM_SORTER = new ExpressionSorter<OrganizationProgramDTO>(x => x.SortOrder, SortDirection.Ascending);
 
         private IProgramService programService;
         private IUserProvider userProvider;
@@ -54,8 +54,9 @@ namespace ECA.WebApi.Controllers.Programs
         /// </summary>
         /// <param name="queryModel">The paging, filtering, and sorting model.</param>
         /// <returns>The list of programs.</returns>
-        [ResponseType(typeof(PagedQueryResults<SimpleProgramDTO>))]
-        public async Task<IHttpActionResult> GetProgramsAsync([FromUri]PagingQueryBindingModel<SimpleProgramDTO> queryModel)
+        [ResponseType(typeof(PagedQueryResults<OrganizationProgramDTO>))]
+        [Route("Programs/Alpha")]
+        public async Task<IHttpActionResult> GetProgramsAsync([FromUri]PagingQueryBindingModel<OrganizationProgramDTO> queryModel)
         {
             if (ModelState.IsValid)
             {

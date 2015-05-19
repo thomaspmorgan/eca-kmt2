@@ -24,8 +24,11 @@ angular.module('staticApp')
     .directive('showonparentrow',
    function () {
        return { link: function (scope, element, attrs) {
-               element.parent().bind('mouseenter', function () { element.show(); });
-               element.parent().bind('mouseleave', function () { element.hide(); });
+
+           var row = element.closest('tr');
+            row.bind('mouseenter', function () { element.show(); });
+            row.bind('mouseleave', function () { element.hide(); });
+               
            }
        };
    });

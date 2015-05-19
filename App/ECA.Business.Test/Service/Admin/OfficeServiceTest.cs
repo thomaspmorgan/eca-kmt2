@@ -1538,6 +1538,90 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         [TestMethod]
+        public void TestGetStringValueAsInt()
+        {
+            var name = "name";
+            var value = 1;
+            var defaultValue = -1;
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value.ToString()
+            };
+            var settings = new List<OfficeSettingDTO>
+            {
+                setting
+            };
+
+            var testValue = service.GetStringValueAsInt(name, settings, defaultValue);
+            Assert.AreEqual(value, testValue);
+        }
+
+        [TestMethod]
+        public void TestGetStringValueAsInt_DefaultValue()
+        {
+            var name = "name";
+            var value = 1;
+            var defaultValue = 2;
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value.ToString()
+            };
+            var settings = new List<OfficeSettingDTO>
+            {
+                setting
+            };
+
+            var testValue = service.GetStringValueAsInt("idontexist", settings, defaultValue);
+            Assert.AreEqual(defaultValue, testValue);
+        }
+
+        [TestMethod]
+        public void TestGetStringValueAsInt_NoSettings()
+        {
+            var name = "name";
+            var value = 0;
+            var defaultValue = 1;
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value.ToString()
+            };
+            var settings = new List<OfficeSettingDTO>();
+            var testValue = service.GetStringValueAsInt(name, settings, defaultValue);
+            Assert.AreEqual(defaultValue, testValue);
+        }
+
+        [TestMethod]
+        public void TestGetStringValueAsInt_UnableToParseIntString()
+        {
+            var name = "name";
+            var value = "xyz";
+            var defaultValue = 1;
+            var setting = new OfficeSettingDTO
+            {
+                Id = 1,
+                Name = name,
+                OfficeId = 2,
+                Value = value
+            };
+            var settings = new List<OfficeSettingDTO>
+            {
+                setting
+            };
+            var testValue = service.GetStringValueAsInt(name, settings, defaultValue);
+            Assert.AreEqual(defaultValue, testValue);
+        }
+
+
+        [TestMethod]
         public void TestHasSetting()
         {
             var name = "name";
@@ -1894,6 +1978,128 @@ namespace ECA.Business.Test.Service.Admin
             tester(serviceResultAsync);
         }
 
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckMaxAndMinFoci_HasCategorySetting_HasMaxMinSettings()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            var objectiveLabelSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.CATEGORY_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "obj"
+            };
+            var minFociSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.MIN_FOCUS_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 2,
+                Value = "1"
+            };
+            var maxFociSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.MAX_FOCUS_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 2,
+                Value = "2"
+            };
+            context.Organizations.Add(office);
+            context.OfficeSettings.Add(objectiveLabelSetting);
+            context.OfficeSettings.Add(minFociSetting);
+            context.OfficeSettings.Add(maxFociSetting);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.IsTrue(testOfficeSettings.IsCategoryRequired);
+                Assert.AreEqual(Int32.Parse(minFociSetting.Value), testOfficeSettings.MinimumRequiredFoci);
+                Assert.AreEqual(Int32.Parse(maxFociSetting.Value), testOfficeSettings.MaximumRequiredFoci);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckMaxAndMinFoci_HasCategorySetting_DoesNotHaveMaxMinSettings()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            var objectiveLabelSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.CATEGORY_SETTING_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 1,
+                Value = "obj"
+            };
+            context.Organizations.Add(office);
+            context.OfficeSettings.Add(objectiveLabelSetting);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.IsTrue(testOfficeSettings.IsCategoryRequired);
+                Assert.AreEqual(1, testOfficeSettings.MinimumRequiredFoci);
+                Assert.AreEqual(1, testOfficeSettings.MaximumRequiredFoci);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetOfficeSettings_CheckMaxAndMinFoci_DoesNotHaveCategorySetting()
+        {
+            var office = new Organization
+            {
+                OrganizationId = 1,
+                Name = "office"
+            };
+            var minFociSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.MIN_FOCUS_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 2,
+                Value = "1"
+            };
+            var maxFociSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.MAX_FOCUS_KEY,
+                Office = office,
+                OfficeId = office.OrganizationId,
+                OfficeSettingId = 2,
+                Value = "2"
+            };
+            context.Organizations.Add(office);
+            context.OfficeSettings.Add(minFociSetting);
+            context.OfficeSettings.Add(maxFociSetting);
+
+            Action<OfficeSettings> tester = (testOfficeSettings) =>
+            {
+                Assert.IsFalse(testOfficeSettings.IsCategoryRequired);
+                Assert.AreEqual(-1, testOfficeSettings.MinimumRequiredFoci);
+                Assert.AreEqual(-1, testOfficeSettings.MaximumRequiredFoci);
+            };
+
+            var serviceResult = service.GetOfficeSettings(office.OrganizationId);
+            var serviceResultAsync = await service.GetOfficeSettingsAsync(office.OrganizationId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
 
         #endregion
     }

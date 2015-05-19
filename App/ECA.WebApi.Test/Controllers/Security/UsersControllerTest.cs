@@ -1,17 +1,16 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-using ECA.WebApi.Controllers;
+﻿using CAM.Business.Queries.Models;
 using CAM.Business.Service;
-using Moq;
-using ECA.WebApi.Models.Query;
-using CAM.Business.Queries.Models;
-using ECA.Core.Query;
-using System.Collections.Generic;
 using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
+using ECA.WebApi.Controllers.Security;
+using ECA.WebApi.Models.Query;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http.Results;
 
-namespace ECA.WebApi.Test.Controllers
+namespace ECA.WebApi.Test.Controllers.Security
 {
     [TestClass]
     public class UsersControllerTest

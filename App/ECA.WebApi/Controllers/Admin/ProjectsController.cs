@@ -1,4 +1,6 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using CAM.Business.Service;
+using CAM.Data;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
@@ -6,11 +8,13 @@ using ECA.Core.Query;
 using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Admin
 {
@@ -28,17 +32,22 @@ namespace ECA.WebApi.Controllers.Admin
 
         private IProjectService projectService;
         private IUserProvider userProvider;
+        private IPrincipalService principalService;
 
         /// <summary>
         /// Creates a new ProjectsController with the given project service.
         /// </summary>
         /// <param name="projectService">The project service.</param>
-        public ProjectsController(IProjectService projectService, IUserProvider userProvider)
+        /// <param name="userProvider">The user provider.</param>
+        /// <param name="principalService">The principal service.</param>
+        public ProjectsController(IProjectService projectService, IUserProvider userProvider, IPrincipalService principalService)
         {
             Contract.Requires(projectService != null, "The project service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
+            Contract.Requires(principalService != null, "The principal service must not be null.");
             this.userProvider = userProvider;
             this.projectService = projectService;
+            this.principalService = principalService;
         }
 
         /// <summary>
@@ -121,6 +130,46 @@ namespace ECA.WebApi.Controllers.Admin
                 await projectService.SaveChangesAsync();
                 var dto = await projectService.GetProjectByIdAsync(model.Id);
                 return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Adds a collaborator to a project.
+        /// </summary>
+        /// <param name="model">The add collaborator model.</param>
+        /// <returns>An ok result.</returns>
+        [Route("Projects/Collaborator/Add")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, typeof(AddCollaboratorBindingModel), "ProjectId")]
+        public Task<IHttpActionResult> PostAddCollaboratorAsync(AddCollaboratorBindingModel model)
+        {
+            return PostAddCollaboratorsAsync(new List<AddCollaboratorBindingModel> { model });
+        }
+
+        /// <summary>
+        /// Adds collaborators to a project.
+        /// </summary>
+        /// <param name="models">The collaborators to add.</param>
+        /// <returns>An ok result.</returns>
+        [ResponseType(typeof(OkResult))]
+        [Route("Projects/Collaborators/Add")]
+        [ResourceAuthorize(CAM.Data.Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, typeof(AddCollaboratorBindingModel), "ProjectId")]
+        public async Task<IHttpActionResult> PostAddCollaboratorsAsync(List<AddCollaboratorBindingModel> models)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var user = userProvider.GetBusinessUser(currentUser);
+                foreach (var model in models)
+                {
+                    await principalService.GrantPermissionsAsync(model.ToGrantedPermission(user.Id));
+                }
+                await principalService.SaveChangesAsync();
+                return Ok();
             }
             else
             {

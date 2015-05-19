@@ -1037,7 +1037,152 @@ namespace ECA.Business.Test.Service.Admin
         }
 
         [TestMethod]
-        public void TestDoValidateUpdate_ZeroCategoriesGiven_CategoryRequired()
+        public void TestDoValidateUpdate_LessThanMinCategories_CategoryRequied()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            officeSettings.IsCategoryRequired = false;
+            officeSettings.MinimumRequiredFoci = 0;
+            officeSettings.MaximumRequiredFoci = 10;
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+            officeSettings.IsCategoryRequired = true;
+            numberOfCategories = -1;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(String.Format(ProjectServiceValidator.MIN_CATEGORIES_REQUIRED_ERROR_MESSAGE, officeSettings.MinimumRequiredFoci), validationErrors.First().ErrorMessage);
+            Assert.AreEqual("CategoryIds", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_LessThanMinCategories_CategoryNotRequied()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            officeSettings.IsCategoryRequired = false;
+            officeSettings.MinimumRequiredFoci = 0;
+            officeSettings.MaximumRequiredFoci = 10;
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+            officeSettings.IsCategoryRequired = false;
+            numberOfCategories = -1;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
+        }
+
+
+        [TestMethod]
+        public void TestDoValidateUpdate_ExceedsMaxCategories_CategoryRequired()
         {
             var user = new User(1);
             var name = "name";
@@ -1062,6 +1207,7 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
             officeSettings.IsCategoryRequired = true;
+            officeSettings.MaximumRequiredFoci = 1;
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -1099,12 +1245,83 @@ namespace ECA.Business.Test.Service.Admin
             var entity = createEntity();
             Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
 
-            numberOfCategories = 0;
+            numberOfCategories = 2;
             entity = createEntity();
             var validationErrors = validator.DoValidateUpdate(entity).ToList();
             Assert.AreEqual(1, validationErrors.Count);
-            Assert.AreEqual(ProjectServiceValidator.CATEGORIES_REQUIRED_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual(String.Format(ProjectServiceValidator.MAX_CATEGORIES_REQUIRED_ERROR_MESSAGE, officeSettings.MaximumRequiredFoci), validationErrors.First().ErrorMessage);
             Assert.AreEqual("CategoryIds", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_ExceedsMaxCategories_CategoryNotRequired()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Completed.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Completed.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var officeSettings = new OfficeSettings();
+            officeSettings.IsCategoryRequired = true;
+            officeSettings.MaximumRequiredFoci = 1;
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: null,
+                    objectiveIds: null,
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                    numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            officeSettings.IsCategoryRequired = false;
+            numberOfCategories = 0;
+            entity = createEntity();
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(0, validationErrors.Count);
         }
 
         [TestMethod]
