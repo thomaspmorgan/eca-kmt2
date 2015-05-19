@@ -13,6 +13,7 @@ using CAM.Business.Queries;
 using CAM.Business.Model;
 using ECA.Core.Query;
 using ECA.Core.DynamicLinq;
+using CAM.Business.Queries.Models;
 
 namespace CAM.Business.Service
 {
@@ -251,7 +252,7 @@ namespace CAM.Business.Service
         #endregion
 
         #region Resource Authorizations
-        
+
         /// <summary>
         /// Returns resource authorizations given the query operator.
         /// </summary>
@@ -276,5 +277,35 @@ namespace CAM.Business.Service
             return results;
         }
         #endregion
+        
+        /// <summary>
+        /// Returns the permissions that can be set on a resource of the given type and resource id.  If only the 
+        /// permissions for the resource type are needed, null can be passed for resource id.  In this case, permission
+        /// that have the same resource type but do have a resource id relationship will not be included.
+        /// </summary>
+        /// <param name="resourceType">The resource type.</param>
+        /// <param name="resourceId">The resource id.</param>
+        /// <returns>The available permissions for the given resource type and resource id.</returns>
+        public List<ResourcePermissionDTO> GetResourcePermissions(string resourceType, int? resourceId)
+        {
+            var permissions = ResourceQueries.CreateGetResourcePermissionsQuery(this.Context, resourceType, resourceId).ToList();
+            logger.Trace("Retrieved resource permissions for resource type [{0}] and resource id [{1}].", resourceType, resourceId);
+            return permissions;
+        }
+
+        /// <summary>
+        /// Returns the permissions that can be set on a resource of the given type and resource id.  If only the 
+        /// permissions for the resource type are needed, null can be passed for resource id.  In this case, permission
+        /// that have the same resource type but do have a resource id relationship will not be included.
+        /// </summary>
+        /// <param name="resourceType">The resource type.</param>
+        /// <param name="resourceId">The resource id.</param>
+        /// <returns>The available permissions for the given resource type and resource id.</returns>
+        public async Task<List<ResourcePermissionDTO>> GetResourcePermissionsAsync(string resourceType, int? resourceId)
+        {
+            var permissions = await ResourceQueries.CreateGetResourcePermissionsQuery(this.Context, resourceType, resourceId).ToListAsync();
+            logger.Trace("Retrieved resource permissions for resource type [{0}] and resource id [{1}].", resourceType, resourceId);
+            return permissions;
+        }
     }
 }

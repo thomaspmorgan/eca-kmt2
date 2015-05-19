@@ -1,4 +1,5 @@
 ﻿using CAM.Business.Model;
+using CAM.Business.Queries.Models;
 using CAM.Data;
 using ECA.Core.DynamicLinq;
 using System;
@@ -140,6 +141,44 @@ namespace CAM.Business.Queries
             Contract.Requires(context != null, "The context must not be null.");
             var query = CreateGetResourceAuthorizationsByPermissionAssignmentsQuery(context).Union(CreateGetResourceAuthorizationsByRoleQuery(context));
             query = query.Apply(queryOperator);
+            return query;
+        }
+
+        /// <summary>
+        /// Creates a query to get the possible permissions for a resource in CAM.  If the resourceId has a value, then 
+        /// permissions designated specifically for that resource will also be included in the query.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="resourceType">The resource type.</param>
+        /// <param name="resourceId">The resource id.  Or null, if resource type permissions only should be included.</param>
+        /// <returns>The query to retrieve resource permissions dtos.</returns>
+        public static IQueryable<ResourcePermissionDTO> CreateGetResourcePermissionsQuery(CamModel context, string resourceType, int? resourceId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(ResourceType.GetStaticLookup(resourceType) != null, "The resource type must be valid.");
+            var query = from p in context.Permissions
+                        where p.ResourceTypeId == ResourceType.GetStaticLookup(resourceType).Id
+                        && !p.ResourceId.HasValue
+                        select new ResourcePermissionDTO
+                        {
+                            PermissionDescription = p.PermissionDescription,
+                            PermissionId = p.PermissionId,
+                            PermissionName = p.PermissionName,
+                        };
+            if (resourceId.HasValue)
+            {
+                var resourceIdPermissionsQuery = from p in context.Permissions
+                                                 let resource = p.Resource
+                                                 where resource.ResourceId == resourceId.Value
+                                                 select new ResourcePermissionDTO
+                                                 {
+                                                     PermissionDescription = p.PermissionDescription,
+                                                     PermissionId = p.PermissionId,
+                                                     PermissionName = p.PermissionName
+                                                 };
+                query = query.Union(resourceIdPermissionsQuery);
+            }
+
             return query;
         }
     }
