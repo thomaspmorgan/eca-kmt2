@@ -47,9 +47,9 @@ angular.module('staticApp')
       $scope.office = {};
       $scope.programs = [];
       $scope.branches = [];
-      $scope.totalNumberOfPrograms = -1;
-      $scope.skippedNumberOfPrograms = -1;
-      $scope.numberOfPrograms = -1;
+      $scope.totalNumberOfPrograms = 0;
+      $scope.skippedNumberOfPrograms = 0;
+      $scope.numberOfPrograms = 0;
       $scope.programFilter = '';
 
       $scope.isLoadingOfficeById = true;
@@ -173,18 +173,7 @@ angular.module('staticApp')
           $scope.programFilter = params.keyword;
           getProgramsByOfficeId(officeId, params)
             .then(function (data) {
-                var programs = data.results;
-                var total = data.total;
-                var start = 0;
-                if (programs.length > 0) {
-                    start = params.start + 1;
-                }
-                var count = params.start + params.length;
-
-                updatePagingDetails(total, start, count);
-                $scope.programs = programs;
-                var limit = TableService.getLimit();
-                tableState.pagination.numberOfPages = Math.ceil(total / limit);
+                processData(data, tableState, params);
             }, function (errorCode) {
                 showLoadingProgramsError();
             })
@@ -192,6 +181,24 @@ angular.module('staticApp')
                 $scope.isLoadingPrograms = false;
             });
       }
+      
+      function processData(data, tableState, params) {
+          var programs = data.results;
+          var total = data.total;
+          var start = 0;
+          if (programs.length > 0) {
+              start = params.start + 1;
+          };
+          var count = params.start + programs.length;
+
+          updatePagingDetails(total, start, count);
+
+          var limit = TableService.getLimit();
+          tableState.pagination.numberOfPages = Math.ceil(total / limit);
+
+          $scope.programs = programs;
+          $scope.programsLoading = false;
+      };
 
       showLoadingOfficeById();
       getOfficeById(officeId)

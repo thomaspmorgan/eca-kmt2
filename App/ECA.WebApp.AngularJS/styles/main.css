@@ -6280,4 +6280,12 @@ h5.canEdit {
 .select2-container {
   display: block; }
 
+.select2.search-field {
+  position: relative; }
+
+.select2-search-field:before {
+  font-family: FontAwesome;
+  content: "\f002";
+  padding-left: 5px; }
+
 /*# sourceMappingURL=main.css.map */
