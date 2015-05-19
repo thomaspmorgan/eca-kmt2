@@ -32,6 +32,7 @@ namespace CreateProject.Test
             this.UIMap.AssertProgramsLink_ContentMenu();
             this.UIMap.SelectProgramsLink_ContentMenu();
 
+
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
         }
 

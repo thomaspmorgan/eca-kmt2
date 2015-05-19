@@ -365,6 +365,7 @@
     <Compile Include="Custom\NLogTraceWriter.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddDefaultResponse.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddFileUploadParams.cs" />
+    <Compile Include="Custom\SwaggerExtensions\AddResourceAuthorizePermissionRequirement.cs" />
     <Compile Include="Custom\SwaggerExtensions\AppendVersionToBasePath.cs" />
     <Compile Include="Custom\SwaggerExtensions\ApplyDocumentVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />

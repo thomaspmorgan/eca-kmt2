@@ -59,5 +59,7 @@ namespace ECA.Business.Queries.Models.Admin
         public int NumChildren { get; set; }
 
         public int ProgramStatusId { get; set; }
+
+        public decimal SortOrder { get; set; }
     }
 }

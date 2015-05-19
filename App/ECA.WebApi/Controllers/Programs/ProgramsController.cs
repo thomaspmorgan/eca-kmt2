@@ -31,7 +31,7 @@ namespace ECA.WebApi.Controllers.Programs
         /// </summary>
         private static readonly ExpressionSorter<SimpleProgramDTO> ALPHA_PROGRAM_SORTER = new ExpressionSorter<SimpleProgramDTO>(x => x.Name, SortDirection.Ascending);
 
-        private static readonly ExpressionSorter<OrganizationProgramDTO> HIERARCHY_PROGRAM_SORTER = new ExpressionSorter<OrganizationProgramDTO>(x => x.OfficeSymbol, SortDirection.Ascending);
+        private static readonly ExpressionSorter<OrganizationProgramDTO> HIERARCHY_PROGRAM_SORTER = new ExpressionSorter<OrganizationProgramDTO>(x => x.SortOrder, SortDirection.Ascending);
 
         private IProgramService programService;
         private IUserProvider userProvider;

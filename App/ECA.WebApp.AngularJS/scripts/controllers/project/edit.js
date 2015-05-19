@@ -15,6 +15,7 @@ angular.module('staticApp')
         $log,
         $state,
         $modal,
+        $timeout,
         ProjectService,
         ProgramService,
         TableService,
@@ -56,7 +57,6 @@ angular.module('staticApp')
 
       $scope.editView.categoryLabel = "...";
       $scope.editView.objectiveLabel = "...";
-
 
       $scope.editView.loadProjectStati = function () {
           loadProjectStati();

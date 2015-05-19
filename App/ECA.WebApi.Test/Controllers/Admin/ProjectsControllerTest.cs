@@ -1,4 +1,7 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using CAM.Business.Model;
+using System.Linq;
+using CAM.Business.Service;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -10,11 +13,14 @@ using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
+using ECA.Core.DynamicLinq.Filter;
+using CAM.Data;
 
 namespace ECA.WebApi.Test.Controllers.Admin
 {
@@ -23,6 +29,8 @@ namespace ECA.WebApi.Test.Controllers.Admin
     {
         private Mock<IProjectService> service;
         private Mock<IUserProvider> userProvider;
+        private Mock<IPrincipalService> principalService;
+        private Mock<IResourceService> resourceService;
         private ProjectsController controller;
 
         [TestInitialize]
@@ -30,9 +38,11 @@ namespace ECA.WebApi.Test.Controllers.Admin
         {
             userProvider = new Mock<IUserProvider>();
             service = new Mock<IProjectService>();
+            principalService = new Mock<IPrincipalService>();
+            resourceService = new Mock<IResourceService>();
             service.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<SimpleProjectDTO>(1, new List<SimpleProjectDTO>()));
-            controller = new ProjectsController(service.Object, userProvider.Object);
+            controller = new ProjectsController(service.Object, userProvider.Object, principalService.Object, resourceService.Object);
         }
 
         #region Get
@@ -110,6 +120,86 @@ namespace ECA.WebApi.Test.Controllers.Admin
             var response = await controller.PutProjectAsync(new PublishedProjectBindingModel());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
+        #endregion
+
+        #region Collaborators
+
+        [TestMethod]
+        public async Task TestPostAddCollaboratorAsync()
+        {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
+
+            var response = await controller.PostAddCollaboratorAsync(new AddCollaboratorBindingModel());
+            principalService.Verify(x => x.GrantPermissionsAsync(It.IsAny<GrantedPermission>()), Times.Once());
+            principalService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+        }
+
+        [TestMethod]
+        public async Task TestPostAddCollaboratorsAsync()
+        {
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
+            var models = new List<AddCollaboratorBindingModel>();
+            models.Add(new AddCollaboratorBindingModel
+            {
+                CollaboratorPrincipalId = 1,
+                ProjectId = 2                 
+            });
+
+            var response = await controller.PostAddCollaboratorsAsync(models);
+            principalService.Verify(x => x.GrantPermissionsAsync(It.IsAny<GrantedPermission>()), Times.Once());
+            principalService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            Assert.IsInstanceOfType(response, typeof(OkResult));
+        }
+
+        [TestMethod]
+        public async Task TestPostAddCollaboratorsAsync_InvalidModelState()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.PostAddCollaboratorsAsync(new List<AddCollaboratorBindingModel>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetCollaboratorsAsync()
+        {
+
+            var projectId = 10;
+            var queryModel = new PagingQueryBindingModel<ResourceAuthorization>();
+            queryModel.Start = 0;
+            queryModel.Limit = 10;
+
+            Action<QueryableOperator<ResourceAuthorization>> callbackTester = (op) => 
+            {
+                Assert.AreEqual(2, op.Filters.Count);
+                var filters = op.Filters.ToList().Select(x => (ExpressionFilter<ResourceAuthorization>)x).ToList();
+                var foreignResourceIdFilter = filters.Where(x => x.Property == "ForeignResourceId").FirstOrDefault();                
+                Assert.IsNotNull(foreignResourceIdFilter, "The foreign resource filter must exist.");                
+                Assert.AreEqual(ComparisonType.Equal.Value, foreignResourceIdFilter.Comparison);
+                Assert.AreEqual(projectId, foreignResourceIdFilter.Value);
+
+                var resourceTypeFilter = filters.Where(x => x.Property == "ResourceTypeId").FirstOrDefault();
+                Assert.IsNotNull(resourceTypeFilter, "The resource type filter must exist.");
+                Assert.AreEqual(ComparisonType.Equal.Value, resourceTypeFilter.Comparison);
+                Assert.AreEqual(ResourceType.Project.Id, resourceTypeFilter.Value);
+            };
+
+            resourceService.Setup(x => x.GetResourceAuthorizationsAsync(It.IsAny<QueryableOperator<ResourceAuthorization>>()))
+                .ReturnsAsync(new PagedQueryResults<ResourceAuthorization>(0, new List<ResourceAuthorization>()))
+                .Callback(callbackTester);
+
+            var response = await controller.GetCollaboratorsAsync(projectId, queryModel);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<ResourceAuthorization>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetCollaboratorsAsync_InvalidModelState()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetCollaboratorsAsync(1, new PagingQueryBindingModel<ResourceAuthorization>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
         #endregion
     }
 }

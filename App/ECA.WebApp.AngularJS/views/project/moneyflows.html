@@ -1,8 +1,7 @@
 <h2 class="project-color tab-header">Money Flow</h2>
 <h4 class="tab-subheader">Money Flow List</h4>
 <div class="row">
-    <!--<button ng-click="modal.createMoneyFlow = true" class="btn btn-success right col-sd-2">Create Money Flow</button> -->
-    <button class="btn btn-success right col-sd-2">Create Money Flow</button>
+    <button class="btn btn-primary right" ng-click="modal.addMoneyFlow = true">ADD MONEY FLOW</button>
 </div>
 <div st-pipe="getMoneyFlows" st-table="project.moneyFlows" id="sort-list">
     <table class="col-md-12">
@@ -15,26 +14,7 @@
                 <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
                 <th class="col-md-2">&nbsp;</th>
             </tr>
-            <!--
-            <tr>
-                <th>
-                    <input st-search="'transactionDate'" placeholder="" type="search" class="input-lg form-control" />
-                </th>
-                <th>
-                    <input st-search="'recipientType'" placeholder="" type="search" class="input-lg form-control" />
-                </th>
-                <th>
-                    <input st-search="'sourceRecipient'" placeholder="" type="search" class="input-lg form-control" />
-                </th>
-                <th>
-                    <input st-search="'amount'" placeholder="" type="search" class="input-lg form-control" />
-                </th>
-                <th>
-                    <input st-search="'description'" placeholder="" type="search" class="input-lg form-control" />
-                </th>
-                <th>&nbsp;</th>
-            </tr>
-            -->
+
         </thead>
         <tbody class="list2">
             <tr ng-repeat="moneyFlow in project.moneyFlows" class="hover" ng-show="!moneyFlowsLoading">
@@ -67,42 +47,88 @@
     </table>
     <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="!moneyFlowsLoading"></div>
 </div>
-<modal-dialog show="modal.createMoneyFlow" dialog-title="Create Money Flow" before-close="modalClose()" on-close="modalClear()">
-    <div class="tip">
-        <div class="required">* Marks required fields</div>
+
+<modal-dialog show="modal.addMoneyFlow" dialog-title="Add to Money Flows" before-close="modalClose()" on-close="modalClear()">
+    <h5>Add money flow for {{project.name}}</h5>
+    <div class="required">* Marks required fields</div>
+
+    <div id="modal-tab" class="tabs">
+        <ul class="left">
+            <li class="tab right moneyFlowDirection {{ flowInward }}" ng-click="changeFlowDirection('inward')">Income to Project</li>
+            <li class="tab right moneyFlowDirection {{ flowOutward }}" ng-click="changeFlowDirection('outward')">Outflow from Project</li>
+        </ul>
     </div>
+
     <div id="modal" class="row" in-context-form>
-        <div class="col-md-10">
-            <form name="moneyFlowForm" novalidate>
+        <form name="modal.moneyFlowForm">
+            <div class="col-md-10">
                 <div class="form-group">
-                    <label>Project Title<span class="asterisk"> *</span></label>
-                    <input name="projectTitle" ng-model="newProject.title" form-element guidance="This is the name of your project. (e.g. ETA Fulbright 2015)" type="text" class="form-control" placeholder="Enter project title..." required>
-                    <div ng-show="projectForm.projectTitle.$dirty">
-                        <div class="error" ng-show="projectForm.projectTitle.$error.required">Please enter a project name.</div>
-                    </div>
+                    <label for="">CURRENCY<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="currencyTypes" output-model="newMoneyFlow.currencyType" button-label="value" item-label="value" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                    <input type="text" ng-model="newMoneyFlow.currencyType" form-element guidance="What currency is the amount reflected." required style="display: none">
                 </div>
                 <div class="form-group">
-                    <label>Project Description<span class="asterisk"> *</span></label>
-                    <textarea name="projectDescription" ng-model="newProject.description" form-element guidance="This briefly summarizes what this project is about." type="text" class="form-control" placeholder="Enter description..." required></textarea>
-                    <span class="error" ng-show="projectForm.projectDescription.$error.required && projectForm.projectDescription.$dirty">Project description is required.</span>
+                    <label for="">AMOUNT<span class="asterisk"> *</span></label>
+                    <input ng-model="newParticipant.lastName" form-element guidance="Surname or primary name of the participant." type="text" class="form-control" required>
                 </div>
-                <div ng-show="branches.length" class="form-group" form-element="click" guidance="Select the branch that this project is in. (If applicable)">
-                    <label>Branch</label>
-                    <multi-select input-model="branches"
-                                  output-model="newProject.branch"
-                                  button-label="displayName"
-                                  item-label="displayName"
-                                  tick-property="ticked"
-                                  selection-mode="single"
-                                  helper-elements="">
-                    </multi-select>
+                <div class="form-group">
+                    <label for="">TRANSACTION TYPE<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="transactionTypes" output-model="newMoneyFlow.transactionType" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                    <input type="text" ng-model="newMoneyFlow.transactionType" required style="display: none">
                 </div>
-            </form>
-        </div>
-        <div class="col-md-2">
-            <guidance></guidance>
-        </div>
+                <div class="form-group">
+                    <label for="">{{sourceRecipientLabel}}<span class="asterisk"> *</span></label>
+                    <input ng-model="newMoneyFlow.sourceRecipient" form-element guidance="Source or recipient of funds" type="text" class="form-control" required>
+
+                </div>
+                <div class="form-group">
+                    <label for="">TRANSACTION DATE<span class="asterisk"> *</span></label>
+                    <input ng-model="newParticipant.transactionDate" form-element guidance="Date of the transaction" type="date" max="2014-12-31" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="">FISCAL YEAR<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="fiscalYears" output-model="newMoneyFlow.fiscalYear" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                    <input type="text" ng-model="newMoneyFlow.fiscalYear" required style="display: none">
+                </div>
+                <div class="form-group">
+                    <label for="">NOTES<span class="asterisk"> *</span></label>
+                    <input ng-model="newParticipant.description" form-element guidance="Description or notes for this money flow." type="text" class="form-control" required>
+                </div>
+            </div>
+        </form>
     </div>
-    <button class="btn btn-default" ng-click="modal.createMoneyFlow = !modalClose()">CANCEL</button>
-    <button type="submit" form="projectForm" ng-disabled="moneyFlowForm.projectDescription.$error.required" class="btn btn-success right" ng-click="saveMoneyFlow()">CREATE</button>
+
+    <div class="col-md-2">
+        <guidance></guidance>
+    </div>
+    <button class="btn btn-default" ng-click="modal.addMoneyFlow = false">CANCEL</button>
+    <button class="btn btn-success right" ng-disabled="modalForm.moneyFlowForm.$invalid" ng-click="addMoneyFlow()">ADD</button>
 </modal-dialog>
+
+<!-- dialog boxes for confirming -->
+<modal-dialog show="showConfirmClose" dialog-title="Confirm Close" before-close="confirmCloseNo()">
+    <p class="strong">There is unsaved data.  Are you sure you want to cancel?</p>
+    <button class="btn btn-default right" ng-click="confirmCloseYes()">YES</button>
+    &nbsp;
+    <button class="btn btn-success right" ng-click="confirmCloseNo()">NO</button>
+</modal-dialog>
+<modal-dialog show="confirmSave" dialog-title="Success!" before-close="confirmSaveYes()">
+    <p class="strong">The money flow was saved sucessfully</p>
+    <button class="btn btn-default right" ng-click="confirmSaveYes()">OK</button>
+</modal-dialog>
+<modal-dialog show="confirmFail" dialog-title="Error Saving" before-close="confirmFailOk()">
+    <p class="strong">There was an error saving the entry.</p>
+    <p class="alert-warning">{{errorMessage}}</p>
+    <div>
+        <ul>
+            <li class="alert-danger" ng-repeat="validation in validations">{{validation}}</li>
+        </ul>
+    </div>
+    <button class="btn btn-default right" ng-click="confirmFailOk()">OK</button>
+</modal-dialog>
+
+<style>
+    .ng-modal-close-x {
+        display: none;
+    }
+</style>

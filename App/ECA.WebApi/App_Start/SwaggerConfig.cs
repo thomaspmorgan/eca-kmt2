@@ -2,6 +2,7 @@ using System.Web.Http;
 using WebActivatorEx;
 using ECA.WebApi;
 using Swashbuckle.Application;
+using ECA.WebApi.Custom.SwaggerExtensions;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -134,6 +135,7 @@ namespace ECA.WebApi
                         // Operation filters.
                         //
                         //c.OperationFilter<AddDefaultResponse>();
+                        c.OperationFilter<AddResourceAuthorizePermissionRequirement>();
                         //
                         // If you've defined an OAuth2 flow as described above, you could use a custom filter
                         // to inspect some attribute on each action and infer which (if any) OAuth2 scopes are required

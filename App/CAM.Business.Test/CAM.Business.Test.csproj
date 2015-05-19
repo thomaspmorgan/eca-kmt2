@@ -80,6 +80,7 @@
     <Compile Include="Model\AzureUserTest.cs" />
     <Compile Include="Model\RevokedPermissionTest.cs" />
     <Compile Include="Model\GrantedPermissionTest.cs" />
+    <Compile Include="Queries\ResourceQueriesTest.cs" />
     <Compile Include="Service.PermissionStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\PermissionModelServiceTest.cs" />

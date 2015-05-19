@@ -22,10 +22,12 @@ namespace CAM.Business.Service
 
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IResourceService resourceService;
-        private Action<GrantedPermission, int?> throwIfForeignResourceNotFound;
+        private Action<GrantedPermission, int?> throwIfForeignResourceNotFoundByGrantedPermission;
+        private Action<DeletedPermission, int?> throwIfForeignResourceNotFoundByDeletedPermission;
         private Action<GrantedPermission, Principal> throwIfGranteeNotFound;
         private Action<GrantedPermission, Principal> throwIfGrantorNotFound;
         private Action<GrantedPermission, CAM.Data.Permission> throwIfPermissionNotFound;
+        private Action<PermissionAssignment> throwIfPermissionAssignmentNotFound;
 
         /// <summary>
         /// Creats a new PrincipalService with the given CamModel to perform operations against and the resource service
@@ -39,7 +41,7 @@ namespace CAM.Business.Service
             Contract.Requires(model != null, "The model must not be null.");
             Contract.Requires(resourceService != null, "The resource service must not be null.");
             this.resourceService = resourceService;
-            throwIfForeignResourceNotFound = (grantedPermission, resourceId) =>
+            throwIfForeignResourceNotFoundByGrantedPermission = (grantedPermission, resourceId) =>
             {
                 if (!resourceId.HasValue)
                 {
@@ -48,6 +50,17 @@ namespace CAM.Business.Service
                     "The foreign resource with id [{0}] and resource type [{1}] does not exist in CAM.",
                     grantedPermission.ForeignResourceId,
                     grantedPermission.ResourceTypeAsString));
+                }
+            };
+            throwIfForeignResourceNotFoundByDeletedPermission = (deletedPermission, resourceId) =>
+            {
+                if (!resourceId.HasValue)
+                {
+                    throw new ModelNotFoundException(
+                    String.Format(
+                    "The foreign resource with id [{0}] and resource type [{1}] does not exist in CAM.",
+                    deletedPermission.ForeignResourceId,
+                    deletedPermission.ResourceTypeAsString));
                 }
             };
             throwIfGranteeNotFound = (grantedPermission, grantee) =>
@@ -70,7 +83,14 @@ namespace CAM.Business.Service
             {
                 if (permission == null)
                 {
-                    throw new ModelNotFoundException(String.Format("The permission with id [{0}] was found.", grantedPermission.PermissionId));
+                    throw new ModelNotFoundException(String.Format("The permission with id [{0}] was not found.", grantedPermission.PermissionId));
+                }
+            };
+            throwIfPermissionAssignmentNotFound = (permissionAssignment) => 
+            {
+                if (permissionAssignment == null)
+                {
+                    throw new ModelNotFoundException("The permission assignment was not found.");
                 }
             };
         }
@@ -115,7 +135,7 @@ namespace CAM.Business.Service
         {
             logger.Info("Handling granted permission [{0}].", grantedPermission);
             var resourceId = await resourceService.GetResourceIdByForeignResourceIdAsync(grantedPermission.ForeignResourceId, grantedPermission.GetResourceType().Id);
-            throwIfForeignResourceNotFound(grantedPermission, resourceId);
+            throwIfForeignResourceNotFoundByGrantedPermission(grantedPermission, resourceId);
 
             var grantee = await CreateGetPrincipalByIdQuery(grantedPermission.GranteePrincipalId).FirstOrDefaultAsync();
             throwIfGranteeNotFound(grantedPermission, grantee);
@@ -141,7 +161,7 @@ namespace CAM.Business.Service
         {
             logger.Info("Handling granted permission [{0}].", grantedPermission);
             var resourceId = resourceService.GetResourceIdByForeignResourceId(grantedPermission.ForeignResourceId, grantedPermission.GetResourceType().Id);
-            throwIfForeignResourceNotFound(grantedPermission, resourceId);
+            throwIfForeignResourceNotFoundByGrantedPermission(grantedPermission, resourceId);
 
             var grantee = CreateGetPrincipalByIdQuery(grantedPermission.GranteePrincipalId).FirstOrDefault();
             throwIfGranteeNotFound(grantedPermission, grantee);
@@ -221,5 +241,45 @@ namespace CAM.Business.Service
         {
             return HandleAsync(revokedPermission);
         }
+
+
+        #region Delete
+
+        /// <summary>
+        /// Deletes a permission assignment.
+        /// </summary>
+        /// <param name="permission">The deleted permission.</param>
+        public void DeletePermission(DeletedPermission permission)
+        {
+            var resourceId = resourceService.GetResourceIdByForeignResourceId(permission.ForeignResourceId, permission.GetResourceType().Id);
+            throwIfForeignResourceNotFoundByDeletedPermission(permission, resourceId);
+
+            var permissionAssignment = CreateGetPermissionAssignmentQuery(permission.GranteePrincipalId, permission.PermissionId, resourceId.Value).FirstOrDefault();
+            throwIfPermissionAssignmentNotFound(permissionAssignment);
+
+            DoDeletePermissionAssignment(permissionAssignment);
+        }
+
+        /// <summary>
+        /// Deletes a permission assignment.
+        /// </summary>
+        /// <param name="permission">The deleted permission.</param>
+        public async Task DeletePermissionAsync(DeletedPermission permission)
+        {
+            var resourceId = await resourceService.GetResourceIdByForeignResourceIdAsync(permission.ForeignResourceId, permission.GetResourceType().Id);
+            throwIfForeignResourceNotFoundByDeletedPermission(permission, resourceId);
+
+            var permissionAssignment = await CreateGetPermissionAssignmentQuery(permission.GranteePrincipalId, permission.PermissionId, resourceId.Value).FirstOrDefaultAsync();
+            throwIfPermissionAssignmentNotFound(permissionAssignment);
+
+            DoDeletePermissionAssignment(permissionAssignment);
+        }
+
+        private void DoDeletePermissionAssignment(PermissionAssignment permissionAssignment)
+        {
+            Contract.Requires(permissionAssignment != null, "The permission assignment must not be null.");
+            this.Context.PermissionAssignments.Remove(permissionAssignment);
+        }
+        #endregion
     }
 }
