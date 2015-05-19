@@ -68,33 +68,6 @@ namespace ViewProjectList1.Test
         }
         
         /// <summary>
-        /// Verify the (Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program) exists for selection on (page 4) of the All Programs list.
-        /// </summary>
-        public void AssertIndividualProgram()
-        {
-            #region Variable Declarations
-            HtmlCell uIECAPCAmbassadorsFundCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane2.UIItemTable.UIECAPCAmbassadorsFundCell;
-            HtmlHyperlink uIAmbassadorsFundforCuHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane2.UIAmbassadorsFundforCuHyperlink;
-            #endregion
-
-            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'ECA/P/C Ambassadors Fund for Cultural' cell contains 'ECA/P/C 
-            //Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program
-            //
-            //The AFCP Large Grants Program supports the preservation of major ancient archaeological sites, historic buildings and monuments, and museum collections that are accessible to the public and protected by law in the host country. This limited competition awards between 3 and 5 grants per year ranging from $500,000 to $1 million. Projects funded through this program advance U.S. foreign policy objectives and demonstrate U.S. respect for other cultures.'
-            Playback.Wait(5000);
-            StringAssert.Contains(uIECAPCAmbassadorsFundCell.InnerText, this.AssertIndividualProgramExpectedValues.UIECAPCAmbassadorsFundCellInnerText, "No cell value in list available for (Ambassadors Fund for Cultural Preservation -" +
-                    " Large Grants Competition). Check innertext.");
-
-            // Verify that the 'ControlType' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link contains 'Hyperlink'
-            StringAssert.Contains(uIAmbassadorsFundforCuHyperlink.ControlType.ToString(), this.AssertIndividualProgramExpectedValues.UIAmbassadorsFundforCuHyperlinkControlType, "No Hyperlink control type for (Ambassadors Fund for Cultural Preservation (AFCP) " +
-                    "- Large Grants). Check ControlType.");
-
-            // Verify that the 'InnerText' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link contains 'Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program'
-            StringAssert.Contains(uIAmbassadorsFundforCuHyperlink.InnerText, this.AssertIndividualProgramExpectedValues.UIAmbassadorsFundforCuHyperlinkInnerText, "Check innertext contains, for name of Program (Ambassadors Fund for Cultural Pres" +
-                    "ervation (AFCP) - Large Grants Program)");
-        }
-        
-        /// <summary>
         /// Verify the project list displays names, status, year, and location for individual projects.
         /// </summary>
         public void AssertIndProg_ProjectList()
@@ -180,8 +153,8 @@ namespace ViewProjectList1.Test
             HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane1.UIItemCustom;
             #endregion
 
-            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of custom control equals '4'
-            Playback.Wait(5000);
+            // Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of custom control equals '4'
+            Playback.Wait(10000);
             Assert.AreEqual(this.AssertPageNum4_ProgListExpectedValues.UIItemCustomInnerText, uIItemCustom.InnerText, "No (page 4) available for selection from the pagination bar. Check innertext.");
         }
         
@@ -228,25 +201,11 @@ namespace ViewProjectList1.Test
         public void SelectIndividualProgram()
         {
             #region Variable Declarations
-            HtmlCell uIECAPCAmbassadorsFundCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane2.UIItemTable.UIECAPCAmbassadorsFundCell;
-            HtmlHyperlink uIAmbassadorsFundforCuHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane2.UIAmbassadorsFundforCuHyperlink;
-            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            HtmlHyperlink uIAmbassadorsFundforCuHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UIProgram1009Row.UIAmbassadorsFundforCuHyperlink;
             #endregion
 
-            // Set flag to allow play back to continue if non-essential actions fail. (For example, if a mouse hover action fails.)
-            Playback.PlaybackSettings.ContinueOnError = true;
-
-            // Mouse hover 'ECA/P/C Ambassadors Fund for Cultural' cell at (1, 1)
-            Mouse.Hover(uIECAPCAmbassadorsFundCell, new Point(1, 1));
-
-            // Reset flag to ensure that play back stops if there is an error.
-            Playback.PlaybackSettings.ContinueOnError = false;
-
             // Click 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link
-            Mouse.Click(uIAmbassadorsFundforCuHyperlink, new Point(266, 15));
-
-            // Perform Refresh on Browser Window
-            uINewtabInternetExplorWindow.Refresh();
+            Mouse.Click(uIAmbassadorsFundforCuHyperlink, new Point(468, 20));
         }
         
         /// <summary>
@@ -332,6 +291,94 @@ namespace ViewProjectList1.Test
             Mouse.Click(uIProgramsHyperlink, new Point(50, 33));
         }
         
+        /// <summary>
+        /// Verify the (Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program) exists for selection on (page 4) of the All Programs list.
+        /// </summary>
+        public void AssertIndividualProgram()
+        {
+            #region Variable Declarations
+            HtmlCell uIECAPCDRAFTAmbassadorCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument11.UIProgramListTable.UIECAPCDRAFTAmbassadorCell;
+            HtmlHyperlink uIAmbassadorsFundforCuHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument11.UIProgram1009Row.UIAmbassadorsFundforCuHyperlink;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'ECA/P/C DRAFT Ambassadors Fund for' cell contains 'ECA/P/C DRAFT 
+            //   Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program 
+            //
+            //The AFCP Large Grants Program supports the preservation of major ancient archaeological sites, historic buildings and monuments, and museum collections that are accessible to the public and protected by law in the host country. This limited competition awards between 3 and 5 grants per year ranging from $500,000 to $1 million. Projects funded through this program advance U.S. foreign policy objectives and demonstrate U.S. respect for other cultures.'
+            StringAssert.Contains(uIECAPCDRAFTAmbassadorCell.InnerText, this.AssertIndividualProgramExpectedValues.UIECAPCDRAFTAmbassadorCellInnerText, "No cell value in list available for (Ambassadors Fund for Cultural Preservation L" +
+                    "arge Grants Competition). Check innertext.");
+
+            // Verify that the 'InnerText' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link contains 'Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program'
+            StringAssert.Contains(uIAmbassadorsFundforCuHyperlink.InnerText, this.AssertIndividualProgramExpectedValues.UIAmbassadorsFundforCuHyperlinkInnerText, "Title contains hyperlink for Ambassadors Fund for Cultural Preservation (AFCP) - " +
+                    "Large Grants Program");
+
+            // Verify that the 'ControlType' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link equals 'Hyperlink'
+            Assert.AreEqual(this.AssertIndividualProgramExpectedValues.UIAmbassadorsFundforCuHyperlinkControlType, uIAmbassadorsFundforCuHyperlink.ControlType.ToString(), "No Hyperlink available for Ambassadors Fund for Cultural Preservation (AFCP) - La" +
+                    "rge Grants Competition");
+        }
+        
+        /// <summary>
+        /// Verify the CH Test Proj exists. InnerText; Hyperlink checks.
+        /// </summary>
+        public void AssertCHTestProj()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uICHTestHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane1.UICHTestHyperlink;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'CH Test' link contains 'CH Test'
+            StringAssert.Contains(uICHTestHyperlink.InnerText, this.AssertCHTestProjExpectedValues.UICHTestHyperlinkInnerText, "No CH Test project available.");
+
+            // Verify that the 'ControlType' property of 'CH Test' link equals 'Hyperlink'
+            Assert.AreEqual(this.AssertCHTestProjExpectedValues.UICHTestHyperlinkControlType, uICHTestHyperlink.ControlType.ToString(), "No Hyperlink available for CH Test project.");
+        }
+        
+        /// <summary>
+        /// Select the CH Test project to navigate to the project overview.
+        /// </summary>
+        public void SelectCHTestproj()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uICHTestHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UISortlistPane1.UICHTestHyperlink;
+            HtmlHyperlink uICHTestHyperlink1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument11.UISortlistPane1.UICHTestHyperlink;
+            #endregion
+
+            // Type '{F5}' in 'CH Test' link
+            Keyboard.SendKeys(uICHTestHyperlink, this.SelectCHTestprojParams.UICHTestHyperlinkSendKeys, ModifierKeys.None);
+
+            // Click 'CH Test' link
+            Mouse.Click(uICHTestHyperlink1, new Point(43, 11));
+        }
+        
+        /// <summary>
+        /// Verify the innertext on the Category/Focus and Objective/Justification for the CH Test project.
+        /// </summary>
+        public void AssertProj_CatFocus_ObjJust()
+        {
+            #region Variable Declarations
+            HtmlDiv uICategoryFocusCulturaPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UITopPane.UICategoryFocusCulturaPane;
+            HtmlDiv uIObjectiveJustificatiPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UITopPane.UIObjectiveJustificatiPane;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Category/Focus Cultural Objects an' pane contains 'Category/Focus
+            //
+            // 
+            //Cultural Objects and Collections
+            //  • Archaeological Collections 
+            // '
+            StringAssert.Contains(uICategoryFocusCulturaPane.InnerText, this.AssertProj_CatFocus_ObjJustExpectedValues.UICategoryFocusCulturaPaneInnerText, "Proj does not contain the Category/Focus. (Cultural Objects and Collections - Arc" +
+                    "haeological Collections)");
+
+            // Verify that the 'InnerText' property of 'Objective/Justification Secular Pu' pane contains 'Objective/Justification
+            //
+            // 
+            //Secular Purpose
+            //  • Technical documentation or assessment work separate from use 
+            // '
+            StringAssert.Contains(uIObjectiveJustificatiPane.InnerText, this.AssertProj_CatFocus_ObjJustExpectedValues.UIObjectiveJustificatiPaneInnerText, "Objective/Justification does not contain (Secular Purpose - Technical documentati" +
+                    "on or assessment work separate from use)");
+        }
+        
         #region Properties
         public virtual AssertContentMenuButtonExpectedValues AssertContentMenuButtonExpectedValues
         {
@@ -354,18 +401,6 @@ namespace ViewProjectList1.Test
                     this.mAssertEditFilterBoxes_ProjectListExpectedValues = new AssertEditFilterBoxes_ProjectListExpectedValues();
                 }
                 return this.mAssertEditFilterBoxes_ProjectListExpectedValues;
-            }
-        }
-        
-        public virtual AssertIndividualProgramExpectedValues AssertIndividualProgramExpectedValues
-        {
-            get
-            {
-                if ((this.mAssertIndividualProgramExpectedValues == null))
-                {
-                    this.mAssertIndividualProgramExpectedValues = new AssertIndividualProgramExpectedValues();
-                }
-                return this.mAssertIndividualProgramExpectedValues;
             }
         }
         
@@ -441,6 +476,54 @@ namespace ViewProjectList1.Test
             }
         }
         
+        public virtual AssertIndividualProgramExpectedValues AssertIndividualProgramExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertIndividualProgramExpectedValues == null))
+                {
+                    this.mAssertIndividualProgramExpectedValues = new AssertIndividualProgramExpectedValues();
+                }
+                return this.mAssertIndividualProgramExpectedValues;
+            }
+        }
+        
+        public virtual AssertCHTestProjExpectedValues AssertCHTestProjExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertCHTestProjExpectedValues == null))
+                {
+                    this.mAssertCHTestProjExpectedValues = new AssertCHTestProjExpectedValues();
+                }
+                return this.mAssertCHTestProjExpectedValues;
+            }
+        }
+        
+        public virtual SelectCHTestprojParams SelectCHTestprojParams
+        {
+            get
+            {
+                if ((this.mSelectCHTestprojParams == null))
+                {
+                    this.mSelectCHTestprojParams = new SelectCHTestprojParams();
+                }
+                return this.mSelectCHTestprojParams;
+            }
+        }
+        
+        public virtual AssertProj_CatFocus_ObjJustExpectedValues AssertProj_CatFocus_ObjJustExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertProj_CatFocus_ObjJustExpectedValues == null))
+                {
+                    this.mAssertProj_CatFocus_ObjJustExpectedValues = new AssertProj_CatFocus_ObjJustExpectedValues();
+                }
+                return this.mAssertProj_CatFocus_ObjJustExpectedValues;
+            }
+        }
+        
         public UINewtabInternetExplorWindow UINewtabInternetExplorWindow
         {
             get
@@ -459,8 +542,6 @@ namespace ViewProjectList1.Test
         
         private AssertEditFilterBoxes_ProjectListExpectedValues mAssertEditFilterBoxes_ProjectListExpectedValues;
         
-        private AssertIndividualProgramExpectedValues mAssertIndividualProgramExpectedValues;
-        
         private AssertIndProg_ProjectListExpectedValues mAssertIndProg_ProjectListExpectedValues;
         
         private AssertIndProgram_BranchProjectTabExpectedValues mAssertIndProgram_BranchProjectTabExpectedValues;
@@ -472,6 +553,14 @@ namespace ViewProjectList1.Test
         private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
         
         private RefreshAllProgramsPageParams mRefreshAllProgramsPageParams;
+        
+        private AssertIndividualProgramExpectedValues mAssertIndividualProgramExpectedValues;
+        
+        private AssertCHTestProjExpectedValues mAssertCHTestProjExpectedValues;
+        
+        private SelectCHTestprojParams mSelectCHTestprojParams;
+        
+        private AssertProj_CatFocus_ObjJustExpectedValues mAssertProj_CatFocus_ObjJustExpectedValues;
         
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
         #endregion
@@ -519,37 +608,6 @@ namespace ViewProjectList1.Test
         /// Verify that the 'ControlType' property of text box equals 'Edit'
         /// </summary>
         public string UIItemEdit3ControlType = "Edit";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertIndividualProgram'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertIndividualProgramExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'ECA/P/C Ambassadors Fund for Cultural' cell contains 'ECA/P/C 
-        ///Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program
-        ///
-        ///The AFCP Large Grants Program supports the preservation of major ancient archaeological sites, historic buildings and monuments, and museum collections that are accessible to the public and protected by law in the host country. This limited competition awards between 3 and 5 grants per year ranging from $500,000 to $1 million. Projects funded through this program advance U.S. foreign policy objectives and demonstrate U.S. respect for other cultures.'
-        /// </summary>
-        public string UIECAPCAmbassadorsFundCellInnerText = @"ECA/P/C 
-Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program
-
-The AFCP Large Grants Program supports the preservation of major ancient archaeological sites, historic buildings and monuments, and museum collections that are accessible to the public and protected by law in the host country. This limited competition awards between 3 and 5 grants per year ranging from $500,000 to $1 million. Projects funded through this program advance U.S. foreign policy objectives and demonstrate U.S. respect for other cultures.";
-        
-        /// <summary>
-        /// Verify that the 'ControlType' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link contains 'Hyperlink'
-        /// </summary>
-        public string UIAmbassadorsFundforCuHyperlinkControlType = "Hyperlink";
-        
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link contains 'Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program'
-        /// </summary>
-        public string UIAmbassadorsFundforCuHyperlinkInnerText = "Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program";
         #endregion
     }
     
@@ -654,7 +712,7 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
         
         #region Fields
         /// <summary>
-        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of custom control equals '4'
+        /// Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of custom control equals '4'
         /// </summary>
         public string UIItemCustomInnerText = "4";
         #endregion
@@ -692,6 +750,104 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
         /// Type '{F5}' in 'https://eca-kmt-qa.azurewebsites.net/#/allprograms...' document
         /// </summary>
         public string UIHttpsecakmtqaazureweDocument1SendKeys = "{F5}";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertIndividualProgram'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertIndividualProgramExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'ECA/P/C DRAFT Ambassadors Fund for' cell contains 'ECA/P/C DRAFT 
+        ///   Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program 
+        ///
+        ///The AFCP Large Grants Program supports the preservation of major ancient archaeological sites, historic buildings and monuments, and museum collections that are accessible to the public and protected by law in the host country. This limited competition awards between 3 and 5 grants per year ranging from $500,000 to $1 million. Projects funded through this program advance U.S. foreign policy objectives and demonstrate U.S. respect for other cultures.'
+        /// </summary>
+        public string UIECAPCDRAFTAmbassadorCellInnerText = @"ECA/P/C DRAFT 
+   Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program 
+
+The AFCP Large Grants Program supports the preservation of major ancient archaeological sites, historic buildings and monuments, and museum collections that are accessible to the public and protected by law in the host country. This limited competition awards between 3 and 5 grants per year ranging from $500,000 to $1 million. Projects funded through this program advance U.S. foreign policy objectives and demonstrate U.S. respect for other cultures.";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link contains 'Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program'
+        /// </summary>
+        public string UIAmbassadorsFundforCuHyperlinkInnerText = "Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Ambassadors Fund for Cultural Preservation (AFCP) ...' link equals 'Hyperlink'
+        /// </summary>
+        public string UIAmbassadorsFundforCuHyperlinkControlType = "Hyperlink";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertCHTestProj'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertCHTestProjExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'CH Test' link contains 'CH Test'
+        /// </summary>
+        public string UICHTestHyperlinkInnerText = "CH Test";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'CH Test' link equals 'Hyperlink'
+        /// </summary>
+        public string UICHTestHyperlinkControlType = "Hyperlink";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'SelectCHTestproj'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class SelectCHTestprojParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '{F5}' in 'CH Test' link
+        /// </summary>
+        public string UICHTestHyperlinkSendKeys = "{F5}";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertProj_CatFocus_ObjJust'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertProj_CatFocus_ObjJustExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Category/Focus Cultural Objects an' pane contains 'Category/Focus
+        ///
+        /// 
+        ///Cultural Objects and Collections
+        ///  • Archaeological Collections 
+        /// '
+        /// </summary>
+        public string UICategoryFocusCulturaPaneInnerText = "Category/Focus\r\n\r\n \r\nCultural Objects and Collections\r\n  • Archaeological Collect" +
+            "ions \r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Objective/Justification Secular Pu' pane contains 'Objective/Justification
+        ///
+        /// 
+        ///Secular Purpose
+        ///  • Technical documentation or assessment work separate from use 
+        /// '
+        /// </summary>
+        public string UIObjectiveJustificatiPaneInnerText = "Objective/Justification\r\n\r\n \r\nSecular Purpose\r\n  • Technical documentation or ass" +
+            "essment work separate from use \r\n ";
         #endregion
     }
     
@@ -787,6 +943,18 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
                 return this.mUIHttpsecakmtqaazureweDocument3;
             }
         }
+        
+        public UIHttpsecakmtqaazureweDocument4 UIHttpsecakmtqaazureweDocument4
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument4 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument4 = new UIHttpsecakmtqaazureweDocument4(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument4;
+            }
+        }
         #endregion
         
         #region Fields
@@ -801,6 +969,8 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
         private UIHttpsecakmtqaazureweDocument2 mUIHttpsecakmtqaazureweDocument2;
         
         private UIHttpsecakmtqaazureweDocument3 mUIHttpsecakmtqaazureweDocument3;
+        
+        private UIHttpsecakmtqaazureweDocument4 mUIHttpsecakmtqaazureweDocument4;
         #endregion
     }
     
@@ -1072,6 +1242,18 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
                 return this.mUISortlistPane2;
             }
         }
+        
+        public UIProgram1009Row UIProgram1009Row
+        {
+            get
+            {
+                if ((this.mUIProgram1009Row == null))
+                {
+                    this.mUIProgram1009Row = new UIProgram1009Row(this);
+                }
+                return this.mUIProgram1009Row;
+            }
+        }
         #endregion
         
         #region Fields
@@ -1080,6 +1262,8 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
         private UISortlistPane1 mUISortlistPane1;
         
         private UISortlistPane2 mUISortlistPane2;
+        
+        private UIProgram1009Row mUIProgram1009Row;
         #endregion
     }
     
@@ -1321,6 +1505,58 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
     }
     
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIProgram1009Row : HtmlRow
+    {
+        
+        public UIProgram1009Row(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlRow.PropertyNames.Id] = "program1009";
+            this.SearchProperties[HtmlRow.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlRow.PropertyNames.InnerText] = "ECA/P/C DRAFT \r\n   Ambassadors Fund for ";
+            this.FilterProperties[HtmlRow.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"program1009\" ng-repeat=\"program in programs\" ng-show=\"!progr" +
+                "amsLoading\" program-level=\"1\"";
+            this.FilterProperties[HtmlRow.PropertyNames.RowIndex] = "24";
+            this.FilterProperties[HtmlRow.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlRow.PropertyNames.TagInstance] = "25";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIAmbassadorsFundforCuHyperlink
+        {
+            get
+            {
+                if ((this.mUIAmbassadorsFundforCuHyperlink == null))
+                {
+                    this.mUIAmbassadorsFundforCuHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIAmbassadorsFundforCuHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIAmbassadorsFundforCuHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIAmbassadorsFundforCuHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIAmbassadorsFundforCuHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program";
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/programs/1009/overview";
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/programs/1009";
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "1";
+                    this.mUIAmbassadorsFundforCuHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAmbassadorsFundforCuHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIAmbassadorsFundforCuHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
     public class UIHttpsecakmtqaazureweDocument11 : HtmlDocument
     {
         
@@ -1362,12 +1598,54 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
                 return this.mUITopPane;
             }
         }
+        
+        public UIProgramListTable UIProgramListTable
+        {
+            get
+            {
+                if ((this.mUIProgramListTable == null))
+                {
+                    this.mUIProgramListTable = new UIProgramListTable(this);
+                }
+                return this.mUIProgramListTable;
+            }
+        }
+        
+        public UIProgram1009Row1 UIProgram1009Row
+        {
+            get
+            {
+                if ((this.mUIProgram1009Row == null))
+                {
+                    this.mUIProgram1009Row = new UIProgram1009Row1(this);
+                }
+                return this.mUIProgram1009Row;
+            }
+        }
+        
+        public UISortlistPane11 UISortlistPane1
+        {
+            get
+            {
+                if ((this.mUISortlistPane1 == null))
+                {
+                    this.mUISortlistPane1 = new UISortlistPane11(this);
+                }
+                return this.mUISortlistPane1;
+            }
+        }
         #endregion
         
         #region Fields
         private UISortlistPane3 mUISortlistPane;
         
         private UITopPane mUITopPane;
+        
+        private UIProgramListTable mUIProgramListTable;
+        
+        private UIProgram1009Row1 mUIProgram1009Row;
+        
+        private UISortlistPane11 mUISortlistPane1;
         #endregion
     }
     
@@ -1467,6 +1745,162 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
         
         #region Fields
         private HtmlHyperlink mUIBranchesProjectsHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIProgramListTable : HtmlTable
+    {
+        
+        public UIProgramListTable(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlTable.PropertyNames.Id] = "programList";
+            this.SearchProperties[HtmlTable.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlTable.PropertyNames.InnerText] = "Showing 76 - 100 of 198 programs\r\n\r\n \r\n\r";
+            this.FilterProperties[HtmlTable.PropertyNames.ControlDefinition] = "class=\"col-md-12\" id=\"programList\"";
+            this.FilterProperties[HtmlTable.PropertyNames.RowCount] = "28";
+            this.FilterProperties[HtmlTable.PropertyNames.ColumnCount] = "2";
+            this.FilterProperties[HtmlTable.PropertyNames.Class] = "col-md-12";
+            this.FilterProperties[HtmlTable.PropertyNames.TagInstance] = "1";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlCell UIECAPCDRAFTAmbassadorCell
+        {
+            get
+            {
+                if ((this.mUIECAPCDRAFTAmbassadorCell == null))
+                {
+                    this.mUIECAPCDRAFTAmbassadorCell = new HtmlCell(this);
+                    #region Search Criteria
+                    this.mUIECAPCDRAFTAmbassadorCell.SearchProperties[HtmlCell.PropertyNames.Id] = null;
+                    this.mUIECAPCDRAFTAmbassadorCell.SearchProperties[HtmlCell.PropertyNames.Name] = null;
+                    this.mUIECAPCDRAFTAmbassadorCell.SearchProperties[HtmlCell.PropertyNames.MaxDepth] = "3";
+                    this.mUIECAPCDRAFTAmbassadorCell.SearchProperties[HtmlCell.PropertyNames.InnerText] = "ECA/P/C DRAFT \r\n   Ambassadors Fund for ";
+                    this.mUIECAPCDRAFTAmbassadorCell.FilterProperties[HtmlCell.PropertyNames.ControlDefinition] = "class=\"col-md-9\" style=\"padding-left: 89px;\" ng-style=\"{\'padding-left\': 60+(30*pr" +
+                        "ogram.programLevel-1)}\"";
+                    this.mUIECAPCDRAFTAmbassadorCell.FilterProperties[HtmlCell.PropertyNames.RowIndex] = "24";
+                    this.mUIECAPCDRAFTAmbassadorCell.FilterProperties[HtmlCell.PropertyNames.ColumnIndex] = "0";
+                    this.mUIECAPCDRAFTAmbassadorCell.FilterProperties[HtmlCell.PropertyNames.Class] = "col-md-9";
+                    this.mUIECAPCDRAFTAmbassadorCell.FilterProperties[HtmlCell.PropertyNames.TagInstance] = "45";
+                    this.mUIECAPCDRAFTAmbassadorCell.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIECAPCDRAFTAmbassadorCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlCell mUIECAPCDRAFTAmbassadorCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIProgram1009Row1 : HtmlRow
+    {
+        
+        public UIProgram1009Row1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlRow.PropertyNames.Id] = "program1009";
+            this.SearchProperties[HtmlRow.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlRow.PropertyNames.InnerText] = "ECA/P/C DRAFT \r\n   Ambassadors Fund for ";
+            this.FilterProperties[HtmlRow.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"program1009\" ng-repeat=\"program in programs\" ng-show=\"!progr" +
+                "amsLoading\" program-level=\"1\"";
+            this.FilterProperties[HtmlRow.PropertyNames.RowIndex] = "24";
+            this.FilterProperties[HtmlRow.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlRow.PropertyNames.TagInstance] = "25";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIAmbassadorsFundforCuHyperlink
+        {
+            get
+            {
+                if ((this.mUIAmbassadorsFundforCuHyperlink == null))
+                {
+                    this.mUIAmbassadorsFundforCuHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIAmbassadorsFundforCuHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIAmbassadorsFundforCuHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIAmbassadorsFundforCuHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIAmbassadorsFundforCuHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "Ambassadors Fund for Cultural Preservation (AFCP) - Large Grants Program";
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/programs/1009/overview";
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/programs/1009";
+                    this.mUIAmbassadorsFundforCuHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "1";
+                    this.mUIAmbassadorsFundforCuHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAmbassadorsFundforCuHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIAmbassadorsFundforCuHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane11 : HtmlDiv
+    {
+        
+        public UISortlistPane11(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Title\r\n\r\nStatus\r\n\r\nYear\r\n\r\nRegion\r\n\r\n \r\n";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope ng-isolate-scope\" id=\"sort-list\" st-table=\"projects\" st-pipe=\"get" +
+                "Projects\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "47";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UICHTestHyperlink
+        {
+            get
+            {
+                if ((this.mUICHTestHyperlink == null))
+                {
+                    this.mUICHTestHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUICHTestHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUICHTestHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUICHTestHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUICHTestHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "CH Test";
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/offices/1036/programs/1009/project/1498/overview";
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/offices/1036/";
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "1";
+                    this.mUICHTestHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICHTestHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUICHTestHyperlink;
         #endregion
     }
     
@@ -1600,12 +2034,26 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
                 return this.mUISortlistPane;
             }
         }
+        
+        public UISortlistPane12 UISortlistPane1
+        {
+            get
+            {
+                if ((this.mUISortlistPane1 == null))
+                {
+                    this.mUISortlistPane1 = new UISortlistPane12(this);
+                }
+                return this.mUISortlistPane1;
+            }
+        }
         #endregion
         
         #region Fields
         private UITopPane2 mUITopPane;
         
         private UISortlistPane4 mUISortlistPane;
+        
+        private UISortlistPane12 mUISortlistPane1;
         #endregion
     }
     
@@ -2078,6 +2526,168 @@ The AFCP Large Grants Program supports the preservation of major ancient archaeo
         private HtmlCell mUIHeratCell;
         
         private HtmlCell mUISanBartoloCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane12 : HtmlDiv
+    {
+        
+        public UISortlistPane12(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Title\r\n\r\nStatus\r\n\r\nYear\r\n\r\nRegion\r\n\r\n \r\n";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope ng-isolate-scope\" id=\"sort-list\" st-table=\"projects\" st-pipe=\"get" +
+                "Projects\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "47";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UICHTestHyperlink
+        {
+            get
+            {
+                if ((this.mUICHTestHyperlink == null))
+                {
+                    this.mUICHTestHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUICHTestHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUICHTestHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUICHTestHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUICHTestHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "CH Test";
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/offices/1036/programs/1009/project/1498/overview";
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/offices/1036/";
+                    this.mUICHTestHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "1";
+                    this.mUICHTestHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICHTestHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUICHTestHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweDocument4 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument4(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/#/offices/1036/programs/1009/project/1498/ov" +
+                "erview#top";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UITopPane3 UITopPane
+        {
+            get
+            {
+                if ((this.mUITopPane == null))
+                {
+                    this.mUITopPane = new UITopPane3(this);
+                }
+                return this.mUITopPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UITopPane3 mUITopPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UITopPane3 : HtmlDiv
+    {
+        
+        public UITopPane3(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Cultural Heritage Center • Ambassadors F";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" autoscroll=\"true\" ui-view=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "27";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlDiv UICategoryFocusCulturaPane
+        {
+            get
+            {
+                if ((this.mUICategoryFocusCulturaPane == null))
+                {
+                    this.mUICategoryFocusCulturaPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICategoryFocusCulturaPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICategoryFocusCulturaPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICategoryFocusCulturaPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Category/Focus\r\n\r\n \r\nCultural Objects an";
+                    this.mUICategoryFocusCulturaPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICategoryFocusCulturaPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUICategoryFocusCulturaPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\" ng-show=\"project.categories.length > 0\"";
+                    this.mUICategoryFocusCulturaPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "76";
+                    this.mUICategoryFocusCulturaPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICategoryFocusCulturaPane;
+            }
+        }
+        
+        public HtmlDiv UIObjectiveJustificatiPane
+        {
+            get
+            {
+                if ((this.mUIObjectiveJustificatiPane == null))
+                {
+                    this.mUIObjectiveJustificatiPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIObjectiveJustificatiPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIObjectiveJustificatiPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIObjectiveJustificatiPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Objective/Justification\r\n\r\n \r\nSecular Pu";
+                    this.mUIObjectiveJustificatiPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIObjectiveJustificatiPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIObjectiveJustificatiPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\" ng-show=\"project.objectives.length > 0\"";
+                    this.mUIObjectiveJustificatiPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "80";
+                    this.mUIObjectiveJustificatiPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIObjectiveJustificatiPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlDiv mUICategoryFocusCulturaPane;
+        
+        private HtmlDiv mUIObjectiveJustificatiPane;
         #endregion
     }
 }

@@ -33,6 +33,7 @@ namespace ViewProjectList1.Test
             this.UIMap.SelectPrograms_ContentMenu();
             //this.UIMap.AssertPageNum_ProgList();
             //this.UIMap.SelectPageNum_ProgList();
+            this.UIMap.RefreshAllProgramsPage();
             this.UIMap.AssertPageNum4_ProgList();
             this.UIMap.SelectPageNum4_ProgList();
             this.UIMap.AssertIndividualProgram();
@@ -41,6 +42,10 @@ namespace ViewProjectList1.Test
             this.UIMap.SelectIndProg_BranchesProjectTab();
             this.UIMap.AssertIndProg_ProjectList();
             this.UIMap.AssertEditFilterBoxes_ProjectList();
+            this.UIMap.AssertCHTestProj();
+            this.UIMap.SelectCHTestproj();
+            this.UIMap.AssertProj_CatFocus_ObjJust();
+
         }
 
         #region Additional test attributes
