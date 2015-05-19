@@ -243,7 +243,7 @@
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8">
-                            <ui-select multiple ng-model="$parent.selectedCountriesOfCitizenship" ng-disabled="!editPii" theme="select2" title="Choose a country" style="min-width: 200px;">
+                            <ui-select id="countriesOfCitizenship" multiple ng-model="$parent.selectedCountriesOfCitizenship" ng-disabled="!editPii" theme="select2" title="Choose a country" style="min-width: 200px;">
                                 <ui-select-match placeholder="Select countries...">
                                     <div>{{$item.name}}</div>
                                 </ui-select-match>
@@ -252,6 +252,7 @@
                                     <div ng-bind-html="country.name | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
+                            <button class="btn btn-default btn-sm" type="button" ng-click="activate()">Add</button>
                         </div>
                     </div>
                 </div>

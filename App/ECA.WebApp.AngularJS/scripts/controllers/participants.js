@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ParticipantCtrl', function ($scope, ParticipantService, PersonService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService) {
+  .controller('ParticipantCtrl', function ($scope, $timeout, ParticipantService, PersonService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService) {
 
       $scope.tabs = {
           personalInformation: {
@@ -186,5 +186,12 @@ angular.module('staticApp')
         });
         $scope.pii.sevisId = $scope.participant.sevisId;
     };
+
+    $scope.activate = function () {
+        var uiSelect = angular.element('#countriesOfCitizenship').controller('uiSelect');
+        $timeout(function () {
+            uiSelect.activate(false, true);
+        }, 50);
+    }
     
   });
