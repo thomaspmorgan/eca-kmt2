@@ -86,6 +86,14 @@ angular.module('staticApp')
                     defer.resolve(data);
                 });
               return defer.promise;
+          },
+          getGeneric: function (params, strType) {
+              var defer = $q.defer();
+              DragonBreath.get(params, type)
+                .success(function (data) {
+                    defer.resolve(data);
+                });
+              return defer.promise;
           }
   };
 });

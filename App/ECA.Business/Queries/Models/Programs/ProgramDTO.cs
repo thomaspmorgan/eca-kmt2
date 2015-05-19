@@ -125,5 +125,7 @@ namespace ECA.Business.Queries.Models.Programs
         public byte[] RowVersion { get; set; }
 
         public int ProgramStatusId { get; set; }
+
+        public string Website { get; set; }
     }
 }

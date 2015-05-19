@@ -13,7 +13,7 @@ using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 namespace ViewProjectList1.Test
 {
     /// <summary>
-    /// Verifies the user can - login to QA; navigate to the All Programs page; select a program; view the program branches and projects section; view the list of projects available for the program; the project title displays; project year displays; project status displays; project region/location displays; filter boxes are available for edit for project list for each title, status, year, and region.
+    /// Verifies the user can - login to QA; navigate to the All Programs page; select a program; view the program branches and projects section; view the list of projects available for the program; the project title displays; project year displays; project status displays; project region/location displays; filter boxes are available for edit for project list for each title, status, year, and region. Views the overview of "CH Test" project and verifies the view of objectives and justifications, and category and focus. 
     /// </summary>
     [CodedUITest]
     public class ViewProjectListCodedUITest1
@@ -33,6 +33,7 @@ namespace ViewProjectList1.Test
             this.UIMap.SelectPrograms_ContentMenu();
             //this.UIMap.AssertPageNum_ProgList();
             //this.UIMap.SelectPageNum_ProgList();
+            this.UIMap.RefreshAllProgramsPage();
             this.UIMap.AssertPageNum4_ProgList();
             this.UIMap.SelectPageNum4_ProgList();
             this.UIMap.AssertIndividualProgram();
@@ -41,6 +42,10 @@ namespace ViewProjectList1.Test
             this.UIMap.SelectIndProg_BranchesProjectTab();
             this.UIMap.AssertIndProg_ProjectList();
             this.UIMap.AssertEditFilterBoxes_ProjectList();
+            this.UIMap.AssertCHTestProj();
+            this.UIMap.SelectCHTestproj();
+            this.UIMap.AssertProj_CatFocus_ObjJust();
+
         }
 
         #region Additional test attributes

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ECA.Business.Models.Programs;
 using ECA.Business.Queries.Models.Programs;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Programs;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -35,8 +36,8 @@ namespace ECA.WebApi.Test.Controllers.Programs
         {
             userProvider = new Mock<IUserProvider>();
             service = new Mock<IProgramService>();
-            service.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<SimpleProgramDTO>>()))
-                .ReturnsAsync(new PagedQueryResults<SimpleProgramDTO>(1, new List<SimpleProgramDTO>()));
+            service.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<OrganizationProgramDTO>>()))
+                .ReturnsAsync(new PagedQueryResults<OrganizationProgramDTO>(1, new List<OrganizationProgramDTO>()));
             service.Setup(x => x.CreateAsync(It.IsAny<DraftProgram>())).ReturnsAsync(new Program { RowVersion = new byte[0] });
             service.Setup(x => x.UpdateAsync(It.IsAny<EcaProgram>())).Returns(Task.FromResult<object>(null));
             service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
@@ -53,15 +54,15 @@ namespace ECA.WebApi.Test.Controllers.Programs
         [TestMethod]
         public async Task TestGetProgramsAsync()
         {
-            var response = await controller.GetProgramsAsync(new PagingQueryBindingModel<SimpleProgramDTO>());
-            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleProgramDTO>>));
+            var response = await controller.GetProgramsAsync(new PagingQueryBindingModel<OrganizationProgramDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<OrganizationProgramDTO>>));
         }
 
         [TestMethod]
         public async Task TestGetProgramsAsync_InvalidModel()
         {
             controller.ModelState.AddModelError("key", "error");
-            var response = await controller.GetProgramsAsync(new PagingQueryBindingModel<SimpleProgramDTO>());
+            var response = await controller.GetProgramsAsync(new PagingQueryBindingModel<OrganizationProgramDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 

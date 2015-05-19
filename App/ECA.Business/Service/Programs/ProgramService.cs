@@ -26,11 +26,9 @@ namespace ECA.Business.Service.Programs
     /// </summary>
     public class ProgramService : EcaService, IProgramService
     {
-        private const string GET_PROGRAMS_SPROC_NAME = "GetPrograms";
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> validator;
-
-        /// <summary>
+        
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
         /// <param name="context">The context to operate on.</param>
@@ -51,11 +49,12 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
-        public PagedQueryResults<SimpleProgramDTO> GetPrograms(QueryableOperator<SimpleProgramDTO> queryOperator)
+        public PagedQueryResults<OrganizationProgramDTO> GetPrograms(QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
-            var results = ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved programs by query operator [{0}].", queryOperator);
-            return results;
+            var results = CreateGetProgramsAlphaSqlQuery().ToArray();
+            var pagedResults = GetPagedQueryResults(results, queryOperator);
+            this.logger.Trace("Retrieved program hierarchy by query operator [{0}].", queryOperator);
+            return pagedResults;
         }
 
         /// <summary>
@@ -63,11 +62,12 @@ namespace ECA.Business.Service.Programs
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
-        public async Task<PagedQueryResults<SimpleProgramDTO>> GetProgramsAsync(QueryableOperator<SimpleProgramDTO> queryOperator)
+        public async Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsAsync(QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
-            var results = await ProgramQueries.CreateGetSimpleProgramDTOsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
-            this.logger.Trace("Retrieved programs by query operator [{0}].", queryOperator);
-            return results;
+            var results = await (CreateGetProgramsAlphaSqlQuery().ToArrayAsync());
+            var pagedResults = GetPagedQueryResults(results, queryOperator);
+            this.logger.Trace("Retrieved program hierarchy by query operator [{0}].", queryOperator);
+            return pagedResults;
         }
 
         public PagedQueryResults<OrganizationProgramDTO> GetProgramsHierarchy(QueryableOperator<OrganizationProgramDTO> queryOperator)
@@ -376,7 +376,12 @@ namespace ECA.Business.Service.Programs
 
         private DbRawSqlQuery<OrganizationProgramDTO> CreateGetProgramsHierarchySqlQuery()
         {
-            return this.Context.Database.SqlQuery<OrganizationProgramDTO>(GET_PROGRAMS_SPROC_NAME);
+            return this.Context.Database.SqlQuery<OrganizationProgramDTO>("GetProgramsForUser @userID = {0}", 2);
+        }
+
+        private DbRawSqlQuery<OrganizationProgramDTO> CreateGetProgramsAlphaSqlQuery()
+        {
+            return this.Context.Database.SqlQuery<OrganizationProgramDTO>("GetProgramsForUserAlpha @userID = {0}", 2);
         }
     }
 }

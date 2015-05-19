@@ -393,6 +393,27 @@ h5.canEdit {
     background-color: none;
 }
 
+.draft-program1 {
+    display:none;
+}
+
+.draft-program4 {
+    display: inline;
+    color:red;
+    font-style: italic;
+
+}
+
+.moneyFlowDirection {
+    cursor: pointer;
+    padding: 5px;
+    background-color: white;
+}
+.moneyFlowDirection.directionSelected {
+        border: 1px solid black;
+        background-color: lightgray;
+}
+
 .modal-center .modal-dialog {
   width: 400px;
   height: 400px;

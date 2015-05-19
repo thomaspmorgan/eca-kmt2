@@ -37,6 +37,7 @@ namespace ECA.Business.Queries.Models.Admin
         /// </summary>
         public int Owner_OrganizationId { get; set; }
 
+        public int OwnerId { get; set; }
         /// <summary>
         /// Gets or sets the org name.
         /// </summary>
@@ -56,5 +57,9 @@ namespace ECA.Business.Queries.Models.Admin
         /// Indicates whether the program is a parent
         /// </summary>
         public int NumChildren { get; set; }
+
+        public int ProgramStatusId { get; set; }
+
+        public decimal SortOrder { get; set; }
     }
 }
