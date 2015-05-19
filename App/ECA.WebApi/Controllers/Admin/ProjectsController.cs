@@ -1,8 +1,10 @@
-﻿using CAM.Business.Service;
+﻿using CAM.Business.Model;
+using CAM.Business.Service;
 using CAM.Data;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Projects;
@@ -30,9 +32,15 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         private static readonly ExpressionSorter<SimpleProjectDTO> DEFAULT_SIMPLE_PROJECT_DTO_SORTER = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectName, SortDirection.Ascending);
 
+        /// <summary>
+        /// The default sorter to resource authorizations.
+        /// </summary>
+        private static readonly ExpressionSorter<ResourceAuthorization> DEFAULT_RESOURCE_AUTHORIZATION_SORTER = new ExpressionSorter<ResourceAuthorization>(x => x.DisplayName, SortDirection.Ascending);
+
         private IProjectService projectService;
         private IUserProvider userProvider;
         private IPrincipalService principalService;
+        private IResourceService resourceService;
 
         /// <summary>
         /// Creates a new ProjectsController with the given project service.
@@ -40,14 +48,16 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="projectService">The project service.</param>
         /// <param name="userProvider">The user provider.</param>
         /// <param name="principalService">The principal service.</param>
-        public ProjectsController(IProjectService projectService, IUserProvider userProvider, IPrincipalService principalService)
+        public ProjectsController(IProjectService projectService, IUserProvider userProvider, IPrincipalService principalService, IResourceService resourceService)
         {
             Contract.Requires(projectService != null, "The project service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
             Contract.Requires(principalService != null, "The principal service must not be null.");
+            Contract.Requires(resourceService != null, "The resource service must not be null.");
             this.userProvider = userProvider;
             this.projectService = projectService;
             this.principalService = principalService;
+            this.resourceService = resourceService;
         }
 
         /// <summary>
@@ -144,7 +154,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns>An ok result.</returns>
         [Route("Projects/Collaborator/Add")]
         [ResponseType(typeof(OkResult))]
-        [ResourceAuthorize(CAM.Data.Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, typeof(AddCollaboratorBindingModel), "ProjectId")]
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(AddCollaboratorBindingModel), "ProjectId")]
         public Task<IHttpActionResult> PostAddCollaboratorAsync(AddCollaboratorBindingModel model)
         {
             return PostAddCollaboratorsAsync(new List<AddCollaboratorBindingModel> { model });
@@ -157,7 +167,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns>An ok result.</returns>
         [ResponseType(typeof(OkResult))]
         [Route("Projects/Collaborators/Add")]
-        [ResourceAuthorize(CAM.Data.Permission.EDIT_PROJECT_VALUE, ResourceType.PROJECT_VALUE, typeof(AddCollaboratorBindingModel), "ProjectId")]
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(AddCollaboratorBindingModel), "ProjectId")]
         public async Task<IHttpActionResult> PostAddCollaboratorsAsync(List<AddCollaboratorBindingModel> models)
         {
             if (ModelState.IsValid)
@@ -170,6 +180,31 @@ namespace ECA.WebApi.Controllers.Admin
                 }
                 await principalService.SaveChangesAsync();
                 return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Adds collaborators to a project.
+        /// </summary>
+        /// <param name="id">The id of the project to get collaborators for.</param>
+        /// <param name="queryModel">The filtering, paging, and sorting parameters.</param>
+        /// <returns>An ok result.</returns>
+        [ResponseType(typeof(PagedQueryResults<ResourceAuthorization>))]
+        [Route("Projects/{id}/Collaborators")]
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(AddCollaboratorBindingModel), "ProjectId")]
+        public async Task<IHttpActionResult> GetCollaboratorsAsync(int id, [FromUri]PagingQueryBindingModel<ResourceAuthorization> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var queryOperator = queryModel.ToQueryableOperator(DEFAULT_RESOURCE_AUTHORIZATION_SORTER);
+                queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ForeignResourceId, ComparisonType.Equal, id));
+                queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ResourceTypeId, ComparisonType.Equal, ResourceType.Project.Id));
+                var authorizations = await resourceService.GetResourceAuthorizationsAsync(queryOperator);
+                return Ok(authorizations);
             }
             else
             {

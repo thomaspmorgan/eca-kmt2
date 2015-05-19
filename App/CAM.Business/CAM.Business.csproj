@@ -58,6 +58,7 @@
     <Compile Include="Model\AzureUser.cs" />
     <Compile Include="Model\DeletedPermission.cs" />
     <Compile Include="Model\GrantedPermission.cs" />
+    <Compile Include="Model\ResourceAuthorization.cs" />
     <Compile Include="Model\RevokedPermission.cs" />
     <Compile Include="Queries\Models\UserDTO.cs" />
     <Compile Include="Queries\ResourceQueries.cs" />

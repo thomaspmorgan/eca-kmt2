@@ -8,6 +8,11 @@ using System.Runtime.Caching;
 using Moq;
 using CAM.Data;
 using System.Threading.Tasks;
+using ECA.Core.DynamicLinq.Sorter;
+using CAM.Business.Model;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
+using ECA.Core.DynamicLinq.Filter;
 
 namespace CAM.Business.Test.Service
 {
@@ -409,5 +414,336 @@ namespace CAM.Business.Test.Service
             var policy = service.GetCacheItemPolicy();
             Assert.IsNotNull(policy.SlidingExpiration);
         }
+
+        #region Resource Authorizations
+        [TestMethod]
+        public async Task TestGetResourceAuthorization_DefaultSort()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission1 = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.Editproject.Id,
+                PermissionName = CAM.Data.Permission.Editproject.Value,
+            };
+            var permissionAssignment1 = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission1,
+                PermissionId = permission1.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+            var permission2 = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.Editprogram.Id,
+                PermissionName = CAM.Data.Permission.Editprogram.Value,
+            };
+            var permissionAssignment2 = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission2,
+                PermissionId = permission2.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission1);
+            context.PermissionAssignments.Add(permissionAssignment1);
+            context.Permissions.Add(permission2);
+            context.PermissionAssignments.Add(permissionAssignment2);
+
+            var defaultSort = new ExpressionSorter<ResourceAuthorization>(x => x.PermissionName, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ResourceAuthorization>(0, 10, defaultSort);
+            Action<PagedQueryResults<ResourceAuthorization>> tester = (results) =>
+            {
+                Assert.AreEqual(2, results.Total);
+                Assert.AreEqual(2, results.Results.Count);
+                Assert.AreEqual(permission2.PermissionId, results.Results.First().PermissionId);
+            };
+            var serviceResults = service.GetResourceAuthorizations(queryOperator);
+            var serviceResultsAsync = await service.GetResourceAuthorizationsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetResourceAuthorization_Sort()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission1 = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.Editproject.Id,
+                PermissionName = CAM.Data.Permission.Editproject.Value,
+            };
+            var permissionAssignment1 = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission1,
+                PermissionId = permission1.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+            var permission2 = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.Editprogram.Id,
+                PermissionName = CAM.Data.Permission.Editprogram.Value,
+            };
+            var permissionAssignment2 = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission2,
+                PermissionId = permission2.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission1);
+            context.PermissionAssignments.Add(permissionAssignment1);
+            context.Permissions.Add(permission2);
+            context.PermissionAssignments.Add(permissionAssignment2);
+
+            var defaultSort = new ExpressionSorter<ResourceAuthorization>(x => x.PermissionName, SortDirection.Descending);
+            var queryOperator = new QueryableOperator<ResourceAuthorization>(0, 10, defaultSort);
+            Action<PagedQueryResults<ResourceAuthorization>> tester = (results) =>
+            {
+                Assert.AreEqual(2, results.Total);
+                Assert.AreEqual(2, results.Results.Count);
+                Assert.AreEqual(permission1.PermissionId, results.Results.First().PermissionId);
+            };
+            var serviceResults = service.GetResourceAuthorizations(queryOperator);
+            var serviceResultsAsync = await service.GetResourceAuthorizationsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetResourceAuthorization_Filter()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission1 = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.Editproject.Id,
+                PermissionName = CAM.Data.Permission.Editproject.Value,
+            };
+            var permissionAssignment1 = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission1,
+                PermissionId = permission1.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+            var permission2 = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.Editprogram.Id,
+                PermissionName = CAM.Data.Permission.Editprogram.Value,
+            };
+            var permissionAssignment2 = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission2,
+                PermissionId = permission2.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission1);
+            context.PermissionAssignments.Add(permissionAssignment1);
+            context.Permissions.Add(permission2);
+            context.PermissionAssignments.Add(permissionAssignment2);
+
+            var defaultSort = new ExpressionSorter<ResourceAuthorization>(x => x.PermissionName, SortDirection.Descending);
+            var queryOperator = new QueryableOperator<ResourceAuthorization>(0, 10, defaultSort);
+            queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.PermissionName, ComparisonType.Equal, permission2.PermissionName));
+            Action<PagedQueryResults<ResourceAuthorization>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.AreEqual(permission2.PermissionId, results.Results.First().PermissionId);
+            };
+            var serviceResults = service.GetResourceAuthorizations(queryOperator);
+            var serviceResultsAsync = await service.GetResourceAuthorizationsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetResourceAuthorization_Paged()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission1 = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.Editproject.Id,
+                PermissionName = CAM.Data.Permission.Editproject.Value,
+            };
+            var permissionAssignment1 = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission1,
+                PermissionId = permission1.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+            var permission2 = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.Editprogram.Id,
+                PermissionName = CAM.Data.Permission.Editprogram.Value,
+            };
+            var permissionAssignment2 = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission2,
+                PermissionId = permission2.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission1);
+            context.PermissionAssignments.Add(permissionAssignment1);
+            context.Permissions.Add(permission2);
+            context.PermissionAssignments.Add(permissionAssignment2);
+
+            var defaultSort = new ExpressionSorter<ResourceAuthorization>(x => x.PermissionName, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ResourceAuthorization>(0, 1, defaultSort);
+            Action<PagedQueryResults<ResourceAuthorization>> tester = (results) =>
+            {
+                Assert.AreEqual(2, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.AreEqual(permission2.PermissionId, results.Results.First().PermissionId);
+            };
+            var serviceResults = service.GetResourceAuthorizations(queryOperator);
+            var serviceResultsAsync = await service.GetResourceAuthorizationsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
     }
 }
