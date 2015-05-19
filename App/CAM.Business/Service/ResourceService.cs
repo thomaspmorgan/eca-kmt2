@@ -204,7 +204,6 @@ namespace CAM.Business.Service
 
         private void ItemRemoved(CacheEntryRemovedArguments arguments)
         {
-            // The arguments object contains information about the removed item such as: 
             var key = arguments.CacheItem.Key;
             var removedReason = arguments.RemovedReason;
             logger.Info("Foreign resource cache with id [{0}] removed because [{1}].", key, removedReason.ToString());

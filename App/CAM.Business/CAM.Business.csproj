@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\AzureUser.cs" />
+    <Compile Include="Model\DeletedPermission.cs" />
     <Compile Include="Model\GrantedPermission.cs" />
     <Compile Include="Model\RevokedPermission.cs" />
     <Compile Include="Queries\Models\UserDTO.cs" />

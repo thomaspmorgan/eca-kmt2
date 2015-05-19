@@ -240,10 +240,10 @@ namespace CAM.Business.Test.Service
                 await service.GrantPermissionsAsync(grantedPermission);
             };
             service.Invoking(x => x.GrantPermission(grantedPermission)).ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The permission with id [{0}] was found.", grantedPermission.PermissionId));
+                .WithMessage(String.Format("The permission with id [{0}] was not found.", grantedPermission.PermissionId));
 
             grantAction.ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The permission with id [{0}] was found.", grantedPermission.PermissionId));
+                .WithMessage(String.Format("The permission with id [{0}] was not found.", grantedPermission.PermissionId));
         }
 
         [TestMethod]
@@ -559,10 +559,10 @@ namespace CAM.Business.Test.Service
                 await service.RevokePermissionAsync(revokedPermission);
             };
             service.Invoking(x => x.RevokePermission(revokedPermission)).ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The permission with id [{0}] was found.", revokedPermission.PermissionId));
+                .WithMessage(String.Format("The permission with id [{0}] was not found.", revokedPermission.PermissionId));
 
             revokeAction.ShouldThrow<ModelNotFoundException>()
-                .WithMessage(String.Format("The permission with id [{0}] was found.", revokedPermission.PermissionId));
+                .WithMessage(String.Format("The permission with id [{0}] was not found.", revokedPermission.PermissionId));
         }
 
         [TestMethod]
@@ -662,6 +662,94 @@ namespace CAM.Business.Test.Service
                 .WithMessage("There should not be more than one permission assignment to set is allowed true.");
 
         }
+        #endregion
+
+        #region Delete
+
+        [TestMethod]
+        public void TestDeletePermission()
+        {
+            var foreignResourceId = 1;
+            var permissionAssignment = new PermissionAssignment
+            {
+                PermissionId = 1,
+                PrincipalId = 2,
+                ResourceId = 3
+            };
+            context.PermissionAssignments.Add(permissionAssignment);
+            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(permissionAssignment.ResourceId);
+            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(permissionAssignment.ResourceId);
+
+            var deletedPermission = new DeletedPermission(permissionAssignment.PrincipalId, foreignResourceId, permissionAssignment.PermissionId, ResourceType.Project.Value);
+            Assert.AreEqual(1, context.PermissionAssignments.Count());
+            service.DeletePermission(deletedPermission);
+            Assert.AreEqual(0, context.PermissionAssignments.Count());
+        }
+
+        [TestMethod]
+        public async Task TestDeletePermissionAsync()
+        {
+            var foreignResourceId = 1;
+            var permissionAssignment = new PermissionAssignment
+            {
+                PermissionId = 1,
+                PrincipalId = 2,
+                ResourceId = 3
+            };
+            context.PermissionAssignments.Add(permissionAssignment);
+            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(permissionAssignment.ResourceId);
+            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(permissionAssignment.ResourceId);
+
+            var deletedPermission = new DeletedPermission(permissionAssignment.PrincipalId, foreignResourceId, permissionAssignment.PermissionId, ResourceType.Project.Value);
+            Assert.AreEqual(1, context.PermissionAssignments.Count());
+            await service.DeletePermissionAsync(deletedPermission);
+            Assert.AreEqual(0, context.PermissionAssignments.Count());
+        }
+
+        [TestMethod]
+        public void TestDeletePermission_ForeignResourceByIdDoesNotExist()
+        {   
+            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(default(int?));
+            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(default(int?));
+
+            var deletedPermission = new DeletedPermission(0, 0, 0, ResourceType.Project.Value);
+            Func<Task> f = async () =>
+            {
+                await service.DeletePermissionAsync(deletedPermission);
+            };
+            
+            service.Invoking(x => x.DeletePermission(deletedPermission)).ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The foreign resource with id [{0}] and resource type [{1}] does not exist in CAM.", 0, ResourceType.Project.Value));
+            f.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The foreign resource with id [{0}] and resource type [{1}] does not exist in CAM.", 0, ResourceType.Project.Value));
+        }
+
+        [TestMethod]
+        public void TestDeletePermission_PermissionAssignmentDoesNotExist()
+        {
+            var foreignResourceId = 1;
+            var permissionAssignment = new PermissionAssignment
+            {
+                PermissionId = 1,
+                PrincipalId = 2,
+                ResourceId = 3
+            };
+            context.PermissionAssignments.Add(permissionAssignment);
+            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(permissionAssignment.ResourceId);
+            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(permissionAssignment.ResourceId);
+
+            var deletedPermission = new DeletedPermission(0, 0, 0, ResourceType.Project.Value);
+            Func<Task> f = async () =>
+            {
+                await service.DeletePermissionAsync(deletedPermission);
+            };
+
+            service.Invoking(x => x.DeletePermission(deletedPermission)).ShouldThrow<ModelNotFoundException>()
+                .WithMessage("The permission assignment was not found.");
+            f.ShouldThrow<ModelNotFoundException>()
+                .WithMessage("The permission assignment was not found.");
+        }
+
         #endregion
     }
 }

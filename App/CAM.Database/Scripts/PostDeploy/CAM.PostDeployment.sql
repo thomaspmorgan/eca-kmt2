@@ -12,3 +12,8 @@ Post-Deployment Script Template
 :r .\StaticData\CAM.AccountStatus.staticdata.sql
 :r .\StaticData\CAM.ResourceType.staticdata.sql
 :r .\StaticData\CAM.PrincipalType.staticdata.sql
+:r .\StaticData\CAM.Permission.staticdata.sql
+:r .\StaticData\CAM.Resource.staticdata.sql
+:r .\StaticData\CAM.Application.staticdata.sql
+:r .\StaticData\CAM.Principal.staticdata.sql
+:r .\StaticData\CAM.UserAccount.staticdata.sql

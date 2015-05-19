@@ -32,6 +32,18 @@ namespace CAM.Business.Service
         /// </summary>
         /// <param name="revokedPermission">The revoked permission.</param>
         System.Threading.Tasks.Task RevokePermissionAsync(CAM.Business.Model.RevokedPermission revokedPermission);
+
+        /// <summary>
+        /// Deletes a permission assignment.
+        /// </summary>
+        /// <param name="permission">The deleted permission.</param>
+        void DeletePermission(CAM.Business.Model.DeletedPermission permission);
+
+        /// <summary>
+        /// Deletes a permission assignment.
+        /// </summary>
+        /// <param name="permission">The deleted permission.</param>
+        System.Threading.Tasks.Task DeletePermissionAsync(CAM.Business.Model.DeletedPermission permission);
     }
 
     /// <summary>
@@ -94,6 +106,26 @@ namespace CAM.Business.Service
         public System.Threading.Tasks.Task<int> SaveChangesAsync(System.Collections.Generic.IList<ISaveAction> saveActions = null)
         {
             return System.Threading.Tasks.Task.FromResult<int>(1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="permission"></param>
+        public void DeletePermission(Model.DeletedPermission permission)
+        {
+            Contract.Requires(permission != null, "The permission must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="permission"></param>
+        /// <returns></returns>
+        public System.Threading.Tasks.Task DeletePermissionAsync(Model.DeletedPermission permission)
+        {
+            Contract.Requires(permission != null, "The permission must not be null.");
+            return System.Threading.Tasks.Task.FromResult<object>(null);
         }
     }
 }
