@@ -10,6 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Caching;
 using CAM.Business.Queries;
+using CAM.Business.Model;
+using ECA.Core.Query;
+using ECA.Core.DynamicLinq;
 
 namespace CAM.Business.Service
 {
@@ -47,6 +50,8 @@ namespace CAM.Business.Service
             this.cache = objectCache ?? MemoryCache.Default;
             this.timeToLiveInSeconds = timeToLiveInSeconds;
         }
+
+        #region Resource/Foreign ResourceId
 
         /// <summary>
         /// Returns the resourceId for a given applicationId
@@ -143,6 +148,9 @@ namespace CAM.Business.Service
             }
             return resourceType == null ? default(int?) : resourceType.Id;
         }
+        #endregion
+
+        #region Caching
 
         /// <summary>
         /// Returns the cache key for the given resource.
@@ -240,5 +248,33 @@ namespace CAM.Business.Service
                 return null;
             }
         }
+        #endregion
+
+        #region Resource Authorizations
+        
+        /// <summary>
+        /// Returns resource authorizations given the query operator.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged filtered and sorted resource authorizations.</returns>
+        public PagedQueryResults<ResourceAuthorization> GetResourceAuthorizations(QueryableOperator<ResourceAuthorization> queryOperator)
+        {
+            var results = ResourceQueries.CreateGetResourceAuthorizationsQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved resource authorizations using query operator [{0}].", queryOperator);
+            return results;
+        }
+
+        /// <summary>
+        /// Returns resource authorizations given the query operator.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged filtered and sorted resource authorizations.</returns>
+        public async Task<PagedQueryResults<ResourceAuthorization>> GetResourceAuthorizationsAsync(QueryableOperator<ResourceAuthorization> queryOperator)
+        {
+            var results = await ResourceQueries.CreateGetResourceAuthorizationsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved resource authorizations using query operator [{0}].", queryOperator);
+            return results;
+        }
+        #endregion
     }
 }
