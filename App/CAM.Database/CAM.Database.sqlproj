@@ -74,6 +74,11 @@
     <None Include="Scripts\PostDeploy\StaticData\CAM.AccountStatus.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\CAM.ResourceType.staticdata.sql" />
     <None Include="Scripts\PostDeploy\StaticData\CAM.PrincipalType.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.Permission.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.Application.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.Resource.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.UserAccount.staticdata.sql" />
+    <None Include="Scripts\PostDeploy\StaticData\CAM.Principal.staticdata.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CAM.Database.refactorlog" />

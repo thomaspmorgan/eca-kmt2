@@ -1,4 +1,5 @@
-﻿using ECA.Business.Queries.Models.Admin;
+﻿using CAM.Business.Service;
+using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
@@ -23,6 +24,7 @@ namespace ECA.WebApi.Test.Controllers.Admin
     {
         private Mock<IProjectService> service;
         private Mock<IUserProvider> userProvider;
+        private Mock<IPrincipalService> principalService;
         private ProjectsController controller;
 
         [TestInitialize]
@@ -30,9 +32,10 @@ namespace ECA.WebApi.Test.Controllers.Admin
         {
             userProvider = new Mock<IUserProvider>();
             service = new Mock<IProjectService>();
+            principalService = new Mock<IPrincipalService>();
             service.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<SimpleProjectDTO>(1, new List<SimpleProjectDTO>()));
-            controller = new ProjectsController(service.Object, userProvider.Object);
+            controller = new ProjectsController(service.Object, userProvider.Object, principalService.Object);
         }
 
         #region Get

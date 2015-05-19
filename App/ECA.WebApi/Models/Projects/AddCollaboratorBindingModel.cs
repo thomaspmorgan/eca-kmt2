@@ -22,6 +22,11 @@ namespace ECA.WebApi.Models.Projects
         /// </summary>
         public int ProjectId { get; set; }
 
+        /// <summary>
+        /// Returns a granted permission instance from this object.
+        /// </summary>
+        /// <param name="grantorUserId">The user id of the user granting the permission.</param>
+        /// <returns>The granted permission.</returns>
         public GrantedPermission ToGrantedPermission(int grantorUserId)
         {
             return new GrantedPermission(

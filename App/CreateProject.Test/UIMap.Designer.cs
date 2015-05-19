@@ -31,46 +31,6 @@ namespace CreateProject.Test
     {
         
         /// <summary>
-        /// Open browser; navigate to QA site; select ECATest cred; enter password; click sign in.
-        /// </summary>
-        public void LogintoQA_ExistingUser()
-        {
-            #region Variable Declarations
-            WinEdit uIAddressandsearchusinEdit = this.UINewtabInternetExplorWindow.UIAddressBarClient.UIAddressandsearchusinEdit;
-            WinEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIItemWindow.UIItemEdit;
-            WinButton uIGotohttpsecakmtqaazuButton = this.UINewtabInternetExplorWindow.UIPageControlToolBar.UIGotohttpsecakmtqaazuButton;
-            HtmlCell uIECATest1statedeptusCell = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable.UIECATest1statedeptusCell;
-            HtmlTable uIEcatest1_statedept_uTable = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable;
-            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
-            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
-            #endregion
-
-            // Go to web page 'about:Tabs' using new browser instance
-            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
-
-            // Click 'Address and search using Bing' text box
-            Mouse.Click(uIAddressandsearchusinEdit, new Point(34, 11));
-
-            // Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-            Keyboard.SendKeys(uIItemEdit, this.LogintoQA_ExistingUserParams.UIItemEditSendKeys, ModifierKeys.None);
-
-            // Click 'Go to “https://eca-kmt-qa.azurewebsites.net/” (Alt...' button
-            Mouse.Click(uIGotohttpsecakmtqaazuButton, new Point(8, 14));
-
-            // Click 'ECATest1@statedept.us' cell
-            Mouse.Click(uIECATest1statedeptusCell, new Point(18, 11));
-
-            // Click 'ecatest1_statedept_us' table
-            Mouse.Click(uIEcatest1_statedept_uTable, new Point(61, 33));
-
-            // Type '********' in 'Password' text box
-            uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
-
-            // Click 'Sign in' pane
-            Mouse.Click(uISigninPane, new Point(18, 23));
-        }
-        
-        /// <summary>
         /// Verify the Content Menu button is available.
         /// </summary>
         public void AssertContentMenuButton()
@@ -81,19 +41,6 @@ namespace CreateProject.Test
 
             // Verify that the 'ControlType' property of 'Toggle navigation' button equals 'Button'
             Assert.AreEqual(this.AssertContentMenuButtonExpectedValues.UITogglenavigationButtonControlType, uITogglenavigationButton.ControlType.ToString(), "No Content Menu button.");
-        }
-        
-        /// <summary>
-        /// Select the Content Menu button to expand and display the menu links.
-        /// </summary>
-        public void SelectContentMenuButton()
-        {
-            #region Variable Declarations
-            HtmlButton uITogglenavigationButton = this.UIHttpsecakmtqaazureweWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
-            #endregion
-
-            // Click 'Toggle navigation' button
-            Mouse.Click(uITogglenavigationButton, new Point(15, 12));
         }
         
         /// <summary>
@@ -113,6 +60,47 @@ namespace CreateProject.Test
         }
         
         /// <summary>
+        /// Open browser; navigate to QA site; select ECATest cred; enter password; click sign in.
+        /// </summary>
+        public void LogintoQA_ExistingUser()
+        {
+            #region Variable Declarations
+            HtmlCell uIECATest1statedeptusCell = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable.UIECATest1statedeptusCell;
+            HtmlTable uIEcatest1_statedept_uTable = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable;
+            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
+            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
+            #endregion
+
+            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
+
+            // Click 'ECATest1@statedept.us' cell
+            Mouse.Click(uIECATest1statedeptusCell, new Point(18, 11));
+
+            // Click 'ecatest1_statedept_us' table
+            Mouse.Click(uIEcatest1_statedept_uTable, new Point(61, 33));
+
+            // Type '********' in 'Password' text box
+            uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
+
+            // Click 'Sign in' pane
+            Mouse.Click(uISigninPane, new Point(18, 23));
+        }
+        
+        /// <summary>
+        /// Select the Content Menu button to expand and display the menu links.
+        /// </summary>
+        public void SelectContentMenuButton()
+        {
+            #region Variable Declarations
+            HtmlButton uITogglenavigationButton = this.UIHttpsecakmtqaazureweWindow.UIHttpsecakmtqaazureweDocument.UITogglenavigationButton;
+            #endregion
+
+            // Click 'Toggle navigation' button
+            Mouse.Click(uITogglenavigationButton, new Point(15, 12));
+        }
+        
+        /// <summary>
         /// Select the Programs link in the Content Menu to navigate to the All Programs page.
         /// </summary>
         public void SelectProgramsLink_ContentMenu()
@@ -126,18 +114,6 @@ namespace CreateProject.Test
         }
         
         #region Properties
-        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
-        {
-            get
-            {
-                if ((this.mLogintoQA_ExistingUserParams == null))
-                {
-                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
-                }
-                return this.mLogintoQA_ExistingUserParams;
-            }
-        }
-        
         public virtual AssertContentMenuButtonExpectedValues AssertContentMenuButtonExpectedValues
         {
             get
@@ -159,6 +135,18 @@ namespace CreateProject.Test
                     this.mAssertProgramsLink_ContentMenuExpectedValues = new AssertProgramsLink_ContentMenuExpectedValues();
                 }
                 return this.mAssertProgramsLink_ContentMenuExpectedValues;
+            }
+        }
+        
+        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
+        {
+            get
+            {
+                if ((this.mLogintoQA_ExistingUserParams == null))
+                {
+                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
+                }
+                return this.mLogintoQA_ExistingUserParams;
             }
         }
         
@@ -188,40 +176,15 @@ namespace CreateProject.Test
         #endregion
         
         #region Fields
-        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
-        
         private AssertContentMenuButtonExpectedValues mAssertContentMenuButtonExpectedValues;
         
         private AssertProgramsLink_ContentMenuExpectedValues mAssertProgramsLink_ContentMenuExpectedValues;
         
+        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
+        
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
         
         private UIHttpsecakmtqaazureweWindow mUIHttpsecakmtqaazureweWindow;
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'LogintoQA_ExistingUser'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class LogintoQA_ExistingUserParams
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Go to web page 'about:Tabs' using new browser instance
-        /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "about:Tabs";
-        
-        /// <summary>
-        /// Type 'https://eca-kmt-qa.azurewebsites.net/' in text box
-        /// </summary>
-        public string UIItemEditSendKeys = "https://eca-kmt-qa.azurewebsites.net/";
-        
-        /// <summary>
-        /// Type '********' in 'Password' text box
-        /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
         #endregion
     }
     
@@ -257,6 +220,26 @@ namespace CreateProject.Test
         /// Verify that the 'ControlType' property of 'Programs' link equals 'Hyperlink'
         /// </summary>
         public string UIProgramsHyperlinkControlType = "Hyperlink";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'LogintoQA_ExistingUser'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class LogintoQA_ExistingUserParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+        /// </summary>
+        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
+        
+        /// <summary>
+        /// Type '********' in 'Password' text box
+        /// </summary>
+        public string UIPasswordEditPassword = "pnl8gvcmh7n9Hp5j+06Q16vTeHomf4bql8vy/6wcjU0=";
         #endregion
     }
     
