@@ -136,6 +136,7 @@
     <Content Include="scripts\controllers\project\overview.js" />
     <Content Include="scripts\controllers\project\overview_test.js" />
     <Content Include="scripts\controllers\project\unsavedchanges.js" />
+    <Content Include="scripts\services\organization.js" />
     <Content Include="views\organizations\allorganizations.html" />
     <Content Include="views\project\unsavedchanges.html" />
     <Content Include="scripts\controllers\reports\ProjectAwards.js" />
