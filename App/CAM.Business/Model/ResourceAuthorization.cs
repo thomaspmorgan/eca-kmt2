@@ -23,6 +23,11 @@ namespace CAM.Business.Model
         public string DisplayName { get; set; }
 
         /// <summary>
+        /// Gets or sets the email address of the user.
+        /// </summary>
+        public string EmailAddress { get; set; }
+
+        /// <summary>
         /// Gets or sets the Foreign Resource Id.
         /// </summary>
         public int ForeignResourceId { get; set; }

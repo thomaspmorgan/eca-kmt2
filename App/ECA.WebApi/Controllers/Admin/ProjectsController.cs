@@ -190,18 +190,18 @@ namespace ECA.WebApi.Controllers.Admin
         /// <summary>
         /// Adds collaborators to a project.
         /// </summary>
-        /// <param name="id">The id of the project to get collaborators for.</param>
+        /// <param name="projectId">The id of the project to get collaborators for.</param>
         /// <param name="queryModel">The filtering, paging, and sorting parameters.</param>
         /// <returns>An ok result.</returns>
         [ResponseType(typeof(PagedQueryResults<ResourceAuthorization>))]
-        [Route("Projects/{id}/Collaborators")]
-        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(AddCollaboratorBindingModel), "ProjectId")]
-        public async Task<IHttpActionResult> GetCollaboratorsAsync(int id, [FromUri]PagingQueryBindingModel<ResourceAuthorization> queryModel)
+        [Route("Projects/{projectId}/Collaborators")]
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, CAM.Data.ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<IHttpActionResult> GetCollaboratorsAsync([FromUri]int projectId, [FromUri]PagingQueryBindingModel<ResourceAuthorization> queryModel)
         {
             if (ModelState.IsValid)
             {
                 var queryOperator = queryModel.ToQueryableOperator(DEFAULT_RESOURCE_AUTHORIZATION_SORTER);
-                queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ForeignResourceId, ComparisonType.Equal, id));
+                queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ForeignResourceId, ComparisonType.Equal, projectId));
                 queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ResourceTypeId, ComparisonType.Equal, ResourceType.Project.Id));
                 var authorizations = await resourceService.GetResourceAuthorizationsAsync(queryOperator);
                 return Ok(authorizations);

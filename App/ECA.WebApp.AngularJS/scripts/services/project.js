@@ -10,77 +10,24 @@
 angular.module('staticApp')
   .factory('ProjectService', function (DragonBreath, $q) {
 
-    var project;
 
-    function getProject(data) {
-      if (data.results) {
-           project = data.results[0];
-        } else {
-            project = data;
-        }
-        delete project._id;
-        delete project._rev;
-       // if (!project.tabs) {
-       //      project.tabs = {
-       //          overview: {
-       //              title: 'Overview',
-       //              path: 'overview',
-       //              active: true,
-       //              order: 1
-       //          },
-       //          partners: {
-       //              title: 'Partners',
-       //              path: 'partners',
-       //              active: false,
-       //              order: 2
-       //          },
-       //          participants: {
-       //              title: 'Participants',
-       //              path: 'participants',
-       //              active: false,
-       //              order: 3
-       //          },
-       //          artifacts: {
-       //              title: 'Artifacts',
-       //              path: 'artifacts',
-       //              active: false,
-       //              order: 4
-       //          },
-       //          moneyflows: {
-       //              title: 'Money Flows',
-       //              path: 'moneyFlows',
-       //              active: false,
-       //              order: 5
-       //          },
-       //          impact: {
-       //              title: 'Impact',
-       //              path: 'impact',
-       //              active: false,
-       //              order: 6
-       //          },
-       //          activity: {
-       //              title: 'Activity',
-       //              path: 'activity',
-       //              active: false,
-       //              order: 7
-       //          }
-       //      };
-       // }
-    }
-
-    return {
-      get: function (id) {        
-        return DragonBreath.get('projects', id)
-      },
-      getProjectsByProgram: function (id, params) {
-        var path = 'programs/' + id + '/projects'
-        return DragonBreath.get(params, path);
-      },
-      update: function (project, id) {
-        return DragonBreath.save(project, 'projects')
-      },
-      create: function (project) {
-          return DragonBreath.create(project, 'projects');
-      }
-    };
+      return {
+          get: function (id) {
+              return DragonBreath.get('projects', id)
+          },
+          getProjectsByProgram: function (id, params) {
+              var path = 'programs/' + id + '/projects'
+              return DragonBreath.get(params, path);
+          },
+          update: function (project, id) {
+              return DragonBreath.save(project, 'projects')
+          },
+          create: function (project) {
+              return DragonBreath.create(project, 'projects');
+          },
+          getCollaborators: function (projectId, params) {
+              var path = 'projects/' + projectId + '/collaborators';
+              return DragonBreath.get(params, path);
+          }
+      };
   });

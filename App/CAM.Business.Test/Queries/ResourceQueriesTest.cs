@@ -33,7 +33,8 @@ namespace CAM.Business.Test.Queries
             {
                 DisplayName = "display",
                 Principal = principal,
-                PrincipalId = principal.PrincipalId
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
             };
             principal.UserAccount = userAccount;
             userAccount.Principal = principal;
@@ -89,6 +90,7 @@ namespace CAM.Business.Test.Queries
             Assert.AreEqual(1, results.Count());
             var firstResult = results.First();
             Assert.AreEqual(userAccount.DisplayName, firstResult.DisplayName);
+            Assert.AreEqual(userAccount.EmailAddress, firstResult.EmailAddress);
             Assert.AreEqual(resource.ForeignResourceId, firstResult.ForeignResourceId);
             Assert.AreEqual(true, firstResult.IsAllowed);
             Assert.AreEqual(false, firstResult.IsGrantedByPermission);
@@ -232,7 +234,8 @@ namespace CAM.Business.Test.Queries
             {
                 DisplayName = "display",
                 Principal = principal,
-                PrincipalId = principal.PrincipalId
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
             };
             principal.UserAccount = userAccount;
             userAccount.Principal = principal;
@@ -277,6 +280,7 @@ namespace CAM.Business.Test.Queries
             Assert.AreEqual(1, results.Count());
             var firstResult = results.First();
             Assert.AreEqual(userAccount.DisplayName, firstResult.DisplayName);
+            Assert.AreEqual(userAccount.EmailAddress, firstResult.EmailAddress);
             Assert.AreEqual(resource.ForeignResourceId, firstResult.ForeignResourceId);
             Assert.AreEqual(permissionAssignment.IsAllowed, firstResult.IsAllowed);
             Assert.AreEqual(true, firstResult.IsGrantedByPermission);

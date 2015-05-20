@@ -1,0 +1,71 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Add Collaborator to Participants</h3>
+    <div class="page-header">
+        Collaborate with others within or outside of ECA.
+    </div>
+</div>
+<div class="spinner" ng-show="view.isLoading">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+<div class="modal-body" ng-show="!view.isLoading">
+    <div st-pipe="view.loadCollaborators" st-table="view.collaborators" id="sort-list">
+        <table class="col-md-12 alt">
+            <thead>
+                <tr>
+                    <th st-sort="'displayName'" st-sort-default="true" class="col-md-5 sort-label medium">Name</th>
+                    <th st-sort="'Permissions'" class="col-md-3 sort-label medium">Permissions</th>
+                    <th class="col-md-2">&nbsp;</th>
+                </tr>
+                <!--<tr>
+                    <th>
+                        <input st-search="'displayName'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'participantType'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>-->
+            </thead>
+            <tbody class="list2">
+                <tr class="hover" ng-repeat="collaborator in view.collaborators | groupBy:'principalId'">
+                    <td ng-repeat="collaborator in view.collaborators | filter: {principalId: collaborator}" ng-if="$first">
+                        <h5 class="list-title">{{collaborator.displayName}}</h5><p>{{collaborator.emailAddress}}</p>
+                    </td>
+                    <td>
+                        <!--<div ng-repeat="collaborator in view.collaborators | filter: {principalId: collaborator}">
+                            <h5 class="list-title">{{collaborator.permissionName}}</h5>-->
+
+
+                        <ui-select multiple ng-model="view.collaboratorPermissions[collaborator]" theme="select2">
+                            <ui-select-match placeholder="Permissions">{{$item.permissionName}}</ui-select-match>
+                            <ui-select-choices repeat="p in availablePermissions | filter:$select.search">
+                                {{p.Name}}
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <!--</div>-->
+
+
+
+                    </td>
+                    <td>
+                        {{collaborator}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="view.collaborators.length > 0"></div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="onAddClick()">Add</button>
+    <button class="btn btn-warning" ng-click="onCancelClick()">Cancel</button>
+</div>
+
