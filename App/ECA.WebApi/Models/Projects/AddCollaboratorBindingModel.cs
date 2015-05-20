@@ -1,5 +1,6 @@
 ﻿using CAM.Business.Model;
 using CAM.Data;
+using ECA.WebApi.Models.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ECA.WebApi.Models.Projects
     /// <summary>
     /// An AddCollaboratorBindingModel instance is used to add a collaborator to a project.
     /// </summary>
-    public class AddCollaboratorBindingModel
+    public class AddCollaboratorBindingModel : IGrantedPermissionBindingModel
     {
         /// <summary>
         /// The principal id of the user to add as a collaborator.

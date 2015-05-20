@@ -9,7 +9,7 @@ namespace ECA.WebApi.Models.Security
     /// <summary>
     /// The GrantedPermissionBindingModel represents a permission that must be given to a user.
     /// </summary>
-    public class GrantedPermissionBindingModel
+    public class GrantedPermissionBindingModel : IGrantedPermissionBindingModel
     {
         /// <summary>
         /// The principal id of the user receiving the granted permission.

@@ -6,7 +6,10 @@ using System.Web;
 
 namespace ECA.WebApi.Models.Security
 {
-    public class RevokedPermissionBindingModel : GrantedPermissionBindingModel
+    /// <summary>
+    /// A RevokedPermissionBindingModel is used to explicity revoke a permission from a principal via the client.
+    /// </summary>
+    public class RevokedPermissionBindingModel : GrantedPermissionBindingModel, IRevokedPermissionBindingModel
     {
         /// <summary>
         /// Returns a RevokedPermission from this instance.

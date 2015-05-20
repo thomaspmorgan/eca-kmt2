@@ -38,8 +38,8 @@ namespace ECA.WebApi.Controllers.Admin
         private static readonly ExpressionSorter<ResourceAuthorization> DEFAULT_RESOURCE_AUTHORIZATION_SORTER = new ExpressionSorter<ResourceAuthorization>(x => x.DisplayName, SortDirection.Ascending);
 
         private IProjectService projectService;
+        private IResourceAuthorizationHandler authorizationHandler;
         private IUserProvider userProvider;
-        private IPrincipalService principalService;
         private IResourceService resourceService;
 
         /// <summary>
@@ -47,17 +47,17 @@ namespace ECA.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="projectService">The project service.</param>
         /// <param name="userProvider">The user provider.</param>
-        /// <param name="principalService">The principal service.</param>
-        public ProjectsController(IProjectService projectService, IUserProvider userProvider, IPrincipalService principalService, IResourceService resourceService)
+        /// <param name="authorizationHandler">The authorization handler;</param>
+        public ProjectsController(IProjectService projectService, IResourceAuthorizationHandler authorizationHandler, IUserProvider userProvider, IResourceService resourceService)
         {
             Contract.Requires(projectService != null, "The project service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
-            Contract.Requires(principalService != null, "The principal service must not be null.");
+            Contract.Requires(authorizationHandler != null, "The authorization handler must not be null.");
             Contract.Requires(resourceService != null, "The resource service must not be null.");
-            this.userProvider = userProvider;
             this.projectService = projectService;
-            this.principalService = principalService;
             this.resourceService = resourceService;
+            this.authorizationHandler = authorizationHandler;
+            this.userProvider = userProvider;
         }
 
         /// <summary>
@@ -172,13 +172,11 @@ namespace ECA.WebApi.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var currentUser = userProvider.GetCurrentUser();
-                var user = userProvider.GetBusinessUser(currentUser);
                 foreach (var model in models)
                 {
-                    await principalService.GrantPermissionsAsync(model.ToGrantedPermission(user.Id));
+                    await authorizationHandler.GrantPermissionAsync(model);
                 }
-                await principalService.SaveChangesAsync();
+                await authorizationHandler.SaveChangesAsync();
                 return Ok();
             }
             else

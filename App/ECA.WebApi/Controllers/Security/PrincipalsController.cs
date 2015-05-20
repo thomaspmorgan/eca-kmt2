@@ -1,6 +1,7 @@
 ﻿using CAM.Business.Service;
 using ECA.WebApi.Models.Security;
 using ECA.WebApi.Security;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -21,20 +22,17 @@ namespace ECA.WebApi.Controllers.Security
     [RoutePrefix("api/Principals")]
     public class PrincipalsController : ApiController
     {
-        private IPrincipalService principalService;
-        private IUserProvider userProvider;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private IResourceAuthorizationHandler handler;
 
         /// <summary>
         /// Creates a new PrincipalsController given the user provider and principal service.
         /// </summary>
-        /// <param name="userProvider">The user service.</param>
-        /// <param name="principalService">The principal service.</param>
-        public PrincipalsController(IUserProvider userProvider, IPrincipalService principalService)
+        /// <param name="handler">The resource authorization handler.</param>
+        public PrincipalsController(IResourceAuthorizationHandler handler)
         {
-            Contract.Requires(principalService != null, "The principal service must not be null.");
-            Contract.Requires(userProvider != null, "The user provider must not be null.");
-            this.principalService = principalService;
-            this.userProvider = userProvider;
+            Contract.Requires(handler != null, "The handler must not be null.");
+            this.handler = handler;
         }
 
         /// <summary>
@@ -58,13 +56,11 @@ namespace ECA.WebApi.Controllers.Security
         {
             if (ModelState.IsValid)
             {
-                var currentUser = userProvider.GetCurrentUser();
-                var user = userProvider.GetBusinessUser(currentUser);
                 foreach(var model in models)
                 {
-                    await principalService.GrantPermissionsAsync(model.ToGrantedPermission(user.Id));
+                    await handler.GrantPermissionAsync(model);
                 }
-                await principalService.SaveChangesAsync();
+                await handler.SaveChangesAsync();
                 return Ok();
             }
             else
@@ -74,7 +70,7 @@ namespace ECA.WebApi.Controllers.Security
         }
 
         /// <summary>
-        /// Grants the given permission to the user.
+        /// Revokes the given permission to the user.
         /// </summary>
         /// <returns>An ok result.</returns>
         [Route("Revoke/Permission")]
@@ -85,7 +81,7 @@ namespace ECA.WebApi.Controllers.Security
         }
 
         /// <summary>
-        /// Grants the given permissions to the user.
+        /// Revokes the given permissions to the user.
         /// </summary>
         /// <returns>An ok result.</returns>
         [Route("Revoke/Permissions")]
@@ -94,13 +90,45 @@ namespace ECA.WebApi.Controllers.Security
         {
             if (ModelState.IsValid)
             {
-                var currentUser = userProvider.GetCurrentUser();
-                var user = userProvider.GetBusinessUser(currentUser);
                 foreach (var model in models)
                 {
-                    await principalService.RevokePermissionAsync(model.ToRevokedPermission(user.Id));
+                    await handler.RevokePermissionAsync(model);
                 }
-                await principalService.SaveChangesAsync();
+                await handler.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Removes the given permissions to the user.
+        /// </summary>
+        /// <returns>An ok result.</returns>
+        [Route("Remove/Permission")]
+        [ResponseType(typeof(OkResult))]
+        public Task<IHttpActionResult> DeletePermissionAsync(DeletedPermissionBindingModel model)
+        {
+            return DeletePermissionsAsync(new List<DeletedPermissionBindingModel> { model });
+        }
+
+        /// <summary>
+        /// Removes the given permissions to the user.
+        /// </summary>
+        /// <returns>An ok result.</returns>
+        [Route("Remove/Permissions")]
+        [ResponseType(typeof(OkResult))]
+        public async Task<IHttpActionResult> DeletePermissionsAsync(List<DeletedPermissionBindingModel> models)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var model in models)
+                {
+                    await handler.DeletePermissionAsync(model);
+                }
+                await handler.SaveChangesAsync();
                 return Ok();
             }
             else

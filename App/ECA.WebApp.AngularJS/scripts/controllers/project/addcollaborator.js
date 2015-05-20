@@ -36,6 +36,10 @@ angular.module('staticApp')
           loadCollaborators(params);
       }
 
+      $scope.view.onRemovePermission = function ($item, $model) {
+          
+      }
+
 
       var projectId = $stateParams.projectId;
       function loadCollaborators(params) {
@@ -56,7 +60,8 @@ angular.module('staticApp')
           for (var i = 0; i < groupedPermissions.length; i++) {
               var collaboratorPermission = groupedPermissions[i];
               var orderedPermissions = orderByFilter(collaboratorPermission.permissions, '+permissionName');
-              $scope.view.collaboratorPermissions[collaboratorPermission.principalId.toString()] = orderedPermissions;
+              var key = collaboratorPermission.principalId.toString();
+              $scope.view.collaboratorPermissions[key] = orderedPermissions;
           }
       }
 
@@ -79,11 +84,7 @@ angular.module('staticApp')
                   });
               }
               var permissionArray = collaboratorPermissions[collaboratorPermissions.length - 1].permissions;
-              permissionArray.push({
-                  permissionId: collaborator.permissionId,
-                  permissionName: collaborator.permissionName,
-                  permissionDescription: collaborator.permissionDescription
-              });
+              permissionArray.push(collaborator);
           }
           return collaboratorPermissions;
       }

@@ -16,7 +16,7 @@
                 <tr>
                     <th st-sort="'displayName'" st-sort-default="true" class="col-md-5 sort-label medium">Name</th>
                     <th st-sort="'Permissions'" class="col-md-3 sort-label medium">Permissions</th>
-                    <th class="col-md-2">&nbsp;</th>
+                    <!--<th class="col-md-2">&nbsp;</th>-->
                 </tr>
                 <!--<tr>
                     <th>
@@ -43,7 +43,7 @@
                             <h5 class="list-title">{{collaborator.permissionName}}</h5>-->
 
 
-                        <ui-select multiple ng-model="view.collaboratorPermissions[collaborator]" theme="select2">
+                        <ui-select multiple ng-model="view.collaboratorPermissions[collaborator]" theme="select2" on-remove="view.onRemovePermission($item, $model)">
                             <ui-select-match placeholder="Permissions">{{$item.permissionName}}</ui-select-match>
                             <ui-select-choices repeat="p in availablePermissions | filter:$select.search">
                                 {{p.Name}}
@@ -55,9 +55,9 @@
 
 
                     </td>
-                    <td>
+                    <!--<td>
                         {{collaborator}}
-                    </td>
+                    </td>-->
                 </tr>
             </tbody>
         </table>

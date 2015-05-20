@@ -375,7 +375,11 @@
     <Compile Include="Models\Person\AddressBindingModel.cs" />
     <Compile Include="Models\Person\PiiBindingModel.cs" />
     <Compile Include="Models\Projects\AddCollaboratorBindingModel.cs" />
+    <Compile Include="Models\Security\DeletedPermissionBindingModel.cs" />
     <Compile Include="Models\Security\GrantedPermissionBindingModel.cs" />
+    <Compile Include="Models\Security\IDeletedPermissionBindingModel.cs" />
+    <Compile Include="Models\Security\IGrantedPermissionBindingModel.cs" />
+    <Compile Include="Models\Security\IRevokedPermissionBindingModel.cs" />
     <Compile Include="Models\Security\ResourcePermissionViewModel.cs" />
     <Compile Include="Models\Security\RevokedPermissionBindingModel.cs" />
     <Compile Include="Models\Security\UserViewModel.cs" />
@@ -386,10 +390,12 @@
     <Compile Include="Security\BearerTokenUserProvider.cs" />
     <Compile Include="Security\DebugWebApiUser.cs" />
     <Compile Include="Security\ImpersonatedUser.cs" />
+    <Compile Include="Security\IResourceAuthorizationHandler.cs" />
     <Compile Include="Security\IUserCacheService.cs" />
     <Compile Include="Security\IUserProvider.cs" />
     <Compile Include="Security\ModelPermission.cs" />
     <Compile Include="Security\PermissionBase.cs" />
+    <Compile Include="Security\ResourceAuthorizationHandler.cs" />
     <Compile Include="Security\ResourceAuthorizeAttribute.cs" />
     <Compile Include="Security\StaticPermission.cs" />
     <Compile Include="Security\UserCache.cs" />
