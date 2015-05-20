@@ -27,8 +27,13 @@ namespace ECA.Business.Queries.Models.Admin
         public string OrganizationType { get; set; }
 
         /// <summary>
-        /// Gets or set the status
+        /// Gets or sets the status
         /// </summary>
         public string Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location
+        /// </summary>
+        public string Location { get; set; }
     }
 }

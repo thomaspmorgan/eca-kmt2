@@ -7,6 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace ECA.Business.Queries.Admin
 {
@@ -25,15 +26,17 @@ namespace ECA.Business.Queries.Admin
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = from organization in context.Organizations
-                        where organization.OrganizationTypeId != OrganizationType.Office.Id
-                        select new SimpleOrganizationDTO
-                        {
-                            OrganizationId = organization.OrganizationId,
-                            Name = organization.Name,
-                            OrganizationType = organization.OrganizationType.OrganizationTypeName,
-                            Status = organization.Status
-                        };
+
+            var query = context.Organizations
+                .Include(x => x.Addresses)
+                .Where(x => x.OrganizationId != OrganizationType.Office.Id)
+                .Select(x => new SimpleOrganizationDTO
+                {
+                    Name = x.Name,
+                    OrganizationType = x.OrganizationType.OrganizationTypeName,
+                    Status = x.Status,
+                    Location = x.Addresses.FirstOrDefault().Location.Country.LocationName
+                });
             query = query.Apply(queryOperator);
             return query;
         }
