@@ -156,8 +156,9 @@ namespace CAM.Business.Queries
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(ResourceType.GetStaticLookup(resourceType) != null, "The resource type must be valid.");
+            var resourceTypeId = ResourceType.GetStaticLookup(resourceType).Id;
             var query = from p in context.Permissions
-                        where p.ResourceTypeId == ResourceType.GetStaticLookup(resourceType).Id
+                        where p.ResourceTypeId == resourceTypeId
                         && !p.ResourceId.HasValue
                         select new ResourcePermissionDTO
                         {
@@ -178,7 +179,7 @@ namespace CAM.Business.Queries
                                                  };
                 query = query.Union(resourceIdPermissionsQuery);
             }
-
+            query = query.OrderBy(x => x.PermissionName);
             return query;
         }
     }

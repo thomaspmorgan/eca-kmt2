@@ -13,6 +13,8 @@ using CAM.Business.Model;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.DynamicLinq.Filter;
+using CAM.Business.Queries.Models;
+using ECA.Core.Exceptions;
 
 namespace CAM.Business.Test.Service
 {
@@ -745,5 +747,132 @@ namespace CAM.Business.Test.Service
             tester(serviceResultsAsync);
         }
         #endregion
+
+        [TestMethod]
+        public async Task TestGetResourcePermissions_ForeignResourceIdIsNull()
+        {
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var permission = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.Editproject.Id,
+                PermissionName = CAM.Data.Permission.Editproject.Value,
+                PermissionDescription = "desc",
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId
+            };
+            context.Permissions.Add(permission);
+            context.ResourceTypes.Add(resourceType);
+
+            Action<List<ResourcePermissionDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+                Assert.AreEqual(permission.PermissionId, firstResult.PermissionId);
+                Assert.AreEqual(permission.PermissionName, firstResult.PermissionName);
+                Assert.AreEqual(permission.PermissionDescription, firstResult.PermissionDescription);
+            };
+
+            var serviceResults = service.GetResourcePermissions(resourceType.ResourceTypeName, null);
+            var serviceResultsAsync = await service.GetResourcePermissionsAsync(resourceType.ResourceTypeName, null);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetResourcePermissions_ForeignResourceIdIsNotNull()
+        {
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var permission = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.Editproject.Id,
+                PermissionName = CAM.Data.Permission.Editproject.Value,
+                PermissionDescription = "desc",
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId
+            };
+            var resource = new Resource
+            {
+                ForeignResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId
+            };
+            permission.Resource = resource;
+            permission.ResourceId = resource.ResourceId;
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission);
+            context.ResourceTypes.Add(resourceType);
+
+            Action<List<ResourcePermissionDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Count);
+                var firstResult = results.First();
+            };
+
+            var serviceResults = service.GetResourcePermissions(resourceType.ResourceTypeName, resource.ForeignResourceId);
+            var serviceResultsAsync = await service.GetResourcePermissionsAsync(resourceType.ResourceTypeName, resource.ForeignResourceId);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetResourcePermissions_ResourceTypeIsNotKnown()
+        {
+            var resourceType = "rt";
+            Func<Task> f = async () =>
+            {
+                await service.GetResourcePermissionsAsync(resourceType, null);
+            };
+
+            service.Invoking(x => x.GetResourcePermissions(resourceType, null)).ShouldThrow<UnknownStaticLookupException>()
+                .WithMessage(String.Format("The resource type [{0}] is not known.", resourceType));
+            f.ShouldThrow<UnknownStaticLookupException>()
+                .WithMessage(String.Format("The resource type [{0}] is not known.", resourceType));
+
+        }
+
+        [TestMethod]
+        public async Task TestGetResourceTypes()
+        {
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            context.ResourceTypes.Add(resourceType);
+            Action<List<ResourceTypeDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Count);
+                var first = results.First();
+                Assert.AreEqual(resourceType.ResourceTypeId, first.Id);
+                Assert.AreEqual(resourceType.ResourceTypeName, first.Name);
+            };
+
+            var serviceResults = service.GetResourceTypes();
+            var serviceResultsAsync = await service.GetResourceTypesAsync();
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetResourceTypes_NoResourceTypes()
+        {
+            Action<List<ResourceTypeDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(0, results.Count);
+            };
+
+            var serviceResults = service.GetResourceTypes();
+            var serviceResultsAsync = await service.GetResourceTypesAsync();
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
     }
 }

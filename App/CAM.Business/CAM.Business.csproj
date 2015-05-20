@@ -61,6 +61,7 @@
     <Compile Include="Model\ResourceAuthorization.cs" />
     <Compile Include="Model\RevokedPermission.cs" />
     <Compile Include="Queries\Models\ResourcePermissionDTO.cs" />
+    <Compile Include="Queries\Models\ResourceTypeDTO.cs" />
     <Compile Include="Queries\Models\UserDTO.cs" />
     <Compile Include="Queries\ResourceQueries.cs" />
     <Compile Include="Queries\UserQueries.cs" />

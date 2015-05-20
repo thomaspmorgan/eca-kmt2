@@ -110,6 +110,7 @@
     <Compile Include="Controllers\Programs\ProgramsControllerTest.cs" />
     <Compile Include="Controllers\Admin\ProjectsControllerTest.cs" />
     <Compile Include="Controllers\Security\PrincipalsControllerTest.cs" />
+    <Compile Include="Controllers\Security\ResourcesControllerTest.cs" />
     <Compile Include="Controllers\Security\UsersControllerTest.cs" />
     <Compile Include="InMemoryCamModelGenerator.generated.cs">
       <DependentUpon>InMemoryCamModelGenerator.tt</DependentUpon>

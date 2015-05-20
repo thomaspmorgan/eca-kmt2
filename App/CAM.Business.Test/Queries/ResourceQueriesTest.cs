@@ -616,6 +616,89 @@ namespace CAM.Business.Test.Queries
             var dtos = ResourceQueries.CreateGetResourcePermissionsQuery(context, resourceType.ResourceTypeName, null);
             Assert.AreEqual(0, dtos.Count());
         }
+
+        [TestMethod]
+        public void TestCreateGetResourcePermissionsQuery_HasPermission_ResourceIdIsNotNull()
+        {
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId
+            };
+            var permission = new Permission
+            {
+                PermissionId = Permission.Editproject.Id,
+                PermissionName = Permission.Editproject.Value,
+                PermissionDescription = "desc",
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+            
+            context.Permissions.Add(permission);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+
+            var dtos = ResourceQueries.CreateGetResourcePermissionsQuery(context, resourceType.ResourceTypeName, resource.ResourceId);
+            Assert.AreEqual(1, dtos.Count());
+            var firstDto = dtos.First();
+            Assert.AreEqual(permission.PermissionDescription, firstDto.PermissionDescription);
+            Assert.AreEqual(permission.PermissionId, firstDto.PermissionId);
+            Assert.AreEqual(permission.PermissionName, firstDto.PermissionName);
+        }
+
+        [TestMethod]
+        public void TestCreateGetResourcePermissionsQuery_PermissionHasResource_ResourceIdIsNull()
+        {
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId
+            };
+            var permission = new Permission
+            {
+                PermissionId = Permission.Editproject.Id,
+                PermissionName = Permission.Editproject.Value,
+                PermissionDescription = "desc",
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+
+            context.Permissions.Add(permission);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+
+            var dtos = ResourceQueries.CreateGetResourcePermissionsQuery(context, resourceType.ResourceTypeName, null);
+            Assert.AreEqual(0, dtos.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetResourcePermissionsQuery_DoesNotHavePermission_ResourceIdIsNotNull()
+        {
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            context.ResourceTypes.Add(resourceType);
+            var dtos = ResourceQueries.CreateGetResourcePermissionsQuery(context, resourceType.ResourceTypeName, 1);
+            Assert.AreEqual(0, dtos.Count());
+        }
         #endregion
     }
 }
