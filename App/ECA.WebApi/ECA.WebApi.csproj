@@ -354,9 +354,11 @@
     <Compile Include="Controllers\Admin\FocusCategoriesController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
+    <Compile Include="Controllers\Admin\OrganizationsController.cs" />
     <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\Security\PrincipalsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\Security\ResourcesController.cs" />
     <Compile Include="Controllers\Security\UsersController.cs" />
     <Compile Include="Custom\Filters\ConcurrencyExceptionFilter.cs" />
     <Compile Include="Custom\Filters\EcaBusinessExceptionFilter.cs" />
@@ -365,6 +367,7 @@
     <Compile Include="Custom\NLogTraceWriter.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddDefaultResponse.cs" />
     <Compile Include="Custom\SwaggerExtensions\AddFileUploadParams.cs" />
+    <Compile Include="Custom\SwaggerExtensions\AddResourceAuthorizePermissionRequirement.cs" />
     <Compile Include="Custom\SwaggerExtensions\AppendVersionToBasePath.cs" />
     <Compile Include="Custom\SwaggerExtensions\ApplyDocumentVendorExtensions.cs" />
     <Compile Include="Custom\SwaggerExtensions\ApplySchemaVendorExtensions.cs" />

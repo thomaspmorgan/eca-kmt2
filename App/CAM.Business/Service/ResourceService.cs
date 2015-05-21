@@ -10,6 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Caching;
 using CAM.Business.Queries;
+using CAM.Business.Model;
+using ECA.Core.Query;
+using ECA.Core.DynamicLinq;
+using CAM.Business.Queries.Models;
+using ECA.Core.Exceptions;
 
 namespace CAM.Business.Service
 {
@@ -32,6 +37,7 @@ namespace CAM.Business.Service
         private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
         private readonly ObjectCache cache;
         private readonly int timeToLiveInSeconds;
+        private Action<string> throwIfResourceTypeIsNotKnown;
 
         /// <summary>
         /// Creates a new ResourceService with the given cam model, the caching object and the lifespan of a cached resource.
@@ -46,7 +52,17 @@ namespace CAM.Business.Service
             Contract.Requires(objectCache != null, "The object cache must not be null.");
             this.cache = objectCache ?? MemoryCache.Default;
             this.timeToLiveInSeconds = timeToLiveInSeconds;
+            throwIfResourceTypeIsNotKnown = (resourceType) =>
+            {
+                var lookup = ResourceType.GetStaticLookup(resourceType);
+                if (lookup == null)
+                {
+                    throw new UnknownStaticLookupException(String.Format("The resource type [{0}] is not known.", resourceType));
+                }
+            };
         }
+
+        #region Resource/Foreign ResourceId
 
         /// <summary>
         /// Returns the resourceId for a given applicationId
@@ -143,6 +159,9 @@ namespace CAM.Business.Service
             }
             return resourceType == null ? default(int?) : resourceType.Id;
         }
+        #endregion
+
+        #region Caching
 
         /// <summary>
         /// Returns the cache key for the given resource.
@@ -239,6 +258,109 @@ namespace CAM.Business.Service
             {
                 return null;
             }
+        }
+        #endregion
+
+        #region Resource Authorizations
+
+        /// <summary>
+        /// Returns resource authorizations given the query operator.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged filtered and sorted resource authorizations.</returns>
+        public PagedQueryResults<ResourceAuthorization> GetResourceAuthorizations(QueryableOperator<ResourceAuthorization> queryOperator)
+        {
+            var results = ResourceQueries.CreateGetResourceAuthorizationsQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved resource authorizations using query operator [{0}].", queryOperator);
+            return results;
+        }
+
+        /// <summary>
+        /// Returns resource authorizations given the query operator.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged filtered and sorted resource authorizations.</returns>
+        public async Task<PagedQueryResults<ResourceAuthorization>> GetResourceAuthorizationsAsync(QueryableOperator<ResourceAuthorization> queryOperator)
+        {
+            var results = await ResourceQueries.CreateGetResourceAuthorizationsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved resource authorizations using query operator [{0}].", queryOperator);
+            return results;
+        }
+        #endregion
+        
+        /// <summary>
+        /// Returns the permissions that can be set on a resource of the given type and resource id.  If only the 
+        /// permissions for the resource type are needed, null can be passed for resource id.  In this case, permission
+        /// that have the same resource type but do have a resource id relationship will not be included.
+        /// </summary>
+        /// <param name="resourceType">The resource type.</param>
+        /// <param name="foreignResourceId">The foreign resource id.</param>
+        /// <returns>The available permissions for the given resource type and resource id.</returns>
+        public List<ResourcePermissionDTO> GetResourcePermissions(string resourceType, int? foreignResourceId)
+        {
+            throwIfResourceTypeIsNotKnown(resourceType);
+            int? resourceId = null;
+            if (foreignResourceId.HasValue)
+            {
+                resourceId = GetResourceIdByForeignResourceId(foreignResourceId.Value, ResourceType.GetStaticLookup(resourceType).Id);
+                logger.Trace("Retrieved resourceId [{0}] for foreign resource id [{1}].", resourceId, foreignResourceId);
+            }
+            var permissions = ResourceQueries.CreateGetResourcePermissionsQuery(this.Context, resourceType, resourceId).ToList();
+            logger.Trace("Retrieved resource permissions for resource type [{0}] and foreign resource id [{1}].", resourceType, foreignResourceId);
+            return permissions;
+        }
+
+        /// <summary>
+        /// Returns the permissions that can be set on a resource of the given type and resource id.  If only the 
+        /// permissions for the resource type are needed, null can be passed for resource id.  In this case, permission
+        /// that have the same resource type but do have a resource id relationship will not be included.
+        /// </summary>
+        /// <param name="resourceType">The resource type.</param>
+        /// <param name="foreignResourceId">The foreign resource id.</param>
+        /// <returns>The available permissions for the given resource type and resource id.</returns>
+        public async Task<List<ResourcePermissionDTO>> GetResourcePermissionsAsync(string resourceType, int? foreignResourceId)
+        {
+            throwIfResourceTypeIsNotKnown(resourceType);
+            int? resourceId = null;
+            if (foreignResourceId.HasValue)
+            {
+                resourceId = GetResourceIdByForeignResourceId(foreignResourceId.Value, ResourceType.GetStaticLookup(resourceType).Id);
+                logger.Trace("Retrieved resourceId [{0}] for foreign resource id [{1}].", resourceId, foreignResourceId);
+            }
+            var permissions = await ResourceQueries.CreateGetResourcePermissionsQuery(this.Context, resourceType, resourceId).ToListAsync();
+            logger.Trace("Retrieved resource permissions for resource type [{0}] and resource id [{1}].", resourceType, resourceId);
+            return permissions;
+        }
+
+        private IQueryable<ResourceTypeDTO> CreateGetResourceTypesQuery()
+        {
+            return this.Context.ResourceTypes.OrderBy(x => x.ResourceTypeName).Select(x => new ResourceTypeDTO
+            {
+                Id = x.ResourceTypeId,
+                Name = x.ResourceTypeName
+            });
+        }
+
+        /// <summary>
+        /// Returns the resource types in CAM.
+        /// </summary>
+        /// <returns>The resource types.</returns>
+        public List<ResourceTypeDTO> GetResourceTypes()
+        {
+            var resourceTypes = CreateGetResourceTypesQuery().ToList();
+            logger.Trace("Successfully retrieved resource types.");
+            return resourceTypes;
+        }
+
+        /// <summary>
+        /// Returns the resource types in CAM.
+        /// </summary>
+        /// <returns>The resource types.</returns>
+        public async Task<List<ResourceTypeDTO>> GetResourceTypesAsync()
+        {
+            var resourceTypes = await CreateGetResourceTypesQuery().ToListAsync();
+            logger.Trace("Successfully retrieved resource types.");
+            return resourceTypes;
         }
     }
 }

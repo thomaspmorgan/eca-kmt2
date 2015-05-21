@@ -96,30 +96,28 @@
                 <div class="row">
                     <div class="col-md-6 title-label">Themes</div>
                     <div class="col-md-6">
-                        <ui-select id="themes" multiple close-on-select="true" ng-model="editView.selectedThemes" theme="select2" close-on-select="false" title="Choose a theme." style="min-width: 200px;">
+                        <ui-select multiple close-on-select="true" ng-model="editView.selectedThemes" theme="select2" close-on-select="false" title="Choose a theme." style="min-width: 200px;">
                             <ui-select-match placeholder="Select themes...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
-                            <ui-select-choices repeat="theme in editView.themes | filter: {name: $select.search}">
+                            <ui-select-choices repeat="theme in editView.themes | filter: $select.search track by theme.value">
                                 <div ng-bind-html="theme.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                        <button class="btn btn-default btn-sm" type="button" ng-click="activate('#themes')">Add</button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 title-label">Strategic Goals</div>
                     <div class="col-md-6">
-                        <ui-select id="goals" multiple close-on-select="true" ng-model="editView.selectedGoals" theme="select2" close-on-select="false" title="Choose a goal." style="min-width: 200px;">
+                        <ui-select multiple close-on-select="true" ng-model="editView.selectedGoals" theme="select2" close-on-select="false" title="Choose a goal." style="min-width: 200px;">
                             <ui-select-match placeholder="Select goals...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
 
-                            <ui-select-choices repeat="goal in editView.goals | filter: {name: $select.search}">
+                            <ui-select-choices repeat="goal in editView.goals | filter: $select.search track by goal.value">
                                 <div ng-bind-html="goal.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                        <button class="btn btn-default btn-sm" type="button" ng-click="activate('#goals')">Add</button>
                     </div>
                 </div>
             </div>
@@ -135,48 +133,45 @@
                 <div class="row" ng-show="editView.showCategoryFocus">
                     <div class="col-md-6 title-label">{{editView.categoryLabel}}</div>
                     <div class="col-md-6">
-                        <ui-select id="categories" multiple close-on-select="true" ng-model="editView.selectedCategories" theme="select2" title="Choose a category." style="min-width: 200px;">
+                        <ui-select multiple close-on-select="true" ng-model="editView.selectedCategories" theme="select2" title="Choose a category." style="min-width: 200px;">
                             <ui-select-match placeholder="Select categories...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
-                            <ui-select-choices group-by="'focusName'" repeat="category in editView.categories | filter: {name: $select.search}">
+                            <ui-select-choices group-by="'focusName'" repeat="category in editView.categories | filter: $select.search track by category.value">
                                 <div ng-bind-html="category.value | filter: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                        <button class="btn btn-default btn-sm" type="button" ng-click="activate('#categories')">Add</button>
                     </div>
                 </div>
                 <div class="row" ng-show="editView.showObjectiveJustification">
                     <div class="col-md-6 title-label">{{editView.objectiveLabel}}</div>
                     <div class="col-md-6">
-                        <ui-select id="objectives" multiple close-on-select="true" ng-model="editView.selectedObjectives" theme="select2" title="Choose an objective." style="min-width: 200px;">
+                        <ui-select multiple close-on-select="true" ng-model="editView.selectedObjectives" theme="select2" title="Choose an objective." style="min-width: 200px;">
                             <ui-select-match placeholder="Select objectives...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
 
-                            <ui-select-choices group-by="'justificationName'" repeat="objective in editView.objectives | filter: {name: $select.search}">
+                            <ui-select-choices group-by="'justificationName'" repeat="objective in editView.objectives | filter: $select.search track by objective.value">
                                 <div ng-bind-html="objective.value | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
-                        <button class="btn btn-default btn-sm" type="button" ng-click="activate('#objectives')">Add</button>
                     </div>
                 </div>
                 <div class="row" ng-show="project.contacts">
                     <div class="col-md-6 title-label"><ng-pluralize count="project.contacts.length" when="{'1':'Point','other':'Points'}"></ng-pluralize> of Contact</div>
                     <div class="col-md-6">
-                        <ui-select id="pointsOfContact" multiple close-on-select="true" ng-model="editView.selectedPointsOfContact" theme="select2" title="Choose a point of contact." style="min-width: 200px;">
+                        <ui-select multiple close-on-select="true" ng-model="editView.selectedPointsOfContact" theme="select2" title="Choose a point of contact." style="min-width: 200px;">
                             <ui-select-match placeholder="Select points of contact...">
                                 <div>{{$item.value}}</div>
                             </ui-select-match>
 
-                            <ui-select-choices refresh="editView.searchPointsOfContact($select.search)" refresh-delay="250" repeat="person in editView.pointsOfContact">
+                            <ui-select-choices refresh="editView.searchPointsOfContact($select.search)" refresh-delay="250" repeat="person in editView.pointsOfContact | filter: select.search track by person.value">
                                 <div ng-bind-html="person.fullName | highlight: $select.search"></div>
                                 <div class="small">{{person.position}}</div>
                             </ui-select-choices>
                         </ui-select>
-                        <button class="btn btn-default btn-sm" type="button" ng-click="activate('#pointsOfContact')">Add</button>
                     </div>
                 </div>
-        </div>
+            </div>
     </form>
 </div>

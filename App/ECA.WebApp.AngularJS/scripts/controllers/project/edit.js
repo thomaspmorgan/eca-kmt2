@@ -58,14 +58,6 @@ angular.module('staticApp')
       $scope.editView.categoryLabel = "...";
       $scope.editView.objectiveLabel = "...";
 
-      $scope.activate = function (selector) {
-          var uiSelect = angular.element(selector).controller('uiSelect');
-          $timeout(function () {
-              uiSelect.activate(false, true);
-          }, 50);
-      }
-
-
       $scope.editView.loadProjectStati = function () {
           loadProjectStati();
       }
