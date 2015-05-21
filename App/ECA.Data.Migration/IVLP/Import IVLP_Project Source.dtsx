@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import IVLP_Project Source"
   DTS:PackageType="5"
-  DTS:VersionBuild="29"
-  DTS:VersionGUID="{4B1F433D-2D48-4346-8BBB-2AEBE7D5B7D6}">
+  DTS:VersionBuild="32"
+  DTS:VersionGUID="{070FED92-E582-45E5-87D4-C38653A11AF5}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAgvBIj2un10muYX6KoZO+FwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACXcdMOsGgngkl2tik0KI8UdZhWyTGAu/9x1dtjG2t0kgAAAAAOgAAAAAIAACAAAABoRlPWNpUokp/5Of1ak5UfwkjQ53V7uJs64v7Stma7lyAAAADPDFtoTP1TZzkCVLh7UsWSuh2JG8l/WCe1XZsWjQDwnEAAAABwNt48RrHHN9DLpy88216LjjYIi5XxsJHQH0i2wmoJF4u9cNwhmE7Awp0uNk8BuIiym+LoO/yo6VPDIjTJSfOH</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACaS3aqDkUtabwcuPiCcuJYtbCGcC6y1RVC3KMtTPTjwAAAAAAOgAAAAAIAACAAAAD8pUnSVg3O9rNa00hlBrSotwnshnRU6hnhuBvR4xz7zSAAAAAA/vtAhqdRua+f9f8373SRYVIPGM7qTTCOTCSTstiGsUAAAAD/Z3si6x3Ynpe2VVv58itoZ0b/vDl7Gx1ewF4YNE7HlwH7SZyNXE+nCAZi23HRvIXfMhik0+RtMs6oxzNfaOVe</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -38,7 +38,17 @@
       DTS:ObjectName="Excel IVLP_Email">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_EMAIL.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_EMAIL.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel IVLP_Language_Officer]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{BF3F55D7-55BA-44ED-AC0F-5096B8FB28FF}"
+      DTS:ObjectName="Excel IVLP_Language_Officer">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_LANGUAGE_OFFICER.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -68,7 +78,7 @@
       DTS:ObjectName="Excel IVLP_Project_Strategic_Goal">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PROJECT_STRATEGIC_GOAL.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PROJECT_STRATEGIC_GOAL.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -78,7 +88,7 @@
       DTS:ObjectName="Excel IVLP_Project_Subject">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PROJECT_SUBJECT.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\IVLP\IVLP_PILOT_DATA_PROJECT_SUBJECT.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -88,6 +98,7 @@
       DTS:refId="Package\Import IVLP_Email"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{7C95B2AE-5F31-4396-BE53-F5C8E36573C4}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -608,6 +619,525 @@
               endId="Package\Import IVLP_Email\IVLP_Email.Inputs[OLE DB Destination Input]"
               name="Excel Source Output"
               startId="Package\Import IVLP_Email\Excel IVLP_Email.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Import IVLP_Language_Officer"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{D7BD095C-378D-40B9-8E60-D32322E50444}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import IVLP_Language_Officer"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel IVLP_Language_Officer"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">'Sheet 1$'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel IVLP_Language_Officer]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel IVLP_Language_Officer]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_ID]"
+                      name="LANGUAGE_OFFICER_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[PROJECT_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[PROJECT_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[PROJECT_ID]"
+                      name="PROJECT_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[PERSON_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[PERSON_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[PERSON_ID]"
+                      name="PERSON_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_TYPE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_TYPE]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_TYPE]"
+                      name="LANGUAGE_OFFICER_TYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[ARRIVAL_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[ARRIVAL_DATE]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[ARRIVAL_DATE]"
+                      name="ARRIVAL_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[DEPARTURE_DATE]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[DEPARTURE_DATE]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[DEPARTURE_DATE]"
+                      name="DEPARTURE_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_CREATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_CREATE_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_CREATE_ID]"
+                      name="LANGUAGE_OFFICER_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_CREATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_CREATE_DT]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_CREATE_DT]"
+                      name="LANGUAGE_OFFICER_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_UPDATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_UPDATE_ID]"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_UPDATE_ID]"
+                      name="LANGUAGE_OFFICER_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_UPDATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_UPDATE_DT]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_UPDATE_DT]"
+                      name="LANGUAGE_OFFICER_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_OFFICER_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_OFFICER_TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[ARRIVAL_DATE]"
+                      dataType="date"
+                      name="ARRIVAL_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[DEPARTURE_DATE]"
+                      dataType="date"
+                      name="DEPARTURE_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_OFFICER_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_CREATE_DT]"
+                      dataType="date"
+                      name="LANGUAGE_OFFICER_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_OFFICER_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_OFFICER_UPDATE_DT]"
+                      dataType="date"
+                      name="LANGUAGE_OFFICER_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_ID]"
+                      name="LANGUAGE_OFFICER_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[PROJECT_ID]"
+                      name="PROJECT_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[PERSON_ID]"
+                      name="PERSON_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_TYPE]"
+                      name="LANGUAGE_OFFICER_TYPE" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[ARRIVAL_DATE]"
+                      dataType="date"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[ARRIVAL_DATE]"
+                      name="ARRIVAL_DATE" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[DEPARTURE_DATE]"
+                      dataType="date"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[DEPARTURE_DATE]"
+                      name="DEPARTURE_DATE" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_CREATE_ID]"
+                      name="LANGUAGE_OFFICER_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_CREATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_CREATE_DT]"
+                      name="LANGUAGE_OFFICER_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_UPDATE_ID]"
+                      name="LANGUAGE_OFFICER_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_UPDATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[LANGUAGE_OFFICER_UPDATE_DT]"
+                      name="LANGUAGE_OFFICER_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="IVLP_Language_Officer"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[IVLP_Language_Officer]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].Columns[LANGUAGE_OFFICER_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANGUAGE_OFFICER_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_ID]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].Columns[PROJECT_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROJECT_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ID]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[PROJECT_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].Columns[PERSON_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PERSON_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_ID]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[PERSON_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].Columns[LANGUAGE_OFFICER_TYPE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANGUAGE_OFFICER_TYPE"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_TYPE]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_TYPE]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].Columns[ARRIVAL_DATE]"
+                      cachedDataType="date"
+                      cachedName="ARRIVAL_DATE"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[ARRIVAL_DATE]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[ARRIVAL_DATE]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].Columns[DEPARTURE_DATE]"
+                      cachedDataType="date"
+                      cachedName="DEPARTURE_DATE"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[DEPARTURE_DATE]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[DEPARTURE_DATE]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].Columns[LANGUAGE_OFFICER_CREATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANGUAGE_OFFICER_CREATE_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_CREATE_ID]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].Columns[LANGUAGE_OFFICER_CREATE_DT]"
+                      cachedDataType="date"
+                      cachedName="LANGUAGE_OFFICER_CREATE_DT"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_CREATE_DT]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].Columns[LANGUAGE_OFFICER_UPDATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANGUAGE_OFFICER_UPDATE_ID"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_UPDATE_ID]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].Columns[LANGUAGE_OFFICER_UPDATE_DT]"
+                      cachedDataType="date"
+                      cachedName="LANGUAGE_OFFICER_UPDATE_DT"
+                      externalMetadataColumnId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_UPDATE_DT]"
+                      lineageId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output].Columns[LANGUAGE_OFFICER_UPDATE_DT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_OFFICER_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[PROJECT_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROJECT_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_OFFICER_TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[ARRIVAL_DATE]"
+                      dataType="dbTimeStamp"
+                      name="ARRIVAL_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[DEPARTURE_DATE]"
+                      dataType="dbTimeStamp"
+                      name="DEPARTURE_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_OFFICER_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="LANGUAGE_OFFICER_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_OFFICER_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_OFFICER_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="LANGUAGE_OFFICER_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import IVLP_Language_Officer.Paths[Excel Source Output]"
+              endId="Package\Import IVLP_Language_Officer\IVLP_Language_Officer.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer.Outputs[Excel Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -3848,6 +4378,48 @@ where [refTable].[ORG_ID] = ?</property>
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{ECC94191-380E-46B0-95F6-E37E01D11F9F}"
+      DTS:From="Package\Import IVLP_Project"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Import IVLP_Participant" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{36218BF7-9691-49C3-BB48-85EF78CA26D0}"
+      DTS:From="Package\Import IVLP_Participant"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Import IVLP_Project_Subject" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{0EE5FBD5-D1CE-4A78-8F1E-C336BAFCF3C9}"
+      DTS:From="Package\Import IVLP_Project_Subject"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Import IVLP_Project_Strategic_Goal" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{690E79EF-DFD3-4C86-ADFD-409C857DD942}"
+      DTS:From="Package\Import IVLP_Project_Strategic_Goal"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Import IVLP_Email" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{9EC31B54-6DFB-4AAF-80BF-7F9374335EFC}"
+      DTS:From="Package\Import IVLP_Email"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Import IVLP_Language_Officer" />
+  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -3859,30 +4431,232 @@ where [refTable].[ORG_ID] = ?</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
-        <NodeLayout
-          Size="191,42"
-          Id="Package\Import IVLP_Participant"
-          TopLeft="22.5,100.5" />
-        <NodeLayout
-          Size="174,42"
-          Id="Package\Import IVLP_Project"
-          TopLeft="6.5,5.5" />
-        <NodeLayout
-          Size="215,42"
-          Id="Package\Import IVLP_Project_Subject"
-          TopLeft="42.5,201.5" />
-        <NodeLayout
-          Size="248,42"
-          Id="Package\Import IVLP_Project_Strategic_Goal"
-          TopLeft="337.5,34.5" />
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="167,42"
           Id="Package\Import IVLP_Email"
-          TopLeft="377.5,139.5" />
+          TopLeft="1008.5,30" />
+        <NodeLayout
+          Size="191,42"
+          Id="Package\Import IVLP_Participant"
+          TopLeft="234.5,25" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Import IVLP_Project"
+          TopLeft="6.5,18" />
+        <NodeLayout
+          Size="248,42"
+          Id="Package\Import IVLP_Project_Strategic_Goal"
+          TopLeft="719.5,28" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\Import IVLP_Project_Subject"
+          TopLeft="459.5,28" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="180.5,42.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="54,0"
+              Start="0,0"
+              End="46.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="46.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="425.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="34,0"
+              Start="0,0"
+              End="26.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="26.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="674.5,49">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="45,0"
+              Start="0,0"
+              End="37.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="37.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="967.5,50">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41,0"
+              Start="0,0"
+              End="33.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="33.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="225,42"
+          Id="Package\Import IVLP_Language_Officer"
+          TopLeft="34.5,118.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="1092,72">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-945,46.5"
+              Start="0,0"
+              End="-945,39">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.25"
+                    Point2="0,23.25"
+                    Point3="-4,23.25" />
+                  <mssgle:LineSegment
+                    End="-941,23.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-941,23.25"
+                    Point2="-945,23.25"
+                    Point3="-945,27.25" />
+                  <mssgle:LineSegment
+                    End="-945,39" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <TaskHost
+    design-time-name="Package\Import IVLP_Email">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="132,42"
+          Id="Package\Import IVLP_Email\IVLP_Email"
+          TopLeft="116.5,179.5" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Import IVLP_Email\Excel IVLP_Email"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Import IVLP_Email.Paths[Excel Source Output]"
+          TopLeft="85,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="97.5,132"
+              Start="0,0"
+              End="97.5,124.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,62" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,62"
+                    Point2="0,66"
+                    Point3="4,66" />
+                  <mssgle:LineSegment
+                    End="93.5,66" />
+                  <mssgle:CubicBezierSegment
+                    Point1="93.5,66"
+                    Point2="97.5,66"
+                    Point3="97.5,70" />
+                  <mssgle:LineSegment
+                    End="97.5,124.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Email\Excel IVLP_Email">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Email\IVLP_Email">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Import IVLP_Participant">
     <LayoutInfo>
@@ -4053,7 +4827,9 @@ where [refTable].[ORG_ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -4075,7 +4851,9 @@ where [refTable].[ORG_ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -4109,7 +4887,9 @@ where [refTable].[ORG_ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -4165,94 +4945,18 @@ where [refTable].[ORG_ID] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Import IVLP_Project_Subject">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="207,42"
-          Id="Package\Import IVLP_Project_Subject\Excel IVLP_Project_Subject"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
-          Size="180,42"
-          Id="Package\Import IVLP_Project_Subject\IVLP_Project_Subject"
-          TopLeft="83.5,152.5" />
-        <EdgeLayout
-          Id="Package\Import IVLP_Project_Subject.Paths[Excel Source Output]"
-          TopLeft="109,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="64.5,105"
-              Start="0,0"
-              End="64.5,97.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,48.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,48.5"
-                    Point2="0,52.5"
-                    Point3="4,52.5" />
-                  <mssgle:LineSegment
-                    End="60.5,52.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="60.5,52.5"
-                    Point2="64.5,52.5"
-                    Point3="64.5,56.5" />
-                  <mssgle:LineSegment
-                    End="64.5,97.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Project_Subject\Excel IVLP_Project_Subject">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Project_Subject\IVLP_Project_Subject">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
     design-time-name="Package\Import IVLP_Project_Strategic_Goal">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="245,42"
-          Id="Package\Import IVLP_Project_Strategic_Goal\Excel IVLP_Project_Strategic_Goals"
-          TopLeft="5.5,5.5" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="218,42"
           Id="Package\Import IVLP_Project_Strategic_Goal\IVLP_Project_Strategic_Goals"
           TopLeft="94.5,151.5" />
+        <NodeLayout
+          Size="245,42"
+          Id="Package\Import IVLP_Project_Strategic_Goal\Excel IVLP_Project_Strategic_Goals"
+          TopLeft="5.5,5.5" />
         <EdgeLayout
           Id="Package\Import IVLP_Project_Strategic_Goal.Paths[Excel Source Output]"
           TopLeft="128,47.5">
@@ -4284,7 +4988,9 @@ where [refTable].[ORG_ID] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -4317,57 +5023,59 @@ where [refTable].[ORG_ID] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Import IVLP_Email">
+    design-time-name="Package\Import IVLP_Project_Subject">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="159,42"
-          Id="Package\Import IVLP_Email\Excel IVLP_Email"
+          Size="180,42"
+          Id="Package\Import IVLP_Project_Subject\IVLP_Project_Subject"
+          TopLeft="83.5,152.5" />
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Import IVLP_Project_Subject\Excel IVLP_Project_Subject"
           TopLeft="5.5,5.5" />
-        <NodeLayout
-          Size="132,42"
-          Id="Package\Import IVLP_Email\IVLP_Email"
-          TopLeft="116.5,179.5" />
         <EdgeLayout
-          Id="Package\Import IVLP_Email.Paths[Excel Source Output]"
-          TopLeft="85,47.5">
+          Id="Package\Import IVLP_Project_Subject.Paths[Excel Source Output]"
+          TopLeft="109,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="97.5,132"
+              EndConnector="64.5,105"
               Start="0,0"
-              End="97.5,124.5">
+              End="64.5,97.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,62" />
+                    End="0,48.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,62"
-                    Point2="0,66"
-                    Point3="4,66" />
+                    Point1="0,48.5"
+                    Point2="0,52.5"
+                    Point3="4,52.5" />
                   <mssgle:LineSegment
-                    End="93.5,66" />
+                    End="60.5,52.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="93.5,66"
-                    Point2="97.5,66"
-                    Point3="97.5,70" />
+                    Point1="60.5,52.5"
+                    Point2="64.5,52.5"
+                    Point3="64.5,56.5" />
                   <mssgle:LineSegment
-                    End="97.5,124.5" />
+                    End="64.5,97.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Email\Excel IVLP_Email">
+    design-time-name="Package\Import IVLP_Project_Subject\Excel IVLP_Project_Subject">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -4380,7 +5088,83 @@ where [refTable].[ORG_ID] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Import IVLP_Email\IVLP_Email">
+    design-time-name="Package\Import IVLP_Project_Subject\IVLP_Project_Subject">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Import IVLP_Language_Officer">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="217,42"
+          Id="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\Import IVLP_Language_Officer\IVLP_Language_Officer"
+          TopLeft="114.5,86.5" />
+        <EdgeLayout
+          Id="Package\Import IVLP_Language_Officer.Paths[Excel Source Output]"
+          TopLeft="114,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="95,39"
+              Start="0,0"
+              End="95,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.5"
+                    Point2="0,19.5"
+                    Point3="4,19.5" />
+                  <mssgle:LineSegment
+                    End="91,19.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="91,19.5"
+                    Point2="95,19.5"
+                    Point3="95,23.5" />
+                  <mssgle:LineSegment
+                    End="95,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Language_Officer\Excel IVLP_Language_Officer">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import IVLP_Language_Officer\IVLP_Language_Officer">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
