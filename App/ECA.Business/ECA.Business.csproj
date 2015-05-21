@@ -100,12 +100,14 @@
     <Compile Include="Queries\Admin\FocusQueries.cs" />
     <Compile Include="Queries\Admin\MoneyFlowQueries.cs" />
     <Compile Include="Queries\Admin\OfficeQueries.cs" />
+    <Compile Include="Queries\Admin\OrganizationQueries.cs" />
     <Compile Include="Queries\Models\Admin\BaseDTO.cs" />
     <Compile Include="Queries\Models\Admin\FocusCategoryDTO.cs" />
     <Compile Include="Queries\Models\Admin\FocusDTO.cs" />
     <Compile Include="Queries\Models\Admin\JustificationObjectiveDTO.cs" />
     <Compile Include="Queries\Models\Admin\MoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
+    <Compile Include="Queries\Models\Admin\SimpleOrganizationDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationProgramDTO.cs" />
     <Compile Include="Queries\Models\Admin\ProjectStatusDTO.cs" />
     <Compile Include="Queries\Models\Office\OfficeSettingDTO.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="Service\Admin\DraftMoneyFlow.cs" />
     <Compile Include="Service\Admin\EcaMoneyFlow.cs" />
     <Compile Include="Service\Admin\IMaritalStatusService.cs" />
+    <Compile Include="Service\Admin\IOrganizationService.cs" />
     <Compile Include="Service\Admin\JustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\FocusCategoryService.cs" />
     <Compile Include="Service\Admin\GenderService.cs" />
@@ -130,6 +133,7 @@
     <Compile Include="Service\Admin\MaritalStatusService.cs" />
     <Compile Include="Service\Admin\MoneyFlowValidationEntity.cs" />
     <Compile Include="Service\Admin\OfficeSettings.cs" />
+    <Compile Include="Service\Admin\OrganizationService.cs" />
     <Compile Include="Service\Admin\ProjectServiceCreateValidationEntity.cs" />
     <Compile Include="Service\Admin\ProjectServiceUpdateValidationEntity.cs" />
     <Compile Include="Service\Admin\ProjectServiceValidator.cs" />

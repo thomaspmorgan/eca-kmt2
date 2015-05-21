@@ -221,8 +221,14 @@
                 <div class="col-md-8" ng-show="editPii">
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
-                        <div class="col-md-8">
-                            <input type="date" class="form-control" ng-model="pii.dateOfBirth" required />
+                        <div class="col-md-8 input-group">
+                            <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="pii.dateOfBirth"
+                                   is-open="datePickerOpen" ng-required="true" max-date="maxDateOfBirth" close-text="Close">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openDatePicker($event)">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -243,16 +249,15 @@
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
                         <div class="col-md-8">
-                            <ui-select id="countriesOfCitizenship" multiple ng-model="$parent.selectedCountriesOfCitizenship" ng-disabled="!editPii" theme="select2" title="Choose a country" style="min-width: 200px;">
+                            <ui-select multiple ng-model="$parent.selectedCountriesOfCitizenship" ng-disabled="!editPii" theme="select2" title="Choose a country" style="min-width: 200px;">
                                 <ui-select-match placeholder="Select countries...">
                                     <div>{{$item.name}}</div>
                                 </ui-select-match>
 
-                                <ui-select-choices repeat="country in countries | filter: {name: $select.search}">
+                                <ui-select-choices repeat="country in countries | filter: $select.search track by country.name">
                                     <div ng-bind-html="country.name | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
-                            <button class="btn btn-default btn-sm" type="button" ng-click="activate()">Add</button>
                         </div>
                     </div>
                 </div>

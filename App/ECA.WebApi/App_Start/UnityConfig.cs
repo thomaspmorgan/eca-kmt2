@@ -75,6 +75,7 @@ namespace ECA.WebApi
             container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IOrganizationService, OrganizationService>(new HierarchicalLifetimeManager());
         }
 
         /// <summary>

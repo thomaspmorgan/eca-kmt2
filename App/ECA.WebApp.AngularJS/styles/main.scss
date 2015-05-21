@@ -8,6 +8,7 @@ $person: #f6bf25;
 $home: #297cb4;
 $event: #4a4a4a;
 $report-archive: #d91f52;
+$organization: #87265a;
 
 
 $lightgray: #f7f7f7;
@@ -432,4 +433,15 @@ h5.canEdit {
 
 .select2-container {
     display: block;
+}
+
+.select2.search-field {
+    position: relative;
+}
+
+.select2-search-field:before {
+    color:#a0a9ab;
+    font-family: FontAwesome;
+    content: "\f002";
+    padding-left: 5px;
 }

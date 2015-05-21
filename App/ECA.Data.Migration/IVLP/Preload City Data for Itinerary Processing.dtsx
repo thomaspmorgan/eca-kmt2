@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Preload City Data for Itinerary Processing"
   DTS:PackageType="5"
-  DTS:VersionBuild="8"
-  DTS:VersionGUID="{98597FD7-D2CB-4C02-8FA0-F943AD02628B}">
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{ACF6B7BF-4653-40DA-9FB6-D0085EBF940B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABREHGSxpcUO/yVROCDM5TMT/SoyOXqKMu9ks7BfS2d/wAAAAAOgAAAAAIAACAAAACjPn8kV+OnLdGMNd7Iq7EIo0t2gocTIQ+AeQMxMa7GnCAAAAAugxR0VncTA4qMc8+qKZaiM7FDOsd3CZ5+8O3sTNnvDUAAAAASl5C2pi2S2S7UiOD+XPCrW44UXo5bj92ahlFuRrnijxsz3NtnmioSOsif/UtZXYkIG+sGxTI17P0uopORe8Vm</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACbqvdxT6p1baVBX3eZrOa1oJcjvUV8rA6BTZ1E3Rwi7QAAAAAOgAAAAAIAACAAAADnXbgklf5Wa79fyb4BmhcPE2YwmqzqoAXW/H+VCKjc0SAAAADgQjfEFhiQKcTEisLDp/ep3hBVLDUonTwdckA3Yf3xpEAAAAAUpHlrV+HGMnsDTWnZnadX9wA7YNl6dGKbUwji6tnoPTwaxtO4T6PcejxiyqvOo/BoruCvhVexZeb8pl8CsffC</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -42,7 +42,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABDJaMy+fK5+NBvq5xgGw2ga1r7jXEUjGkCLEaisTRwKAAAAAAOgAAAAAIAACAAAAB55w+gl/DMJF5yrSYm90roqVb1cJIKVRpzlV8bu9V2fCAAAADBs2OWzUAlOWoQtVZK8KST0M69xHRd/Ytk0wpAsJazs0AAAABW3pm0Z3XIjv8qqqhFMO4DlKSD9QAAMSxM3HWRJYmhILIkCmDtcFDVLEpzu50zJY//hM8SeBzUdct5ucFb3L6b</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACNgxa30fkrQl/VvZer+RWHlGoVNvqW5QQ+bvX4OrETpQAAAAAOgAAAAAIAACAAAADw3fKT4XMK5GoLA3eq1+CeuXF8g5fk8G7kQ/qv0E32rSAAAACKBSNmD53NmtNDIUERdBVXvXTeYPhQGNGWkxVBL6l2V0AAAAAmEYMt9lEe69QL2glBmrpcIsd788gV7yApoEQP3mWzreBVEWbPOuuGVjNBmjqLaK0sYrq+waz/oq5k5l3ZoqCl</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -57,7 +57,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADpF6RXgFoPgoV3Az2cDe41eag0WdAgAiT1Uhl0ePKFEwAAAAAOgAAAAAIAACAAAACSmS7mtit20KQ5UhLtQBkF7IiqY+WU1Yz09pxgn+o+ZiAAAADKMO7VRhoN8Dx9e9SG/mk+PwywjGoqls1/v88qASn0b0AAAADcRRgQ+Fe3rPXRhI7FwUN2DUpCSE6uwL2DFpOs5LZUM4PO0ah2zZF5ngapNNQLjXcRT7N3ekNjH79z5KB1MWYA</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADRmfDlo+W04GDzwQD9pvx1NuZgdycn+NPdawyUy62QBgAAAAAOgAAAAAIAACAAAACbgJhUQi9A1woMu+4Qp0gYsIe8siD6Ihcg4SumkWutVSAAAAD2LB/0zt+9cghglybpYQYgyiIQyN03HXWEjyeZwKNrKEAAAAC5hpOW75OXdBgpK7m0cMp6j1kFWsSod+y3uF5362eaXx52pcji53Gvj+yLQa0gNuJ9nfNG/S3Le65TCdAaJvPe</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -68,6 +68,7 @@
       DTS:refId="Package\Preload City Data"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{BA181A97-9473-43DE-865B-4DFA7893140A}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -302,111 +303,6 @@
                       refId="Package\Preload City Data\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
                       lineageId="Package\Preload City Data\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup"
-              componentClassID="Microsoft.CharacterMap"
-              contactInfo="Character Map;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
-              description="Applies string functions to character data. For example, convert from data that is in upper case to lower case. Operates only on column data with a string data type."
-              name="Convert Itinerary City and State to Uppercase for Lookup"
-              usesDispositions="true"
-              version="2">
-              <inputs>
-                <input
-                  refId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Inputs[Character Map Input]"
-                  name="Character Map Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Inputs[Character Map Input].Columns[CITY]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="CITY"
-                      lineageId="Package\Preload City Data\IVLP_Itinerary_Stop City and State_cd.Outputs[OLE DB Source Output].Columns[CITY]" />
-                    <inputColumn
-                      refId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Inputs[Character Map Input].Columns[STATE_CD]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="STATE_CD"
-                      lineageId="Package\Preload City Data\IVLP_Itinerary_Stop City and State_cd.Outputs[OLE DB Source Output].Columns[STATE_CD]" />
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Output]"
-                  exclusionGroup="1"
-                  name="Character Map Output"
-                  synchronousInputId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Inputs[Character Map Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Output].Columns[UpperItineraryCITY]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Map Column"
-                      length="255"
-                      lineageId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Output].Columns[UpperItineraryCITY]"
-                      name="UpperItineraryCITY"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          dataType="System.UInt32"
-                          description="Specifies the string operations to apply."
-                          name="MapFlags"
-                          typeConverter="LCMappingType">512</property>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column to which operations apply."
-                          name="InputColumnLineageID">#{Package\Preload City Data\IVLP_Itinerary_Stop City and State_cd.Outputs[OLE DB Source Output].Columns[CITY]}</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Output].Columns[UpperItinerarySTATE_CD]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Map Column"
-                      length="255"
-                      lineageId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Output].Columns[UpperItinerarySTATE_CD]"
-                      name="UpperItinerarySTATE_CD"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          dataType="System.UInt32"
-                          description="Specifies the string operations to apply."
-                          name="MapFlags"
-                          typeConverter="LCMappingType">512</property>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the lineage identifier of the input column to which operations apply."
-                          name="InputColumnLineageID">#{Package\Preload City Data\IVLP_Itinerary_Stop City and State_cd.Outputs[OLE DB Source Output].Columns[STATE_CD]}</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Character Map Error Output"
-                  synchronousInputId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Inputs[Character Map Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1180,7 +1076,7 @@ where [refTable].[LocationTypeName] = ?</property>
                   expressionType="Notify"
                   name="SqlCommandParam"
                   UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Location]) [refTable]
-where [refTable].[LocationTypeId] = ? and UPPER([refTable].[LocationName]) = ? and (UPPER([refTable].[Division]) = ? OR [refTable].[Division] IS NULL)</property>
+where [refTable].[LocationTypeId] = ? and (UPPER([refTable].[LocationName]) = UPPER( ? ) and (UPPER([refTable].[Division]) = UPPER( ? )) OR ([refTable].[Division] IS NULL AND ? IS NULL))</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the type of connection used to access the reference dataset."
@@ -1216,7 +1112,7 @@ where [refTable].[LocationTypeId] = ? and UPPER([refTable].[LocationName]) = ? a
                   containsID="true"
                   dataType="System.String"
                   description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Preload City Data\Lookup City LocationTypeId.Outputs[Lookup Match Output].Columns[CityLocationTypeId]};#{Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Output].Columns[UpperItineraryCITY]};#{Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Output].Columns[UpperItinerarySTATE_CD]};</property>
+                  name="ParameterMap">#{Package\Preload City Data\Lookup City LocationTypeId.Outputs[Lookup Match Output].Columns[CityLocationTypeId]};#{Package\Preload City Data\IVLP_Itinerary_Stop City and State_cd.Outputs[OLE DB Source Output].Columns[CITY]};#{Package\Preload City Data\IVLP_Itinerary_Stop City and State_cd.Outputs[OLE DB Source Output].Columns[STATE_CD]};#{Package\Preload City Data\IVLP_Itinerary_Stop City and State_cd.Outputs[OLE DB Source Output].Columns[STATE_CD]};</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -1239,40 +1135,6 @@ where [refTable].[LocationTypeId] = ? and UPPER([refTable].[LocationName]) = ? a
                   refId="Package\Preload City Data\Lookup Itinerary City.Inputs[Lookup Input]"
                   name="Lookup Input">
                   <inputColumns>
-                    <inputColumn
-                      refId="Package\Preload City Data\Lookup Itinerary City.Inputs[Lookup Input].Columns[UpperItineraryCITY]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="UpperItineraryCITY"
-                      lineageId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Output].Columns[UpperItineraryCITY]">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table that a column joins."
-                          name="JoinToReferenceColumn">LocationName</property>
-                        <property
-                          dataType="System.Null"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn" />
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\Preload City Data\Lookup Itinerary City.Inputs[Lookup Input].Columns[UpperItinerarySTATE_CD]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="UpperItinerarySTATE_CD"
-                      lineageId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Output].Columns[UpperItinerarySTATE_CD]">
-                      <properties>
-                        <property
-                          dataType="System.String"
-                          description="Specifies the column in the reference table that a column joins."
-                          name="JoinToReferenceColumn">Division</property>
-                        <property
-                          dataType="System.Null"
-                          description="Specifies the column in the reference table from which a column is copied."
-                          name="CopyFromReferenceColumn" />
-                      </properties>
-                    </inputColumn>
                     <inputColumn
                       refId="Package\Preload City Data\Lookup Itinerary City.Inputs[Lookup Input].Columns[CityLocationTypeId]"
                       cachedDataType="i4"
@@ -1299,6 +1161,40 @@ where [refTable].[LocationTypeId] = ? and UPPER([refTable].[LocationName]) = ? a
                           dataType="System.String"
                           description="Specifies the column in the reference table that a column joins."
                           name="JoinToReferenceColumn">Country_LocationId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Preload City Data\Lookup Itinerary City.Inputs[Lookup Input].Columns[CITY]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CITY"
+                      lineageId="Package\Preload City Data\IVLP_Itinerary_Stop City and State_cd.Outputs[OLE DB Source Output].Columns[CITY]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Preload City Data\Lookup Itinerary City.Inputs[Lookup Input].Columns[STATE_CD]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STATE_CD"
+                      lineageId="Package\Preload City Data\IVLP_Itinerary_Stop City and State_cd.Outputs[OLE DB Source Output].Columns[STATE_CD]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Division</property>
                         <property
                           dataType="System.Null"
                           description="Specifies the column in the reference table from which a column is copied."
@@ -1558,11 +1454,6 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
           </components>
           <paths>
             <path
-              refId="Package\Preload City Data.Paths[Character Map Output]"
-              endId="Package\Preload City Data\Lookup Itinerary City.Inputs[Lookup Input]"
-              name="Character Map Output"
-              startId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Outputs[Character Map Output]" />
-            <path
               refId="Package\Preload City Data.Paths[Derived Column Output]"
               endId="Package\Preload City Data\Lookup City LocationTypeId.Inputs[Lookup Input]"
               name="Derived Column Output"
@@ -1579,7 +1470,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
               startId="Package\Preload City Data\Lookup Country LocationTypeId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Preload City Data.Paths[Lookup Match Output2]"
-              endId="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup.Inputs[Character Map Input]"
+              endId="Package\Preload City Data\Lookup Itinerary City.Inputs[Lookup Input]"
               name="Lookup Match Output"
               startId="Package\Preload City Data\Lookup US CountryId.Outputs[Lookup Match Output]" />
             <path
@@ -1626,13 +1517,29 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
           Id="Package\Preload City Data\IVLP_Itinerary_Stop City and State_cd"
           TopLeft="9.5,8.5" />
         <NodeLayout
+          Size="148,42"
+          Id="Package\Preload City Data\Location (City)"
+          TopLeft="767.5,97.5" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Preload City Data\Lookup US CountryId"
+          TopLeft="1065.5,14.5" />
+        <NodeLayout
           Size="210,42"
           Id="Package\Preload City Data\Lookup City LocationTypeId"
           TopLeft="537.5,12.5" />
         <NodeLayout
+          Size="178,42"
+          Id="Package\Preload City Data\Lookup Itinerary City"
+          TopLeft="487.5,98.5" />
+        <NodeLayout
           Size="186,42"
           Id="Package\Preload City Data\Add Required Columns"
           TopLeft="307.5,11.5" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Preload City Data\Lookup Country LocationTypeId"
+          TopLeft="775.5,13.5" />
         <EdgeLayout
           Id="Package\Preload City Data.Paths[OLE DB Source Output]"
           TopLeft="269.5,31">
@@ -1647,154 +1554,6 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
                   Capacity="5">
                   <mssgle:LineSegment
                     End="30.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Preload City Data.Paths[Derived Column Output]"
-          TopLeft="493.5,33">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="44,0"
-              Start="0,0"
-              End="36.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="36.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="229,42"
-          Id="Package\Preload City Data\Lookup Country LocationTypeId"
-          TopLeft="775.5,13.5" />
-        <EdgeLayout
-          Id="Package\Preload City Data.Paths[Lookup Match Output]"
-          TopLeft="747.5,34">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="28,0"
-              Start="0,0"
-              End="20.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="20.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-37.94138671875,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="179,42"
-          Id="Package\Preload City Data\Lookup US CountryId"
-          TopLeft="1065.5,14.5" />
-        <EdgeLayout
-          Id="Package\Preload City Data.Paths[Lookup Match Output1]"
-          TopLeft="1004.5,32.1666666666667">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="61,0"
-              Start="0,0"
-              End="53.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="53.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-21.44138671875,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="178,42"
-          Id="Package\Preload City Data\Lookup Itinerary City"
-          TopLeft="487.5,98.5" />
-        <NodeLayout
-          Size="347,42"
-          Id="Package\Preload City Data\Convert Itinerary City and State to Uppercase for Lookup"
-          TopLeft="41.5,99.5" />
-        <EdgeLayout
-          Id="Package\Preload City Data.Paths[Lookup Match Output2]"
-          TopLeft="1155,56.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-940,43"
-              Start="0,0"
-              End="-940,35.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,17.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,17.5"
-                    Point2="0,21.5"
-                    Point3="-4,21.5" />
-                  <mssgle:LineSegment
-                    End="-936,21.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-936,21.5"
-                    Point2="-940,21.5"
-                    Point3="-940,25.5" />
-                  <mssgle:LineSegment
-                    End="-940,35.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-518.19138671875,26.5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="148,42"
-          Id="Package\Preload City Data\Location (City)"
-          TopLeft="767.5,97.5" />
-        <EdgeLayout
-          Id="Package\Preload City Data.Paths[Character Map Output]"
-          TopLeft="388.5,120">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="99,0"
-              Start="0,0"
-              End="91.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="91.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1827,6 +1586,112 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Preload City Data.Paths[Lookup Match Output1]"
+          TopLeft="1004.5,32.1666666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="61,0"
+              Start="0,0"
+              End="53.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="53.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-21.44138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Preload City Data.Paths[Lookup Match Output]"
+          TopLeft="747.5,34">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="28,0"
+              Start="0,0"
+              End="20.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="20.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-37.94138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Preload City Data.Paths[Derived Column Output]"
+          TopLeft="493.5,33">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="44,0"
+              Start="0,0"
+              End="36.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="36.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Preload City Data.Paths[Lookup Match Output2]"
+          TopLeft="1155,56.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-578.5,42"
+              Start="0,0"
+              End="-578.5,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17"
+                    Point2="0,21"
+                    Point3="-4,21" />
+                  <mssgle:LineSegment
+                    End="-574.5,21" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-574.5,21"
+                    Point2="-578.5,21"
+                    Point3="-578.5,25" />
+                  <mssgle:LineSegment
+                    End="-578.5,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-337.44138671875,26,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
@@ -1844,48 +1709,15 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Preload City Data\Lookup City LocationTypeId">
+    design-time-name="Package\Preload City Data\Location (City)">
     <Properties>
       <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[LocationType]</Value>
+        <Name>DataSourceViewID</Name>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Preload City Data\Lookup Country LocationTypeId">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[LocationType]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -1895,7 +1727,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -1905,7 +1737,30 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Preload City Data\Lookup City LocationTypeId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[LocationType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1928,7 +1783,7 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1936,15 +1791,25 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Preload City Data\Location (City)">
+    design-time-name="Package\Preload City Data\Lookup Country LocationTypeId">
     <Properties>
       <Property>
-        <Name>DataSourceViewID</Name>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[LocationType]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q2:string">Table</Value>
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

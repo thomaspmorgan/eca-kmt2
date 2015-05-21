@@ -143,6 +143,10 @@ namespace CAM.Data
 		/// Returns the EditProject lookup with id 7.
 		/// </summary>
 		public static StaticLookup Editproject { get { return new StaticLookup("EditProject", 7); } }
+		/// <summary>
+		/// Returns the ProjectOwner lookup with id 8.
+		/// </summary>
+		public static StaticLookup Projectowner { get { return new StaticLookup("ProjectOwner", 8); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -156,6 +160,7 @@ namespace CAM.Data
 			if (4 == id) return Permission.Editoffice;
 			if (5 == id) return Permission.Editprogram;
 			if (7 == id) return Permission.Editproject;
+			if (8 == id) return Permission.Projectowner;
 			return null;
 		}
 		///<summary>
@@ -171,6 +176,7 @@ namespace CAM.Data
 			if ("EditOffice".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editoffice;
 			if ("EditProgram".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editprogram;
 			if ("EditProject".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editproject;
+			if ("ProjectOwner".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Projectowner;
 			return null;
 		}
 
@@ -246,6 +252,18 @@ namespace CAM.Data
 		/// </summary>
 		///EditProject
 		public const int EDIT_PROJECT_ID = 7;
+
+		/// <summary>
+		/// Returns the ProjectOwner string value.
+		/// </summary>
+		///ProjectOwner
+		public const string PROJECT_OWNER_VALUE = "ProjectOwner";
+
+		/// <summary>
+		/// Returns the 8 integer id value.
+		/// </summary>
+		///ProjectOwner
+		public const int PROJECT_OWNER_ID = 8;
 
 		/// <summary>
 		/// Returns the static lookup config used to generate this type's static lookups.

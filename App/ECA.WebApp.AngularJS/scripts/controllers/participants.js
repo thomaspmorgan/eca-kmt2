@@ -39,8 +39,10 @@ angular.module('staticApp')
 
       $scope.showPii = true;
       $scope.showContact = true;
-
       $scope.editPii = false;
+      $scope.datePickerOpen = false;
+
+      $scope.maxDateOfBirth = new Date();
 
       $scope.selectedCountriesOfCitizenship = [];
 
@@ -187,11 +189,10 @@ angular.module('staticApp')
         $scope.pii.sevisId = $scope.participant.sevisId;
     };
 
-    $scope.activate = function () {
-        var uiSelect = angular.element('#countriesOfCitizenship').controller('uiSelect');
-        $timeout(function () {
-            uiSelect.activate(false, true);
-        }, 50);
-    }
-    
+    $scope.openDatePicker = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.datePickerOpen = true;
+    };
+
   });

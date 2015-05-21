@@ -382,6 +382,12 @@ angular
             controller: 'AllParticipantsCtrl',
             requireADLogin: true
         })
+        .state('allorganizations', {
+            url: '/allorganizations',
+            templateUrl: 'views/organizations/allorganizations.html',
+            controller: 'AllOrganizationsCtrl',
+            requireADLogin: true
+        })
 
         .state('partner', {
             url: '/partner',
@@ -410,6 +416,7 @@ angular
         $rootScope.rootStates = [
           { name: 'Home', state: 'home.shortcuts' },
           { name: 'Offices', state: 'alloffices' },
+          { name: 'Organizations', state: 'allorganizations' },
           { name: 'Programs', state: 'allprograms' },
           { name: 'Participants', state: 'allparticipants' },
           { name: 'Events', state: 'events' },
