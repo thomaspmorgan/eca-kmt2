@@ -29,13 +29,13 @@ namespace ECA.Business.Queries.Admin
 
             var query = context.Organizations
                 .Include(x => x.Addresses)
-                .Where(x => x.OrganizationId != OrganizationType.Office.Id)
+                .Where(x => x.OrganizationTypeId != OrganizationType.Office.Id)
                 .Select(x => new SimpleOrganizationDTO
                 {
                     Name = x.Name,
                     OrganizationType = x.OrganizationType.OrganizationTypeName,
                     Status = x.Status,
-                    Location = x.Addresses.FirstOrDefault().Location.Country.LocationName
+                    //Location = x.Addresses.FirstOrDefault().Location.Country.LocationName
                 });
             query = query.Apply(queryOperator);
             return query;

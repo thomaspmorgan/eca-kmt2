@@ -42,5 +42,17 @@ namespace ECA.Business.Service.Admin
             this.logger.Trace("Retrieved organizations with query operator [{0}].", queryOperator);
             return organizations;
         }
+
+        /// <summary>
+        /// Returns list of organizations 
+        /// </summary>
+        /// <param name="queryOperator">The query operator to apply</param>
+        /// <returns>List of organizations</returns>
+        public PagedQueryResults<SimpleOrganizationDTO> GetOrganizations(QueryableOperator<SimpleOrganizationDTO> queryOperator)
+        {
+            var organizations = OrganizationQueries.CreateGetSimpleOrganizationsDTOQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved organizations with query operator [{0}].", queryOperator);
+            return organizations;
+        }
     }
 }

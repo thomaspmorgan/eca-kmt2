@@ -102,6 +102,7 @@
     <Compile Include="Controllers\Admin\MoneyFlowsControllerTest.cs" />
     <Compile Include="Controllers\Admin\ProjectStatusControllerTest.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesControllerTest.cs" />
+    <Compile Include="Controllers\Admin\OrganizationsControllerTest.cs" />
     <Compile Include="Controllers\Security\AuthControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ContactsControllerTest.cs" />
