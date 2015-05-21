@@ -35,7 +35,7 @@ namespace ECA.Business.Queries.Admin
                     Name = x.Name,
                     OrganizationType = x.OrganizationType.OrganizationTypeName,
                     Status = x.Status,
-                    //Location = x.Addresses.FirstOrDefault().Location.Country.LocationName
+                    Location = x.Addresses.FirstOrDefault().Location.Country.LocationName
                 });
             query = query.Apply(queryOperator);
             return query;
