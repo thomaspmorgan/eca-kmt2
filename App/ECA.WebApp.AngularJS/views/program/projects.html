@@ -1,13 +1,4 @@
-<h2 class="program-color tab-header">Branches &amp; Projects</h2>
-<div ng-show="branches.length">
-    <h4 class="tab-subheader">Branches</h4>
-    <ul class="branch-list">
-        <li ng-repeat="branch in branches" class="branch">
-            <span class="branch-title">{{branch.programType}}</span>
-            <span class="branch-name"><a ui-sref="programs.overview({programId: branch.programId, officeId: branch.officeId})">{{ branch.displayName }}</a></span>
-        </li>
-    </ul>
-</div>
+<h2 class="program-color tab-header">{{header}}</h2>
 <div ng-show="subprograms.length">
     <h4 class="tab-subheader">Subprograms</h4>
     <ul class="branch-list">
@@ -26,7 +17,7 @@
     <button ng-click="modal.createProject = true" class="btn btn-success right col-sd-2">CREATE PROJECT</button>
 </div>
 <div st-pipe="getProjects" st-table="projects" id="sort-list">
-    <table class="col-md-12">
+    <table class="col-md-12 table">
         <thead>
             <tr>
                 <th st-sort="'projectName'" st-sort-default="true" class="col-md-7 sort-label medium">Title</th>
