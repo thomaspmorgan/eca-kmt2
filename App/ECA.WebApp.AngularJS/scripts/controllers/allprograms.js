@@ -426,6 +426,9 @@ angular.module('staticApp')
         ProgramService.get(programId)
             .then(function (newProgram) {
 
+                $scope.categoryLabel = newProgram.ownerOfficeCategoryLabel;
+                $scope.objectiveLabel = newProgram.ownerOfficeObjectiveLabel;
+
                 $scope.newProgram = newProgram;
                 $scope.newProgram.parentProgram = $scope.getParentProgramName(newProgram.parentProgramId);
                 $scope.newProgram.themes = newProgram.themes.map(getIds);
