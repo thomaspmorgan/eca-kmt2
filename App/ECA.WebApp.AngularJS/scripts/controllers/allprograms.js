@@ -234,11 +234,11 @@ angular.module('staticApp')
         angular.forEach($scope.themes, function (value, key) {
             $scope.themes[key].ticked = ($.inArray(value.id, $scope.newProgram.themes) > -1);
         });
-        angular.forEach($scope.categories, function (value, key) {
-            $scope.categories[key].ticked = ($.inArray(value.id, $scope.newProgram.categories) > -1);
+        angular.forEach($scope.allCategoriesGrouped, function (value, key) {
+            $scope.allCategoriesGrouped[key].ticked = ($.inArray(value.id, $scope.newProgram.categories) > -1);
         });
-        angular.forEach($scope.objectives, function (value, key) {
-            $scope.objectives[key].ticked = ($.inArray(value.id, $scope.newProgram.objectives) > -1);
+        angular.forEach($scope.allObjectivesGrouped, function (value, key) {
+            $scope.allObjectivesGrouped[key].ticked = ($.inArray(value.id, $scope.newProgram.objectives) > -1);
         });
     };
       
@@ -445,10 +445,6 @@ angular.module('staticApp')
             });
     };
 
-    $scope.updateProgram = function () {
-        saveProgram();
-    };
-
     function getIds(element) {
         return element.id;
     };
@@ -495,6 +491,7 @@ angular.module('staticApp')
         {
             alert('Please complete all required fields');
         }
+
     };
  
     $scope.saveCreatedProgram = function () {

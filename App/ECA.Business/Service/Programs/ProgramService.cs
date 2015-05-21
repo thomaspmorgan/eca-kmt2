@@ -296,6 +296,8 @@ namespace ECA.Business.Service.Programs
             SetPointOfContacts(updatedProgram.ContactIds, programToUpdate);
             SetThemes(updatedProgram.ThemeIds, programToUpdate);
             SetRegions(updatedProgram.RegionIds, programToUpdate);
+            SetCategories(updatedProgram.FocusCategoryIds, programToUpdate);
+            SetObjectives(updatedProgram.JustificationObjectiveIds, programToUpdate);
         }
         #endregion
 
