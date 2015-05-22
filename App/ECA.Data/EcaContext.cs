@@ -201,6 +201,11 @@ namespace ECA.Data
         public DbSet<Participant> Participants { get; set; }
 
         /// <summary>
+        /// Gets or sets participantPersons.
+        /// </summary>
+        public DbSet<ParticipantPerson> ParticipantPersons { get; set; }
+
+        /// <summary>
         /// Gets or sets participant statuses.
         /// </summary>
         public DbSet<ParticipantStatus> ParticipantStatuses { get; set; }
