@@ -1,0 +1,64 @@
+﻿<div class="jumbotron organization">
+    <div class="heading">
+        <h1>Organizations</h1>
+    </div>
+</div>
+<div class="container">
+    <h4 class="tab-subheader">Organizations List</h4>
+    <p class="subheader">Showing {{start}} - {{end}} of {{total}} organizations</p>
+    <div st-pipe="getOrganizations" st-table="organizations" id="sort-list">
+        <table class="col-md-12 alt">
+            <thead>
+                <tr>
+                    <th st-sort="'name'" st-sort-default="true" class="col-md-4 sort-label medium">Name</th>
+                    <th st-sort="'organizationType'" class="col-md-3 sort-label medium">Type</th>
+                    <th st-sort="'status'" class="col-md-1 sort-label medium">Status</th>
+                    <th st-sort="'location'" class="col-md-2 sort-label medium">Location</th>
+                    <th class="col-md-2">&nbsp;</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input st-search="'name'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'organizationType'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        <input st-search="'location'" placeholder="" type="search" class="input-lg form-control" />
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="list2">
+                <tr class="hover" ng-repeat="organization in organizations" ng-show="!organizationsLoading">
+                    <td>
+                        <h5 class="list-title"><a>{{organization.name}}</a></h5>
+                    </td>
+                    <td>{{organization.organizationType}}</td>
+                    <td>{{organization.status}}</td>
+                    <td>{{organization.location}}</td>
+                    <td>
+                        <img class="icon" src="images/duplicateA.png" alt="">
+                        <img class="icon" src="images/editA.png" alt="">
+                        <img class="icon" src="images/trash.png" alt="">
+                    </td>
+                </tr>
+                <tr ng-show="organizationsLoading">
+                    <td colspan="5">
+                        <div class="spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="organizations.length > 0"></div>
+    </div>
+</div>

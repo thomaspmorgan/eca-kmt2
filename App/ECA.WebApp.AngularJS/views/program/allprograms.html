@@ -13,7 +13,7 @@
     </div>
 
     <div st-pipe="getPrograms" st-table="programs" id="sort-list">
-        <table class="col-md-12" id="programList">
+        <table class="col-md-12 table" id="programList">
             <thead>
                 <tr>
                     <th class="col-md-7"></th>
@@ -86,6 +86,7 @@
         <div class="col-md-10">
             <form name="modalForm.editProgramForm">
                 <input type="hidden" ng-model="newProgram.programStatusId" />
+
                 <div class="form-group">
                     <label>Program Name<span class="asterisk"> *</span></label>
                     <input name="name" ng-model="newProgram.name" form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" type="text" class="form-control" placeholder="Enter program title..." required>
@@ -246,6 +247,22 @@
         <div class="col-md-10">
             <form name="modalForm.programForm">
                 <div class="form-group">
+                    <label>Owner Office<span class="asterisk"> *</span></label>
+                    <isteven-multi-select input-model="offices"
+                                          output-model="out.OwnerOrganization"
+                                          button-label="name"
+                                          item-label="name"
+                                          tick-property="ticked"
+                                          selection-mode="single"
+                                          helper-elements="none reset"
+                                          max-height="250px"
+                                          on-item-click="changeOwnerOffice()">
+                    </isteven-multi-select>
+                    <div ng-show="officeInvalid">
+                        <span class="error">You must select the parent office.</span>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label>Program Name<span class="asterisk"> *</span></label>
                     <input name="name" ng-model="newProgram.name" form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" type="text" class="form-control" placeholder="Enter program title..." required>
                     <div ng-show="modalForm.programForm.name.$dirty">
@@ -323,7 +340,7 @@
                         <span class="error">Please select at least one goal.</span>
                     </div>
                 </div>
-                <div class="form-group" ng-show="categoryLabel != ''">
+                <div class="form-group" ng-show="showCategoryFocus">
                     <label>{{categoryLabel}}</label>
                     <isteven-multi-select input-model="allCategoriesGrouped"
                                           output-model="out.Categories"
@@ -340,7 +357,7 @@
                         <span class="error">Please select at least one focus/category.</span>
                     </div>
                 </div>
-                <div class="form-group" ng-show="objectiveLabel != ''">
+                <div class="form-group" ng-show="showObjectiveJustification">
                     <label>{{objectiveLabel}}</label>
                     <isteven-multi-select input-model="allObjectivesGrouped"
                                           output-model="out.Objectives"

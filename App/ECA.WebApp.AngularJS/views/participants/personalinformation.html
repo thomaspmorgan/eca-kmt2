@@ -221,8 +221,14 @@
                 <div class="col-md-8" ng-show="editPii">
                     <div class="form-group">
                         <label class="col-md-4 title-label"></label>
-                        <div class="col-md-8">
-                            <input type="date" class="form-control" ng-model="pii.dateOfBirth" required />
+                        <div class="col-md-8 input-group">
+                            <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="pii.dateOfBirth"
+                                   is-open="datePickerOpen" ng-required="true" max-date="maxDateOfBirth" close-text="Close">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openDatePicker($event)">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
                         </div>
                     </div>
                 </div>

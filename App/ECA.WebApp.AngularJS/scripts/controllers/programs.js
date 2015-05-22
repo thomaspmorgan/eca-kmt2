@@ -30,7 +30,7 @@ angular.module('staticApp')
               order: 1
           },
           projects: {
-              title: 'Branches & Projects',
+              title: 'Subprograms & Projects',
               path: 'projects',
               active: true,
               order: 2
@@ -55,6 +55,7 @@ angular.module('staticApp')
           }
       };
 
+      $scope.header = "Subprograms and Projects";
       $scope.branches = [];
       $scope.subprograms = [];
       $scope.projects = [];
@@ -100,6 +101,17 @@ angular.module('staticApp')
             .then(function(){
                 $scope.projectsLoading = false;
             });
+          //move to getSubPrograms once written
+          updateHeader();
+      }
+
+      //add subprograms
+
+      function updateHeader() {
+          if ($scope.subprograms.length === 0) {
+              $scope.header = "Projects";
+              $scope.tabs.projects.title = "Projects";
+          }
       }
 
       $scope.saveProject = function () {
@@ -202,4 +214,5 @@ angular.module('staticApp')
       $scope.confirmFailOk = function () {
           $scope.confirmFail = false;
       };
+
   });

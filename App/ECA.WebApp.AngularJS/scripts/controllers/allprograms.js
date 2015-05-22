@@ -9,7 +9,8 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, LookupService, TableService, $timeout) {
+  .controller('AllProgramsCtrl', function ($scope, $stateParams, $state, ProgramService, LookupService, TableService,
+      OfficeService, $timeout) {
       
       $scope.errorMessage = 'Unknown Error';
       $scope.validations = [];
@@ -22,6 +23,9 @@ angular.module('staticApp')
       $scope.currentOffice = 1;
       $scope.categoryLabel = 'Focus Categories';
       $scope.objectiveLabel = 'Objectives';
+
+      $scope.showObjectiveJustification = false;
+      $scope.showCategoryFocus = false;
       
       $scope.programFilter = '';
 
@@ -45,11 +49,9 @@ angular.module('staticApp')
       $scope.dropDownDirty = false;
 
       $scope.initialTableState = null;
-
-      $scope.showCategories = true;
-      $scope.showObjectives = true;
-
       $scope.alerts = [];
+
+      $scope.offices = [];
 
       $scope.themes = [];
       $scope.categories = [];
@@ -67,12 +69,12 @@ angular.module('staticApp')
           name: '',
           description: '',
           parentProgramId: null,
-          ownerOrganizationId: 1,
-          programStatusId:null,
+          ownerOrganizationId: null,
+          programStatusId: null,
           startDate: new Date(),
           themes: [],
           categories: [],
-          objectives: [],
+          objectives: [], 
           goals: [],
           regions: [],
           contacts: [],
@@ -85,7 +87,8 @@ angular.module('staticApp')
           Goals: [],
           Contacts: [],
           Categories: [],
-          Objectives: []
+          Objectives: [],
+          OwnerOrganizationId: []
       };
     $scope.programs = [];
 
@@ -151,6 +154,14 @@ angular.module('staticApp')
                 $scope.regions[key].ticked = false;
             });
         });
+      
+    OfficeService.getAll($scope.lookupParams)
+        .then(function (data) {
+            $scope.offices = data.data.results;
+            angular.forEach($scope.offices, function (value, key) {
+                $scope.offices[key].ticked = false;
+            });
+        });
 
     $scope.allCategoriesGrouped = [];
       LookupService.getAllCategories($scope.officeSpecificLookupParams)
@@ -174,8 +185,6 @@ angular.module('staticApp')
                     { id: value.id, name: value.name, ticked: false }
                 );
             });
-
-            $scope.showCategories = $scope.allCategoriesGrouped.length > 0;
         });
 
     $scope.allObjectivesGrouped = [];
@@ -201,8 +210,6 @@ angular.module('staticApp')
                   { id: value.id, name: value.name, ticked: false }
               );
           });
-
-          $scope.showObjectives = $scope.allObjectivesGrouped.length > 0;
 
       });
       
@@ -234,23 +241,40 @@ angular.module('staticApp')
         angular.forEach($scope.themes, function (value, key) {
             $scope.themes[key].ticked = ($.inArray(value.id, $scope.newProgram.themes) > -1);
         });
-        angular.forEach($scope.categories, function (value, key) {
-            $scope.categories[key].ticked = ($.inArray(value.id, $scope.newProgram.categories) > -1);
+        angular.forEach($scope.allCategoriesGrouped, function (value, key) {
+            $scope.allCategoriesGrouped[key].ticked = ($.inArray(value.id, $scope.newProgram.categories) > -1);
         });
-        angular.forEach($scope.objectives, function (value, key) {
-            $scope.objectives[key].ticked = ($.inArray(value.id, $scope.newProgram.objectives) > -1);
+        angular.forEach($scope.allObjectivesGrouped, function (value, key) {
+            $scope.allObjectivesGrouped[key].ticked = ($.inArray(value.id, $scope.newProgram.objectives) > -1);
         });
     };
       
       //#endregion
 
-    $scope.getOfficeLabels = function () {
-        // read the office settings for category and justification
-        // if no labels, do not show the field
-        // for now show them regardless
-        $scope.categoryLabel = 'Focus Categories';
-        $scope.objectiveLabel = 'Objectives';
+    $scope.changeOwnerOffice = function () {
+        var officeId = $scope.out.OwnerOrganization[0].organizationId;
+        loadOfficeSettings(officeId);
     };
+
+    function loadOfficeSettings(officeId) {
+        return OfficeService.getSettings(officeId)
+            .then(function (response) {
+                var objectiveLabel = response.data.objectiveLabel;
+                var categoryLabel = response.data.categoryLabel;
+                var focusLabel = response.data.focusLabel;
+                var justificationLabel = response.data.justificationLabel;
+                var isCategoryRequired = response.data.isCategoryRequired;
+                var isObjectiveRequired = response.data.isObjectiveRequired;
+
+                $scope.categoryLabel = categoryLabel + '/' + focusLabel;
+                $scope.objectiveLabel = objectiveLabel + '/' + justificationLabel;
+
+                $scope.showCategoryFocus = isCategoryRequired;
+                $scope.showObjectiveJustification = isObjectiveRequired;
+
+            });
+    }
+
 
     $scope.showHideChildren = function(program, showChild) {
         // loop through rows after this one and show/hide while programLevel is less
@@ -426,6 +450,7 @@ angular.module('staticApp')
         ProgramService.get(programId)
             .then(function (newProgram) {
 
+                loadOfficeSettings(newProgram.ownerOrganizationId);
                 $scope.newProgram = newProgram;
                 $scope.newProgram.parentProgram = $scope.getParentProgramName(newProgram.parentProgramId);
                 $scope.newProgram.themes = newProgram.themes.map(getIds);
@@ -443,10 +468,6 @@ angular.module('staticApp')
 
                 $('#loadingEditLabel' + programId).css("display", "none");
             });
-    };
-
-    $scope.updateProgram = function () {
-        saveProgram();
     };
 
     function getIds(element) {
@@ -495,6 +516,7 @@ angular.module('staticApp')
         {
             alert('Please complete all required fields');
         }
+
     };
  
     $scope.saveCreatedProgram = function () {
@@ -503,6 +525,9 @@ angular.module('staticApp')
 
         if (programForm.$valid) {
             cleanUpNewProgram();
+            
+            $scope.newProgram.ownerOrganizationId = $scope.out.OwnerOrganization[0].organizationId;
+
             ProgramService.create($scope.newProgram)
                 .then(function (program) {
                     if (Array.isArray(program)) {
@@ -544,7 +569,7 @@ angular.module('staticApp')
         $scope.newProgram.regions = $scope.out.Regions.map(getIds);
         $scope.newProgram.categories = $scope.out.Categories.map(getIds);
         $scope.newProgram.objectives = $scope.out.Objectives.map(getIds);
-
+        
     };
 
       // calendar popup for startDate

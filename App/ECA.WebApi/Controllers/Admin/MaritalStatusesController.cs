@@ -14,6 +14,7 @@ using System.Web.Http;
 
 namespace ECA.WebApi.Controllers.Admin
 {
+    [Authorize]
     public class MaritalStatusesController : ApiController
     {
         private static readonly ExpressionSorter<SimpleLookupDTO> DEFAULT_MARITAL_STATUS_DTO_SORTER =
