@@ -9,7 +9,7 @@ namespace ECA.WebApi.Models.Security
     /// <summary>
     /// A DeletedPermissionBindingModel is used to delete a permission from a principal.
     /// </summary>
-    public class DeletedPermissionBindingModel : IDeletedPermissionBindingModel
+    public class PermissionBindingModel : IDeletedPermissionBindingModel, IGrantedPermissionBindingModel, IRevokedPermissionBindingModel
     {
         /// <summary>
         /// The resource type the permission is for.
@@ -39,6 +39,26 @@ namespace ECA.WebApi.Models.Security
         public DeletedPermission ToDeletedPermission(int grantorUserId)
         {
             return new DeletedPermission(this.PrincipalId, this.ForeignResourceId, this.PermissionId, this.ResourceType);
+        }
+
+        /// <summary>
+        /// Returns a GrantedPermission from this instance.
+        /// </summary>
+        /// <param name="grantorUserId">The grantor user id.</param>
+        /// <returns>The GrantedPermission.</returns>
+        public GrantedPermission ToGrantedPermission(int grantorUserId)
+        {
+            return new GrantedPermission(this.PrincipalId, this.PermissionId, this.ForeignResourceId, this.ResourceType, grantorUserId);
+        }
+
+        /// <summary>
+        /// Returns a RevokedPermission from this instance.
+        /// </summary>
+        /// <param name="revokerUserId">The revoker user id.</param>
+        /// <returns>The RevokedPermission.</returns>
+        public RevokedPermission ToRevokedPermission(int revokerUserId)
+        {
+            return new RevokedPermission(this.PrincipalId, this.PermissionId, this.ForeignResourceId, this.ResourceType, revokerUserId);
         }
     }
 }

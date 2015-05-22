@@ -120,7 +120,6 @@
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramViewModelTest.cs" />
-    <Compile Include="Models\Projects\AddCollaboratorBindingModelTest.cs" />
     <Compile Include="Models\Projects\DraftProjectBindingModelTest.cs" />
     <Compile Include="Models\Projects\PublishedProjectBindingModelTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelConvertTest.cs" />
@@ -128,14 +127,13 @@
     <Compile Include="Models\Query\KeywordAttributeTest.cs" />
     <Compile Include="Models\Query\PagingQueryBindingModelTest.cs" />
     <Compile Include="Models\Query\SorterBindingModelTest.cs" />
-    <Compile Include="Models\Security\DeletedPermissionBindingModelTest.cs" />
-    <Compile Include="Models\Security\RevokedPermissionBindingModel.cs" />
+    <Compile Include="Models\Projects\CollaboratorBindingModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ActionPermissionTest.cs" />
     <Compile Include="Security\AnonymousUserTest.cs" />
     <Compile Include="Security\BearerTokenUserProviderTest.cs" />
     <Compile Include="Security\BearerTokenUserProviderTest_Impersonation.cs" />
-    <Compile Include="Models\Security\GrantedPermissionBindingModelTest.cs" />
+    <Compile Include="Security\PermissionBindingModelTest.cs" />
     <Compile Include="Security\ImpersonatedUserTest.cs" />
     <Compile Include="Security\ModelPermissionTest.cs" />
     <Compile Include="Security\ResourceAuthorizationHandlerTest.cs" />
@@ -186,6 +184,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Security\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

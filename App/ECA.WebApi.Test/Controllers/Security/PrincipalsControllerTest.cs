@@ -14,6 +14,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Web.Http.Results;
 
 namespace ECA.WebApi.Test.Controllers.Security
@@ -31,120 +32,33 @@ namespace ECA.WebApi.Test.Controllers.Security
             controller = new PrincipalsController(handler.Object);
             controller.ControllerContext = ContextUtil.CreateControllerContext();
         }
-        #region Grant
 
         [TestMethod]
         public async Task TestPostGrantPermissionAsync()
         {
-            var model = new GrantedPermissionBindingModel();
+            var model = new PermissionBindingModel();
             model.ResourceType = ResourceType.Program.Value;
             var response = await controller.PostGrantPermissionAsync(model);
-            handler.Verify(x => x.GrantPermissionAsync(It.IsAny<IGrantedPermissionBindingModel>()), Times.Once());
-            handler.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            handler.Verify(x => x.HandleGrantedPermissionBindingModelAsync(It.IsAny<IGrantedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
         }
 
-        [TestMethod]
-        public async Task TestPostGrantPermissionAsync_InvalidModel()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PostGrantPermissionAsync(new GrantedPermissionBindingModel());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
-
-        [TestMethod]
-        public async Task TestPostGrantPermissionsAsync()
-        {
-            var model1 = new GrantedPermissionBindingModel();
-            model1.ResourceType = ResourceType.Program.Value;
-
-            var model2 = new GrantedPermissionBindingModel();
-            model2.ResourceType = ResourceType.Program.Value;
-            var response = await controller.PostGrantPermissionsAsync(new List<GrantedPermissionBindingModel> { model1, model2 });
-            handler.Verify(x => x.GrantPermissionAsync(It.IsAny<IGrantedPermissionBindingModel>()), Times.Exactly(2));
-            handler.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
-        }
-
-        [TestMethod]
-        public async Task TestPostGrantPermissionsAsync_InvalidModels()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PostGrantPermissionsAsync(new List<GrantedPermissionBindingModel>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
-        #endregion
-
-        #region Revoke
         [TestMethod]
         public async Task TestPostRevokePermissionAsync()
         {
-            var model = new RevokedPermissionBindingModel();
+            var model = new PermissionBindingModel();
             model.ResourceType = ResourceType.Program.Value;
             var response = await controller.PostRevokePermissionAsync(model);
-            handler.Verify(x => x.RevokePermissionAsync(It.IsAny<IRevokedPermissionBindingModel>()), Times.Once());
-            handler.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            handler.Verify(x => x.HandleRevokedPermissionBindingModelAsync(It.IsAny<IRevokedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
         }
 
         [TestMethod]
-        public async Task TestPostRevokePermissionAsync_InvalidModel()
+        public async Task TestPostDeletePermissionAsync()
         {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PostRevokePermissionAsync(new RevokedPermissionBindingModel());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
-
-        [TestMethod]
-        public async Task TestPostRevokePermissionsAsync()
-        {
-            var model1 = new RevokedPermissionBindingModel();
+            var model1 = new PermissionBindingModel();
             model1.ResourceType = ResourceType.Program.Value;
 
-            var model2 = new RevokedPermissionBindingModel();
-            model2.ResourceType = ResourceType.Program.Value;
-            var response = await controller.PostRevokePermissionsAsync(new List<RevokedPermissionBindingModel> { model1, model2 });
-            handler.Verify(x => x.RevokePermissionAsync(It.IsAny<IRevokedPermissionBindingModel>()), Times.Exactly(2));
-            handler.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            var response = await controller.PostDeletePermissionAsync(model1);
+            handler.Verify(x => x.HandleDeletedPermissionBindingModelAsync(It.IsAny<IDeletedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
         }
-
-        [TestMethod]
-        public async Task TestPostRevokePermissionsAsync_InvalidModels()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PostRevokePermissionsAsync(new List<RevokedPermissionBindingModel>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
-
-        [TestMethod]
-        public async Task TestDeletePermissionAsync()
-        {
-            var model1 = new DeletedPermissionBindingModel();
-            model1.ResourceType = ResourceType.Program.Value;
-
-            var response = await controller.DeletePermissionAsync(model1);
-            handler.Verify(x => x.DeletePermissionAsync(It.IsAny<IDeletedPermissionBindingModel>()), Times.Once());
-            handler.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
-        }
-
-        [TestMethod]
-        public async Task TestDeletePermissionsAsync()
-        {
-            var model1 = new DeletedPermissionBindingModel();
-            model1.ResourceType = ResourceType.Program.Value;
-
-            var model2 = new DeletedPermissionBindingModel();
-            model2.ResourceType = ResourceType.Program.Value;
-            var response = await controller.DeletePermissionsAsync(new List<DeletedPermissionBindingModel> { model1, model2 });
-            handler.Verify(x => x.DeletePermissionAsync(It.IsAny<IDeletedPermissionBindingModel>()), Times.Exactly(2));
-            handler.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
-        }
-
-        [TestMethod]
-        public async Task TestDeletePermissionsAsync_InvalidModels()
-        {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.DeletePermissionsAsync(new List<DeletedPermissionBindingModel>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
-        }
-        #endregion
-
     }
 }

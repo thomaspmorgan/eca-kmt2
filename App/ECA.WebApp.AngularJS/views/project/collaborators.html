@@ -2,63 +2,65 @@
     <h3 class="modal-title">Add Collaborator to Participants</h3>
     <div class="page-header">
         Collaborate with others within or outside of ECA.
+        <div class="spinner" ng-show="view.isLoading">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
     </div>
 </div>
-<div class="spinner" ng-show="view.isLoading">
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-    <div class="bounce3"></div>
-</div>
-<div class="modal-body" ng-show="!view.isLoading">
-    <div st-pipe="view.loadCollaborators" st-table="view.collaborators" id="sort-list">
+
+<div class="modal-body">
+    <div st-pipe="view.loadCollaborators" st-table="view.collaborators" id="sort-list" ng-show="!view.isLoading">
+
         <table class="col-md-12 alt">
             <thead>
                 <tr>
                     <th st-sort="'displayName'" st-sort-default="true" class="col-md-5 sort-label medium">Name</th>
+                    <th st-sort="'Permissions'" class="col-md-3 sort-label medium">Inherited Permissions</th>
                     <th st-sort="'Permissions'" class="col-md-3 sort-label medium">Permissions</th>
-                    <!--<th class="col-md-2">&nbsp;</th>-->
                 </tr>
                 <!--<tr>
                     <th>
                         <input st-search="'displayName'" placeholder="" type="search" class="input-lg form-control" />
                     </th>
                     <th>
-                        <input st-search="'participantType'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        <input st-search="'status'" placeholder="" type="search" class="input-lg form-control" />
-                    </th>
-                    <th>
-                        &nbsp;
+                        <input st-search="'permissionName'" placeholder="" type="search" class="input-lg form-control" />
                     </th>
                 </tr>-->
             </thead>
+            
             <tbody class="list2">
-                <tr class="hover" ng-repeat="collaborator in view.collaborators | groupBy:'principalId'">
-                    <td ng-repeat="collaborator in view.collaborators | filter: {principalId: collaborator}" ng-if="$first">
+
+                <tr class="hover" ng-repeat="collaborator in view.collaborators">
+                    <td>
                         <h5 class="list-title">{{collaborator.displayName}}</h5><p>{{collaborator.emailAddress}}</p>
                     </td>
                     <td>
-                        <!--<div ng-repeat="collaborator in view.collaborators | filter: {principalId: collaborator}">
-                            <h5 class="list-title">{{collaborator.permissionName}}</h5>-->
-
-
-                        <ui-select multiple ng-model="view.collaboratorPermissions[collaborator]" theme="select2" on-remove="view.onRemovePermission($item, $model)">
-                            <ui-select-match placeholder="Permissions">{{$item.permissionName}}</ui-select-match>
+                        <ul ng-repeat="permission in collaborator.rolePermissions">
+                            <li>
+                                <ng-switch on="$first">
+                                    <div ng-switch-when="true" class="title-label"><strong>{{permission.roleName}}</strong></div>
+                                </ng-switch>
+                                &#149 {{permission.permissionName}}
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ui-select multiple ng-model="collaborator.allPermissions" theme="select2" on-remove="view.onRemovePermission($item, collaborator)" ng-disabled="view.isSaving">
+                            <ui-select-match placeholder="Permissions">
+                                <div>
+                                    <!--<i style="margin-bottom:4px;" ng-show="!view.isSavingPermission" class="fa fa-spinner fa-pulse"></i>-->
+                                    <input type="checkbox" ng-model="$item.isAllowed" ng-click="view.onPermissionCheckboxClick($event, $item, collaborator)" ng-disabled="view.isSaving" />
+                                    <span ng-class="{revokedPermission: !$item.isAllowed}">{{$item.permissionName}}</span>
+                                </div>
+                            </ui-select-match>
                             <ui-select-choices repeat="p in availablePermissions | filter:$select.search">
-                                {{p.Name}}
+                                {{p.permissionName}}
                             </ui-select-choices>
                         </ui-select>
-
-                        <!--</div>-->
-
-
-
                     </td>
-                    <!--<td>
-                        {{collaborator}}
-                    </td>-->
-                </tr>
+                </tr>                
             </tbody>
         </table>
         <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="view.collaborators.length > 0"></div>

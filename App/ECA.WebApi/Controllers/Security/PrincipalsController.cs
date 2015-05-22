@@ -41,32 +41,9 @@ namespace ECA.WebApi.Controllers.Security
         /// <returns>An ok result.</returns>
         [Route("Grant/Permission")]
         [ResponseType(typeof(OkResult))]
-        public Task<IHttpActionResult> PostGrantPermissionAsync(GrantedPermissionBindingModel model)
+        public Task<IHttpActionResult> PostGrantPermissionAsync(PermissionBindingModel model)
         {
-            return PostGrantPermissionsAsync(new List<GrantedPermissionBindingModel> { model });
-        }
-
-        /// <summary>
-        /// Grants the given permissions to the user.
-        /// </summary>
-        /// <returns>An ok result.</returns>
-        [Route("Grant/Permissions")]
-        [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> PostGrantPermissionsAsync(List<GrantedPermissionBindingModel> models)
-        {
-            if (ModelState.IsValid)
-            {
-                foreach(var model in models)
-                {
-                    await handler.GrantPermissionAsync(model);
-                }
-                await handler.SaveChangesAsync();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            return this.handler.HandleGrantedPermissionBindingModelAsync(model, this);
         }
 
         /// <summary>
@@ -75,32 +52,9 @@ namespace ECA.WebApi.Controllers.Security
         /// <returns>An ok result.</returns>
         [Route("Revoke/Permission")]
         [ResponseType(typeof(OkResult))]
-        public Task<IHttpActionResult> PostRevokePermissionAsync(RevokedPermissionBindingModel model)
+        public Task<IHttpActionResult> PostRevokePermissionAsync(PermissionBindingModel model)
         {
-            return PostRevokePermissionsAsync(new List<RevokedPermissionBindingModel> { model });
-        }
-
-        /// <summary>
-        /// Revokes the given permissions to the user.
-        /// </summary>
-        /// <returns>An ok result.</returns>
-        [Route("Revoke/Permissions")]
-        [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> PostRevokePermissionsAsync(List<RevokedPermissionBindingModel> models)
-        {
-            if (ModelState.IsValid)
-            {
-                foreach (var model in models)
-                {
-                    await handler.RevokePermissionAsync(model);
-                }
-                await handler.SaveChangesAsync();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            return this.handler.HandleRevokedPermissionBindingModelAsync(model, this);
         }
 
         /// <summary>
@@ -109,32 +63,9 @@ namespace ECA.WebApi.Controllers.Security
         /// <returns>An ok result.</returns>
         [Route("Remove/Permission")]
         [ResponseType(typeof(OkResult))]
-        public Task<IHttpActionResult> DeletePermissionAsync(DeletedPermissionBindingModel model)
+        public Task<IHttpActionResult> PostDeletePermissionAsync(PermissionBindingModel model)
         {
-            return DeletePermissionsAsync(new List<DeletedPermissionBindingModel> { model });
-        }
-
-        /// <summary>
-        /// Removes the given permissions to the user.
-        /// </summary>
-        /// <returns>An ok result.</returns>
-        [Route("Remove/Permissions")]
-        [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> DeletePermissionsAsync(List<DeletedPermissionBindingModel> models)
-        {
-            if (ModelState.IsValid)
-            {
-                foreach (var model in models)
-                {
-                    await handler.DeletePermissionAsync(model);
-                }
-                await handler.SaveChangesAsync();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            return this.handler.HandleDeletedPermissionBindingModelAsync(model, this);
         }
     }
 }

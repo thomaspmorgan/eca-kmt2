@@ -29,5 +29,29 @@ namespace ECA.WebApi.Security
         /// <param name="revokedPermission">The model containing the revoked permission.</param>
         /// <returns>The task.</returns>
         System.Threading.Tasks.Task RevokePermissionAsync(ECA.WebApi.Models.Security.IRevokedPermissionBindingModel revokedPermission);
+
+        /// <summary>
+        /// Handles the given model from a client via the given controller.
+        /// </summary>
+        /// <param name="model">The permission model.</param>
+        /// <param name="controller">The controller that is handling the client request.</param>
+        /// <returns>The result the controller should return.</returns>
+        System.Threading.Tasks.Task<System.Web.Http.IHttpActionResult> HandleGrantedPermissionBindingModelAsync(ECA.WebApi.Models.Security.IGrantedPermissionBindingModel model, System.Web.Http.ApiController controller);
+
+        /// <summary>
+        /// Handles the given model from a client via the given controller.
+        /// </summary>
+        /// <param name="model">The permission model.</param>
+        /// <param name="controller">The controller that is handling the client request.</param>
+        /// <returns>The result the controller should return.</returns>
+        System.Threading.Tasks.Task<System.Web.Http.IHttpActionResult> HandleRevokedPermissionBindingModelAsync(ECA.WebApi.Models.Security.IRevokedPermissionBindingModel model, System.Web.Http.ApiController controller);
+
+        /// <summary>
+        /// Handles the given model from a client via the given controller.
+        /// </summary>
+        /// <param name="model">The permission model.</param>
+        /// <param name="controller">The controller that is handling the client request.</param>
+        /// <returns>The result the controller should return.</returns>
+        System.Threading.Tasks.Task<System.Web.Http.IHttpActionResult> HandleDeletedPermissionBindingModelAsync(ECA.WebApi.Models.Security.IDeletedPermissionBindingModel model, System.Web.Http.ApiController controller);
     }
 }

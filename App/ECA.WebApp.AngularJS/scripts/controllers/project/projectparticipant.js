@@ -25,7 +25,7 @@ angular.module('staticApp')
       $scope.view.addCollaborator = function ($event) {
           var modalInstance = $modal.open({
               templateUrl: '/views/project/collaborators.html',
-              controller: 'AddProjectCollaboratorCtrl',
+              controller: 'ProjectCollaboratorCtrl',
               backdrop: 'static',
               resolve: {},
               size: 'lg'

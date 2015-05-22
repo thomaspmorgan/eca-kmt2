@@ -9,8 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Security
 {
@@ -24,6 +27,7 @@ namespace ECA.WebApi.Security
         private IPrincipalService principalService;
         private IResourceService resourceService;
         private IUserService userService;
+        private Action<int, int> throwIfGrantorAndGranteePrincipalIdEqual;
 
         /// <summary>
         /// Creates a new ResourceAuthorizationHandler.
@@ -42,6 +46,13 @@ namespace ECA.WebApi.Security
             this.principalService = principalService;
             this.resourceService = resourceService;
             this.userService = userService;
+            throwIfGrantorAndGranteePrincipalIdEqual = (granteePrincipalId, grantorPrincipalId) =>
+            {
+                if (granteePrincipalId == grantorPrincipalId)
+                {
+                    throw new HttpResponseException(HttpStatusCode.Forbidden);
+                }
+            };
         }
 
         /// <summary>
@@ -82,6 +93,7 @@ namespace ECA.WebApi.Security
         {
             var grantorUserId = GetGrantorPrincipalId();
             var permission = grantedPermission.ToGrantedPermission(grantorUserId);
+            throwIfGrantorAndGranteePrincipalIdEqual(permission.GranteePrincipalId, grantorUserId);
             await principalService.GrantPermissionsAsync(permission);
             await ClearUserCacheAsync(permission.GranteePrincipalId);
         }
@@ -95,6 +107,7 @@ namespace ECA.WebApi.Security
         {
             var grantorUserId = GetGrantorPrincipalId();
             var permission = revokedPermission.ToRevokedPermission(grantorUserId);
+            throwIfGrantorAndGranteePrincipalIdEqual(permission.GranteePrincipalId, grantorUserId);
             await principalService.RevokePermissionAsync(permission);
             await ClearUserCacheAsync(permission.GranteePrincipalId);
         }
@@ -108,6 +121,7 @@ namespace ECA.WebApi.Security
         {
             var grantorUserId = GetGrantorPrincipalId();
             var permission = deletedPermission.ToDeletedPermission(grantorUserId);
+            throwIfGrantorAndGranteePrincipalIdEqual(permission.GranteePrincipalId, grantorUserId);
             await principalService.DeletePermissionAsync(permission);
             await ClearUserCacheAsync(permission.GranteePrincipalId);
         }
@@ -134,6 +148,66 @@ namespace ECA.WebApi.Security
             var result = await principalService.SaveChangesAsync(saveActions);
             logger.Info("Successfully saved changes to principal service.");
             return result;
+        }
+
+        /// <summary>
+        /// Handles the given model from a client via the given controller.
+        /// </summary>
+        /// <param name="model">The permission model.</param>
+        /// <param name="controller">The controller that is handling the client request.</param>
+        /// <returns>The result the controller should return.</returns>
+        public async Task<IHttpActionResult> HandleGrantedPermissionBindingModelAsync(IGrantedPermissionBindingModel model, ApiController controller)
+        {
+            if (controller.ModelState.IsValid)
+            {
+                await GrantPermissionAsync(model);
+                await SaveChangesAsync();
+                return new OkResult(controller);
+            }
+            else
+            {
+                return new InvalidModelStateResult(controller.ModelState, controller);
+            }
+        }
+
+        /// <summary>
+        /// Handles the given model from a client via the given controller.
+        /// </summary>
+        /// <param name="model">The permission model.</param>
+        /// <param name="controller">The controller that is handling the client request.</param>
+        /// <returns>The result the controller should return.</returns>
+        public async Task<IHttpActionResult> HandleRevokedPermissionBindingModelAsync(IRevokedPermissionBindingModel model, ApiController controller)
+        {
+            if (controller.ModelState.IsValid)
+            {
+                await RevokePermissionAsync(model);
+                await SaveChangesAsync();
+                return new OkResult(controller);
+            }
+            else
+            {
+                return new InvalidModelStateResult(controller.ModelState, controller);
+            }
+        }
+
+        /// <summary>
+        /// Handles the given model from a client via the given controller.
+        /// </summary>
+        /// <param name="model">The permission model.</param>
+        /// <param name="controller">The controller that is handling the client request.</param>
+        /// <returns>The result the controller should return.</returns>
+        public async Task<IHttpActionResult> HandleDeletedPermissionBindingModelAsync(IDeletedPermissionBindingModel model, ApiController controller)
+        {
+            if (controller.ModelState.IsValid)
+            {
+                await DeletePermissionAsync(model);
+                await SaveChangesAsync();
+                return new OkResult(controller);
+            }
+            else
+            {
+                return new InvalidModelStateResult(controller.ModelState, controller);
+            }
         }
     }
 }
