@@ -18,15 +18,8 @@ angular.module('staticApp')
 
       $scope.modal = {};
 
-      $scope.newMoneyFlow = {};
-
       $scope.genders = {};
       $scope.currencyTypes = {};
-
-      $scope.sourceRecipientLabel = "SOURCE";
-
-      $scope.flowInward = "";
-      $scope.flowOutward = "directionSelected";
 
       $scope.isProjectEditCancelButtonVisible = false;
       $scope.showProjectEditCancelButton = false;
@@ -390,25 +383,4 @@ angular.module('staticApp')
       }, function () {
 
       });
-
-      // Money Flow Section
-      $scope.changeFlowDirection = function (direction) {
-          if (direction == 'inward')
-          {
-              $scope.flowInward = "directionSelected";
-              $scope.flowOutward = "";
-          }
-          else
-          {
-              $scope.flowInward = "";
-              $scope.flowOutward = "directionSelected";
-          }
-      };
-
-      $scope.cancelMoneyFlowModalForm = function () {
-          $scope.modal.addMoneyFlow = false;
-      };
-
-
-
   });

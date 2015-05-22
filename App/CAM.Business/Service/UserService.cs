@@ -126,6 +126,47 @@ namespace CAM.Business.Service
                 });
         }
 
+        private IQueryable<Guid> CreateGetUserAdGuidByPrincipalIdQuery(int principalId)
+        {
+            return Context.UserAccounts.Where(x => x.PrincipalId == principalId).Select(x => x.AdGuid);
+        }
+
+        /// <summary>
+        /// Returns the user with the given principal id, or null if not found.
+        /// </summary>
+        /// <param name="id">The principal id of the user.</param>
+        /// <returns>The user or null if not found.</returns>
+        public User GetUserById(int principalId)
+        {
+            var adGuid = CreateGetUserAdGuidByPrincipalIdQuery(principalId).FirstOrDefault();
+            if (adGuid == Guid.Empty)
+            {
+                return null;
+            }
+            else
+            {
+                return GetUserById(adGuid);
+            }
+        }
+
+        /// <summary>
+        /// Returns the user with the given principal id, or null if not found.
+        /// </summary>
+        /// <param name="id">The principal id of the user.</param>
+        /// <returns>The user or null if not found.</returns>
+        public async Task<User> GetUserByIdAsync(int principalId)
+        {
+            var adGuid = await CreateGetUserAdGuidByPrincipalIdQuery(principalId).FirstOrDefaultAsync();
+            if (adGuid == Guid.Empty)
+            {
+                return null;
+            }
+            else
+            {
+                return await GetUserByIdAsync(adGuid);
+            }
+        }
+
         /// <summary>
         /// Returns the user with the given id, or null if not found.
         /// </summary>

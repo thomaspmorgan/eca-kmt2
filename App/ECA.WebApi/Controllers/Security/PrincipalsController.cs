@@ -1,6 +1,7 @@
 ﻿using CAM.Business.Service;
 using ECA.WebApi.Models.Security;
 using ECA.WebApi.Security;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -21,20 +22,17 @@ namespace ECA.WebApi.Controllers.Security
     [RoutePrefix("api/Principals")]
     public class PrincipalsController : ApiController
     {
-        private IPrincipalService principalService;
-        private IUserProvider userProvider;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private IResourceAuthorizationHandler handler;
 
         /// <summary>
         /// Creates a new PrincipalsController given the user provider and principal service.
         /// </summary>
-        /// <param name="userProvider">The user service.</param>
-        /// <param name="principalService">The principal service.</param>
-        public PrincipalsController(IUserProvider userProvider, IPrincipalService principalService)
+        /// <param name="handler">The resource authorization handler.</param>
+        public PrincipalsController(IResourceAuthorizationHandler handler)
         {
-            Contract.Requires(principalService != null, "The principal service must not be null.");
-            Contract.Requires(userProvider != null, "The user provider must not be null.");
-            this.principalService = principalService;
-            this.userProvider = userProvider;
+            Contract.Requires(handler != null, "The handler must not be null.");
+            this.handler = handler;
         }
 
         /// <summary>
@@ -43,70 +41,31 @@ namespace ECA.WebApi.Controllers.Security
         /// <returns>An ok result.</returns>
         [Route("Grant/Permission")]
         [ResponseType(typeof(OkResult))]
-        public Task<IHttpActionResult> PostGrantPermissionAsync(GrantedPermissionBindingModel model)
+        public Task<IHttpActionResult> PostGrantPermissionAsync(PermissionBindingModel model)
         {
-            return PostGrantPermissionsAsync(new List<GrantedPermissionBindingModel> { model });
+            return this.handler.HandleGrantedPermissionBindingModelAsync(model, this);
         }
 
         /// <summary>
-        /// Grants the given permissions to the user.
-        /// </summary>
-        /// <returns>An ok result.</returns>
-        [Route("Grant/Permissions")]
-        [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> PostGrantPermissionsAsync(List<GrantedPermissionBindingModel> models)
-        {
-            if (ModelState.IsValid)
-            {
-                var currentUser = userProvider.GetCurrentUser();
-                var user = userProvider.GetBusinessUser(currentUser);
-                foreach(var model in models)
-                {
-                    await principalService.GrantPermissionsAsync(model.ToGrantedPermission(user.Id));
-                }
-                await principalService.SaveChangesAsync();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-
-        /// <summary>
-        /// Grants the given permission to the user.
+        /// Revokes the given permission to the user.
         /// </summary>
         /// <returns>An ok result.</returns>
         [Route("Revoke/Permission")]
         [ResponseType(typeof(OkResult))]
-        public Task<IHttpActionResult> PostRevokePermissionAsync(RevokedPermissionBindingModel model)
+        public Task<IHttpActionResult> PostRevokePermissionAsync(PermissionBindingModel model)
         {
-            return PostRevokePermissionsAsync(new List<RevokedPermissionBindingModel> { model });
+            return this.handler.HandleRevokedPermissionBindingModelAsync(model, this);
         }
 
         /// <summary>
-        /// Grants the given permissions to the user.
+        /// Removes the given permissions to the user.
         /// </summary>
         /// <returns>An ok result.</returns>
-        [Route("Revoke/Permissions")]
+        [Route("Remove/Permission")]
         [ResponseType(typeof(OkResult))]
-        public async Task<IHttpActionResult> PostRevokePermissionsAsync(List<RevokedPermissionBindingModel> models)
+        public Task<IHttpActionResult> PostDeletePermissionAsync(PermissionBindingModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var currentUser = userProvider.GetCurrentUser();
-                var user = userProvider.GetBusinessUser(currentUser);
-                foreach (var model in models)
-                {
-                    await principalService.RevokePermissionAsync(model.ToRevokedPermission(user.Id));
-                }
-                await principalService.SaveChangesAsync();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            return this.handler.HandleDeletedPermissionBindingModelAsync(model, this);
         }
     }
 }

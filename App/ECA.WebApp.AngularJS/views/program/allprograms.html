@@ -48,16 +48,16 @@
                         </td>
                         <td class="col-md-3 tools" style="padding: 0 50px 0 0;">
                             <div class="right" style="display:none;" showonparentrow>
-                                <div class="programOptions" ng-click="copyProgram(program.programId)">
-                                    <i class="fa fa-files-o fa-2x programOption" ng-show="!copyProgramLoading"></i>
+                                <div class="copyEditDeleteOptions" ng-click="copyProgram(program.programId)">
+                                    <i class="fa fa-files-o fa-2x copyEditDeleteOption" ng-show="!copyProgramLoading"></i>
                                     <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyProgramLoading"></i>
                                 </div>
-                                <div class="programOptions" ng-click="editProgram(program.programId)">
-                                    <i class="fa fa-pencil-square-o fa-2x programOption" ng-show="!editProgramLoading"></i>
+                                <div class="copyEditDeleteOptions" ng-click="editProgram(program.programId)">
+                                    <i class="fa fa-pencil-square-o fa-2x copyEditDeleteOption" ng-show="!editProgramLoading"></i>
                                     <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="editProgramLoading"></i>
                                 </div>
-                                <div class="programOptions" ng-click="deleteProgram(program.programId)">
-                                    <i class="fa fa-trash-o fa-2x programOption"></i>
+                                <div class="copyEditDeleteOptions" ng-click="deleteProgram(program.programId)">
+                                    <i class="fa fa-trash-o fa-2x copyEditDeleteOption"></i>
                                 </div>
                             </div>
                     </td>
