@@ -138,6 +138,7 @@
     <Compile Include="Objective.cs" />
     <Compile Include="OfficeSetting.cs" />
     <Compile Include="Participant.cs" />
+    <Compile Include="ParticipantPerson.cs" />
     <Compile Include="PersonStatus.cs" />
     <Compile Include="PhoneNumberType.cs" />
     <Compile Include="ProgramStatus.cs" />
