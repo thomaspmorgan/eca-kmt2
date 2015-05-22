@@ -68,6 +68,7 @@ namespace CAM.Business.Queries
                         select new ResourceAuthorization
                         {
                             DisplayName = userAccount.DisplayName,
+                            EmailAddress = userAccount.EmailAddress,
                             ForeignResourceId = resource.ForeignResourceId,
                             IsAllowed = true,
                             IsGrantedByPermission = false,
@@ -113,6 +114,7 @@ namespace CAM.Business.Queries
                         select new ResourceAuthorization
                         {
                             DisplayName = userAccount.DisplayName,
+                            EmailAddress = userAccount.EmailAddress,
                             ForeignResourceId = resource.ForeignResourceId,
                             IsAllowed = permissionAssignment.IsAllowed,
                             IsGrantedByPermission = true,

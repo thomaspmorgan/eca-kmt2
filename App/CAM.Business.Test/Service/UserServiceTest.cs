@@ -226,6 +226,71 @@ namespace CAM.Business.Test.Service
         }
 
         [TestMethod]
+        public async Task TestGetUserByPrincipalId_CheckProperties()
+        {
+            var accountStatus = new AccountStatus
+            {
+                AccountStatusId = 1,
+                Status = "hello"
+            };
+            var createdDate = DateTimeOffset.Now.AddDays(-1.0);
+            var revisedOnDate = DateTimeOffset.Now.AddDays(9.0);
+
+            var expirationDate = DateTimeOffset.Now.AddDays(2.0);
+            var revokedDate = DateTimeOffset.Now.AddDays(3.0);
+            var restoredOnDate = DateTimeOffset.Now.AddDays(9.0);
+            var suspendedDate = DateTimeOffset.Now.AddDays(-4.0);
+            var permissionsRevisedDate = DateTimeOffset.Now.AddDays(5.0);
+            var today = DateTimeOffset.Now;
+
+
+            var id = Guid.NewGuid();
+            var userAccount = new UserAccount();
+            userAccount.AdGuid = id;
+            userAccount.AccountStatusId = accountStatus.AccountStatusId;
+            userAccount.CreatedBy = 1;
+            userAccount.CreatedOn = createdDate;
+            userAccount.DisplayName = "test user";
+            userAccount.EmailAddress = "someone@isp.com";
+            userAccount.ExpiredDate = expirationDate;
+            userAccount.FirstName = "first";
+            userAccount.LastAccessed = null; //leave this null specifically - should be updated by the call
+            userAccount.LastName = "last name";
+            userAccount.Note = "note";
+            userAccount.PrincipalId = 2;
+            userAccount.PermissionsRevisedOn = permissionsRevisedDate;
+            userAccount.RestoredDate = restoredOnDate;
+            userAccount.RevisedBy = 2;
+            userAccount.RevisedOn = revisedOnDate;
+            userAccount.RevokedDate = revokedDate;
+
+            userAccount.AccountStatus = accountStatus;
+
+            context.UserAccounts.Add(userAccount);
+            context.AccountStatus.Add(accountStatus);
+            Action<User> tester = (u) =>
+            {
+                Assert.AreEqual(accountStatus.Status, u.AccountStatusText);
+
+                Assert.AreEqual(userAccount.AccountStatusId, u.AccountStatusId);
+                Assert.AreEqual(userAccount.AdGuid, u.AdGuid);
+                Assert.AreEqual(userAccount.DisplayName, u.DisplayName);
+                Assert.AreEqual(userAccount.EmailAddress, u.EmailAddress);
+                Assert.AreEqual(userAccount.ExpiredDate, u.ExpiredDate);
+                Assert.AreEqual(userAccount.FirstName, u.FirstName);
+                Assert.AreEqual(userAccount.LastName, u.LastName);
+                Assert.AreEqual(userAccount.PrincipalId, u.PrincipalId);
+                Assert.AreEqual(userAccount.RestoredDate, u.RestoredDate);
+                Assert.AreEqual(userAccount.RevokedDate, u.RevokedDate);
+                Assert.AreEqual(userAccount.SuspendedDate, u.SuspendedDate);
+            };
+            var result = service.GetUserById(userAccount.PrincipalId);
+            var resultAsync = await service.GetUserByIdAsync(userAccount.PrincipalId);
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
         public async Task TestGetUserById_UserDoesNotExist()
         {
             var id = Guid.NewGuid();
@@ -235,6 +300,20 @@ namespace CAM.Business.Test.Service
             };
             var result = service.GetUserById(id);
             var resultAsync = await service.GetUserByIdAsync(id);
+            tester(result);
+            tester(resultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetUserByPrincipalId_UserDoesNotExist()
+        {
+            var id = Guid.NewGuid();
+            Action<User> tester = (u) =>
+            {
+                Assert.IsNull(u);
+            };
+            var result = service.GetUserById(0);
+            var resultAsync = await service.GetUserByIdAsync(0);
             tester(result);
             tester(resultAsync);
         }

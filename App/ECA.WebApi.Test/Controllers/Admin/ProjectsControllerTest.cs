@@ -21,6 +21,7 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using ECA.Core.DynamicLinq.Filter;
 using CAM.Data;
+using ECA.WebApi.Models.Security;
 
 namespace ECA.WebApi.Test.Controllers.Admin
 {
@@ -31,6 +32,8 @@ namespace ECA.WebApi.Test.Controllers.Admin
         private Mock<IUserProvider> userProvider;
         private Mock<IPrincipalService> principalService;
         private Mock<IResourceService> resourceService;
+        
+        private Mock<IResourceAuthorizationHandler> handler;
         private ProjectsController controller;
 
         [TestInitialize]
@@ -40,9 +43,11 @@ namespace ECA.WebApi.Test.Controllers.Admin
             service = new Mock<IProjectService>();
             principalService = new Mock<IPrincipalService>();
             resourceService = new Mock<IResourceService>();
+            handler = new Mock<IResourceAuthorizationHandler>();
+
             service.Setup(x => x.GetProjectsByProgramIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleProjectDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<SimpleProjectDTO>(1, new List<SimpleProjectDTO>()));
-            controller = new ProjectsController(service.Object, userProvider.Object, principalService.Object, resourceService.Object);
+            controller = new ProjectsController(service.Object, handler.Object, userProvider.Object, resourceService.Object);
         }
 
         #region Get
@@ -129,35 +134,24 @@ namespace ECA.WebApi.Test.Controllers.Admin
         {
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
 
-            var response = await controller.PostAddCollaboratorAsync(new AddCollaboratorBindingModel());
-            principalService.Verify(x => x.GrantPermissionsAsync(It.IsAny<GrantedPermission>()), Times.Once());
-            principalService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
-            Assert.IsInstanceOfType(response, typeof(OkResult));
+            var response = await controller.PostAddCollaboratorAsync(new CollaboratorBindingModel());
+            handler.Verify(x => x.HandleGrantedPermissionBindingModelAsync(It.IsAny<IGrantedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
         }
 
         [TestMethod]
-        public async Task TestPostAddCollaboratorsAsync()
+        public async Task TestPostRevokeCollaboratorAsync()
         {
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
-            var models = new List<AddCollaboratorBindingModel>();
-            models.Add(new AddCollaboratorBindingModel
-            {
-                CollaboratorPrincipalId = 1,
-                ProjectId = 2                 
-            });
-
-            var response = await controller.PostAddCollaboratorsAsync(models);
-            principalService.Verify(x => x.GrantPermissionsAsync(It.IsAny<GrantedPermission>()), Times.Once());
-            principalService.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
-            Assert.IsInstanceOfType(response, typeof(OkResult));
+            var response = await controller.PostRevokeCollaboratorAsync(new CollaboratorBindingModel());
+            handler.Verify(x => x.HandleRevokedPermissionBindingModelAsync(It.IsAny<IRevokedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
         }
 
         [TestMethod]
-        public async Task TestPostAddCollaboratorsAsync_InvalidModelState()
+        public async Task TestPostRemoveCollaboratorAsync()
         {
-            controller.ModelState.AddModelError("key", "error");
-            var response = await controller.PostAddCollaboratorsAsync(new List<AddCollaboratorBindingModel>());
-            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+            userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
+            var response = await controller.PostRemoveCollaboratorAsync(new CollaboratorBindingModel());
+            handler.Verify(x => x.HandleDeletedPermissionBindingModelAsync(It.IsAny<IDeletedPermissionBindingModel>(), It.IsAny<ApiController>()), Times.Once());
         }
 
         [TestMethod]

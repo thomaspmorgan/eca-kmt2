@@ -29,7 +29,7 @@ namespace ECA.Business.Queries.Admin
 
             var query = context.Organizations
                 .Include(x => x.Addresses)
-                .Where(x => x.OrganizationId != OrganizationType.Office.Id)
+                .Where(x => x.OrganizationTypeId != OrganizationType.Office.Id)
                 .Select(x => new SimpleOrganizationDTO
                 {
                     Name = x.Name,

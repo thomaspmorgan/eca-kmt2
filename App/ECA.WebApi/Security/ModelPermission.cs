@@ -31,6 +31,13 @@ namespace ECA.WebApi.Security
     /// </summary>
     public class ModelPermission : PermissionBase
     {
+        /// <summary>
+        /// Creates a new ModelPermission with the name of the property and the model type to find the property in.
+        /// </summary>
+        /// <param name="property">The name of the property to find the foreign resource id.</param>
+        /// <param name="modelType">The model type that contains the foreign resource id.</param>
+        /// <param name="permissionName">The permission name.</param>
+        /// <param name="resourceType">The resource type.</param>
         public ModelPermission(string property, Type modelType, string permissionName, string resourceType)
         {
             Contract.Requires(property != null, "The property of the model must not be null.");

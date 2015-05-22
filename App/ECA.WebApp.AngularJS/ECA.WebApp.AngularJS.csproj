@@ -132,10 +132,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="scripts\controllers\allorganizations.js" />
+    <Content Include="scripts\controllers\project\collaborator.js" />
     <Content Include="scripts\controllers\project\edit.js" />
     <Content Include="scripts\controllers\project\overview.js" />
     <Content Include="scripts\controllers\project\overview_test.js" />
+    <Content Include="scripts\controllers\project\projectparticipant.js" />
     <Content Include="scripts\controllers\project\unsavedchanges.js" />
+    <Content Include="scripts\filters\groupby.js" />
+    <Content Include="views\project\collaborators.html" />
     <Content Include="scripts\services\organization.js" />
     <Content Include="views\organizations\allorganizations.html" />
     <Content Include="views\project\unsavedchanges.html" />
@@ -159,12 +163,6 @@
     <Content Include="scripts\services\registerusereventservice.js" />
     <Content Include="scripts\services\tableservice.js" />
     <Content Include="scripts\services\lookupservice.js" />
-    <Content Include="styles\main.css">
-      <DependentUpon>main.scss</DependentUpon>
-    </Content>
-    <Content Include="styles\main.min.css">
-      <DependentUpon>main.css</DependentUpon>
-    </Content>
     <Content Include="styles\_footer.scss" />
     <Content Include="styles\_form.scss" />
     <Content Include="styles\_hero.scss" />
@@ -204,9 +202,6 @@
     <Content Include="scripts\services\constantsservice.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>constantsservice.js</LastGenOutput>
-    </Content>
-    <Content Include="styles\main.css.map">
-      <DependentUpon>main.css</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
