@@ -42,6 +42,10 @@ namespace ECA.Data
         /// </summary>
         public bool ContactAgreement { get; set; }
 
+        public ParticipantStatus Status { get; set; }
+        public int? ParticipantStatusId { get; set; }
+
+        public DateTimeOffset StatusDate { get; set; }
 
         //Relationships
         public ICollection<Project> Projects { get; set; }

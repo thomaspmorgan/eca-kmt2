@@ -27,7 +27,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <summary>
         /// The default sorter for a list of participants.
         /// </summary>
-        private static readonly ExpressionSorter<SimpleParticipantPersonDTO> DEFAULT_SORTER = new ExpressionSorter<SimpleParticipantPersonDTO>(x => x.Name, SortDirection.Ascending);
+        private static readonly ExpressionSorter<SimpleParticipantPersonDTO> DEFAULT_SORTER = new ExpressionSorter<SimpleParticipantPersonDTO>(x => x.RevisedOn, SortDirection.Ascending);
 
         private IParticipantPersonService service;
 

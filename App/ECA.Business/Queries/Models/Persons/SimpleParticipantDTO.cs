@@ -47,6 +47,16 @@ namespace ECA.Business.Queries.Models.Persons
         public string SevisId { get; set; }
 
         /// <summary>
+        /// Gets or sets the participant's status
+        /// </summary>
+        public string Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participant's last status date
+        /// </summary>
+        public DateTimeOffset StatusDate { get; set; }
+
+        /// <summary>
         /// Gets or sets the date revised on.
         /// </summary>
         public DateTimeOffset RevisedOn { get; set; }
