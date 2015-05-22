@@ -1,4 +1,5 @@
-﻿using ECA.Data;
+﻿using ECA.Business.Service.Admin;
+using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,9 @@ namespace ECA.Business.Service.Programs
         /// <param name="goalIds">The goals by id.</param>
         /// <param name="regionIds">The regions by id.</param>
         /// <param name="themeIds">The themes by id.</param>
+        /// <param name="categoryIds">The categories by id.</param>
+        /// <param name="objectiveIds">The objectives by id.</param>
+        /// <param name="ownerOfficeSettings">The office settings for the owner.</param>
         public ProgramServiceValidationEntity(string name, 
             string description, 
             List<int> regionLocationTypeIds, 
@@ -36,6 +40,7 @@ namespace ECA.Business.Service.Programs
             List<int> categoryIds,
             List<int> objectiveIds,
             Organization owner, 
+            OfficeSettings ownerOfficeSettings,
             int? parentProgramId, 
             Program parentProgram)
         {
@@ -51,9 +56,22 @@ namespace ECA.Business.Service.Programs
             this.RegionIds = regionIds;
             this.CategoryIds = categoryIds;
             this.ObjectiveIds = objectiveIds;
+            this.OwnerOfficeSettings = ownerOfficeSettings;
         }
 
+        /// <summary>
+        /// Gets the owner office settings.
+        /// </summary>
+        public OfficeSettings OwnerOfficeSettings { get; private set; }
+
+        /// <summary>
+        /// Gets the category ids assigned to the program.
+        /// </summary>
         public List<int> CategoryIds { get; private set; }
+
+        /// <summary>
+        /// Gets the objective ids assigned to the program.
+        /// </summary>
         public List<int> ObjectiveIds { get; private set; }
 
         /// <summary>

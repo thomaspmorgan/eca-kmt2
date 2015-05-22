@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Programs;
 using System.Collections.Generic;
 using ECA.Data;
+using ECA.Business.Service.Admin;
 
 namespace ECA.Business.Test.Service.Programs
 {
@@ -25,6 +26,7 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program();
             var name = "hello";
             var description = "desc";
+            var officeSettings = new OfficeSettings();
             var entity = new ProgramServiceValidationEntity(
                 name,
                 description, 
@@ -36,8 +38,10 @@ namespace ECA.Business.Test.Service.Programs
                 categoryIds,
                 objectiveIds,
                 owner,
+                officeSettings,
                 parentProgramId,
                 parentProgram
+                
                 );
 
             Assert.IsTrue(Object.ReferenceEquals(regionLocationTypeIds, entity.RegionLocationTypeIds));
@@ -50,6 +54,7 @@ namespace ECA.Business.Test.Service.Programs
             Assert.IsTrue(Object.ReferenceEquals(parentProgram, entity.ParentProgram));
             Assert.IsTrue(Object.ReferenceEquals(name, entity.Name));
             Assert.IsTrue(Object.ReferenceEquals(description, entity.Description));
+            Assert.IsTrue(Object.ReferenceEquals(officeSettings, entity.OwnerOfficeSettings));
 
             Assert.AreEqual(parentProgramId, entity.ParentProgramId);
         }

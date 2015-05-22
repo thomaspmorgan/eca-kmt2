@@ -121,9 +121,7 @@ namespace ECA.Business.Service.Programs
             {
                 yield return new BusinessValidationResult<EcaProgram>(x => x.GoalIds, NO_GOALS_GIVEN_ERROR_MESSAGE);
             }
-
-            // Objectives only required if this office contains Justifications
-            if (validationEntity.OwnerOrganization.Justifications != null && validationEntity.OwnerOrganization.Justifications.Count != 0)
+            if (validationEntity.OwnerOfficeSettings.IsObjectiveRequired)
             {
                 if (validationEntity.ObjectiveIds == null || validationEntity.ObjectiveIds.Count == 0)
                 {
@@ -132,11 +130,11 @@ namespace ECA.Business.Service.Programs
             }
 
             // Categories only required if this office contains Foci
-            if (validationEntity.OwnerOrganization.Foci != null && validationEntity.OwnerOrganization.Foci.Count != 0)
+            if (validationEntity.OwnerOfficeSettings.IsCategoryRequired)
             {
                 if (validationEntity.CategoryIds == null || validationEntity.CategoryIds.Count == 0)
                 {
-                    yield return new BusinessValidationResult<EcaProgram>(x => x.JustificationObjectiveIds, NO_CATEGORIES_GIVEN_ERROR_MESSAGE);
+                    yield return new BusinessValidationResult<EcaProgram>(x => x.FocusCategoryIds, NO_CATEGORIES_GIVEN_ERROR_MESSAGE);
                 }
             }
 
