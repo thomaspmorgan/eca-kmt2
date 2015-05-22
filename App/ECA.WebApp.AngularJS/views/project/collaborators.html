@@ -42,21 +42,25 @@
                                 <ng-switch on="$first">
                                     <div ng-switch-when="true" class="title-label"><strong>{{permission.roleName}}</strong></div>
                                 </ng-switch>
-                                &#149 {{permission.permissionName}}
+                                <span ng-class="{revokedPermission: !permission.isAllowed}">&#149 {{permission.permissionName}}</span>
                             </li>
                         </ul>
                     </td>
                     <td>
-                        <ui-select multiple ng-model="collaborator.allPermissions" theme="select2" on-remove="view.onRemovePermission($item, collaborator)" ng-disabled="view.isSaving">
+                        <ui-select multiple 
+                                   ng-model="collaborator.grantedPermissions" 
+                                   theme="select2" 
+                                   on-remove="view.onRemovePermission($item, collaborator)" 
+                                   on-select="view.onSelectPermission($item, collaborator)" 
+                                   ng-disabled="view.isSaving">
                             <ui-select-match placeholder="Permissions">
                                 <div>
-                                    <!--<i style="margin-bottom:4px;" ng-show="!view.isSavingPermission" class="fa fa-spinner fa-pulse"></i>-->
-                                    <input type="checkbox" ng-model="$item.isAllowed" ng-click="view.onPermissionCheckboxClick($event, $item, collaborator)" ng-disabled="view.isSaving" />
-                                    <span ng-class="{revokedPermission: !$item.isAllowed}">{{$item.permissionName}}</span>
+                                    <!--<input type="checkbox" ng-model="$item.isAllowed" ng-click="view.onPermissionCheckboxClick($event, $item, collaborator)" ng-disabled="view.isSaving" />-->
+                                    {{$item.permissionName}}
                                 </div>
                             </ui-select-match>
-                            <ui-select-choices repeat="p in availablePermissions | filter:$select.search">
-                                {{p.permissionName}}
+                            <ui-select-choices repeat="p in collaborator.availablePermissions | filter: $select.search track by p.permissionId">
+                                <div ng-bind-html="p.permissionName | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
                     </td>
