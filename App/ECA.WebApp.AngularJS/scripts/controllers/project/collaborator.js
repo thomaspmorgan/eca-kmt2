@@ -23,7 +23,7 @@ angular.module('staticApp')
 
       $scope.view.collaborators = [];
       $scope.view.collaboratorPermissions = {};
-      $scope.view.availablePermissions = [];
+
 
       $scope.view.loadCollaborators = function (tableState) {
           TableService.setTableState(tableState);
@@ -36,28 +36,13 @@ angular.module('staticApp')
           };
           loadCollaborators(params);
       }
-      $scope.view.onPermissionCheckboxClick = function ($event, $permission, collaborator) {
-          isSaving(true);
-          ProjectService.updatePermission(
-              $permission.isAllowed,
-              collaborator.principalId,
-              $permission.foreignResourceId,
-              $permission.permissionId
-              )
-          .then(function () {
-              NotificationService.showSuccessMessage('Successfully updated the user\'s permission.');
-          }, function () {
-              NotificationService.showErrorMessage('There was an error updating the user\'s permission.');
-          })
-          .then(function () {
-              isSaving(false);
-          });;
-      }
+
+      var availablePermissions = [];
 
       $scope.view.onRemovePermission = function ($item, collaborator) {
           isSaving(true);
           ProjectService.removePermission(
-              collaborator.principalId,              
+              collaborator.principalId,
               $item.foreignResourceId,
               $item.permissionId)
           .then(function () {
@@ -65,7 +50,27 @@ angular.module('staticApp')
           }, function () {
               NotificationService.showErrorMessage('There was an error removing the user\'s permission.');
           })
-          .then(function() {
+          .then(function () {
+              isSaving(false);
+          });
+      }
+
+      $scope.view.onSelectPermission = function ($item, collaborator) {
+          $item.isAllowed = true;
+          $item.foreignResourceId = projectId;
+          isSaving(true);
+          ProjectService.updatePermission(
+              $item.isAllowed,
+              collaborator.principalId,
+              $item.foreignResourceId,
+              $item.permissionId
+              )
+          .then(function () {
+              NotificationService.showSuccessMessage('Successfully updated the user\'s permission.');
+          }, function () {
+              NotificationService.showErrorMessage('There was an error updating the user\'s permission.');
+          })
+          .then(function () {
               isSaving(false);
           });
       }
@@ -95,44 +100,45 @@ angular.module('staticApp')
           groupedResourceAuthorizations = orderByFilter(groupedResourceAuthorizations, '+displayName');
           for (var i = 0; i < groupedResourceAuthorizations.length; i++) {
               var groupedResourceAuthorization = groupedResourceAuthorizations[i];
-              groupedResourceAuthorization.allPermissions = [];
-              for (var j = 0; j < groupedResourceAuthorization.grantedPermissions.length; j++) {
-                  groupedResourceAuthorization.allPermissions.push(groupedResourceAuthorization.grantedPermissions[j]);
-              }
-              for (var k = 0; k < groupedResourceAuthorization.revokedPermissions.length; k++) {
-                  groupedResourceAuthorization.allPermissions.push(groupedResourceAuthorization.revokedPermissions[k]);
-              }
+              groupedResourceAuthorization.availablePermissions = createAvailablePermissions(availablePermissions, groupedResourceAuthorization, projectId, ConstantsService.resourceType.project.value);
           }
           $scope.view.collaborators = groupedResourceAuthorizations;
       }
 
-      function getGroupedPrincipalPermissions(collaborators) {
-          var collaboratorPermissions = [];
-          var principalIdOrderedCollaborators = orderByFilter(collaborators, '+principalId');
-          var currentPrincipalId = null;
-
-          for (var i = 0; i < principalIdOrderedCollaborators.length; i++) {
-              var collaborator = principalIdOrderedCollaborators[i];
-              if (currentPrincipalId === null) {
-                  currentPrincipalId = collaborator.principalId;
-              }
-
-              if (i === 0 || currentPrincipalId !== collaborator.principalId) {
-                  currentPrincipalId = collaborator.principalId;
-                  collaboratorPermissions.push({
-                      principalId: currentPrincipalId,
-                      permissions: []
-                  });
-              }
-              var permissionArray = collaboratorPermissions[collaboratorPermissions.length - 1].permissions;
-              permissionArray.push(collaborator);
+      function createAvailablePermissions(availablePermissions, collaborator, foreignResourceId, resourceType) {
+          var permissions = [];
+          for (var i = 0; i < availablePermissions.length; i++) {
+              permissions.push(createAvailablePermission(availablePermissions[i], collaborator, foreignResourceId, resourceType));
           }
-          
-          return collaboratorPermissions;
+          return permissions;
+
+      }
+
+      function createAvailablePermission(availablePermission, collaborator, foreignResourceId, resourceType) {
+          return {
+              principalId: collaborator.principalId,
+              permissionId: availablePermission.permissionId,
+              permissionName: availablePermission.permissionName,
+              permissionDescription: availablePermission.permissionDescription,
+              foreignResourceId: foreignResourceId,
+              resourceType: resourceType,
+              projectId: foreignResourceId
+          };
       }
 
       function showLoadCollaboratorsError() {
           NotificationService.showErrorMessage('There was an error loading collaborators.');
       }
+
+      function loadAvailablePermissions() {
+          AuthService.getGrantableResourcePermissions(ConstantsService.resourceType.project.value, projectId)
+          .then(function (response) {
+              availablePermissions = response.data;
+          }, function () {
+              NotificationService.showErrorMessage('Unable to load available permissions.');
+          });
+      }
+      loadAvailablePermissions();
+
 
   });

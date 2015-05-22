@@ -128,8 +128,6 @@ namespace ECA.Business.Service.Programs
                     yield return new BusinessValidationResult<EcaProgram>(x => x.JustificationObjectiveIds, NO_OBJECTIVES_GIVEN_ERROR_MESSAGE);
                 }
             }
-
-            // Categories only required if this office contains Foci
             if (validationEntity.OwnerOfficeSettings.IsCategoryRequired)
             {
                 if (validationEntity.CategoryIds == null || validationEntity.CategoryIds.Count == 0)
