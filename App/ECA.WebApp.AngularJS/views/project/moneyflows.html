@@ -45,7 +45,7 @@
 
             </tr>
             <tr ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="editingRow">
-                <td>
+                <td style="padding-left:10px;">
                     <input type="text" class="form-control" id="transactionDate"
                            datepicker-popup="{{dateFormat}}"
                            ng-model="moneyFlow.transactionDate"
@@ -53,7 +53,9 @@
                            ng-required="true"
                            close-text="Close" />
                 </td>
-                <td>{{moneyFlow.type }}</td>
+                <td>
+                    <select class="form-control" id="type" ng-options="s.id as s.name for s in moneyFlowTypes" ng-model="project.projectStatusId" />
+                </td>
                 <td>{{moneyFlow.fromTo}}</td>
 
                 <td><span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount | currency}}</span></td>
