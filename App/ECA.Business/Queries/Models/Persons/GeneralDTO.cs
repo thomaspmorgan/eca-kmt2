@@ -40,7 +40,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// </summary>
         public int ParticipantTypeId { get; set; }
 
-        /// <summary>
+        /// <summary>E:\S\ECA-KMT\App\ECA.Business\Queries\Models\Persons\GeneralDTO.cs
         /// Gets or sets the participant type.
         /// </summary>
         public string ParticipantType { get; set; }
