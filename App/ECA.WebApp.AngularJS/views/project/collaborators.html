@@ -1,7 +1,8 @@
 ﻿<div class="modal-header">
     <h3 class="modal-title">Add Collaborator to Participants</h3>
-    <div class="page-header">
-        Collaborate with others within or outside of ECA.
+    <div class="page-header">        
+        <p class="subheader">Collaborate with others within or outside of ECA.  Showing {{view.collaborators.length}} collaborators.</p>
+        <p class="subheader">Showing {{view.collaborators.length}} collaborators.</p>
         <div class="spinner" ng-show="view.isLoading">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
@@ -19,49 +20,35 @@
                typeahead-template-url="addCollaboratorTemplate.html"
                typeahead-editable="false" />
     </div>
-    <div>
-        Showing {{view.collaborators.length}} of 1000 collaborators.
-    </div>
 </div>
 <div class="modal-body">
-    <div st-pipe="view.loadCollaborators" st-table="view.collaborators" id="sort-list" ng-show="!view.isLoading">
+    <div st-table="view.collaborators" ng-show="!view.isLoading">
         <table class="col-md-12 alt">
             <thead>
                 <tr>
-                    <th st-sort="'displayName'" st-sort-default="true" class="col-md-5 sort-label medium">Name</th>
-                    <th st-sort="'Permissions'" class="col-md-3 sort-label medium">Inherited Permissions</th>
-                    <th st-sort="'Permissions'" class="col-md-3 sort-label medium">Permissions</th>
-                </tr>               
-                <tr>
-                    <th>
-                        <input st-search="'displayName'" placeholder="" type="search" class="input-sm form-control" />
-                    </th>
-                    <th>
-                        &nbsp;
-                    </th>
-                    <th>
-                        <input st-search="'permissionName'" placeholder="" type="search" class="input-sm form-control" />
-                    </th>
-                </tr>
+                    <th class="col-md-3" st-sort="displayName">Name</th>
+                    <th class="col-md-3">Inherited Permissions</th>
+                    <th class="col-md-3">Permissions</th>
+                </tr>                         
             </thead>
             <tbody class="list2">
                 <tr class="hover" ng-repeat="collaborator in view.collaborators">
-                    <td>
-                        <h5 class="list-title">{{collaborator.displayName}}</h5><p>{{collaborator.emailAddress}}</p>
+                    <td class="col-md-3">
+                        <h5>{{collaborator.displayName}}</h5><p>{{collaborator.emailAddress}}</p>
                     </td>
-                    <td>
+                    <td class="col-md-3">
                         <ul ng-repeat="permission in collaborator.rolePermissions">
                             <li>
                                 <ng-switch on="$first">
                                     <div ng-switch-when="true" class="title-label"><strong>{{permission.roleName}}</strong></div>
                                 </ng-switch>
-                                <span ng-class="{revokedPermission: !permission.isAllowed}">&#149 {{permission.permissionName}}</span>
+                                &#149 <span ng-class="{revokedPermission: !permission.isAllowed}">{{permission.permissionName}}</span>
                                 <i ng-if="!permission.isAllowed" class="fa fa-plus" ng-click="view.onPlusButtonClick(permission, collaborator)"></i>
                                 <i ng-if="permission.isAllowed" class="fa fa-minus" ng-click="view.onMinusButtonClick(permission, collaborator)"></i>
                             </li>
                         </ul>
                     </td>
-                    <td>
+                    <td class="col-md-3">
                         <ui-select multiple
                                    ng-model="collaborator.grantedPermissions"
                                    theme="select2"

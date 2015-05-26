@@ -151,9 +151,6 @@ angular.module('staticApp')
                       }
                   }
               }
-
-              //now locate role permissions that are explicity revoked and indicate as such
-
               return groupedPermissionsByPrincipalIds;
           },
 

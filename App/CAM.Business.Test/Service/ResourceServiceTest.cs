@@ -448,8 +448,8 @@ namespace CAM.Business.Test.Service
             };
             var permission1 = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editproject.Id,
-                PermissionName = CAM.Data.Permission.Editproject.Value,
+                PermissionId = CAM.Data.Permission.EditProject.Id,
+                PermissionName = CAM.Data.Permission.EditProject.Value,
             };
             var permissionAssignment1 = new PermissionAssignment
             {
@@ -463,8 +463,8 @@ namespace CAM.Business.Test.Service
             };
             var permission2 = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editprogram.Id,
-                PermissionName = CAM.Data.Permission.Editprogram.Value,
+                PermissionId = CAM.Data.Permission.EditProgram.Id,
+                PermissionName = CAM.Data.Permission.EditProgram.Value,
             };
             var permissionAssignment2 = new PermissionAssignment
             {
@@ -530,8 +530,8 @@ namespace CAM.Business.Test.Service
             };
             var permission1 = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editproject.Id,
-                PermissionName = CAM.Data.Permission.Editproject.Value,
+                PermissionId = CAM.Data.Permission.EditProject.Id,
+                PermissionName = CAM.Data.Permission.EditProject.Value,
             };
             var permissionAssignment1 = new PermissionAssignment
             {
@@ -545,8 +545,8 @@ namespace CAM.Business.Test.Service
             };
             var permission2 = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editprogram.Id,
-                PermissionName = CAM.Data.Permission.Editprogram.Value,
+                PermissionId = CAM.Data.Permission.EditProgram.Id,
+                PermissionName = CAM.Data.Permission.EditProgram.Value,
             };
             var permissionAssignment2 = new PermissionAssignment
             {
@@ -612,8 +612,8 @@ namespace CAM.Business.Test.Service
             };
             var permission1 = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editproject.Id,
-                PermissionName = CAM.Data.Permission.Editproject.Value,
+                PermissionId = CAM.Data.Permission.EditProject.Id,
+                PermissionName = CAM.Data.Permission.EditProject.Value,
             };
             var permissionAssignment1 = new PermissionAssignment
             {
@@ -627,8 +627,8 @@ namespace CAM.Business.Test.Service
             };
             var permission2 = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editprogram.Id,
-                PermissionName = CAM.Data.Permission.Editprogram.Value,
+                PermissionId = CAM.Data.Permission.EditProgram.Id,
+                PermissionName = CAM.Data.Permission.EditProgram.Value,
             };
             var permissionAssignment2 = new PermissionAssignment
             {
@@ -695,8 +695,8 @@ namespace CAM.Business.Test.Service
             };
             var permission1 = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editproject.Id,
-                PermissionName = CAM.Data.Permission.Editproject.Value,
+                PermissionId = CAM.Data.Permission.EditProject.Id,
+                PermissionName = CAM.Data.Permission.EditProject.Value,
             };
             var permissionAssignment1 = new PermissionAssignment
             {
@@ -710,8 +710,8 @@ namespace CAM.Business.Test.Service
             };
             var permission2 = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editprogram.Id,
-                PermissionName = CAM.Data.Permission.Editprogram.Value,
+                PermissionId = CAM.Data.Permission.EditProgram.Id,
+                PermissionName = CAM.Data.Permission.EditProgram.Value,
             };
             var permissionAssignment2 = new PermissionAssignment
             {
@@ -758,8 +758,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editproject.Id,
-                PermissionName = CAM.Data.Permission.Editproject.Value,
+                PermissionId = CAM.Data.Permission.EditProject.Id,
+                PermissionName = CAM.Data.Permission.EditProject.Value,
                 PermissionDescription = "desc",
                 ResourceType = resourceType,
                 ResourceTypeId = resourceType.ResourceTypeId
@@ -792,8 +792,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editproject.Id,
-                PermissionName = CAM.Data.Permission.Editproject.Value,
+                PermissionId = CAM.Data.Permission.EditProject.Id,
+                PermissionName = CAM.Data.Permission.EditProject.Value,
                 PermissionDescription = "desc",
                 ResourceType = resourceType,
                 ResourceTypeId = resourceType.ResourceTypeId

@@ -24,24 +24,13 @@ angular.module('staticApp')
 
       $scope.view.collaborators = [];
       $scope.view.collaboratorPermissions = {};
-      $scope.view.pageSize = 25;
-      $scope.view.addCollaboratorLimit = 25;
       $scope.view.addedCollaborator = {};
 
-
-      var collaboratorsLoadParams = {};
-      $scope.view.loadCollaborators = function (tableState) {
-          TableService.setTableState(tableState);
-          collaboratorsLoadParams = {
-              start: TableService.getStart(),
-              limit: TableService.getLimit(),
-              sort: TableService.getSort(),
-              filter: TableService.getFilter()
-
-          };
-          loadCollaborators(collaboratorsLoadParams);
-      }
-
+      var limit = 300;
+      var collaboratorsLoadParams = {
+          start: 0,
+          limit: limit
+      };
       var availablePermissions = [];
 
       $scope.view.onRemovePermission = function (permission, collaborator) {
@@ -90,7 +79,7 @@ angular.module('staticApp')
       $scope.view.getUsers = function ($viewValue) {
           var params = {
               start: 0,
-              limit: $scope.view.addCollaboratorLimit,
+              limit: 25,
               filter: [{
                   property: 'displayName',
                   comparison: ConstantsService.likeComparisonType,
@@ -109,18 +98,19 @@ angular.module('staticApp')
           var viewPermission = {
               principalId: $item.principalId,
               foreignResourceId: projectId,
-              permissionId: ConstantsService.permission.viewproject.id
+              permissionId: ConstantsService.permission.viewProject.id
           };
           var editPermission = {
               principalId: $item.principalId,
               foreignResourceId: projectId,
-              permissionId: ConstantsService.permission.editproject.id
+              permissionId: ConstantsService.permission.editProject.id
           };
           var collaborator = {
               principalId: $item.principalId
           };
           var isAllowed = true;
           $scope.view.addedCollaborator = $item;
+          isSaving(true);
           $q.when([
               doUpdatePermission(true, viewPermission, collaborator),
               doUpdatePermission(true, editPermission, collaborator)
@@ -131,7 +121,7 @@ angular.module('staticApp')
               NotificationService.showSuccessMessage('There was an error adding the collaborator.');
           })
           .then(function () {
-              
+              isSaving(false);
           });
       }
 
@@ -146,12 +136,8 @@ angular.module('staticApp')
 
       
       function loadCollaborators(params) {
-          isLoading(true);
           return ProjectService.getCollaborators(projectId, params)
           .then(updateCollaborators, showLoadCollaboratorsError)
-          .then(function () {
-              isLoading(false);
-          });
       }
 
       function doUpdatePermission(isAllowed, permission, collaborator) {
@@ -178,6 +164,9 @@ angular.module('staticApp')
 
       function updateCollaborators(response) {
           var collaborators = response.data.results;
+          if (response.data.total > limit) {
+              NotificationService.showWarningMessage('The number of permissions granted exceed the number displayable by this interface.  An innacurate picture of the permissions will have to be displayed.');
+          }
           var groupedResourceAuthorizations = AuthService.groupResourceAuthorizationsByPrincipalId(collaborators);
           groupedResourceAuthorizations = orderByFilter(groupedResourceAuthorizations, '+displayName');
           for (var i = 0; i < groupedResourceAuthorizations.length; i++) {
@@ -220,7 +209,12 @@ angular.module('staticApp')
               NotificationService.showErrorMessage('Unable to load available permissions.');
           });
       }
-      loadAvailablePermissions();
+
+      isLoading(true);
+      $q.when([loadCollaborators(collaboratorsLoadParams), loadAvailablePermissions()])
+          .then(function () {
+              isLoading(false);
+          });
 
 
   });

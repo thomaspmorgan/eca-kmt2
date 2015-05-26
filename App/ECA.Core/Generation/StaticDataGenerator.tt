@@ -249,7 +249,7 @@
 					publicConstValueName += letter;
 			}
 			publicConstValueName = publicConstValueName.ToUpper();
-			publicConstValueName = publicConstValueName.Replace(" ", "_");
+			publicConstValueName = publicConstValueName.Replace(" ", "");
 			publicConstValueName = publicConstValueName.Replace(".", "");
 			publicConstValueName = publicConstValueName.Replace("(", "");
 			publicConstValueName = publicConstValueName.Replace(")", "");

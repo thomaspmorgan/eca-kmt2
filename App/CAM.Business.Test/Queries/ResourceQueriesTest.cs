@@ -53,8 +53,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var role = new Role
             {
@@ -136,8 +136,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var role = new Role
             {
@@ -217,8 +217,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var role = new Role
             {
@@ -298,8 +298,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var role = new Role
             {
@@ -383,8 +383,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var role = new Role
             {
@@ -442,8 +442,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var role = new Role
             {
@@ -502,8 +502,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var permissionAssignment = new PermissionAssignment
             {
@@ -573,8 +573,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var permissionAssignment = new PermissionAssignment
             {
@@ -631,8 +631,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var permissionAssignment = new PermissionAssignment
             {
@@ -687,8 +687,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var role = new Role
             {
@@ -756,8 +756,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var permissionAssignment = new PermissionAssignment
             {
@@ -814,8 +814,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var permissionAssignment = new PermissionAssignment
             {
@@ -904,8 +904,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
             };
             var permissionAssignment = new PermissionAssignment
             {
@@ -976,8 +976,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
                 PermissionDescription = "desc",
                 ResourceType = resourceType,
                 ResourceTypeId = resourceType.ResourceTypeId
@@ -1003,8 +1003,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission1 = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
                 PermissionDescription = "desc",
                 ResourceType = resourceType,
                 ResourceTypeId = resourceType.ResourceTypeId
@@ -1016,8 +1016,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission2 = new Permission
             {
-                PermissionId = Permission.Editprogram.Id,
-                PermissionName = Permission.Editprogram.Value,
+                PermissionId = Permission.EditProgram.Id,
+                PermissionName = Permission.EditProgram.Value,
                 PermissionDescription = "desc",
                 ResourceType = resourceType,
                 ResourceTypeId = resourceType.ResourceTypeId,
@@ -1066,8 +1066,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
                 PermissionDescription = "desc",
                 ResourceType = resourceType,
                 ResourceTypeId = resourceType.ResourceTypeId,
@@ -1103,8 +1103,8 @@ namespace CAM.Business.Test.Queries
             };
             var permission = new Permission
             {
-                PermissionId = Permission.Editproject.Id,
-                PermissionName = Permission.Editproject.Value,
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
                 PermissionDescription = "desc",
                 ResourceType = resourceType,
                 ResourceTypeId = resourceType.ResourceTypeId,

@@ -38,12 +38,13 @@
 			uSTravelingParticipant: {id: 12, value: "U.S. Traveling Participant"}
 		},
 		permission: {
-			viewoffice: {id: 1, value: "ViewOffice"},
-			viewprogram: {id: 2, value: "ViewProgram"},
-			viewproject: {id: 3, value: "ViewProject"},
-			editoffice: {id: 4, value: "EditOffice"},
-			editprogram: {id: 5, value: "EditProgram"},
-			editproject: {id: 7, value: "EditProject"}
+			viewOffice: {id: 1, value: "View Office"},
+			viewProgram: {id: 2, value: "View Program"},
+			viewProject: {id: 3, value: "View Project"},
+			editOffice: {id: 4, value: "Edit Office"},
+			editProgram: {id: 5, value: "Edit Program"},
+			editProject: {id: 7, value: "Edit Project"},
+			projectOwner: {id: 8, value: "Project Owner"}
 		},
 		projectStatus: {
 			active: {id: 1, value: "Active"},
