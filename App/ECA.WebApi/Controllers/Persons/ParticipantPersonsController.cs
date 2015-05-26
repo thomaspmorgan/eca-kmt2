@@ -68,7 +68,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="projectId">The id of the project to get participants for.</param>
         /// <returns>The list of participants.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleParticipantPersonDTO>))]
-        [Route("Projects/{projectId:int}/Participants")]
+        [Route("Projects/{projectId:int}/ParticipantPersons")]
         public async Task<IHttpActionResult> GetParticipantPersonsByProjectIdAsync(int projectId, [FromUri]PagingQueryBindingModel<SimpleParticipantPersonDTO> queryModel)
         {
             if (ModelState.IsValid)
@@ -88,7 +88,7 @@ namespace ECA.WebApi.Controllers.Persons
         /// <param name="participantId">The id of the participant.</param>
         /// <returns>The participantPerson with the given id.</returns>
         [ResponseType(typeof(SimpleParticipantPersonDTO))]
-        [Route("Participants/{participantId:int}")]
+        [Route("ParticipantPersons/{participantId:int}")]
         public async Task<IHttpActionResult> GetParticipantPersonByIdAsync(int participantId) 
         {
             var participantPerson = await this.service.GetParticipantPersonByIdAsync(participantId);
