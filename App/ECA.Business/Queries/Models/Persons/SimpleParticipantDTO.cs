@@ -54,7 +54,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the participant's last status date
         /// </summary>
-        public DateTimeOffset StatusDate { get; set; }
+        public DateTimeOffset? StatusDate { get; set; }
 
         /// <summary>
         /// Gets or sets the date revised on.

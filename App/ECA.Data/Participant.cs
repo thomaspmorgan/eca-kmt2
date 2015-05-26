@@ -45,7 +45,7 @@ namespace ECA.Data
         public ParticipantStatus Status { get; set; }
         public int? ParticipantStatusId { get; set; }
 
-        public DateTimeOffset StatusDate { get; set; }
+        public DateTimeOffset? StatusDate { get; set; }
 
         //Relationships
         public ICollection<Project> Projects { get; set; }
