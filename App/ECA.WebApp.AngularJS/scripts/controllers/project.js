@@ -20,6 +20,8 @@ angular.module('staticApp')
 
       $scope.genders = {};
       $scope.currencyTypes = {};
+      $scope.moneyFlowTypes = [];
+      $scope.moneyFlowStati = [];
 
       $scope.moneyFlows = [];
 
@@ -155,6 +157,15 @@ angular.module('staticApp')
             $scope.genders = data.results;
         });
 
+      LookupService.getAllMoneyFlowStati({ limit: 300 })
+        .then(function (data) {
+            $scope.moneyFlowStati = data.results;
+        });
+
+      LookupService.getAllMoneyFlowTypes({ limit: 300 })
+        .then(function (data) {
+            $scope.moneyFlowTypes = data.results;
+        });
 
       LocationService.get({ limit: 300, filter: {property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id}})
         .then(function (data) {

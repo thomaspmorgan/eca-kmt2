@@ -107,6 +107,7 @@
     <Compile Include="Queries\Models\Admin\JustificationObjectiveDTO.cs" />
     <Compile Include="Queries\Models\Admin\MoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
+    <Compile Include="Queries\Models\Admin\MoneyFlowHelpersDTO.cs" />
     <Compile Include="Queries\Models\Admin\SimpleOrganizationDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationProgramDTO.cs" />
     <Compile Include="Queries\Models\Admin\ProjectStatusDTO.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Service\Admin\EcaMoneyFlow.cs" />
     <Compile Include="Service\Admin\IMaritalStatusService.cs" />
     <Compile Include="Service\Admin\IOrganizationService.cs" />
+    <Compile Include="Service\Admin\IMoneyFlowHelpersService.cs" />
     <Compile Include="Service\Admin\JustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\FocusCategoryService.cs" />
     <Compile Include="Service\Admin\GenderService.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Service\Admin\ProjectServiceCreateValidationEntity.cs" />
     <Compile Include="Service\Admin\ProjectServiceUpdateValidationEntity.cs" />
     <Compile Include="Service\Admin\ProjectServiceValidator.cs" />
+    <Compile Include="Service\Admin\MoneyFlowHelpersService.cs" />
     <Compile Include="Service\Admin\ProjectStatusService.cs" />
     <Compile Include="Service\Admin\PublishedProject.cs" />
     <Compile Include="Service\EcaService.cs" />
