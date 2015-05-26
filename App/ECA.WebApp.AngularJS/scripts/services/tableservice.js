@@ -20,7 +20,7 @@ angular.module('staticApp')
 
         function getLimit() {
             var pagination = tableState.pagination;
-            var limit = pagination.limit || 25;
+            var limit = pagination.number || 25;
             return limit;
         }
 

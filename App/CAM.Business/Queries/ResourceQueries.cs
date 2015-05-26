@@ -65,12 +65,16 @@ namespace CAM.Business.Queries
                         join userAccount in context.UserAccounts
                         on principal.PrincipalId equals userAccount.PrincipalId
 
+                        join permissionAssignment in context.PermissionAssignments
+                        on resource equals permissionAssignment.Resource into permissionAssignments
+                        from tempPermissionAssignment in permissionAssignments.Where(x => !x.IsAllowed && x.PrincipalId == principal.PrincipalId).DefaultIfEmpty()
+
                         select new ResourceAuthorization
                         {
                             DisplayName = userAccount.DisplayName,
                             EmailAddress = userAccount.EmailAddress,
                             ForeignResourceId = resource.ForeignResourceId,
-                            IsAllowed = true,
+                            IsAllowed = tempPermissionAssignment == null ? true : tempPermissionAssignment.IsAllowed,
                             IsGrantedByPermission = false,
                             IsGrantedByRole = true,
                             PermissionId = permission.PermissionId,
