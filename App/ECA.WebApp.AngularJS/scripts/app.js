@@ -418,9 +418,9 @@ angular
         $rootScope.rootStates = [
           { name: 'Home', state: 'home.shortcuts' },
           { name: 'Offices', state: 'alloffices' },
-          { name: 'Organizations', state: 'allorganizations' },
           { name: 'Programs', state: 'allprograms' },
           { name: 'Participants', state: 'allparticipants' },
+          { name: 'Organizations', state: 'allorganizations' },
           { name: 'Events', state: 'events' },
           { name: 'Reports', state: 'reports' },
           { name: 'Partners', state: 'home.notifications' }

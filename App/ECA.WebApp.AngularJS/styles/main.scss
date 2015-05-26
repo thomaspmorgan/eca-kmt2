@@ -441,5 +441,6 @@ h5.canEdit {
 }
 
 .revokedPermission{
-    text-decoration: line-through;
+    font-style:italic;
+    color: red;
 }

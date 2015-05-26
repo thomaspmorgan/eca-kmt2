@@ -16,7 +16,7 @@ namespace ECA.WebApi.Controllers.Security
     /// The ResourcesController is used to handle authorization information on resources in CAM.
     /// </summary>
     [Authorize]
-    [RoutePrefix("Resources")]
+    [RoutePrefix("api/Resources")]
     public class ResourcesController : ApiController
     {
         private IResourceService resourceService;

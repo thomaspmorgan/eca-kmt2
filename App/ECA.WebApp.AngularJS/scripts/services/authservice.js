@@ -75,6 +75,20 @@ angular.module('staticApp')
               return $rootScope.userInfo.isAuthenticated;
           },
 
+          getGrantableResourcePermissions: function(resourceType, foreignResourceId){
+
+              if(!resourceType){
+                  throw Error('The resource type must be defined.');
+              }
+              if(foreignResourceId){
+                  return DragonBreath.get('resources/permissions/' + resourceType + '/' + foreignResourceId);
+              }
+              else{
+                  return DragonBreath.get(params, 'resources/permissions/' + resourceType);
+              }
+              
+          },
+
           updatePermission: function (isAllowed, principalId, foreignResourceId, resourceType, permissionId) {
               var path = '';
               var permissionModel = {

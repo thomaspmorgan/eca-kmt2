@@ -31,7 +31,9 @@ namespace ECA.Business.Queries.Persons
                             ParticipantType = participantType.Name,
                             ParticipantTypeId = participantType.ParticipantTypeId,
                             PersonId = person.PersonId,
-                            RevisedOn = participant.History.RevisedOn
+                            RevisedOn = participant.History.RevisedOn,
+                            Status = participant.Status.Status,
+                            StatusDate = participant.StatusDate
                         };
             return query;
         }
@@ -126,6 +128,8 @@ namespace ECA.Business.Queries.Persons
                             PersonId = person.PersonId,
                             SevisId = participant.SevisId,
                             ContactAgreement = participant.ContactAgreement,
+                            Status = participant.Status.Status,
+                            StatusDate = participant.StatusDate,
                             RevisedOn = participant.History.RevisedOn
                         };
             return query;

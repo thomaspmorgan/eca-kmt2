@@ -19,6 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.QualityTools.Testing.Fakes;
+using ECA.Business.Service.Admin;
 
 namespace ECA.Business.Test.Service.Programs
 {
@@ -27,23 +29,24 @@ namespace ECA.Business.Test.Service.Programs
     {
         private TestEcaContext context;
         private ProgramService service;
+        private Mock<IOfficeService> officeService;
+        private OfficeSettings mockOfficeSettings;
         private Mock<IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>> mockValidator;
 
         [TestInitialize]
         public void TestInit()
         {
+            mockOfficeSettings = new OfficeSettings();
+            officeService = new Mock<IOfficeService>();
+            officeService.Setup(x => x.GetOfficeSettings(It.IsAny<int>())).Returns(mockOfficeSettings);
+            officeService.Setup(x => x.GetOfficeSettingsAsync(It.IsAny<int>())).ReturnsAsync(mockOfficeSettings);
+
             mockValidator = new Mock<IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity>>();
             mockValidator.Setup(x => x.ValidateCreate(It.IsAny<ProgramServiceValidationEntity>())).Returns(new List<BusinessValidationResult>());
             mockValidator.Setup(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>())).Returns(new List<BusinessValidationResult>());
 
             context = new TestEcaContext();
-            service = new ProgramService(context, mockValidator.Object);
-        }
-
-        private void SetupMockValidatorToThrowException()
-        {
-            mockValidator.Setup(x => x.ValidateCreate(It.IsAny<ProgramServiceValidationEntity>())).Callback(() => { throw new ValidationException(); });
-            mockValidator.Setup(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>())).Callback(() => { throw new ValidationException(); });
+            service = new ProgramService(context, officeService.Object, mockValidator.Object);
         }
 
         [TestCleanup]
@@ -103,10 +106,51 @@ namespace ECA.Business.Test.Service.Programs
                 Name = "owner",
                 OfficeSymbol = "symbol"
             };
+            var focusOfficeSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.FOCUS_SETTING_KEY,
+                Value = "focus",
+                OfficeId = owner.OrganizationId,
+                Office = owner,
+            };
+            var objectiveOfficeSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.OBJECTIVE_SETTING_KEY,
+                Value = "objective",
+                OfficeId = owner.OrganizationId,
+                Office = owner,
+            };
+
+            owner.OfficeSettings.Add(focusOfficeSetting);
+            owner.OfficeSettings.Add(objectiveOfficeSetting);
+
             var focus = new Focus
             {
-                FocusId = 501,
-                FocusName = "focus"
+                FocusId = 1,
+                FocusName = "focus",
+                Office = owner,
+                OfficeId = owner.OrganizationId
+            };
+            var category = new Category
+            {
+                CategoryId = 1,
+                CategoryName = "category",
+                Focus = focus,
+                FocusId = focus.FocusId,
+            };
+            var justification = new Justification
+            {
+                JustificationId = 1,
+                JustificationName = "justification",
+                Office = owner,
+                OfficeId = owner.OrganizationId
+            };
+            var objective = new Objective
+            {
+                Justification = justification,
+                JustificationId = justification.JustificationId,
+                ObjectiveId = 1,
+                ObjectiveName = "obj",
             };
             var program = new Program
             {
@@ -125,10 +169,19 @@ namespace ECA.Business.Test.Service.Programs
                 },
                 Owner = owner
             };
+
+            program.Categories.Add(category);
+            program.Objectives.Add(objective);
             program.Contacts.Add(contact);
             program.Goals.Add(goal);
             program.Regions.Add(region);
 
+            context.Foci.Add(focus);
+            context.Categories.Add(category);
+            context.Justifications.Add(justification);
+            context.Objectives.Add(objective);
+            context.OfficeSettings.Add(focusOfficeSetting);
+            context.OfficeSettings.Add(objectiveOfficeSetting);
             context.Organizations.Add(owner);
             context.Programs.Add(program);
             context.Contacts.Add(contact);
@@ -137,7 +190,6 @@ namespace ECA.Business.Test.Service.Programs
             context.Locations.Add(country);
             context.Programs.Add(parentProgram);
             context.Locations.Add(region);
-            context.Foci.Add(focus);
 
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
@@ -160,14 +212,30 @@ namespace ECA.Business.Test.Service.Programs
                     context.Locations.Where(x => x.LocationTypeId == LocationType.Region.Id).Select(x => x.LocationIso).ToList(),
                     publishedProgram.RegionIsos.Select(x => x.Value).ToList());
 
+                CollectionAssert.AreEqual(
+                    context.Categories.Select(x => x.CategoryId).ToList(),
+                    publishedProgram.Categories.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(
+                    context.Categories.Select(x => x.CategoryName).ToList(),
+                    publishedProgram.Categories.Select(x => x.Name).ToList());
+                CollectionAssert.AreEqual(
+                    context.Foci.Select(x => x.FocusName).ToList(),
+                    publishedProgram.Categories.Select(x => x.FocusName).ToList());
+
+                CollectionAssert.AreEqual(
+                    context.Objectives.Select(x => x.ObjectiveId).ToList(),
+                    publishedProgram.Objectives.Select(x => x.Id).ToList());
+                CollectionAssert.AreEqual(
+                    context.Objectives.Select(x => x.ObjectiveName).ToList(),
+                    publishedProgram.Objectives.Select(x => x.Name).ToList());
+                CollectionAssert.AreEqual(
+                    context.Justifications.Select(x => x.JustificationName).ToList(),
+                    publishedProgram.Objectives.Select(x => x.JustificationName).ToList());
 
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(), publishedProgram.Goals.Select(x => x.Value).ToList());
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalId).ToList(), publishedProgram.Goals.Select(x => x.Id).ToList());
 
                 CollectionAssert.AreEqual(rowVersion, publishedProgram.RowVersion);
-
-                Assert.AreEqual(context.Foci.Select(x => x.FocusName).First(), publishedProgram.Focus.Value);
-                Assert.AreEqual(context.Foci.Select(x => x.FocusId).First(), publishedProgram.Focus.Id);
 
                 Assert.AreEqual(program.Description, publishedProgram.Description);
 
@@ -181,7 +249,58 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(owner.Description, publishedProgram.OwnerDescription);
                 Assert.AreEqual(owner.OrganizationId, publishedProgram.OwnerOrganizationId);
                 Assert.AreEqual(owner.OfficeSymbol, publishedProgram.OwnerOfficeSymbol);
+                Assert.AreEqual(focusOfficeSetting.Value, publishedProgram.OwnerOrganizationCategoryLabel);
+                Assert.AreEqual(objectiveOfficeSetting.Value, publishedProgram.OwnerOrganizationObjectiveLabel);
 
+            };
+            var result = service.GetProgramById(program.ProgramId);
+            var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
+            tester(result);
+            tester(resultAsync);
+        }
+
+
+        [TestMethod]
+        public async Task TestGetProgramById_NoOfficeSettings()
+        {
+            var yesterday = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var now = DateTime.UtcNow;
+            var creatorId = 1;
+            var revisorId = 2;
+
+            var program = new Program
+            {
+                ProgramId = 1,
+                Name = "name",
+                Description = "description",
+                ParentProgram = null,
+                StartDate = DateTimeOffset.UtcNow,
+                History = new History
+                {
+                    CreatedBy = creatorId,
+                    CreatedOn = yesterday,
+                    RevisedBy = revisorId,
+                    RevisedOn = now
+                }
+            };
+
+            var owner = new Organization
+            {
+                OrganizationId = 30,
+                Description = "owner desc",
+                Name = "owner",
+                OfficeSymbol = "symbol"
+            };
+            program.Owner = owner;
+            context.Programs.Add(program);
+            context.Organizations.Add(owner);
+
+            Action<ProgramDTO> tester = (publishedProgram) =>
+            {
+                Assert.AreEqual(0, context.OfficeSettings.Count());
+                Assert.AreEqual(OfficeSettings.CATEGORY_DEFAULT_LABEL, publishedProgram.OwnerOrganizationCategoryLabel);
+                Assert.AreEqual(OfficeSettings.OBJECTIVE_DEFAULT_LABEL, publishedProgram.OwnerOrganizationObjectiveLabel);
+                
             };
             var result = service.GetProgramById(program.ProgramId);
             var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);
@@ -204,10 +323,6 @@ namespace ECA.Business.Test.Service.Programs
                 Description = "description",
                 ParentProgram = null,
                 StartDate = DateTimeOffset.UtcNow,
-                Owner = new Organization
-                {
-                    OrganizationId = 1,
-                },
                 History = new History
                 {
                     CreatedBy = creatorId,
@@ -216,8 +331,30 @@ namespace ECA.Business.Test.Service.Programs
                     RevisedOn = now
                 }
             };
-
+            var focusOfficeSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.FOCUS_SETTING_KEY,
+                Value = "focus"
+            };
+            var justificationOfficeSetting = new OfficeSetting
+            {
+                Name = OfficeSetting.JUSTIFICATION_SETTING_KEY,
+                Value = "justification"
+            };
+            var owner = new Organization
+            {
+                OrganizationId = 30,
+                Description = "owner desc",
+                Name = "owner",
+                OfficeSymbol = "symbol"
+            };
+            owner.OfficeSettings.Add(focusOfficeSetting);
+            owner.OfficeSettings.Add(justificationOfficeSetting);
+            program.Owner = owner;
             context.Programs.Add(program);
+            context.Organizations.Add(owner);
+            context.OfficeSettings.Add(focusOfficeSetting);
+            context.OfficeSettings.Add(justificationOfficeSetting);
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
                 Assert.IsFalse(publishedProgram.ParentProgramId.HasValue);
@@ -236,211 +373,304 @@ namespace ECA.Business.Test.Service.Programs
         }
 
         [TestMethod]
-        public async Task TestGetPrograms_CheckProperties()
-        {
-            var org = new Organization
-            {
-                OrganizationId = 100
-            };
-
-            var program = new Program
-            {
-                ProgramId = 1,
-                Name = "A",
-                Description = "Description A",
-                Owner = org
-            };
-            context.Organizations.Add(org);
-            context.Programs.Add(program);
-
-            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
-            {
-                Assert.AreEqual(1, queryResults.Total);
-                var results = queryResults.Results;
-                Assert.AreEqual(1, results.Count);
-                var firstResult = results.First();
-                Assert.AreEqual(org.OrganizationId, firstResult.OwnerId);
-                Assert.AreEqual(program.ProgramId, firstResult.ProgramId);
-                Assert.AreEqual(program.Name, firstResult.Name);
-                Assert.AreEqual(program.Description, firstResult.Description);
-            };
-
-            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
-            var serviceResults = service.GetPrograms(queryOperator);
-            var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-        }
-
-        [TestMethod]
         public async Task TestGetPrograms_Filter()
         {
-            var org = new Organization
+            using (ShimsContext.Create())
             {
-                OrganizationId = 100
-            };
-
-            var program1 = new Program
-            {
-                ProgramId = 1,
-                Name = "A",
-                Description = "Description A",
-                Owner = org
-            };
-            var program2 = new Program
-            {
-                ProgramId = 2,
-                Name = "B",
-                Description = "Description B",
-                Owner = org
-            };
-            context.Organizations.Add(org);
-            context.Programs.Add(program1);
-            context.Programs.Add(program2);
-
-            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
-            {
-                Assert.AreEqual(1, queryResults.Total);
-                var results = queryResults.Results;
-                Assert.AreEqual(1, results.Count);
-                var firstResult = results.First();
-                Assert.AreEqual(org.OrganizationId, firstResult.OwnerId);
-                Assert.AreEqual(program2.ProgramId, firstResult.ProgramId);
-            };
-
-            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
-            queryOperator.Filters.Add(new ExpressionFilter<OrganizationProgramDTO>(x => x.Name, ComparisonType.Equal, program2.Name));
-            var serviceResults = service.GetPrograms(queryOperator);
-            var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "org 1",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    OwnerId = 3,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    OwnerId = 30,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
+                {
+                    Assert.AreEqual(1, queryResults.Total);
+                    var results = queryResults.Results;
+                    Assert.AreEqual(1, results.Count);
+                    var firstResult = results.First();
+                    Assert.IsTrue(object.ReferenceEquals(dto1, firstResult));
+                };
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
+                queryOperator.Filters.Add(new ExpressionFilter<OrganizationProgramDTO>(x => x.Name, ComparisonType.Equal, dto1.Name));
+                var serviceResults = service.GetPrograms(queryOperator);
+                var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
         }
 
         [TestMethod]
         public async Task TestGetPrograms_DefaultSort()
         {
-            var org = new Organization
+            using (ShimsContext.Create())
             {
-                OrganizationId = 100
-            };
-
-            var program1 = new Program
-            {
-                ProgramId = 1,
-                Name = "A",
-                Description = "Description A",
-                Owner = org
-            };
-            var program2 = new Program
-            {
-                ProgramId = 2,
-                Name = "B",
-                Description = "Description B",
-                Owner = org
-            };
-            context.Organizations.Add(org);
-            context.Programs.Add(program1);
-            context.Programs.Add(program2);
-
-            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
-            {
-                Assert.AreEqual(2, queryResults.Total);
-                var results = queryResults.Results;
-                Assert.AreEqual(1, results.Count);
-                var firstResult = results.First();
-                Assert.AreEqual(org.OrganizationId, firstResult.OwnerId);
-                Assert.AreEqual(program2.ProgramId, firstResult.ProgramId);
-            };
-
-            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 1, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Descending));
-            var serviceResults = service.GetPrograms(queryOperator);
-            var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "org 1",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    OwnerId = 3,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    OwnerId = 30,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list = list.OrderByDescending(x => x.Name).ToList();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
+                {
+                    Assert.AreEqual(2, queryResults.Total);
+                    var results = queryResults.Results;
+                    Assert.AreEqual(2, results.Count);
+                    var firstResult = results.First();
+                    Assert.IsTrue(object.ReferenceEquals(dto1, firstResult));
+                };
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
+                var serviceResults = service.GetPrograms(queryOperator);
+                var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
         }
 
         [TestMethod]
         public async Task TestGetPrograms_Sort()
         {
-            var org = new Organization
+            using (ShimsContext.Create())
             {
-                OrganizationId = 100
-            };
-
-            var program1 = new Program
-            {
-                ProgramId = 1,
-                Name = "A",
-                Description = "Description A",
-                Owner = org
-            };
-            var program2 = new Program
-            {
-                ProgramId = 2,
-                Name = "B",
-                Description = "Description B",
-                Owner = org
-            };
-            context.Organizations.Add(org);
-            context.Programs.Add(program1);
-            context.Programs.Add(program2);
-
-            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
-            {
-                Assert.AreEqual(2, queryResults.Total);
-                var results = queryResults.Results;
-                Assert.AreEqual(1, results.Count);
-                var firstResult = results.First();
-                Assert.AreEqual(org.OrganizationId, firstResult.OwnerId);
-                Assert.AreEqual(program2.ProgramId, firstResult.ProgramId);
-            };
-
-            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 1, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
-            queryOperator.Sorters.Add(new ExpressionSorter<OrganizationProgramDTO>(x => x.ProgramId, SortDirection.Descending));
-            var serviceResults = service.GetPrograms(queryOperator);
-            var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "org 1",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    OwnerId = 3,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    OwnerId = 30,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list = list.OrderBy(x => x.NumChildren).ToList();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
+                {
+                    Assert.AreEqual(2, queryResults.Total);
+                    var results = queryResults.Results;
+                    Assert.AreEqual(2, results.Count);
+                    var firstResult = results.First();
+                    Assert.IsTrue(object.ReferenceEquals(dto2, firstResult));
+                };
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
+                queryOperator.Sorters.Add(new ExpressionSorter<OrganizationProgramDTO>(x => x.NumChildren, SortDirection.Descending));
+                var serviceResults = service.GetPrograms(queryOperator);
+                var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
         }
 
         [TestMethod]
         public async Task TestGetPrograms_Paging()
         {
-            var org = new Organization
+            using (ShimsContext.Create())
             {
-                OrganizationId = 100
-            };
-
-            var program1 = new Program
-            {
-                ProgramId = 1,
-                Name = "A",
-                Description = "Description A",
-                Owner = org
-            };
-            var program2 = new Program
-            {
-                ProgramId = 2,
-                Name = "B",
-                Description = "Description B",
-                Owner = org
-            };
-            context.Organizations.Add(org);
-            context.Programs.Add(program1);
-            context.Programs.Add(program2);
-
-            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
-            {
-                Assert.AreEqual(2, queryResults.Total);
-                var results = queryResults.Results;
-                Assert.AreEqual(1, results.Count);
-            };
-
-            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 1, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Descending));
-            var serviceResults = service.GetPrograms(queryOperator);
-            var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
+                var list = new List<OrganizationProgramDTO>();
+                var dto1 = new OrganizationProgramDTO
+                {
+                    Description = "desc1",
+                    Name = "org 1",
+                    NumChildren = 2,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 2,
+                    OwnerId = 3,
+                    ParentProgram_ProgramId = 4,
+                    ProgramId = 5,
+                    ProgramLevel = 6,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 7
+                };
+                var dto2 = new OrganizationProgramDTO
+                {
+                    Description = "desc2",
+                    Name = "org 2",
+                    NumChildren = 20,
+                    OfficeSymbol = "eca",
+                    OrgName = "eca org",
+                    Owner_OrganizationId = 20,
+                    OwnerId = 30,
+                    ParentProgram_ProgramId = 40,
+                    ProgramId = 50,
+                    ProgramLevel = 60,
+                    ProgramStatusId = ProgramStatus.Active.Id,
+                    SortOrder = 70
+                };
+                list.Add(dto1);
+                list.Add(dto2);
+                list = list.OrderBy(x => x.NumChildren).ToList();
+                System.Data.Entity.Fakes.ShimDbContext.AllInstances.DatabaseGet = (c) =>
+                {
+                    var shimDb = new System.Data.Entity.Fakes.ShimDatabase();
+                    shimDb.SqlQueryOf1StringObjectArray<OrganizationProgramDTO>(
+                        (sql, parameters) =>
+                        {
+                            var shimDbSql = new System.Data.Entity.Infrastructure.Fakes.ShimDbRawSqlQuery<OrganizationProgramDTO>();
+                            shimDbSql.ToArrayAsync = () =>
+                            {
+                                return Task.FromResult<OrganizationProgramDTO[]>(list.ToArray());
+                            };
+                            return shimDbSql;
+                        }
+                    );
+                    return shimDb;
+                };
+                System.Linq.Fakes.ShimEnumerable.ToArrayOf1IEnumerableOfM0<OrganizationProgramDTO>((e) =>
+                {
+                    return list.ToArray();
+                });
+                Action<PagedQueryResults<OrganizationProgramDTO>> tester = (queryResults) =>
+                {
+                    Assert.AreEqual(2, queryResults.Total);
+                    var results = queryResults.Results;
+                    Assert.AreEqual(1, results.Count);
+                    var firstResult = results.First();
+                    Assert.IsTrue(object.ReferenceEquals(dto1, firstResult));
+                };
+                var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 1, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
+                var serviceResults = service.GetPrograms(queryOperator);
+                var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+                tester(serviceResults);
+                tester(serviceResultsAsync);
+            }
         }
         #endregion
 
@@ -486,6 +716,7 @@ namespace ECA.Business.Test.Service.Programs
                );
 
             var program = service.Create(draftProgram);
+            mockValidator.Verify(x => x.ValidateCreate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
             Assert.IsNotNull(program);
             Assert.IsNotNull(program.ParentProgram);
             Assert.AreEqual(0, program.Contacts.Count);
@@ -591,6 +822,7 @@ namespace ECA.Business.Test.Service.Programs
                );
 
             var program = await service.CreateAsync(draftProgram);
+            mockValidator.Verify(x => x.ValidateCreate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
             Assert.IsNotNull(program);
             Assert.IsNotNull(program.ParentProgram);
             Assert.AreEqual(0, program.Contacts.Count);
@@ -1119,88 +1351,6 @@ namespace ECA.Business.Test.Service.Programs
             Assert.AreEqual(1, program.Regions.Count);
             Assert.AreEqual(region.LocationId, program.Regions.First().LocationId);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(ValidationException))]
-        public void TestCreate_EnsureExecutesValidator()
-        {
-            var ownerId = 12;
-            var userId = 1;
-            var user = new User(userId);
-            var name = "name";
-            var description = "description";
-            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var endDate = DateTime.UtcNow.AddDays(1.0);
-            var parentProgramId = 3;
-            var website = "http://www.google.com";
-            var pointOfContactIds = new List<int>();
-            var themeIds = new List<int>();
-            var goalIds = new List<int>();
-            var regionIds = new List<int>();
-            var categoryIds = new List<int>();
-            var objectiveIds = new List<int>();
-
-            var draftProgram = new DraftProgram(
-               createdBy: user,
-               name: name,
-               description: description,
-               startDate: startDate,
-               endDate: endDate,
-               ownerOrganizationId: ownerId,
-               parentProgramId: parentProgramId,
-               website: website,
-               goalIds: goalIds,
-               pointOfContactIds: pointOfContactIds,
-               themeIds: themeIds,
-               regionIds: regionIds,
-               categoryIds: categoryIds,
-               objectiveIds: objectiveIds
-               );
-            SetupMockValidatorToThrowException();
-            service.Create(draftProgram);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ValidationException))]
-        public async Task TestCreateAsync_EnsureExecutesValidator()
-        {
-            var ownerId = 12;
-            var userId = 1;
-            var user = new User(userId);
-            var name = "name";
-            var description = "description";
-            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
-            var endDate = DateTime.UtcNow.AddDays(1.0);
-            var parentProgramId = 3;
-            var website = "http://www.google.com";
-            var pointOfContactIds = new List<int>();
-            var themeIds = new List<int>();
-            var goalIds = new List<int>();
-            var regionIds = new List<int>();
-            var categoryIds = new List<int>();
-            var objectiveIds = new List<int>();
-
-            var draftProgram = new DraftProgram(
-               createdBy: user,
-               name: name,
-               description: description,
-               startDate: startDate,
-               endDate: endDate,
-               ownerOrganizationId: ownerId,
-               parentProgramId: parentProgramId,
-               website: website,
-               goalIds: goalIds,
-               pointOfContactIds: pointOfContactIds,
-               themeIds: themeIds,
-               regionIds: regionIds,
-               categoryIds: categoryIds,
-               objectiveIds: objectiveIds
-               );
-            SetupMockValidatorToThrowException();
-            await service.CreateAsync(draftProgram);
-
-        }
-
         #endregion
 
         #region Update
@@ -1271,6 +1421,8 @@ namespace ECA.Business.Test.Service.Programs
                 objectiveIds: null
                 );
             service.Update(updatedEcaProgram);
+
+            mockValidator.Verify(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
 
             var updatedProgram = context.Programs.First();
             Assert.AreEqual(newDescription, updatedProgram.Description);
@@ -1358,6 +1510,7 @@ namespace ECA.Business.Test.Service.Programs
                 objectiveIds: null
                 );
             await service.UpdateAsync(updatedEcaProgram);
+            mockValidator.Verify(x => x.ValidateUpdate(It.IsAny<ProgramServiceValidationEntity>()), Times.Once());
 
             var updatedProgram = context.Programs.First();
             Assert.AreEqual(newDescription, updatedProgram.Description);
@@ -2050,76 +2203,6 @@ namespace ECA.Business.Test.Service.Programs
                                 categoryIds: null,
                 objectiveIds: null
                 );
-            await service.UpdateAsync(updatedEcaProgram);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ValidationException))]
-        public void TestUpdate_EnsureExecutesValidator()
-        {
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
-
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(1),
-                id: 1,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: 1,
-                parentProgramId: 1,
-                programStatusId: 1,
-                programRowVersion: new byte[0],
-                website: newWebsite,
-                goalIds: null,
-                pointOfContactIds: null,
-                themeIds: null,
-                regionIds: null,
-                                categoryIds: null,
-                objectiveIds: null
-                );
-            context.Programs.Add(new Program { ProgramId = updatedEcaProgram.Id });
-            SetupMockValidatorToThrowException();
-            service.Update(updatedEcaProgram);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ValidationException))]
-        public async Task TestUpdateAsync_EnsureExecutesValidator()
-        {
-            var newName = "new name";
-            var newDescription = "new description";
-            var newStartDate = DateTimeOffset.UtcNow.AddDays(10.0);
-            var newEndDate = DateTimeOffset.UtcNow.AddDays(12.0);
-            var newProgramStatusId = ProgramStatus.Completed.Id;
-            var newWebsite = "new website";
-
-            var updatedEcaProgram = new EcaProgram(
-                updatedBy: new User(1),
-                id: 1,
-                name: newName,
-                description: newDescription,
-                startDate: newStartDate,
-                endDate: newEndDate,
-                ownerOrganizationId: 1,
-                parentProgramId: 1,
-                programStatusId: 1,
-                website: newWebsite,
-                programRowVersion: new byte[0],
-                goalIds: null,
-                pointOfContactIds: null,
-                themeIds: null,
-                regionIds: null,
-                                categoryIds: null,
-                objectiveIds: null
-                );
-            SetupMockValidatorToThrowException();
-            context.Programs.Add(new Program { ProgramId = updatedEcaProgram.Id });
             await service.UpdateAsync(updatedEcaProgram);
         }
 
