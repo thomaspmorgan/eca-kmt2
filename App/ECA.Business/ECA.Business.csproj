@@ -107,15 +107,19 @@
     <Compile Include="Queries\Models\Admin\JustificationObjectiveDTO.cs" />
     <Compile Include="Queries\Models\Admin\MoneyFlowDTO.cs" />
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
+    <Compile Include="Queries\Models\Admin\MoneyFlowHelpersDTO.cs" />
     <Compile Include="Queries\Models\Admin\SimpleOrganizationDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationProgramDTO.cs" />
     <Compile Include="Queries\Models\Admin\ProjectStatusDTO.cs" />
     <Compile Include="Queries\Models\Office\OfficeSettingDTO.cs" />
     <Compile Include="Queries\Models\Office\SimpleOfficeDTO.cs" />
     <Compile Include="Queries\Models\Persons\ContactInfoDTO.cs" />
+    <Compile Include="Queries\Models\Persons\GeneralDTO.cs" />
     <Compile Include="Queries\Models\Persons\LocationDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\PiiDTO.cs" />
+    <Compile Include="Queries\Models\Persons\SimpleParticipantPersonDTO.cs" />
+    <Compile Include="Queries\Persons\ParticipantPersonQueries.cs" />
     <Compile Include="Queries\Persons\PersonQueries.cs" />
     <Compile Include="Queries\Reports\ReportQueries.cs" />
     <Compile Include="Queries\Models\Reports\ProjectAwardDTO.cs" />
@@ -123,6 +127,7 @@
     <Compile Include="Service\Admin\EcaMoneyFlow.cs" />
     <Compile Include="Service\Admin\IMaritalStatusService.cs" />
     <Compile Include="Service\Admin\IOrganizationService.cs" />
+    <Compile Include="Service\Admin\IMoneyFlowHelpersService.cs" />
     <Compile Include="Service\Admin\JustificationObjectiveService.cs" />
     <Compile Include="Service\Admin\FocusCategoryService.cs" />
     <Compile Include="Service\Admin\GenderService.cs" />
@@ -137,6 +142,7 @@
     <Compile Include="Service\Admin\ProjectServiceCreateValidationEntity.cs" />
     <Compile Include="Service\Admin\ProjectServiceUpdateValidationEntity.cs" />
     <Compile Include="Service\Admin\ProjectServiceValidator.cs" />
+    <Compile Include="Service\Admin\MoneyFlowHelpersService.cs" />
     <Compile Include="Service\Admin\ProjectStatusService.cs" />
     <Compile Include="Service\Admin\PublishedProject.cs" />
     <Compile Include="Service\EcaService.cs" />
@@ -154,8 +160,10 @@
     <Compile Include="Service\Lookup\LookupService.cs" />
     <Compile Include="Service\Lookup\SimpleTypeLookupDTO.cs" />
     <Compile Include="Service\Persons\HomeAddress.cs" />
+    <Compile Include="Service\Persons\IParticipantPersonService.cs" />
     <Compile Include="Service\Persons\IPersonService.cs" />
     <Compile Include="Service\Persons\NewPerson.cs" />
+    <Compile Include="Service\Persons\ParticipantPersonService.cs" />
     <Compile Include="Service\Persons\PersonService.cs" />
     <Compile Include="Service\Persons\PersonServiceValidationEntity.cs" />
     <Compile Include="Service\Persons\PersonServiceValidator.cs" />

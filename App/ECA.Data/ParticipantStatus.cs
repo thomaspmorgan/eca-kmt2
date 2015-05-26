@@ -16,13 +16,15 @@ namespace ECA.Data
     {
         [Key]
         public int ParticipantStatusId { get; set; }
-        [Required]
-        public Participant Participant { get; set; }
-        [Required]
-        public ParticipantStatus Status { get; set; }
 
-        public DateTimeOffset StatusDate { get; set; }
+        [Required]
+        public string Status { get; set; }
 
         public History History { get; set; }
+
+        /// <summary>
+        /// collection of Participants that share this status
+        /// </summary>
+        public ICollection<Participant> Participants { get; set; }
     }
 }

@@ -14,37 +14,62 @@
                 <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
                 <th class="col-md-2">&nbsp;</th>
             </tr>
-
         </thead>
-        <tbody class="list2">
-            <tr ng-repeat="moneyFlow in project.moneyFlows" ng-show="!moneyFlowsLoading">
+        <tbody class="list2" ng-repeat="moneyFlow in moneyFlows">
+            <tr ng-show="!editingMoneyFlows[{{moneyFlow.id}}]">
                 <td>{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</td>
                 <td>{{moneyFlow.type }}</td>
                 <td>{{moneyFlow.fromTo}}</td>
                 <td><span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount | currency}}</span></td>
                 <td>{{moneyFlow.description}}</td>
                 <!--
-                <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientName : moneyFlow.sourceName}}</td>
-                <td><span class="{{moneyFlow.sourceType === 'Project' ? 'text-danger' : ''}}">{{moneyFlow.sourceType === "Project" ? ((0-moneyFlow.value) | currency) : (moneyFlow.value | currency)}}</span></td>
-                <td>{{moneyFlow.description}}</td>
-                -->
+        <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientName : moneyFlow.sourceName}}</td>
+        <td><span class="{{moneyFlow.sourceType === 'Project' ? 'text-danger' : ''}}">{{moneyFlow.sourceType === "Project" ? ((0-moneyFlow.value) | currency) : (moneyFlow.value | currency)}}</span></td>
+        <td>{{moneyFlow.description}}</td>
+        -->
                 <td style="padding: 0 50px 0 0;">
-                    <div class="right" style="display:none;">
-                        <div class="copyEditDeleteOptions" ng-click="copyMoneyFlow(moneyFlow.moneyFlowId)">
+                    <div class="right" style="display:none;" showonparentrow>
+                        <div class="copyEditDeleteOptions" ng-click="copyMoneyFlow(moneyFlow.id)">
                             <i class="fa fa-files-o fa-2x copyEditDeleteOption" ng-show="!copyMoneyFlowLoading"></i>
                             <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyMoneyFlowLoading"></i>
                         </div>
-                        <div class="copyEditDeleteOptions" ng-click="editMoneyFlow(moneyFlow.moneyFlowId)">
+                        <div class="copyEditDeleteOptions" ng-click="editMoneyFlow(moneyFlow.id)">
                             <i class="fa fa-pencil-square-o fa-2x copyEditDeleteOption" ng-show="!editMoneyFlowLoading"></i>
                             <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="editMoneyFlowLoading"></i>
                         </div>
-                        <div class="copyEditDeleteOptions" ng-click="deleteMoneyFlow(moneyFlow.moneyFlowId)">
+                        <div class="copyEditDeleteOptions" ng-click="deleteMoneyFlow(moneyFlow.id)">
                             <i class="fa fa-trash-o fa-2x copyEditDeleteOption"></i>
                         </div>
                     </div>
                 </td>
+
             </tr>
-            <tr ng-show="moneyFlowsLoading">
+            <tr ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="editingRow">
+                <td style="padding-left:10px;">
+                    <input type="text" class="form-control" id="transactionDate"
+                           datepicker-popup="{{dateFormat}}"
+                           ng-model="moneyFlow.transactionDate"
+                           is-open="editView.isEndDatePickerOpen"
+                           ng-required="true"
+                           close-text="Close" />
+                </td>
+                <td>
+                    <select class="form-control" id="type" ng-options="s.id as s.name for s in moneyFlowTypes" ng-model="project.projectStatusId" />
+                </td>
+                <td>{{moneyFlow.fromTo}}</td>
+
+                <td><span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount | currency}}</span></td>
+                <td>
+                    <input name="description" type="text" ng-model="description" required />
+                </td>
+                <td>
+                    <button ng-click="onSaveClick($event)" class="btn btn-success">Save</button>
+                    <button ng-click="onCancelClick($event)" class="btn btn-cancel">Cancel</button>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-show="moneyFlowsLoading" id="spinner">
+            <tr>
                 <td colspan="5">
                     <div class="spinner">
                         <div class="bounce1"></div>
@@ -58,30 +83,3 @@
     <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="!moneyFlowsLoading"></div>
 </div>
 
-<!-- dialog boxes for confirming -->
-<modal-dialog show="showConfirmClose" dialog-title="Confirm Close" before-close="confirmCloseNo()">
-    <p class="strong">There is unsaved data.  Are you sure you want to cancel?</p>
-    <button class="btn btn-default right" ng-click="confirmCloseYes()">YES</button>
-    &nbsp;
-    <button class="btn btn-success right" ng-click="confirmCloseNo()">NO</button>
-</modal-dialog>
-<modal-dialog show="confirmSave" dialog-title="Success!" before-close="confirmSaveYes()">
-    <p class="strong">The money flow was saved sucessfully</p>
-    <button class="btn btn-default right" ng-click="confirmSaveYes()">OK</button>
-</modal-dialog>
-<modal-dialog show="confirmFail" dialog-title="Error Saving" before-close="confirmFailOk()">
-    <p class="strong">There was an error saving the entry.</p>
-    <p class="alert-warning">{{errorMessage}}</p>
-    <div>
-        <ul>
-            <li class="alert-danger" ng-repeat="validation in validations">{{validation}}</li>
-        </ul>
-    </div>
-    <button class="btn btn-default right" ng-click="confirmFailOk()">OK</button>
-</modal-dialog>
-
-<style>
-    .ng-modal-close-x {
-        display: none;
-    }
-</style>

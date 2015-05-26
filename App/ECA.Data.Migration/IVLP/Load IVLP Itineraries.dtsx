@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Load IVLP Itineraries"
   DTS:PackageType="5"
-  DTS:VersionBuild="155"
-  DTS:VersionGUID="{59B88189-95B5-4B0B-933F-6F3CCA6AE0B9}">
+  DTS:VersionBuild="162"
+  DTS:VersionGUID="{E9B6871A-3314-4727-8611-EC3468B76A61}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAacm6dx8rC6Qlhgk29u0cK4/H/pdRFRlDnnNwFMG2BYgAAAAAOgAAAAAIAACAAAAAS+HHqgJbN9MBdMKdlLUL3uvx2mAO9J9FmAnANX4BZJyAAAAAOKe2DR4LFcPmhHPGpD3zMG0KS47X7kGme48u+/QTc4kAAAACNK0nYJPiT/Z/Z5Obzjf30z7tzDlsgM/BDSciti9N8sWsitfN/k4HYrg/DRKnfm3wAbSoeRnTAI6RivOXoMyke</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAChvoVZbawU6VEYwHUjKcoqzVjltdM4a0pjLMhHu7LY8wAAAAAOgAAAAAIAACAAAAAECIsyh6QBJmZwoMMeuRe8k4rVwdO9QNMYFYIadImhaSAAAADIqtxv+REO8a8LGpDOtfYvFohz12c8KdvTwHxuTI+jvEAAAACBjc3iOmqixf+JJ57ZeZY5vQi8zcdNsgCshHOh9HRmiJ6eOegSrUcjbUyWioFvp2uOZ2t4GEVvmcEV765u4/7I</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -52,7 +52,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADRinzdu0gQ+aOEPeWCP6wXUJ3by5TvG/mHTvdUJqKCHQAAAAAOgAAAAAIAACAAAABwuM6tW+p/1wMb87fWGugGHSrkwwu+wHEuqvuIbuk4nCAAAADLZnmN0oN4dtBKlZ8tgxiKMn7XWCIkLf3R443jc6SkCEAAAADwjPSBK+yI6VcM1zMUoNlW9qfjaOyxf7NiPaRdwRDrX1rMRHe6nywVVppJZNoK2L7DDU0do1kFYT6sBdFjUky1</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAufD/O1opp4ai/jDIcFadb/XIS3E3AO2PknIMLcU5CWgAAAAAOgAAAAAIAACAAAAD6FK0MYZZPAE6LWW8WWnBrJ5CLD1lEZ8lwX40aAx6QUSAAAACsXC5dfVpxUHsuS5uUaCqlnOhXTkkr2m4CaIMkmojoTEAAAACaBOjZ2PotPPk0WI2mk+9z+J+X3lgGcXMtrxLQy0w+P7MWwLx3sXcPPHzqtM4al6ndXTs4IB+Oa3dfXW247vlR</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -67,7 +67,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABnfKBl29Ai3jAEFwEMT0Yxd8CpZ0Hsa1yKwv1afuGG5gAAAAAOgAAAAAIAACAAAADxG1Fzl/ds0kW5/AiBLtiClCXSOtg0puhFPKw54qzH2yAAAAA50V21vX6NXMuJBmmCgDAOAFGiJLHXjFgnQZiyq77xPUAAAAAhUxeIHg5xYfqZLAQmuQgiTawkkNHd9obns3viwP81nkatmb6A80obxRsEkV2WBSLHHkdWbjcxHpydFSMbZEx8</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABmVOBPDaxgdAF4zeaI0d+lXFV+ei1gs99RSHUFMl5BlQAAAAAOgAAAAAIAACAAAABTWqyJ72cxyhHsbuANfAy4zeZvWcb6DSvJTSx56g2OqiAAAACfNy257fx7lZxQKlaBquZ0G5sPeCpfFfXa4BZ+r12iOkAAAAB0bFfiCgipiUtEXl+9Gzsnmz7hUiLdEqbdjk10zwThEItIzQPsgahO4B1UeDkQerzEeP49GrVT/uVA+RRW8zXv</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -14850,6 +14850,223 @@ where UPPER([refTable].[ActorName]) = UPPER( ? )</property>
           version="1">
           <components>
             <component
+              refId="Package\Load Language Officers\Actor"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Actor"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Actor]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Language Officers\Actor.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load Language Officers\IVLP_Language_Officer.Outputs[OLE DB Source Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load Language Officers\IVLP_Language_Officer.Outputs[OLE DB Source Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].Columns[ActorTypeId]"
+                      cachedDataType="i4"
+                      cachedName="ActorTypeId"
+                      externalMetadataColumnId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[ActorTypeId]"
+                      lineageId="Package\Load Language Officers\Lookup Actor Type.Outputs[Lookup Match Output].Columns[ActorTypeId]" />
+                    <inputColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load Language Officers\Create Display Names and other data.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load Language Officers\Create Display Names and other data.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].Columns[ECA_PersonId]"
+                      cachedDataType="i4"
+                      cachedName="ECA_PersonId"
+                      externalMetadataColumnId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[PersonId]"
+                      lineageId="Package\Load Language Officers\Lookup ECA PersonId.Outputs[Lookup Match Output].Columns[ECA_PersonId]" />
+                    <inputColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].Columns[ECA_ProjectId]"
+                      cachedDataType="i4"
+                      cachedName="ECA_ProjectId"
+                      externalMetadataColumnId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[ProjectId]"
+                      lineageId="Package\Load Language Officers\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ECA_ProjectId]" />
+                    <inputColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].Columns[ActorName2]"
+                      cachedDataType="wstr"
+                      cachedLength="462"
+                      cachedName="ActorName2"
+                      externalMetadataColumnId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[ActorName]"
+                      lineageId="Package\Load Language Officers\Created Full Actor Name.Outputs[Derived Column Output].Columns[ActorName2]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[ActorId]"
+                      dataType="i4"
+                      name="ActorId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[ActorTypeId]"
+                      dataType="i4"
+                      name="ActorTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[ActorName]"
+                      dataType="wstr"
+                      length="600"
+                      name="ActorName" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[Status]"
+                      dataType="wstr"
+                      length="100"
+                      name="Status" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[Action]"
+                      dataType="wstr"
+                      length="100"
+                      name="Action" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[PersonId]"
+                      dataType="i4"
+                      name="PersonId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[OrganizationId]"
+                      dataType="i4"
+                      name="OrganizationId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[EventId]"
+                      dataType="i4"
+                      name="EventId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[ItineraryStopId]"
+                      dataType="i4"
+                      name="ItineraryStopId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[AppointmentId]"
+                      dataType="i4"
+                      name="AppointmentId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input].ExternalColumns[ProjectId]"
+                      dataType="i4"
+                      name="ProjectId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Language Officers\Actor.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Language Officers\Actor.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Language Officers\Actor.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Language Officers\Actor.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Language Officers\Actor.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\Load Language Officers\Create Display Names and other data"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
@@ -15540,8 +15757,8 @@ where [refTable].[ActorName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Load Language Officers\Lookup Actor Type.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -15781,6 +15998,165 @@ where [refTable].[IVLP_Person_Id] = ?</property>
                       refId="Package\Load Language Officers\Lookup ECA PersonId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       dataType="i4"
                       lineageId="Package\Load Language Officers\Lookup ECA PersonId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Language Officers\Lookup ECA ProjectId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup ECA ProjectId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[IVLP_ECA_Project_Xref]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[IVLP_ECA_Project_Xref]) [refTable]
+where [refTable].[PROJECT_ID] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="PROJECT_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROGRAM" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_NUMBER" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_TITLE" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_TYPE" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FISCAL_YEAR" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="START_DATE" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="END_DATE" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="EST_PARTICIPANT_CNT" dataType="DT_R8" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="EST_ARRIVAL_DATE" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="EST_DEPARTURE_DATE" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_STATUS" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_LANGUAGE" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FUNDING_SOURCE" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FUNDING_COUNTRY" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="NOMINATED_BY_ORG_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="COUNTRY" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="REGION" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="NPA_ORG_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="NPA_PGM_OFFICER_PERSON_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="NPA_PGM_ASSOCIATE_PERSON_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DOS_PGM_OFFICE_ORG_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DOS_PGM_OFFICER_PERSON_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DOS_PGM_COORDINATOR_PERSON_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_CREATE_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_CREATE_DT" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_UPDATE_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PROJECT_UPDATE_DT" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectNameNew" dataType="DT_WSTR" length="556" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="OwnerOfficeSymbol" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ORG_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ORG_NAME" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PARENT_ORG_ID" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="WEB_ADDRESS" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ORG_CREATE_DT" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ORG_UPDATE_DT" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Copy of ProjectNameNew" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Copy of OwnerOfficeSymbol" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Description" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FocusArea" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FocusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="StartDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="EndDate" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Language" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="AudienceReach" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="EventId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="NominationSource_OrganizationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProgramId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProjectStatusId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load Language Officers\IVLP_Language_Officer.Outputs[OLE DB Source Output].Columns[IVLP_PROJECT_ID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Language Officers\Lookup ECA ProjectId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Language Officers\Lookup ECA ProjectId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Language Officers\Lookup ECA ProjectId.Inputs[Lookup Input].Columns[IVLP_PROJECT_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="IVLP_PROJECT_ID"
+                      lineageId="Package\Load Language Officers\IVLP_Language_Officer.Outputs[OLE DB Source Output].Columns[IVLP_PROJECT_ID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">PROJECT_ID</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Language Officers\Lookup ECA ProjectId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load Language Officers\Lookup ECA ProjectId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Language Officers\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ECA_ProjectId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load Language Officers\Lookup ECA ProjectId.Outputs[Lookup Match Output].Columns[ECA_ProjectId]"
+                      name="ECA_ProjectId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProjectId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Language Officers\Lookup ECA ProjectId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load Language Officers\Lookup ECA ProjectId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Language Officers\Lookup ECA ProjectId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load Language Officers\Lookup ECA ProjectId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Language Officers\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Language Officers\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Language Officers\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Language Officers\Lookup ECA ProjectId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -16030,6 +16406,11 @@ where [refTable].[PersonId] = ?</property>
               name="Derived Column Output"
               startId="Package\Load Language Officers\Create Display Names and other data.Outputs[Derived Column Output]" />
             <path
+              refId="Package\Load Language Officers.Paths[Derived Column Output1]"
+              endId="Package\Load Language Officers\Lookup ECA ProjectId.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\Load Language Officers\Created Full Actor Name.Outputs[Derived Column Output]" />
+            <path
               refId="Package\Load Language Officers.Paths[Lookup Match Output]"
               endId="Package\Load Language Officers\Lookup ECA PersonId.Inputs[Lookup Input]"
               name="Lookup Match Output"
@@ -16044,6 +16425,11 @@ where [refTable].[PersonId] = ?</property>
               endId="Package\Load Language Officers\Create Display Names and other data.Inputs[Derived Column Input]"
               name="Lookup Match Output"
               startId="Package\Load Language Officers\Lookup Person Name.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load Language Officers.Paths[Lookup Match Output3]"
+              endId="Package\Load Language Officers\Actor.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Load Language Officers\Lookup ECA ProjectId.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load Language Officers.Paths[OLE DB Source Output]"
               endId="Package\Load Language Officers\Lookup Actor Type.Inputs[Lookup Input]"
@@ -19518,6 +19904,14 @@ where [refTable].[Theme] = ?</property>
       DTS:ObjectName="Constraint 17"
       DTS:To="Package\Load Language Officer Roles" />
     <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 18]"
+      DTS:CreationName=""
+      DTS:DTSID="{6B5A2EA3-74BA-4360-B04A-3530DC72AA5B}"
+      DTS:From="Package\Load Language Officer Roles"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 18"
+      DTS:To="Package\Load Language Officers" />
+    <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
       DTS:CreationName=""
       DTS:DTSID="{DCAE350B-BB02-4564-AB47-7F495B3C7D02}"
@@ -19597,78 +19991,86 @@ where [refTable].[Theme] = ?</property>
         <NodeLayout
           Size="281,42"
           Id="Package\Create IVLP-ECA AppointmentId XRef Data"
-          TopLeft="837,208.5" />
+          TopLeft="837,226.5" />
         <NodeLayout
           Size="262,42"
           Id="Package\Create IVLP-ECA ItineraryID XRef Data"
-          TopLeft="537.5,31" />
+          TopLeft="537.5,49" />
         <NodeLayout
           Size="272,42"
           Id="Package\Create IVLP-ECA ItineraryStop XRef Data"
-          TopLeft="400.5,122" />
+          TopLeft="400.5,140" />
         <NodeLayout
           Size="199,42"
           Id="Package\Delete Existing IVLP-ECA AppointmentId XRef Data"
-          TopLeft="589.5,207.5" />
+          TopLeft="589.5,225.5" />
         <NodeLayout
           Size="214,42"
           Id="Package\Delete Existing IVLP-ECA Itinerary XRef Data"
-          TopLeft="278.5,33" />
+          TopLeft="278.5,51" />
         <NodeLayout
           Size="311,42"
           Id="Package\Delete Existing IVLP-ECA ItineraryStop XRef Data"
-          TopLeft="20.5,123" />
+          TopLeft="20.5,141" />
         <NodeLayout
           Size="232,42"
           Id="Package\Load Appointment Organizations"
-          TopLeft="17.5,371.5" />
+          TopLeft="17.5,389.5" />
         <NodeLayout
           Size="205,42"
           Id="Package\Load Appointment Persons"
-          TopLeft="890.5,288.5" />
+          TopLeft="890.5,306.5" />
         <NodeLayout
           Size="213,42"
           Id="Package\Load Itinerary Appointments"
-          TopLeft="321.5,203" />
+          TopLeft="321.5,221" />
         <NodeLayout
           Size="210,42"
           Id="Package\Load Itinerary Stop Persons"
-          TopLeft="311.5,285.5" />
+          TopLeft="311.5,303.5" />
         <NodeLayout
           Size="230,42"
           Id="Package\Load ItineraryStop Appointment"
-          TopLeft="29.5,287" />
+          TopLeft="29.5,305" />
         <NodeLayout
           Size="199,42"
           Id="Package\Load ItineraryStopTheme"
-          TopLeft="715.5,122" />
+          TopLeft="715.5,140" />
         <NodeLayout
           Size="199,42"
           Id="Package\Load IVLP Itinerary Table"
-          TopLeft="32.5,32" />
+          TopLeft="32.5,50" />
         <NodeLayout
           Size="220,42"
           Id="Package\Load IVLP ItineraryStop Table"
-          TopLeft="1079.5,30" />
+          TopLeft="1079.5,48" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\Load Language Officer Roles"
+          TopLeft="296.5,388.5" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Load Language Officers"
+          TopLeft="580.5,387.5" />
         <NodeLayout
           Size="248,42"
           Id="Package\Load New Appointment Actor Types"
-          TopLeft="582.5,290.5" />
+          TopLeft="582.5,308.5" />
         <NodeLayout
           Size="222,42"
           Id="Package\Load New Appointment Status"
-          TopLeft="31,204.5" />
+          TopLeft="31,222.5" />
         <NodeLayout
           Size="220,42"
           Id="Package\Load New Appointment Types"
-          TopLeft="964.5,125" />
+          TopLeft="964.5,143" />
         <NodeLayout
           Size="210,42"
           Id="Package\Load New Itinerary Themes"
-          TopLeft="836.5,32" />
+          TopLeft="836.5,50" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="231.5,53.5">
+          TopLeft="231.5,71.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19690,7 +20092,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="799.5,52.5">
+          TopLeft="799.5,70.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19712,7 +20114,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 10]"
-          TopLeft="492.5,53">
+          TopLeft="492.5,71">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19734,7 +20136,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 11]"
-          TopLeft="331.5,143.5">
+          TopLeft="331.5,161.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19756,7 +20158,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 12]"
-          TopLeft="788.5,229">
+          TopLeft="788.5,247">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19778,7 +20180,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 13]"
-          TopLeft="259.5,307.25">
+          TopLeft="259.5,325.25">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19800,7 +20202,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 14]"
-          TopLeft="521.5,309">
+          TopLeft="521.5,327">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19822,7 +20224,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 15]"
-          TopLeft="830.5,310.5">
+          TopLeft="830.5,328.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19844,7 +20246,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 16]"
-          TopLeft="993,330.5">
+          TopLeft="993,348.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19877,8 +20279,52 @@ where [refTable].[Theme] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 17]"
+          TopLeft="249.5,410">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="47,0"
+              Start="0,0"
+              End="39.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="39.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 18]"
+          TopLeft="510.5,409">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="70,0"
+              Start="0,0"
+              End="62.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="62.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="1046.5,52">
+          TopLeft="1046.5,70">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19900,7 +20346,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="1189.5,72">
+          TopLeft="1189.5,90">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19934,7 +20380,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="672.5,143">
+          TopLeft="672.5,161">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19956,7 +20402,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="914.5,144.5">
+          TopLeft="914.5,162.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19978,7 +20424,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 6]"
-          TopLeft="1074.5,167">
+          TopLeft="1074.5,185">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -20012,7 +20458,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 7]"
-          TopLeft="253,224.75">
+          TopLeft="253,242.75">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -20034,7 +20480,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 8]"
-          TopLeft="534.5,226.25">
+          TopLeft="534.5,244.25">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -20056,7 +20502,7 @@ where [refTable].[Theme] = ?</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 9]"
-          TopLeft="977.5,250.5">
+          TopLeft="977.5,268.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -20080,36 +20526,6 @@ where [refTable].[Theme] = ?</property>
                     Point3="-833,22.25" />
                   <mssgle:LineSegment
                     End="-833,29" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="190,42"
-          Id="Package\Load Language Officers"
-          TopLeft="541.5,370.5" />
-        <NodeLayout
-          Size="214,42"
-          Id="Package\Load Language Officer Roles"
-          TopLeft="296.5,370.5" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 17]"
-          TopLeft="249.5,392">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="47,0"
-              Start="0,0"
-              End="39.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="39.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -21582,7 +21998,9 @@ where [refTable].[Theme] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -21736,7 +22154,9 @@ where [refTable].[Theme] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -21758,7 +22178,9 @@ where [refTable].[Theme] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -21829,7 +22251,7 @@ where [refTable].[Theme] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -21839,7 +22261,7 @@ where [refTable].[Theme] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -23577,6 +23999,583 @@ where [refTable].[Theme] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
+    design-time-name="Package\Load Language Officer Roles">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Load Language Officer Roles\Remove Duplicates"
+          TopLeft="129.5,78.5" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\Load Language Officer Roles\IVLP_Language_Officer"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Load Language Officer Roles\Add Required Columns"
+          TopLeft="258.5,154.5" />
+        <NodeLayout
+          Size="212,42"
+          Id="Package\Load Language Officer Roles\Lookup Existing Actor Types"
+          TopLeft="343.5,237.5" />
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Load Language Officer Roles\ActorType"
+          TopLeft="496.5,313.5" />
+        <EdgeLayout
+          Id="Package\Load Language Officer Roles.Paths[Lookup No Match Output]"
+          TopLeft="449.5,279.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="110.5,34"
+              Start="0,0"
+              End="110.5,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13"
+                    Point2="0,17"
+                    Point3="4,17" />
+                  <mssgle:LineSegment
+                    End="106.5,17" />
+                  <mssgle:CubicBezierSegment
+                    Point1="106.5,17"
+                    Point2="110.5,17"
+                    Point3="110.5,21" />
+                  <mssgle:LineSegment
+                    End="110.5,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-0.556386718749998,22,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Language Officer Roles.Paths[Derived Column Output]"
+          TopLeft="351.5,196.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="98,41"
+              Start="0,0"
+              End="98,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.5"
+                    Point2="0,20.5"
+                    Point3="4,20.5" />
+                  <mssgle:LineSegment
+                    End="94,20.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="94,20.5"
+                    Point2="98,20.5"
+                    Point3="98,24.5" />
+                  <mssgle:LineSegment
+                    End="98,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Language Officer Roles.Paths[Aggregate Output 1]"
+          TopLeft="214,120.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="137.5,34"
+              Start="0,0"
+              End="137.5,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13"
+                    Point2="0,17"
+                    Point3="4,17" />
+                  <mssgle:LineSegment
+                    End="133.5,17" />
+                  <mssgle:CubicBezierSegment
+                    Point1="133.5,17"
+                    Point2="137.5,17"
+                    Point3="137.5,21" />
+                  <mssgle:LineSegment
+                    End="137.5,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Language Officer Roles.Paths[OLE DB Source Output]"
+          TopLeft="100,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="114,31"
+              Start="0,0"
+              End="114,23.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.5"
+                    Point2="0,15.5"
+                    Point3="4,15.5" />
+                  <mssgle:LineSegment
+                    End="110,15.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="110,15.5"
+                    Point2="114,15.5"
+                    Point3="114,19.5" />
+                  <mssgle:LineSegment
+                    End="114,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Language Officer Roles\IVLP_Language_Officer">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Language Officer Roles\Lookup Existing Actor Types">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[ActorType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Language Officer Roles\ActorType">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Language Officers">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Load Language Officers\Lookup Actor Type"
+          TopLeft="240.5,91.5" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\Load Language Officers\IVLP_Language_Officer"
+          TopLeft="19.5,32.5" />
+        <NodeLayout
+          Size="194,42"
+          Id="Package\Load Language Officers\Created Full Actor Name"
+          TopLeft="224,182" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\Load Language Officers\Create Display Names and other data"
+          TopLeft="951,93" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\Load Language Officers\Lookup ECA ProjectId"
+          TopLeft="472.5,180.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Load Language Officers\Lookup ECA PersonId"
+          TopLeft="468.5,91.5" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Load Language Officers\Lookup Person Name"
+          TopLeft="708.5,91.5" />
+        <NodeLayout
+          Size="104,42"
+          Id="Package\Load Language Officers\Actor"
+          TopLeft="746.5,236.746610407876" />
+        <EdgeLayout
+          Id="Package\Load Language Officers.Paths[OLE DB Source Output]"
+          TopLeft="208.5,53.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="32,59"
+              Start="0,0"
+              End="24.5,59">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="12,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="12,0"
+                    Point2="16,0"
+                    Point3="16,4" />
+                  <mssgle:LineSegment
+                    End="16,55" />
+                  <mssgle:CubicBezierSegment
+                    Point1="16,55"
+                    Point2="16,59"
+                    Point3="20,59" />
+                  <mssgle:LineSegment
+                    End="24.5,59" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Language Officers.Paths[Lookup Match Output3]"
+          TopLeft="653.5,201.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="93,56.2466104078762"
+              Start="0,0"
+              End="85.5,56.2466104078762">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="42.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="42.5,0"
+                    Point2="46.5,0"
+                    Point3="46.5,4" />
+                  <mssgle:LineSegment
+                    End="46.5,52.2466104078762" />
+                  <mssgle:CubicBezierSegment
+                    Point1="46.5,52.2466104078762"
+                    Point2="46.5,56.2466104078762"
+                    Point3="50.5,56.2466104078762" />
+                  <mssgle:LineSegment
+                    End="85.5,56.2466104078762" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-1.69138671875,-17.609375,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Language Officers.Paths[Lookup Match Output2]"
+          TopLeft="887.5,113.25">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="63.5,0"
+              Start="0,0"
+              End="56,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="56,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-20.19138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Language Officers.Paths[Lookup Match Output1]"
+          TopLeft="648.5,112.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="60,0"
+              Start="0,0"
+              End="52.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="52.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-21.94138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Language Officers.Paths[Lookup Match Output]"
+          TopLeft="407.5,112.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="61,0"
+              Start="0,0"
+              End="53.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="53.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-21.44138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Language Officers.Paths[Derived Column Output1]"
+          TopLeft="418,202.25">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="54.5,0"
+              Start="0,0"
+              End="47,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="47,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Language Officers.Paths[Derived Column Output]"
+          TopLeft="1078.5,135">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-757.5,47"
+              Start="0,0"
+              End="-757.5,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.5"
+                    Point2="0,23.5"
+                    Point3="-4,23.5" />
+                  <mssgle:LineSegment
+                    End="-753.5,23.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-753.5,23.5"
+                    Point2="-757.5,23.5"
+                    Point3="-757.5,27.5" />
+                  <mssgle:LineSegment
+                    End="-757.5,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Language Officers\Lookup Actor Type">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[ActorType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Language Officers\IVLP_Language_Officer">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Language Officers\Lookup ECA ProjectId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[IVLP_ECA_Project_Xref]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Language Officers\Lookup ECA PersonId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[IVLP_ECA_Person_XRef]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Language Officers\Lookup Person Name">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Person]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Language Officers\Actor">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
     design-time-name="Package\Load New Appointment Actor Types">
     <LayoutInfo>
       <GraphLayout
@@ -24510,511 +25509,6 @@ where [refTable].[Theme] = ?</property>
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Load Language Officers">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="189,42"
-          Id="Package\Load Language Officers\IVLP_Language_Officer"
-          TopLeft="36.5,15.5" />
-        <NodeLayout
-          Size="167,42"
-          Id="Package\Load Language Officers\Lookup Actor Type"
-          TopLeft="81.5,104.5" />
-        <EdgeLayout
-          Id="Package\Load Language Officers.Paths[OLE DB Source Output]"
-          TopLeft="131,57.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="34,47"
-              Start="0,0"
-              End="34,39.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,19.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,19.5"
-                    Point2="0,23.5"
-                    Point3="4,23.5" />
-                  <mssgle:LineSegment
-                    End="30,23.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="30,23.5"
-                    Point2="34,23.5"
-                    Point3="34,27.5" />
-                  <mssgle:LineSegment
-                    End="34,39.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="180,42"
-          Id="Package\Load Language Officers\Lookup ECA PersonId"
-          TopLeft="137.5,194.5" />
-        <EdgeLayout
-          Id="Package\Load Language Officers.Paths[Lookup Match Output]"
-          TopLeft="165,146.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="62.5,48"
-              Start="0,0"
-              End="62.5,40.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20"
-                    Point2="0,24"
-                    Point3="4,24" />
-                  <mssgle:LineSegment
-                    End="58.5,24" />
-                  <mssgle:CubicBezierSegment
-                    Point1="58.5,24"
-                    Point2="62.5,24"
-                    Point3="62.5,28" />
-                  <mssgle:LineSegment
-                    End="62.5,40.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-16.94138671875,29,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="179,42"
-          Id="Package\Load Language Officers\Lookup Person Name"
-          TopLeft="112.5,268.5" />
-        <EdgeLayout
-          Id="Package\Load Language Officers.Paths[Lookup Match Output1]"
-          TopLeft="227.5,236.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-25.5,32"
-              Start="0,0"
-              End="-25.5,24.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,12" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,12"
-                    Point2="0,16"
-                    Point3="-4,16" />
-                  <mssgle:LineSegment
-                    End="-21.5,16" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-21.5,16"
-                    Point2="-25.5,16"
-                    Point3="-25.5,20" />
-                  <mssgle:LineSegment
-                    End="-25.5,24.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-60.94138671875,21,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="255,42"
-          Id="Package\Load Language Officers\Create Display Names and other data"
-          TopLeft="242,353" />
-        <EdgeLayout
-          Id="Package\Load Language Officers.Paths[Lookup Match Output2]"
-          TopLeft="202,310.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="126.333333333333,42.5"
-              Start="0,0"
-              End="126.333333333333,35">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,21.3409976617303" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,21.3409976617303"
-                    Point2="0,25.3409976617303"
-                    Point3="4,25.3409976617303" />
-                  <mssgle:LineSegment
-                    End="122.333333333333,25.3409976617303" />
-                  <mssgle:CubicBezierSegment
-                    Point1="122.333333333333,25.3409976617303"
-                    Point2="126.333333333333,25.3409976617303"
-                    Point3="126.333333333333,29.3409976617303" />
-                  <mssgle:LineSegment
-                    End="126.333333333333,35" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="14.9752799479167,30.3409976617303,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="194,42"
-          Id="Package\Load Language Officers\Created Full Actor Name"
-          TopLeft="503,97" />
-        <EdgeLayout
-          Id="Package\Load Language Officers.Paths[Derived Column Output]"
-          TopLeft="410.666666666667,353">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="189.333333333333,-214"
-              Start="0,0"
-              End="189.333333333333,-206.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-82.4006235385815" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-82.4006235385815"
-                    Point2="0,-86.4006235385815"
-                    Point3="4,-86.4006235385815" />
-                  <mssgle:LineSegment
-                    End="185.333333333333,-86.4006235385815" />
-                  <mssgle:CubicBezierSegment
-                    Point1="185.333333333333,-86.4006235385815"
-                    Point2="189.333333333333,-86.4006235385815"
-                    Point3="189.333333333333,-90.4006235385815" />
-                  <mssgle:LineSegment
-                    End="189.333333333333,-206.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Language Officers\IVLP_Language_Officer">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Load Language Officer Roles">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="189,42"
-          Id="Package\Load Language Officer Roles\IVLP_Language_Officer"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
-          Size="169,42"
-          Id="Package\Load Language Officer Roles\Remove Duplicates"
-          TopLeft="129.5,78.5" />
-        <EdgeLayout
-          Id="Package\Load Language Officer Roles.Paths[OLE DB Source Output]"
-          TopLeft="100,47.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="114,31"
-              Start="0,0"
-              End="114,23.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,11.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,11.5"
-                    Point2="0,15.5"
-                    Point3="4,15.5" />
-                  <mssgle:LineSegment
-                    End="110,15.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="110,15.5"
-                    Point2="114,15.5"
-                    Point3="114,19.5" />
-                  <mssgle:LineSegment
-                    End="114,23.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="186,42"
-          Id="Package\Load Language Officer Roles\Add Required Columns"
-          TopLeft="258.5,154.5" />
-        <EdgeLayout
-          Id="Package\Load Language Officer Roles.Paths[Aggregate Output 1]"
-          TopLeft="214,120.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="137.5,34"
-              Start="0,0"
-              End="137.5,26.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,13" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,13"
-                    Point2="0,17"
-                    Point3="4,17" />
-                  <mssgle:LineSegment
-                    End="133.5,17" />
-                  <mssgle:CubicBezierSegment
-                    Point1="133.5,17"
-                    Point2="137.5,17"
-                    Point3="137.5,21" />
-                  <mssgle:LineSegment
-                    End="137.5,26.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="127,42"
-          Id="Package\Load Language Officer Roles\ActorType"
-          TopLeft="496.5,313.5" />
-        <NodeLayout
-          Size="212,42"
-          Id="Package\Load Language Officer Roles\Lookup Existing Actor Types"
-          TopLeft="343.5,237.5" />
-        <EdgeLayout
-          Id="Package\Load Language Officer Roles.Paths[Derived Column Output]"
-          TopLeft="351.5,196.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="98,41"
-              Start="0,0"
-              End="98,33.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,16.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,16.5"
-                    Point2="0,20.5"
-                    Point3="4,20.5" />
-                  <mssgle:LineSegment
-                    End="94,20.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="94,20.5"
-                    Point2="98,20.5"
-                    Point3="98,24.5" />
-                  <mssgle:LineSegment
-                    End="98,33.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load Language Officer Roles.Paths[Lookup No Match Output]"
-          TopLeft="449.5,279.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="110.5,34"
-              Start="0,0"
-              End="110.5,26.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,13" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,13"
-                    Point2="0,17"
-                    Point3="4,17" />
-                  <mssgle:LineSegment
-                    End="106.5,17" />
-                  <mssgle:CubicBezierSegment
-                    Point1="106.5,17"
-                    Point2="110.5,17"
-                    Point3="110.5,21" />
-                  <mssgle:LineSegment
-                    End="110.5,26.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-0.556386718749998,22,111.6127734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Language Officer Roles\IVLP_Language_Officer">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Language Officer Roles\ActorType">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Language Officer Roles\Lookup Existing Actor Types">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">true</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[ActorType]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Language Officers\Lookup Actor Type">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[ActorType]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Language Officers\Lookup ECA PersonId">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[IVLP_ECA_Person_XRef]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load Language Officers\Lookup Person Name">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Person]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
