@@ -71,6 +71,9 @@ angular.module('staticApp')
           getAllProjectStati: function (params) {
               return DragonBreath.get(params, 'projectstatuses');
           },
+          getAllMoneyFlowStati: function (params) {
+              return DragonBreath.get(params, 'moneyflowstatuses');
+          },
           getAllGenders: function (params) {
               var defer = $q.defer();
               DragonBreath.get(params, 'genders')
@@ -87,6 +90,7 @@ angular.module('staticApp')
                 });
               return defer.promise;
           },
+
           getGeneric: function (params, strType) {
               var defer = $q.defer();
               DragonBreath.get(params, type)

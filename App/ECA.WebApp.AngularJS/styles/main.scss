@@ -318,7 +318,7 @@ ul {
     padding-bottom: 15px;
 }
 
-.programOptions {
+.copyEditDeleteOptions {
     display:inline-block;
     border:1px lightGray solid;
     border-radius: 5px;
@@ -329,10 +329,10 @@ ul {
     
 }
 
-.programOptions :hover {
+.copyEditDeleteOptions :hover {
     color: black;
 }
-.programOption {
+.copyEditDeleteOption {
     cursor:pointer;
     color:darkGray;
 }
@@ -405,14 +405,8 @@ h5.canEdit {
 
 }
 
-.moneyFlowDirection {
-    cursor: pointer;
-    padding: 5px;
-    background-color: white;
-}
-.moneyFlowDirection.directionSelected {
-        border: 1px solid black;
-        background-color: lightgray;
+.editingRow {
+    background-color: lightgray;
 }
 
 .modal-center .modal-dialog {
@@ -444,4 +438,9 @@ h5.canEdit {
     font-family: FontAwesome;
     content: "\f002";
     padding-left: 5px;
+}
+
+.revokedPermission{
+    font-style:italic;
+    color: red;
 }

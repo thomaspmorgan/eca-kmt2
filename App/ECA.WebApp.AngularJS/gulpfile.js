@@ -48,6 +48,6 @@ gulp.task('copy', ['clean'], function () {
         .pipe(gulp.dest('dist/images'));
 });
 
-gulp.task('default', ['clean', 'styles', 'html', 'copy'], function () {
+gulp.task('default', ['clean', 'styles', 'html', 'copy', 'localstyles'], function () {
 
 });

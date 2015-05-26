@@ -62,6 +62,30 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Returns general information for a user 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Personally identifiable information for person</returns>
+        public GeneralDTO GetGeneralById(int personId)
+        {
+            var general = PersonQueries.CreateGetGeneralByIdQuery(this.Context, personId).SingleOrDefault();
+            this.logger.Trace("Retrieved general person info by id {0}.", personId);
+            return general;
+        }
+
+        /// <summary>
+        /// Returns general information for a user asyncronously
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Personally identifiable information for person</returns>
+        public Task<GeneralDTO> GetGeneralByIdAsync(int personId)
+        {
+            var general = PersonQueries.CreateGetGeneralByIdQuery(this.Context, personId).SingleOrDefaultAsync();
+            this.logger.Trace("Retrieved general person info by id {0}.", personId);
+            return general;
+        }
+
+        /// <summary>
         /// Returns contact info related to a person
         /// </summary>
         /// <param name="personId">The person id to lookup</param>
@@ -287,6 +311,7 @@ namespace ECA.Business.Service.Persons
                 person.CountriesOfCitizenship.Add(x);
             });
         }
+
 
         /// <summary>
         /// Get participant by id 

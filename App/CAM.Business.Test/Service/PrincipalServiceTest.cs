@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using CAM.Business.Model;
 using CAM.Data;
 using ECA.Core.Exceptions;
+using CAM.Business.Queries.Models;
+using System.Collections.Generic;
 
 namespace CAM.Business.Test.Service
 {
@@ -24,6 +26,16 @@ namespace CAM.Business.Test.Service
             resourceService = new Mock<IResourceService>();
             context = new TestInMemoryCamModel();
             service = new PrincipalService(context, resourceService.Object);
+        }
+
+        private List<ResourcePermissionDTO> GetAvailablePermissionsList(params CAM.Data.Permission[] permissions)
+        {
+            return permissions.ToList().Select(x => new ResourcePermissionDTO
+            {
+                PermissionId = x.PermissionId,
+                PermissionName = x.PermissionName,
+                PermissionDescription = x.PermissionDescription
+            }).ToList();
         }
 
         #region Grant
@@ -56,6 +68,8 @@ namespace CAM.Business.Test.Service
             context.Resources.Add(resource);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
+            resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
 
             Assert.AreEqual(0, context.PermissionAssignments.Count());
             Action tester = () =>
@@ -77,6 +91,54 @@ namespace CAM.Business.Test.Service
             context.PermissionAssignments = new PermissionAssignmentTestDbSet();
             await service.GrantPermissionsAsync(grantedPermission);
             tester();
+        }
+
+        [TestMethod]
+        public async Task TestGrantPermission_PermissionIsNotAResourcePermission()
+        {
+            var grantor = new Principal
+            {
+                PrincipalId = 1,
+            };
+            var grantee = new Principal
+            {
+                PrincipalId = 2
+            };
+            var permission = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.Editoffice.Id,
+                PermissionName = CAM.Data.Permission.Editoffice.Value
+            };
+            var resourceType = ResourceType.Program;
+            var resource = new Resource
+            {
+                ResourceId = 8,
+                ForeignResourceId = 10,
+                ResourceTypeId = resourceType.Id,
+            };
+            context.Principals.Add(grantor);
+            context.Principals.Add(grantee);
+            context.Permissions.Add(permission);
+            context.Resources.Add(resource);
+            resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList());
+            resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList());
+
+            Assert.AreEqual(0, context.PermissionAssignments.Count());
+
+
+            var grantedPermission = new GrantedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
+            service.Invoking(x => x.GrantPermission(grantedPermission)).ShouldThrow<NotSupportedException>()
+                .WithMessage(String.Format("The requested permission with id [{0}] is not a valid permission for the resource.", permission.PermissionId));
+
+            Func<Task> f = async () =>
+            {
+                await service.GrantPermissionsAsync(grantedPermission);
+            };
+            f.ShouldThrow<NotSupportedException>()
+                .WithMessage(String.Format("The requested permission with id [{0}] is not a valid permission for the resource.", permission.PermissionId));
+
         }
 
         [TestMethod]
@@ -330,6 +392,8 @@ namespace CAM.Business.Test.Service
             context.PermissionAssignments.Add(permissionAssignment2);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
+            resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
 
             var grantedPermission = new GrantedPermission(grantee.PrincipalId, permission.PermissionId, resource.ForeignResourceId, resourceType.Value, grantor.PrincipalId);
 
@@ -375,6 +439,8 @@ namespace CAM.Business.Test.Service
             context.Resources.Add(resource);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
+            resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
 
             Assert.AreEqual(0, context.PermissionAssignments.Count());
             Action tester = () =>
@@ -435,6 +501,8 @@ namespace CAM.Business.Test.Service
             context.PermissionAssignments.Add(permissionAssignment);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceId(It.IsAny<int>(), It.IsAny<int>())).Returns(resource.ResourceId);
             resourceService.Setup(x => x.GetResourceIdByForeignResourceIdAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(resource.ResourceId);
+            resourceService.Setup(x => x.GetResourcePermissions(It.IsAny<string>(), It.IsAny<int?>())).Returns(GetAvailablePermissionsList(permission));
+            resourceService.Setup(x => x.GetResourcePermissionsAsync(It.IsAny<string>(), It.IsAny<int?>())).ReturnsAsync(GetAvailablePermissionsList(permission));
 
             Assert.AreEqual(1, context.PermissionAssignments.Count());
             Action tester = () =>

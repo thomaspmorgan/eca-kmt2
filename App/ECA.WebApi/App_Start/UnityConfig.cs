@@ -124,6 +124,7 @@ namespace ECA.WebApi
             {
                 return new ResourceService(c.Resolve<CamModel>(), c.Resolve<ObjectCache>(), cacheLifeInSeconds);
             }));
+            container.RegisterType<IResourceAuthorizationHandler, ResourceAuthorizationHandler>(new HierarchicalLifetimeManager());
         }
     }
 }

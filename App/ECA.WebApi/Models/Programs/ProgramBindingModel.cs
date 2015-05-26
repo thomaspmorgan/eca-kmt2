@@ -46,7 +46,7 @@ namespace ECA.WebApi.Models.Programs
         public EcaProgram ToEcaProgram(Business.Service.User user)
         {
             Contract.Assert(this.RowVersion != null, "The row version must not be null.");
-            return new EcaProgram(
+            var ecaProgram  = new EcaProgram(
                 updatedBy: user,
                 id: this.Id,
                 name: this.Name,
@@ -65,6 +65,9 @@ namespace ECA.WebApi.Models.Programs
                 categoryIds: this.Categories,
                 objectiveIds: this.Objectives
                 );
+
+            return ecaProgram;
+
         }
 
     }

@@ -18,6 +18,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using NLog;
+using ECA.Business.Service.Admin;
 
 namespace ECA.Business.Service.Programs
 {
@@ -28,18 +29,21 @@ namespace ECA.Business.Service.Programs
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> validator;
+        private readonly IOfficeService officeService;
         
         /// Creates a new ProgramService with the given context to operator against.
         /// </summary>
         /// <param name="context">The context to operate on.</param>
         /// <param name="logger">The logger.</param>
         /// <param name="programServiceValidator">The program service validator.</param>
-        public ProgramService(EcaContext context, IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> programServiceValidator)
+        public ProgramService(EcaContext context, IOfficeService officeService, IBusinessValidator<ProgramServiceValidationEntity, ProgramServiceValidationEntity> programServiceValidator)
             : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(programServiceValidator != null, "The program service validator must not be null.");
+            Contract.Requires(officeService != null, "The office service must not be null.");
             this.validator = programServiceValidator;
+            this.officeService = officeService;
         }
 
         #region Get
@@ -133,9 +137,12 @@ namespace ECA.Business.Service.Programs
             var owner = GetOrganizationById(draftProgram.OwnerOrganizationId);
             this.logger.Trace("Retrieved owner organization by id [{0}].", draftProgram.OwnerOrganizationId);
 
+            var ownerOfficeSettings = officeService.GetOfficeSettings(owner.OrganizationId);
+            this.logger.Trace("Retrieved office settings for owner organization with id [{0}].", owner.OrganizationId);
+
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(draftProgram.ParentProgramId.Value) : null;
-            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, owner, parentProgram, regionTypeIds));
+            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, owner, ownerOfficeSettings, parentProgram, regionTypeIds));
             this.logger.Trace("Created program.");
             
             return program;
@@ -154,10 +161,13 @@ namespace ECA.Business.Service.Programs
             var owner = await GetOrganizationByIdAsync(draftProgram.OwnerOrganizationId);
             this.logger.Trace("Retrieved owner organization by id [{0}].", draftProgram.OwnerOrganizationId);
 
+            var ownerOfficeSettings = await officeService.GetOfficeSettingsAsync(owner.OrganizationId);
+            this.logger.Trace("Retrieved office settings for owner organization with id [{0}].", owner.OrganizationId);
+
             var parentProgramId = draftProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(draftProgram.ParentProgramId.Value) : null;
             
-            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, owner, parentProgram, regionTypeIds));
+            var program = DoCreate(draftProgram, GetValidationEntity(draftProgram, owner, ownerOfficeSettings, parentProgram, regionTypeIds));
             this.logger.Trace("Created program.");
             return program;
         }
@@ -231,11 +241,14 @@ namespace ECA.Business.Service.Programs
             var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
             this.logger.Trace("Retrieved owner organization by id [{0}].", updatedProgram.OwnerOrganizationId);
 
+            var ownerOfficeSettings = officeService.GetOfficeSettings(owner.OrganizationId);
+            this.logger.Trace("Retrieved office settings for owner organization with id [{0}].", owner.OrganizationId);
+
             var parentProgramId = updatedProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? GetProgramEntityById(updatedProgram.ParentProgramId.Value) : null;
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, owner, parentProgram, regionTypeIds));
+                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, owner, ownerOfficeSettings, parentProgram, regionTypeIds));
                 this.logger.Trace("Performed update on program.");
             }
             else
@@ -259,12 +272,15 @@ namespace ECA.Business.Service.Programs
             var owner = GetOrganizationById(updatedProgram.OwnerOrganizationId);
             this.logger.Trace("Retrieved owner organization by id [{0}].", updatedProgram.OwnerOrganizationId);
 
+            var ownerOfficeSettings = await officeService.GetOfficeSettingsAsync(owner.OrganizationId);
+            this.logger.Trace("Retrieved office settings for owner organization with id [{0}].", owner.OrganizationId);
+
             var parentProgramId = updatedProgram.ParentProgramId;
             Program parentProgram = parentProgramId.HasValue ? await GetProgramEntityByIdAsync(updatedProgram.ParentProgramId.Value) : null;
 
             if (programToUpdate != null)
             {
-                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram,owner, parentProgram, regionTypeIds));
+                DoUpdate(programToUpdate, updatedProgram, GetValidationEntity(updatedProgram, owner, ownerOfficeSettings, parentProgram, regionTypeIds));
                 this.logger.Trace("Performed update on program.");
             }
             else
@@ -296,6 +312,8 @@ namespace ECA.Business.Service.Programs
             SetPointOfContacts(updatedProgram.ContactIds, programToUpdate);
             SetThemes(updatedProgram.ThemeIds, programToUpdate);
             SetRegions(updatedProgram.RegionIds, programToUpdate);
+            SetCategories(updatedProgram.FocusCategoryIds, programToUpdate);
+            SetObjectives(updatedProgram.JustificationObjectiveIds, programToUpdate);
         }
         #endregion
 
@@ -356,7 +374,7 @@ namespace ECA.Business.Service.Programs
         /// <param name="parentProgramId">The program id.</param>
         /// <returns>The program.</returns>
 
-        private ProgramServiceValidationEntity GetValidationEntity(EcaProgram program, Organization owner, Program parentProgram, List<int> regionTypesIds)
+        private ProgramServiceValidationEntity GetValidationEntity(EcaProgram program, Organization owner, OfficeSettings ownerOfficeSettings, Program parentProgram, List<int> regionTypesIds)
         {
             return new ProgramServiceValidationEntity(
                 name: program.Name,
@@ -370,7 +388,8 @@ namespace ECA.Business.Service.Programs
                 categoryIds: program.FocusCategoryIds,
                 objectiveIds: program.JustificationObjectiveIds,
                 parentProgramId: program.ParentProgramId,
-                parentProgram: parentProgram
+                parentProgram: parentProgram,
+                ownerOfficeSettings: ownerOfficeSettings
                 );
         }
 

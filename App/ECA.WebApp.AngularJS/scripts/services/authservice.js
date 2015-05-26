@@ -8,8 +8,8 @@
  * Factory for handling authorization.
  */
 angular.module('staticApp')
-  .factory('AuthService', function ($rootScope, $log, $http, $q, $window, DragonBreath, adalAuthenticationService) {
-      
+  .factory('AuthService', function ($rootScope, $log, $http, $q, $window, DragonBreath, adalAuthenticationService, orderByFilter) {
+
       var service = {
           getResourcePermissions: function (resourceType, resourceId, config) {
               var hasPermissionCallbackName = "hasPermission";
@@ -28,7 +28,7 @@ angular.module('staticApp')
                           console.assert(hasPermissionCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + hasPermissionCallbackName + '].');
                           if (userPermissions.length === 0) {
                               $log.warn('Granting user permission [' + key + '] for resource [' + resourceId + '] of type [' + resourceType + '] because zero permissions were returned from the server.');
-                              hasPermissionCallback();                              
+                              hasPermissionCallback();
                           }
                           else {
                               for (var i = 0; i < userPermissions.length; i++) {
@@ -41,7 +41,7 @@ angular.module('staticApp')
                               }
                               if (!permissionFound) {
                                   var notAuthorizedCallback = config[key][notAuthorizedCallbackName];
-                                  console.assert(notAuthorizedCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + notAuthorizedCallbackName + '].');                                  
+                                  console.assert(notAuthorizedCallback, "The config object for the permission named [" + key + '] must have a callback function named [' + notAuthorizedCallbackName + '].');
                                   notAuthorizedCallback();
                               }
                               $log.info('User has [' + key + '] permission = ' + permissionFound);
@@ -73,6 +73,99 @@ angular.module('staticApp')
 
           isAuthenticated: function () {
               return $rootScope.userInfo.isAuthenticated;
+          },
+
+          getGrantableResourcePermissions: function(resourceType, foreignResourceId){
+
+              if(!resourceType){
+                  throw Error('The resource type must be defined.');
+              }
+              if(foreignResourceId){
+                  return DragonBreath.get('resources/permissions/' + resourceType + '/' + foreignResourceId);
+              }
+              else{
+                  return DragonBreath.get(params, 'resources/permissions/' + resourceType);
+              }
+              
+          },
+
+          updatePermission: function (isAllowed, principalId, foreignResourceId, resourceType, permissionId) {
+              var path = '';
+              var permissionModel = {
+                  granteePrincipalId: principalId,
+                  resourceType: resourceType,
+                  foreignResourceId: foreignResourceId,
+                  permissionId: permissionId
+              };
+              if (isAllowed) {
+                  path = 'principals/grant/permission';
+              }
+              else {
+                  path = 'principals/revoke/permission';
+              }
+              return DragonBreath.create(permissionModel, path);
+          },
+
+          removePermission: function(principalId, foreignResourceId, resourceType, permissionId){
+              var permissionModel = {
+                  granteePrincipalId: principalId,
+                  resourceType: resourceType,
+                  foreignResourceId: foreignResourceId,
+                  permissionId: permissionId
+              };
+              return DragonBreath.create(permissionModel, 'principals/remove/permission');
+          },
+
+          groupResourceAuthorizationsByPrincipalId: function (flatPrincipalPermissionList) {
+              var groupedPermissionsByPrincipalIds = [];
+              var principalIdOrderedCollaborators = orderByFilter(flatPrincipalPermissionList, '+principalId');
+              var currentPrincipalId = null;
+
+              var currentGroupedPermissionByPrincipalId = null;
+              for (var i = 0; i < principalIdOrderedCollaborators.length; i++) {
+                  var principalIdOrderedCollaborator = principalIdOrderedCollaborators[i];
+                  if (currentPrincipalId === null) {
+                      currentPrincipalId = principalIdOrderedCollaborator.principalId;
+                  }
+
+                  if (i === 0 || currentPrincipalId !== principalIdOrderedCollaborator.principalId) {
+                      currentPrincipalId = principalIdOrderedCollaborator.principalId;
+                      groupedPermissionsByPrincipalIds.push({
+                          principalId: principalIdOrderedCollaborator.principalId,
+                          displayName: principalIdOrderedCollaborator.displayName,
+                          emailAddress: principalIdOrderedCollaborator.emailAddress,
+                          rolePermissions: [],
+                          revokedPermissions: [],
+                          grantedPermissions: []
+                      });
+                      currentGroupedPermissionByPrincipalId = groupedPermissionsByPrincipalIds[groupedPermissionsByPrincipalIds.length - 1];
+                  }
+                  var groupedPermission = service.getGroupedPermission(principalIdOrderedCollaborator);
+                  if (groupedPermission.isGrantedByRole) {
+                      currentGroupedPermissionByPrincipalId.rolePermissions.push(groupedPermission);
+                  }
+                  else {
+                      if (groupedPermission.isAllowed) {
+                          currentGroupedPermissionByPrincipalId.grantedPermissions.push(groupedPermission);
+                      }
+                      else {
+                          currentGroupedPermissionByPrincipalId.revokedPermissions.push(groupedPermission);
+                      }
+                  }
+              }
+              return groupedPermissionsByPrincipalIds;
+          },
+
+          getGroupedPermission: function (principalPermission) {
+              var permission = {};
+              for (var key in principalPermission) {
+                  if (key !== 'principalId'
+                      && key !== 'displayName'
+                      && key !== 'emailAddress') {
+                      permission[key] = principalPermission[key];
+                  }
+              }
+              return permission;
           }
       };
       return service;

@@ -63,6 +63,20 @@ namespace CAM.Business.Service
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The users.</returns>
         Task<PagedQueryResults<UserDTO>> GetUsersAsync(QueryableOperator<UserDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the user with the given principal id, or null if not found.
+        /// </summary>
+        /// <param name="id">The principal id of the user.</param>
+        /// <returns>The user or null if not found.</returns>
+        User GetUserById(int principalId);
+
+        /// <summary>
+        /// Returns the user with the given principal id, or null if not found.
+        /// </summary>
+        /// <param name="id">The principal id of the user.</param>
+        /// <returns>The user or null if not found.</returns>
+        Task<User> GetUserByIdAsync(int principalId);
     }
 
     /// <summary>
@@ -162,6 +176,26 @@ namespace CAM.Business.Service
         public Task<int> SaveChangesAsync(System.Collections.Generic.IList<ISaveAction> saveActions = null)
         {
             return Task.FromResult<int>(1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="principalId"></param>
+        /// <returns></returns>
+        public User GetUserById(int principalId)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="principalId"></param>
+        /// <returns></returns>
+        public Task<User> GetUserByIdAsync(int principalId)
+        {
+            return Task.FromResult<User>(null);
         }
     }
 }

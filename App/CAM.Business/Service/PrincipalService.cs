@@ -10,6 +10,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CAM.Business.Queries.Models;
 
 namespace CAM.Business.Service
 {
@@ -28,6 +29,7 @@ namespace CAM.Business.Service
         private Action<GrantedPermission, Principal> throwIfGrantorNotFound;
         private Action<GrantedPermission, CAM.Data.Permission> throwIfPermissionNotFound;
         private Action<PermissionAssignment> throwIfPermissionAssignmentNotFound;
+        private Action<int, List<ResourcePermissionDTO>> throwIfRequestedPermissionIsNotAvailable;
 
         /// <summary>
         /// Creats a new PrincipalService with the given CamModel to perform operations against and the resource service
@@ -41,6 +43,13 @@ namespace CAM.Business.Service
             Contract.Requires(model != null, "The model must not be null.");
             Contract.Requires(resourceService != null, "The resource service must not be null.");
             this.resourceService = resourceService;
+            throwIfRequestedPermissionIsNotAvailable = (permissionId, availablePermisions) =>
+            {
+                if (!availablePermisions.Select(x => x.PermissionId).ToList().Contains(permissionId))
+                {
+                    throw new NotSupportedException(String.Format("The requested permission with id [{0}] is not a valid permission for the resource.", permissionId));
+                }
+            };
             throwIfForeignResourceNotFoundByGrantedPermission = (grantedPermission, resourceId) =>
             {
                 if (!resourceId.HasValue)
@@ -149,6 +158,8 @@ namespace CAM.Business.Service
             var existingPermissions = await CreateGetPermissionAssignmentQuery(grantee.PrincipalId, camPermission.PermissionId, resourceId.Value).ToListAsync();
             if (existingPermissions.Count == 0)
             {
+                var availablePermissions = await resourceService.GetResourcePermissionsAsync(grantedPermission.ResourceTypeAsString, grantedPermission.ForeignResourceId);
+                throwIfRequestedPermissionIsNotAvailable(grantedPermission.PermissionId, availablePermissions);
                 DoInsertPermissionAssignment(grantee, grantor, resourceId, grantedPermission);
             }
             else
@@ -175,6 +186,8 @@ namespace CAM.Business.Service
             var existingPermissions = CreateGetPermissionAssignmentQuery(grantee.PrincipalId, camPermission.PermissionId, resourceId.Value).ToList();
             if (existingPermissions.Count == 0)
             {
+                var availablePermissions = resourceService.GetResourcePermissions(grantedPermission.ResourceTypeAsString, grantedPermission.ForeignResourceId);
+                throwIfRequestedPermissionIsNotAvailable(grantedPermission.PermissionId, availablePermissions);
                 DoInsertPermissionAssignment(grantee, grantor, resourceId, grantedPermission);
             }
             else
@@ -241,7 +254,6 @@ namespace CAM.Business.Service
         {
             return HandleAsync(revokedPermission);
         }
-
 
         #region Delete
 

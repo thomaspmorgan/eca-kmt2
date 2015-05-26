@@ -18,15 +18,15 @@ angular.module('staticApp')
 
       $scope.modal = {};
 
-      $scope.newMoneyFlow = {};
-
       $scope.genders = {};
       $scope.currencyTypes = {};
+      $scope.moneyFlowTypes = [];
+      $scope.moneyFlowStati = [];
 
-      $scope.sourceRecipientLabel = "SOURCE";
+      $scope.moneyFlows = [];
 
-      $scope.flowInward = "";
-      $scope.flowOutward = "directionSelected";
+      $scope.editingMoneyFlows = [];
+      $scope.dateFormat = 'dd-MMMM-yyyy';
 
       $scope.isProjectEditCancelButtonVisible = false;
       $scope.showProjectEditCancelButton = false;
@@ -35,54 +35,14 @@ angular.module('staticApp')
       $scope.projectStatusButtonText = "...";
 
       $scope.tabs = {
-          overview: {
-              title: 'Overview',
-              path: 'overview',
-              active: true,
-              order: 1
-          },
-          partners: {
-              title: 'Partners',
-              path: 'partners',
-              active: false,
-              order: 3
-          },
-          participants: {
-              title: 'Participants',
-              path: 'participants',
-              active: true,
-              order: 2
-          },
-          artifacts: {
-              title: 'Artifacts',
-              path: 'artifacts',
-              active: true,
-              order: 4
-          },
-          moneyflows: {
-              title: 'Money Flow',
-              path: 'moneyflows',
-              active: true,
-              order: 5
-          },
-          impact: {
-              title: 'Impact',
-              path: 'impact',
-              active: false,
-              order: 6
-          },
-          activity: {
-              title: 'Activities',
-              path: 'activity',
-              active: true,
-              order: 7
-          },
-          itinerary: {
-              title: 'Itineraries',
-              path: 'itineraries',
-              active: true,
-              order: 8
-          }
+          overview: {title: 'Overview', path: 'overview', active: true, order: 1 },
+          partners: {title: 'Partners', path: 'partners', active: false,order: 3 },
+          participants: {title: 'Participants',path: 'participants',active: true,order: 2 },
+          artifacts: {title: 'Artifacts',path: 'artifacts',active: true,order: 4 },
+          moneyflows: {title: 'Money Flow',path: 'moneyflows',active: true,order: 5},
+          impact: {title: 'Impact',path: 'impact',active: false,order: 6},
+          activity: {title: 'Activities',path: 'activity',active: true,order: 7},
+          itinerary: {title: 'Itineraries',path: 'itineraries',active: true,order: 8}
       };
 
       function enabledProjectStatusButton() {
@@ -109,8 +69,6 @@ angular.module('staticApp')
 
       $scope.participantsLoading = false;
 
-
-
       $scope.getParticipants = function (tableState) {
 
           $scope.participantsLoading = true;
@@ -132,31 +90,7 @@ angular.module('staticApp')
                 $scope.participantsLoading = false;
             });
       };
-
-      $scope.moneyFlowsLoading = false;
-
-      $scope.getMoneyFlows = function (tableState) {
-
-          $scope.moneyFlowsLoading = true;
-
-          TableService.setTableState(tableState);
-
-          var params = {
-              start: TableService.getStart(),
-              limit: TableService.getLimit(),
-              sort: TableService.getSort(),
-              filter: TableService.getFilter()
-          };
-         
-          MoneyFlowService.getMoneyFlowsByProject($stateParams.projectId, params)
-             .then(function (data) {
-                 $scope.project.moneyFlows = data.results;
-                 var limit = TableService.getLimit();
-                 tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
-                 $scope.moneyFlowsLoading = false;
-             });
-      };
-
+      
       var editStateName = 'projects.edit';
 
       $scope.showProjectEditCancelButton = function() {
@@ -223,12 +157,16 @@ angular.module('staticApp')
             $scope.genders = data.results;
         });
 
-      /*
-      LookupService.getGeneric({ limit: 100 }, 'currencyTypes')
-      .then(function (data) {
-          $scope.currencyTypes = data.results;
-      });
-      */
+      LookupService.getAllMoneyFlowStati({ limit: 300 })
+        .then(function (data) {
+            $scope.moneyFlowStati = data.results;
+        });
+
+      LookupService.getAllMoneyFlowTypes({ limit: 300 })
+        .then(function (data) {
+            $scope.moneyFlowTypes = data.results;
+        });
+
       LocationService.get({ limit: 300, filter: {property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id}})
         .then(function (data) {
             $scope.countries = data.results;
@@ -361,7 +299,7 @@ angular.module('staticApp')
           });
           $scope.cities = [];
       };
-
+      
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');
           var projectId = $stateParams.projectId;
@@ -384,31 +322,44 @@ angular.module('staticApp')
             });
       }
 
+      $scope.moneyFlowsLoading = false;
+
+      /* money flow manipulation */
+      $scope.getMoneyFlows = function (tableState) {
+
+          $scope.moneyFlowsLoading = true;
+
+          TableService.setTableState(tableState);
+
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: TableService.getFilter()
+          };
+
+          MoneyFlowService.getMoneyFlowsByProject($stateParams.projectId, params)
+             .then(function (data) {
+                 $scope.moneyFlows = data.results;
+                 var limit = TableService.getLimit();
+                 tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
+
+                 angular.forEach($scope.moneyFlows, function (value) {
+                     $scope.editingMoneyFlows[value.id] = false;
+                 });
+
+                 $scope.moneyFlowsLoading = false;
+             });
+      };
+
+      $scope.editMoneyFlow = function (moneyFlowId) {
+          $scope.editingMoneyFlows[moneyFlowId] = true;
+      };
+            
       $q.all([loadPermissions()])
       .then(function () {
 
       }, function () {
 
       });
-
-      // Money Flow Section
-      $scope.changeFlowDirection = function (direction) {
-          if (direction == 'inward')
-          {
-              $scope.flowInward = "directionSelected";
-              $scope.flowOutward = "";
-          }
-          else
-          {
-              $scope.flowInward = "";
-              $scope.flowOutward = "directionSelected";
-          }
-      };
-
-      $scope.cancelMoneyFlowModalForm = function () {
-          $scope.modal.addMoneyFlow = false;
-      };
-
-
-
   });

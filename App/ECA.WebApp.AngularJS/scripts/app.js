@@ -302,17 +302,19 @@ angular
             url: '/overview',
             templateUrl: 'views/project/overview.html',
             controller: 'ProjectOverviewCtrl',
-            retuireADLogin: true
+            requireADLogin: true
         })
         .state('projects.edit', {
             url: '/edit',
             templateUrl: 'views/project/edit.html',
             controller: 'ProjectEditCtrl',
-            retuireADLogin: true
+            requireADLogin: true
         })
         .state('projects.participants', {
             url: '/participant',
-            templateUrl: 'views/project/participant.html'
+            templateUrl: 'views/project/participant.html',
+            controller: 'ProjectParticipantCtrl',
+            requireADLogin: true
         })
         .state('projects.artifacts', {
             url: '/artifact',
@@ -416,9 +418,9 @@ angular
         $rootScope.rootStates = [
           { name: 'Home', state: 'home.shortcuts' },
           { name: 'Offices', state: 'alloffices' },
-          { name: 'Organizations', state: 'allorganizations' },
           { name: 'Programs', state: 'allprograms' },
           { name: 'Participants', state: 'allparticipants' },
+          { name: 'Organizations', state: 'allorganizations' },
           { name: 'Events', state: 'events' },
           { name: 'Reports', state: 'reports' },
           { name: 'Partners', state: 'home.notifications' }

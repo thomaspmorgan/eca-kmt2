@@ -19,7 +19,7 @@
 </div>
 <div st-pipe="getPrograms" st-table="programs" id="sort-list">
     <!--<h4 class="tab-subheader">Programs</h4>-->
-    <table class="col-md-12">
+    <table class="col-md-12 table">
         <thead>
             <tr>
                 <th class="col-md-7"></th>
@@ -30,7 +30,9 @@
                     <div>
                         <input st-search type="search" placeholder="Search Programs" class="search-contextual" maxlength="100">
                         <i class="glyphicon glyphicon-search contextual"></i>
-                        <p>Showing {{skippedNumberOfPrograms}} - {{numberOfPrograms}} of {{totalNumberOfPrograms}} programs</p>
+                    </div>
+                    <div style="margin-top:25px;margin-bottom:-25px">
+                        <p class="subheader">Showing {{skippedNumberOfPrograms}} - {{numberOfPrograms}} of {{totalNumberOfPrograms}} programs</p>
                     </div>
                 </th>
             </tr>
@@ -40,9 +42,9 @@
                 <td>
                     <div ng-style="{marginLeft: (program.programLevel - 1) * 60}">
                         <span class="owner-office" ng-bind-html="program.officeSymbol | highlight:programFilter">{{office.officeSymbol}}</span>
-                        <h5 class="list-title">
+                        <h4>
                             <a ng-bind-html="program.name | highlight:programFilter" ui-sref="programs.overview({officeId: program.owner_OrganizationId, programId: program.programId})">{{program.name}}</a>
-                        </h5>
+                        </h4>
                         <p ng-bind-html="program.description | highlight:programFilter" class="description">{{program.description}}</p>
                     </div>
                 </td>

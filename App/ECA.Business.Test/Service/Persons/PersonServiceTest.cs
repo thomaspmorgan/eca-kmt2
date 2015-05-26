@@ -32,6 +32,124 @@ namespace ECA.Business.Test.Service.Persons
             service = new PersonService(context, validator.Object);
         }
 
+        #region Get General By Id
+
+        [TestMethod]
+        public async Task TestGetGenerById_CheckProperties()
+        {
+            var gender = new Gender
+            {
+                GenderId = 1,
+                GenderName = "Male"
+            };
+
+            var status = new ParticipantStatus
+            {
+                ParticipantStatusId = 1,
+                Status = "New"
+            };
+
+            var ptype = new ParticipantType
+            {
+                ParticipantTypeId = 1,
+                Name = "Person"
+            };
+
+            var participantOrigination = new Organization
+            {
+                OrganizationId = 1,
+                Name = "partOrg"
+            };
+
+            var prominentCat1 = new ProminentCategory
+            {
+                ProminentCategoryId = 1,
+                Name = "Cat1"
+            };
+
+            var event1 = new Event
+            {
+                EventId = 1,
+                Title = "Event1"
+            };
+
+            var membership1 = new Membership
+            {
+                MembershipId = 1,
+                Name = "member1"
+            };
+
+            var language1 = new LanguageProficiency
+            {
+                LanguageProficiencyId = 1,
+                LanguageName = "lang1"
+            };
+
+            var dependant1 = new Person
+            {
+                PersonId = 2,
+                Gender = gender,
+                FirstName = "firstName",
+                LastName = "lastName",
+                DateOfBirth = DateTime.Now,
+            };
+
+            var impact1 = new Impact
+            {
+                ImpactId = 1,
+                Description = "desc1"
+            };
+
+            var person = new Person
+            {
+                PersonId = 1,
+                Gender = gender,
+                DateOfBirth = DateTime.Now,
+                FirstName = "firstName",
+                LastName = "lastName",
+                NamePrefix = "namePrefix",
+                NameSuffix = "nameSuffix",
+            };
+
+            context.Genders.Add(gender);
+            context.LanguangeProficiencies.Add(language1);
+            context.ProminentCategories.Add(prominentCat1);
+            context.Events.Add(event1);
+            context.Memberships.Add(membership1);
+            context.People.Add(dependant1);
+            context.Impacts.Add(impact1);
+
+            person.ProminentCategories.Add(prominentCat1);
+            person.Events.Add(event1);
+            person.Memberships.Add(membership1);
+            person.LanguageProficiencies.Add(language1);
+            person.Family.Add(dependant1);
+            person.Impacts.Add(impact1);
+
+            context.People.Add(person);
+
+
+            Action<GeneralDTO> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(person.ProminentCategories.FirstOrDefault().Name, serviceResult.ProminentCategories.FirstOrDefault().Value);
+                Assert.AreEqual(person.Events.FirstOrDefault().Title, serviceResult.Events.FirstOrDefault().Value);
+                Assert.AreEqual(person.Memberships.FirstOrDefault().Name, serviceResult.Memberships.FirstOrDefault().Name);
+                Assert.AreEqual(person.LanguageProficiencies.FirstOrDefault().LanguageName, serviceResult.LanguageProficiencies.FirstOrDefault().Value);
+                Assert.AreEqual(person.Family.FirstOrDefault().LastName + ", " + person.Family.FirstOrDefault().FirstName, serviceResult.Dependants.FirstOrDefault().Value);
+                Assert.AreEqual(person.Impacts.FirstOrDefault().Description, serviceResult.ImpactStories.FirstOrDefault().Value);
+            };
+
+            var result = this.service.GetGeneralById(person.PersonId);
+            var resultAsync = await this.service.GetGeneralByIdAsync(person.PersonId);
+
+            tester(result);
+            tester(resultAsync);
+        }
+
+
+        #endregion
+
         #region Get Pii By Id
         [TestMethod]
         public async Task TestGetPiiById_CheckProperties()
