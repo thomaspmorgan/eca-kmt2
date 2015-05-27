@@ -427,21 +427,21 @@ h5.canEdit {
 }
 
 .modal-center-large .modal-dialog {
-    width: 950px;
+    width: 80%;
     height: 650px;
 	position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    margin: auto;
+    margin-top: 125px;
+	
 }
 
 div.modal-center-large .modal-content .modal-body {
     max-height: 400px;
     overflow-y: scroll;
 }
-
 
 table.modal-center-large .modal-content .modal-body{
     box-sizing: border-box;
@@ -467,9 +467,6 @@ thead.modal-center-large > tr.modal-center-large, tbody.modal-center-large > tr.
 thead.modal-center-large, tfoot.modal-center-large {
     flex-shrink: 0;
 }
-
-
-
 
 #toast-container > div {
   opacity: 1;

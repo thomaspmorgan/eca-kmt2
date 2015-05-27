@@ -133,11 +133,11 @@ angular.module('staticApp')
               return null;
           }
       }
-
       
       function loadCollaborators(params) {
-          return ProjectService.getCollaborators(projectId, params)
-          .then(updateCollaborators, showLoadCollaboratorsError)
+          var url = '/projects/' + projectId + '/collaborators';
+          $q.when(AuthService.getPrincipalResourceAuthorizations(ConstantsService.resourceType.project.value, projectId, url, params))
+          .then(updateCollaborators, showLoadCollaboratorsError);
       }
 
       function doUpdatePermission(isAllowed, permission, collaborator) {
@@ -162,56 +162,16 @@ angular.module('staticApp')
           $scope.view.isSaving = isSaving;
       }
 
-      function updateCollaborators(response) {
-          var collaborators = response.data.results;
-          if (response.data.total > limit) {
-              NotificationService.showWarningMessage('The number of permissions granted exceed the number displayable by this interface.  An innacurate picture of the permissions will have to be displayed.');
-          }
-          var groupedResourceAuthorizations = AuthService.groupResourceAuthorizationsByPrincipalId(collaborators);
-          groupedResourceAuthorizations = orderByFilter(groupedResourceAuthorizations, '+displayName');
-          for (var i = 0; i < groupedResourceAuthorizations.length; i++) {
-              var groupedResourceAuthorization = groupedResourceAuthorizations[i];
-              groupedResourceAuthorization.availablePermissions = createAvailablePermissions(availablePermissions, groupedResourceAuthorization, projectId, ConstantsService.resourceType.project.value);
-          }
-          $scope.view.collaborators = groupedResourceAuthorizations;
-      }
-
-      function createAvailablePermissions(availablePermissions, collaborator, foreignResourceId, resourceType) {
-          var permissions = [];
-          for (var i = 0; i < availablePermissions.length; i++) {
-              permissions.push(createAvailablePermission(availablePermissions[i], collaborator, foreignResourceId, resourceType));
-          }
-          return permissions;
-
-      }
-
-      function createAvailablePermission(availablePermission, collaborator, foreignResourceId, resourceType) {
-          return {
-              principalId: collaborator.principalId,
-              permissionId: availablePermission.permissionId,
-              permissionName: availablePermission.permissionName,
-              permissionDescription: availablePermission.permissionDescription,
-              foreignResourceId: foreignResourceId,
-              resourceType: resourceType,
-              projectId: foreignResourceId
-          };
+      function updateCollaborators(resourceAuthorizations) {
+          $scope.view.collaborators = resourceAuthorizations;
       }
 
       function showLoadCollaboratorsError() {
           NotificationService.showErrorMessage('There was an error loading collaborators.');
       }
 
-      function loadAvailablePermissions() {
-          AuthService.getGrantableResourcePermissions(ConstantsService.resourceType.project.value, projectId)
-          .then(function (response) {
-              availablePermissions = response.data;
-          }, function () {
-              NotificationService.showErrorMessage('Unable to load available permissions.');
-          });
-      }
-
       isLoading(true);
-      $q.when([loadCollaborators(collaboratorsLoadParams), loadAvailablePermissions()])
+      $q.when([loadCollaborators(collaboratorsLoadParams)])
           .then(function () {
               isLoading(false);
           });
