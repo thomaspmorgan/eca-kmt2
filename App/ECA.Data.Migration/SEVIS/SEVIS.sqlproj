@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>SEVIS.Database</Name>
+    <Name>SEVIS</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{00403269-f6a3-4605-8710-151b70a92a57}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureDatabaseSchemaProvider</DSP>
+    <ProjectGuid>{bde8cf1b-bca0-462b-a7e6-6856b72eaf6e}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>SEVIS.Database</RootNamespace>
-    <AssemblyName>SEVIS.Database</AssemblyName>
+    <RootNamespace>SEVIS</RootNamespace>
+    <AssemblyName>SEVIS</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
@@ -23,7 +23,6 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
-    <DefaultSchema>SEVIS</DefaultSchema>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -58,24 +57,5 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="SEVIS" />
-    <Folder Include="SEVIS\Schema" />
-    <Folder Include="SEVIS\Tables" />
-    <Folder Include="Scripts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="SEVIS\Schema\SevisSchema.sql" />
-    <Build Include="SEVIS\Tables\FieldOfStudy.sql" />
-    <Build Include="SEVIS\Tables\Position.sql" />
-    <Build Include="SEVIS\Tables\ProgramSubject.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ECA_Dev.publish.xml" />
-    <None Include="ECA_Local.publish.xml" />
-    <None Include="ECA_QA.publish.xml" />
-    <None Include="SEVIS.Database.publish.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <RefactorLog Include="SEVIS.Database.refactorlog" />
   </ItemGroup>
 </Project>
