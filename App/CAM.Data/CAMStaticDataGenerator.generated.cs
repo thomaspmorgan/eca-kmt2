@@ -120,33 +120,33 @@ namespace CAM.Data
 	public partial class Permission : ECA.Core.Generation.IStaticLookup
 	{
 		/// <summary>
-		/// Returns the ViewOffice lookup with id 1.
+		/// Returns the View Office lookup with id 1.
 		/// </summary>
-		public static StaticLookup Viewoffice { get { return new StaticLookup("ViewOffice", 1); } }
+		public static StaticLookup ViewOffice { get { return new StaticLookup("View Office", 1); } }
 		/// <summary>
-		/// Returns the ViewProgram lookup with id 2.
+		/// Returns the View Program lookup with id 2.
 		/// </summary>
-		public static StaticLookup Viewprogram { get { return new StaticLookup("ViewProgram", 2); } }
+		public static StaticLookup ViewProgram { get { return new StaticLookup("View Program", 2); } }
 		/// <summary>
-		/// Returns the ViewProject lookup with id 3.
+		/// Returns the View Project lookup with id 3.
 		/// </summary>
-		public static StaticLookup Viewproject { get { return new StaticLookup("ViewProject", 3); } }
+		public static StaticLookup ViewProject { get { return new StaticLookup("View Project", 3); } }
 		/// <summary>
-		/// Returns the EditOffice lookup with id 4.
+		/// Returns the Edit Office lookup with id 4.
 		/// </summary>
-		public static StaticLookup Editoffice { get { return new StaticLookup("EditOffice", 4); } }
+		public static StaticLookup EditOffice { get { return new StaticLookup("Edit Office", 4); } }
 		/// <summary>
-		/// Returns the EditProgram lookup with id 5.
+		/// Returns the Edit Program lookup with id 5.
 		/// </summary>
-		public static StaticLookup Editprogram { get { return new StaticLookup("EditProgram", 5); } }
+		public static StaticLookup EditProgram { get { return new StaticLookup("Edit Program", 5); } }
 		/// <summary>
-		/// Returns the EditProject lookup with id 7.
+		/// Returns the Edit Project lookup with id 7.
 		/// </summary>
-		public static StaticLookup Editproject { get { return new StaticLookup("EditProject", 7); } }
+		public static StaticLookup EditProject { get { return new StaticLookup("Edit Project", 7); } }
 		/// <summary>
-		/// Returns the ProjectOwner lookup with id 8.
+		/// Returns the Project Owner lookup with id 8.
 		/// </summary>
-		public static StaticLookup Projectowner { get { return new StaticLookup("ProjectOwner", 8); } }
+		public static StaticLookup ProjectOwner { get { return new StaticLookup("Project Owner", 8); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -154,13 +154,13 @@ namespace CAM.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(int id)
 		{
-			if (1 == id) return Permission.Viewoffice;
-			if (2 == id) return Permission.Viewprogram;
-			if (3 == id) return Permission.Viewproject;
-			if (4 == id) return Permission.Editoffice;
-			if (5 == id) return Permission.Editprogram;
-			if (7 == id) return Permission.Editproject;
-			if (8 == id) return Permission.Projectowner;
+			if (1 == id) return Permission.ViewOffice;
+			if (2 == id) return Permission.ViewProgram;
+			if (3 == id) return Permission.ViewProject;
+			if (4 == id) return Permission.EditOffice;
+			if (5 == id) return Permission.EditProgram;
+			if (7 == id) return Permission.EditProject;
+			if (8 == id) return Permission.ProjectOwner;
 			return null;
 		}
 		///<summary>
@@ -170,99 +170,99 @@ namespace CAM.Data
 		///</summary>
 		public static StaticLookup GetStaticLookup(string value)
 		{
-			if ("ViewOffice".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Viewoffice;
-			if ("ViewProgram".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Viewprogram;
-			if ("ViewProject".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Viewproject;
-			if ("EditOffice".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editoffice;
-			if ("EditProgram".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editprogram;
-			if ("EditProject".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Editproject;
-			if ("ProjectOwner".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.Projectowner;
+			if ("View Office".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.ViewOffice;
+			if ("View Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.ViewProgram;
+			if ("View Project".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.ViewProject;
+			if ("Edit Office".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.EditOffice;
+			if ("Edit Program".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.EditProgram;
+			if ("Edit Project".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.EditProject;
+			if ("Project Owner".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return Permission.ProjectOwner;
 			return null;
 		}
 
 
 		/// <summary>
-		/// Returns the ViewOffice string value.
+		/// Returns the View Office string value.
 		/// </summary>
-		///ViewOffice
-		public const string VIEW_OFFICE_VALUE = "ViewOffice";
+		///View Office
+		public const string VIEW_OFFICE_VALUE = "View Office";
 
 		/// <summary>
 		/// Returns the 1 integer id value.
 		/// </summary>
-		///ViewOffice
+		///View Office
 		public const int VIEW_OFFICE_ID = 1;
 
 		/// <summary>
-		/// Returns the ViewProgram string value.
+		/// Returns the View Program string value.
 		/// </summary>
-		///ViewProgram
-		public const string VIEW_PROGRAM_VALUE = "ViewProgram";
+		///View Program
+		public const string VIEW_PROGRAM_VALUE = "View Program";
 
 		/// <summary>
 		/// Returns the 2 integer id value.
 		/// </summary>
-		///ViewProgram
+		///View Program
 		public const int VIEW_PROGRAM_ID = 2;
 
 		/// <summary>
-		/// Returns the ViewProject string value.
+		/// Returns the View Project string value.
 		/// </summary>
-		///ViewProject
-		public const string VIEW_PROJECT_VALUE = "ViewProject";
+		///View Project
+		public const string VIEW_PROJECT_VALUE = "View Project";
 
 		/// <summary>
 		/// Returns the 3 integer id value.
 		/// </summary>
-		///ViewProject
+		///View Project
 		public const int VIEW_PROJECT_ID = 3;
 
 		/// <summary>
-		/// Returns the EditOffice string value.
+		/// Returns the Edit Office string value.
 		/// </summary>
-		///EditOffice
-		public const string EDIT_OFFICE_VALUE = "EditOffice";
+		///Edit Office
+		public const string EDIT_OFFICE_VALUE = "Edit Office";
 
 		/// <summary>
 		/// Returns the 4 integer id value.
 		/// </summary>
-		///EditOffice
+		///Edit Office
 		public const int EDIT_OFFICE_ID = 4;
 
 		/// <summary>
-		/// Returns the EditProgram string value.
+		/// Returns the Edit Program string value.
 		/// </summary>
-		///EditProgram
-		public const string EDIT_PROGRAM_VALUE = "EditProgram";
+		///Edit Program
+		public const string EDIT_PROGRAM_VALUE = "Edit Program";
 
 		/// <summary>
 		/// Returns the 5 integer id value.
 		/// </summary>
-		///EditProgram
+		///Edit Program
 		public const int EDIT_PROGRAM_ID = 5;
 
 		/// <summary>
-		/// Returns the EditProject string value.
+		/// Returns the Edit Project string value.
 		/// </summary>
-		///EditProject
-		public const string EDIT_PROJECT_VALUE = "EditProject";
+		///Edit Project
+		public const string EDIT_PROJECT_VALUE = "Edit Project";
 
 		/// <summary>
 		/// Returns the 7 integer id value.
 		/// </summary>
-		///EditProject
+		///Edit Project
 		public const int EDIT_PROJECT_ID = 7;
 
 		/// <summary>
-		/// Returns the ProjectOwner string value.
+		/// Returns the Project Owner string value.
 		/// </summary>
-		///ProjectOwner
-		public const string PROJECT_OWNER_VALUE = "ProjectOwner";
+		///Project Owner
+		public const string PROJECT_OWNER_VALUE = "Project Owner";
 
 		/// <summary>
 		/// Returns the 8 integer id value.
 		/// </summary>
-		///ProjectOwner
+		///Project Owner
 		public const int PROJECT_OWNER_ID = 8;
 
 		/// <summary>
@@ -319,25 +319,25 @@ namespace CAM.Data
 		/// Returns the Person     string value.
 		/// </summary>
 		///Person    
-		public const string PERSON_____VALUE = "Person    ";
+		public const string PERSON_VALUE = "Person    ";
 
 		/// <summary>
 		/// Returns the 1 integer id value.
 		/// </summary>
 		///Person    
-		public const int PERSON_____ID = 1;
+		public const int PERSON_ID = 1;
 
 		/// <summary>
 		/// Returns the Group      string value.
 		/// </summary>
 		///Group     
-		public const string GROUP______VALUE = "Group     ";
+		public const string GROUP_VALUE = "Group     ";
 
 		/// <summary>
 		/// Returns the 2 integer id value.
 		/// </summary>
 		///Group     
-		public const int GROUP______ID = 2;
+		public const int GROUP_ID = 2;
 
 		/// <summary>
 		/// Returns the static lookup config used to generate this type's static lookups.

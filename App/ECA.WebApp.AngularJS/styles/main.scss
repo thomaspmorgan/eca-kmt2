@@ -261,7 +261,6 @@ ul {
   width: 18px;
   height: 18px;
   background-color: $primarytext;
-
   border-radius: 100%;
   display: inline-block;
   -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
@@ -282,15 +281,22 @@ ul {
 }
 
 @-webkit-keyframes bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0.0) }
-  40% { -webkit-transform: scale(1.0) }
+    0%, 80%, 100% {
+        -webkit-transform: scale(0.0);
+}
+
+    40% {
+        -webkit-transform: scale(1.0);
+    }
 }
 
 @keyframes bouncedelay {
   0%, 80%, 100% { 
     transform: scale(0.0);
     -webkit-transform: scale(0.0);
-  } 40% { 
+    }
+
+    40% {
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
   }
@@ -302,7 +308,7 @@ ul {
 
 .modal-dropdown {
     border: 1px solid #c6c6c6; 
-    height:40px; 
+    height: 40px;
     background-image: linear-gradient(#fff, #f7f7f7); 
     border-radius: 4px; 
     padding: 8px;
@@ -310,8 +316,8 @@ ul {
 
 .loadingEditLabel p {
     display: none;
-    font-size:1.5em;
-    margin-left:5px;
+    font-size: 1.5em;
+    margin-left: 5px;
 }
 
 .modalFormButtons {
@@ -319,22 +325,22 @@ ul {
 }
 
 .copyEditDeleteOptions {
-    display:inline-block;
-    border:1px lightGray solid;
+    display: inline-block;
+    border: 1px lightGray solid;
     border-radius: 5px;
-    padding:5px;
-    cursor:pointer;
+    padding: 5px;
+    cursor: pointer;
     width: 40px;
     text-align: center;
-    
 }
 
 .copyEditDeleteOptions :hover {
     color: black;
 }
+
 .copyEditDeleteOption {
-    cursor:pointer;
-    color:darkGray;
+    cursor: pointer;
+    color: darkGray;
 }
 
 .programTypeRadio {
@@ -353,36 +359,37 @@ h5.canEdit {
 
 .user a {
     color: $darkgray;
-    font-weight:bold;
+    font-weight: bold;
 }
 
 .user a:hover {
     color: $blue;
-    font-weight:bold;
+    font-weight: bold;
     text-decoration: none;
 }
 
 .user a:active {
     color: $blue;
-    font-weight:bold;
+    font-weight: bold;
     text-decoration: none;
 }
+
 .user a:visited {
     text-decoration: none;
 }
 
 .user .dropdown-menu a {
-     font-weight:normal;
+    font-weight: normal;
 }
 
 .listExpander {
-    cursor:pointer;
+    cursor: pointer;
     padding-right: 30px;
     display: none;
 }
 
 .listContractor {
-    cursor:pointer;
+    cursor: pointer;
     padding-right: 30px;
 }
 
@@ -395,21 +402,20 @@ h5.canEdit {
 }
 
 .draft-program1 {
-    display:none;
+    display: none;
 }
 
 .draft-program4 {
     display: inline;
-    color:red;
+    color: red;
     font-style: italic;
-
 }
 
 .editingRow {
     background-color: lightgray;
 }
 
-.modal-center .modal-dialog {
+.modal-center-small .modal-dialog {
   width: 400px;
   height: 400px;
   position: absolute;
@@ -418,8 +424,52 @@ h5.canEdit {
   left: 0;
   right: 0;
   margin: auto; 
-
 }
+
+.modal-center-large .modal-dialog {
+    width: 950px;
+    height: 650px;
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+div.modal-center-large .modal-content .modal-body {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+
+table.modal-center-large .modal-content .modal-body{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 500px; /* this can vary */
+}
+
+
+tbody.modal-center-large .modal-content .modal-body{
+    overflow-y: scroll;
+    display: inline-block;
+}
+
+thead.modal-center-large > tr.modal-center-large, tbody.modal-center-large > tr.modal-center-large, tfoot.modal-center-large > tr.modal-center-large {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+thead.modal-center-large, tfoot.modal-center-large {
+    flex-shrink: 0;
+}
+
+
+
 
 #toast-container > div {
   opacity: 1;
@@ -434,13 +484,13 @@ h5.canEdit {
 }
 
 .select2-search-field:before {
-    color:#a0a9ab;
+    color: #a0a9ab;
     font-family: FontAwesome;
     content: "\f002";
     padding-left: 5px;
 }
 
-.revokedPermission{
-    font-style:italic;
+.revokedPermission {
+    font-style: italic;
     color: red;
 }

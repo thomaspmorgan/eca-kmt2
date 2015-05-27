@@ -305,7 +305,7 @@ angular.module('staticApp')
           var projectId = $stateParams.projectId;
           var resourceType = ConstantsService.resourceType.project.value;
           var config = {};
-          config[ConstantsService.permission.editproject.value] = {
+          config[ConstantsService.permission.editProject.value] = {
               hasPermission: function () {
                   enabledProjectStatusButton();
                   $log.info('User has edit project permission in project.js controller.');
