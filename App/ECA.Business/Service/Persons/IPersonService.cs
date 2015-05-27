@@ -43,6 +43,20 @@ namespace ECA.Business.Service.Persons
         Task<ContactInfoDTO> GetContactInfoByIdAsync(int personId);
 
         /// <summary>
+        /// Returns general information for a user 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>General information for person</returns>
+        GeneralDTO GetGeneralById(int personId);
+
+        /// <summary>
+        /// Returns general information for a user asyncronously
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>General information for person</returns>
+        Task<GeneralDTO> GetGeneralByIdAsync(int personId);
+
+        /// <summary>
         /// Creates a new person
         /// </summary>
         /// <returns>The person that was created</returns>

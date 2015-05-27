@@ -100,13 +100,13 @@ namespace ECA.Business.Queries.Persons
                         select new GeneralDTO
                         {
                             PersonId = person.PersonId,
-                            ProminentCategories = person.ProminentCategories.Select(x => new SimpleLookupDTO() { Id = x.ProminentCategoryId, Value= x.Name}).ToArray(),
-                            Events = person.Events.Select(x => new SimpleLookupDTO() { Id = x.EventId, Value=x.Title}).ToArray(),
-                            Memberships = person.Memberships.Select(x =>  new ECA.Business.Queries.Models.Admin.SimpleOrganizationDTO() { OrganizationId=x.MembershipId, Name=x.Name}).ToArray(),
-                            LanguageProficiencies = person.LanguageProficiencies.Select(x => new SimpleLookupDTO() { Id = x.LanguageProficiencyId, Value = x.LanguageName}).ToArray(),
-                            Dependants = person.Family.Select( x => new SimpleLookupDTO() { Id = x.PersonId, Value = (x.LastName + ", " + x.FirstName)}).ToArray(),
+                            ProminentCategories = person.ProminentCategories.Select(x => new SimpleLookupDTO() { Id = x.ProminentCategoryId, Value= x.Name}),
+                            Events = person.Events.Select(x => new SimpleLookupDTO() { Id = x.EventId, Value=x.Title}),
+                            Memberships = person.Memberships.Select(x =>  new ECA.Business.Queries.Models.Admin.SimpleOrganizationDTO() { OrganizationId=x.MembershipId, Name=x.Name}),
+                            LanguageProficiencies = person.LanguageProficiencies.Select(x => new SimpleLookupDTO() { Id = x.LanguageProficiencyId, Value = x.LanguageName}),
+                            Dependants = person.Family.Select( x => new SimpleLookupDTO() { Id = x.PersonId, Value = (x.LastName + ", " + x.FirstName)}),
                             // RelatedReports TBD
-                            ImpactStories = person.Impacts.Select(x => new SimpleLookupDTO() { Id = x.ImpactId, Value = x.Description}).ToArray()
+                            ImpactStories = person.Impacts.Select(x => new SimpleLookupDTO() { Id = x.ImpactId, Value = x.Description})
                         };
 
             return query;

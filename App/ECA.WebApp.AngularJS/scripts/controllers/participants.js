@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('ParticipantCtrl', function ($scope, $timeout, ParticipantService, PersonService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService) {
+  .controller('ParticipantCtrl', function ($scope, $timeout, ParticipantService, PersonService, LookupService, LocationService, ConstantsService, $stateParams, NotificationService, $q) {
 
       $scope.tabs = {
           personalInformation: {
@@ -37,6 +37,7 @@ angular.module('staticApp')
           },
       };
 
+      $scope.showGeneral = true;
       $scope.showPii = true;
       $scope.showContact = true;
       $scope.editPii = false;
@@ -51,6 +52,8 @@ angular.module('staticApp')
           'images/placeholders/participant/activities2.png'
       ];
 
+      $scope.personIdDeferred = $q.defer();
+      
       $scope.updateGender = function () {
           $scope.pii.gender = getObjectById($scope.pii.genderId, $scope.genders).value;
       };
@@ -96,6 +99,7 @@ angular.module('staticApp')
       .then(function (data) {
           $scope.participant = data;
           loadPii(data.personId);
+          $scope.personIdDeferred.resolve(data.personId);
           PersonService.getContactInfoById(data.personId)
             .then(function (data) {
                 $scope.contactInfo = data;
