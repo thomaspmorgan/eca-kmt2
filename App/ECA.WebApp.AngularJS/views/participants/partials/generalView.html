@@ -42,16 +42,14 @@
                 <div class="row">
                     <label class="col-md-4 title-label">Memberships</label>
                     <div class="col-md-6" ng-repeat="membership in general.memberships">
-                        {{membership.value}}
+                        {{membership.name}}
                     </div>
                 </div>
                 <div class="row">
                     <label class="col-md-4 title-label">Language Proficiencies</label>
-                    <div class="col-md-6">
-                        <ul>
-                            <li data-ng-repeat="language in general.languageProficiencies">{{language.value}}</li>
-                        </ul>
-                    </div>
+                    <div class="col-md-6" ng-repeat="language in general.languageProficiencies">
+                        {{language.value}}
+                   </div>
                 </div>
                 <div class="row">
                     <label class="col-md-4 title-label">Dependants</label>
