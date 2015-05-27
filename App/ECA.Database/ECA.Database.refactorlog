@@ -336,4 +336,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="FieldOfStudyId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="2dc5b61c-4c00-4399-a7d5-01cd6df5e12e" ChangeDateTime="05/27/2015 13:36:33">
+    <Property Name="ElementName" Value="[dbo].[FK_ParticipantPerson_]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[ParticipantPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_ParticipantPerson_ToFieldOfStudy]" />
+  </Operation>
 </Operations>

@@ -14,7 +14,10 @@
     [HostInstitutionId] INT NULL, 
     [HomeInstitutionId] INT NULL, 
     CONSTRAINT [FK_ParticipantPerson_HostInstitution_ToOrganization] FOREIGN KEY ([HostInstitutionId]) REFERENCES [Organization]([OrganizationId]), 
-    CONSTRAINT [FK_ParticipantPerson_HomeInstitution_ToOrganization] FOREIGN KEY ([HomeInstitutionId]) REFERENCES [Organization]([OrganizationId]) 
+    CONSTRAINT [FK_ParticipantPerson_HomeInstitution_ToOrganization] FOREIGN KEY ([HomeInstitutionId]) REFERENCES [Organization]([OrganizationId]), 
+    CONSTRAINT [FK_ParticipantPerson_ToFieldOfStudy] FOREIGN KEY ([FieldOfStudyId]) REFERENCES [sevis].[FieldOfStudy]([FieldOfStudyId]), 
+    CONSTRAINT [FK_ParticipantPerson_ToPosition] FOREIGN KEY ([PositionId]) REFERENCES [sevis].[Position]([PositionId]), 
+    CONSTRAINT [FK_ParticipantPerson_ToProgramSubject] FOREIGN KEY ([ProgramSubjectId]) REFERENCES [sevis].[ProgramSubject]([ProgramSubjectId]) 
 )
 
 GO
