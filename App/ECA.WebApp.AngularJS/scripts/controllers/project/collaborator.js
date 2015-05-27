@@ -14,12 +14,8 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.isLoading = false;
       $scope.view.isSaving = false;
-      $scope.view.onAddClick = function () {
+      $scope.view.onCloseClick = function () {
           $modalInstance.close();
-      }
-
-      $scope.view.onCancelClick = function () {
-          $modalInstance.dismiss('cancel');
       }
 
       $scope.view.collaborators = [];
@@ -53,24 +49,6 @@ angular.module('staticApp')
           doUpdatePermission(true, permission, collaborator)
           .then(function () {
               NotificationService.showSuccessMessage('Successfully granted ' + permission.permissionName + ' permission to ' + collaborator.displayName + '.');
-          }, function () {
-              NotificationService.showErrorMessage('There was an error updating the user\'s permission.');
-          });
-      }
-
-      $scope.view.onPlusButtonClick = function (permission, collaborator) {
-          doUpdatePermission(true, permission, collaborator)
-          .then(function () {
-              NotificationService.showSuccessMessage('Successfully granted ' + permission.permissionName + ' permission to ' + collaborator.displayName + '.');
-          }, function () {
-              NotificationService.showErrorMessage('There was an error updating the user\'s permission.');
-          });
-      }
-
-      $scope.view.onMinusButtonClick = function (permission, collaborator) {
-          doUpdatePermission(false, permission, collaborator)
-          .then(function () {
-              NotificationService.showSuccessMessage('Successfully revoked ' + permission.permissionName + ' permission from ' + collaborator.displayName + '.');
           }, function () {
               NotificationService.showErrorMessage('There was an error updating the user\'s permission.');
           });
@@ -127,13 +105,33 @@ angular.module('staticApp')
 
       $scope.view.addedCollaboratorFormatter = function ($item) {
           if ($scope.view.addedCollaborator.displayName && $scope.view.addedCollaborator.email) {
-              return $scope.view.addedCollaborator.displayName + ' (' + $scope.view.addedCollaborator.email + ')';
+              return $scope.view.addedCollaborator.displayName;
           }
           else {
               return null;
           }
       }
-      
+
+      $scope.view.onRolePermissionCheckboxChange = function (permission, collaborator) {
+          debugger;
+          if (permission.isAllowed) {
+              doUpdatePermission(true, permission, collaborator)
+                .then(function () {
+                    NotificationService.showSuccessMessage('Successfully granted ' + permission.permissionName + ' permission to ' + collaborator.displayName + '.');
+                }, function () {
+                    NotificationService.showErrorMessage('There was an error updating the user\'s permission.');
+                });
+          }
+          else {
+              doUpdatePermission(false, permission, collaborator)
+                .then(function () {
+                    NotificationService.showSuccessMessage('Successfully revoked ' + permission.permissionName + ' permission from ' + collaborator.displayName + '.');
+                }, function () {
+                    NotificationService.showErrorMessage('There was an error updating the user\'s permission.');
+                });
+          }
+      }
+
       function loadCollaborators(params) {
           var url = '/projects/' + projectId + '/collaborators';
           $q.when(AuthService.getPrincipalResourceAuthorizations(ConstantsService.resourceType.project.value, projectId, url, params))

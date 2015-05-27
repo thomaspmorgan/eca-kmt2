@@ -55,6 +55,7 @@ namespace CAM.Business.Test.Queries
             {
                 PermissionId = Permission.EditProject.Id,
                 PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
             };
             var role = new Role
             {
@@ -95,6 +96,7 @@ namespace CAM.Business.Test.Queries
             Assert.AreEqual(true, firstResult.IsAllowed);
             Assert.AreEqual(false, firstResult.IsGrantedByPermission);
             Assert.AreEqual(true, firstResult.IsGrantedByRole);
+            Assert.AreEqual(permission.PermissionDescription, firstResult.PermissionDescription);
             Assert.AreEqual(permission.PermissionId, firstResult.PermissionId);
             Assert.AreEqual(permission.PermissionName, firstResult.PermissionName);
             Assert.AreEqual(principal.PrincipalId, firstResult.PrincipalId);
@@ -591,6 +593,7 @@ namespace CAM.Business.Test.Queries
             {
                 PermissionId = Permission.EditProject.Id,
                 PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
             };
             var permissionAssignment = new PermissionAssignment
             {
@@ -620,6 +623,7 @@ namespace CAM.Business.Test.Queries
             Assert.AreEqual(permissionAssignment.IsAllowed, firstResult.IsAllowed);
             Assert.AreEqual(true, firstResult.IsGrantedByPermission);
             Assert.AreEqual(false, firstResult.IsGrantedByRole);
+            Assert.AreEqual(permission.PermissionDescription, firstResult.PermissionDescription);
             Assert.AreEqual(permission.PermissionId, firstResult.PermissionId);
             Assert.AreEqual(permission.PermissionName, firstResult.PermissionName);
             Assert.AreEqual(principal.PrincipalId, firstResult.PrincipalId);
@@ -776,6 +780,7 @@ namespace CAM.Business.Test.Queries
             {
                 PermissionId = Permission.EditProject.Id,
                 PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
             };
             var role = new Role
             {
@@ -845,6 +850,7 @@ namespace CAM.Business.Test.Queries
             {
                 PermissionId = Permission.EditProject.Id,
                 PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
             };
             var permissionAssignment = new PermissionAssignment
             {

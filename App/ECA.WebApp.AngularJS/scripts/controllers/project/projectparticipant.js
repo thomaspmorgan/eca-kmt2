@@ -36,7 +36,7 @@ angular.module('staticApp')
               windowClass: 'modal-center-large'
           });
           modalInstance.result.then(function () {
-              $log.info('Cancelling changes...');              
+              $log.info('Closing...');              
           }, function () {
               $log.info('Dismiss add collaborator dialog...');
           });
@@ -68,7 +68,7 @@ angular.module('staticApp')
       $scope.view.isLoading = true;
       $q.all([loadPermissions()])
       .then(function (results) {
-          //results is an array
+          
 
       }, function (errorResponse) {
           $log.error('Failed initial loading of project view.');
