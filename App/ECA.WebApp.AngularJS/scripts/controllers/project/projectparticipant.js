@@ -21,7 +21,7 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.isLoading = false;
-      $scope.view.isCollaboratorExpanded = true;
+      $scope.view.isCollaboratorExpanded = false;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;

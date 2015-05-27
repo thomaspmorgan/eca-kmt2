@@ -89,7 +89,7 @@ angular.module('staticApp')
           var isAllowed = true;
           $scope.view.addedCollaborator = $item;
           isSaving(true);
-          $q.when([
+          return $q.all([
               doUpdatePermission(true, viewPermission, collaborator),
               doUpdatePermission(true, editPermission, collaborator)
           ])
@@ -113,9 +113,8 @@ angular.module('staticApp')
       }
 
       $scope.view.onRolePermissionCheckboxChange = function (permission, collaborator) {
-          debugger;
           if (permission.isAllowed) {
-              doUpdatePermission(true, permission, collaborator)
+              return doUpdatePermission(true, permission, collaborator)
                 .then(function () {
                     NotificationService.showSuccessMessage('Successfully granted ' + permission.permissionName + ' permission to ' + collaborator.displayName + '.');
                 }, function () {
@@ -123,7 +122,7 @@ angular.module('staticApp')
                 });
           }
           else {
-              doUpdatePermission(false, permission, collaborator)
+              return doUpdatePermission(false, permission, collaborator)
                 .then(function () {
                     NotificationService.showSuccessMessage('Successfully revoked ' + permission.permissionName + ' permission from ' + collaborator.displayName + '.');
                 }, function () {
@@ -134,8 +133,12 @@ angular.module('staticApp')
 
       function loadCollaborators(params) {
           var url = '/projects/' + projectId + '/collaborators';
-          $q.when(AuthService.getPrincipalResourceAuthorizations(ConstantsService.resourceType.project.value, projectId, url, params))
-          .then(updateCollaborators, showLoadCollaboratorsError);
+          isLoading(true);
+          return $q.when(AuthService.getPrincipalResourceAuthorizations(ConstantsService.resourceType.project.value, projectId, url, params))
+          .then(updateCollaborators, showLoadCollaboratorsError)
+          .then(function() {
+              isLoading(false);
+          });
       }
 
       function doUpdatePermission(isAllowed, permission, collaborator) {
@@ -148,7 +151,7 @@ angular.module('staticApp')
               )
           .then(function () {
               isSaving(false);
-              loadCollaborators(collaboratorsLoadParams);
+              return loadCollaborators(collaboratorsLoadParams);
           });
       }
 
@@ -168,10 +171,10 @@ angular.module('staticApp')
           NotificationService.showErrorMessage('There was an error loading collaborators.');
       }
 
-      isLoading(true);
-      $q.when([loadCollaborators(collaboratorsLoadParams)])
+      
+      $q.all([loadCollaborators(collaboratorsLoadParams)])
           .then(function () {
-              isLoading(false);
+              
           });
 
 
