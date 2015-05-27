@@ -1,0 +1,68 @@
+﻿<div ng-controller="personGeneralCtrl">
+        <div ng-show="!editGeneral">
+            <div class="col-md-6">
+                <div class="row">
+                    <label class="col-md-4 title-label">Participant Origination</label>
+                    <div class="col-md-6">
+                        {{general.origination.Name}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4 title-label">Status</label>
+                    <div class="col-md-6">
+                        {{participant.status}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4 title-label">Prominent Categories</label>
+                    <div class="col-md-6" ng-repeat="category in general.prominentCategories">
+                        {{category.value}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4 title-label">Events Participated</label>
+                    <div class="col-md-6" ng-repeat="event in general.events">
+                        {{event.value}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4 title-label">Related Reports</label>
+                    <div class="col-md-6" ng-repeat="report in general.relatedReports">
+                        {{report.value}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <label class="col-md-4 title-label">Participant Type</label>
+                    <div class="col-md-6">
+                        {{participant.participantType}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4 title-label">Memberships</label>
+                    <div class="col-md-6" ng-repeat="membership in general.memberships">
+                        {{membership.name}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4 title-label">Language Proficiencies</label>
+                    <div class="col-md-6" ng-repeat="language in general.languageProficiencies">
+                        {{language.value}}
+                   </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4 title-label">Dependants</label>
+                    <div class="col-md-6" ng-repeat="dependant in general.dependants">
+                        {{dependant.value}}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4 title-label">Impact Stories</label>
+                    <div class="col-md-6" ng-repeat="impact in general.impactStories">
+                        {{impact.value}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
