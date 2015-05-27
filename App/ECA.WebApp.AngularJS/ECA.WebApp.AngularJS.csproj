@@ -140,6 +140,7 @@
     <Content Include="scripts\controllers\project\projectparticipant.js" />
     <Content Include="scripts\controllers\project\unsavedchanges.js" />
     <Content Include="scripts\filters\groupby.js" />
+    <Content Include="scripts\services\userservice.js" />
     <Content Include="styles\main.css">
       <DependentUpon>main.scss</DependentUpon>
     </Content>

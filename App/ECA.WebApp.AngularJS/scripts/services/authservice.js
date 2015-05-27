@@ -86,7 +86,6 @@ angular.module('staticApp')
               else{
                   return DragonBreath.get(params, 'resources/permissions/' + resourceType);
               }
-              
           },
 
           updatePermission: function (isAllowed, principalId, foreignResourceId, resourceType, permissionId) {
@@ -127,7 +126,6 @@ angular.module('staticApp')
                   if (currentPrincipalId === null) {
                       currentPrincipalId = principalIdOrderedCollaborator.principalId;
                   }
-
                   if (i === 0 || currentPrincipalId !== principalIdOrderedCollaborator.principalId) {
                       currentPrincipalId = principalIdOrderedCollaborator.principalId;
                       groupedPermissionsByPrincipalIds.push({

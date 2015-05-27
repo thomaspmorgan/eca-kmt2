@@ -52,8 +52,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             var resource = new Resource
@@ -106,8 +106,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             var resource = new Resource
@@ -154,8 +154,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             var resource = new Resource
@@ -203,8 +203,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             var resource = new Resource
@@ -242,8 +242,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             var resource = new Resource
@@ -321,8 +321,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             context.Principals.Add(grantor);
@@ -360,8 +360,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             var resource = new Resource
@@ -423,8 +423,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             var resource = new Resource
@@ -477,8 +477,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             var resource = new Resource
@@ -528,8 +528,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             var resource = new Resource
@@ -567,8 +567,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             var resource = new Resource
@@ -646,8 +646,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             context.Principals.Add(grantor);
@@ -685,8 +685,8 @@ namespace CAM.Business.Test.Service
             };
             var permission = new CAM.Data.Permission
             {
-                PermissionId = CAM.Data.Permission.Editoffice.Id,
-                PermissionName = CAM.Data.Permission.Editoffice.Value
+                PermissionId = CAM.Data.Permission.EditOffice.Id,
+                PermissionName = CAM.Data.Permission.EditOffice.Value
             };
             var resourceType = ResourceType.Program;
             var resource = new Resource

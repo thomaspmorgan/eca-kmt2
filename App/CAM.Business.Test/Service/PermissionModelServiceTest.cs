@@ -20,7 +20,7 @@ namespace CAM.Business.Test.Service
         [TestMethod]
         public void TestGetPermissionIdByName()
         {
-            var permission = CAM.Data.Permission.Editoffice;
+            var permission = CAM.Data.Permission.EditOffice;
             var testPermission = service.GetPermissionIdByName(permission.Value);
             Assert.AreEqual(permission.Id, testPermission);
         }
@@ -28,7 +28,7 @@ namespace CAM.Business.Test.Service
         [TestMethod]
         public void TestGetPermissionNameById()
         {
-            var permission = CAM.Data.Permission.Editoffice;
+            var permission = CAM.Data.Permission.EditOffice;
             var testPermission = service.GetPermissionNameById(permission.Id);
             Assert.AreEqual(permission.Value, testPermission);
         }

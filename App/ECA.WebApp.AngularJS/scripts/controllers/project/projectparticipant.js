@@ -28,7 +28,8 @@ angular.module('staticApp')
               controller: 'ProjectCollaboratorCtrl',
               backdrop: 'static',
               resolve: {},
-              size: 'lg'
+              windowClass: 'modal-center-large'//,
+              //size: 'lg'
           });
           modalInstance.result.then(function () {
               $log.info('Cancelling changes...');              

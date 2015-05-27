@@ -148,7 +148,7 @@ angular.module('staticApp')
               var modalInstance = $modal.open({
                   templateUrl: '/views/project/unsavedchanges.html',
                   controller: 'UnsavedChangesCtrl',
-                  windowClass: 'modal-center',
+                  windowClass: 'modal-center-small',
                   backdrop: 'static',
                   resolve: {},
                   size: 'lg'
@@ -534,7 +534,7 @@ angular.module('staticApp')
           var projectId = $stateParams.projectId;
           var resourceType = ConstantsService.resourceType.project.value;
           var config = {};
-          config[ConstantsService.permission.editproject.value] = {
+          config[ConstantsService.permission.editProject.value] = {
               hasPermission: function () {
                   $log.info('User has edit project permission in edit.js controller.');
               },

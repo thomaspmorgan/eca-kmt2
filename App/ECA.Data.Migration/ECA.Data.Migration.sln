@@ -9,17 +9,39 @@ Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "ECA-Sample Data", "ECA-Samp
 EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "CE - Cultural Exchange", "CE - Cultural Exchange\CE - Cultural Exchange.dtproj", "{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}"
 EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "SEVIS", "SEVIS\SEVIS.dtproj", "{015D2B38-4AA4-4EB6-9A1C-743ECE0EF004}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Development|Default = Development|Default
+		Debug|Any CPU = Debug|Any CPU
+		Development|Any CPU = Development|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}.Development|Default.ActiveCfg = Development
-		{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}.Development|Default.Build.0 = Development
-		{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}.Development|Default.ActiveCfg = Development
-		{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}.Development|Default.Build.0 = Development
-		{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}.Development|Default.ActiveCfg = Development
-		{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}.Development|Default.Build.0 = Development
+		{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}.Debug|Any CPU.ActiveCfg = Development
+		{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}.Debug|Any CPU.Build.0 = Development
+		{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}.Development|Any CPU.ActiveCfg = Development
+		{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}.Development|Any CPU.Build.0 = Development
+		{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}.Release|Any CPU.ActiveCfg = Development
+		{BADF0A2E-1053-4DE0-AC37-7E7AC8A481BD}.Release|Any CPU.Build.0 = Development
+		{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}.Debug|Any CPU.ActiveCfg = Development
+		{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}.Debug|Any CPU.Build.0 = Development
+		{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}.Development|Any CPU.ActiveCfg = Development
+		{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}.Development|Any CPU.Build.0 = Development
+		{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}.Release|Any CPU.ActiveCfg = Development
+		{878F9CF1-EAED-4AFC-A4C5-2E1D6AB1BD60}.Release|Any CPU.Build.0 = Development
+		{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}.Debug|Any CPU.ActiveCfg = Development
+		{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}.Debug|Any CPU.Build.0 = Development
+		{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}.Development|Any CPU.ActiveCfg = Development
+		{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}.Development|Any CPU.Build.0 = Development
+		{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}.Release|Any CPU.ActiveCfg = Development
+		{221FA8E7-7A48-4FAF-B2C8-65B380818E9A}.Release|Any CPU.Build.0 = Development
+		{015D2B38-4AA4-4EB6-9A1C-743ECE0EF004}.Debug|Any CPU.ActiveCfg = Development
+		{015D2B38-4AA4-4EB6-9A1C-743ECE0EF004}.Debug|Any CPU.Build.0 = Development
+		{015D2B38-4AA4-4EB6-9A1C-743ECE0EF004}.Development|Any CPU.ActiveCfg = Development
+		{015D2B38-4AA4-4EB6-9A1C-743ECE0EF004}.Development|Any CPU.Build.0 = Development
+		{015D2B38-4AA4-4EB6-9A1C-743ECE0EF004}.Release|Any CPU.ActiveCfg = Development
+		{015D2B38-4AA4-4EB6-9A1C-743ECE0EF004}.Release|Any CPU.Build.0 = Development
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
