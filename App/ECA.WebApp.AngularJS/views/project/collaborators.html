@@ -1,7 +1,7 @@
 ﻿<div class="modal-header">
     <h3 class="modal-title">Add Collaborator to Participants</h3>
     <div class="page-header">        
-        <p class="subheader">Collaborate with others within or outside of ECA.  Showing {{view.collaborators.length}} collaborators.</p>
+        <p class="subheader">Collaborate with others within or outside of ECA.</p>
         <p class="subheader">Showing {{view.collaborators.length}} collaborators.</p>
         <div class="spinner" ng-show="view.isLoading">
             <div class="bounce1"></div>
@@ -39,7 +39,7 @@
                     <td class="col-md-3">
                         <ul ng-repeat="permission in collaborator.rolePermissions">
                             <li>
-                                <ng-switch on="$first">
+                                <ng-switch on="$first || permission.roleName != collaborator.rolePermissions[$index - 1].roleName">
                                     <div ng-switch-when="true" class="title-label"><strong>{{permission.roleName}}</strong></div>
                                 </ng-switch>
                                 &#149 <span ng-class="{revokedPermission: !permission.isAllowed}">{{permission.permissionName}}</span>
@@ -61,6 +61,8 @@
                                     {{$item.permissionName}}
                                 </div>
                             </ui-select-match>
+
+
                             <ui-select-choices repeat="p in collaborator.availablePermissions | filter: $select.search track by p.permissionId">
                                 <div ng-bind-html="p.permissionName | highlight: $select.search"></div>
                             </ui-select-choices>
