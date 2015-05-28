@@ -67,7 +67,10 @@ namespace CAM.Business.Queries
 
                         join permissionAssignment in context.PermissionAssignments
                         on resource equals permissionAssignment.Resource into permissionAssignments
-                        from tempPermissionAssignment in permissionAssignments.Where(x => !x.IsAllowed && x.PrincipalId == principal.PrincipalId).DefaultIfEmpty()
+                        from tempPermissionAssignment in permissionAssignments
+                            .Where(x => !x.IsAllowed 
+                                && x.PrincipalId == principal.PrincipalId 
+                                && x.PermissionId == permission.PermissionId).DefaultIfEmpty()
 
                         select new ResourceAuthorization
                         {
@@ -77,6 +80,7 @@ namespace CAM.Business.Queries
                             IsAllowed = tempPermissionAssignment == null ? true : tempPermissionAssignment.IsAllowed,
                             IsGrantedByPermission = false,
                             IsGrantedByRole = true,
+                            PermissionDescription = permission.PermissionDescription,
                             PermissionId = permission.PermissionId,
                             PermissionName = permission.PermissionName,
                             PrincipalId = principal.PrincipalId,
@@ -123,6 +127,7 @@ namespace CAM.Business.Queries
                             IsAllowed = permissionAssignment.IsAllowed,
                             IsGrantedByPermission = true,
                             IsGrantedByRole = false,
+                            PermissionDescription = permission.PermissionDescription,
                             PermissionId = permission.PermissionId,
                             PermissionName = permission.PermissionName,
                             PrincipalId = principal.PrincipalId,

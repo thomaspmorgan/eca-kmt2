@@ -8,7 +8,7 @@
  * Factory for handling authorization.
  */
 angular.module('staticApp')
-  .factory('AuthService', function ($rootScope, $log, $http, $q, $window, DragonBreath, adalAuthenticationService, orderByFilter) {
+  .factory('AuthService', function ($rootScope, $log, $http, $q, $window, DragonBreath, ConstantsService, adalAuthenticationService, orderByFilter) {
 
       var service = {
           getResourcePermissions: function (resourceType, resourceId, config) {
@@ -75,15 +75,118 @@ angular.module('staticApp')
               return $rootScope.userInfo.isAuthenticated;
           },
 
-          getGrantableResourcePermissions: function(resourceType, foreignResourceId){
+          /**
+           * Returns an array of principals with granted permissions, revoked permissions, and role permissions.
+           * Each object will also contain an array of available permissions that could be granted to the given resource.
+           * Use this method for retrieving current users and user permissions.
+           * 
+           * ResourceType is the resourcetype you want resource authorization for e.g. Project.
+           * ForeignResourceId is the primary key of the resource e.g. ProjectId.
+           * The url is the url the resource authorizations will be retrieved from e.g. api/Projects/{projectId}/Collaborators
+           * params is the object containing, filter, sort and order by information.
+           * 
+           */
+          getPrincipalResourceAuthorizations: function (resourceType, foreignResourceId, url, params) {
+              if (!resourceType) {
+                  throw Error('The resource type must be given.');
+              }
+              if (!ConstantsService.resourceType[resourceType.toLowerCase().trim()]) {
+                  throw Error('The resource type is not recognized.');
+              }
+              if (!foreignResourceId) {
+                  throw Error('The foreign resource id must be given.');
+              }
+              if (!url) {
+                  throw Error('The resource authorizations url must be given.');
+              }
 
-              if(!resourceType){
+              var getResourceAuthorizationsRequest = DragonBreath.get(params, url);
+              $log.info('Retrieving resource authorizations for resource of type [' + resourceType + '] with id of [' + foreignResourceId + '] from [' + url + '].');
+              return $q.all([
+                  service.getGrantableResourcePermissions(resourceType, foreignResourceId),
+                  getResourceAuthorizationsRequest
+              ])
+              .then(function (resultsArray) {
+                  var availablePermissions = resultsArray[0].data;
+                  $log.info('Found [' + availablePermissions.length + '] available permissions for the resource type ' + resourceType);
+
+                  var resourceAuthorizationsList = resultsArray[1].data.results;
+                  $log.info('Retrieved [' + resourceAuthorizationsList.length + '] of [' + resultsArray[1].data.total + '] resource authorizations from the server.');
+
+                  var groupedResourceAuthorizations = service.groupResourceAuthorizationsByPrincipalId(resourceAuthorizationsList);
+                  groupedResourceAuthorizations = orderByFilter(groupedResourceAuthorizations, "+displayName");
+                  for (var i = 0; i < groupedResourceAuthorizations.length; i++) {
+                      var groupedResourceAuthorization = groupedResourceAuthorizations[i];
+                      groupedResourceAuthorization.availablePermissions =
+                          service.createAvailablePermissions(availablePermissions, groupedResourceAuthorization, foreignResourceId, resourceType);
+                  }
+                  $log.info('Returning [' + groupedResourceAuthorizations.length + '] principal resource authorizations.');
+                  return groupedResourceAuthorizations;
+              });
+          },
+
+          /**
+           * Creates a principal's available permissions.
+           * availablePermissions is the array of all permissions that can be assigned to the resource.
+           * principal is the object that contains granted, revoked, and role permissions.
+           * foreignResourceId the primary key of the resource.
+           * resourceType the resource type
+           */
+          createAvailablePermissions: function (availablePermissions, principal, foreignResourceId, resourceType) {
+              var permissions = [];
+              for (var i = 0; i < availablePermissions.length; i++) {
+                  var availablePermission = availablePermissions[i];
+                  var isRolePermission = false;
+                  if (principal.rolePermissions && principal.rolePermissions.length > 0) {
+                      for (var j = 0; j < principal.rolePermissions.length; j++) {
+                          var rolePermission = principal.rolePermissions[j];
+                          if (availablePermission.permissionId === rolePermission.permissionId) {
+                              isRolePermission = true;
+                              break;
+                          }
+                      }
+                  }
+                  var isPermissionAlreadyAdded = false;
+                  for (var k = 0; k < permissions.length; k++) {
+                      var alreadyAddedPermission = permissions[k];
+                      if (availablePermission.permissionId === alreadyAddedPermission.permissionId) {
+                          isPermissionAlreadyAdded = true;
+                      }
+                  }
+                  if (!isRolePermission && !isPermissionAlreadyAdded) {
+                      permissions.push(service.createAvailablePermission(availablePermission, principal, foreignResourceId, resourceType));
+                  }
+              }
+              return permissions;
+          },
+
+          /**
+           * Returns an object with enough details to be able to grant a permission later.
+           */
+          createAvailablePermission: function (availablePermission, principal, foreignResourceId, resourceType) {
+              return {
+                  principalId: principal.principalId,
+                  permissionId: availablePermission.permissionId,
+                  permissionName: availablePermission.permissionName,
+                  permissionDescription: availablePermission.permissionDescription,
+                  foreignResourceId: foreignResourceId,
+                  resourceType: resourceType,
+                  projectId: foreignResourceId
+              };
+          },
+
+          /**
+           * Returns all available permissions for the resource by type and id.
+           * 
+           */
+          getGrantableResourcePermissions: function (resourceType, foreignResourceId) {
+              if (!resourceType) {
                   throw Error('The resource type must be defined.');
               }
-              if(foreignResourceId){
+              if (foreignResourceId) {
                   return DragonBreath.get('resources/permissions/' + resourceType + '/' + foreignResourceId);
               }
-              else{
+              else {
                   return DragonBreath.get(params, 'resources/permissions/' + resourceType);
               }
           },
@@ -105,7 +208,7 @@ angular.module('staticApp')
               return DragonBreath.create(permissionModel, path);
           },
 
-          removePermission: function(principalId, foreignResourceId, resourceType, permissionId){
+          removePermission: function (principalId, foreignResourceId, resourceType, permissionId) {
               var permissionModel = {
                   granteePrincipalId: principalId,
                   resourceType: resourceType,
@@ -115,6 +218,10 @@ angular.module('staticApp')
               return DragonBreath.create(permissionModel, 'principals/remove/permission');
           },
 
+          /**
+           * Groups the given resource authorizations by principal and organizes role and permissions.
+           * flatPrincipalPermissionList The array of resource authorizations returned by the web api.
+           */
           groupResourceAuthorizationsByPrincipalId: function (flatPrincipalPermissionList) {
               var groupedPermissionsByPrincipalIds = [];
               var principalIdOrderedCollaborators = orderByFilter(flatPrincipalPermissionList, '+principalId');
@@ -150,6 +257,12 @@ angular.module('staticApp')
                           currentGroupedPermissionByPrincipalId.revokedPermissions.push(groupedPermission);
                       }
                   }
+              }
+              for (var i = 0; i < groupedPermissionsByPrincipalIds.length; i++) {
+                  var groupedPrincipal = groupedPermissionsByPrincipalIds[i];
+                  groupedPrincipal.rolePermissions = orderByFilter(groupedPrincipal.rolePermissions, '[+roleName, +permissionName]');
+                  groupedPrincipal.grantedPermissions = orderByFilter(groupedPrincipal.grantedPermissions, '+permissionName');
+                  groupedPrincipal.revokedPermissions = orderByFilter(groupedPrincipal.revokedPermissions, '+permissionName');
               }
               return groupedPermissionsByPrincipalIds;
           },

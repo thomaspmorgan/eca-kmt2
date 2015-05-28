@@ -79,6 +79,26 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
+        /// Returns contact info associated with a person
+        /// </summary>
+        /// <param name="personId">The person id to find contact info for</param>
+        /// <returns>Contact info associated with person</returns>
+        [ResponseType(typeof(GeneralDTO))]
+        [Route("People/{personId:int}/General")]
+        public async Task<IHttpActionResult> GetGeneralByIdAsync(int personId)
+        {
+            var general = await service.GetGeneralByIdAsync(personId);
+            if (general != null)
+            {
+                return Ok(general);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
         /// Post method to create a person
         /// </summary>
         /// <param name="model">The model to create</param>

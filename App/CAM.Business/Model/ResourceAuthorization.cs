@@ -58,6 +58,11 @@ namespace CAM.Business.Model
         public string PermissionName { get; set; }
 
         /// <summary>
+        /// Gets or sets the permission description.
+        /// </summary>
+        public string PermissionDescription { get; set; }
+
+        /// <summary>
         /// Gets or sets whether or not this permission is allowed for the resource.
         /// </summary>
         public bool IsAllowed { get; set; }

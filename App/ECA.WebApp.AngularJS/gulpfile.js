@@ -44,6 +44,8 @@ gulp.task('copy', ['clean'], function () {
         .pipe(gulp.dest('dist/images'));
     gulp.src('views/**/*.*')
         .pipe(gulp.dest('dist/views'));
+    gulp.src('bower_components/material-design-iconic-font/fonts/**/*.*')
+        .pipe(gulp.dest('dist/fonts'));
     gulp.src('bower_components/select2/*.png')
         .pipe(gulp.dest('dist/images'));
 });

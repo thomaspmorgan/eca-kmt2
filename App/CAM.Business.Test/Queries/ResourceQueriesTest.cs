@@ -55,6 +55,7 @@ namespace CAM.Business.Test.Queries
             {
                 PermissionId = Permission.EditProject.Id,
                 PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
             };
             var role = new Role
             {
@@ -95,6 +96,7 @@ namespace CAM.Business.Test.Queries
             Assert.AreEqual(true, firstResult.IsAllowed);
             Assert.AreEqual(false, firstResult.IsGrantedByPermission);
             Assert.AreEqual(true, firstResult.IsGrantedByRole);
+            Assert.AreEqual(permission.PermissionDescription, firstResult.PermissionDescription);
             Assert.AreEqual(permission.PermissionId, firstResult.PermissionId);
             Assert.AreEqual(permission.PermissionName, firstResult.PermissionName);
             Assert.AreEqual(principal.PrincipalId, firstResult.PrincipalId);
@@ -266,6 +268,93 @@ namespace CAM.Business.Test.Queries
             var firstResult = results.First();
             Assert.AreEqual(false, firstResult.IsAllowed);
         }
+
+        [TestMethod]
+        public void TestCreateGetResourceAuthorizationsByRoleQuery_PrincipalHasRole_SomeOtherPermissionAssignmentNotAllowed()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission = new Permission
+            {
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
+            };
+            var someOtherPermission = new Permission
+            {
+                PermissionId = Permission.EditProgram.Id,
+                PermissionName = Permission.EditProgram.Value
+            };
+            var role = new Role
+            {
+                RoleName = "role",
+                RoleId = 1,
+            };
+            var roleResourcePermission = new RoleResourcePermission
+            {
+                Permission = permission,
+                PermissionId = permission.PermissionId,
+                Resource = resource,
+                ResourceId = resource.ResourceId,
+                Role = role,
+                RoleId = role.RoleId
+            };
+            var principalRole = new PrincipalRole
+            {
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Role = role,
+                RoleId = role.RoleId
+            };
+            var permissionAssignment = new PermissionAssignment
+            {
+                IsAllowed = false,
+                Permission = someOtherPermission,
+                PermissionId = someOtherPermission.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+            context.PermissionAssignments.Add(permissionAssignment);
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission);
+            context.Roles.Add(role);
+            context.RoleResourcePermissions.Add(roleResourcePermission);
+            context.PrincipalRoles.Add(principalRole);
+
+            var results = ResourceQueries.CreateGetResourceAuthorizationsByRoleQuery(context);
+            Assert.AreEqual(1, results.Count());
+            var firstResult = results.First();
+            Assert.AreEqual(true, firstResult.IsAllowed);
+        }
+
 
         [TestMethod]
         public void TestCreateGetResourceAuthorizationsByRoleQuery_PrincipalHasRole_OtherPrincipalHasNotAllowedPermissionAssignment()
@@ -504,6 +593,7 @@ namespace CAM.Business.Test.Queries
             {
                 PermissionId = Permission.EditProject.Id,
                 PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
             };
             var permissionAssignment = new PermissionAssignment
             {
@@ -533,6 +623,7 @@ namespace CAM.Business.Test.Queries
             Assert.AreEqual(permissionAssignment.IsAllowed, firstResult.IsAllowed);
             Assert.AreEqual(true, firstResult.IsGrantedByPermission);
             Assert.AreEqual(false, firstResult.IsGrantedByRole);
+            Assert.AreEqual(permission.PermissionDescription, firstResult.PermissionDescription);
             Assert.AreEqual(permission.PermissionId, firstResult.PermissionId);
             Assert.AreEqual(permission.PermissionName, firstResult.PermissionName);
             Assert.AreEqual(principal.PrincipalId, firstResult.PrincipalId);
@@ -689,6 +780,7 @@ namespace CAM.Business.Test.Queries
             {
                 PermissionId = Permission.EditProject.Id,
                 PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
             };
             var role = new Role
             {
@@ -758,6 +850,7 @@ namespace CAM.Business.Test.Queries
             {
                 PermissionId = Permission.EditProject.Id,
                 PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
             };
             var permissionAssignment = new PermissionAssignment
             {

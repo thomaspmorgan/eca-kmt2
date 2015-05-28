@@ -1,7 +1,11 @@
 <h2 class="project-color tab-header">Participants</h2>
-<div class="list2">
-
-    <div class="row" ng-click="!view.isCollaboratorExpanded">
+<div class="spinner" ng-show="view.isLoading">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+<div class="list2" ng-show="!view.isLoading">
+    <div class="row" ng-click="view.isCollaboratorExpanded = !view.isCollaboratorExpanded">
         <div class="col-md-10">
             <h4 class="tab-subheader">Required Data</h4>
             <h5 class="subheader2">Setup the required data that you'll need to track, and add collaborators.</h5>
@@ -12,7 +16,7 @@
             <!--<img class="right icon" src="images/yeoman.png" alt="">-->
         </div>
     </div>
-    <div class="row recess" ng-show="view.isCollaboratorExpanded">
+    <div class="row recess" ng-show="view.isCollaboratorExpanded && permissions.isProjectOwner">
         <div class="col-md-9">Do you want to add a collaborator?</div>
         <div class="col-md-3"><button class="btn btn-primary right" ng-click="view.addCollaborator($event)">ADD COLLABORATOR</button></div>
     </div>

@@ -54,19 +54,19 @@ namespace ECA.Business.Queries.Models.Persons
         
         public SimpleOrganizationDTO ParticipantOrigination {get; set;}
 
-        public ICollection<SimpleLookupDTO> ProminentCategories {get; set;}
-        
-        public ICollection<SimpleLookupDTO> Events {get; set;}
+        public IEnumerable<SimpleLookupDTO> ProminentCategories {get; set;}
 
-        public ICollection<SimpleOrganizationDTO> Memberships { get; set; }
+        public IEnumerable<SimpleLookupDTO> Events { get; set; }
 
-        public ICollection<SimpleLookupDTO> LanguageProficiencies { get; set; }
+        public IEnumerable<SimpleOrganizationDTO> Memberships { get; set; }
 
-        public ICollection<SimpleLookupDTO> Dependants { get; set; }
+        public IEnumerable<SimpleLookupDTO> LanguageProficiencies { get; set; }
 
-        public ICollection<SimpleLookupDTO> RelatedReports { get; set; }
+        public IEnumerable<SimpleLookupDTO> Dependants { get; set; }
 
-        public ICollection<SimpleLookupDTO> ImpactStories { get; set; }
+        public IEnumerable<SimpleLookupDTO> RelatedReports { get; set; }
+
+        public IEnumerable<SimpleLookupDTO> ImpactStories { get; set; }
 
         /// <summary>
         /// Gets or sets the date revised on.
