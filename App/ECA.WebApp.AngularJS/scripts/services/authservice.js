@@ -75,6 +75,21 @@ angular.module('staticApp')
               return $rootScope.userInfo.isAuthenticated;
           },
 
+          isCurrentUser: function (emailAddress) {
+              if (!emailAddress) {
+                  return false;
+              }
+              return emailAddress.trim().toLowerCase() === adalAuthenticationService.userInfo.userName.trim().toLowerCase();
+          },
+
+          isEcaUser: function (emailAddress) {
+              if (!emailAddress) {
+                  return false;
+              }
+              var email = emailAddress.trim().toLowerCase();
+              return email.indexOf('state.gov') >= 0 || email.indexOf('statedept.us') >= 0;
+          },
+
           /**
            * Returns an array of principals with granted permissions, revoked permissions, and role permissions.
            * Each object will also contain an array of available permissions that could be granted to the given resource.
@@ -117,6 +132,8 @@ angular.module('staticApp')
                   groupedResourceAuthorizations = orderByFilter(groupedResourceAuthorizations, "+displayName");
                   for (var i = 0; i < groupedResourceAuthorizations.length; i++) {
                       var groupedResourceAuthorization = groupedResourceAuthorizations[i];
+                      groupedResourceAuthorization.isCurrentUser = service.isCurrentUser(groupedResourceAuthorization.emailAddress);
+                      groupedResourceAuthorization.isEcaUser = service.isEcaUser(groupedResourceAuthorization.emailAddress);
                       groupedResourceAuthorization.availablePermissions =
                           service.createAvailablePermissions(availablePermissions, groupedResourceAuthorization, foreignResourceId, resourceType);
                   }

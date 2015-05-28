@@ -6,6 +6,7 @@ using CAM.Business.Queries;
 using ECA.Core.DynamicLinq;
 using CAM.Business.Model;
 using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.DynamicLinq.Filter;
 
 namespace CAM.Business.Test.Queries
 {
@@ -69,7 +70,8 @@ namespace CAM.Business.Test.Queries
                 Resource = resource,
                 ResourceId = resource.ResourceId,
                 Role = role,
-                RoleId = role.RoleId
+                RoleId = role.RoleId,
+                AssignedOn = DateTimeOffset.UtcNow,
             };
             var principalRole = new PrincipalRole
             {
@@ -90,6 +92,7 @@ namespace CAM.Business.Test.Queries
             var results = ResourceQueries.CreateGetResourceAuthorizationsByRoleQuery(context);
             Assert.AreEqual(1, results.Count());
             var firstResult = results.First();
+            Assert.AreEqual(roleResourcePermission.AssignedOn, firstResult.AssignedOn);
             Assert.AreEqual(userAccount.DisplayName, firstResult.DisplayName);
             Assert.AreEqual(userAccount.EmailAddress, firstResult.EmailAddress);
             Assert.AreEqual(resource.ForeignResourceId, firstResult.ForeignResourceId);
@@ -603,7 +606,8 @@ namespace CAM.Business.Test.Queries
                 Principal = principal,
                 PrincipalId = principal.PrincipalId,
                 Resource = resource,
-                ResourceId = resource.ResourceId
+                ResourceId = resource.ResourceId,
+                AssignedOn = DateTimeOffset.UtcNow,
             };
 
             context.Principals.Add(principal);
@@ -617,6 +621,7 @@ namespace CAM.Business.Test.Queries
             var results = ResourceQueries.CreateGetResourceAuthorizationsByPermissionAssignmentsQuery(context);
             Assert.AreEqual(1, results.Count());
             var firstResult = results.First();
+            Assert.AreEqual(permissionAssignment.AssignedOn, firstResult.AssignedOn);
             Assert.AreEqual(userAccount.DisplayName, firstResult.DisplayName);
             Assert.AreEqual(userAccount.EmailAddress, firstResult.EmailAddress);
             Assert.AreEqual(resource.ForeignResourceId, firstResult.ForeignResourceId);
@@ -1056,6 +1061,7 @@ namespace CAM.Business.Test.Queries
             var permissionGrantedPermission = roleGrantedPermissions.First();
             Assert.AreEqual(false, permissionGrantedPermission.IsAllowed);
         }
+
         #endregion
 
         #region CreateGetResourcePermissionsQuery
@@ -1224,6 +1230,323 @@ namespace CAM.Business.Test.Queries
             context.ResourceTypes.Add(resourceType);
             var dtos = ResourceQueries.CreateGetResourcePermissionsQuery(context, resourceType.ResourceTypeName, 1);
             Assert.AreEqual(0, dtos.Count());
+        }
+        #endregion
+
+        #region CreateGetResourceAuthorizationInfoDTOQuery
+        [TestMethod]
+        public void TestCreateGetResourceAuthorizationInfoDTOQuery_PrincipalHasRole()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission = new Permission
+            {
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
+            };
+            var role = new Role
+            {
+                RoleName = "role",
+                RoleId = 1,
+            };
+            var roleResourcePermission = new RoleResourcePermission
+            {
+                Permission = permission,
+                PermissionId = permission.PermissionId,
+                Resource = resource,
+                ResourceId = resource.ResourceId,
+                Role = role,
+                RoleId = role.RoleId,
+                AssignedOn = DateTimeOffset.UtcNow,
+            };
+            var principalRole = new PrincipalRole
+            {
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Role = role,
+                RoleId = role.RoleId
+            };
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission);
+            context.Roles.Add(role);
+            context.RoleResourcePermissions.Add(roleResourcePermission);
+            context.PrincipalRoles.Add(principalRole);
+
+            var results = ResourceQueries.CreateGetResourceAuthorizationInfoDTOQuery(context, resourceType.ResourceTypeName, resource.ForeignResourceId);
+            Assert.AreEqual(1, results.Count());
+            var result = results.First();
+            Assert.AreEqual(1, result.AllowedPrincipalsCount);
+            Assert.AreEqual(roleResourcePermission.AssignedOn, result.LastRevisedOn);
+        }
+
+        [TestMethod]
+        public void TestCreateGetResourceAuthorizationInfoDTOQuery_PrincipalHasPermission()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission = new Permission
+            {
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
+            };
+            var permissionAssignment = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission,
+                PermissionId = permission.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId,
+                AssignedOn = DateTimeOffset.UtcNow,
+            };
+
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission);
+            context.PermissionAssignments.Add(permissionAssignment);
+
+            var results = ResourceQueries.CreateGetResourceAuthorizationInfoDTOQuery(context, resourceType.ResourceTypeName, resource.ForeignResourceId);
+            Assert.AreEqual(1, results.Count());
+            var result = results.First();
+            Assert.AreEqual(1, result.AllowedPrincipalsCount);
+            Assert.AreEqual(permissionAssignment.AssignedOn, result.LastRevisedOn);
+        }
+
+        [TestMethod]
+        public void TestCreateGetResourceAuthorizationInfoDTOQuery_PrincipalDoesNotHavePermission()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission = new Permission
+            {
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
+            };
+            var permissionAssignment = new PermissionAssignment
+            {
+                IsAllowed = false,
+                Permission = permission,
+                PermissionId = permission.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId,
+                AssignedOn = DateTimeOffset.UtcNow,
+            };
+
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission);
+            context.PermissionAssignments.Add(permissionAssignment);
+
+            var results = ResourceQueries.CreateGetResourceAuthorizationInfoDTOQuery(context, resourceType.ResourceTypeName, resource.ForeignResourceId);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetResourceAuthorizationInfoDTOQuery_ResourceTypeDoesNotExist()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission = new Permission
+            {
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
+            };
+            var permissionAssignment = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission,
+                PermissionId = permission.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId,
+                AssignedOn = DateTimeOffset.UtcNow,
+            };
+
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission);
+            context.PermissionAssignments.Add(permissionAssignment);
+
+            var results = ResourceQueries.CreateGetResourceAuthorizationInfoDTOQuery(context, "idontexist", resource.ForeignResourceId);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetResourceAuthorizationInfoDTOQuery_ForeignResourceIdDoesNotExist()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                EmailAddress = "someone@isp.com"
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission = new Permission
+            {
+                PermissionId = Permission.EditProject.Id,
+                PermissionName = Permission.EditProject.Value,
+                PermissionDescription = "desc"
+            };
+            var permissionAssignment = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission,
+                PermissionId = permission.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId,
+                AssignedOn = DateTimeOffset.UtcNow,
+            };
+
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission);
+            context.PermissionAssignments.Add(permissionAssignment);
+
+            var results = ResourceQueries.CreateGetResourceAuthorizationInfoDTOQuery(context, resource.ResourceType.ResourceTypeName, -1);
+            Assert.AreEqual(0, results.Count());
+        }
+
+        [TestMethod]
+        public void TestCreateGetResourceAuthorizationInfoDTOQuery_NoDataToQuery()
+        {
+            var results = ResourceQueries.CreateGetResourceAuthorizationInfoDTOQuery(context, ResourceType.Project.Value, 1);
+            Assert.AreEqual(0, results.Count());
         }
         #endregion
     }
