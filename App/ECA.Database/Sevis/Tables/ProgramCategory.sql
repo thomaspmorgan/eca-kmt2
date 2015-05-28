@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [sevis].[ProgramCategory]
 (
 	[ProgramCategoryId] INT IDENTITY(1,1) NOT NULL, 
-    [CategoryCode] NVARCHAR(3) NOT NULL, 
+    [ProgramCategoryCode] CHAR(2) NOT NULL, 
     [Description] NVARCHAR(100) NOT NULL, 
     [History_CreatedBy] INT NOT NULL, 
     [History_CreatedOn] DATETIMEOFFSET NOT NULL, 
@@ -12,4 +12,4 @@
 
 GO
 
-CREATE INDEX [IX_CategoryCode] ON [sevis].[ProgramCategory] ([CategoryCode])
+CREATE INDEX [IX_CategoryCode] ON [sevis].[ProgramCategory] ([ProgramCategoryCode])

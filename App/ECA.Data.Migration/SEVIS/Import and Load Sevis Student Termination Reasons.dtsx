@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Student Termination Reasons"
   DTS:PackageType="5"
-  DTS:VersionBuild="9"
-  DTS:VersionGUID="{3D6ECF86-2209-493E-AFE9-5A4CF200B2EA}">
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{54B9FB4B-AB75-448C-A616-FCC8F3FA336C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADaY6dSdBRQMT9elMVWcDaqgpH26Jk9kNWG6Z0EH+vCsQAAAAAOgAAAAAIAACAAAAC7UaNt5ikxZBQz7kjHYYL+CJvf+V9J92Th2qFX8eANfiAAAACdQ5EewJ0DkuiL8qvOTBvGjOXhJqlM4pPMC824BoGQT0AAAACTF3n4EnMGUm85jgPGWdKUYsFMy9ED7ahr84orIA2mq1CDEXCP3Uz9Nmqglw/tn83PKZIUI4d/pS1/gkGYrWnQ</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADr4llUXTDR6P/GF4qorYo1dSHOCre1KDsKcUx85QagLwAAAAAOgAAAAAIAACAAAACM2TZHW+RWiTVdhMazMNW49RNEssrocS4aXLPUN7gTiSAAAAAyENrjpFQy9JP/2MH9VqUgNdKb4bRulA8H1DTf6Jd14EAAAACk4kIC+n4Y5utt67dsep5Ux3SLjU9iPaREL6bXdeI9JzmMdN2cQPBZQ8R7YiTZ1ngABXog4pMNnWzW1qDTzH1C</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -58,7 +58,7 @@
       DTS:ObjectName="Excel Connection Manager 1">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 13 - Student Termination Reason Codes.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 13 - Student Termination Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -68,6 +68,7 @@
       DTS:refId="Package\Created Formatted Code"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
       DTS:DTSID="{125DE6B5-F110-49C4-961E-59B3815DA19D}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -85,6 +86,7 @@
       DTS:refId="Package\Import SEVIS Student Termination Reason Codes"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{E48CD8B4-AEE5-41FB-8AA3-765DA3390162}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -426,6 +428,7 @@
       DTS:refId="Package\Load Sevis Student Termination"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{1535E40E-5A37-4290-A903-953442414C38}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"

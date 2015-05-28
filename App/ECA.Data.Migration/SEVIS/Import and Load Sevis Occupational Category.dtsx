@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Occupational Category"
   DTS:PackageType="5"
-  DTS:VersionBuild="11"
-  DTS:VersionGUID="{2804B96E-D9AB-4B3C-93E3-223527BAF0C6}">
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{57D79E5D-B37C-45EE-B1EA-D08AF7FB32A4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADlace3HAHhdC0QqMAdB4jP6B61WDeMMFQra2I9OlsxGQAAAAAOgAAAAAIAACAAAAC6KMK61AM6YgyH+UKFJdu+MserrLYlie9Xx46go3Us6iAAAACC25erZqTt5b9fHZskZMqoan1RTMIA0OYST60zqLIrE0AAAAAoyxXgkFDHdSpnPv34zyUXUmv5AqUO3EdKgBMNZqdHreDwJI2VnrmRdh2v1AtvJAH9cCUmyjeYew+3m1xhWbL4</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABWeW6OxhOlwr09+xf2VT3Ac80pLbzxgr9YAv3/OS26PgAAAAAOgAAAAAIAACAAAACQ9QUeR1zSStTkw254z7dgZly5RjLXl/tt9mQlWSITwSAAAAB6767c8jcxbddaRo3TLhgt2klrwrqTA3KL6wLjEbStYkAAAAB27LPujdCLylrv57OrHwNpB16g5YmxJg6/VFu+GowaZrgQ2dz0LzoH07yw2f9Hy6yQfrHQsIpHCzw9VauKZLpb</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -68,7 +68,7 @@
       DTS:ObjectName="Excel Connection Manager 2">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 27 - Occupational Category.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 27 - Occupational Category.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -78,6 +78,7 @@
       DTS:refId="Package\Created Formatted Code"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
       DTS:DTSID="{0D9916DD-6397-4161-B523-94CD436D8692}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -95,6 +96,7 @@
       DTS:refId="Package\Import SEVIS Occupational Category"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{8C0E7F0E-7CCB-47A5-8477-5209B3C0257A}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -370,6 +372,7 @@
       DTS:refId="Package\Load Sevis Occupational Category"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{BC600D7B-AA77-4809-BAD2-568989E6F137}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -686,7 +689,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[sevis].[StudentTermination]</property>
+                  name="OpenRowset">[sevis].[OccupationalCategory]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -761,42 +764,26 @@
                       externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
                       lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
                     <inputColumn
-                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[FormattedCode]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="2"
-                      cachedName="FormattedCode"
-                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[TerminationCode]"
-                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].Columns[FormattedCode]" />
-                    <inputColumn
-                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[STUDENT TERMINATION DESCRIPTION]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="STUDENT TERMINATION DESCRIPTION"
-                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      lineageId="Package\Load Sevis Occupational Category\48:invalid" />
-                    <inputColumn
                       refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
                       cachedDataType="i4"
                       cachedName="History_CreatedBy"
                       externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
                       lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
                     <inputColumn
-                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[Copy of F-1 INDICATOR]"
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[FormattedCode]"
                       cachedCodepage="1252"
                       cachedDataType="str"
-                      cachedLength="1"
-                      cachedName="Copy of F-1 INDICATOR"
-                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[F_1_Ind]"
-                      lineageId="Package\Load Sevis Occupational Category\25:invalid" />
+                      cachedLength="2"
+                      cachedName="FormattedCode"
+                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[OccupationalCategoryCode]"
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].Columns[FormattedCode]" />
                     <inputColumn
-                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[Copy of M-1 INDICATOR]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="1"
-                      cachedName="Copy of M-1 INDICATOR"
-                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[M_1_Ind]"
-                      lineageId="Package\Load Sevis Occupational Category\28:invalid" />
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[OCCUPATIONAL DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="OCCUPATIONAL DESCRIPTION"
+                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].Columns[OCCUPATIONAL DESCRIPTION]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -815,36 +802,24 @@
                       name="History_RevisedOn"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[StudentTerminationId]"
-                      dataType="i4"
-                      name="StudentTerminationId" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[TerminationCode]"
-                      codePage="1252"
-                      dataType="str"
-                      length="2"
-                      name="TerminationCode" />
-                    <externalMetadataColumn
                       refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       dataType="wstr"
-                      length="100"
+                      length="200"
                       name="Description" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[F_1_Ind]"
-                      codePage="1252"
-                      dataType="str"
-                      length="1"
-                      name="F_1_Ind" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[M_1_Ind]"
-                      codePage="1252"
-                      dataType="str"
-                      length="1"
-                      name="M_1_Ind" />
                     <externalMetadataColumn
                       refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
                       dataType="i4"
                       name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[OccupationalCategoryId]"
+                      dataType="i4"
+                      name="OccupationalCategoryId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[OccupationalCategoryCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="OccupationalCategoryCode" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -1007,15 +982,15 @@
     design-time-name="Package\Import SEVIS Occupational Category">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="206,42"
-          Id="Package\Import SEVIS Occupational Category\SevisOccupationalCategory"
-          TopLeft="95.5,95.5" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="279,42"
           Id="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source"
           TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="206,42"
+          Id="Package\Import SEVIS Occupational Category\SevisOccupationalCategory"
+          TopLeft="95.5,95.5" />
         <EdgeLayout
           Id="Package\Import SEVIS Occupational Category.Paths[Excel Source Output]"
           TopLeft="145,47.5">
@@ -1047,7 +1022,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -1083,7 +1060,7 @@
     design-time-name="Package\Load Sevis Occupational Category">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="240,42"
           Id="Package\Load Sevis Occupational Category\Local Sevis Occupational Category"
@@ -1149,9 +1126,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-8,50.75,16,16"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Student Creation Reasons"
   DTS:PackageType="5"
-  DTS:VersionBuild="3"
-  DTS:VersionGUID="{B2C2BC22-07C4-41B6-ADE6-53670FBD074B}">
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{0FA03D04-9872-4B5C-906A-3ADCBB9E178B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA9iiYJ1d1YgLNeSvWqgu+XfmqmZzLtDb9pLkCouZ6EMQAAAAAOgAAAAAIAACAAAAAD5aFeIBrBk6bcrjgBWeJoKFLg3K8Gh8P0n+CzTK7ErCAAAABm0+0Gg85dlASCz73UvghF2FMKbtrRjK4JxYi3nssNJUAAAABMR7jXBb+ZN/eQgs0iUYXf10hRWr9P8S3RtIAragxdQTrjJRX0jMjGFuGdu5qob1OCNRfwNb/Ue39ctmiTKOjc</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABc41EsLcI1j9OAXFNPZm/W2+3CKYJqXJTjNIR8fTdULgAAAAAOgAAAAAIAACAAAABxbV5lrU1v+3J0px9P70HjVWYNPbc1esgjapTN6W4jjiAAAAAYzspzhCNzSe5ctd0Kj/QcnUjt37xJXTbDGbXXQkiu7EAAAAC0SC9ltY/kziduKpe1oNLDboUHWFjWshqLNqwrs/Z1teQOj3H1EXuhn61IhazFaXPO3tcXka7QUHLB0mnltjhw</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -48,7 +48,7 @@
       DTS:ObjectName="Excel Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 11 - Student Creation Reason Codes.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 11 - Student Creation Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -430,6 +430,7 @@
       DTS:refId="Package\Load Local Sevis Student Data to ECA"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{F62870BC-ACAC-460A-8EFC-B5D0B9A4B26E}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -1081,7 +1082,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source">
+    design-time-name="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1094,7 +1095,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation">
+    design-time-name="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

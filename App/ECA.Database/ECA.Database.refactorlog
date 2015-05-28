@@ -420,4 +420,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="OccupationalCategoryId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="f404f3e7-13f9-407a-bcb4-92fdc5208bfe" ChangeDateTime="05/28/2015 19:18:29">
+    <Property Name="ElementName" Value="[sevis].[ProgramCategory].[CategoryCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[ProgramCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProgramCategoryCode" />
+  </Operation>
 </Operations>
