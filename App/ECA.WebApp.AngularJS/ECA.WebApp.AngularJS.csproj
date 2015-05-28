@@ -150,6 +150,7 @@
     <!--<Content Include="styles\main.css.map">
       <DependentUpon>main.css</DependentUpon>
     </Content>-->
+    <Content Include="views\participants\partials\eduempView.html" />
     <Content Include="views\participants\partials\generalView.html" />
     <Content Include="views\project\collaborators.html" />
     <Content Include="scripts\services\organization.js" />
@@ -459,16 +460,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>49831</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5556/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

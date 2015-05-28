@@ -110,6 +110,55 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Returns education and professional employment information for a user 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Education and professional employment information for person</returns>
+        public IList<EducationEmploymentDTO> GetEmploymentsByPersonId(int personId)
+        {
+            var employments = PersonQueries.CreateGetEmploymentsByPersonIdQuery(this.Context, personId).ToList();
+            this.logger.Trace("Retrieved employments for person info by id {0}.", personId);
+            return employments;
+        }
+
+        /// <summary>
+        /// Returns education and professional employment information for a user asyncronously
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Education and professional employment information for person</returns>
+        public async Task<IList<EducationEmploymentDTO>> GetEmploymentsByPersonIdAsync(int personId)
+        {
+            var employments = PersonQueries.CreateGetEmploymentsByPersonIdQuery(this.Context, personId).ToListAsync();
+            this.logger.Trace("Retrieved employments for person info by id {0}.", personId);
+            return await employments;
+        }
+
+
+        /// <summary>
+        /// Returns professional employments information for a user 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Professional employments information for person</returns>
+        public IList<EducationEmploymentDTO> GetEducationsByPersonId(int personId)
+        {
+            var educations = PersonQueries.CreateGetEducationsByPersonIdQuery(this.Context, personId).ToList();
+            this.logger.Trace("Retrieved educations for person info by id {0}.", personId);
+            return educations;
+        }
+
+        /// <summary>
+        /// Returns educations information for a user asyncronously
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Educations information for person</returns>
+        public async Task<IList<EducationEmploymentDTO>> GetEducationsByPersonIdAsync(int personId)
+        {
+            var educations = PersonQueries.CreateGetEducationsByPersonIdQuery(this.Context, personId).ToListAsync();
+            this.logger.Trace("Retrieved educations for person info by id {0}.", personId);
+            return await educations;
+        }
+
+        /// <summary>
         /// Create a person
         /// </summary>
         /// <param name="newPerson">The person to create</param>
