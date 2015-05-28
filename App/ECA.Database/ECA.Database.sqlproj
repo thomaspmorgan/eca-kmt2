@@ -278,6 +278,11 @@
     <Build Include="Sevis\Tables\FieldOfStudy.sql" />
     <Build Include="Sevis\Tables\Position.sql" />
     <Build Include="Sevis\Tables\ProgramSubject.sql" />
+    <Build Include="Sevis\Tables\EducationLevel.sql" />
+    <Build Include="Sevis\Tables\StudentCancellation.sql" />
+    <Build Include="Sevis\Tables\StudentCreation.sql" />
+    <Build Include="Sevis\Tables\StudentTermination.sql" />
+    <Build Include="Sevis\Tables\ProgramCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />
