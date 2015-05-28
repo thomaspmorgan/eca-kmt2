@@ -995,7 +995,14 @@ namespace ECA.Business.Test.Service.Persons
                 SevisId = "1234567890",
                 History = history
             };
+            var status = new ParticipantStatus
+            {
+                Status = "status",
+            };
+            participant.Status = status;
+            status.Participants.Add(participant);
 
+            context.ParticipantStatuses.Add(status);
             context.People.Add(person);
             context.ParticipantTypes.Add(participantType);
             context.Participants.Add(participant);
@@ -1011,6 +1018,8 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.FirstName + " " + person.LastName, result.Name);
                 Assert.AreEqual(participant.SevisId, result.SevisId);
                 Assert.AreEqual(participant.ContactAgreement, result.ContactAgreement);
+                Assert.AreEqual(status.Status, result.Status);
+                Assert.AreEqual(history.RevisedOn, result.RevisedOn);
             };
 
             var serviceResult = service.GetParticipantById(participant.ParticipantId);

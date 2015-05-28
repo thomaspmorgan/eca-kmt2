@@ -14,6 +14,15 @@ namespace ECA.Data
     /// </summary>
     public class ParticipantStatus
     {
+        /// <summary>
+        /// Creates a new ParticipantStatus and initializes the participants and history properties.
+        /// </summary>
+        public ParticipantStatus()
+        {
+            this.Participants = new HashSet<Participant>();
+            this.History = new History();
+        }
+
         [Key]
         public int ParticipantStatusId { get; set; }
 
