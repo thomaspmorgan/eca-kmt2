@@ -287,10 +287,4 @@
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />
   </ItemGroup>
-  <ItemGroup>
-    <SqlCmdVariable Include="SEVIS">
-      <DefaultValue>SEVIS.Database</DefaultValue>
-      <Value>$(SqlCmdVar__1)</Value>
-    </SqlCmdVariable>
-  </ItemGroup>
 </Project>
