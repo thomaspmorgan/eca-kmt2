@@ -22,6 +22,7 @@ using System.Web.Http.Results;
 using ECA.Core.DynamicLinq.Filter;
 using CAM.Data;
 using ECA.WebApi.Models.Security;
+using CAM.Business.Queries.Models;
 
 namespace ECA.WebApi.Test.Controllers.Admin
 {
@@ -128,6 +129,15 @@ namespace ECA.WebApi.Test.Controllers.Admin
         #endregion
 
         #region Collaborators
+
+        [TestMethod]
+        public async Task TestGetCollaboratorDetailsAsync()
+        {
+            resourceService.Setup(x => x.GetResourceAuthorizationInfoDTOAsync(It.IsAny<string>(), It.IsAny<int>())).ReturnsAsync(new ResourceAuthorizationInfoDTO());
+            var response = await controller.GetCollaboratorDetailsAsync(1);
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ResourceAuthorizationInfoDTO>));
+            resourceService.Verify(x => x.GetResourceAuthorizationInfoDTOAsync(It.IsAny<string>(), It.IsAny<int>()), Times.Once());
+        }
 
         [TestMethod]
         public async Task TestPostAddCollaboratorAsync()

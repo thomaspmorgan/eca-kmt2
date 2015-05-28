@@ -73,6 +73,9 @@
     <Folder Include="Data Migration\MigrationScripts\ECA" />
     <Folder Include="Data Migration\MigrationScripts\VisitingScholars" />
     <Folder Include="dbo\Functions" />
+    <Folder Include="Sevis" />
+    <Folder Include="Sevis\Schema" />
+    <Folder Include="Sevis\Tables" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ECA_Local.publish.xml" />
@@ -271,6 +274,16 @@
     <Build Include="dbo\Stored Procedures\GetProgramsForUser.sql" />
     <Build Include="dbo\Stored Procedures\GetProgramsForUserAlpha.sql" />
     <Build Include="dbo\Tables\ParticipantPerson.sql" />
+    <Build Include="Sevis\Schema\SevisSchema.sql" />
+    <Build Include="Sevis\Tables\FieldOfStudy.sql" />
+    <Build Include="Sevis\Tables\Position.sql" />
+    <Build Include="Sevis\Tables\ProgramSubject.sql" />
+    <Build Include="Sevis\Tables\EducationLevel.sql" />
+    <Build Include="Sevis\Tables\StudentCancellation.sql" />
+    <Build Include="Sevis\Tables\StudentCreation.sql" />
+    <Build Include="Sevis\Tables\StudentTermination.sql" />
+    <Build Include="Sevis\Tables\ProgramCategory.sql" />
+    <Build Include="Sevis\Tables\OccupationalCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />

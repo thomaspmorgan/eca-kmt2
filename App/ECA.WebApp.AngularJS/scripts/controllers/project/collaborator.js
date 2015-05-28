@@ -130,7 +130,7 @@ angular.module('staticApp')
                 });
           }
       }
-
+      
       function loadCollaborators(params) {
           var url = '/projects/' + projectId + '/collaborators';
           isLoading(true);

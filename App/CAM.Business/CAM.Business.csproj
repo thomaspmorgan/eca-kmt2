@@ -60,6 +60,7 @@
     <Compile Include="Model\GrantedPermission.cs" />
     <Compile Include="Model\ResourceAuthorization.cs" />
     <Compile Include="Model\RevokedPermission.cs" />
+    <Compile Include="Queries\Models\ResourceAuthorizationInfoDTO.cs" />
     <Compile Include="Queries\Models\ResourcePermissionDTO.cs" />
     <Compile Include="Queries\Models\ResourceTypeDTO.cs" />
     <Compile Include="Queries\Models\UserDTO.cs" />

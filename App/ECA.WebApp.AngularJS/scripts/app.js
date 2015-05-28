@@ -498,5 +498,19 @@ angular
             event.preventDefault();
         });
 
+        $rootScope.$on(ConstantsService.toggleStickyToolbarEventName, function (event, show) {
+            var zIndex = 1;
+            if (!$rootScope.jumbotronToolbarzIndex) {
+                $rootScope.jumbotronToolbarzIndex = $(".jumbotron .toolbar").css('z-index');
+            }
+            if (typeof (show) === 'undefined') {
+                show = true;
+            }
+            if (show) {
+                zIndex = $rootScope.jumbotronToolbarzIndex;
+            }
+            $(".jumbotron .toolbar").css("z-index", zIndex);
+        });
+
         $rootScope.spotlightModal = false;
     }]);

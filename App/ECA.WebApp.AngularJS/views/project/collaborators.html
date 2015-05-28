@@ -34,25 +34,34 @@
             <tbody class="list2">
                 <tr class="hover" ng-repeat="collaborator in view.collaborators">
                     <td class="col-md-3">
-                        <h5>{{collaborator.displayName}}</h5><p>{{collaborator.emailAddress}}</p>
+                        <h5>
+                            {{collaborator.displayName}}
+                            <span ng-if="collaborator.isCurrentUser">
+                                (Me)
+                            </span>
+                        </h5>
+                        <p class="mute">{{collaborator.emailAddress}}</p>
                     </td>
                     <td class="col-md-3">
-                        <div ng-if="collaborator.emailAddress && collaborator.emailAddress.toLowerCase().indexOf('state.gov') >= 0">
+                        <div ng-if="collaborator.isEcaUser">
                             ECA
                         </div>
-                        <div ng-if="!collaborator.emailAddress || collaborator.emailAddress.toLowerCase().indexOf('state.gov') === -1">
+                        <div ng-if="!collaborator.isEcaUser">
                             Outside ECA
                         </div>
                     </td>
                     <td class="col-md-3">
                         <div>
-                            <ul ng-repeat="permission in collaborator.rolePermissions" ng-disabled="true">
+                            <ul ng-repeat="permission in collaborator.rolePermissions">
                                 <li>
                                     <ng-switch on="$first || permission.roleName != collaborator.rolePermissions[$index - 1].roleName">
                                         <div ng-switch-when="true" class="title-label"><strong>{{permission.roleName}}</strong></div>
                                     </ng-switch>
                                     <label>
-                                        <input type="checkbox" ng-model="permission.isAllowed" ng-change="view.onRolePermissionCheckboxChange(permission, collaborator)" />
+                                        <input type="checkbox"
+                                               ng-model="permission.isAllowed"
+                                               ng-disabled="view.isSaving || collaborator.isCurrentUser"
+                                               ng-change="view.onRolePermissionCheckboxChange(permission, collaborator)" />
                                         <span tooltip="{{permission.permissionDescription}}">{{permission.permissionName}}</span>
                                     </label>
                                 </li>
@@ -67,7 +76,7 @@
                                        style="margin-right:10px;"
                                        on-remove="view.onRemovePermission($item, collaborator)"
                                        on-select="view.onSelectPermission($item, collaborator)"
-                                       ng-disabled="view.isSaving">
+                                       ng-disabled="view.isSaving || collaborator.isCurrentUser">
                                 <ui-select-match placeholder="Permissions">
                                     <div>
                                         <span tooltip-append-to-body="true" tooltip="{{$item.permissionDescription}}">{{$item.permissionName}}</span>
