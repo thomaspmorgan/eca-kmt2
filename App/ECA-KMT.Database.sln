@@ -7,8 +7,6 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ECA.Database", "ECA.Databas
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CAM.Database", "CAM.Database\CAM.Database.sqlproj", "{A4A83F58-A03F-4F95-878C-5887C0A96F74}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SEVIS.Database", "SEVIS.Database\SEVIS.Database.sqlproj", "{00403269-F6A3-4605-8710-151B70A92A57}"
-EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "LoadLanguages", "ECA.Data.Migration\LoadLanguages\LoadLanguages.dtproj", "{DB3EB374-1879-442B-964F-403DB0F97327}"
 EndProject
 Global
@@ -36,15 +34,6 @@ Global
 		{A4A83F58-A03F-4F95-878C-5887C0A96F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4A83F58-A03F-4F95-878C-5887C0A96F74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4A83F58-A03F-4F95-878C-5887C0A96F74}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{00403269-F6A3-4605-8710-151B70A92A57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00403269-F6A3-4605-8710-151B70A92A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00403269-F6A3-4605-8710-151B70A92A57}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{00403269-F6A3-4605-8710-151B70A92A57}.Development|Any CPU.ActiveCfg = Debug|Any CPU
-		{00403269-F6A3-4605-8710-151B70A92A57}.Development|Any CPU.Build.0 = Debug|Any CPU
-		{00403269-F6A3-4605-8710-151B70A92A57}.Development|Any CPU.Deploy.0 = Debug|Any CPU
-		{00403269-F6A3-4605-8710-151B70A92A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00403269-F6A3-4605-8710-151B70A92A57}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00403269-F6A3-4605-8710-151B70A92A57}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{DB3EB374-1879-442B-964F-403DB0F97327}.Debug|Any CPU.ActiveCfg = Development
 		{DB3EB374-1879-442B-964F-403DB0F97327}.Debug|Any CPU.Build.0 = Development
 		{DB3EB374-1879-442B-964F-403DB0F97327}.Development|Any CPU.ActiveCfg = Development
