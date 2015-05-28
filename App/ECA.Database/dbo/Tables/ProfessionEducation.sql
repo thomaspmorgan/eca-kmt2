@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[ProfessionEducation] (
     [ProfessionEducationId]       INT                IDENTITY (1, 1) NOT NULL,
-    [Title]                       NVARCHAR (MAX)     NOT NULL,
-    [Role]                        NVARCHAR (MAX)     NULL,
+    [Title]                       NVARCHAR (250)     NOT NULL,
+    [Role]                        NVARCHAR (250)     NULL,
     [OrganizationId]              INT                NOT NULL,
     [DateFrom]                    DATETIMEOFFSET (7) NOT NULL,
     [DateTo]                      DATETIMEOFFSET (7) NULL,
