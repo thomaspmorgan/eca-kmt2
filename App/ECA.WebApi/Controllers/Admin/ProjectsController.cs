@@ -1,4 +1,5 @@
 ﻿using CAM.Business.Model;
+using CAM.Business.Queries.Models;
 using CAM.Business.Service;
 using CAM.Data;
 using ECA.Business.Queries.Models.Admin;
@@ -200,16 +201,41 @@ namespace ECA.WebApi.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var queryOperator = queryModel.ToQueryableOperator(DEFAULT_RESOURCE_AUTHORIZATION_SORTER);
-                queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ForeignResourceId, ComparisonType.Equal, projectId));
-                queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ResourceTypeId, ComparisonType.Equal, ResourceType.Project.Id));
-                var authorizations = await resourceService.GetResourceAuthorizationsAsync(queryOperator);
+                var authorizations = await GetResourceAuthorizationsAsync(GetQueryableOperator(projectId, queryModel));
                 return Ok(authorizations);
             }
             else
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        /// <summary>
+        /// Adds collaborators to a project.
+        /// </summary>
+        /// <param name="projectId">The id of the project to get collaborators for.</param>
+        /// <param name="queryModel">The filtering, paging, and sorting parameters.</param>
+        /// <returns>An ok result.</returns>
+        [ResponseType(typeof(ResourceAuthorizationInfoDTO))]
+        [Route("Projects/{projectId}/Collaborators/Details")]
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, CAM.Data.ResourceType.PROJECT_VALUE, "projectId")]
+        public async Task<IHttpActionResult> GetCollaboratorDetailsAsync([FromUri]int projectId)
+        {
+            var info = await resourceService.GetResourceAuthorizationInfoDTOAsync(ResourceType.Project.Value, projectId);
+            return Ok(info);
+        }
+
+        private QueryableOperator<ResourceAuthorization> GetQueryableOperator(int projectId, PagingQueryBindingModel<ResourceAuthorization> queryModel)
+        {
+            var queryOperator = queryModel.ToQueryableOperator(DEFAULT_RESOURCE_AUTHORIZATION_SORTER);
+            queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ForeignResourceId, ComparisonType.Equal, projectId));
+            queryOperator.Filters.Add(new ExpressionFilter<ResourceAuthorization>(x => x.ResourceTypeId, ComparisonType.Equal, ResourceType.Project.Id));
+            return queryOperator;
+        }
+
+        private Task<PagedQueryResults<ResourceAuthorization>> GetResourceAuthorizationsAsync(QueryableOperator<ResourceAuthorization> queryOperator)
+        {
+            return resourceService.GetResourceAuthorizationsAsync(queryOperator);
         }
     }
 }

@@ -13,6 +13,11 @@ namespace CAM.Business.Model
     public class ResourceAuthorization
     {
         /// <summary>
+        /// Gets or sets the date the permission was assigned.
+        /// </summary>
+        public DateTimeOffset AssignedOn { get; set; }
+
+        /// <summary>
         /// Gets or sets the PrincipalId.
         /// </summary>
         public int PrincipalId { get; set; }

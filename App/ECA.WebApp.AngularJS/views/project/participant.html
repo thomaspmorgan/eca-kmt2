@@ -9,7 +9,8 @@
         <div class="col-md-10">
             <h4 class="tab-subheader">Required Data</h4>
             <h5 class="subheader2">Setup the required data that you'll need to track, and add collaborators.</h5>
-            <p class="mute">No collaborators yet | Last updated {{project.updated | date}}</p>
+            <p class="mute" ng-if="view.numberOfCollaborators <= 0">No collaborators yet | Last updated {{view.collaboratorsLastUpdated | date}}</p>
+            <p class="mute" ng-if="view.numberOfCollaborators > 0">{{view.numberOfCollaborators}} Collaborators | Last updated {{view.collaboratorsLastUpdated | date}}</p>
         </div>
         <div class="col-sd-2">
             <span class="right"><img src="images/expand.png"></span>
