@@ -283,6 +283,7 @@
     <Build Include="Sevis\Tables\StudentCreation.sql" />
     <Build Include="Sevis\Tables\StudentTermination.sql" />
     <Build Include="Sevis\Tables\ProgramCategory.sql" />
+    <Build Include="Sevis\Tables\OccupationalCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />
