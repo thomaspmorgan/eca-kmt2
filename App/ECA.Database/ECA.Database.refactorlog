@@ -413,4 +413,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ProgramCategoryId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="21e84cdd-bc94-4c18-b017-539940297420" ChangeDateTime="05/28/2015 19:07:12">
+    <Property Name="ElementName" Value="[sevis].[OccupationalCategory].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[OccupationalCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OccupationalCategoryId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f404f3e7-13f9-407a-bcb4-92fdc5208bfe" ChangeDateTime="05/28/2015 19:18:29">
+    <Property Name="ElementName" Value="[sevis].[ProgramCategory].[CategoryCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[ProgramCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProgramCategoryCode" />
+  </Operation>
 </Operations>

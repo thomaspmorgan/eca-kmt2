@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [sevis].[StudentCreation]
 (
 	[StudentCreationId] INT IDENTITY(1,1) NOT NULL, 
-    [CreationCode] NVARCHAR(3) NOT NULL, 
+    [CreationCode] CHAR NOT NULL, 
     [Description] NVARCHAR(100) NOT NULL, 
     [History_CreatedBy] INT NOT NULL, 
     [History_CreatedOn] DATETIMEOFFSET NOT NULL, 
