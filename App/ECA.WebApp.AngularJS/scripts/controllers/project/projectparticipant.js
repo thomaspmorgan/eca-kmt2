@@ -31,6 +31,7 @@ angular.module('staticApp')
       var projectId = $stateParams.projectId;
 
       $scope.view.addCollaborator = function ($event) {
+          $scope.$emit(ConstantsService.toggleStickyToolbarEventName, false);
           var modalInstance = $modal.open({
               templateUrl: '/views/project/collaborators.html',
               controller: 'ProjectCollaboratorCtrl',
@@ -42,6 +43,9 @@ angular.module('staticApp')
               $log.info('Closing...');              
           }, function () {
               $log.info('Dismiss add collaborator dialog...');
+          })
+          .then(function() {
+              $scope.$emit(ConstantsService.toggleStickyToolbarEventName, true);
           });
       };
       

@@ -218,7 +218,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <returns>An ok result.</returns>
         [ResponseType(typeof(ResourceAuthorizationInfoDTO))]
         [Route("Projects/{projectId}/Collaborators/Details")]
-        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, CAM.Data.ResourceType.PROJECT_VALUE, "projectId")]
+        [ResourceAuthorize(CAM.Data.Permission.VIEW_PROJECT_VALUE, CAM.Data.ResourceType.PROJECT_VALUE, "projectId")]
         public async Task<IHttpActionResult> GetCollaboratorDetailsAsync([FromUri]int projectId)
         {
             var info = await resourceService.GetResourceAuthorizationInfoDTOAsync(ResourceType.Project.Value, projectId);

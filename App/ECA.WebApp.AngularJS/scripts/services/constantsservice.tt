@@ -50,6 +50,8 @@
 	otherConstants["officeCategorySettingName"] = OfficeSetting.CATEGORY_SETTING_KEY;
 	otherConstants["officeObjectiveSettingName"] = OfficeSetting.OBJECTIVE_SETTING_KEY;
 
+	otherConstants["toggleStickyToolbarEventName"] = "toggleStickyBar";
+
 	WriteTypes(types, otherConstants);
 #>
 
