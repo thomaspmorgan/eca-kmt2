@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CreationDate="5/28/2015 12:13:17 PM"
+  DTS:CreationDate="5/27/2015 3:38:27 PM"
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="BE00003308"
   DTS:CreatorName="BE00003308\Marc Setien"
-  DTS:DTSID="{D9D3EF14-1D10-45CA-8494-FD56181EBCE5}"
+  DTS:DTSID="{ACCD2016-13A6-465D-9ECA-B951FEDF53DC}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="12.0.2480.0"
   DTS:LocaleID="1033"
-  DTS:ObjectName="Import and Load Sevis Student Termination Reasons"
+  DTS:ObjectName="Import and Load Sevis Table 5 - Education Level"
   DTS:PackageType="5"
-  DTS:VersionBuild="10"
-  DTS:VersionGUID="{54B9FB4B-AB75-448C-A616-FCC8F3FA336C}">
+  DTS:VersionBuild="24"
+  DTS:VersionGUID="{380640ED-244B-48EE-B924-76D66B38F17C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{241BFA2A-8414-4959-9F5C-E7C6AA28B207}"
+      DTS:DTSID="{30DE79F0-E705-4821-A18F-9C361AE1404C}"
       DTS:ObjectName="(localdb)\v11.0.ECA_Local">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -29,7 +29,7 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{CCB49A1E-5CF5-45F5-BBD8-10445BE905C8}"
+      DTS:DTSID="{2B254ACE-665F-490B-B8B0-B14033035AAB}"
       DTS:ObjectName="BE00003308\SQLExpress2014.SEVIS.msetien">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -37,60 +37,65 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADr4llUXTDR6P/GF4qorYo1dSHOCre1KDsKcUx85QagLwAAAAAOgAAAAAIAACAAAACM2TZHW+RWiTVdhMazMNW49RNEssrocS4aXLPUN7gTiSAAAAAyENrjpFQy9JP/2MH9VqUgNdKb4bRulA8H1DTf6Jd14EAAAACk4kIC+n4Y5utt67dsep5Ux3SLjU9iPaREL6bXdeI9JzmMdN2cQPBZQ8R7YiTZ1ngABXog4pMNnWzW1qDTzH1C</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAR/ExO5mFke2uH3ZfVo64ubMNq9e6PBYnPFh4Mzo5VLQAAAAAOgAAAAAIAACAAAACnAVgkI7VoIntzK12/hNiHU0BPguUnxGicbnZHMyIBGiAAAABCVVEpGEUNqAmuQzVJXK+VFCXL1nKp+ce73e2hZwvV/kAAAAC1YNdXxO+FbkCrZpE2r6IubJ0kdBY5uk3SYW5k575naT3TLJSUSEQRa3a/0LHPvu0xmFXEoeDh7HlZO3o2KHaY</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
       DTS:CreationName="EXCEL"
-      DTS:DTSID="{AE6806BA-0142-485C-9810-86A89AFDCE3F}"
+      DTS:DTSID="{630A814D-D982-4C0C-89EE-DF8063B2F5DD}"
       DTS:ObjectName="Excel Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 10 - Student Cancellation Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 5 - Education Level Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 1]"
-      DTS:CreationName="EXCEL"
-      DTS:DTSID="{FCFC7A4F-D168-41D1-94AC-513A9B92FDAC}"
-      DTS:ObjectName="Excel Connection Manager 1">
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{639B7C19-7ADA-4F62-9130-F1255D0F40A4}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 13 - Student Termination Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABnbv3EIHq+l44eu8YYjq7TwdLPud3DL7/dK/w+WMeEHgAAAAAOgAAAAAIAACAAAABrIboOaiXvxcM6kZ/SxNqaDRNDsEOtyfYTLe35NpvhFyAAAACLZVRAQOOhW4OlBG4TPLhq/ZMMKO+u4lfLzgMXeSX9A0AAAAC6j1cVebsouzkwnr0mxXioC+xYxxXNSeNavs65Te45EJy/axbmkUrwVENtfFvCIsKO2U0S/KvjPYxzmpHbrHLh</DTS:Password>
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
   <DTS:Variables />
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Created Formatted Code"
+      DTS:refId="Package\Format Education Level Code"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
       DTS:Disabled="True"
-      DTS:DTSID="{125DE6B5-F110-49C4-961E-59B3815DA19D}"
+      DTS:DTSID="{221664CA-AAF9-4125-96C2-ED7294B9E15B}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Created Formatted Code"
+      DTS:ObjectName="Format Education Level Code"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
       DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{CCB49A1E-5CF5-45F5-BBD8-10445BE905C8}"
-          SQLTask:SqlStatementSource="UPDATE  [SEVIS].[dbo].[SevisStudentTermination]&#xA;SET FormattedCode = FORMAT ([Student Termination Code],'00')&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:Connection="{2B254ACE-665F-490B-B8B0-B14033035AAB}"
+          SQLTask:SqlStatementSource="UPDATE  [SEVIS].[dbo].[SevisEducationLevel]&#xA;SET [Formatted Education Level Code] = FORMAT ([student education level code],'00')&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Import SEVIS Student Termination Reason Codes"
+      DTS:refId="Package\Import Sevis Education Level"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:Disabled="True"
-      DTS:DTSID="{E48CD8B4-AEE5-41FB-8AA3-765DA3390162}"
+      DTS:DTSID="{34F4067E-55ED-4D1A-B960-45672B639ED4}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Import SEVIS Student Termination Reason Codes"
+      DTS:ObjectName="Import Sevis Education Level"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -98,11 +103,11 @@
           version="1">
           <components>
             <component
-              refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source"
+              refId="Package\Import Sevis Education Level\Education Level Excel Source"
               componentClassID="Microsoft.ExcelSource"
               contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Excel Source"
-              name="SEVIS Student Termination Codes Excel Source"
+              name="Education Level Excel Source"
               usesDispositions="true"
               version="1">
               <properties>
@@ -139,118 +144,118 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 1]"
-                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 1]"
+                  refId="Package\Import Sevis Education Level\Education Level Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
               <outputs>
                 <output
-                  refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output]"
+                  refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output]"
                   name="Excel Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[STUDENT TERMINATION CODE]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL CODE]"
                       dataType="r8"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT TERMINATION CODE]"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[STUDENT TERMINATION CODE]"
-                      name="STUDENT TERMINATION CODE"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      name="STUDENT EDUCATION LEVEL CODE"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[STUDENT TERMINATION DESCRIPTION]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT TERMINATION DESCRIPTION]"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
                       length="255"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[STUDENT TERMINATION DESCRIPTION]"
-                      name="STUDENT TERMINATION DESCRIPTION"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[F-1 INDICATOR]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL F-1]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[F-1 INDICATOR]"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
                       length="255"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[F-1 INDICATOR]"
-                      name="F-1 INDICATOR"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      name="STUDENT EDUCATION LEVEL F-1"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[M-1 INDICATOR]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL M-1]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[M-1 INDICATOR]"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
                       length="255"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[M-1 INDICATOR]"
-                      name="M-1 INDICATOR"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      name="STUDENT EDUCATION LEVEL M-1"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT TERMINATION CODE]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
                       dataType="r8"
-                      name="STUDENT TERMINATION CODE" />
+                      name="STUDENT EDUCATION LEVEL CODE" />
                     <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT TERMINATION DESCRIPTION]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      name="STUDENT TERMINATION DESCRIPTION" />
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION" />
                     <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[F-1 INDICATOR]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
                       dataType="wstr"
                       length="255"
-                      name="F-1 INDICATOR" />
+                      name="STUDENT EDUCATION LEVEL F-1" />
                     <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[M-1 INDICATOR]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
                       dataType="wstr"
                       length="255"
-                      name="M-1 INDICATOR" />
+                      name="STUDENT EDUCATION LEVEL M-1" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output]"
+                  refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output]"
                   isErrorOut="true"
                   name="Excel Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT TERMINATION CODE]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL CODE]"
                       dataType="r8"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT TERMINATION CODE]"
-                      name="STUDENT TERMINATION CODE" />
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      name="STUDENT EDUCATION LEVEL CODE" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT TERMINATION DESCRIPTION]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT TERMINATION DESCRIPTION]"
-                      name="STUDENT TERMINATION DESCRIPTION" />
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[F-1 INDICATOR]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL F-1]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[F-1 INDICATOR]"
-                      name="F-1 INDICATOR" />
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      name="STUDENT EDUCATION LEVEL F-1" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[M-1 INDICATOR]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL M-1]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[M-1 INDICATOR]"
-                      name="M-1 INDICATOR" />
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      name="STUDENT EDUCATION LEVEL M-1" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -259,11 +264,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation"
+              refId="Package\Import Sevis Education Level\Local Sevis EducationLevel"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
-              name="SEVISStudentCancellation"
+              name="Local Sevis EducationLevel"
               usesDispositions="true"
               version="4">
               <properties>
@@ -274,7 +279,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[SevisStudentTermination]</property>
+                  name="OpenRowset">[SevisEducationLevel]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -316,7 +321,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Connections[OleDbConnection]"
+                  refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   description="The OLE DB runtime connection used to access the database."
@@ -324,88 +329,88 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input]"
+                  refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].Columns[STUDENT TERMINATION CODE]"
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[STUDENT EDUCATION LEVEL CODE]"
                       cachedDataType="r8"
-                      cachedName="STUDENT TERMINATION CODE"
-                      externalMetadataColumnId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT TERMINATION CODE]"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[STUDENT TERMINATION CODE]" />
+                      cachedName="STUDENT EDUCATION LEVEL CODE"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL CODE]" />
                     <inputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].Columns[STUDENT TERMINATION DESCRIPTION]"
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
                       cachedDataType="wstr"
                       cachedLength="255"
-                      cachedName="STUDENT TERMINATION DESCRIPTION"
-                      externalMetadataColumnId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT TERMINATION DESCRIPTION]"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[STUDENT TERMINATION DESCRIPTION]" />
+                      cachedName="STUDENT EDUCATION LEVEL DESCRIPTION"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]" />
                     <inputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].Columns[F-1 INDICATOR]"
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[STUDENT EDUCATION LEVEL F-1]"
                       cachedDataType="wstr"
                       cachedLength="255"
-                      cachedName="F-1 INDICATOR"
-                      externalMetadataColumnId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[F-1 INDICATOR]"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[F-1 INDICATOR]" />
+                      cachedName="STUDENT EDUCATION LEVEL F-1"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL F-1]" />
                     <inputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].Columns[M-1 INDICATOR]"
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[STUDENT EDUCATION LEVEL M-1]"
                       cachedDataType="wstr"
                       cachedLength="255"
-                      cachedName="M-1 INDICATOR"
-                      externalMetadataColumnId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[M-1 INDICATOR]"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output].Columns[M-1 INDICATOR]" />
+                      cachedName="STUDENT EDUCATION LEVEL M-1"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL M-1]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[FormattedCode]"
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
+                      dataType="r8"
+                      name="STUDENT EDUCATION LEVEL CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL F-1" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL M-1" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[Formatted Education Level Code]"
                       codePage="1252"
                       dataType="str"
                       length="2"
-                      name="FormattedCode" />
-                    <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT TERMINATION CODE]"
-                      dataType="r8"
-                      name="STUDENT TERMINATION CODE" />
-                    <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT TERMINATION DESCRIPTION]"
-                      dataType="wstr"
-                      length="255"
-                      name="STUDENT TERMINATION DESCRIPTION" />
-                    <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[F-1 INDICATOR]"
-                      dataType="wstr"
-                      length="255"
-                      name="F-1 INDICATOR" />
-                    <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[M-1 INDICATOR]"
-                      dataType="wstr"
-                      length="255"
-                      name="M-1 INDICATOR" />
+                      name="Formatted Education Level Code" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -416,23 +421,23 @@
           </components>
           <paths>
             <path
-              refId="Package\Import SEVIS Student Termination Reason Codes.Paths[Excel Source Output]"
-              endId="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input]"
+              refId="Package\Import Sevis Education Level.Paths[Excel Source Output]"
+              endId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input]"
               name="Excel Source Output"
-              startId="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source.Outputs[Excel Source Output]" />
+              startId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Load Sevis Student Termination"
+      DTS:refId="Package\Load Sevis EducaltionLevel"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:Disabled="True"
-      DTS:DTSID="{1535E40E-5A37-4290-A903-953442414C38}"
+      DTS:DTSID="{5786A285-D68C-415D-9A7B-CBC91536D7E0}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Load Sevis Student Termination"
+      DTS:ObjectName="Load Sevis EducaltionLevel"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -440,15 +445,15 @@
           version="1">
           <components>
             <component
-              refId="Package\Load Sevis Student Termination\Add Required Columns"
+              refId="Package\Load Sevis EducaltionLevel\Add required columns"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
-              name="Add Required Columns"
+              name="Add required columns"
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Load Sevis Student Termination\Add Required Columns.Inputs[Derived Column Input]"
+                  refId="Package\Load Sevis EducaltionLevel\Add required columns.Inputs[Derived Column Input]"
                   description="Input to the Derived Column Transformation"
                   name="Derived Column Input">
                   <externalMetadataColumns />
@@ -456,18 +461,18 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output]"
+                  refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output]"
                   description="Default Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   name="Derived Column Output"
-                  synchronousInputId="Package\Load Sevis Student Termination\Add Required Columns.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Load Sevis EducaltionLevel\Add required columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
                       name="History_CreatedBy"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -485,11 +490,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
                       name="History_CreatedOn"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -507,11 +512,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
                       name="History_RevisedBy"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -529,11 +534,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
                       name="History_RevisedOn"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -554,23 +559,23 @@
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Error Output]"
+                  refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Error Output]"
                   description="Error Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Derived Column Error Output"
-                  synchronousInputId="Package\Load Sevis Student Termination\Add Required Columns.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Load Sevis EducaltionLevel\Add required columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -579,7 +584,7 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Sevis Student Termination\Data Conversion"
+              refId="Package\Load Sevis EducaltionLevel\Data Conversion"
               componentClassID="Microsoft.DataConvert"
               contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Data Conversion"
@@ -587,48 +592,48 @@
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Load Sevis Student Termination\Data Conversion.Inputs[Data Conversion Input]"
+                  refId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input]"
                   name="Data Conversion Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Sevis Student Termination\Data Conversion.Inputs[Data Conversion Input].Columns[F-1 INDICATOR]"
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input].Columns[STUDENT EDUCATION LEVEL F-1]"
                       cachedDataType="wstr"
                       cachedLength="255"
-                      cachedName="F-1 INDICATOR"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[F-1 INDICATOR]" />
+                      cachedName="STUDENT EDUCATION LEVEL F-1"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL F-1]" />
                     <inputColumn
-                      refId="Package\Load Sevis Student Termination\Data Conversion.Inputs[Data Conversion Input].Columns[M-1 INDICATOR]"
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input].Columns[STUDENT EDUCATION LEVEL M-1]"
                       cachedDataType="wstr"
                       cachedLength="255"
-                      cachedName="M-1 INDICATOR"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[M-1 INDICATOR]" />
+                      cachedName="STUDENT EDUCATION LEVEL M-1"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL M-1]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Output]"
+                  refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output]"
                   exclusionGroup="1"
                   name="Data Conversion Output"
-                  synchronousInputId="Package\Load Sevis Student Termination\Data Conversion.Inputs[Data Conversion Input]">
+                  synchronousInputId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of F-1 INDICATOR]"
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL F-1]"
                       codePage="1252"
                       dataType="str"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       length="1"
-                      lineageId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of F-1 INDICATOR]"
-                      name="Copy of F-1 INDICATOR"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL F-1]"
+                      name="Copy of STUDENT EDUCATION LEVEL F-1"
                       truncationRowDisposition="FailComponent">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[F-1 INDICATOR]}</property>
+                          name="SourceInputColumnLineageID">#{Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL F-1]}</property>
                         <property
                           dataType="System.Boolean"
                           description="Indicates whether the column uses the faster, locale-neutral parsing routines."
@@ -636,21 +641,21 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of M-1 INDICATOR]"
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL M-1]"
                       codePage="1252"
                       dataType="str"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      length="1"
-                      lineageId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of M-1 INDICATOR]"
-                      name="Copy of M-1 INDICATOR"
+                      length="255"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL M-1]"
+                      name="Copy of STUDENT EDUCATION LEVEL M-1"
                       truncationRowDisposition="FailComponent">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[M-1 INDICATOR]}</property>
+                          name="SourceInputColumnLineageID">#{Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL M-1]}</property>
                         <property
                           dataType="System.Boolean"
                           description="Indicates whether the column uses the faster, locale-neutral parsing routines."
@@ -661,22 +666,22 @@
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Error Output]"
+                  refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Data Conversion Error Output"
-                  synchronousInputId="Package\Load Sevis Student Termination\Data Conversion.Inputs[Data Conversion Input]">
+                  synchronousInputId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -685,11 +690,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Sevis Student Termination\Local Sevis Student Termination"
+              refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
-              name="Local Sevis Student Termination"
+              name="Local Sevis EducationLevel"
               usesDispositions="true"
               version="7">
               <properties>
@@ -700,7 +705,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[SevisStudentTermination]</property>
+                  name="OpenRowset">[dbo].[SevisEducationLevel]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -734,7 +739,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Connections[OleDbConnection]"
+                  refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   description="The OLE DB runtime connection used to access the database."
@@ -742,134 +747,134 @@
               </connections>
               <outputs>
                 <output
-                  refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output]"
+                  refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[FormattedCode]"
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      name="STUDENT EDUCATION LEVEL CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
+                      length="255"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      name="STUDENT EDUCATION LEVEL F-1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
+                      length="255"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      name="STUDENT EDUCATION LEVEL M-1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[Formatted Education Level Code]"
                       codePage="1252"
                       dataType="str"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].ExternalColumns[FormattedCode]"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[Formatted Education Level Code]"
                       length="2"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[FormattedCode]"
-                      name="FormattedCode"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[STUDENT TERMINATION CODE]"
-                      dataType="r8"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].ExternalColumns[STUDENT TERMINATION CODE]"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[STUDENT TERMINATION CODE]"
-                      name="STUDENT TERMINATION CODE"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[STUDENT TERMINATION DESCRIPTION]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].ExternalColumns[STUDENT TERMINATION DESCRIPTION]"
-                      length="255"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[STUDENT TERMINATION DESCRIPTION]"
-                      name="STUDENT TERMINATION DESCRIPTION"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[F-1 INDICATOR]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].ExternalColumns[F-1 INDICATOR]"
-                      length="255"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[F-1 INDICATOR]"
-                      name="F-1 INDICATOR"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[M-1 INDICATOR]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].ExternalColumns[M-1 INDICATOR]"
-                      length="255"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[M-1 INDICATOR]"
-                      name="M-1 INDICATOR"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[Formatted Education Level Code]"
+                      name="Formatted Education Level Code"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].ExternalColumns[FormattedCode]"
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
+                      dataType="r8"
+                      name="STUDENT EDUCATION LEVEL CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL F-1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL M-1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[Formatted Education Level Code]"
                       codePage="1252"
                       dataType="str"
                       length="2"
-                      name="FormattedCode" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].ExternalColumns[STUDENT TERMINATION CODE]"
-                      dataType="r8"
-                      name="STUDENT TERMINATION CODE" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].ExternalColumns[STUDENT TERMINATION DESCRIPTION]"
-                      dataType="wstr"
-                      length="255"
-                      name="STUDENT TERMINATION DESCRIPTION" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].ExternalColumns[F-1 INDICATOR]"
-                      dataType="wstr"
-                      length="255"
-                      name="F-1 INDICATOR" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].ExternalColumns[M-1 INDICATOR]"
-                      dataType="wstr"
-                      length="255"
-                      name="M-1 INDICATOR" />
+                      name="Formatted Education Level Code" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[STUDENT TERMINATION CODE]"
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL CODE]"
                       dataType="r8"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[STUDENT TERMINATION CODE]"
-                      name="STUDENT TERMINATION CODE" />
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      name="STUDENT EDUCATION LEVEL CODE" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[STUDENT TERMINATION DESCRIPTION]"
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[STUDENT TERMINATION DESCRIPTION]"
-                      name="STUDENT TERMINATION DESCRIPTION" />
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[F-1 INDICATOR]"
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL F-1]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[F-1 INDICATOR]"
-                      name="F-1 INDICATOR" />
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      name="STUDENT EDUCATION LEVEL F-1" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[M-1 INDICATOR]"
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL M-1]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[M-1 INDICATOR]"
-                      name="M-1 INDICATOR" />
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      name="STUDENT EDUCATION LEVEL M-1" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[FormattedCode]"
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[Formatted Education Level Code]"
                       codePage="1252"
                       dataType="str"
                       length="2"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[FormattedCode]"
-                      name="FormattedCode" />
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[Formatted Education Level Code]"
+                      name="Formatted Education Level Code" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -878,11 +883,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Sevis Student Termination\Sevis Student Termination"
+              refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
-              name="Sevis Student Termination"
+              name="Sevis EducationLevel"
               usesDispositions="true"
               version="4">
               <properties>
@@ -893,7 +898,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[sevis].[StudentTermination]</property>
+                  name="OpenRowset">[sevis].[EducationLevel]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -935,144 +940,144 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load Sevis Student Termination\Sevis Student Termination.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
               <inputs>
                 <input
-                  refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input]"
+                  refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
                       cachedDataType="dbTimeStamp"
                       cachedName="History_CreatedOn"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
-                      lineageId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
                     <inputColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
                       cachedDataType="i4"
                       cachedName="History_RevisedBy"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
-                      lineageId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
                     <inputColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
                       cachedDataType="dbTimeStamp"
                       cachedName="History_RevisedOn"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
-                      lineageId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
                     <inputColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].Columns[FormattedCode]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STUDENT EDUCATION LEVEL DESCRIPTION"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[Formatted Education Level Code]"
                       cachedCodepage="1252"
                       cachedDataType="str"
                       cachedLength="2"
-                      cachedName="FormattedCode"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[TerminationCode]"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[FormattedCode]" />
+                      cachedName="Formatted Education Level Code"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[EducationLevelCode]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[Formatted Education Level Code]" />
                     <inputColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].Columns[STUDENT TERMINATION DESCRIPTION]"
-                      cachedDataType="wstr"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[Copy of STUDENT EDUCATION LEVEL F-1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Copy of STUDENT EDUCATION LEVEL F-1"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[F_1_Ind]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL F-1]" />
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[Copy of STUDENT EDUCATION LEVEL M-1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
                       cachedLength="255"
-                      cachedName="STUDENT TERMINATION DESCRIPTION"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      lineageId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output].Columns[STUDENT TERMINATION DESCRIPTION]" />
-                    <inputColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
-                      cachedDataType="i4"
-                      cachedName="History_CreatedBy"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
-                      lineageId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
-                    <inputColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].Columns[Copy of F-1 INDICATOR]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="1"
-                      cachedName="Copy of F-1 INDICATOR"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[F_1_Ind]"
-                      lineageId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of F-1 INDICATOR]" />
-                    <inputColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].Columns[Copy of M-1 INDICATOR]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="1"
-                      cachedName="Copy of M-1 INDICATOR"
-                      externalMetadataColumnId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[M_1_Ind]"
-                      lineageId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of M-1 INDICATOR]" />
+                      cachedName="Copy of STUDENT EDUCATION LEVEL M-1"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[M_1_Ind]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL M-1]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
-                      dataType="dbTimeStampOffset"
-                      name="History_CreatedOn"
-                      scale="7" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[EducationLevelId]"
                       dataType="i4"
-                      name="History_RevisedBy" />
+                      name="EducationLevelId" />
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
-                      dataType="dbTimeStampOffset"
-                      name="History_RevisedOn"
-                      scale="7" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[StudentTerminationId]"
-                      dataType="i4"
-                      name="StudentTerminationId" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[TerminationCode]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[EducationLevelCode]"
                       codePage="1252"
                       dataType="str"
                       length="2"
-                      name="TerminationCode" />
+                      name="EducationLevelCode" />
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       dataType="wstr"
                       length="100"
                       name="Description" />
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[F_1_Ind]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[F_1_Ind]"
                       codePage="1252"
                       dataType="str"
                       length="1"
                       name="F_1_Ind" />
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[M_1_Ind]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[M_1_Ind]"
                       codePage="1252"
                       dataType="str"
                       length="1"
                       name="M_1_Ind" />
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
                       dataType="i4"
                       name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Sevis Student Termination\Sevis Student Termination.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Termination\Sevis Student Termination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Termination\Sevis Student Termination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Termination\Sevis Student Termination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1083,20 +1088,20 @@
           </components>
           <paths>
             <path
-              refId="Package\Load Sevis Student Termination.Paths[Data Conversion Output]"
-              endId="Package\Load Sevis Student Termination\Sevis Student Termination.Inputs[OLE DB Destination Input]"
+              refId="Package\Load Sevis EducaltionLevel.Paths[Data Conversion Output]"
+              endId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input]"
               name="Data Conversion Output"
-              startId="Package\Load Sevis Student Termination\Data Conversion.Outputs[Data Conversion Output]" />
+              startId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output]" />
             <path
-              refId="Package\Load Sevis Student Termination.Paths[Derived Column Output]"
-              endId="Package\Load Sevis Student Termination\Data Conversion.Inputs[Data Conversion Input]"
+              refId="Package\Load Sevis EducaltionLevel.Paths[Derived Column Output]"
+              endId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input]"
               name="Derived Column Output"
-              startId="Package\Load Sevis Student Termination\Add Required Columns.Outputs[Derived Column Output]" />
+              startId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output]" />
             <path
-              refId="Package\Load Sevis Student Termination.Paths[OLE DB Source Output]"
-              endId="Package\Load Sevis Student Termination\Add Required Columns.Inputs[Derived Column Input]"
+              refId="Package\Load Sevis EducaltionLevel.Paths[OLE DB Source Output]"
+              endId="Package\Load Sevis EducaltionLevel\Add required columns.Inputs[Derived Column Input]"
               name="OLE DB Source Output"
-              startId="Package\Load Sevis Student Termination\Local Sevis Student Termination.Outputs[OLE DB Source Output]" />
+              startId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -1106,19 +1111,19 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{9FA78102-16AC-4E60-92FA-34E0DDAFFA35}"
-      DTS:From="Package\Import SEVIS Student Termination Reason Codes"
+      DTS:DTSID="{3BB5EA40-D879-42D7-A22B-49B05EB6D17A}"
+      DTS:From="Package\Import Sevis Education Level"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\Created Formatted Code" />
+      DTS:To="Package\Format Education Level Code" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{729DD2B6-92BB-4469-9E94-C62051FEA8E2}"
-      DTS:From="Package\Created Formatted Code"
+      DTS:DTSID="{0668A158-DE53-40E8-814B-C9BD22C34681}"
+      DTS:From="Package\Format Education Level Code"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
-      DTS:To="Package\Load Sevis Student Termination" />
+      DTS:To="Package\Load Sevis EducaltionLevel" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -1133,43 +1138,43 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="194,42"
-          Id="Package\Created Formatted Code"
-          TopLeft="49.5,101.5" />
+          Size="216,42"
+          Id="Package\Format Education Level Code"
+          TopLeft="40.5,107.5" />
         <NodeLayout
-          Size="312,42"
-          Id="Package\Import SEVIS Student Termination Reason Codes"
+          Size="215,42"
+          Id="Package\Import Sevis Education Level"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="229,42"
-          Id="Package\Load Sevis Student Termination"
-          TopLeft="50.5,236.5" />
+          Size="205,42"
+          Id="Package\Load Sevis EducaltionLevel"
+          TopLeft="43.5,206.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="161.5,47.5">
+          TopLeft="113,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-15,54"
+              EndConnector="35.5,60"
               Start="0,0"
-              End="-15,46.5">
+              End="35.5,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,23" />
+                    End="0,26" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,23"
-                    Point2="0,27"
-                    Point3="-4,27" />
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
                   <mssgle:LineSegment
-                    End="-11,27" />
+                    End="31.5,30" />
                   <mssgle:CubicBezierSegment
-                    Point1="-11,27"
-                    Point2="-15,27"
-                    Point3="-15,31" />
+                    Point1="31.5,30"
+                    Point2="35.5,30"
+                    Point3="35.5,34" />
                   <mssgle:LineSegment
-                    End="-15,46.5" />
+                    End="35.5,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1180,30 +1185,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="146.5,143.5">
+          TopLeft="147.25,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="18.5,93"
+              EndConnector="0,57"
               Start="0,0"
-              End="18.5,85.5">
+              End="0,49.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,42.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,42.5"
-                    Point2="0,46.5"
-                    Point3="4,46.5" />
-                  <mssgle:LineSegment
-                    End="14.5,46.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="14.5,46.5"
-                    Point2="18.5,46.5"
-                    Point3="18.5,50.5" />
-                  <mssgle:LineSegment
-                    End="18.5,85.5" />
+                    End="0,49.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1216,57 +1209,59 @@
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\Import SEVIS Student Termination Reason Codes">
+    design-time-name="Package\Import Sevis Education Level">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="302,42"
-          Id="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source"
+          Size="204,42"
+          Id="Package\Import Sevis Education Level\Local Sevis EducationLevel"
+          TopLeft="48.5,124.5" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\Import Sevis Education Level\Education Level Excel Source"
           TopLeft="5.5,5.5" />
-        <NodeLayout
-          Size="200,42"
-          Id="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation"
-          TopLeft="95.5,95.5" />
         <EdgeLayout
-          Id="Package\Import SEVIS Student Termination Reason Codes.Paths[Excel Source Output]"
-          TopLeft="156.5,47.5">
+          Id="Package\Import Sevis Education Level.Paths[Excel Source Output]"
+          TopLeft="113.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="39,48"
+              EndConnector="37,77"
               Start="0,0"
-              End="39,40.5">
+              End="37,69.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20" />
+                    End="0,34.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20"
-                    Point2="0,24"
-                    Point3="4,24" />
+                    Point1="0,34.5"
+                    Point2="0,38.5"
+                    Point3="4,38.5" />
                   <mssgle:LineSegment
-                    End="35,24" />
+                    End="33,38.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="35,24"
-                    Point2="39,24"
-                    Point3="39,28" />
+                    Point1="33,38.5"
+                    Point2="37,38.5"
+                    Point3="37,42.5" />
                   <mssgle:LineSegment
-                    End="39,40.5" />
+                    End="37,69.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Import SEVIS Student Termination Reason Codes\SEVIS Student Termination Codes Excel Source">
+    design-time-name="Package\Import Sevis Education Level\Education Level Excel Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1279,7 +1274,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Import SEVIS Student Termination Reason Codes\SEVISStudentCancellation">
+    design-time-name="Package\Import Sevis Education Level\Local Sevis EducationLevel">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1292,86 +1287,52 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Load Sevis Student Termination">
+    design-time-name="Package\Load Sevis EducaltionLevel">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="230,42"
-          Id="Package\Load Sevis Student Termination\Local Sevis Student Termination"
+          Size="156,42"
+          Id="Package\Load Sevis EducaltionLevel\Data Conversion"
+          TopLeft="225.5,213.5" />
+        <NodeLayout
+          Size="204,42"
+          Id="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="186,42"
-          Id="Package\Load Sevis Student Termination\Add Required Columns"
-          TopLeft="49.5,108.5" />
+          Size="182,42"
+          Id="Package\Load Sevis EducaltionLevel\Add required columns"
+          TopLeft="194.5,107.5" />
         <NodeLayout
-          Size="203,42"
-          Id="Package\Load Sevis Student Termination\Sevis Student Termination"
-          TopLeft="43.5,275.5" />
+          Size="177,42"
+          Id="Package\Load Sevis EducaltionLevel\Sevis EducationLevel"
+          TopLeft="10.5,275.5" />
         <EdgeLayout
-          Id="Package\Load Sevis Student Termination.Paths[OLE DB Source Output]"
-          TopLeft="120.5,47.5">
+          Id="Package\Load Sevis EducaltionLevel.Paths[OLE DB Source Output]"
+          TopLeft="107.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="22,61"
+              EndConnector="178,60"
               Start="0,0"
-              End="22,53.5">
+              End="178,52.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,26.5" />
+                    End="0,26" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,26.5"
-                    Point2="0,30.5"
-                    Point3="4,30.5" />
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
                   <mssgle:LineSegment
-                    End="18,30.5" />
+                    End="174,30" />
                   <mssgle:CubicBezierSegment
-                    Point1="18,30.5"
-                    Point2="22,30.5"
-                    Point3="22,34.5" />
+                    Point1="174,30"
+                    Point2="178,30"
+                    Point3="178,34" />
                   <mssgle:LineSegment
-                    End="22,53.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="156,42"
-          Id="Package\Load Sevis Student Termination\Data Conversion"
-          TopLeft="52.5,197.5" />
-        <EdgeLayout
-          Id="Package\Load Sevis Student Termination.Paths[Derived Column Output]"
-          TopLeft="142.5,150.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-12,47"
-              Start="0,0"
-              End="-12,39.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,19.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,19.5"
-                    Point2="0,23.5"
-                    Point3="-4,23.5" />
-                  <mssgle:LineSegment
-                    End="-8,23.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-8,23.5"
-                    Point2="-12,23.5"
-                    Point3="-12,27.5" />
-                  <mssgle:LineSegment
-                    End="-12,39.5" />
+                    End="178,52.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1381,31 +1342,65 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load Sevis Student Termination.Paths[Data Conversion Output]"
-          TopLeft="130.5,239.5">
+          Id="Package\Load Sevis EducaltionLevel.Paths[Derived Column Output]"
+          TopLeft="285.5,149.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="14.5,36"
+              EndConnector="18,64"
               Start="0,0"
-              End="14.5,28.5">
+              End="18,56.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,14" />
+                    End="0,28" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,14"
-                    Point2="0,18"
-                    Point3="4,18" />
+                    Point1="0,28"
+                    Point2="0,32"
+                    Point3="4,32" />
                   <mssgle:LineSegment
-                    End="10.5,18" />
+                    End="14,32" />
                   <mssgle:CubicBezierSegment
-                    Point1="10.5,18"
-                    Point2="14.5,18"
-                    Point3="14.5,22" />
+                    Point1="14,32"
+                    Point2="18,32"
+                    Point3="18,36" />
                   <mssgle:LineSegment
-                    End="14.5,28.5" />
+                    End="18,56.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis EducaltionLevel.Paths[Data Conversion Output]"
+          TopLeft="225.5,234.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-38,62"
+              Start="0,0"
+              End="-30.5,62">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-15,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-15,0"
+                    Point2="-19,0"
+                    Point3="-19,4" />
+                  <mssgle:LineSegment
+                    End="-19,58" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-19,58"
+                    Point2="-19,62"
+                    Point3="-23,62" />
+                  <mssgle:LineSegment
+                    End="-30.5,62" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1418,7 +1413,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Sevis Student Termination\Local Sevis Student Termination">
+    design-time-name="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1431,7 +1426,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Sevis Student Termination\Sevis Student Termination">
+    design-time-name="Package\Load Sevis EducaltionLevel\Sevis EducationLevel">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

@@ -5,21 +5,21 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="BE00003308"
   DTS:CreatorName="BE00003308\Marc Setien"
-  DTS:DTSID="{CDF25DE8-9E9F-4634-A604-49AA30ADF633}"
+  DTS:DTSID="{BF328DDF-C133-44D3-A7C9-B06CCEF0378C}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="12.0.2480.0"
   DTS:LocaleID="1033"
-  DTS:ObjectName="Import and Load Sevis Student Cancellation Reasons"
+  DTS:ObjectName="Import and Load Sevis Table 27 - Occupational Category"
   DTS:PackageType="5"
-  DTS:VersionBuild="6"
-  DTS:VersionGUID="{B0FEC33B-5050-41C7-991C-F348B379150F}">
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{0662176C-EFB3-478E-8A52-D16BEDE782FF}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{97CBA13A-69A2-4B40-AEA7-6AEEED016676}"
+      DTS:DTSID="{68E19E00-3D3A-4744-A0CC-7B387E0A2C31}"
       DTS:ObjectName="(localdb)\v11.0.ECA_Local">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -29,7 +29,7 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{7B9CD41D-29C5-4830-A72A-2AB7E19DC923}"
+      DTS:DTSID="{F4D6F98E-45E9-4601-943B-123988F4ECF4}"
       DTS:ObjectName="BE00003308\SQLExpress2014.SEVIS.msetien">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -37,18 +37,53 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADiUPXNR0jp965NA38/XD297oAvPd/i2Xwg0mGar0zemgAAAAAOgAAAAAIAACAAAADcQEOk8AcYUkVBFoS54tgeOc1LGA+Wrr8i/Ru+yDMGqSAAAAB/aw2WGjfyVVMaQqMMNLshyk3Z3jXMbARczy5Y/3vnC0AAAAAKUTREk5lU7ptGIzDU+S1hoMLdRCHlJcY3QeUTdnby2DTG3b0ww4RwZQMJaQFAiN/Pfh3KQCLZItcScXsgrNbF</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABcG53MriFg7JBPaW+f9PMzeJjEi13F885jOnGald8gNgAAAAAOgAAAAAIAACAAAAB1xLpkeBD6VMuU2HWdqx9HMIzXjuN1qQoJMjFo6uOVTCAAAAAOjd4UdnDox5Cxuj9xlkd1MfS6h77XbkFji6+dB+9ZqUAAAADG+tMKuuChUALP+eWJk500JsN4mcATNlb/pLS1gUWk6g1B5j1Of/ti/M6LbzJKJ/QV5Yo4ubXZhlPMf1Y9CXHE</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
       DTS:CreationName="EXCEL"
-      DTS:DTSID="{0127821E-B429-4D81-B79E-DAEB39BECCA8}"
+      DTS:DTSID="{5CDE55F0-31B3-47B6-9190-1DC535A1CBF3}"
       DTS:ObjectName="Excel Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 10 - Student Cancellation Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 1]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{F551F227-AC6F-49D0-80DD-D8C51FC3E066}"
+      DTS:ObjectName="Excel Connection Manager 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 13 - Student Termination Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 2]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{7DF10C5C-ED96-4F21-8F5C-1F3C9980165E}"
+      DTS:ObjectName="Excel Connection Manager 2">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 27 - Occupational Category.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{92EBC5C5-150C-4229-BB24-C2BC79919087}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABbD4X0wcnxRhFGJJbIwUB1ihaSyUbnElFzS1vtBp1jLAAAAAAOgAAAAAIAACAAAACZMR4iUC/em4FtWBSjSrHT4lUpNimwntoO8Jy49i80lSAAAADjdyzV4Wfq1LbkTpQW+A7FVCu2KMBwp9vrnaStaq0lWkAAAADzzFjZiQcnH6szccH0Yvau66pbuUeJVslXM3SmmbtkVU8nvk6xBEI+QLJgHN6oLkKDgrQJ2F+gQsQm4ZYUp0F7</DTS:Password>
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -59,7 +94,7 @@
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
       DTS:Disabled="True"
-      DTS:DTSID="{7F56E028-333C-42CB-B52A-CD2A82B6707D}"
+      DTS:DTSID="{0D9916DD-6397-4161-B523-94CD436D8692}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Created Formatted Code"
@@ -68,19 +103,19 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{7B9CD41D-29C5-4830-A72A-2AB7E19DC923}"
-          SQLTask:SqlStatementSource="UPDATE  [SEVIS].[dbo].[SevisStudentCancellation]&#xA;SET FormattedCode = FORMAT ([code],'00')&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:Connection="{F4D6F98E-45E9-4601-943B-123988F4ECF4}"
+          SQLTask:SqlStatementSource="UPDATE  [SEVIS].[dbo].[SevisOccupationalCategory]&#xA;SET FormattedCode = FORMAT ([Occupational Code],'00')&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Import SEVIS Student Cancellation Reason Codes"
+      DTS:refId="Package\Import SEVIS Occupational Category"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:Disabled="True"
-      DTS:DTSID="{C1221CED-8CC5-4C29-8EEB-B3EC53CB4C88}"
+      DTS:DTSID="{8C0E7F0E-7CCB-47A5-8477-5209B3C0257A}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Import SEVIS Student Cancellation Reason Codes"
+      DTS:ObjectName="Import SEVIS Occupational Category"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -88,11 +123,11 @@
           version="1">
           <components>
             <component
-              refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source"
+              refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source"
               componentClassID="Microsoft.ExcelSource"
               contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Excel Source"
-              name="SEVIS Student Cancellation Codes Excel Source"
+              name="SEVIS Occupational Category Excel Source"
               usesDispositions="true"
               version="1">
               <properties>
@@ -129,76 +164,76 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
-                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 2]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 2]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
               <outputs>
                 <output
-                  refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output]"
+                  refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output]"
                   name="Excel Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output].Columns[CODE]"
+                      refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output].Columns[OCCUPATIONAL CODE]"
                       dataType="r8"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[CODE]"
-                      lineageId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output].Columns[CODE]"
-                      name="CODE"
+                      externalMetadataColumnId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output].ExternalColumns[OCCUPATIONAL CODE]"
+                      lineageId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output].Columns[OCCUPATIONAL CODE]"
+                      name="OCCUPATIONAL CODE"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output].Columns[STUDENT CANCELLATION REASON]"
+                      refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output].Columns[OCCUPATIONAL DESCRIPTION]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT CANCELLATION REASON]"
+                      externalMetadataColumnId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output].ExternalColumns[OCCUPATIONAL DESCRIPTION]"
                       length="255"
-                      lineageId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output].Columns[STUDENT CANCELLATION REASON]"
-                      name="STUDENT CANCELLATION REASON"
+                      lineageId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output].Columns[OCCUPATIONAL DESCRIPTION]"
+                      name="OCCUPATIONAL DESCRIPTION"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[CODE]"
+                      refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output].ExternalColumns[OCCUPATIONAL CODE]"
                       dataType="r8"
-                      name="CODE" />
+                      name="OCCUPATIONAL CODE" />
                     <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT CANCELLATION REASON]"
+                      refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output].ExternalColumns[OCCUPATIONAL DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      name="STUDENT CANCELLATION REASON" />
+                      name="OCCUPATIONAL DESCRIPTION" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Error Output]"
+                  refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Error Output]"
                   isErrorOut="true"
                   name="Excel Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Error Output].Columns[CODE]"
+                      refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Error Output].Columns[OCCUPATIONAL CODE]"
                       dataType="r8"
-                      lineageId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Error Output].Columns[CODE]"
-                      name="CODE" />
+                      lineageId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Error Output].Columns[OCCUPATIONAL CODE]"
+                      name="OCCUPATIONAL CODE" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT CANCELLATION REASON]"
+                      refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Error Output].Columns[OCCUPATIONAL DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT CANCELLATION REASON]"
-                      name="STUDENT CANCELLATION REASON" />
+                      lineageId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Error Output].Columns[OCCUPATIONAL DESCRIPTION]"
+                      name="OCCUPATIONAL DESCRIPTION" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -207,11 +242,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation"
+              refId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
-              name="SEVISStudentCancellation"
+              name="SevisOccupationalCategory"
               usesDispositions="true"
               version="4">
               <properties>
@@ -222,7 +257,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[SEVISStudentCancellation]</property>
+                  name="OpenRowset">[SevisOccupationalCategory]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -264,7 +299,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Connections[OleDbConnection]"
+                  refId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   description="The OLE DB runtime connection used to access the database."
@@ -272,64 +307,64 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input]"
+                  refId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].Columns[CODE]"
+                      refId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Inputs[OLE DB Destination Input].Columns[OCCUPATIONAL CODE]"
                       cachedDataType="r8"
-                      cachedName="CODE"
-                      externalMetadataColumnId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[CODE]"
-                      lineageId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output].Columns[CODE]" />
+                      cachedName="OCCUPATIONAL CODE"
+                      externalMetadataColumnId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Inputs[OLE DB Destination Input].ExternalColumns[OCCUPATIONAL CODE]"
+                      lineageId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output].Columns[OCCUPATIONAL CODE]" />
                     <inputColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].Columns[STUDENT CANCELLATION REASON]"
+                      refId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Inputs[OLE DB Destination Input].Columns[OCCUPATIONAL DESCRIPTION]"
                       cachedDataType="wstr"
                       cachedLength="255"
-                      cachedName="STUDENT CANCELLATION REASON"
-                      externalMetadataColumnId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT CANCELLATION REASON]"
-                      lineageId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output].Columns[STUDENT CANCELLATION REASON]" />
+                      cachedName="OCCUPATIONAL DESCRIPTION"
+                      externalMetadataColumnId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Inputs[OLE DB Destination Input].ExternalColumns[OCCUPATIONAL DESCRIPTION]"
+                      lineageId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output].Columns[OCCUPATIONAL DESCRIPTION]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[CODE]"
-                      dataType="r8"
-                      name="CODE" />
-                    <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT CANCELLATION REASON]"
-                      dataType="wstr"
-                      length="255"
-                      name="STUDENT CANCELLATION REASON" />
-                    <externalMetadataColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input].ExternalColumns[FormattedCode]"
+                      refId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Inputs[OLE DB Destination Input].ExternalColumns[FormattedCode]"
                       codePage="1252"
                       dataType="str"
                       length="2"
                       name="FormattedCode" />
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Inputs[OLE DB Destination Input].ExternalColumns[OCCUPATIONAL CODE]"
+                      dataType="r8"
+                      name="OCCUPATIONAL CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Inputs[OLE DB Destination Input].ExternalColumns[OCCUPATIONAL DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="OCCUPATIONAL DESCRIPTION" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -340,23 +375,22 @@
           </components>
           <paths>
             <path
-              refId="Package\Import SEVIS Student Cancellation Reason Codes.Paths[Excel Source Output]"
-              endId="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation.Inputs[OLE DB Destination Input]"
+              refId="Package\Import SEVIS Occupational Category.Paths[Excel Source Output]"
+              endId="Package\Import SEVIS Occupational Category\SevisOccupationalCategory.Inputs[OLE DB Destination Input]"
               name="Excel Source Output"
-              startId="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source.Outputs[Excel Source Output]" />
+              startId="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source.Outputs[Excel Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Load Sevis Student Cancellation"
+      DTS:refId="Package\Load Sevis Occupational Category"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:Disabled="True"
-      DTS:DTSID="{EEE49514-1137-4CF1-AD2C-A6CE67793CEB}"
+      DTS:DTSID="{BC600D7B-AA77-4809-BAD2-568989E6F137}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Load Sevis Student Cancellation"
+      DTS:ObjectName="Load Sevis Occupational Category"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -364,7 +398,7 @@
           version="1">
           <components>
             <component
-              refId="Package\Load Sevis Student Cancellation\Add Required Columns"
+              refId="Package\Load Sevis Occupational Category\Add Required Columns"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
@@ -372,7 +406,7 @@
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Load Sevis Student Cancellation\Add Required Columns.Inputs[Derived Column Input]"
+                  refId="Package\Load Sevis Occupational Category\Add Required Columns.Inputs[Derived Column Input]"
                   description="Input to the Derived Column Transformation"
                   name="Derived Column Input">
                   <externalMetadataColumns />
@@ -380,18 +414,18 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output]"
+                  refId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output]"
                   description="Default Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   name="Derived Column Output"
-                  synchronousInputId="Package\Load Sevis Student Cancellation\Add Required Columns.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Load Sevis Occupational Category\Add Required Columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      refId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
                       name="History_CreatedBy"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -409,11 +443,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      refId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
                       name="History_CreatedOn"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -431,11 +465,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      refId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
                       name="History_RevisedBy"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -453,11 +487,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      refId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
                       name="History_RevisedOn"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -478,23 +512,23 @@
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Error Output]"
+                  refId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Error Output]"
                   description="Error Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Derived Column Error Output"
-                  synchronousInputId="Package\Load Sevis Student Cancellation\Add Required Columns.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Load Sevis Occupational Category\Add Required Columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -503,11 +537,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation"
+              refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
-              name="Local Sevis Student Cancellation"
+              name="Local Sevis Occupational Category"
               usesDispositions="true"
               version="7">
               <properties>
@@ -518,7 +552,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[SEVISStudentCancellation]</property>
+                  name="OpenRowset">[dbo].[SevisOccupationalCategory]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -552,7 +586,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Connections[OleDbConnection]"
+                  refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   description="The OLE DB runtime connection used to access the database."
@@ -560,92 +594,92 @@
               </connections>
               <outputs>
                 <output
-                  refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output]"
+                  refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].Columns[CODE]"
-                      dataType="r8"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].ExternalColumns[CODE]"
-                      lineageId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].Columns[CODE]"
-                      name="CODE"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].Columns[STUDENT CANCELLATION REASON]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].ExternalColumns[STUDENT CANCELLATION REASON]"
-                      length="255"
-                      lineageId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].Columns[STUDENT CANCELLATION REASON]"
-                      name="STUDENT CANCELLATION REASON"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].Columns[FormattedCode]"
+                      refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].Columns[FormattedCode]"
                       codePage="1252"
                       dataType="str"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].ExternalColumns[FormattedCode]"
+                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].ExternalColumns[FormattedCode]"
                       length="2"
-                      lineageId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].Columns[FormattedCode]"
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].Columns[FormattedCode]"
                       name="FormattedCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].Columns[OCCUPATIONAL CODE]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].ExternalColumns[OCCUPATIONAL CODE]"
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].Columns[OCCUPATIONAL CODE]"
+                      name="OCCUPATIONAL CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].Columns[OCCUPATIONAL DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].ExternalColumns[OCCUPATIONAL DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].Columns[OCCUPATIONAL DESCRIPTION]"
+                      name="OCCUPATIONAL DESCRIPTION"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].ExternalColumns[CODE]"
-                      dataType="r8"
-                      name="CODE" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].ExternalColumns[STUDENT CANCELLATION REASON]"
-                      dataType="wstr"
-                      length="255"
-                      name="STUDENT CANCELLATION REASON" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].ExternalColumns[FormattedCode]"
+                      refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].ExternalColumns[FormattedCode]"
                       codePage="1252"
                       dataType="str"
                       length="2"
                       name="FormattedCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].ExternalColumns[OCCUPATIONAL CODE]"
+                      dataType="r8"
+                      name="OCCUPATIONAL CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].ExternalColumns[OCCUPATIONAL DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="OCCUPATIONAL DESCRIPTION" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Error Output].Columns[CODE]"
+                      refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Error Output].Columns[OCCUPATIONAL CODE]"
                       dataType="r8"
-                      lineageId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Error Output].Columns[CODE]"
-                      name="CODE" />
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Error Output].Columns[OCCUPATIONAL CODE]"
+                      name="OCCUPATIONAL CODE" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Error Output].Columns[STUDENT CANCELLATION REASON]"
+                      refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Error Output].Columns[OCCUPATIONAL DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Error Output].Columns[STUDENT CANCELLATION REASON]"
-                      name="STUDENT CANCELLATION REASON" />
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Error Output].Columns[OCCUPATIONAL DESCRIPTION]"
+                      name="OCCUPATIONAL DESCRIPTION" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Error Output].Columns[FormattedCode]"
+                      refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Error Output].Columns[FormattedCode]"
                       codePage="1252"
                       dataType="str"
                       length="2"
-                      lineageId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Error Output].Columns[FormattedCode]"
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Error Output].Columns[FormattedCode]"
                       name="FormattedCode" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -654,11 +688,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation"
+              refId="Package\Load Sevis Occupational Category\Sevis Occupational Category"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
-              name="Sevis Student Cancellation"
+              name="Sevis Occupational Category"
               usesDispositions="true"
               version="4">
               <properties>
@@ -669,7 +703,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[sevis].[StudentCancellation]</property>
+                  name="OpenRowset">[sevis].[OccupationalCategory]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -711,116 +745,116 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
               <inputs>
                 <input
-                  refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input]"
+                  refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
                       cachedDataType="dbTimeStamp"
                       cachedName="History_CreatedOn"
-                      externalMetadataColumnId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
-                      lineageId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
                     <inputColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
                       cachedDataType="i4"
                       cachedName="History_RevisedBy"
-                      externalMetadataColumnId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
-                      lineageId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
                     <inputColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
                       cachedDataType="dbTimeStamp"
                       cachedName="History_RevisedOn"
-                      externalMetadataColumnId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
-                      lineageId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
                     <inputColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].Columns[FormattedCode]"
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[FormattedCode]"
                       cachedCodepage="1252"
                       cachedDataType="str"
                       cachedLength="2"
                       cachedName="FormattedCode"
-                      externalMetadataColumnId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[CancellationCode]"
-                      lineageId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].Columns[FormattedCode]" />
+                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[OccupationalCategoryCode]"
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].Columns[FormattedCode]" />
                     <inputColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].Columns[STUDENT CANCELLATION REASON]"
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].Columns[OCCUPATIONAL DESCRIPTION]"
                       cachedDataType="wstr"
                       cachedLength="255"
-                      cachedName="STUDENT CANCELLATION REASON"
-                      externalMetadataColumnId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[Reason]"
-                      lineageId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output].Columns[STUDENT CANCELLATION REASON]" />
-                    <inputColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
-                      cachedDataType="i4"
-                      cachedName="History_CreatedBy"
-                      externalMetadataColumnId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[History_CreateBy]"
-                      lineageId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                      cachedName="OCCUPATIONAL DESCRIPTION"
+                      externalMetadataColumnId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output].Columns[OCCUPATIONAL DESCRIPTION]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[StudentCancellationId]"
-                      dataType="i4"
-                      name="StudentCancellationId" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[CancellationCode]"
-                      codePage="1252"
-                      dataType="str"
-                      length="2"
-                      name="CancellationCode" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[Reason]"
-                      dataType="wstr"
-                      length="100"
-                      name="Reason" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[History_CreateBy]"
-                      dataType="i4"
-                      name="History_CreateBy" />
-                    <externalMetadataColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
                       dataType="dbTimeStampOffset"
                       name="History_CreatedOn"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
                       dataType="i4"
                       name="History_RevisedBy" />
                     <externalMetadataColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
                       dataType="dbTimeStampOffset"
                       name="History_RevisedOn"
                       scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="200"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[OccupationalCategoryId]"
+                      dataType="i4"
+                      name="OccupationalCategoryId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input].ExternalColumns[OccupationalCategoryCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="OccupationalCategoryCode" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -831,15 +865,15 @@
           </components>
           <paths>
             <path
-              refId="Package\Load Sevis Student Cancellation.Paths[Derived Column Output]"
-              endId="Package\Load Sevis Student Cancellation\Sevis Student Cancellation.Inputs[OLE DB Destination Input]"
+              refId="Package\Load Sevis Occupational Category.Paths[Derived Column Output]"
+              endId="Package\Load Sevis Occupational Category\Sevis Occupational Category.Inputs[OLE DB Destination Input]"
               name="Derived Column Output"
-              startId="Package\Load Sevis Student Cancellation\Add Required Columns.Outputs[Derived Column Output]" />
+              startId="Package\Load Sevis Occupational Category\Add Required Columns.Outputs[Derived Column Output]" />
             <path
-              refId="Package\Load Sevis Student Cancellation.Paths[OLE DB Source Output]"
-              endId="Package\Load Sevis Student Cancellation\Add Required Columns.Inputs[Derived Column Input]"
+              refId="Package\Load Sevis Occupational Category.Paths[OLE DB Source Output]"
+              endId="Package\Load Sevis Occupational Category\Add Required Columns.Inputs[Derived Column Input]"
               name="OLE DB Source Output"
-              startId="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation.Outputs[OLE DB Source Output]" />
+              startId="Package\Load Sevis Occupational Category\Local Sevis Occupational Category.Outputs[OLE DB Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -849,19 +883,19 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{33A077AB-B90A-4777-91A6-27B83237A446}"
-      DTS:From="Package\Import SEVIS Student Cancellation Reason Codes"
+      DTS:DTSID="{59CE64D7-EBB4-4B48-A68C-E4B0A7FF4979}"
+      DTS:From="Package\Import SEVIS Occupational Category"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
       DTS:To="Package\Created Formatted Code" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{1619E23F-054D-4F9E-81E5-164263CECD52}"
+      DTS:DTSID="{34D85EC4-41B5-4456-9801-D0A39A718175}"
       DTS:From="Package\Created Formatted Code"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
-      DTS:To="Package\Load Sevis Student Cancellation" />
+      DTS:To="Package\Load Sevis Occupational Category" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -880,22 +914,22 @@
           Id="Package\Created Formatted Code"
           TopLeft="49.5,101.5" />
         <NodeLayout
-          Size="312,42"
-          Id="Package\Import SEVIS Student Cancellation Reason Codes"
+          Size="252,42"
+          Id="Package\Import SEVIS Occupational Category"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="229,42"
-          Id="Package\Load Sevis Student Cancellation"
+          Size="238,42"
+          Id="Package\Load Sevis Occupational Category"
           TopLeft="50.5,236.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="161.5,47.5">
+          TopLeft="131.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-15,54"
+              EndConnector="15,54"
               Start="0,0"
-              End="-15,46.5">
+              End="15,46.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -904,15 +938,15 @@
                   <mssgle:CubicBezierSegment
                     Point1="0,23"
                     Point2="0,27"
-                    Point3="-4,27" />
+                    Point3="4,27" />
                   <mssgle:LineSegment
-                    End="-11,27" />
+                    End="11,27" />
                   <mssgle:CubicBezierSegment
-                    Point1="-11,27"
-                    Point2="-15,27"
-                    Point3="-15,31" />
+                    Point1="11,27"
+                    Point2="15,27"
+                    Point3="15,31" />
                   <mssgle:LineSegment
-                    End="-15,46.5" />
+                    End="15,46.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -927,9 +961,9 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="18.5,93"
+              EndConnector="23,93"
               Start="0,0"
-              End="18.5,85.5">
+              End="23,85.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -940,13 +974,13 @@
                     Point2="0,46.5"
                     Point3="4,46.5" />
                   <mssgle:LineSegment
-                    End="14.5,46.5" />
+                    End="19,46.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="14.5,46.5"
-                    Point2="18.5,46.5"
-                    Point3="18.5,50.5" />
+                    Point1="19,46.5"
+                    Point2="23,46.5"
+                    Point3="23,50.5" />
                   <mssgle:LineSegment
-                    End="18.5,85.5" />
+                    End="23,85.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -959,27 +993,27 @@
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\Import SEVIS Student Cancellation Reason Codes">
+    design-time-name="Package\Import SEVIS Occupational Category">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="302,42"
-          Id="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source"
+          Size="279,42"
+          Id="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="200,42"
-          Id="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation"
+          Size="206,42"
+          Id="Package\Import SEVIS Occupational Category\SevisOccupationalCategory"
           TopLeft="95.5,95.5" />
         <EdgeLayout
-          Id="Package\Import SEVIS Student Cancellation Reason Codes.Paths[Excel Source Output]"
-          TopLeft="156.5,47.5">
+          Id="Package\Import SEVIS Occupational Category.Paths[Excel Source Output]"
+          TopLeft="145,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="39,48"
+              EndConnector="53.5,48"
               Start="0,0"
-              End="39,40.5">
+              End="53.5,40.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -990,13 +1024,13 @@
                     Point2="0,24"
                     Point3="4,24" />
                   <mssgle:LineSegment
-                    End="35,24" />
+                    End="49.5,24" />
                   <mssgle:CubicBezierSegment
-                    Point1="35,24"
-                    Point2="39,24"
-                    Point3="39,28" />
+                    Point1="49.5,24"
+                    Point2="53.5,24"
+                    Point3="53.5,28" />
                   <mssgle:LineSegment
-                    End="39,40.5" />
+                    End="53.5,40.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1011,7 +1045,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Import SEVIS Student Cancellation Reason Codes\SEVIS Student Cancellation Codes Excel Source">
+    design-time-name="Package\Import SEVIS Occupational Category\SEVIS Occupational Category Excel Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1024,7 +1058,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Import SEVIS Student Cancellation Reason Codes\SEVISStudentCancellation">
+    design-time-name="Package\Import SEVIS Occupational Category\SevisOccupationalCategory">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1037,31 +1071,31 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Load Sevis Student Cancellation">
+    design-time-name="Package\Load Sevis Occupational Category">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="230,42"
-          Id="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation"
+          Size="240,42"
+          Id="Package\Load Sevis Occupational Category\Local Sevis Occupational Category"
           TopLeft="5.5,5.5" />
         <NodeLayout
           Size="186,42"
-          Id="Package\Load Sevis Student Cancellation\Add Required Columns"
+          Id="Package\Load Sevis Occupational Category\Add Required Columns"
           TopLeft="49.5,108.5" />
         <NodeLayout
-          Size="203,42"
-          Id="Package\Load Sevis Student Cancellation\Sevis Student Cancellation"
-          TopLeft="63.5,191.5" />
+          Size="212,42"
+          Id="Package\Load Sevis Occupational Category\Sevis Occupational Category"
+          TopLeft="43.5,275.5" />
         <EdgeLayout
-          Id="Package\Load Sevis Student Cancellation.Paths[OLE DB Source Output]"
-          TopLeft="120.5,47.5">
+          Id="Package\Load Sevis Occupational Category.Paths[OLE DB Source Output]"
+          TopLeft="125.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="22,61"
+              EndConnector="17,61"
               Start="0,0"
-              End="22,53.5">
+              End="17,53.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -1072,13 +1106,13 @@
                     Point2="0,30.5"
                     Point3="4,30.5" />
                   <mssgle:LineSegment
-                    End="18,30.5" />
+                    End="13,30.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="18,30.5"
-                    Point2="22,30.5"
-                    Point3="22,34.5" />
+                    Point1="13,30.5"
+                    Point2="17,30.5"
+                    Point3="17,34.5" />
                   <mssgle:LineSegment
-                    End="22,53.5" />
+                    End="17,53.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1088,31 +1122,19 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Load Sevis Student Cancellation.Paths[Derived Column Output]"
-          TopLeft="142.5,150.5">
+          Id="Package\Load Sevis Occupational Category.Paths[Derived Column Output]"
+          TopLeft="146,150.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="22.5,41"
+              EndConnector="0,125"
               Start="0,0"
-              End="22.5,33.5">
+              End="0,117.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,16.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,16.5"
-                    Point2="0,20.5"
-                    Point3="4,20.5" />
-                  <mssgle:LineSegment
-                    End="18.5,20.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="18.5,20.5"
-                    Point2="22.5,20.5"
-                    Point3="22.5,24.5" />
-                  <mssgle:LineSegment
-                    End="22.5,33.5" />
+                    End="0,117.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1125,7 +1147,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Sevis Student Cancellation\Local Sevis Student Cancellation">
+    design-time-name="Package\Load Sevis Occupational Category\Local Sevis Occupational Category">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1138,7 +1160,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Sevis Student Cancellation\Sevis Student Cancellation">
+    design-time-name="Package\Load Sevis Occupational Category\Sevis Occupational Category">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

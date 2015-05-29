@@ -5,14 +5,14 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="BE00003308"
   DTS:CreatorName="BE00003308\Marc Setien"
-  DTS:DTSID="{2A6FEAC6-D7FE-4BF0-8A86-43164FC6A8FF}"
+  DTS:DTSID="{F38046A4-5B8C-4605-B56E-120D9E568639}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="12.0.2480.0"
   DTS:LocaleID="1033"
-  DTS:ObjectName="Import and Load Sevis Student Creation Reasons"
+  DTS:ObjectName="Import and Load Sevis Table 11 - Student Creation Reasons"
   DTS:PackageType="5"
-  DTS:VersionBuild="4"
-  DTS:VersionGUID="{0FA03D04-9872-4B5C-906A-3ADCBB9E178B}">
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{6EA8069A-7A9F-4141-AAD9-B5E010093AC7}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABc41EsLcI1j9OAXFNPZm/W2+3CKYJqXJTjNIR8fTdULgAAAAAOgAAAAAIAACAAAABxbV5lrU1v+3J0px9P70HjVWYNPbc1esgjapTN6W4jjiAAAAAYzspzhCNzSe5ctd0Kj/QcnUjt37xJXTbDGbXXQkiu7EAAAAC0SC9ltY/kziduKpe1oNLDboUHWFjWshqLNqwrs/Z1teQOj3H1EXuhn61IhazFaXPO3tcXka7QUHLB0mnltjhw</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD+o7a3Tr24seYz+cmoYUFolkmrhWPTzqJHDV6Ml+cQvQAAAAAOgAAAAAIAACAAAABURjpSxhIsg1I5gmHzwR7u+77kr/m+we8s8lQ+y8t7BiAAAABmJ7sG92npwiGaikCJ3wwstjUL7eQn+1QiNqjne9sVhEAAAACnPawsFm0ynNuNhEjqP4o36CBE7CKsikwjpUMcnZF050weFvc9OYM3UmpMuz4D5sDL+k2q8yDrVqxqxDsQoWEV</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -49,6 +49,21 @@
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 11 - Student Creation Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{BE3CC627-1261-44A1-902D-BC79F309DB65}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADTQoiPssUZCUyXK+/ooMPenB0qvgvOss8DzxbZbEvP+gAAAAAOgAAAAAIAACAAAACVvw3u/61eZ4QUBqhlUr47XLKC3WkP3W9HDIfFYwtLFCAAAADJzJWTqzCjSw2/KFTKq9fNAD5GcmsRXst4uZPc4spgJUAAAACyRWKTfhROsOhIdrsq+fj/lIkeY8wLbTzNc/VDnjmneXY6dnXNuf9fhaGvwRMhhNsyVqP1UlIwFqXosHMgDAib</DTS:Password>
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -793,8 +808,8 @@
               <connections>
                 <connection
                   refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -997,11 +1012,7 @@
     design-time-name="Package\Import Sevis Student Creation Reasons to local DB">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="263,42"
-          Id="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source"
-          TopLeft="5.5,5.5" />
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="179,42"
           Id="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation"
@@ -1010,6 +1021,10 @@
           Size="156,42"
           Id="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion"
           TopLeft="332.5,72.5" />
+        <NodeLayout
+          Size="263,42"
+          Id="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source"
+          TopLeft="5.5,5.5" />
         <EdgeLayout
           Id="Package\Import Sevis Student Creation Reasons to local DB.Paths[Excel Source Output]"
           TopLeft="137,47.5">
@@ -1041,7 +1056,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1075,7 +1092,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -1120,6 +1139,10 @@
           Size="182,42"
           Id="Package\Load Local Sevis Student Data to ECA\Add required columns"
           TopLeft="56.5,100.5" />
+        <NodeLayout
+          Size="228,42"
+          Id="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons"
+          TopLeft="43.5,182.5" />
         <EdgeLayout
           Id="Package\Load Local Sevis Student Data to ECA.Paths[OLE DB Source Output]"
           TopLeft="129,47.5">
@@ -1154,10 +1177,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="228,42"
-          Id="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons"
-          TopLeft="43.5,182.5" />
         <EdgeLayout
           Id="Package\Load Local Sevis Student Data to ECA.Paths[Derived Column Output]"
           TopLeft="147.5,142.5">

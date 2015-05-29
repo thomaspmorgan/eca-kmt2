@@ -5,14 +5,14 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="BE00003308"
   DTS:CreatorName="BE00003308\Marc Setien"
-  DTS:DTSID="{C47ECAE9-1773-4446-80C1-62C299C601AE}"
+  DTS:DTSID="{629FC630-1B26-4137-9998-5043BE4B9E28}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="12.0.2480.0"
   DTS:LocaleID="1033"
-  DTS:ObjectName="Import and Load Sevis Program Category Codes"
+  DTS:ObjectName="Import and Load Sevis Table 15 - Program Category Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="18"
-  DTS:VersionGUID="{0C744569-37E8-4E0E-B1DE-B3D7BA4107DF}">
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{2E3D9F71-7E81-4B57-8A8B-20D92CDAA82E}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACstjj/CP3RNzIW+W/q3sqMDeG3SBHqpk3dXmU6NDWSawAAAAAOgAAAAAIAACAAAACsPBcRHibMQXSZLKjKZWdsTHPpdJQkWpQlMvAqmD0bzyAAAADCwL3RxMqzPEUOB71Le/7VL/8iz/K0i0MhH8wYFiGMN0AAAACeda/5WHj5hAycPZl8T/sfea3I/OfrZ/XZrsH3kSo4qH1xhm1qhuCZ+tuJIqmk0e9V7PI0v/WRC5wnrWcCLNBo</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABTuEtrPTr1IAzcj9d8oJQCeE1LytAnKRykZuWtKxYwAQAAAAAOgAAAAAIAACAAAACj9wCMFt2TswSDKf5slyWya7K+tkCrbxyhjCuQY8nj0yAAAACliMKCk5J7y9XP8qeIguxeYJyBB6WDcLYQJc2KCXDlt0AAAABUc43bM859FYaQtDCtJWrBtoLYQ8zeTMypXUBieP836sbwTnrvjbdJCB33ENOblUcyz/8c2Yg9EvidgyRBTJle</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -68,7 +68,22 @@
       DTS:ObjectName="Excel Connection Manager 2">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 15 - Program Category Codes.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 15 - Program Category Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{1C323E70-5437-4E35-8C00-1F05275DAB66}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB6a5HxbyTWXOn4oI/PlqfVzVI5pCWJNJRRD/vEX58F6wAAAAAOgAAAAAIAACAAAABoCaz7WIJO7/nKvcSyB4cJj5Oxl8Wl7ReTFHcw8kxvSyAAAABJXh/2FcklbTZgYNCBMmOYUJ23qGmQnZJcqIcLIPHQT0AAAACdDSe6TLQLLPQp58rfqeW/bmaG8imo0JkgOPxbN3Z/bIDFJud4KAeZWpRx9iYxWDMHy/3a7fc4xQ98ivJrkeOA</DTS:Password>
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -740,8 +755,8 @@
               <connections>
                 <connection
                   refId="Package\Load Sevis Program Category\Sevis Program Category.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -990,15 +1005,15 @@
     design-time-name="Package\Import SEVIS Program Category Codes">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="185,42"
-          Id="Package\Import SEVIS Program Category Codes\SevisProgramCategory"
-          TopLeft="95.5,95.5" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="291,42"
           Id="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source"
           TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\Import SEVIS Program Category Codes\SevisProgramCategory"
+          TopLeft="95.5,95.5" />
         <EdgeLayout
           Id="Package\Import SEVIS Program Category Codes.Paths[Excel Source Output]"
           TopLeft="151,47.5">
@@ -1030,7 +1045,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
