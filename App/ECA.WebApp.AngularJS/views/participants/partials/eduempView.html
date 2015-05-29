@@ -1,18 +1,19 @@
-﻿<div ng-controller="personGeneralCtrl">
+﻿<div ng-controller="personEducationEmploymentCtrl">
     <div ng-show="!editGeneral">
         <div class="col-md-5">
             <div class="row" style="border-top: 1px solid silver; padding-right: 50px;">
                 <i class=" md md-school md-2x col-md-1" style="vertical-align:text-top;"></i>
-            <label class="col-md-3 title-label">Education</label>
-            <div class="col-md-6">
-                <ul>
-                    <li ng-repeat="history in educational.histories">
-                        <b>{{history.title}}</b>
-                        {{history.role}}
-                    </li>
-                </ul>
+                <label class="col-md-3 title-label">Education</label>
+                <div class="col-md-6">
+                    <ul>
+                        <li ng-repeat="education in educations">
+                            <b>{{education.title}} ({{education.startDate | date: 'yyyy'}}-{{education.endDate | date: 'yyyy'}})</b>
+                            <br/>
+                            {{education.role}}
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-6">
@@ -21,9 +22,10 @@
                 <label class="col-md-3 title-label">Professional History</label>
                 <div class="col-md-6">
                     <ul>
-                        <li ng-repeat="history in professional.histories">
-                            <b>{{history.title}}</b>
-                            {{history.role}}
+                        <li ng-repeat="employment in employments">
+                            <b>{{employment.title}} ({{employment.startDate | date: 'yyyy'}}-{{employment.endDate | date: 'yyyy'}})</b>
+                            <br/>
+                            {{employment.role}}
                         </li>
                     </ul>
                 </div>

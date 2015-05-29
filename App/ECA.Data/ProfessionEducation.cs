@@ -17,15 +17,15 @@ namespace ECA.Data
         [Required]
         public string Title { get; set; }
         public string Role { get; set; }
-        public virtual Organization Organization { get; set; }
-        public int OrganizationId { get; set; }
+        public Organization Organization { get; set; }
+        public int? OrganizationId { get; set; }
         public DateTimeOffset DateFrom { get; set; }
         public DateTimeOffset? DateTo { get; set; }
         //relationships
         [InverseProperty("EducationalHistory")]
-        public virtual Person PersonOfEducation { get; set; }
+        public Person PersonOfEducation { get; set; }
         [InverseProperty("ProfessionalHistory")]
-        public virtual Person PersonOfProfession { get; set; }
+        public Person PersonOfProfession { get; set; }
 
         public History History { get; set; }
     }

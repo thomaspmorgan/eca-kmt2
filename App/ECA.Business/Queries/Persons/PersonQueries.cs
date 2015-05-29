@@ -127,14 +127,14 @@ namespace ECA.Business.Queries.Persons
                             Role = education.Role,
                             StartDate = education.DateFrom,
                             EndDate = education.DateTo,
-                            Organization = new Models.Admin.SimpleOrganizationDTO()
+                            Organization = (education.Organization != null) ? new Models.Admin.SimpleOrganizationDTO()
                                 {
                                     OrganizationId = education.Organization.OrganizationId,
                                     Name = education.Organization.Name,
                                     OrganizationType = education.Organization.OrganizationType.OrganizationTypeName,
                                     Location = education.Organization.Addresses.FirstOrDefault().DisplayName,
                                     Status = education.Organization.Status
-                                }
+                                } : null
                         };
 
             return query;
@@ -154,14 +154,14 @@ namespace ECA.Business.Queries.Persons
                             Role = employment.Role,
                             StartDate = employment.DateFrom,
                             EndDate = employment.DateTo,
-                            Organization = new Models.Admin.SimpleOrganizationDTO()
+                            Organization = (employment.Organization != null) ? new Models.Admin.SimpleOrganizationDTO()
                             {
                                 OrganizationId = employment.Organization.OrganizationId,
                                 Name = employment.Organization.Name,
                                 OrganizationType = employment.Organization.OrganizationType.OrganizationTypeName,
                                 Location = employment.Organization.Addresses.FirstOrDefault().DisplayName,
                                 Status = employment.Organization.Status
-                            }
+                            } : null
                         };
 
             return query;
