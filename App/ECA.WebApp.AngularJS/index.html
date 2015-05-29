@@ -67,7 +67,7 @@
                 <div style="margin-right: 50px;" class="navbar-right right">
                     <div id="search-bar-icon" class="glyphicon glyphicon-search col-sd-1" ng-click="spotlightModal=!spotlightModal"></div>
                 </div>
-                <div ng-show="userInfo && userInfo.isAuthenticated"><!--currentUser is defined in the rootscope by app.js-->
+                <div ng-show="userInfo && userInfo.isAuthenticated">
                     <span style="margin-right:25px;margin-top:14px;"
                           class="dropdown pull-right user"
                           dropdown on-toggle="currentUser.userMenuToggled(open)"
