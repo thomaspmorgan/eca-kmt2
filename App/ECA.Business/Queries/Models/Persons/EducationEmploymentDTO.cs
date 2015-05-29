@@ -19,8 +19,6 @@ namespace ECA.Business.Queries.Models.Persons
 
         public DateTimeOffset? EndDate { get; set; }
 
-        public int OrganizationId { get; set; }
-
         public SimpleOrganizationDTO Organization { get; set; }
     }
 }
