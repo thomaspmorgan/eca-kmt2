@@ -73,7 +73,7 @@
                           dropdown on-toggle="currentUser.userMenuToggled(open)"
                           data-ng-model="userInfo">
                         <i style="margin-right:10px;" class="fa fa-user"></i>
-                        <a href class="dropdown-toggle" dropdown-toggle>
+                        <a href class="dropdown-toggle" dropdown-toggle ng-cloak>
                             {{userInfo.profile.given_name}} {{userInfo.profile.family_name}}
                         </a>
                         <ul class="dropdown-menu user">
