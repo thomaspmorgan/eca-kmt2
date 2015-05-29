@@ -84,8 +84,7 @@
 		registerUserFailureEventName: 'registerUserFailure',
 		registerUserSuccessEventName: 'registerUserSuccess',
 		saveProjectEventName: 'saveProject',
-		searchDelimiter: ' ',
-		toggleStickyToolbarEventName: 'toggleStickyBar'
+		searchDelimiter: ' '
 	};
 });
 
