@@ -474,6 +474,9 @@ div.modal-center-large .modal-content .modal-body {
     border-radius: 3px;
 }
 
+ .projectListItem {
+     vertical-align: middle;
+ }
 
 #toast-container > div {
     opacity: 1;
@@ -492,4 +495,25 @@ div.modal-center-large .modal-content .modal-body {
     font-family: FontAwesome;
     content: "\f002";
     padding-left: 5px;
+}
+
+.moneyFlowEdit {
+    width:100px;
+}
+
+.inlineEditControls button{
+    font-size: 10px;
+    width: 60px;
+    height: 30px;
+    padding: 0;
+}
+
+
+.currency {
+    padding-left:15px;
+}
+
+.currency-symbol {
+    position:absolute;
+    padding: 5px 5px;
 }

@@ -28,11 +28,14 @@ angular.module('staticApp')
       $scope.editingMoneyFlows = [];
       $scope.dateFormat = 'dd-MMMM-yyyy';
 
+      $scope.currentlyEditing = false;
+
       $scope.isProjectEditCancelButtonVisible = false;
       $scope.showProjectEditCancelButton = false;
       $scope.isProjectStatusButtonInEditMode = false;
       $scope.isInEditViewState = false;
       $scope.projectStatusButtonText = "...";
+      $scope.isTransactionDatePickerOpen = false;
 
       $scope.tabs = {
           overview: {title: 'Overview', path: 'overview', active: true, order: 1 },
@@ -354,8 +357,37 @@ angular.module('staticApp')
 
       $scope.editMoneyFlow = function (moneyFlowId) {
           $scope.editingMoneyFlows[moneyFlowId] = true;
+          $scope.currentlyEditing = true;
       };
-            
+      
+      $scope.saveMoneyFlow = function (moneyFlowId) {
+          $("#transactionDate" + moneyFlowId).css("opacity", "0");
+          $("#changesSaved" + moneyFlowId).css("display", "inline");
+
+          $scope.editingMoneyFlows[moneyFlowId] = false;
+          $scope.currentlyEditing = false;
+
+          // animate the 'saved' label
+          $("#changesSaved"+moneyFlowId).animate({
+              opacity: 0,
+          }, 3000, function () {
+              $("#transactionDate" + moneyFlowId).css("opacity", "100");
+              $("#changesSaved" + moneyFlowId).css({"display": "none", "opacity" : "100"});
+
+          });
+      };
+
+      $scope.cancelMoneyFlowEdit = function (moneyFlowId) {
+          $scope.editingMoneyFlows[moneyFlowId] = false;
+          $scope.currentlyEditing = false;
+      };
+
+      $scope.openTransactionDatePicker = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope.isTransactionDatePickerOpen = true;
+      };
+
       $q.all([loadPermissions()])
       .then(function () {
 
