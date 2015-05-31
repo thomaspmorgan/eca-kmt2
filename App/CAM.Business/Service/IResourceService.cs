@@ -95,6 +95,22 @@ namespace CAM.Business.Service
         /// </summary>
         /// <returns>The resource types.</returns>
         Task<List<ResourceTypeDTO>> GetResourceTypesAsync();
+
+        /// <summary>
+        /// Returns a info object with basic authorization details for a resource by type and foreign resource id.
+        /// </summary>
+        /// <param name="resourceType">The resource type.</param>
+        /// <param name="foreignResourceId">The resource by foreign resource id.</param>
+        /// <returns>The resource authorization info dto.</returns>
+        ResourceAuthorizationInfoDTO GetResourceAuthorizationInfoDTO(string resourceType, int foreignResourceId);
+
+        /// <summary>
+        /// Returns a info object with basic authorization details for a resource by type and foreign resource id.
+        /// </summary>
+        /// <param name="resourceType">The resource type.</param>
+        /// <param name="foreignResourceId">The resource by foreign resource id.</param>
+        /// <returns>The resource authorization info dto.</returns>
+        Task<ResourceAuthorizationInfoDTO> GetResourceAuthorizationInfoDTOAsync(string resourceType, int foreignResourceId);
     }
 
     /// <summary>
@@ -211,6 +227,30 @@ namespace CAM.Business.Service
         public Task<List<ResourceTypeDTO>> GetResourceTypesAsync()
         {
             return Task.FromResult<List<ResourceTypeDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="resourceType"></param>
+        /// <param name="foreignResourceId"></param>
+        /// <returns></returns>
+        public ResourceAuthorizationInfoDTO GetResourceAuthorizationInfoDTO(string resourceType, int foreignResourceId)
+        {
+            Contract.Requires(resourceType != null, "The resource type must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="resourceType"></param>
+        /// <param name="foreignResourceId"></param>
+        /// <returns></returns>
+        public Task<ResourceAuthorizationInfoDTO> GetResourceAuthorizationInfoDTOAsync(string resourceType, int foreignResourceId)
+        {
+            Contract.Requires(resourceType != null, "The resource type must not be null.");
+            return Task.FromResult<ResourceAuthorizationInfoDTO>(null);
         }
     }
 }

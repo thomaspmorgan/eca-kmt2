@@ -25,6 +25,9 @@ angular.module('staticApp')
           create: function (project) {
               return DragonBreath.create(project, 'projects');
           },
+          getCollaboratorInfo: function(projectId) {
+              return DragonBreath.get('projects/' + projectId + '/collaborators/details');
+          },
           getCollaborators: function (projectId, params) {
               var path = 'projects/' + projectId + '/collaborators';
               return DragonBreath.get(params, path);

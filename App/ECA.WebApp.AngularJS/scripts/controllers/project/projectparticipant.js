@@ -16,12 +16,15 @@ angular.module('staticApp')
         $modal,
         ConstantsService,
         AuthService,
+        ProjectService,
         NotificationService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
       $scope.view.isLoading = false;
       $scope.view.isCollaboratorExpanded = false;
+      $scope.view.numberOfCollaborators = -1;
+      $scope.view.collaboratorsLastUpdated = null;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
@@ -36,7 +39,7 @@ angular.module('staticApp')
               windowClass: 'modal-center-large'
           });
           modalInstance.result.then(function () {
-              $log.info('Closing...');              
+              $log.info('Closing...');
           }, function () {
               $log.info('Dismiss add collaborator dialog...');
           });
@@ -64,11 +67,23 @@ angular.module('staticApp')
             });
       }
       
+      function loadCollaboratorDetails() {
+          return ProjectService.getCollaboratorInfo(projectId)
+          .then(function (response) {
+              $scope.view.numberOfCollaborators = response.data.allowedPrincipalsCount;
+              var lastRevisedDate = new Date(response.data.lastRevisedOn);
+              if (!isNaN(lastRevisedDate.getTime())) {
+                  $scope.view.collaboratorsLastUpdated = lastRevisedDate;
+              }
+          }, function (error) {
+              $log.error('Unable to load project collaborator details.');
+              NotificationService.showErrorMessage('Unable to load project collaborator details.');
+          });
+      }
 
       $scope.view.isLoading = true;
-      $q.all([loadPermissions()])
+      $q.all([loadPermissions(), loadCollaboratorDetails()])
       .then(function (results) {
-          
 
       }, function (errorResponse) {
           $log.error('Failed initial loading of project view.');

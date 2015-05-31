@@ -413,4 +413,53 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ProgramCategoryId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="21e84cdd-bc94-4c18-b017-539940297420" ChangeDateTime="05/28/2015 19:07:12">
+    <Property Name="ElementName" Value="[sevis].[OccupationalCategory].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[OccupationalCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OccupationalCategoryId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f404f3e7-13f9-407a-bcb4-92fdc5208bfe" ChangeDateTime="05/28/2015 19:18:29">
+    <Property Name="ElementName" Value="[sevis].[ProgramCategory].[CategoryCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[ProgramCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProgramCategoryCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a0ca09a2-4659-4edf-bd85-aa1aabb93f22" ChangeDateTime="05/29/2015 15:29:13">
+    <Property Name="ElementName" Value="[sevis].[StudentReprint].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[StudentReprint]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StudentReprintId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="feeb5f74-e3a8-430b-b6f4-155f16630bdb" ChangeDateTime="05/29/2015 15:30:03">
+    <Property Name="ElementName" Value="[sevis].[StudentReprint].[StudentReprintCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[sevis].[StudentReprint]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ReprintCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="702ce100-d38e-453e-95aa-5345bb32b226" ChangeDateTime="05/29/2015 15:35:49">
+    <Property Name="ElementName" Value="[dbo].[BirthCountry].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[BirthCountry]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BirthCountryId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="97ca192e-f15c-41a5-8616-226fe6c3f609" ChangeDateTime="05/29/2015 15:39:38">
+    <Property Name="ElementName" Value="[sevis].[PK_dbo.BirthCountry]" />
+    <Property Name="ElementType" Value="SqlPrimaryKeyConstraint" />
+    <Property Name="ParentElementName" Value="[sevis].[BirthCountry]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[PK_sevis.BirthCountry]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="18ce890b-9111-4458-9eb4-b97613fb6683" ChangeDateTime="05/29/2015 15:40:23">
+    <Property Name="ElementName" Value="[sevis].[BirthCountry].[IX_BirthCountryCode]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[sevis].[BirthCountry]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_CountryCode]" />
+  </Operation>
 </Operations>

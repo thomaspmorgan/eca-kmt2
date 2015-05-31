@@ -99,6 +99,47 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
+        /// Returns educations info associated with a person
+        /// </summary>
+        /// <param name="personId">The person id to find educations info for</param>
+        /// <returns>Educations info associated with person</returns>
+        [ResponseType(typeof(IList<EducationEmploymentDTO>))]
+        [Route("People/{personId:int}/Education")]
+        public async Task<IHttpActionResult> GetEducationsByPersonIdAsync(int personId)
+        {
+            var educations = await service.GetEducationsByPersonIdAsync(personId);
+            if (educations != null)
+            {
+                return Ok(educations);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
+        /// <summary>
+        /// Returns employments info associated with a person
+        /// </summary>
+        /// <param name="personId">The person id to find employments info for</param>
+        /// <returns>Employents info associated with person</returns>
+        [ResponseType(typeof(IList<EducationEmploymentDTO>))]
+        [Route("People/{personId:int}/Employment")]
+        public async Task<IHttpActionResult> GetEmploymentsByPersonIdAsync(int personId)
+        {
+            var employments = await service.GetEmploymentsByPersonIdAsync(personId);
+            if (employments != null)
+            {
+                return Ok(employments);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
         /// Post method to create a person
         /// </summary>
         /// <param name="model">The model to create</param>

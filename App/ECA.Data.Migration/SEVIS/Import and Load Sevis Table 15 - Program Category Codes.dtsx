@@ -1,0 +1,1185 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/28/2015 12:13:17 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{629FC630-1B26-4137-9998-5043BE4B9E28}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import and Load Sevis Table 15 - Program Category Codes"
+  DTS:PackageType="5"
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{2E3D9F71-7E81-4B57-8A8B-20D92CDAA82E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{4554B82F-07C4-4CA1-A524-F9E86E425857}"
+      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{52FC55C0-F093-4DE1-8D77-94DF07D9223E}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.SEVIS.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=SEVIS;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABTuEtrPTr1IAzcj9d8oJQCeE1LytAnKRykZuWtKxYwAQAAAAAOgAAAAAIAACAAAACj9wCMFt2TswSDKf5slyWya7K+tkCrbxyhjCuQY8nj0yAAAACliMKCk5J7y9XP8qeIguxeYJyBB6WDcLYQJc2KCXDlt0AAAABUc43bM859FYaQtDCtJWrBtoLYQ8zeTMypXUBieP836sbwTnrvjbdJCB33ENOblUcyz/8c2Yg9EvidgyRBTJle</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{67E29F49-0C4C-4ABA-9881-9A7FBD5556D1}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 10 - Student Cancellation Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 1]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{1182DD70-A24D-4F3C-9727-7234196734A5}"
+      DTS:ObjectName="Excel Connection Manager 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 13 - Student Termination Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 2]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{77240E31-79A5-4506-9046-99D1EF1D9225}"
+      DTS:ObjectName="Excel Connection Manager 2">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 15 - Program Category Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{1C323E70-5437-4E35-8C00-1F05275DAB66}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB6a5HxbyTWXOn4oI/PlqfVzVI5pCWJNJRRD/vEX58F6wAAAAAOgAAAAAIAACAAAABoCaz7WIJO7/nKvcSyB4cJj5Oxl8Wl7ReTFHcw8kxvSyAAAABJXh/2FcklbTZgYNCBMmOYUJ23qGmQnZJcqIcLIPHQT0AAAACdDSe6TLQLLPQp58rfqeW/bmaG8imo0JkgOPxbN3Z/bIDFJud4KAeZWpRx9iYxWDMHy/3a7fc4xQ98ivJrkeOA</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Created Formatted Code"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{1A92F905-F1EE-4D16-9DC0-1A3EBE7F7318}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Created Formatted Code"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{52FC55C0-F093-4DE1-8D77-94DF07D9223E}"
+          SQLTask:SqlStatementSource="UPDATE  [SEVIS].[dbo].[SevisProgramCategory]&#xA;SET FormattedCode = RIGHT(REPLICATE('0', 2) + LEFT([Exchange Visitor Category Code],2),2)&#xA; &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Import SEVIS Program Category Codes"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{5316ADB9-764B-44D2-B833-9A14FC062491}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import SEVIS Program Category Codes"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="SEVIS Program Category Codes Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Sheet1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 2]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 2]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output].Columns[EXCHANGE VISITOR CATEGORY CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[EXCHANGE VISITOR CATEGORY CODE]"
+                      length="255"
+                      lineageId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output].Columns[EXCHANGE VISITOR CATEGORY CODE]"
+                      name="EXCHANGE VISITOR CATEGORY CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      name="EXCHANGE VISITOR CATEGORY DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[EXCHANGE VISITOR CATEGORY CODE]"
+                      dataType="wstr"
+                      length="255"
+                      name="EXCHANGE VISITOR CATEGORY CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="EXCHANGE VISITOR CATEGORY DESCRIPTION" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Error Output].Columns[EXCHANGE VISITOR CATEGORY CODE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Error Output].Columns[EXCHANGE VISITOR CATEGORY CODE]"
+                      name="EXCHANGE VISITOR CATEGORY CODE" />
+                    <outputColumn
+                      refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Error Output].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Error Output].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      name="EXCHANGE VISITOR CATEGORY DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import SEVIS Program Category Codes\SevisProgramCategory"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SevisProgramCategory"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[SevisProgramCategory]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Inputs[OLE DB Destination Input].Columns[EXCHANGE VISITOR CATEGORY CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="EXCHANGE VISITOR CATEGORY CODE"
+                      externalMetadataColumnId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Inputs[OLE DB Destination Input].ExternalColumns[EXCHANGE VISITOR CATEGORY CODE]"
+                      lineageId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output].Columns[EXCHANGE VISITOR CATEGORY CODE]" />
+                    <inputColumn
+                      refId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Inputs[OLE DB Destination Input].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="EXCHANGE VISITOR CATEGORY DESCRIPTION"
+                      externalMetadataColumnId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Inputs[OLE DB Destination Input].ExternalColumns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      lineageId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Inputs[OLE DB Destination Input].ExternalColumns[FormattedCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="FormattedCode" />
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Inputs[OLE DB Destination Input].ExternalColumns[EXCHANGE VISITOR CATEGORY CODE]"
+                      dataType="wstr"
+                      length="255"
+                      name="EXCHANGE VISITOR CATEGORY CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Inputs[OLE DB Destination Input].ExternalColumns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="EXCHANGE VISITOR CATEGORY DESCRIPTION" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import SEVIS Program Category Codes.Paths[Excel Source Output]"
+              endId="Package\Import SEVIS Program Category Codes\SevisProgramCategory.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Sevis Program Category"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{8DC2EB58-21D5-42F3-834B-B88BC72515C5}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Sevis Program Category"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Sevis Program Category\Add Required Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add Required Columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Sevis Program Category\Add Required Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Sevis Program Category\Add Required Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Sevis Program Category\Add Required Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sevis Program Category\Local Sevis Program Category"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Local Sevis Program Category"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[SevisProgramCategory]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Sevis Program Category\Local Sevis Program Category.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].Columns[FormattedCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].ExternalColumns[FormattedCode]"
+                      length="2"
+                      lineageId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].Columns[FormattedCode]"
+                      name="FormattedCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].Columns[EXCHANGE VISITOR CATEGORY CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].ExternalColumns[EXCHANGE VISITOR CATEGORY CODE]"
+                      length="255"
+                      lineageId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].Columns[EXCHANGE VISITOR CATEGORY CODE]"
+                      name="EXCHANGE VISITOR CATEGORY CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].ExternalColumns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      name="EXCHANGE VISITOR CATEGORY DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].ExternalColumns[FormattedCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="FormattedCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].ExternalColumns[EXCHANGE VISITOR CATEGORY CODE]"
+                      dataType="wstr"
+                      length="255"
+                      name="EXCHANGE VISITOR CATEGORY CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].ExternalColumns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="EXCHANGE VISITOR CATEGORY DESCRIPTION" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Error Output].Columns[EXCHANGE VISITOR CATEGORY CODE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Error Output].Columns[EXCHANGE VISITOR CATEGORY CODE]"
+                      name="EXCHANGE VISITOR CATEGORY CODE" />
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Error Output].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Error Output].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      name="EXCHANGE VISITOR CATEGORY DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Error Output].Columns[FormattedCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Error Output].Columns[FormattedCode]"
+                      name="FormattedCode" />
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sevis Program Category\Sevis Program Category"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Sevis Program Category"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[sevis].[ProgramCategory]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Sevis Program Category\Sevis Program Category.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="EXCHANGE VISITOR CATEGORY DESCRIPTION"
+                      externalMetadataColumnId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].Columns[EXCHANGE VISITOR CATEGORY DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].Columns[FormattedCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="FormattedCode"
+                      externalMetadataColumnId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[ProgramCategoryCode]"
+                      lineageId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output].Columns[FormattedCode]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="100"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[ProgramCategoryId]"
+                      dataType="i4"
+                      name="ProgramCategoryId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input].ExternalColumns[ProgramCategoryCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="ProgramCategoryCode" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis Program Category\Sevis Program Category.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Program Category\Sevis Program Category.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis Program Category\Sevis Program Category.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Program Category\Sevis Program Category.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Sevis Program Category.Paths[Derived Column Output]"
+              endId="Package\Load Sevis Program Category\Sevis Program Category.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Sevis Program Category\Add Required Columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Sevis Program Category.Paths[OLE DB Source Output]"
+              endId="Package\Load Sevis Program Category\Add Required Columns.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Sevis Program Category\Local Sevis Program Category.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{38AAC320-7D3A-49FF-96A0-B5AF46FB085F}"
+      DTS:From="Package\Import SEVIS Program Category Codes"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Created Formatted Code" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D147055D-6AE7-4D27-B74A-C1121C46C36C}"
+      DTS:From="Package\Created Formatted Code"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load Sevis Program Category" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="194,42"
+          Id="Package\Created Formatted Code"
+          TopLeft="49.5,101.5" />
+        <NodeLayout
+          Size="263,42"
+          Id="Package\Import SEVIS Program Category Codes"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Load Sevis Program Category"
+          TopLeft="50.5,236.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="137,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9.5,54"
+              Start="0,0"
+              End="9.5,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23"
+                    Point2="0,27"
+                    Point3="4,27" />
+                  <mssgle:LineSegment
+                    End="5.5,27" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5.5,27"
+                    Point2="9.5,27"
+                    Point3="9.5,31" />
+                  <mssgle:LineSegment
+                    End="9.5,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="146.5,143.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="13,93"
+              Start="0,0"
+              End="13,85.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,42.5"
+                    Point2="0,46.5"
+                    Point3="4,46.5" />
+                  <mssgle:LineSegment
+                    End="9,46.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="9,46.5"
+                    Point2="13,46.5"
+                    Point3="13,50.5" />
+                  <mssgle:LineSegment
+                    End="13,85.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import SEVIS Program Category Codes">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="291,42"
+          Id="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\Import SEVIS Program Category Codes\SevisProgramCategory"
+          TopLeft="95.5,95.5" />
+        <EdgeLayout
+          Id="Package\Import SEVIS Program Category Codes.Paths[Excel Source Output]"
+          TopLeft="151,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="37,48"
+              Start="0,0"
+              End="37,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20"
+                    Point2="0,24"
+                    Point3="4,24" />
+                  <mssgle:LineSegment
+                    End="33,24" />
+                  <mssgle:CubicBezierSegment
+                    Point1="33,24"
+                    Point2="37,24"
+                    Point3="37,28" />
+                  <mssgle:LineSegment
+                    End="37,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import SEVIS Program Category Codes\SEVIS Program Category Codes Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import SEVIS Program Category Codes\SevisProgramCategory">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Sevis Program Category">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="219,42"
+          Id="Package\Load Sevis Program Category\Local Sevis Program Category"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Load Sevis Program Category\Add Required Columns"
+          TopLeft="49.5,108.5" />
+        <NodeLayout
+          Size="192,42"
+          Id="Package\Load Sevis Program Category\Sevis Program Category"
+          TopLeft="43.5,275.5" />
+        <EdgeLayout
+          Id="Package\Load Sevis Program Category.Paths[OLE DB Source Output]"
+          TopLeft="115,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="27.5,61"
+              Start="0,0"
+              End="27.5,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.5"
+                    Point2="0,30.5"
+                    Point3="4,30.5" />
+                  <mssgle:LineSegment
+                    End="23.5,30.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="23.5,30.5"
+                    Point2="27.5,30.5"
+                    Point3="27.5,34.5" />
+                  <mssgle:LineSegment
+                    End="27.5,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis Program Category.Paths[Derived Column Output]"
+          TopLeft="141,150.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,125"
+              Start="0,0"
+              End="0,117.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,117.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Sevis Program Category\Local Sevis Program Category">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Sevis Program Category\Sevis Program Category">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

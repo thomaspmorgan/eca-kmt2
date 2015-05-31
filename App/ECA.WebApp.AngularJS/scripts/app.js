@@ -498,5 +498,6 @@ angular
             event.preventDefault();
         });
 
+        
         $rootScope.spotlightModal = false;
     }]);

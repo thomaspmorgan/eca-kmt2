@@ -264,6 +264,32 @@ namespace CAM.Business.Service
         #region Resource Authorizations
 
         /// <summary>
+        /// Returns a info object with basic authorization details for a resource by type and foreign resource id.
+        /// </summary>
+        /// <param name="resourceType">The resource type.</param>
+        /// <param name="foreignResourceId">The resource by foreign resource id.</param>
+        /// <returns>The resource authorization info dto.</returns>
+        public ResourceAuthorizationInfoDTO GetResourceAuthorizationInfoDTO(string resourceType, int foreignResourceId)
+        {
+            var dto = ResourceQueries.CreateGetResourceAuthorizationInfoDTOQuery(this.Context, resourceType, foreignResourceId).FirstOrDefault();
+            logger.Trace("Retrieved resource authorization info dto for resource type [{0}] and foreign resource id [{1}].", resourceType, foreignResourceId);
+            return dto;
+        }
+
+        /// <summary>
+        /// Returns a info object with basic authorization details for a resource by type and foreign resource id.
+        /// </summary>
+        /// <param name="resourceType">The resource type.</param>
+        /// <param name="foreignResourceId">The resource by foreign resource id.</param>
+        /// <returns>The resource authorization info dto.</returns>
+        public async Task<ResourceAuthorizationInfoDTO> GetResourceAuthorizationInfoDTOAsync(string resourceType, int foreignResourceId)
+        {
+            var dto = await ResourceQueries.CreateGetResourceAuthorizationInfoDTOQuery(this.Context, resourceType, foreignResourceId).FirstOrDefaultAsync();
+            logger.Trace("Retrieved resource authorization info dto for resource type [{0}] and foreign resource id [{1}].", resourceType, foreignResourceId);
+            return dto;
+        }
+
+        /// <summary>
         /// Returns resource authorizations given the query operator.
         /// </summary>
         /// <param name="queryOperator">The query operator.</param>

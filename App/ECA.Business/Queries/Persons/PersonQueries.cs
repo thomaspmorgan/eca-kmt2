@@ -112,5 +112,59 @@ namespace ECA.Business.Queries.Persons
             return query;
 
         }
+
+        public static IQueryable<EducationEmploymentDTO> CreateGetEducationsByPersonIdQuery(EcaContext context, int personId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+
+            var query = from education in context.ProfessionEducations
+                        where education.PersonOfEducation.PersonId == personId
+                        orderby education.DateFrom descending
+                        select new EducationEmploymentDTO
+                        {
+                            Id = education.ProfessionEducationId,
+                            Title = education.Title,
+                            Role = education.Role,
+                            StartDate = education.DateFrom,
+                            EndDate = education.DateTo,
+                            Organization = (education.Organization != null) ? new Models.Admin.SimpleOrganizationDTO()
+                                {
+                                    OrganizationId = education.Organization.OrganizationId,
+                                    Name = education.Organization.Name,
+                                    OrganizationType = education.Organization.OrganizationType.OrganizationTypeName,
+                                    Location = education.Organization.Addresses.FirstOrDefault().DisplayName,
+                                    Status = education.Organization.Status
+                                } : null
+                        };
+
+            return query;
+        }
+
+        public static IQueryable<EducationEmploymentDTO> CreateGetEmploymentsByPersonIdQuery(EcaContext context, int personId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+
+            var query = from employment in context.ProfessionEducations
+                        where employment.PersonOfProfession.PersonId == personId
+                        orderby employment.DateFrom descending
+                        select new EducationEmploymentDTO
+                        {
+                            Id = employment.ProfessionEducationId,
+                            Title = employment.Title,
+                            Role = employment.Role,
+                            StartDate = employment.DateFrom,
+                            EndDate = employment.DateTo,
+                            Organization = (employment.Organization != null) ? new Models.Admin.SimpleOrganizationDTO()
+                            {
+                                OrganizationId = employment.Organization.OrganizationId,
+                                Name = employment.Organization.Name,
+                                OrganizationType = employment.Organization.OrganizationType.OrganizationTypeName,
+                                Location = employment.Organization.Addresses.FirstOrDefault().DisplayName,
+                                Status = employment.Organization.Status
+                            } : null
+                        };
+
+            return query;
+        }
     }
 }

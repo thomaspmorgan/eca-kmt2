@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [sevis].[Position]
 (
 	[PositionId] INT IDENTITY(1,1) NOT NULL, 
-    [PositionCode] INT NOT NULL, 
+    [PositionCode] NVARCHAR(4) NOT NULL, 
     [Description] NVARCHAR(200) NOT NULL, 
     [History_CreatedBy] INT NOT NULL, 
     [History_CreatedOn] DATETIMEOFFSET NOT NULL, 

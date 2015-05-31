@@ -85,6 +85,7 @@
       <HintPath>..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -114,6 +115,7 @@
     <Compile Include="Queries\Models\Office\OfficeSettingDTO.cs" />
     <Compile Include="Queries\Models\Office\SimpleOfficeDTO.cs" />
     <Compile Include="Queries\Models\Persons\ContactInfoDTO.cs" />
+    <Compile Include="Queries\Models\Persons\EducationEmploymentDTO.cs" />
     <Compile Include="Queries\Models\Persons\GeneralDTO.cs" />
     <Compile Include="Queries\Models\Persons\LocationDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantDTO.cs" />

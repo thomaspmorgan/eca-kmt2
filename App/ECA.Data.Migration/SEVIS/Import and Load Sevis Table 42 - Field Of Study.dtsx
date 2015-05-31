@@ -1,0 +1,1145 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/26/2015 12:33:49 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{BC43ED9D-5B53-4BFA-B72E-62D207C5A518}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import and Load Sevis Table 42 - Field Of Study"
+  DTS:PackageType="5"
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{0523C76D-0245-42EC-BE0D-88E2A2FCA2A1}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{8025E798-E7F7-4240-BB6E-EEBDA2BDA886}"
+      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{13CC685A-265B-420D-8D58-0801FAE2DFCE}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.SEVIS.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=SEVIS;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAYPjqEcYhDLm673eMIMPJCBnIeJrTR1BKmdmjRHzhJjAAAAAAOgAAAAAIAACAAAABGLz3M6R7sLLaIoM41w8otQOpDCqgGf5gY1ps+vdFPSSAAAABjFBEq5+F69+rAG3otozVSPWLzZCpFK4fywkg9NYaWB0AAAACBl+MsxkXjKluQs4DRuLnxgbqmSOjI/tMLpkTIZycndyZlqaRXXQ39to74EYcievR4yWPyYdOvMv+L1JBQ1FK8</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{FBE2C47E-10D5-48F5-AEFA-8D4832B64AB0}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 42 - Major and Minor Codes for Students and Subject and Field Codes for Exchange Visitors.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{628B8448-7AAB-4DB9-9E7A-9FC7A75ED714}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABFklM0svyp/MZk3el1PSMPO3vNs4o7gnEUKZppdQA+zgAAAAAOgAAAAAIAACAAAABqzduOOy7HVzMINx6732JUxbd7M9+RFDeqIDpMWKzWRyAAAAAGRycSLQ0zhURJoyGF0BU7GeWd/kY3Aywb5UVdTggHm0AAAACo1A/a71wcaCLrEHA6hlDuJ9W7F/E+3ikcvn4d6QAzsoUm8F5GINzMif+WGAlnWeAM3Z8Y/r+9Iib9grOzniVO</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import SEVIS Field Of Study Excel Source"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{5F234EEE-CB54-4EBD-B278-65EBDAD81FD7}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import SEVIS Field Of Study Excel Source"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="FieldOfStudy"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[FieldOfStudy]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Inputs[OLE DB Destination Input].Columns[PROGRAM SUBJECT CODE]"
+                      cachedDataType="r8"
+                      cachedName="PROGRAM SUBJECT CODE"
+                      externalMetadataColumnId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      lineageId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT CODE]" />
+                    <inputColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Inputs[OLE DB Destination Input].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROGRAM SUBJECT DESCRIPTION"
+                      externalMetadataColumnId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      lineageId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT DESCRIPTION]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      dataType="r8"
+                      name="PROGRAM SUBJECT CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROGRAM SUBJECT DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[ReformatProgramSubjectCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="ReformatProgramSubjectCode" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="SEVIS Field Of Study Excel Download"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Sheet1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT CODE]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      lineageId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT CODE]"
+                      name="PROGRAM SUBJECT CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      name="PROGRAM SUBJECT DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      dataType="r8"
+                      name="PROGRAM SUBJECT CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROGRAM SUBJECT DESCRIPTION" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT CODE]"
+                      dataType="r8"
+                      lineageId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT CODE]"
+                      name="PROGRAM SUBJECT CODE" />
+                    <outputColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      name="PROGRAM SUBJECT DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import SEVIS Field Of Study Excel Source.Paths[Excel Source Output]"
+              endId="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Sevis Field Of Study"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{1A1195A3-2A94-4D82-B68F-27A85B7B0487}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Sevis Field Of Study"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Sevis Field Of Study\Add History Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add History Columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Sevis Field Of Study\Add History Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Sevis Field Of Study\Add History Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Sevis Field Of Study\Add History Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Local Sevis Field Of Study"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FieldOfStudy]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].Columns[FieldOfStudyCode]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      lineageId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].Columns[FieldOfStudyCode]"
+                      name="FieldOfStudyCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].Columns[Description]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].Columns[Description]"
+                      name="Description"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].Columns[ReformatProgramSubjectCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].ExternalColumns[ReformatProgramSubjectCode]"
+                      length="7"
+                      lineageId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].Columns[ReformatProgramSubjectCode]"
+                      name="ReformatProgramSubjectCode"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT CODE]"
+                      dataType="r8"
+                      name="PROGRAM SUBJECT CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].ExternalColumns[PROGRAM SUBJECT DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROGRAM SUBJECT DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].ExternalColumns[ReformatProgramSubjectCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="ReformatProgramSubjectCode" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT CODE]"
+                      dataType="r8"
+                      lineageId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT CODE]"
+                      name="PROGRAM SUBJECT CODE" />
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Error Output].Columns[PROGRAM SUBJECT DESCRIPTION]"
+                      name="PROGRAM SUBJECT DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Error Output].Columns[ReformatProgramSubjectCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      lineageId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Error Output].Columns[ReformatProgramSubjectCode]"
+                      name="ReformatProgramSubjectCode" />
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Sevis FieldOfStudy"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[sevis].[FieldOfStudy]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].Columns[Description]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Description"
+                      externalMetadataColumnId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].Columns[Description]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].Columns[ReformatProgramSubjectCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="7"
+                      cachedName="ReformatProgramSubjectCode"
+                      externalMetadataColumnId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[FieldOfStudyCode]"
+                      lineageId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output].Columns[ReformatProgramSubjectCode]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[HistoryCreatedBy]"
+                      lineageId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[HistoryCreatedOn]"
+                      lineageId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[HistoryRevisedBy]"
+                      lineageId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[HistoryRevisedOn]"
+                      lineageId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[FieldOfStudyId]"
+                      dataType="i4"
+                      name="FieldOfStudyId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[FieldOfStudyCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="FieldOfStudyCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="200"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[HistoryCreatedBy]"
+                      dataType="i4"
+                      name="HistoryCreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[HistoryCreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="HistoryCreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[HistoryRevisedBy]"
+                      dataType="i4"
+                      name="HistoryRevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input].ExternalColumns[HistoryRevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="HistoryRevisedOn"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Sevis Field Of Study.Paths[Derived Column Output]"
+              endId="Package\Load Sevis Field Of Study\Sevis FieldOfStudy.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Sevis Field Of Study\Add History Columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Sevis Field Of Study.Paths[OLE DB Source Output]"
+              endId="Package\Load Sevis Field Of Study\Add History Columns.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Sevis Field Of Study\Local Sevis Field Of Study.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Reformat FieldOfStudy Code"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{406168FE-5188-4D33-842F-97A61CB1349B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Reformat FieldOfStudy Code"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{13CC685A-265B-420D-8D58-0801FAE2DFCE}"
+          SQLTask:SqlStatementSource="UPDATE  [SEVIS].[dbo].[FieldOfStudy]&#xA;SET ReformatProgramSubjectCode = FORMAT ([program subject code],'00.0000')&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{FF2D792A-4243-4CD1-BAB6-BF63D1147D1E}"
+      DTS:From="Package\Import SEVIS Field Of Study Excel Source"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Reformat FieldOfStudy Code" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{C79000DD-59A4-44D3-8B44-6672A2008298}"
+      DTS:From="Package\Reformat FieldOfStudy Code"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load Sevis Field Of Study" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="275,42"
+          Id="Package\Import SEVIS Field Of Study Excel Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="199,42"
+          Id="Package\Load Sevis Field Of Study"
+          TopLeft="62.5,215.5" />
+        <NodeLayout
+          Size="212,42"
+          Id="Package\Reformat FieldOfStudy Code"
+          TopLeft="58.5,114.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="143,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="21.5,67"
+              Start="0,0"
+              End="21.5,59.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,29.5"
+                    Point2="0,33.5"
+                    Point3="4,33.5" />
+                  <mssgle:LineSegment
+                    End="17.5,33.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="17.5,33.5"
+                    Point2="21.5,33.5"
+                    Point3="21.5,37.5" />
+                  <mssgle:LineSegment
+                    End="21.5,59.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="163.25,156.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59"
+              Start="0,0"
+              End="0,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import SEVIS Field Of Study Excel Source">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="254,42"
+          Id="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="139,42"
+          Id="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy"
+          TopLeft="61.5,116.5" />
+        <EdgeLayout
+          Id="Package\Import SEVIS Field Of Study Excel Source.Paths[Excel Source Output]"
+          TopLeft="131.75,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,69"
+              Start="0,0"
+              End="0,61.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,61.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import SEVIS Field Of Study Excel Source\FieldOfStudy">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import SEVIS Field Of Study Excel Source\SEVIS Field Of Study Excel Download">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Sevis Field Of Study">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="200,42"
+          Id="Package\Load Sevis Field Of Study\Local Sevis Field Of Study"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Load Sevis Field Of Study\Add History Columns"
+          TopLeft="87.5,107.5" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Load Sevis Field Of Study\Sevis FieldOfStudy"
+          TopLeft="48.5,222.5" />
+        <EdgeLayout
+          Id="Package\Load Sevis Field Of Study.Paths[OLE DB Source Output]"
+          TopLeft="105.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="70.5,60"
+              Start="0,0"
+              End="70.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
+                  <mssgle:LineSegment
+                    End="66.5,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="66.5,30"
+                    Point2="70.5,30"
+                    Point3="70.5,34" />
+                  <mssgle:LineSegment
+                    End="70.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis Field Of Study.Paths[Derived Column Output]"
+          TopLeft="176,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-44.5,73"
+              Start="0,0"
+              End="-44.5,65.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,32.5"
+                    Point2="0,36.5"
+                    Point3="-4,36.5" />
+                  <mssgle:LineSegment
+                    End="-40.5,36.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-40.5,36.5"
+                    Point2="-44.5,36.5"
+                    Point3="-44.5,40.5" />
+                  <mssgle:LineSegment
+                    End="-44.5,65.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Sevis Field Of Study\Local Sevis Field Of Study">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Sevis Field Of Study\Sevis FieldOfStudy">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

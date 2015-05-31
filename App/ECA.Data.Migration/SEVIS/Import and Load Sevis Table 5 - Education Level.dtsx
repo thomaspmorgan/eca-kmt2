@@ -1,0 +1,1442 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/27/2015 3:38:27 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{ACCD2016-13A6-465D-9ECA-B951FEDF53DC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import and Load Sevis Table 5 - Education Level"
+  DTS:PackageType="5"
+  DTS:VersionBuild="24"
+  DTS:VersionGUID="{380640ED-244B-48EE-B924-76D66B38F17C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{30DE79F0-E705-4821-A18F-9C361AE1404C}"
+      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{2B254ACE-665F-490B-B8B0-B14033035AAB}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.SEVIS.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=SEVIS;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAR/ExO5mFke2uH3ZfVo64ubMNq9e6PBYnPFh4Mzo5VLQAAAAAOgAAAAAIAACAAAACnAVgkI7VoIntzK12/hNiHU0BPguUnxGicbnZHMyIBGiAAAABCVVEpGEUNqAmuQzVJXK+VFCXL1nKp+ce73e2hZwvV/kAAAAC1YNdXxO+FbkCrZpE2r6IubJ0kdBY5uk3SYW5k575naT3TLJSUSEQRa3a/0LHPvu0xmFXEoeDh7HlZO3o2KHaY</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{630A814D-D982-4C0C-89EE-DF8063B2F5DD}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 5 - Education Level Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{639B7C19-7ADA-4F62-9130-F1255D0F40A4}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABnbv3EIHq+l44eu8YYjq7TwdLPud3DL7/dK/w+WMeEHgAAAAAOgAAAAAIAACAAAABrIboOaiXvxcM6kZ/SxNqaDRNDsEOtyfYTLe35NpvhFyAAAACLZVRAQOOhW4OlBG4TPLhq/ZMMKO+u4lfLzgMXeSX9A0AAAAC6j1cVebsouzkwnr0mxXioC+xYxxXNSeNavs65Te45EJy/axbmkUrwVENtfFvCIsKO2U0S/KvjPYxzmpHbrHLh</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Format Education Level Code"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{221664CA-AAF9-4125-96C2-ED7294B9E15B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Format Education Level Code"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2B254ACE-665F-490B-B8B0-B14033035AAB}"
+          SQLTask:SqlStatementSource="UPDATE  [SEVIS].[dbo].[SevisEducationLevel]&#xA;SET [Formatted Education Level Code] = FORMAT ([student education level code],'00')&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Import Sevis Education Level"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{34F4067E-55ED-4D1A-B960-45672B639ED4}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import Sevis Education Level"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import Sevis Education Level\Education Level Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Education Level Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Sheet1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import Sevis Education Level\Education Level Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      name="STUDENT EDUCATION LEVEL CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
+                      length="255"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      name="STUDENT EDUCATION LEVEL F-1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
+                      length="255"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      name="STUDENT EDUCATION LEVEL M-1"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
+                      dataType="r8"
+                      name="STUDENT EDUCATION LEVEL CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL F-1" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL M-1" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      dataType="r8"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      name="STUDENT EDUCATION LEVEL CODE" />
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      name="STUDENT EDUCATION LEVEL F-1" />
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      name="STUDENT EDUCATION LEVEL M-1" />
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import Sevis Education Level\Local Sevis EducationLevel"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Local Sevis EducationLevel"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[SevisEducationLevel]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      cachedDataType="r8"
+                      cachedName="STUDENT EDUCATION LEVEL CODE"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL CODE]" />
+                    <inputColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STUDENT EDUCATION LEVEL DESCRIPTION"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STUDENT EDUCATION LEVEL F-1"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL F-1]" />
+                    <inputColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STUDENT EDUCATION LEVEL M-1"
+                      externalMetadataColumnId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
+                      lineageId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output].Columns[STUDENT EDUCATION LEVEL M-1]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
+                      dataType="r8"
+                      name="STUDENT EDUCATION LEVEL CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL F-1" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL M-1" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[Formatted Education Level Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="Formatted Education Level Code" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import Sevis Education Level.Paths[Excel Source Output]"
+              endId="Package\Import Sevis Education Level\Local Sevis EducationLevel.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import Sevis Education Level\Education Level Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Sevis EducaltionLevel"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{5786A285-D68C-415D-9A7B-CBC91536D7E0}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Sevis EducaltionLevel"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Sevis EducaltionLevel\Add required columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add required columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Sevis EducaltionLevel\Add required columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Sevis EducaltionLevel\Add required columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Sevis EducaltionLevel\Add required columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sevis EducaltionLevel\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STUDENT EDUCATION LEVEL F-1"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL F-1]" />
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STUDENT EDUCATION LEVEL M-1"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL M-1]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL F-1]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL F-1]"
+                      name="Copy of STUDENT EDUCATION LEVEL F-1"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL F-1]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL M-1]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL M-1]"
+                      name="Copy of STUDENT EDUCATION LEVEL M-1"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL M-1]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Local Sevis EducationLevel"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[SevisEducationLevel]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      name="STUDENT EDUCATION LEVEL CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
+                      length="255"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      name="STUDENT EDUCATION LEVEL F-1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
+                      length="255"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      name="STUDENT EDUCATION LEVEL M-1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[Formatted Education Level Code]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[Formatted Education Level Code]"
+                      length="2"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[Formatted Education Level Code]"
+                      name="Formatted Education Level Code"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL CODE]"
+                      dataType="r8"
+                      name="STUDENT EDUCATION LEVEL CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL F-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL F-1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[STUDENT EDUCATION LEVEL M-1]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT EDUCATION LEVEL M-1" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].ExternalColumns[Formatted Education Level Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="Formatted Education Level Code" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      dataType="r8"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL CODE]"
+                      name="STUDENT EDUCATION LEVEL CODE" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      name="STUDENT EDUCATION LEVEL DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL F-1]"
+                      name="STUDENT EDUCATION LEVEL F-1" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[STUDENT EDUCATION LEVEL M-1]"
+                      name="STUDENT EDUCATION LEVEL M-1" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[Formatted Education Level Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[Formatted Education Level Code]"
+                      name="Formatted Education Level Code" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Sevis EducationLevel"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[sevis].[EducationLevel]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STUDENT EDUCATION LEVEL DESCRIPTION"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[STUDENT EDUCATION LEVEL DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[Formatted Education Level Code]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="Formatted Education Level Code"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[EducationLevelCode]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output].Columns[Formatted Education Level Code]" />
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[Copy of STUDENT EDUCATION LEVEL F-1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Copy of STUDENT EDUCATION LEVEL F-1"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[F_1_Ind]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL F-1]" />
+                    <inputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].Columns[Copy of STUDENT EDUCATION LEVEL M-1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of STUDENT EDUCATION LEVEL M-1"
+                      externalMetadataColumnId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[M_1_Ind]"
+                      lineageId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT EDUCATION LEVEL M-1]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[EducationLevelId]"
+                      dataType="i4"
+                      name="EducationLevelId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[EducationLevelCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="EducationLevelCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="100"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[F_1_Ind]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="F_1_Ind" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[M_1_Ind]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="M_1_Ind" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Sevis EducaltionLevel.Paths[Data Conversion Output]"
+              endId="Package\Load Sevis EducaltionLevel\Sevis EducationLevel.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Load Sevis EducaltionLevel\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Load Sevis EducaltionLevel.Paths[Derived Column Output]"
+              endId="Package\Load Sevis EducaltionLevel\Data Conversion.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\Load Sevis EducaltionLevel\Add required columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Sevis EducaltionLevel.Paths[OLE DB Source Output]"
+              endId="Package\Load Sevis EducaltionLevel\Add required columns.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{3BB5EA40-D879-42D7-A22B-49B05EB6D17A}"
+      DTS:From="Package\Import Sevis Education Level"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Format Education Level Code" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{0668A158-DE53-40E8-814B-C9BD22C34681}"
+      DTS:From="Package\Format Education Level Code"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load Sevis EducaltionLevel" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="216,42"
+          Id="Package\Format Education Level Code"
+          TopLeft="40.5,107.5" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\Import Sevis Education Level"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="205,42"
+          Id="Package\Load Sevis EducaltionLevel"
+          TopLeft="43.5,206.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="113,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="35.5,60"
+              Start="0,0"
+              End="35.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
+                  <mssgle:LineSegment
+                    End="31.5,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="31.5,30"
+                    Point2="35.5,30"
+                    Point3="35.5,34" />
+                  <mssgle:LineSegment
+                    End="35.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="147.25,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57"
+              Start="0,0"
+              End="0,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import Sevis Education Level">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="204,42"
+          Id="Package\Import Sevis Education Level\Local Sevis EducationLevel"
+          TopLeft="48.5,124.5" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\Import Sevis Education Level\Education Level Excel Source"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Import Sevis Education Level.Paths[Excel Source Output]"
+          TopLeft="113.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="37,77"
+              Start="0,0"
+              End="37,69.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34.5"
+                    Point2="0,38.5"
+                    Point3="4,38.5" />
+                  <mssgle:LineSegment
+                    End="33,38.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="33,38.5"
+                    Point2="37,38.5"
+                    Point3="37,42.5" />
+                  <mssgle:LineSegment
+                    End="37,69.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import Sevis Education Level\Education Level Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import Sevis Education Level\Local Sevis EducationLevel">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Sevis EducaltionLevel">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Load Sevis EducaltionLevel\Data Conversion"
+          TopLeft="225.5,213.5" />
+        <NodeLayout
+          Size="204,42"
+          Id="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="182,42"
+          Id="Package\Load Sevis EducaltionLevel\Add required columns"
+          TopLeft="194.5,107.5" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Load Sevis EducaltionLevel\Sevis EducationLevel"
+          TopLeft="10.5,275.5" />
+        <EdgeLayout
+          Id="Package\Load Sevis EducaltionLevel.Paths[OLE DB Source Output]"
+          TopLeft="107.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="178,60"
+              Start="0,0"
+              End="178,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
+                  <mssgle:LineSegment
+                    End="174,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="174,30"
+                    Point2="178,30"
+                    Point3="178,34" />
+                  <mssgle:LineSegment
+                    End="178,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis EducaltionLevel.Paths[Derived Column Output]"
+          TopLeft="285.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="18,64"
+              Start="0,0"
+              End="18,56.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28"
+                    Point2="0,32"
+                    Point3="4,32" />
+                  <mssgle:LineSegment
+                    End="14,32" />
+                  <mssgle:CubicBezierSegment
+                    Point1="14,32"
+                    Point2="18,32"
+                    Point3="18,36" />
+                  <mssgle:LineSegment
+                    End="18,56.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis EducaltionLevel.Paths[Data Conversion Output]"
+          TopLeft="225.5,234.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-38,62"
+              Start="0,0"
+              End="-30.5,62">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-15,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-15,0"
+                    Point2="-19,0"
+                    Point3="-19,4" />
+                  <mssgle:LineSegment
+                    End="-19,58" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-19,58"
+                    Point2="-19,62"
+                    Point3="-23,62" />
+                  <mssgle:LineSegment
+                    End="-30.5,62" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Sevis EducaltionLevel\Local Sevis EducationLevel">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Sevis EducaltionLevel\Sevis EducationLevel">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -283,14 +283,11 @@
     <Build Include="Sevis\Tables\StudentCreation.sql" />
     <Build Include="Sevis\Tables\StudentTermination.sql" />
     <Build Include="Sevis\Tables\ProgramCategory.sql" />
+    <Build Include="Sevis\Tables\OccupationalCategory.sql" />
+    <Build Include="Sevis\Tables\StudentReprint.sql" />
+    <Build Include="Sevis\Tables\BirthCountry.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />
-  </ItemGroup>
-  <ItemGroup>
-    <SqlCmdVariable Include="SEVIS">
-      <DefaultValue>SEVIS.Database</DefaultValue>
-      <Value>$(SqlCmdVar__1)</Value>
-    </SqlCmdVariable>
   </ItemGroup>
 </Project>

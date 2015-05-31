@@ -419,6 +419,80 @@ namespace CAM.Business.Test.Service
 
         #region Resource Authorizations
         [TestMethod]
+        public async Task TestGetResourceAuthorizationInfoDTO()
+        {
+            var principal = new Principal
+            {
+                PrincipalId = 1
+            };
+            var userAccount = new UserAccount
+            {
+                DisplayName = "display",
+                Principal = principal,
+                PrincipalId = principal.PrincipalId
+            };
+            principal.UserAccount = userAccount;
+            userAccount.Principal = principal;
+
+            var resourceType = new ResourceType
+            {
+                ResourceTypeName = ResourceType.Project.Value,
+                ResourceTypeId = ResourceType.Project.Id
+            };
+            var resource = new Resource
+            {
+                ResourceId = 1,
+                ResourceType = resourceType,
+                ResourceTypeId = resourceType.ResourceTypeId,
+                ForeignResourceId = 2,
+            };
+            var permission1 = new CAM.Data.Permission
+            {
+                PermissionId = CAM.Data.Permission.EditProject.Id,
+                PermissionName = CAM.Data.Permission.EditProject.Value,
+            };
+            var permissionAssignment1 = new PermissionAssignment
+            {
+                IsAllowed = true,
+                Permission = permission1,
+                PermissionId = permission1.PermissionId,
+                Principal = principal,
+                PrincipalId = principal.PrincipalId,
+                Resource = resource,
+                ResourceId = resource.ResourceId
+            };
+
+            context.Principals.Add(principal);
+            context.UserAccounts.Add(userAccount);
+            context.ResourceTypes.Add(resourceType);
+            context.Resources.Add(resource);
+            context.Permissions.Add(permission1);
+            context.PermissionAssignments.Add(permissionAssignment1);
+
+            Action<ResourceAuthorizationInfoDTO> tester = (dto) =>
+            {
+                Assert.IsNotNull(dto);
+            };
+            var serviceResult = service.GetResourceAuthorizationInfoDTO(resource.ResourceType.ResourceTypeName, resource.ForeignResourceId);
+            var serviceResultAsync = await service.GetResourceAuthorizationInfoDTOAsync(resource.ResourceType.ResourceTypeName, resource.ForeignResourceId);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetResourceAuthorizationInfoDTO_ResourceDoesNotExist()
+        {
+            Action<ResourceAuthorizationInfoDTO> tester = (dto) =>
+            {
+                Assert.IsNull(dto);
+            };
+            var serviceResult = service.GetResourceAuthorizationInfoDTO(ResourceType.Project.Value, 1);
+            var serviceResultAsync = await service.GetResourceAuthorizationInfoDTOAsync(ResourceType.Project.Value, 1);
+            tester(serviceResult);
+            tester(serviceResultAsync);
+        }
+
+        [TestMethod]
         public async Task TestGetResourceAuthorization_DefaultSort()
         {
             var principal = new Principal

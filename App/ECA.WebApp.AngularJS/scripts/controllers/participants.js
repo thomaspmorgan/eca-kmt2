@@ -37,6 +37,7 @@ angular.module('staticApp')
           },
       };
 
+      $scope.showEduEmp = true;
       $scope.showGeneral = true;
       $scope.showPii = true;
       $scope.showContact = true;

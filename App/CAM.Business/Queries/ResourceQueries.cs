@@ -74,6 +74,7 @@ namespace CAM.Business.Queries
 
                         select new ResourceAuthorization
                         {
+                            AssignedOn = roleResourcePermission.AssignedOn,
                             DisplayName = userAccount.DisplayName,
                             EmailAddress = userAccount.EmailAddress,
                             ForeignResourceId = resource.ForeignResourceId,
@@ -121,6 +122,7 @@ namespace CAM.Business.Queries
 
                         select new ResourceAuthorization
                         {
+                            AssignedOn = permissionAssignment.AssignedOn,
                             DisplayName = userAccount.DisplayName,
                             EmailAddress = userAccount.EmailAddress,
                             ForeignResourceId = resource.ForeignResourceId,
@@ -140,7 +142,6 @@ namespace CAM.Business.Queries
             return query;
         }
 
-
         /// <summary>
         /// Returns a filtered and sorted query of resource authorizations currently in the cam granted by both permissions and roles.
         /// </summary>
@@ -153,6 +154,31 @@ namespace CAM.Business.Queries
             var query = CreateGetResourceAuthorizationsByPermissionAssignmentsQuery(context).Union(CreateGetResourceAuthorizationsByRoleQuery(context));
             query = query.Apply(queryOperator);
             return query;
+        }
+
+        /// <summary>
+        /// Returns a query to return a resource authorization info dto that contains information regarding a resource and it's principals related to it.  For example,
+        /// use this query to determine the last revised on date for a resource and all of it's permissions.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The info dto.</returns>
+        public static IQueryable<ResourceAuthorizationInfoDTO> CreateGetResourceAuthorizationInfoDTOQuery(CamModel context, string resourceType, int foreignResourceId)
+        {
+            var query = CreateGetResourceAuthorizationsByPermissionAssignmentsQuery(context).Union(CreateGetResourceAuthorizationsByRoleQuery(context));
+            query = query.Where(x => x.IsAllowed && x.ResourceType == resourceType && x.ForeignResourceId == foreignResourceId);
+
+
+            var groupedQuery = from resourceAuthorization in query
+                               group resourceAuthorization by resourceAuthorization.ResourceId into g
+                               select new ResourceAuthorizationInfoDTO
+                               {
+                                   AllowedPrincipalsCount = g.Select(x => x.PrincipalId).Distinct().Count(),
+                                   LastRevisedOn = g.Max(x => x.AssignedOn)
+                               };
+
+            
+            return groupedQuery;
+                               
         }
 
         /// <summary>

@@ -73,10 +73,9 @@
                           dropdown on-toggle="currentUser.userMenuToggled(open)"
                           data-ng-model="userInfo">
                         <i style="margin-right:10px;" class="fa fa-user"></i>
-                        <a href class="dropdown-toggle" dropdown-toggle>
-                            {{userInfo.profile.name}}
+                        <a href class="dropdown-toggle" dropdown-toggle ng-bind-template="{{userInfo.profile.given_name}} {{userInfo.profile.family_name}}">
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu user">
                             <li><a href="#" ng-click="currentUser.logout()">Logout</a></li>
                         </ul>
                     </span>
@@ -217,6 +216,7 @@
     <script src="scripts/services/reportservice.js"></script>
     <script src="scripts/controllers/reports/ProjectAwards.js"></script>
     <script src="scripts/controllers/person/personGeneral.js"></script>
+    <script src="scripts/controllers/person/personEduEmp.js"></script>
     <!-- endbuild -->
     <!--<script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
