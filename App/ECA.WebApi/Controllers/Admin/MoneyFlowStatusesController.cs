@@ -46,7 +46,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="queryModel">The query model.</param>
         /// <returns>The project stati currently in the system.</returns>
         [ResponseType(typeof(PagedQueryResults<MoneyFlowStatusDTO>))]
-        public async Task<IHttpActionResult> GetMoneyFlowStati([FromUri]PagingQueryBindingModel<MoneyFlowStatusDTO> queryModel)
+        public async Task<IHttpActionResult> GetMoneyFlowStatuses([FromUri]PagingQueryBindingModel<MoneyFlowStatusDTO> queryModel)
         {
             if (ModelState.IsValid)
             {

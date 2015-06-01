@@ -8,6 +8,7 @@
         <thead>
             <tr>
                 <th st-sort="'transactionDate'" st-sort-default="true" class="col-md-2 sort-label medium">Transaction Date</th>
+                <th st-sort="'status'" class="col-md-1 sort-label medium">Status</th>
                 <th st-sort="'type'" class="col-md-1 sort-label medium">Type</th>
                 <th st-sort="'fromTo'" class="col-md-3 sort-label medium">From/To</th>
                 <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
@@ -21,7 +22,8 @@
                     <span class="draft-program4" id="changesSaved{{moneyFlow.id}}" style="display:none;">SAVED</span>
                     <span id="transactionDate{{moneyFlow.id}}">{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</span>
                 </td>
-                <td>{{moneyFlow.type }}</td>
+                <td>{{moneyFlow.status}}</td>
+                <td>{{moneyFlow.type}}</td>
                 <td>{{moneyFlow.fromTo}}</td>
                 <td><span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount | currency}}</span></td>
                 <td>{{moneyFlow.description}}</td>
@@ -55,9 +57,10 @@
                            datepicker-popup="{{editView.dateFormat}}"
                            ng-model="moneyFlow.transactionDate"
                            is-open="isTransactionDatePickerOpen"
-                           ng-click="openTransactionDatePicker($event)"
                            ng-required="true"
                            close-text="Close" />
+                    <button type="button" class="btn btn-default inlineEditCalendar" ng-click="openTransactionDatePicker($event)"><i class="fa fa-calendar"></i></button>
+
                 </td>
                 <td>
                     <select class="form-control" id="type" ng-options="s.id as s.name for s in moneyFlowTypes" ng-model="moneyFlow.type" />
