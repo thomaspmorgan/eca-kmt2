@@ -223,7 +223,8 @@ namespace ECA.WebApi.Security
 
         private async Task<IEnumerable<IPermission>> GetUserPermissionsAsync(int principalId)
         {
-            var permissions = await Task.FromResult<IEnumerable<IPermission>>(GetUserPermissions(principalId));
+            await this.permissionStore.LoadUserPermissionsAsync(principalId);
+            var permissions = this.permissionStore.Permissions;
             logger.Trace("Retrieved user with principal id [{0}] permissions.", principalId);
             return permissions;
         }

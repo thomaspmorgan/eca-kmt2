@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CAM.Business.Service
 {
-    public class Permission : IPermission, IEquatable<Permission>
+    public class SimplePermission : IPermission, IEquatable<SimplePermission>
     {
         #region Properties
 
@@ -24,7 +24,7 @@ namespace CAM.Business.Service
         /// <param name="principalId">user or group Id</param>
         /// <param name="permissionId">Id of the Permission</param>
         /// <param name="resourceId">Id of the resource for the permission</param>
-        public Permission(int principalId, int permissionId, int resourceId)
+        public SimplePermission(int principalId, int permissionId, int resourceId)
         {
             PrincipalId = principalId;
             PermissionId = permissionId;
@@ -32,7 +32,7 @@ namespace CAM.Business.Service
             IsAllowed = true;
         }
 
-        public Permission()
+        public SimplePermission()
         {
 
         }
@@ -42,24 +42,11 @@ namespace CAM.Business.Service
         #region Methods
 
         /// <summary>
-        /// Determines if the given user has permission for a resource
-        /// </summary>
-        /// <param name="principalId">Id of the user or group</param>
-        /// <param name="permissionId">Id of the permission</param>
-        /// <param name="resourceId">Id of the resource</param>
-        /// <returns>True if the user or group has permission on the resource, false otherwise</returns>
-        public bool HasPermission(int principalId, int permissionId, int resourceId)
-        {
-            return (PrincipalId == principalId && PermissionId == permissionId && ResourceId == resourceId &&
-                    IsAllowed == true);
-        }
-
-        /// <summary>
         /// Determines equality of a permission.  The PrincipalId is ignored in the equality check
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        public bool Equals(Permission p)
+        public bool Equals(SimplePermission p)
         {
             return (PermissionId == p.PermissionId &&
                     ResourceId == p.ResourceId &&
@@ -68,7 +55,7 @@ namespace CAM.Business.Service
 
         public override bool Equals(object obj)
         {
-            Permission p = obj as Permission;
+            SimplePermission p = obj as SimplePermission;
             if (p != null)
             {
                 return Equals(p);
@@ -86,6 +73,10 @@ namespace CAM.Business.Service
             return hash;
         }
 
+        public override string ToString()
+        {
+            return String.Format("PrincipalId:  [{0}], ResourceId:  [{1}], PermissionId:  [{2}], IsAllowed:  [{3}]", PrincipalId, ResourceId, PermissionId, IsAllowed);
+        }
 
         #endregion
     }

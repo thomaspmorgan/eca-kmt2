@@ -131,7 +131,7 @@ namespace ECA.WebApi.Test.Controllers.Security
                 Id = Guid.NewGuid()
             };
             var userPermissions = new List<IPermission>();
-            userPermissions.Add(new Permission
+            userPermissions.Add(new SimplePermission
             {
                 IsAllowed = true,
                 PermissionId = permissionId,
@@ -292,7 +292,7 @@ namespace ECA.WebApi.Test.Controllers.Security
                 Id = Guid.NewGuid()
             };
             var userPermissions = new List<IPermission>();
-            userPermissions.Add(new Permission
+            userPermissions.Add(new SimplePermission
             {
                 IsAllowed = true,
                 PermissionId = permissionId,
@@ -327,7 +327,7 @@ namespace ECA.WebApi.Test.Controllers.Security
                 Id = Guid.NewGuid()
             };
             var userPermissions = new List<IPermission>();
-            userPermissions.Add(new Permission
+            userPermissions.Add(new SimplePermission
             {
                 IsAllowed = true,
                 PermissionId = permissionId,
@@ -362,7 +362,7 @@ namespace ECA.WebApi.Test.Controllers.Security
                 Id = Guid.NewGuid()
             };
             var userPermissions = new List<IPermission>();
-            userPermissions.Add(new Permission
+            userPermissions.Add(new SimplePermission
             {
                 IsAllowed = true,
                 PermissionId = permissionId,
