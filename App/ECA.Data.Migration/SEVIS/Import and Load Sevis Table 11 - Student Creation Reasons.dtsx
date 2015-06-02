@@ -1,0 +1,1244 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/28/2015 2:34:27 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{F38046A4-5B8C-4605-B56E-120D9E568639}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import and Load Sevis Table 11 - Student Creation Reasons"
+  DTS:PackageType="5"
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{6EA8069A-7A9F-4141-AAD9-B5E010093AC7}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{5D33893F-98CE-4335-8D96-9ABBD583AD26}"
+      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{FAC9F9E1-08ED-4CFD-A108-70A6643CAD9E}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.SEVIS.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=SEVIS;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD+o7a3Tr24seYz+cmoYUFolkmrhWPTzqJHDV6Ml+cQvQAAAAAOgAAAAAIAACAAAABURjpSxhIsg1I5gmHzwR7u+77kr/m+we8s8lQ+y8t7BiAAAABmJ7sG92npwiGaikCJ3wwstjUL7eQn+1QiNqjne9sVhEAAAACnPawsFm0ynNuNhEjqP4o36CBE7CKsikwjpUMcnZF050weFvc9OYM3UmpMuz4D5sDL+k2q8yDrVqxqxDsQoWEV</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{12F9AE9E-D7D5-4355-88F1-B0CC2361E54C}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 11 - Student Creation Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{BE3CC627-1261-44A1-902D-BC79F309DB65}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADTQoiPssUZCUyXK+/ooMPenB0qvgvOss8DzxbZbEvP+gAAAAAOgAAAAAIAACAAAACVvw3u/61eZ4QUBqhlUr47XLKC3WkP3W9HDIfFYwtLFCAAAADJzJWTqzCjSw2/KFTKq9fNAD5GcmsRXst4uZPc4spgJUAAAACyRWKTfhROsOhIdrsq+fj/lIkeY8wLbTzNc/VDnjmneXY6dnXNuf9fhaGvwRMhhNsyVqP1UlIwFqXosHMgDAib</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import Sevis Student Creation Reasons to local DB"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{BAFF3290-F956-495D-A125-8717D6A4D25F}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import Sevis Student Creation Reasons to local DB"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Inputs[Data Conversion Input].Columns[STUDENT CREATE CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STUDENT CREATE CODE"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE CODE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT CREATE CODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT CREATE CODE]"
+                      name="Copy of STUDENT CREATE CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE CODE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="SevisStudentCreation"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[SevisStudentCreation]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].Columns[STUDENT CREATE CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STUDENT CREATE CODE"
+                      externalMetadataColumnId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT CREATE CODE]"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE CODE]" />
+                    <inputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].Columns[STUDENT CREATE DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STUDENT CREATE DESCRIPTION"
+                      externalMetadataColumnId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT CREATE DESCRIPTION]"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE DESCRIPTION]" />
+                    <inputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].Columns[Copy of STUDENT CREATE CODE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Copy of STUDENT CREATE CODE"
+                      externalMetadataColumnId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[FormattedCreateCode]"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT CREATE CODE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT CREATE CODE]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT CREATE CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT CREATE DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT CREATE DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[FormattedCreateCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="FormattedCreateCode" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Student Creation Reasons Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Sheet1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT CREATE CODE]"
+                      length="255"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE CODE]"
+                      name="STUDENT CREATE CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT CREATE DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE DESCRIPTION]"
+                      name="STUDENT CREATE DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT CREATE CODE]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT CREATE CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT CREATE DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT CREATE DESCRIPTION" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT CREATE CODE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT CREATE CODE]"
+                      name="STUDENT CREATE CODE" />
+                    <outputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT CREATE DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT CREATE DESCRIPTION]"
+                      name="STUDENT CREATE DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import Sevis Student Creation Reasons to local DB.Paths[Data Conversion Output]"
+              endId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Import Sevis Student Creation Reasons to local DB.Paths[Excel Source Output]"
+              endId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Inputs[Data Conversion Input]"
+              name="Excel Source Output"
+              startId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Local Sevis Student Data to ECA"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{F62870BC-ACAC-460A-8EFC-B5D0B9A4B26E}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Local Sevis Student Data to ECA"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Local Sevis Student Data to ECA\Add required columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add required columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load Local Sevis Student Data to ECA\Add required columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load Local Sevis Student Data to ECA\Add required columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Local Sevis Student Create Reasons"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[SevisStudentCreation]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[STUDENT CREATE CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[STUDENT CREATE CODE]"
+                      length="255"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[STUDENT CREATE CODE]"
+                      name="STUDENT CREATE CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[STUDENT CREATE DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[STUDENT CREATE DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[STUDENT CREATE DESCRIPTION]"
+                      name="STUDENT CREATE DESCRIPTION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[FormattedCreateCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[FormattedCreateCode]"
+                      length="1"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[FormattedCreateCode]"
+                      name="FormattedCreateCode"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[STUDENT CREATE CODE]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT CREATE CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[STUDENT CREATE DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="STUDENT CREATE DESCRIPTION" />
+                    <externalMetadataColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[FormattedCreateCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="FormattedCreateCode" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[STUDENT CREATE CODE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[STUDENT CREATE CODE]"
+                      name="STUDENT CREATE CODE" />
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[STUDENT CREATE DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[STUDENT CREATE DESCRIPTION]"
+                      name="STUDENT CREATE DESCRIPTION" />
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[FormattedCreateCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[FormattedCreateCode]"
+                      name="FormattedCreateCode" />
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Sevis Student Creation Reasons"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[sevis].[StudentCreation]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[FormattedCreateCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="FormattedCreateCode"
+                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[CreationCode]"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[FormattedCreateCode]" />
+                    <inputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[STUDENT CREATE DESCRIPTION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="STUDENT CREATE DESCRIPTION"
+                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[STUDENT CREATE DESCRIPTION]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[StudentCreationId]"
+                      dataType="i4"
+                      name="StudentCreationId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[CreationCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="CreationCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      dataType="wstr"
+                      length="100"
+                      name="Description" />
+                    <externalMetadataColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Local Sevis Student Data to ECA.Paths[Derived Column Output]"
+              endId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Local Sevis Student Data to ECA.Paths[OLE DB Source Output]"
+              endId="Package\Load Local Sevis Student Data to ECA\Add required columns.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C232FBE6-DC51-425C-96D5-76EE5081753F}"
+      DTS:From="Package\Import Sevis Student Creation Reasons to local DB"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load Local Sevis Student Data to ECA" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="317,42"
+          Id="Package\Import Sevis Student Creation Reasons to local DB"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="256,42"
+          Id="Package\Load Local Sevis Student Data to ECA"
+          TopLeft="53.5,112.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="164,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="17.5,65"
+              Start="0,0"
+              End="17.5,57.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28.5"
+                    Point2="0,32.5"
+                    Point3="4,32.5" />
+                  <mssgle:LineSegment
+                    End="13.5,32.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="13.5,32.5"
+                    Point2="17.5,32.5"
+                    Point3="17.5,36.5" />
+                  <mssgle:LineSegment
+                    End="17.5,57.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import Sevis Student Creation Reasons to local DB">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation"
+          TopLeft="67.5,108.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion"
+          TopLeft="332.5,72.5" />
+        <NodeLayout
+          Size="263,42"
+          Id="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package\Import Sevis Student Creation Reasons to local DB.Paths[Excel Source Output]"
+          TopLeft="137,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="273.5,25"
+              Start="0,0"
+              End="273.5,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.5"
+                    Point2="0,12.5"
+                    Point3="4,12.5" />
+                  <mssgle:LineSegment
+                    End="269.5,12.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="269.5,12.5"
+                    Point2="273.5,12.5"
+                    Point3="273.5,16.5" />
+                  <mssgle:LineSegment
+                    End="273.5,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Import Sevis Student Creation Reasons to local DB.Paths[Data Conversion Output]"
+          TopLeft="332.5,93.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-86,36"
+              Start="0,0"
+              End="-78.5,36">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-39,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-39,0"
+                    Point2="-43,0"
+                    Point3="-43,4" />
+                  <mssgle:LineSegment
+                    End="-43,32" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-43,32"
+                    Point2="-43,36"
+                    Point3="-47,36" />
+                  <mssgle:LineSegment
+                    End="-78.5,36" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load Local Sevis Student Data to ECA">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="247,42"
+          Id="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="182,42"
+          Id="Package\Load Local Sevis Student Data to ECA\Add required columns"
+          TopLeft="56.5,100.5" />
+        <NodeLayout
+          Size="228,42"
+          Id="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons"
+          TopLeft="43.5,182.5" />
+        <EdgeLayout
+          Id="Package\Load Local Sevis Student Data to ECA.Paths[OLE DB Source Output]"
+          TopLeft="129,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="18.5,53"
+              Start="0,0"
+              End="18.5,45.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.5"
+                    Point2="0,26.5"
+                    Point3="4,26.5" />
+                  <mssgle:LineSegment
+                    End="14.5,26.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="14.5,26.5"
+                    Point2="18.5,26.5"
+                    Point3="18.5,30.5" />
+                  <mssgle:LineSegment
+                    End="18.5,45.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Local Sevis Student Data to ECA.Paths[Derived Column Output]"
+          TopLeft="147.5,142.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10,40"
+              Start="0,0"
+              End="10,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16"
+                    Point2="0,20"
+                    Point3="4,20" />
+                  <mssgle:LineSegment
+                    End="6,20" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6,20"
+                    Point2="10,20"
+                    Point3="10,24" />
+                  <mssgle:LineSegment
+                    End="10,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

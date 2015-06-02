@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
-  DTS:CreationDate="5/28/2015 2:34:27 PM"
+  DTS:CreationDate="5/27/2015 3:38:27 PM"
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="BE00003308"
   DTS:CreatorName="BE00003308\Marc Setien"
-  DTS:DTSID="{2A6FEAC6-D7FE-4BF0-8A86-43164FC6A8FF}"
+  DTS:DTSID="{C987A93E-F95E-43CD-B13D-BEAE0D60E3BF}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="12.0.2480.0"
   DTS:LocaleID="1033"
-  DTS:ObjectName="Import and Load Sevis Student Creation Reasons"
+  DTS:ObjectName="Import and Load Sevis Table 32 - Birth Country Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="4"
-  DTS:VersionGUID="{0FA03D04-9872-4B5C-906A-3ADCBB9E178B}">
+  DTS:VersionBuild="37"
+  DTS:VersionGUID="{B912E5AD-D86B-42E3-8DC4-D372082BE7A7}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{5D33893F-98CE-4335-8D96-9ABBD583AD26}"
+      DTS:DTSID="{938D6B90-E443-4F0A-9BCB-5230A7906840}"
       DTS:ObjectName="(localdb)\v11.0.ECA_Local">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -29,7 +29,7 @@
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
       DTS:CreationName="OLEDB"
-      DTS:DTSID="{FAC9F9E1-08ED-4CFD-A108-70A6643CAD9E}"
+      DTS:DTSID="{E1E4D73F-5A13-42E6-8A94-6A1E0BF7914F}"
       DTS:ObjectName="BE00003308\SQLExpress2014.SEVIS.msetien">
       <DTS:ObjectData>
         <DTS:ConnectionManager
@@ -37,32 +37,67 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABc41EsLcI1j9OAXFNPZm/W2+3CKYJqXJTjNIR8fTdULgAAAAAOgAAAAAIAACAAAABxbV5lrU1v+3J0px9P70HjVWYNPbc1esgjapTN6W4jjiAAAAAYzspzhCNzSe5ctd0Kj/QcnUjt37xJXTbDGbXXQkiu7EAAAAC0SC9ltY/kziduKpe1oNLDboUHWFjWshqLNqwrs/Z1teQOj3H1EXuhn61IhazFaXPO3tcXka7QUHLB0mnltjhw</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACvXS+3mZrBrT9fqLRYJZtcIML795qjjwNA6XVyG4dixAAAAAAOgAAAAAIAACAAAAA5xCkg6/icgo32JLhfjaGq8x5HYRjHF67C49Jk22QGoSAAAABtKRtN42v2gos/5BWSbnxPvzV2tTWBv3yJge6dOaCiYEAAAADPVS590xldyAxFxYLTO1QrdZOkcA8nB2cwj2nM/BMsw53PLavJuyZ5M8/VEDsBKppLHHpWSgecCZvLkEyoU/CU</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
       DTS:CreationName="EXCEL"
-      DTS:DTSID="{12F9AE9E-D7D5-4355-88F1-B0CC2361E54C}"
+      DTS:DTSID="{65DB4CA1-F9C2-4200-A2AA-E8144CDE9370}"
       DTS:ObjectName="Excel Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 11 - Student Creation Reason Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 5 - Education Level Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 1]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{0B1BCDD9-A4FA-4FA5-81EB-F224D1DEDB6A}"
+      DTS:ObjectName="Excel Connection Manager 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 12 - Student Reprint Codes.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 2]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{C1C28677-AAD9-4298-8361-16EBFBDBB377}"
+      DTS:ObjectName="Excel Connection Manager 2">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\SEVIS\SEVIS Table 32 - Birth Country Codes.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E9D2EB35-8F2B-4201-9904-78D773A861D8}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABOSa8c8sjIZV+c5oxd4Qz3q44TpxDktfM54qXkKvSfhQAAAAAOgAAAAAIAACAAAADttUwXpESWjaXKuKx7XufW/N51J5d1e3CiGY7SgdEJISAAAAD6QsKCvtcVudw4cWag4B4hZqDYZh9mhGONRjt++Yh/bkAAAABXzcRua2uhTMZrMmtZGKYUsRQvRyP8yKNLV3eGp8p55o7kaiEL4Ao7RMo/l84vlawzY6eaxzG2EV2PB16vLBYQ</DTS:Password>
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
   <DTS:Variables />
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Import Sevis Student Creation Reasons to local DB"
+      DTS:refId="Package\Import Sevis Birth Country Codes"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:Disabled="True"
-      DTS:DTSID="{BAFF3290-F956-495D-A125-8717D6A4D25F}"
+      DTS:DTSID="{A758AECC-1EC4-44D3-AB93-3616506FC19D}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Import Sevis Student Creation Reasons to local DB"
+      DTS:ObjectName="Import Sevis Birth Country Codes"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -70,89 +105,11 @@
           version="1">
           <components>
             <component
-              refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion"
-              componentClassID="Microsoft.DataConvert"
-              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              description="Data Conversion"
-              name="Data Conversion"
-              usesDispositions="true">
-              <inputs>
-                <input
-                  refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Inputs[Data Conversion Input]"
-                  name="Data Conversion Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Inputs[Data Conversion Input].Columns[STUDENT CREATE CODE]"
-                      cachedDataType="wstr"
-                      cachedLength="255"
-                      cachedName="STUDENT CREATE CODE"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE CODE]" />
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Output]"
-                  exclusionGroup="1"
-                  name="Data Conversion Output"
-                  synchronousInputId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Inputs[Data Conversion Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT CREATE CODE]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      length="1"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT CREATE CODE]"
-                      name="Copy of STUDENT CREATE CODE"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE CODE]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Data Conversion Error Output"
-                  synchronousInputId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Inputs[Data Conversion Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation"
+              refId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
-              name="SevisStudentCreation"
+              name="Local Sevis Birth Country Codes"
               usesDispositions="true"
               version="4">
               <properties>
@@ -163,7 +120,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[SevisStudentCreation]</property>
+                  name="OpenRowset">[SevisBirthCountry]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -205,7 +162,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Connections[OleDbConnection]"
+                  refId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   description="The OLE DB runtime connection used to access the database."
@@ -213,74 +170,66 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input]"
+                  refId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].Columns[STUDENT CREATE CODE]"
+                      refId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Inputs[OLE DB Destination Input].Columns[COUNTRY CODE]"
                       cachedDataType="wstr"
                       cachedLength="255"
-                      cachedName="STUDENT CREATE CODE"
-                      externalMetadataColumnId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT CREATE CODE]"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE CODE]" />
+                      cachedName="COUNTRY CODE"
+                      externalMetadataColumnId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY CODE]"
+                      lineageId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output].Columns[COUNTRY CODE]" />
                     <inputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].Columns[STUDENT CREATE DESCRIPTION]"
+                      refId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Inputs[OLE DB Destination Input].Columns[COUNTRY DESCRIPTION]"
                       cachedDataType="wstr"
                       cachedLength="255"
-                      cachedName="STUDENT CREATE DESCRIPTION"
-                      externalMetadataColumnId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT CREATE DESCRIPTION]"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE DESCRIPTION]" />
-                    <inputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].Columns[Copy of STUDENT CREATE CODE]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="1"
-                      cachedName="Copy of STUDENT CREATE CODE"
-                      externalMetadataColumnId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[FormattedCreateCode]"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of STUDENT CREATE CODE]" />
+                      cachedName="COUNTRY DESCRIPTION"
+                      externalMetadataColumnId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY DESCRIPTION]"
+                      lineageId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output].Columns[COUNTRY DESCRIPTION]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT CREATE CODE]"
-                      dataType="wstr"
-                      length="255"
-                      name="STUDENT CREATE CODE" />
-                    <externalMetadataColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[STUDENT CREATE DESCRIPTION]"
-                      dataType="wstr"
-                      length="255"
-                      name="STUDENT CREATE DESCRIPTION" />
-                    <externalMetadataColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input].ExternalColumns[FormattedCreateCode]"
+                      refId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[FormattedCode]"
                       codePage="1252"
                       dataType="str"
-                      length="1"
-                      name="FormattedCreateCode" />
+                      length="2"
+                      name="FormattedCode" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY CODE]"
+                      dataType="wstr"
+                      length="255"
+                      name="COUNTRY CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="COUNTRY DESCRIPTION" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -289,11 +238,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source"
+              refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source"
               componentClassID="Microsoft.ExcelSource"
               contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
               description="Excel Source"
-              name="Student Creation Reasons Excel Source"
+              name="Student Birth Country Codes Excel Source"
               usesDispositions="true"
               version="1">
               <properties>
@@ -330,79 +279,79 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
-                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 2]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 2]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
               <outputs>
                 <output
-                  refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output]"
+                  refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output]"
                   name="Excel Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE CODE]"
+                      refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output].Columns[COUNTRY CODE]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT CREATE CODE]"
+                      externalMetadataColumnId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[COUNTRY CODE]"
                       length="255"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE CODE]"
-                      name="STUDENT CREATE CODE"
+                      lineageId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output].Columns[COUNTRY CODE]"
+                      name="COUNTRY CODE"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE DESCRIPTION]"
+                      refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output].Columns[COUNTRY DESCRIPTION]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT CREATE DESCRIPTION]"
+                      externalMetadataColumnId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[COUNTRY DESCRIPTION]"
                       length="255"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].Columns[STUDENT CREATE DESCRIPTION]"
-                      name="STUDENT CREATE DESCRIPTION"
+                      lineageId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output].Columns[COUNTRY DESCRIPTION]"
+                      name="COUNTRY DESCRIPTION"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT CREATE CODE]"
+                      refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[COUNTRY CODE]"
                       dataType="wstr"
                       length="255"
-                      name="STUDENT CREATE CODE" />
+                      name="COUNTRY CODE" />
                     <externalMetadataColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output].ExternalColumns[STUDENT CREATE DESCRIPTION]"
+                      refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output].ExternalColumns[COUNTRY DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      name="STUDENT CREATE DESCRIPTION" />
+                      name="COUNTRY DESCRIPTION" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output]"
+                  refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Error Output]"
                   isErrorOut="true"
                   name="Excel Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT CREATE CODE]"
+                      refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Error Output].Columns[COUNTRY CODE]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT CREATE CODE]"
-                      name="STUDENT CREATE CODE" />
+                      lineageId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Error Output].Columns[COUNTRY CODE]"
+                      name="COUNTRY CODE" />
                     <outputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT CREATE DESCRIPTION]"
+                      refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Error Output].Columns[COUNTRY DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[STUDENT CREATE DESCRIPTION]"
-                      name="STUDENT CREATE DESCRIPTION" />
+                      lineageId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Error Output].Columns[COUNTRY DESCRIPTION]"
+                      name="COUNTRY DESCRIPTION" />
                     <outputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -413,28 +362,22 @@
           </components>
           <paths>
             <path
-              refId="Package\Import Sevis Student Creation Reasons to local DB.Paths[Data Conversion Output]"
-              endId="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation.Inputs[OLE DB Destination Input]"
-              name="Data Conversion Output"
-              startId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Outputs[Data Conversion Output]" />
-            <path
-              refId="Package\Import Sevis Student Creation Reasons to local DB.Paths[Excel Source Output]"
-              endId="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion.Inputs[Data Conversion Input]"
+              refId="Package\Import Sevis Birth Country Codes.Paths[Excel Source Output]"
+              endId="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes.Inputs[OLE DB Destination Input]"
               name="Excel Source Output"
-              startId="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source.Outputs[Excel Source Output]" />
+              startId="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source.Outputs[Excel Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Load Local Sevis Student Data to ECA"
+      DTS:refId="Package\Load Sevis Birth Country Code"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:Disabled="True"
-      DTS:DTSID="{F62870BC-ACAC-460A-8EFC-B5D0B9A4B26E}"
+      DTS:DTSID="{E1628161-4778-4F0D-8917-E5CF3227752A}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Load Local Sevis Student Data to ECA"
+      DTS:ObjectName="Load Sevis Birth Country Code"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -442,7 +385,7 @@
           version="1">
           <components>
             <component
-              refId="Package\Load Local Sevis Student Data to ECA\Add required columns"
+              refId="Package\Load Sevis Birth Country Code\Add required columns"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
@@ -450,7 +393,7 @@
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Inputs[Derived Column Input]"
+                  refId="Package\Load Sevis Birth Country Code\Add required columns.Inputs[Derived Column Input]"
                   description="Input to the Derived Column Transformation"
                   name="Derived Column Input">
                   <externalMetadataColumns />
@@ -458,18 +401,18 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output]"
+                  refId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output]"
                   description="Default Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   name="Derived Column Output"
-                  synchronousInputId="Package\Load Local Sevis Student Data to ECA\Add required columns.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Load Sevis Birth Country Code\Add required columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      refId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      lineageId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
                       name="History_CreatedBy"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -487,11 +430,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      refId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      lineageId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
                       name="History_CreatedOn"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -509,11 +452,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      refId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
                       dataType="i4"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      lineageId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
                       name="History_RevisedBy"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -531,11 +474,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      refId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      lineageId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
                       name="History_RevisedOn"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -556,23 +499,23 @@
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Error Output]"
+                  refId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Error Output]"
                   description="Error Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Derived Column Error Output"
-                  synchronousInputId="Package\Load Local Sevis Student Data to ECA\Add required columns.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Load Sevis Birth Country Code\Add required columns.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -581,11 +524,89 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons"
+              refId="Package\Load Sevis Birth Country Code\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load Sevis Birth Country Code\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Sevis Birth Country Code\Data Conversion.Inputs[Data Conversion Input].Columns[COUNTRY CODE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="COUNTRY CODE"
+                      lineageId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].Columns[COUNTRY CODE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Sevis Birth Country Code\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load Sevis Birth Country Code\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Birth Country Code\Data Conversion.Outputs[Data Conversion Output].Columns[Char COUNTRY CODE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\Load Sevis Birth Country Code\Data Conversion.Outputs[Data Conversion Output].Columns[Char COUNTRY CODE]"
+                      name="Char COUNTRY CODE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].Columns[COUNTRY CODE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Sevis Birth Country Code\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load Sevis Birth Country Code\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Sevis Birth Country Code\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Birth Country Code\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Sevis Birth Country Code\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Sevis Birth Country Code\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
-              name="Local Sevis Student Create Reasons"
+              name="Local Sevis Birth Country Codes"
               usesDispositions="true"
               version="7">
               <properties>
@@ -596,7 +617,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[SevisStudentCreation]</property>
+                  name="OpenRowset">[dbo].[SevisBirthCountry]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -630,7 +651,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Connections[OleDbConnection]"
+                  refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.SEVIS.msetien]"
                   description="The OLE DB runtime connection used to access the database."
@@ -638,95 +659,95 @@
               </connections>
               <outputs>
                 <output
-                  refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output]"
+                  refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[STUDENT CREATE CODE]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[STUDENT CREATE CODE]"
-                      length="255"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[STUDENT CREATE CODE]"
-                      name="STUDENT CREATE CODE"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[STUDENT CREATE DESCRIPTION]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[STUDENT CREATE DESCRIPTION]"
-                      length="255"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[STUDENT CREATE DESCRIPTION]"
-                      name="STUDENT CREATE DESCRIPTION"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[FormattedCreateCode]"
+                      refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].Columns[FormattedCode]"
                       codePage="1252"
                       dataType="str"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[FormattedCreateCode]"
-                      length="1"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[FormattedCreateCode]"
-                      name="FormattedCreateCode"
+                      externalMetadataColumnId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].ExternalColumns[FormattedCode]"
+                      length="2"
+                      lineageId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].Columns[FormattedCode]"
+                      name="FormattedCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].Columns[COUNTRY CODE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].ExternalColumns[COUNTRY CODE]"
+                      length="255"
+                      lineageId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].Columns[COUNTRY CODE]"
+                      name="COUNTRY CODE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].Columns[COUNTRY DESCRIPTION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].ExternalColumns[COUNTRY DESCRIPTION]"
+                      length="255"
+                      lineageId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].Columns[COUNTRY DESCRIPTION]"
+                      name="COUNTRY DESCRIPTION"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[STUDENT CREATE CODE]"
-                      dataType="wstr"
-                      length="255"
-                      name="STUDENT CREATE CODE" />
-                    <externalMetadataColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[STUDENT CREATE DESCRIPTION]"
-                      dataType="wstr"
-                      length="255"
-                      name="STUDENT CREATE DESCRIPTION" />
-                    <externalMetadataColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].ExternalColumns[FormattedCreateCode]"
+                      refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].ExternalColumns[FormattedCode]"
                       codePage="1252"
                       dataType="str"
-                      length="1"
-                      name="FormattedCreateCode" />
+                      length="2"
+                      name="FormattedCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].ExternalColumns[COUNTRY CODE]"
+                      dataType="wstr"
+                      length="255"
+                      name="COUNTRY CODE" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].ExternalColumns[COUNTRY DESCRIPTION]"
+                      dataType="wstr"
+                      length="255"
+                      name="COUNTRY DESCRIPTION" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[STUDENT CREATE CODE]"
+                      refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Error Output].Columns[COUNTRY CODE]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[STUDENT CREATE CODE]"
-                      name="STUDENT CREATE CODE" />
+                      lineageId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Error Output].Columns[COUNTRY CODE]"
+                      name="COUNTRY CODE" />
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[STUDENT CREATE DESCRIPTION]"
+                      refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Error Output].Columns[COUNTRY DESCRIPTION]"
                       dataType="wstr"
                       length="255"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[STUDENT CREATE DESCRIPTION]"
-                      name="STUDENT CREATE DESCRIPTION" />
+                      lineageId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Error Output].Columns[COUNTRY DESCRIPTION]"
+                      name="COUNTRY DESCRIPTION" />
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[FormattedCreateCode]"
+                      refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Error Output].Columns[FormattedCode]"
                       codePage="1252"
                       dataType="str"
-                      length="1"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[FormattedCreateCode]"
-                      name="FormattedCreateCode" />
+                      length="2"
+                      lineageId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Error Output].Columns[FormattedCode]"
+                      name="FormattedCode" />
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -735,11 +756,11 @@
               </outputs>
             </component>
             <component
-              refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons"
+              refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
-              name="Sevis Student Creation Reasons"
+              name="Sevis Birth Country Codes"
               usesDispositions="true"
               version="4">
               <properties>
@@ -750,7 +771,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[sevis].[StudentCreation]</property>
+                  name="OpenRowset">[sevis].[BirthCountry]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -792,7 +813,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Connections[OleDbConnection]"
+                  refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
                   connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
                   description="The OLE DB runtime connection used to access the database."
@@ -800,108 +821,108 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input]"
+                  refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
-                      cachedDataType="i4"
-                      cachedName="History_CreatedBy"
-                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
-                    <inputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
                       cachedDataType="dbTimeStamp"
                       cachedName="History_CreatedOn"
-                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                      externalMetadataColumnId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
                     <inputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
                       cachedDataType="i4"
                       cachedName="History_RevisedBy"
-                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                      externalMetadataColumnId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
                     <inputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
                       cachedDataType="dbTimeStamp"
                       cachedName="History_RevisedOn"
-                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                      externalMetadataColumnId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
                     <inputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[FormattedCreateCode]"
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].Columns[Char COUNTRY CODE]"
                       cachedCodepage="1252"
                       cachedDataType="str"
-                      cachedLength="1"
-                      cachedName="FormattedCreateCode"
-                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[CreationCode]"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[FormattedCreateCode]" />
+                      cachedLength="2"
+                      cachedName="Char COUNTRY CODE"
+                      externalMetadataColumnId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[CountryCode]"
+                      lineageId="Package\Load Sevis Birth Country Code\Data Conversion.Outputs[Data Conversion Output].Columns[Char COUNTRY CODE]" />
                     <inputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].Columns[STUDENT CREATE DESCRIPTION]"
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].Columns[COUNTRY DESCRIPTION]"
                       cachedDataType="wstr"
                       cachedLength="255"
-                      cachedName="STUDENT CREATE DESCRIPTION"
-                      externalMetadataColumnId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output].Columns[STUDENT CREATE DESCRIPTION]" />
+                      cachedName="COUNTRY DESCRIPTION"
+                      externalMetadataColumnId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[CountryName]"
+                      lineageId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output].Columns[COUNTRY DESCRIPTION]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[StudentCreationId]"
-                      dataType="i4"
-                      name="StudentCreationId" />
-                    <externalMetadataColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[CreationCode]"
-                      codePage="1252"
-                      dataType="str"
-                      length="1"
-                      name="CreationCode" />
-                    <externalMetadataColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      dataType="wstr"
-                      length="100"
-                      name="Description" />
-                    <externalMetadataColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
                       dataType="i4"
                       name="History_CreatedBy" />
                     <externalMetadataColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
                       dataType="dbTimeStampOffset"
                       name="History_CreatedOn"
                       scale="7" />
                     <externalMetadataColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
                       dataType="i4"
                       name="History_RevisedBy" />
                     <externalMetadataColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
                       dataType="dbTimeStampOffset"
                       name="History_RevisedOn"
                       scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[BirthCountryId]"
+                      dataType="i4"
+                      name="BirthCountryId" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[CountryCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="CountryCode" />
+                    <externalMetadataColumn
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input].ExternalColumns[CountryName]"
+                      dataType="wstr"
+                      length="100"
+                      name="CountryName" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -912,15 +933,20 @@
           </components>
           <paths>
             <path
-              refId="Package\Load Local Sevis Student Data to ECA.Paths[Derived Column Output]"
-              endId="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons.Inputs[OLE DB Destination Input]"
-              name="Derived Column Output"
-              startId="Package\Load Local Sevis Student Data to ECA\Add required columns.Outputs[Derived Column Output]" />
+              refId="Package\Load Sevis Birth Country Code.Paths[Data Conversion Output]"
+              endId="Package\Load Sevis Birth Country Code\Add required columns.Inputs[Derived Column Input]"
+              name="Data Conversion Output"
+              startId="Package\Load Sevis Birth Country Code\Data Conversion.Outputs[Data Conversion Output]" />
             <path
-              refId="Package\Load Local Sevis Student Data to ECA.Paths[OLE DB Source Output]"
-              endId="Package\Load Local Sevis Student Data to ECA\Add required columns.Inputs[Derived Column Input]"
+              refId="Package\Load Sevis Birth Country Code.Paths[Derived Column Output]"
+              endId="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Load Sevis Birth Country Code\Add required columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load Sevis Birth Country Code.Paths[OLE DB Source Output]"
+              endId="Package\Load Sevis Birth Country Code\Data Conversion.Inputs[Data Conversion Input]"
               name="OLE DB Source Output"
-              startId="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons.Outputs[OLE DB Source Output]" />
+              startId="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes.Outputs[OLE DB Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -930,11 +956,11 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{C232FBE6-DC51-425C-96D5-76EE5081753F}"
-      DTS:From="Package\Import Sevis Student Creation Reasons to local DB"
+      DTS:DTSID="{47586C08-A007-447D-9172-F5DCD9C5BF4F}"
+      DTS:From="Package\Import Sevis Birth Country Codes"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\Load Local Sevis Student Data to ECA" />
+      DTS:To="Package\Load Sevis Birth Country Code" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -949,39 +975,39 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="317,42"
-          Id="Package\Import Sevis Student Creation Reasons to local DB"
+          Size="236,42"
+          Id="Package\Import Sevis Birth Country Codes"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="256,42"
-          Id="Package\Load Local Sevis Student Data to ECA"
-          TopLeft="53.5,112.5" />
+          Size="222,42"
+          Id="Package\Load Sevis Birth Country Code"
+          TopLeft="43.5,206.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="164,47.5">
+          TopLeft="123.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="17.5,65"
+              EndConnector="31,159"
               Start="0,0"
-              End="17.5,57.5">
+              End="31,151.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,28.5" />
+                    End="0,75.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,28.5"
-                    Point2="0,32.5"
-                    Point3="4,32.5" />
+                    Point1="0,75.5"
+                    Point2="0,79.5"
+                    Point3="4,79.5" />
                   <mssgle:LineSegment
-                    End="13.5,32.5" />
+                    End="27,79.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="13.5,32.5"
-                    Point2="17.5,32.5"
-                    Point3="17.5,36.5" />
+                    Point1="27,79.5"
+                    Point2="31,79.5"
+                    Point3="31,83.5" />
                   <mssgle:LineSegment
-                    End="17.5,57.5" />
+                    End="31,151.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -994,82 +1020,44 @@
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\Import Sevis Student Creation Reasons to local DB">
+    design-time-name="Package\Import Sevis Birth Country Codes">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="263,42"
-          Id="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source"
+          Size="276,42"
+          Id="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source"
           TopLeft="5.5,5.5" />
         <NodeLayout
-          Size="179,42"
-          Id="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation"
-          TopLeft="67.5,108.5" />
-        <NodeLayout
-          Size="156,42"
-          Id="Package\Import Sevis Student Creation Reasons to local DB\Data Conversion"
-          TopLeft="332.5,72.5" />
+          Size="228,42"
+          Id="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes"
+          TopLeft="48.5,124.5" />
         <EdgeLayout
-          Id="Package\Import Sevis Student Creation Reasons to local DB.Paths[Excel Source Output]"
-          TopLeft="137,47.5">
+          Id="Package\Import Sevis Birth Country Codes.Paths[Excel Source Output]"
+          TopLeft="143.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="273.5,25"
+              EndConnector="19,77"
               Start="0,0"
-              End="273.5,17.5">
+              End="19,69.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,8.5" />
+                    End="0,34.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,8.5"
-                    Point2="0,12.5"
-                    Point3="4,12.5" />
+                    Point1="0,34.5"
+                    Point2="0,38.5"
+                    Point3="4,38.5" />
                   <mssgle:LineSegment
-                    End="269.5,12.5" />
+                    End="15,38.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="269.5,12.5"
-                    Point2="273.5,12.5"
-                    Point3="273.5,16.5" />
+                    Point1="15,38.5"
+                    Point2="19,38.5"
+                    Point3="19,42.5" />
                   <mssgle:LineSegment
-                    End="273.5,17.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Import Sevis Student Creation Reasons to local DB.Paths[Data Conversion Output]"
-          TopLeft="332.5,93.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-86,36"
-              Start="0,0"
-              End="-78.5,36">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="-39,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-39,0"
-                    Point2="-43,0"
-                    Point3="-43,4" />
-                  <mssgle:LineSegment
-                    End="-43,32" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-43,32"
-                    Point2="-43,36"
-                    Point3="-47,36" />
-                  <mssgle:LineSegment
-                    End="-78.5,36" />
+                    End="19,69.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1082,7 +1070,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Import Sevis Student Creation Reasons to local DB\SevisStudentCreation">
+    design-time-name="Package\Import Sevis Birth Country Codes\Local Sevis Birth Country Codes">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1095,7 +1083,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Import Sevis Student Creation Reasons to local DB\Student Creation Reasons Excel Source">
+    design-time-name="Package\Import Sevis Birth Country Codes\Student Birth Country Codes Excel Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1108,44 +1096,52 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Load Local Sevis Student Data to ECA">
+    design-time-name="Package\Load Sevis Birth Country Code">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="247,42"
-          Id="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons"
+          Size="228,42"
+          Id="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes"
           TopLeft="5.5,5.5" />
         <NodeLayout
           Size="182,42"
-          Id="Package\Load Local Sevis Student Data to ECA\Add required columns"
-          TopLeft="56.5,100.5" />
+          Id="Package\Load Sevis Birth Country Code\Add required columns"
+          TopLeft="170.5,168.5" />
+        <NodeLayout
+          Size="200,42"
+          Id="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes"
+          TopLeft="10.5,275.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Load Sevis Birth Country Code\Data Conversion"
+          TopLeft="111.5,88.5" />
         <EdgeLayout
-          Id="Package\Load Local Sevis Student Data to ECA.Paths[OLE DB Source Output]"
-          TopLeft="129,47.5">
+          Id="Package\Load Sevis Birth Country Code.Paths[OLE DB Source Output]"
+          TopLeft="119.5,47.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="18.5,53"
+              EndConnector="70,41"
               Start="0,0"
-              End="18.5,45.5">
+              End="70,33.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,22.5" />
+                    End="0,16.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,22.5"
-                    Point2="0,26.5"
-                    Point3="4,26.5" />
+                    Point1="0,16.5"
+                    Point2="0,20.5"
+                    Point3="4,20.5" />
                   <mssgle:LineSegment
-                    End="14.5,26.5" />
+                    End="66,20.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="14.5,26.5"
-                    Point2="18.5,26.5"
-                    Point3="18.5,30.5" />
+                    Point1="66,20.5"
+                    Point2="70,20.5"
+                    Point3="70,24.5" />
                   <mssgle:LineSegment
-                    End="18.5,45.5" />
+                    End="70,33.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1154,36 +1150,66 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="228,42"
-          Id="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons"
-          TopLeft="43.5,182.5" />
         <EdgeLayout
-          Id="Package\Load Local Sevis Student Data to ECA.Paths[Derived Column Output]"
-          TopLeft="147.5,142.5">
+          Id="Package\Load Sevis Birth Country Code.Paths[Data Conversion Output]"
+          TopLeft="189.5,130.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="10,40"
+              EndConnector="72,38"
               Start="0,0"
-              End="10,32.5">
+              End="72,30.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,16" />
+                    End="0,15" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,16"
-                    Point2="0,20"
-                    Point3="4,20" />
+                    Point1="0,15"
+                    Point2="0,19"
+                    Point3="4,19" />
                   <mssgle:LineSegment
-                    End="6,20" />
+                    End="68,19" />
                   <mssgle:CubicBezierSegment
-                    Point1="6,20"
-                    Point2="10,20"
-                    Point3="10,24" />
+                    Point1="68,19"
+                    Point2="72,19"
+                    Point3="72,23" />
                   <mssgle:LineSegment
-                    End="10,32.5" />
+                    End="72,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load Sevis Birth Country Code.Paths[Derived Column Output]"
+          TopLeft="261.5,210.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-151,65"
+              Start="0,0"
+              End="-151,57.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28.5"
+                    Point2="0,32.5"
+                    Point3="-4,32.5" />
+                  <mssgle:LineSegment
+                    End="-147,32.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-147,32.5"
+                    Point2="-151,32.5"
+                    Point3="-151,36.5" />
+                  <mssgle:LineSegment
+                    End="-151,57.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1196,7 +1222,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Local Sevis Student Data to ECA\Local Sevis Student Create Reasons">
+    design-time-name="Package\Load Sevis Birth Country Code\Local Sevis Birth Country Codes">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1209,7 +1235,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load Local Sevis Student Data to ECA\Sevis Student Creation Reasons">
+    design-time-name="Package\Load Sevis Birth Country Code\Sevis Birth Country Codes">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

@@ -39,6 +39,7 @@ namespace ECA.Business.Queries.Admin
                             Id = moneyflows.MoneyFlowId,
                             TransactionDate = moneyflows.TransactionDate,
                             Type = (moneyflows.SourceProjectId == projectId ? moneyflows.RecipientType.TypeName : moneyflows.SourceType.TypeName),
+                            Status = moneyflows.MoneyFlowStatus.MoneyFlowStatusName,
                             FromTo = (
                                 // If project is source
                                 moneyflows.SourceProjectId == projectId && moneyflows.RecipientAccommodationId != null ? moneyflows.RecipientAccommodation.Host.Name :
