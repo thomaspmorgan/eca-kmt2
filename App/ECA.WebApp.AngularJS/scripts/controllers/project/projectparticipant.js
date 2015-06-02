@@ -25,12 +25,14 @@ angular.module('staticApp')
       $scope.view.isCollaboratorExpanded = false;
       $scope.view.numberOfCollaborators = -1;
       $scope.view.collaboratorsLastUpdated = null;
+      $scope.view.isCollaboratorsModalOpen = false;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       var projectId = $stateParams.projectId;
 
       $scope.view.addCollaborator = function ($event) {
+          $scope.view.isCollaboratorsModalOpen = true;
           var modalInstance = $modal.open({
               templateUrl: '/views/project/collaborators.html',
               controller: 'ProjectCollaboratorCtrl',
@@ -42,6 +44,9 @@ angular.module('staticApp')
               $log.info('Closing...');
           }, function () {
               $log.info('Dismiss add collaborator dialog...');
+          })
+          .then(function () {
+              $scope.view.isCollaboratorsModalOpen = false;
           });
       };
       

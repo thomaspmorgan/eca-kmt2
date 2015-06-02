@@ -18,7 +18,7 @@ namespace CAM.Business.Test.Service
             var resourceService = new ResourceService(model);
             var permissionModelService = new PermissionModelService(model);
             Business.Service.PermissionStore permissionStore = new Business.Service.PermissionStore(model, permissionModelService, resourceService);
-            permissionStore.Permissions.Add(new Business.Service.Permission(1,1,1));
+            permissionStore.Permissions.Add(new Business.Service.SimplePermission(1,1,1));
             Assert.IsTrue(permissionStore.HasPermission(1,1,1));
         }
     }

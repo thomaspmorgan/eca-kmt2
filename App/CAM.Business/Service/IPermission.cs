@@ -10,6 +10,5 @@ namespace CAM.Business.Service
         int PermissionId { get; set; }
         int ResourceId { get; set; }
         bool IsAllowed { get; set; }
-        bool HasPermission(int principalId, int permissionId, int resourceId);
     }
 }

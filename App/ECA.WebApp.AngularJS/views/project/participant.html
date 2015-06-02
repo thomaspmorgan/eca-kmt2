@@ -19,7 +19,7 @@
     </div>
     <div class="row recess" ng-show="view.isCollaboratorExpanded && permissions.isProjectOwner">
         <div class="col-md-9">Do you want to add a collaborator?</div>
-        <div class="col-md-3"><button class="btn btn-primary right" ng-click="view.addCollaborator($event)">ADD COLLABORATOR</button></div>
+        <div class="col-md-3"><button class="btn btn-primary right" ng-click="view.addCollaborator($event)" ng-disabled="view.isCollaboratorsModalOpen">ADD COLLABORATOR</button></div>
     </div>
     <div class="row expand" ng-show="view.isCollaboratorExpanded">
         <div class="col-md-12 expand">
