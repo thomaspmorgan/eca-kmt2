@@ -79,7 +79,7 @@
             </tr>
         </tbody>
     </table>
-    <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
+    <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
 </div>
 <modal-dialog show="modal.createProject" dialog-title="Create Project" on-open="modalSetPristine()" before-close="modalClose()" on-close="modalClear()">
     <div class="tip" ng-show="!isSavingProject">
