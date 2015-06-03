@@ -1,19 +1,20 @@
-<h2 class="project-color tab-header">Money Flow</h2>
-<h4 class="tab-subheader">Money Flow List</h4>
+<h2 class="project-color tab-header">Funding</h2>
+<h4 class="tab-subheader">Funding List</h4>
 <div class="row">
-    <button class="btn btn-primary right" ng-click="modal.addMoneyFlow = true">ADD MONEY FLOW</button>
+    <button class="btn btn-primary right" ng-show="!moneyFlowsLoading && !currentlyEditing" ng-click="createMoneyFlowForm()">ADD FUNDING ITEM</button>
 </div>
 <div st-pipe="getMoneyFlows" st-table="project.moneyFlows" id="sort-list">
     <table class="col-md-12">
         <thead>
             <tr>
-                <th st-sort="'transactionDate'" st-sort-default="true" class="col-md-2 sort-label medium">Transaction Date</th>
+                <th st-sort="'transactionDate'" st-sort-default="true" class="col-md-1 sort-label medium">Transaction Date</th>
                 <th st-sort="'status'" class="col-md-1 sort-label medium">Status</th>
+                <th st-sort="'sourceType'" class="col-md-1 sort-label medium">Source/Recipient Type</th>
+                <th st-sort="'fromTo'" class="col-md-2 sort-label medium">From/To</th>
                 <th st-sort="'type'" class="col-md-1 sort-label medium">Type</th>
-                <th st-sort="'fromTo'" class="col-md-3 sort-label medium">From/To</th>
                 <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
                 <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
-                <th class="col-md-2">&nbsp;</th>
+                <th class="{{moneyFlowEditColumnClass}}">&nbsp;</th>
             </tr>
         </thead>
         <tbody class="list2" ng-repeat="moneyFlow in moneyFlows">
@@ -23,16 +24,12 @@
                     <span id="transactionDate{{moneyFlow.id}}">{{moneyFlow.transactionDate | date:'MM/dd/yyyy'}}</span>
                 </td>
                 <td>{{moneyFlow.status}}</td>
-                <td>{{moneyFlow.type}}</td>
+                <td>{{moneyFlow.sourceType}}</td>
                 <td>{{moneyFlow.fromTo}}</td>
+                <td>{{moneyFlow.type}}</td>
                 <td><span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount | currency}}</span></td>
                 <td>{{moneyFlow.description}}</td>
-                <!--
-        <td>{{moneyFlow.sourceType === "Project" ? moneyFlow.recipientName : moneyFlow.sourceName}}</td>
-        <td><span class="{{moneyFlow.sourceType === 'Project' ? 'text-danger' : ''}}">{{moneyFlow.sourceType === "Project" ? ((0-moneyFlow.value) | currency) : (moneyFlow.value | currency)}}</span></td>
-        <td>{{moneyFlow.description}}</td>
-        -->
-                <td style="padding: 0 50px 0 0;">
+                <td>
                     <div class="right" style="display:none;" showonparentrow>
                         <div class="copyEditDeleteOptions" ng-click="copyMoneyFlow(moneyFlow.id)">
                             <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyMoneyFlowLoading"></i>
@@ -48,6 +45,7 @@
                     </div>
                 </td>
             </tr>
+            <!-- EDITING ROW -->
             <tr ng-show="editingMoneyFlows[{{moneyFlow.id}}]" class="editingRow">
                 <td style="padding-left:10px;">
                     <input class="moneyFlowEdit"
@@ -55,22 +53,36 @@
                            id="transactionDate"
                            class="form-control"
                            datepicker-popup="{{editView.dateFormat}}"
-                           ng-model="moneyFlow.transactionDate"
+                           ng-model="newMoneyFlow.transactionDate"
                            is-open="isTransactionDatePickerOpen"
                            ng-required="true"
                            close-text="Close" />
                     <button type="button" class="btn btn-default inlineEditCalendar" ng-click="openTransactionDatePicker($event)"><i class="fa fa-calendar"></i></button>
-
                 </td>
                 <td>
-                    <select class="form-control" id="type" ng-options="s.id as s.name for s in moneyFlowTypes" ng-model="moneyFlow.type" />
-                </td>
-                <td>{{moneyFlow.fromTo}}</td>
-                <td>
-                    <input type="number" class="currency" min="-1000000.00" max="1000000.00" step="100" value="0.00" ng-model="moneyFlow.amount" required />
+                    <select class="form-control" id="status" ng-options="s.id as s.name for s in moneyFlowStati" ng-model="newMoneyFlow.statusId" />
                 </td>
                 <td>
-                    <input name="description" type="text" ng-model="description" required />
+                    <select class="form-control" id="sourceType" 
+                            ng-options="s.id as s.name for s in moneyFlowSourceTypes" 
+                            ng-model="newMoneyFlow.sourceTypeId"
+                            ng-change="changeSourceRecipientType()" />
+                </td>
+                <td>
+                    <select class="form-control" id="fromTo" ng-show="showFromToSelectControl"
+                            ng-options="s.id as s.name for s in moneyFlowFromTo"
+                            placeholder="Enter {{fromToType}} title..."
+                            ng-model="newMoneyFlow.sourceRecipientId" />
+                    <input name="fromTo" type="text" ng-show="showFromToTextControl" ng-model="newMoneyFlow.fromToText" />
+                </td>
+                <td>
+                    <select class="form-control" id="status" ng-options="s.id as s.name for s in moneyFlowTypes" ng-model="newMoneyFlow.typeId" />
+                </td>
+                <td>
+                <input type="number" class="currency" min="-1000000.00" max="1000000.00" step="100" value="0.00" ng-model="newMoneyFlow.amount" required />
+                </td>
+                <td>
+                    <textarea name="description" class="multiLineInput" type="text" ng-model="newMoneyFlow.description" required />
                 </td>
                 <td class="inlineEditControls">
                     <button ng-click="saveMoneyFlow(moneyFlow.id)" class="btn btn-success">Save</button>
@@ -92,6 +104,67 @@
     </table>
     <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="!moneyFlowsLoading"></div>
 </div>
+
+<modal-dialog show="showCreateMoneyFlow" dialog-title="Create Funding Item">
+    <div class="tip">
+        <img src="images/tip.png"><span class="strong">Did you know?</span> This is a draft. Only you can see this.
+        <div class="required">* Marks required fields</div>
+    </div>
+
+    <div id="modal" class="row" in-context-form>
+        <div class="col-md-10">
+            <form name="modalForm.moneyFlowForm">
+                <div class="form-group">
+                    <label>Transaction Date<span class="asterisk"> *</span></label>
+                    <p class="input-group">
+                        <input name="start" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="newMoneyFlow.transactionDate"
+                               is-open="transactionCalendarOpened" close-text="Close" placeholder="Enter transaction date..." required />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="transactionCalendarOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                    <div ng-show="modalForm.programForm.start.$dirty">
+                        <div class="error" ng-show="modalForm.programForm.start.$error.required">Please enter a start date.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Program Name<span class="asterisk"> *</span></label>
+                    <input name="name" ng-model="newProgram.name" form-element guidance="This is the name of your program. (e.g. ETA Fulbright)" type="text" class="form-control" placeholder="Enter program title..." required>
+                    <div ng-show="modalForm.programForm.name.$dirty">
+                        <div class="error" ng-show="modalForm.programForm.name.$error.required">Please enter a program name.</div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-md-2">
+            <guidance></guidance>
+        </div>
+    </div>
+    <div class="modalFormButtons">
+        <button class="btn btn-default" ng-click="createModalCancel()">CANCEL</button>
+        <button ng-disabled="modalForm.programForm.$invalid" class="btn btn-success right" ng-click="saveCreatedProgram()">CREATE</button>
+    </div>
+</modal-dialog>
+
+
+<modal-dialog show="showConfirmClose" dialog-title="Confirm Close">
+    <p class="strong">There is unsaved data.  Are you sure you want to cancel?</p>
+    <button class="btn btn-default right" ng-click="confirmClose(true)">YES</button>
+    &nbsp;
+    <button class="btn btn-success right" ng-click="confirmClose(false)">NO</button>
+</modal-dialog>
+
+<modal-dialog show="confirmCopy" dialog-title="Please confirm" before-close="confirmSaveYes()">
+    <p class="strong">Are you sure? Copy this funding item?</p>
+    <button class="btn btn-default right" ng-click="confirmCancel()">Cancel</button>
+    <button class="btn btn-default right" ng-click="confirmCopyYes()">OK</button>
+</modal-dialog>
+
+<modal-dialog show="confirmSuccess" dialog-title="Success!" before-close="confirmSaveYes()">
+    <p class="strong">The funding item was {{moneyFlowConfirmMessage}} sucessfully</p>
+    <button class="btn btn-default right" ng-click="closeConfirm()">OK</button>
+</modal-dialog>
 <script>
     (function ($) {
         $.fn.currencyInput = function () {
@@ -117,4 +190,9 @@
         $('input.currency').currencyInput();
     });
 </script>
+<style>
+    .ng-modal-close-x {
+        display: none;
+    }
+</style>
 
