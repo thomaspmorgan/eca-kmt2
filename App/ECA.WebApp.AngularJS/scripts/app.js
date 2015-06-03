@@ -426,27 +426,29 @@ angular
           { name: 'Partners', state: 'home.notifications' }
         ];
 
+        var leftOpen = false;
         $rootScope.pushMenu = function ($event) {
             var self = $event.target;
             self.classList.toggle('active');
             document.body.classList.toggle('cbp-spmenu-push-toright');
             document.getElementById('cbp-spmenu-s1').classList.toggle('cbp-spmenu-open');
+            leftOpen = !leftOpen;
             toggleToolbar();
         };
 
+        var rightOpen = false;
         $rootScope.pushMenu2 = function ($event) {
             var self = $event.target;
             self.classList.toggle('active');
             document.body.classList.toggle('cbp-spmenu-push-toleft');
             document.getElementById('cbp-spmenu-s2').classList.toggle('cbp-spmenu-open');
+            rightOpen = !rightOpen;
             toggleToolbar();
         };
 
         function toggleToolbar() {
             var toolbar = document.getElementsByClassName('toolbar')[0];
             if (toolbar && toolbar.style.position === "fixed") {
-                var leftOpen = document.getElementById('cbp-spmenu-s1').classList.contains('cbp-spmenu-open');
-                var rightOpen = document.getElementById('cbp-spmenu-s2').classList.contains('cbp-spmenu-open');
                 if (leftOpen && toolbar.style.left === "0px") {
                     toolbar.style.left = "240px";
                 } else if (rightOpen && toolbar.style.left === "0px") {
@@ -485,8 +487,23 @@ angular
 
         $rootScope.$on('$stateChangeSuccess', function () {
             $location.hash('top');
+            closeMenus();
             // $anchorScroll();
         });
+
+        function closeMenus() {
+            if (leftOpen) {
+                document.body.classList.toggle('cbp-spmenu-push-toright');
+                document.getElementById('cbp-spmenu-s1').classList.toggle('cbp-spmenu-open');
+                leftOpen = !leftOpen;
+
+            }
+            if (rightOpen) {
+                document.body.classList.toggle('cbp-spmenu-push-toleft');
+                document.getElementById('cbp-spmenu-s2').classList.toggle('cbp-spmenu-open');
+                rightOpen = !rightOpen;
+            }
+        }
 
         $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
             // Prevent the transition from happening
