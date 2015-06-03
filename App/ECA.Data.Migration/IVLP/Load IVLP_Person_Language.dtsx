@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Load IVLP_Person_Language"
   DTS:PackageType="5"
-  DTS:VersionBuild="1"
-  DTS:VersionGUID="{668D712D-90B1-4525-9F4C-764E12CD0D0D}">
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{9108909C-5800-41C7-8FB9-793D09785228}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACkPzgQDziS6o0ohbMKQuQFcYFxpkX2QENi28gSKwltAAAAAAAOgAAAAAIAACAAAAA4LN46K4RtjhpHmNKQMwGQXXhbb2XhXaTjUhap9r894iAAAABfYO2Ub2CXoFFP8gi2OHACgyho8O/mOAFuaM4dp1qduEAAAAAmz+vGadDDb7QxOugTKYGzAZcshBcRKkgEV3AWkyRyRV6xrR9hO3NKH1dKxn8gxm52zGdgyzC+D52mmxTX3D5v</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADsfSF4XhbTNiZptTmLBw9UgaaTrHexJfKTxG+aB8L1PgAAAAAOgAAAAAIAACAAAACMLaaZHu7U88Z4wmV0ddWLie9VjHZ4ikBEQxikYdrsvyAAAAB1QtjvmjclXW/CuwnxFvWqnipcPGhsomGvgV6c2yb5WEAAAADORPrwCyo4RqhzlywojTBTO0nD/PC9NwRv97w6vPraRNkHaDC5eMhu2bZMrAw2x9jUft9RC47b4aYfO0AtpUGy</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -58,6 +58,84 @@
         <pipeline
           version="1">
           <components>
+            <component
+              refId="Package\Load IVLP Person Language\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load IVLP Person Language\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load IVLP Person Language\Data Conversion.Inputs[Data Conversion Input].Columns[NATIVE_LANGUAGE_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NATIVE_LANGUAGE_IND"
+                      lineageId="Package\Load IVLP Person Language\Local IVLP_Person_Language.Outputs[OLE DB Source Output].Columns[NATIVE_LANGUAGE_IND]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load IVLP Person Language\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load IVLP Person Language\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IVLP Person Language\Data Conversion.Outputs[Data Conversion Output].Columns[Char NATIVE_LANGUAGE_IND]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1"
+                      lineageId="Package\Load IVLP Person Language\Data Conversion.Outputs[Data Conversion Output].Columns[Char NATIVE_LANGUAGE_IND]"
+                      name="Char NATIVE_LANGUAGE_IND"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load IVLP Person Language\Local IVLP_Person_Language.Outputs[OLE DB Source Output].Columns[NATIVE_LANGUAGE_IND]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load IVLP Person Language\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load IVLP Person Language\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IVLP Person Language\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP Person Language\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load IVLP Person Language\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP Person Language\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
             <component
               refId="Package\Load IVLP Person Language\Local IVLP_Person_Language"
               componentClassID="Microsoft.OLEDBSource"
@@ -465,7 +543,9 @@ where [refTable].[IVLP_Person_Id] = ?</property>
                   description="Specifies a SQL statement that uses parameters to generate the lookup table."
                   expressionType="Notify"
                   name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[LanguageProficiency]) [refTable]
+where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
+  UPPER( ? ) LIKE '%'+UPPER([refTable].[LanguageName])+'%')</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the type of connection used to access the reference dataset."
@@ -475,12 +555,12 @@ where [refTable].[IVLP_Person_Id] = ?</property>
                   dataType="System.Int32"
                   description="Specifies the cache type of the lookup table."
                   name="CacheType"
-                  typeConverter="CacheType">0</property>
+                  typeConverter="CacheType">2</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
                   name="NoMatchBehavior"
-                  typeConverter="LookupNoMatchBehavior">0</property>
+                  typeConverter="LookupNoMatchBehavior">1</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
@@ -496,12 +576,12 @@ where [refTable].[IVLP_Person_Id] = ?</property>
                 <property
                   dataType="System.String"
                   description="Indicates whether to reference metadata in an XML format."
-                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LanguageProficiencyId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LanguageName" dataType="DT_NTEXT" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LanguageProficiencyId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LanguageName" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
                 <property
                   containsID="true"
                   dataType="System.String"
                   description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap"></property>
+                  name="ParameterMap">#{Package\Load IVLP Person Language\Local IVLP_Person_Language.Outputs[OLE DB Source Output].Columns[LANGUAGE_TYPE]};#{Package\Load IVLP Person Language\Local IVLP_Person_Language.Outputs[OLE DB Source Output].Columns[LANGUAGE_TYPE]};</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -523,6 +603,25 @@ where [refTable].[IVLP_Person_Id] = ?</property>
                 <input
                   refId="Package\Load IVLP Person Language\Lookup Language.Inputs[Lookup Input]"
                   name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load IVLP Person Language\Lookup Language.Inputs[Lookup Input].Columns[LANGUAGE_TYPE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANGUAGE_TYPE"
+                      lineageId="Package\Load IVLP Person Language\Local IVLP_Person_Language.Outputs[OLE DB Source Output].Columns[LANGUAGE_TYPE]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LanguageName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
@@ -530,7 +629,6 @@ where [refTable].[IVLP_Person_Id] = ?</property>
                 <output
                   refId="Package\Load IVLP Person Language\Lookup Language.Outputs[Lookup Match Output]"
                   errorOrTruncationOperation="Lookup"
-                  errorRowDisposition="FailComponent"
                   exclusionGroup="1"
                   name="Lookup Match Output"
                   synchronousInputId="Package\Load IVLP Person Language\Lookup Language.Inputs[Lookup Input]">
@@ -584,13 +682,226 @@ where [refTable].[IVLP_Person_Id] = ?</property>
                 </output>
               </outputs>
             </component>
+            <component
+              refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Raw PersonLanguageProficiency"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Raw PersonLanguageProficiency]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].Columns[IVLP_PERSON_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="IVLP_PERSON_ID"
+                      externalMetadataColumnId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_PERSON_ID]"
+                      lineageId="Package\Load IVLP Person Language\Local IVLP_Person_Language.Outputs[OLE DB Source Output].Columns[IVLP_PERSON_ID]" />
+                    <inputColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].Columns[LANGUAGE_TYPE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANGUAGE_TYPE"
+                      externalMetadataColumnId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_TYPE]"
+                      lineageId="Package\Load IVLP Person Language\Local IVLP_Person_Language.Outputs[OLE DB Source Output].Columns[LANGUAGE_TYPE]" />
+                    <inputColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].Columns[NATIVE_LANGUAGE_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NATIVE_LANGUAGE_IND"
+                      externalMetadataColumnId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[NATIVE_LANGUAGE_IND]"
+                      lineageId="Package\Load IVLP Person Language\Local IVLP_Person_Language.Outputs[OLE DB Source Output].Columns[NATIVE_LANGUAGE_IND]" />
+                    <inputColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].Columns[SPEAKING_PROFICIENCY]"
+                      cachedDataType="r8"
+                      cachedName="SPEAKING_PROFICIENCY"
+                      externalMetadataColumnId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[SPEAKING_PROFICIENCY]"
+                      lineageId="Package\Load IVLP Person Language\Local IVLP_Person_Language.Outputs[OLE DB Source Output].Columns[SPEAKING_PROFICIENCY]" />
+                    <inputColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].Columns[READING_PROFICIENCY]"
+                      cachedDataType="r8"
+                      cachedName="READING_PROFICIENCY"
+                      externalMetadataColumnId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[READING_PROFICIENCY]"
+                      lineageId="Package\Load IVLP Person Language\Local IVLP_Person_Language.Outputs[OLE DB Source Output].Columns[READING_PROFICIENCY]" />
+                    <inputColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].Columns[COMPREHENSION_PROFICIENCY]"
+                      cachedDataType="r8"
+                      cachedName="COMPREHENSION_PROFICIENCY"
+                      externalMetadataColumnId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[COMPREHENSION_PROFICIENCY]"
+                      lineageId="Package\Load IVLP Person Language\Local IVLP_Person_Language.Outputs[OLE DB Source Output].Columns[COMPREHENSION_PROFICIENCY]" />
+                    <inputColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].Columns[ECA_PersonId]"
+                      cachedDataType="i4"
+                      cachedName="ECA_PersonId"
+                      externalMetadataColumnId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[ECA_PersonId]"
+                      lineageId="Package\Load IVLP Person Language\Lookup ECA PersonId.Outputs[Lookup Match Output].Columns[ECA_PersonId]" />
+                    <inputColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].Columns[LanguageProficiencyId]"
+                      cachedDataType="i4"
+                      cachedName="LanguageProficiencyId"
+                      externalMetadataColumnId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[LanguageProficiencyId]"
+                      lineageId="Package\Load IVLP Person Language\Lookup Language.Outputs[Lookup Match Output].Columns[LanguageProficiencyId]" />
+                    <inputColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].Columns[Char NATIVE_LANGUAGE_IND]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Char NATIVE_LANGUAGE_IND"
+                      externalMetadataColumnId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[Char NATIVE_LANGUAGE_IND]"
+                      lineageId="Package\Load IVLP Person Language\Data Conversion.Outputs[Data Conversion Output].Columns[Char NATIVE_LANGUAGE_IND]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[IVLP_PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="IVLP_PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[NATIVE_LANGUAGE_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="NATIVE_LANGUAGE_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[SPEAKING_PROFICIENCY]"
+                      dataType="r8"
+                      name="SPEAKING_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[READING_PROFICIENCY]"
+                      dataType="r8"
+                      name="READING_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[COMPREHENSION_PROFICIENCY]"
+                      dataType="r8"
+                      name="COMPREHENSION_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[ECA_PersonId]"
+                      dataType="i4"
+                      name="ECA_PersonId" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[LanguageProficiencyId]"
+                      dataType="i4"
+                      name="LanguageProficiencyId" />
+                    <externalMetadataColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input].ExternalColumns[Char NATIVE_LANGUAGE_IND]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Char NATIVE_LANGUAGE_IND" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
           </components>
           <paths>
+            <path
+              refId="Package\Load IVLP Person Language.Paths[Data Conversion Output]"
+              endId="Package\Load IVLP Person Language\Raw PersonLanguageProficiency.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Load IVLP Person Language\Data Conversion.Outputs[Data Conversion Output]" />
             <path
               refId="Package\Load IVLP Person Language.Paths[Lookup Match Output]"
               endId="Package\Load IVLP Person Language\Lookup Language.Inputs[Lookup Input]"
               name="Lookup Match Output"
               startId="Package\Load IVLP Person Language\Lookup ECA PersonId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load IVLP Person Language.Paths[Lookup Match Output1]"
+              endId="Package\Load IVLP Person Language\Data Conversion.Inputs[Data Conversion Input]"
+              name="Lookup Match Output"
+              startId="Package\Load IVLP Person Language\Lookup Language.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load IVLP Person Language.Paths[OLE DB Source Output]"
               endId="Package\Load IVLP Person Language\Lookup ECA PersonId.Inputs[Lookup Input]"
@@ -624,15 +935,19 @@ where [refTable].[IVLP_Person_Id] = ?</property>
     design-time-name="Package\Load IVLP Person Language">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="217,42"
-          Id="Package\Load IVLP Person Language\Local IVLP_Person_Language"
-          TopLeft="5.5,5.5" />
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="180,42"
           Id="Package\Load IVLP Person Language\Lookup ECA PersonId"
           TopLeft="27.5,95.5" />
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Load IVLP Person Language\Lookup Language"
+          TopLeft="68.5,208.5" />
+        <NodeLayout
+          Size="217,42"
+          Id="Package\Load IVLP Person Language\Local IVLP_Person_Language"
+          TopLeft="5.5,5.5" />
         <EdgeLayout
           Id="Package\Load IVLP Person Language.Paths[OLE DB Source Output]"
           TopLeft="115.75,47.5">
@@ -655,10 +970,6 @@ where [refTable].[IVLP_Person_Id] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="162,42"
-          Id="Package\Load IVLP Person Language\Lookup Language"
-          TopLeft="68.5,208.5" />
         <EdgeLayout
           Id="Package\Load IVLP Person Language.Paths[Lookup Match Output]"
           TopLeft="117.5,137.5">
@@ -695,9 +1006,133 @@ where [refTable].[IVLP_Person_Id] = ?</property>
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Load IVLP Person Language\Data Conversion"
+          TopLeft="320.5,247.5" />
+        <EdgeLayout
+          Id="Package\Load IVLP Person Language.Paths[Lookup Match Output1]"
+          TopLeft="230.5,229.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="90,39"
+              Start="0,0"
+              End="82.5,39">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="41,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="41,0"
+                    Point2="45,0"
+                    Point3="45,4" />
+                  <mssgle:LineSegment
+                    End="45,35" />
+                  <mssgle:CubicBezierSegment
+                    Point1="45,35"
+                    Point2="45,39"
+                    Point3="49,39" />
+                  <mssgle:LineSegment
+                    End="82.5,39" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-3.19138671875,-17.609375,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="231,42"
+          Id="Package\Load IVLP Person Language\Raw PersonLanguageProficiency"
+          TopLeft="563.5,311.5" />
+        <EdgeLayout
+          Id="Package\Load IVLP Person Language.Paths[Data Conversion Output]"
+          TopLeft="476.5,268.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="87,64"
+              Start="0,0"
+              End="79.5,64">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="39.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="39.5,0"
+                    Point2="43.5,0"
+                    Point3="43.5,4" />
+                  <mssgle:LineSegment
+                    End="43.5,60" />
+                  <mssgle:CubicBezierSegment
+                    Point1="43.5,60"
+                    Point2="43.5,64"
+                    Point3="47.5,64" />
+                  <mssgle:LineSegment
+                    End="79.5,64" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load IVLP Person Language\Lookup ECA PersonId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[IVLP_ECA_Person_XRef_Local]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load IVLP Person Language\Lookup Language">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[LanguageProficiency]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Load IVLP Person Language\Local IVLP_Person_Language">
     <Properties>
@@ -712,48 +1147,15 @@ where [refTable].[IVLP_Person_Id] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load IVLP Person Language\Lookup ECA PersonId">
+    design-time-name="Package\Load IVLP Person Language\Raw PersonLanguageProficiency">
     <Properties>
       <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[IVLP_ECA_Person_XRef_Local]</Value>
+        <Name>DataSourceViewID</Name>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load IVLP Person Language\Lookup Language">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[LanguageProficiency]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
