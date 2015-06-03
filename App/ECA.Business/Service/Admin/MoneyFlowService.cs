@@ -61,8 +61,19 @@ namespace ECA.Business.Service.Admin
             this.logger.Trace("Retrieved money flows by id {0} with query operator {1}.", projectId, queryOperator);
             return moneyFlows;
         }
+        public Task<MoneyFlowDTO> GetMoneyFlowByIdAsync(int moneyFlowId)
+        {
+            // STUB
+            return null;
+        }
 
-        public MoneyFlow Create(DraftMoneyFlow draftMoneyFlow)
+        public MoneyFlowDTO GetMoneyFlowById(int moneyFlowId) 
+        {
+            // STUB
+            return null;
+        }
+
+        public MoneyFlow Create(DraftMoneyFlow draftMoneyFlow, User user)
         {
             validator.ValidateCreate(GetValidationEntity(draftMoneyFlow));
             var moneyFlow = DoCreate(draftMoneyFlow);
@@ -70,7 +81,7 @@ namespace ECA.Business.Service.Admin
             return moneyFlow;
         }
 
-        public async Task<MoneyFlow> CreateAsync(DraftMoneyFlow draftMoneyFlow)
+        public async Task<MoneyFlow> CreateAsync(DraftMoneyFlow draftMoneyFlow, User user)
         {
             validator.ValidateCreate(GetValidationEntity(draftMoneyFlow));
             var moneyFlow = await DoCreateAsync(draftMoneyFlow);
@@ -167,6 +178,20 @@ namespace ECA.Business.Service.Admin
             // stub
         }
 
+        public MoneyFlow Copy(int moneyFlowId, User user)
+        {
+            // STUB
+            this.logger.Trace("Copied money flow {0}.", moneyFlowId);
+            return null;
+        }
+
+        public async Task<MoneyFlow> CopyAsync(int moneyFlowId, User user)
+        {
+            //STUB
+            this.logger.Trace("Created money flow {0}.", moneyFlowId);
+            return null;
+        }
+
         #endregion
 
         private MoneyFlow GetParent(int? parentId)
@@ -208,5 +233,6 @@ namespace ECA.Business.Service.Admin
             return new MoneyFlowValidationEntity(draftMoneyFlow.Description, draftMoneyFlow.Value,
                 draftMoneyFlow.TransactionDate);
         }
+
     }
 }

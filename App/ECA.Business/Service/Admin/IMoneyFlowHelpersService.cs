@@ -45,4 +45,20 @@ namespace ECA.Business.Service.Admin
         /// <returns>The project stati in the system.</returns>
         Task<PagedQueryResults<MoneyFlowTypeDTO>> GetAsync(QueryableOperator<MoneyFlowTypeDTO> queryOperator);
     }
+    public interface IMoneyFlowSourceRecipientTypeService
+    {
+        /// <summary>
+        /// Returns paged, filtered, and sorted MF stati in the system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The project stati in the system.</returns>
+        PagedQueryResults<MoneyFlowSourceRecipientTypeDTO> Get(QueryableOperator<MoneyFlowSourceRecipientTypeDTO> queryOperator);
+
+        /// <summary>
+        /// Returns paged, filtered, and sorted project stati in the system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The project stati in the system.</returns>
+        Task<PagedQueryResults<MoneyFlowSourceRecipientTypeDTO>> GetAsync(QueryableOperator<MoneyFlowSourceRecipientTypeDTO> queryOperator);
+    }
 }
