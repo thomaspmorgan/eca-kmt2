@@ -56,6 +56,14 @@ angular.module('staticApp')
                     defer.resolve(data);
                 });
               return defer.promise;
+          },
+          copy: function (id) {
+              var defer = $q.defer();
+              DragonBreath.copy(id, 'moneyFlows')
+                .success(function (data) {
+                    defer.resolve(data);
+                });
+              return defer.promise;
           }
       };
   });

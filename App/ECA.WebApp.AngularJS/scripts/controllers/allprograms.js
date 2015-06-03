@@ -420,7 +420,7 @@ angular.module('staticApp')
     };
 
     $scope.currentFormIsDirty = function () {
-        return ($scope.currentForm.$dirty || $scope.dropDownDirty);
+        return ($scope.modalForm.form.$dirty || $scope.dropDownDirty);
     };
       
     $scope.createProgramForm = function () {

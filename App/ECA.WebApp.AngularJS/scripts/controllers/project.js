@@ -9,25 +9,51 @@
  */
 angular.module('staticApp')
   .controller('ProjectCtrl', function ($scope, $state, $stateParams, $log, $q, ProjectService, PersonService,
-      ProgramService, ParticipantService, LocationService, MoneyFlowService, AuthService,
+      ProgramService, ParticipantService, LocationService, MoneyFlowService, AuthService,OrganizationService,
       TableService, ConstantsService, LookupService, orderByFilter) {
 
       $scope.project = {};
 
       $scope.newParticipant = {};
 
-      $scope.modal = {};
+      $scope.modalForm = {};
+
+      $scope.showConfirmCopy = false;
 
       $scope.genders = {};
       $scope.currencyTypes = {};
-      $scope.moneyFlowTypes = [];
-      $scope.moneyFlowStati = [];
+
+      /* Money Flow */
 
       $scope.moneyFlows = [];
+      $scope.moneyFlowTypes = [];
+      $scope.moneyFlowStati = [];
+      $scope.moneyFlowSourceTypes = [];
+      $scope.moneyFlowFromTo = [];
+      $scope.currentCopyMoneyFlow = -1;
+      $scope.moneyFlowEditColumnClass = "col-md-2";
+      $scope.sourceRecipientFreeText = false;
+      $scope.moneyFlowConfirmMessage = "saved";
 
+      $scope.showFromToSelectControl = false;
+      $scope.showFromToTextControl = false;
+      
       $scope.editingMoneyFlows = [];
       $scope.dateFormat = 'dd-MMMM-yyyy';
 
+      // initialize new Program record
+      $scope.newMoneyFlow = {
+          description: '',
+          transactionDate: new Date(),
+          statusId: null,
+          sourceTypeId: null,
+          typeId: null,
+          organizationId: null,
+          amount: 0,
+          fromToText: ''
+      };
+
+      /* END money flows*/
       $scope.currentlyEditing = false;
 
       $scope.isProjectEditCancelButtonVisible = false;
@@ -42,7 +68,7 @@ angular.module('staticApp')
           partners: {title: 'Partners', path: 'partners', active: false,order: 3 },
           participants: {title: 'Participants',path: 'participants',active: true,order: 2 },
           artifacts: {title: 'Artifacts',path: 'artifacts',active: true,order: 4 },
-          moneyflows: {title: 'Money Flow',path: 'moneyflows',active: true,order: 5},
+          moneyflows: {title: 'Funding',path: 'moneyflows',active: true,order: 5},
           impact: {title: 'Impact',path: 'impact',active: false,order: 6},
           activity: {title: 'Activities',path: 'activity',active: true,order: 7},
           itinerary: {title: 'Itineraries',path: 'itineraries',active: true,order: 8}
@@ -169,6 +195,11 @@ angular.module('staticApp')
         .then(function (data) {
             $scope.moneyFlowTypes = data.results;
         });
+
+      LookupService.getAllMoneyFlowSourceRecipientTypes({ limit: 300 })
+      .then(function (data) {
+          $scope.moneyFlowSourceTypes = data.results;
+      });
 
       LocationService.get({ limit: 300, filter: {property: 'locationTypeId', comparison: 'eq', value: ConstantsService.locationType.country.id}})
         .then(function (data) {
@@ -355,10 +386,34 @@ angular.module('staticApp')
              });
       };
 
+
+      $scope.createMoneyFlowForm = function () {
+          $scope.showCreateMoneyFlow = true;
+      };
+
       $scope.editMoneyFlow = function (moneyFlowId) {
+          $scope.moneyFlowEditColumnClass = "col-md-1 editButtons";
           $scope.editingMoneyFlows[moneyFlowId] = true;
           $scope.currentlyEditing = true;
       };
+
+      $scope.copyMoneyFlow = function (moneyFlowId) {
+          // show dialog then create new money flow based on existing
+          $scope.currentCopyMoneyFlow = moneyFlowId;
+          $scope.confirmCopy = true;
+      };
+
+      // DIALOG BOX FUNCTIONS
+      $scope.confirmCopyYes = function () {
+          saveCopiedMoneyFlow();
+          $scope.confirmCopy = false;
+          $scope.moneyFlowConfirmMessage = "copied";
+          $scope.confirmSuccess = true;
+      }
+
+      $scope.closeConfirm = function () {
+          $scope.confirmSuccess = false;
+      }
       
       $scope.saveMoneyFlow = function (moneyFlowId) {
           $("#transactionDate" + moneyFlowId).css("opacity", "0");
@@ -377,9 +432,143 @@ angular.module('staticApp')
           });
       };
 
+      // calendar popup for startDate
+      $scope.transactionCalendarOpen = function ($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+
+          $scope.transactionCalendarOpened = true;
+
+      };
+      function saveCopiedMoneyFlow() {
+          alert('Copying with function: ' + $scope.currentCopyMoneyFlow);
+
+          MoneyFlowService.copy($scope.currentCopyMoneyFlow)
+            .then(function (moneyFlow) {
+                if (Array.isArray(moneyFlow)) {
+                    $scope.errorMessage = "There were one or more errors:";
+                    $scope.validations = moneyFlow;
+                    $scope.confirmFail = true;
+                }
+                else if (moneyFlow.hasOwnProperty('Message')) {
+                    $scope.errorMessage = moneyFlow.Message;
+                    $scope.validations = moneyFlow.ValidationErrors;
+                    $scope.confirmFail = true;
+                }
+                else if (moneyFlow.hasOwnProperty('ErrorMessage')) {
+                    $scope.errorMessage = moneyFlow.ErrorMessage;
+                    $scope.validations.push(moneyFlow.Property);
+                    $scope.validations.confirmFail = true;
+                }
+                else if (Array.isArray(moneyFlow)) {
+                    $scope.errorMessage = "There were one or more errors:";
+                    $scope.validations = moneyFlows;
+                    $scope.validations.confirmFail = true;
+                }
+                else {
+                    $scope.moneyFlow = moneyFlow; //perhaps not, this is to get the id
+                    $scope.confirmSave = true;
+                    $scope.modalClear();
+                }
+            });
+      };
+
+      $scope.changeSourceRecipientType = function () {
+          // change the from/to box or keep free-text
+          $scope.showFromToSelectControl = false;
+          $scope.showFromToTextControl = false;
+
+          switch($scope.newMoneyFlow.sourceTypeId)
+          {
+              case 1:
+              case 2:
+              case 3:
+              case 4:
+                  getFromToChoices();
+                  $scope.showFromToSelectControl = true;
+                  break;
+
+              case 6:
+              case 7:
+
+                  $scope.showFromToTextControl = true;
+                  break;
+
+              case 5:
+              case 8:
+              case 9:
+                  // do not show either field - these need to be clarified
+                  break;
+              default:
+                  break;
+
+          }
+      };
+      
+      function getFromToChoices() {
+
+          $scope.moneyFlowFromTo = [];
+          var lookupParams = { start: null,limit: 300,sort: null,filter: null };
+
+          switch ($scope.newMoneyFlow.sourceTypeId)
+          {
+              case 1: // organization service
+                  return OrganizationService.getOrganizations(lookupParams)
+                      .then(function (data) {
+                          $scope.moneyFlowFromTo = data.results;
+                      });
+                  break;
+              case 2: // programs
+                  return ProgramService.getAllProgramsAlpha(lookupParams)
+                      .then(function (data) {
+                          $scope.moneyFlowFromTo = data.results;
+                      });
+                  break;
+              case 3:  //projects
+                  
+                  break;
+              case 4: // participants
+                  return ParticipantService.getParticipantsByProject($scope.project.id, lookupParams)
+                    .then(function (data) {
+                        $scope.moneyFlowFromTo = data.results;
+                    });
+                  break;
+
+          }
+      };
+
+      $scope.createModalCancel = function () {
+          $scope.checkFormStatus();
+      };
+
+      $scope.confirmClose = function (closeModal) {
+          $scope.showConfirmClose = false;
+
+          if (closeModal)
+          {
+              $scope.showCreateMoneyFlow = false;
+          }
+      };
+
+
+      $scope.checkFormStatus = function () {
+          if ($scope.modalForm.moneyFlowForm.$dirty) {
+              alert('form is dirty');
+              $scope.showConfirmClose = true;
+          }
+          else {
+              $scope.showCreateMoneyFlow = false;
+          }
+      };
+
+
       $scope.cancelMoneyFlowEdit = function (moneyFlowId) {
           $scope.editingMoneyFlows[moneyFlowId] = false;
           $scope.currentlyEditing = false;
+      };
+
+      $scope.confirmCancel = function () {
+          $scope.confirmCopy = false;
       };
 
       $scope.openTransactionDatePicker = function ($event) {

@@ -87,6 +87,14 @@ angular.module('staticApp')
                 });
               return defer.promise;
           },
+          getAllMoneyFlowSourceRecipientTypes: function (params) {
+              var defer = $q.defer();
+              DragonBreath.get(params, 'moneyflowsourcerecipienttypes')
+                .success(function (data) {
+                    defer.resolve(data);
+                });
+              return defer.promise;
+          },
           getAllGenders: function (params) {
               var defer = $q.defer();
               DragonBreath.get(params, 'genders')

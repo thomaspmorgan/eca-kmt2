@@ -36,7 +36,7 @@ angular.module('staticApp')
               order: 4
           },
           moneyflows: {
-              title: 'Money Flows',
+              title: 'Funding',
               path: 'moneyflows',
               active: true,
               order: 5
