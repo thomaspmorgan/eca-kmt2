@@ -208,3 +208,8 @@ obj/Development/
 
 # Ignore log files
 App/ECA.WebApi/log/
+
+# Ignore compiled css files from web essentials
+App/ECA.WebApp.AngularJS/styles/main.css
+App/ECA.WebApp.AngularJS/styles/main.css.map
+App/ECA.WebApp.AngularJS/styles/main.min.css
