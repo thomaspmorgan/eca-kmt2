@@ -526,3 +526,21 @@ div.modal-center-large .modal-content .modal-body {
     position:absolute;
     padding: 5px 5px;
 }
+
+.pagination > li > a, .pagination > li > span {
+    border: none;
+    background-color: transparent;
+    color: $primarytext;
+}
+
+.pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+    color: $blue;
+    background-color: transparent;
+    border-top: 2px solid $blue;
+}
+
+.pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > span:hover, .pagination > li > span:focus {
+    color: $primarytext;
+    background-color: transparent;
+    border: none;    
+}
