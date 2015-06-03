@@ -148,6 +148,12 @@
     <Content Include="styles\main.min.css">
       <DependentUpon>main.css</DependentUpon>
     </Content>-->
+    <Content Include="styles\main.css">
+      <DependentUpon>main.scss</DependentUpon>
+    </Content>
+    <Content Include="styles\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <Content Include="views\partials\pagination.html" />
     <Content Include="views\participants\partials\eduempView.html" />
     <Content Include="views\participants\partials\generalView.html" />
@@ -218,6 +224,9 @@
     <!--<Content Include="styles\main.css.map">
       <DependentUpon>main.css</DependentUpon>
     </Content>-->
+    <Content Include="styles\main.css.map">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

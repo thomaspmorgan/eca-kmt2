@@ -544,3 +544,9 @@ div.modal-center-large .modal-content .modal-body {
     background-color: transparent;
     border: none;    
 }
+
+.list2 .row .pagination a:hover {
+    color: $primarytext;
+    background-color: transparent;
+    text-decoration: none;
+}
