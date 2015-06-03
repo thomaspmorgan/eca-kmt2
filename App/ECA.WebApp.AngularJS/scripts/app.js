@@ -444,7 +444,7 @@ angular
 
         function toggleToolbar() {
             var toolbar = document.getElementsByClassName('toolbar')[0];
-            if (toolbar.style.position === "fixed") {
+            if (toolbar && toolbar.style.position === "fixed") {
                 var leftOpen = document.getElementById('cbp-spmenu-s1').classList.contains('cbp-spmenu-open');
                 var rightOpen = document.getElementById('cbp-spmenu-s2').classList.contains('cbp-spmenu-open');
                 if (leftOpen && toolbar.style.left === "0px") {
