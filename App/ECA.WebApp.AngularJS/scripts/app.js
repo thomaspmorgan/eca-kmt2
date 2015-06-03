@@ -430,43 +430,32 @@ angular
             var self = $event.target;
             self.classList.toggle('active');
             document.body.classList.toggle('cbp-spmenu-push-toright');
-            var menuElement = document.getElementById('cbp-spmenu-s1');
-            menuElement.classList.toggle('cbp-spmenu-open');
-        };
-
-        $rootScope.closeMenu = function () {
-            document.body.classList.toggle('cbp-spmenu-push-toright');
             document.getElementById('cbp-spmenu-s1').classList.toggle('cbp-spmenu-open');
+            toggleToolbar();
         };
 
-        //this is for the comments panel that slides in from the right
-        var isRightMenuOpen = false;
         $rootScope.pushMenu2 = function ($event) {
             var self = $event.target;
             self.classList.toggle('active');
             document.body.classList.toggle('cbp-spmenu-push-toleft');
             document.getElementById('cbp-spmenu-s2').classList.toggle('cbp-spmenu-open');
-            isRightMenuOpen = !isRightMenuOpen;
-            toggleToolbarPositioning();
+            toggleToolbar();
         };
-        
-        function toggleToolbarPositioning() {
-            var toolbars = document.getElementsByClassName("toolbar");
-            var toolbar = toolbars[0];
-            var positionIsFixed = toolbar.style.position.indexOf('fixed') >= 0;
-            var positionValue = null;
-            if (isRightMenuOpen && positionIsFixed) {
-                positionValue = "-240px";
+
+        function toggleToolbar() {
+            var toolbar = document.getElementsByClassName('toolbar')[0];
+            if (toolbar.style.position === "fixed") {
+                var leftOpen = document.getElementById('cbp-spmenu-s1').classList.contains('cbp-spmenu-open');
+                var rightOpen = document.getElementById('cbp-spmenu-s2').classList.contains('cbp-spmenu-open');
+                if (leftOpen && toolbar.style.left === "0px") {
+                    toolbar.style.left = "240px";
+                } else if (rightOpen && toolbar.style.left === "0px") {
+                    toolbar.style.left = "-240px";
+                } else {
+                    toolbar.style.left = "0px";
+                }
             }
-            else if (!isRightMenuOpen && positionIsFixed) {
-                positionValue = "0px";
-            }
-            
-            if (positionValue !== null) {
-                angular.element(toolbar).animate({ left: positionValue }, 300);
-                //toolbar.style.left = positionValue;
-            }
-        }
+        };
 
         $rootScope.currentUser = {};
         $rootScope.currentUser.userMenuToggled = function (open) { };
@@ -503,7 +492,6 @@ angular
             // Prevent the transition from happening
             event.preventDefault();
         });
-
 
         $rootScope.spotlightModal = false;
     }]);
