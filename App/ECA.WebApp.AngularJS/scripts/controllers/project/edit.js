@@ -29,12 +29,12 @@ angular.module('staticApp')
       $scope.$parent.isInEditViewState = true;
       console.assert($scope.$parent.showProjectEditCancelButton, 'The $scope.$parent.showProjectEditCancelButton function must be defined.');
       console.assert($scope.$parent.hideProjectEditCancelButton, 'The $scope.$parent.hideProjectEditCancelButton function must be defined.');
-      
+
 
       $scope.editView = {};
       $scope.editView.params = $stateParams;
       $scope.editView.isLoading = false;
-      $scope.editView.isSaving = false;      
+      $scope.editView.isSaving = false;
       $scope.editView.dateFormat = 'dd-MMMM-yyyy';
       $scope.editView.isStartDatePickerOpen = false;
       $scope.editView.isEndDatePickerOpen = false;
@@ -279,7 +279,7 @@ angular.module('staticApp')
                 }
             })
             .then(function () {
-                $scope.editView.isSaving = false;                
+                $scope.editView.isSaving = false;
                 enableProjectStatusButton();
             });
       }
@@ -324,7 +324,7 @@ angular.module('staticApp')
             }, function (errorResponse) {
                 $log.error('Failed to load project with id ' + projectId);
             })
-            .then(function() {
+            .then(function () {
                 showProjectEditCancelButton();
             });
       }
@@ -446,6 +446,7 @@ angular.module('staticApp')
       }
 
       function loadCategories(search) {
+          var programId = $stateParams.programId;
           console.assert($stateParams.officeId, "The office id must be defined.");
           var params = {
               start: 0,
@@ -460,17 +461,22 @@ angular.module('staticApp')
                   value: search
               }]
           }
-          return LookupService.getAllCategories(params)
+          return ProjectService.getCategories(programId, params)
               .then(function (response) {
                   if (response.total > maxLimit) {
                       $log.error('There are more categories in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
                   }
-                  normalizeLookupProperties(response.results);
-                  $scope.editView.categories = response.results;
-              });
+                  normalizeLookupProperties(response.data.results);
+                  $scope.editView.categories = response.data.results;
+              })
+            .catch(function () {
+                $log.error('Unable to load categories.');
+                NotificationService.showErrorMessage('Unable to load categories.');
+            });
       }
 
       function loadObjectives(search) {
+          var programId = $stateParams.programId;
           console.assert($stateParams.officeId, "The office id must be defined.");
           var params = {
               start: 0,
@@ -484,13 +490,17 @@ angular.module('staticApp')
                   value: search
               }]
           }
-          return LookupService.getAllObjectives(params)
+          return ProjectService.getObjectives(programId, params)
               .then(function (response) {
                   if (response.total > maxLimit) {
                       $log.error('There are more objectives in the system then are currently loaded, an issue could occur in the UI not showing all possible values.');
                   }
-                  normalizeLookupProperties(response.results);
-                  $scope.editView.objectives = response.results;
+                  normalizeLookupProperties(response.data.results);
+                  $scope.editView.objectives = response.data.results;
+              })
+              .catch(function () {
+                  $log.error('Unable to load objectives.');
+                  NotificationService.showErrorMessage('Unable to load objectives.');
               });
       }
 
@@ -503,8 +513,8 @@ angular.module('staticApp')
                   console.assert(response.data.categoryLabel, "The category label must exist.");
                   console.assert(response.data.focusLabel, "The focus label must exist.");
                   console.assert(response.data.justificationLabel, "The justification label must exist.");
-                  console.assert(typeof(response.data.isCategoryRequired) !== 'undefined', "The is category required bool must exist.");
-                  console.assert(typeof(response.data.isObjectiveRequired) !== 'undefined', "The is objective required bool must exist.");
+                  console.assert(typeof (response.data.isCategoryRequired) !== 'undefined', "The is category required bool must exist.");
+                  console.assert(typeof (response.data.isObjectiveRequired) !== 'undefined', "The is objective required bool must exist.");
 
                   var objectiveLabel = response.data.objectiveLabel;
                   var categoryLabel = response.data.categoryLabel;

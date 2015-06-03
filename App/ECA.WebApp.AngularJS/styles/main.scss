@@ -27,6 +27,8 @@ $blueactive: #1a5f8e;
 $gray: #e7e7e7;
 $grayactive: #415358;
 
+$toolbarZIndex: 1000;
+$navBarZIndex: 1001;
 
 @import 'variables';
 // bower:scss
@@ -536,6 +538,30 @@ div.modal-center-large .modal-content .modal-body {
 .currency-symbol {
     position:absolute;
     padding: 5px 5px;
+}
+
+.pagination > li > a, .pagination > li > span {
+    border: none;
+    background-color: transparent;
+    color: $primarytext;
+}
+
+.pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+    color: $blue;
+    background-color: transparent;
+    border-top: 2px solid $blue;
+}
+
+.pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > span:hover, .pagination > li > span:focus {
+    color: $primarytext;
+    background-color: transparent;
+    border: none;    
+}
+
+.list2 .row .pagination a:hover {
+    color: $primarytext;
+    background-color: transparent;
+    text-decoration: none;
 }
 
 .editButtons {

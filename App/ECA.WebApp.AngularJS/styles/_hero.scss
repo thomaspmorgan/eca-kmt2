@@ -10,7 +10,8 @@
         height: 60px;
         padding: 0 40px;
         width: 100%;
-        z-index: 1000;
+        z-index: $toolbarZIndex;
+        transition: all 0.3s ease;
 
         .btn-group {
 

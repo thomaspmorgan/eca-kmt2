@@ -31,16 +31,34 @@ namespace ECA.WebApi.Controllers.Admin
         private static readonly ExpressionSorter<SimpleOfficeDTO> DEFAULT_OFFICE_SORTER =
             new ExpressionSorter<SimpleOfficeDTO>(x => x.OfficeSymbol, SortDirection.Ascending);
 
+        /// <summary>
+        /// The default sorter for a list of foci.
+        /// </summary>
+        private static readonly ExpressionSorter<FocusCategoryDTO> DEFAULT_FOCUSCATEGORY_DTO_SORTER = 
+            new ExpressionSorter<FocusCategoryDTO>(x => x.FocusName, SortDirection.Ascending);
+
+        /// <summary>
+        /// The default sorter for a list of justifications.
+        /// </summary>
+        private static readonly ExpressionSorter<JustificationObjectiveDTO> DEFAULT_JUSTIFICATION_OBJECTIVE_DTO_SORTER =
+            new ExpressionSorter<JustificationObjectiveDTO>(x => x.JustificationName, SortDirection.Ascending);
+
         private IOfficeService service;
+        private IFocusCategoryService focusCategoryService;
+        private IJustificationObjectiveService justificationObjectiveService;
 
         /// <summary>
         /// Creates a new controller instance.
         /// </summary>
         /// <param name="service">The service.</param>
-        public OfficesController(IOfficeService service)
+        public OfficesController(IOfficeService service, IFocusCategoryService focusCategoryService, IJustificationObjectiveService justificationObjectiveService)
         {
             Contract.Requires(service != null, "The office service must not be null.");
+            Contract.Requires(focusCategoryService != null, "The focus category service must not be null.");
+            Contract.Requires(justificationObjectiveService != null, "The justification service must not be null.");
             this.service = service;
+            this.focusCategoryService = focusCategoryService;
+            this.justificationObjectiveService = justificationObjectiveService;
         }
 
         /// <summary>
@@ -114,6 +132,52 @@ namespace ECA.WebApi.Controllers.Admin
                     x => x.Name,
                     x => x.Description,
                     x => x.OfficeSymbol));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Returns the categories of the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The id of the office.</param>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The categories.</returns>
+        [Route("Offices/{officeId}/Categories")]
+        [ResponseType(typeof(PagedQueryResults<FocusCategoryDTO>))]
+        public async Task<IHttpActionResult> GetCategoriesByOfficeIdAsync(int officeId, [FromUri]PagingQueryBindingModel<FocusCategoryDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {                
+                var results = await focusCategoryService.GetFocusCategoriesByOfficeIdAsync(
+                    officeId, 
+                    queryModel.ToQueryableOperator(DEFAULT_FOCUSCATEGORY_DTO_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Returns the objectives of the office with the given id.
+        /// </summary>
+        /// <param name="officeId">The id of the office.</param>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The objectives.</returns>
+        [Route("Offices/{officeId}/Objectives")]
+        [ResponseType(typeof(PagedQueryResults<JustificationObjectiveDTO>))]
+        public async Task<IHttpActionResult> GetObjectivesByOfficeIdAsync(int officeId, [FromUri]PagingQueryBindingModel<JustificationObjectiveDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await justificationObjectiveService.GetJustificationObjectivesByOfficeIdAsync(
+                    officeId,
+                    queryModel.ToQueryableOperator(DEFAULT_JUSTIFICATION_OBJECTIVE_DTO_SORTER));
                 return Ok(results);
             }
             else

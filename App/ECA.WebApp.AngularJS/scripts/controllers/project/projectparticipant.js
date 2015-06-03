@@ -75,12 +75,21 @@ angular.module('staticApp')
       function loadCollaboratorDetails() {
           return ProjectService.getCollaboratorInfo(projectId)
           .then(function (response) {
-              $scope.view.numberOfCollaborators = response.data.allowedPrincipalsCount;
-              var lastRevisedDate = new Date(response.data.lastRevisedOn);
-              if (!isNaN(lastRevisedDate.getTime())) {
-                  $scope.view.collaboratorsLastUpdated = lastRevisedDate;
+              if (response.data !== null) {
+                  $scope.view.numberOfCollaborators = response.data.allowedPrincipalsCount;
+                  var lastRevisedDate = new Date(response.data.lastRevisedOn);
+                  if (!isNaN(lastRevisedDate.getTime())) {
+                      $scope.view.collaboratorsLastUpdated = lastRevisedDate;
+                  }
+              }
+              else {
+                  NotificationService.showWarningMessage('Unable to load collaborator details.');
               }
           }, function (error) {
+              $log.error('Unable to load project collaborator details.');
+              NotificationService.showErrorMessage('Unable to load project collaborator details.');
+          })
+          .catch(function () {
               $log.error('Unable to load project collaborator details.');
               NotificationService.showErrorMessage('Unable to load project collaborator details.');
           });

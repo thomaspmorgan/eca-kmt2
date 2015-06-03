@@ -159,7 +159,7 @@
   height: 100%;
   top: 50px;
   width: 240px;
-  z-index: 1000;
+  z-index: $navBarZIndex;
 
   a {
     padding: 1.6em;
@@ -172,7 +172,7 @@
   left: 0;
   overflow: hidden;
   width: 100%;
-  z-index: 1000;
+  z-index: $navBarZIndex;
 
   h3 {
     float: left;

@@ -128,9 +128,9 @@ namespace ECA.Business.Service.Persons
         /// <returns>Education and professional employment information for person</returns>
         public async Task<IList<EducationEmploymentDTO>> GetEmploymentsByPersonIdAsync(int personId)
         {
-            var employments = PersonQueries.CreateGetEmploymentsByPersonIdQuery(this.Context, personId).ToListAsync();
+            var employments = await PersonQueries.CreateGetEmploymentsByPersonIdQuery(this.Context, personId).ToListAsync();
             this.logger.Trace("Retrieved employments for person info by id {0}.", personId);
-            return await employments;
+            return employments;
         }
 
 
@@ -153,9 +153,9 @@ namespace ECA.Business.Service.Persons
         /// <returns>Educations information for person</returns>
         public async Task<IList<EducationEmploymentDTO>> GetEducationsByPersonIdAsync(int personId)
         {
-            var educations = PersonQueries.CreateGetEducationsByPersonIdQuery(this.Context, personId).ToListAsync();
+            var educations = await PersonQueries.CreateGetEducationsByPersonIdQuery(this.Context, personId).ToListAsync();
             this.logger.Trace("Retrieved educations for person info by id {0}.", personId);
-            return await educations;
+            return educations;
         }
 
         /// <summary>

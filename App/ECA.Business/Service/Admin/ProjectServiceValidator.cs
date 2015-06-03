@@ -15,6 +15,16 @@ namespace ECA.Business.Service.Admin
     public class ProjectServiceValidator : BusinessValidatorBase<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>
     {
         /// <summary>
+        /// The error message when a project's categories are not assigned to the program.
+        /// </summary>
+        public const string INVALID_CATEGORIES_ERROR_MESSAGE = "One or more of the categories are invalid for this project.  Be sure the categories are assigned to the parent program.";
+
+        /// <summary>
+        /// The error message when a project's objectives are not assigned to the program.
+        /// </summary>
+        public const string INVALID_OBJECTIVES_ERROR_MESSAGE = "One or more of the objectives are invalid for this project.  Be sure the objectives are assigned to the parent program.";
+
+        /// <summary>
         /// The error message when a project exceeds the max categories.
         /// </summary>
         public const string MAX_CATEGORIES_REQUIRED_ERROR_MESSAGE = "The project can have up to {0} categories.";
@@ -162,6 +172,18 @@ namespace ECA.Business.Service.Admin
             if (oldProjectStatus != ProjectStatus.Draft && newProjectStatus == ProjectStatus.Draft)
             {
                 yield return new BusinessValidationResult<PublishedProject>(x => x.ProjectStatusId, CAN_NOT_SET_PROJECT_BACK_TO_DRAFT_ERROR_MESSAGE);
+            }
+
+            var invalidCategoryIds = validationEntity.CategoryIds.Where(x => !validationEntity.AllowedCategoryIds.Contains(x)).ToList();
+            if (invalidCategoryIds.Count > 0)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.CategoryIds, INVALID_CATEGORIES_ERROR_MESSAGE);
+            }
+
+            var invalidObjectiveIds = validationEntity.ObjectiveIds.Where(x => !validationEntity.AllowedObjectiveIds.Contains(x)).ToList();
+            if (invalidObjectiveIds.Count > 0)
+            {
+                yield return new BusinessValidationResult<PublishedProject>(x => x.ObjectiveIds, INVALID_OBJECTIVES_ERROR_MESSAGE);
             }
         }
     }
