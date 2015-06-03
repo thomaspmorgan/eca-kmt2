@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Admin;
 using ECA.Business.Service;
 using ECA.Data;
+using System.Collections.Generic;
 
 namespace ECA.Business.Test.Service.Admin
 {
@@ -218,6 +219,8 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -247,9 +250,10 @@ namespace ECA.Business.Test.Service.Admin
                   objectivesExist: objectivesExist,
                   numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
-
             };
 
             var entity = createEntity();
@@ -288,6 +292,8 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -317,6 +323,8 @@ namespace ECA.Business.Test.Service.Admin
                   objectivesExist: objectivesExist,
                   numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -359,6 +367,8 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -386,8 +396,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -429,6 +441,8 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -456,8 +470,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -499,6 +515,8 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -526,8 +544,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -570,6 +590,8 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -599,6 +621,8 @@ namespace ECA.Business.Test.Service.Admin
                   objectivesExist: objectivesExist,
                   numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -640,6 +664,8 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -669,6 +695,8 @@ namespace ECA.Business.Test.Service.Admin
                   objectivesExist: objectivesExist,
                   numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -710,6 +738,8 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -739,6 +769,8 @@ namespace ECA.Business.Test.Service.Admin
                   objectivesExist: objectivesExist,
                   numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -780,6 +812,8 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -807,8 +841,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -850,6 +886,8 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -877,8 +915,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -920,6 +960,8 @@ namespace ECA.Business.Test.Service.Admin
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
             var officeSettings = new OfficeSettings();
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             Func<PublishedProject> createUpdatedProject = () =>
             {
                 return new PublishedProject(
@@ -947,8 +989,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -989,6 +1033,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             officeSettings.IsObjectiveRequired = true;
             Func<PublishedProject> createUpdatedProject = () =>
@@ -1018,8 +1064,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1060,6 +1108,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             officeSettings.IsCategoryRequired = false;
             officeSettings.MinimumRequiredFoci = 0;
@@ -1091,8 +1141,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1133,6 +1185,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             officeSettings.IsCategoryRequired = false;
             officeSettings.MinimumRequiredFoci = 0;
@@ -1164,8 +1218,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1205,6 +1261,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             officeSettings.IsCategoryRequired = true;
             officeSettings.MaximumRequiredFoci = 1;
@@ -1235,8 +1293,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1277,6 +1337,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             officeSettings.IsCategoryRequired = true;
             officeSettings.MaximumRequiredFoci = 1;
@@ -1307,8 +1369,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1348,6 +1412,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             officeSettings.IsObjectiveRequired = false;
             Func<PublishedProject> createUpdatedProject = () =>
@@ -1377,8 +1443,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1417,6 +1485,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             officeSettings.IsCategoryRequired = false;
             Func<PublishedProject> createUpdatedProject = () =>
@@ -1446,8 +1516,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1486,6 +1558,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
@@ -1514,8 +1588,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1554,6 +1630,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
@@ -1582,8 +1660,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1622,6 +1702,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
@@ -1650,8 +1732,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1690,6 +1774,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
@@ -1718,8 +1804,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1759,6 +1847,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
@@ -1787,8 +1877,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1830,6 +1922,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
@@ -1858,8 +1952,10 @@ namespace ECA.Business.Test.Service.Admin
                   pointsOfContactExist: pointsOfContactsExist,
                   categoriesExist: categoriesExist,
                   objectivesExist: objectivesExist,
-                    numberOfCategories: numberOfCategories,
+                  numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1900,6 +1996,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
@@ -1930,6 +2028,8 @@ namespace ECA.Business.Test.Service.Admin
                   objectivesExist: objectivesExist,
                   numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -1963,6 +2063,8 @@ namespace ECA.Business.Test.Service.Admin
             var objectivesExist = true;
             var numberOfCategories = 1;
             var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int>();
+            var allowedObjectiveIds = new List<int>();
             var officeSettings = new OfficeSettings();
             Func<PublishedProject> createUpdatedProject = () =>
             {
@@ -1993,6 +2095,8 @@ namespace ECA.Business.Test.Service.Admin
                   objectivesExist: objectivesExist,
                   numberOfCategories: numberOfCategories,
                   numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
                   officeSettings: officeSettings
                 );
 
@@ -2009,6 +2113,155 @@ namespace ECA.Business.Test.Service.Admin
             Assert.AreEqual("ProjectStatusId", validationErrors.First().Property);
         }
 
+        [TestMethod]
+        public void TestDoValidateUpdate_CategoryIsNotAllowed()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Active.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Active.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int> { 1 };
+            var allowedObjectiveIds = new List<int> { 1 };
+            var officeSettings = new OfficeSettings();
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: new List<int> { 1 },
+                    objectiveIds: new List<int> { 1 },
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                  numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            allowedCategoryIds.Clear();
+            entity = createEntity();
+
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(ProjectServiceValidator.INVALID_CATEGORIES_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("CategoryIds", validationErrors.First().Property);
+        }
+
+        [TestMethod]
+        public void TestDoValidateUpdate_ObjectiveIsNotAllowed()
+        {
+            var user = new User(1);
+            var name = "name";
+            var description = "desc";
+            var statusId = ProjectStatus.Active.Id;
+            var startDate = DateTimeOffset.UtcNow.AddDays(-1.0);
+            var endDate = DateTimeOffset.UtcNow;
+            var projectToUpdate = new Project
+            {
+                ProjectStatusId = ProjectStatus.Active.Id,
+            };
+            var focus = new Focus
+            {
+
+            };
+            var goalsExist = true;
+            var themesExist = true;
+            var pointsOfContactsExist = true;
+            var categoriesExist = true;
+            var objectivesExist = true;
+            var numberOfCategories = 1;
+            var numberOfObjectives = 1;
+            var allowedCategoryIds = new List<int> { 1 };
+            var allowedObjectiveIds = new List<int> { 1 };
+            var officeSettings = new OfficeSettings();
+            Func<PublishedProject> createUpdatedProject = () =>
+            {
+                return new PublishedProject(
+                    updatedBy: user,
+                    projectId: 1,
+                    name: name,
+                    description: description,
+                    projectStatusId: statusId,
+                    goalIds: null,
+                    themeIds: null,
+                    pointsOfContactIds: null,
+                    categoryIds: new List<int> { 1 },
+                    objectiveIds: new List<int> { 1 },
+                    startDate: startDate,
+                    endDate: endDate
+                    );
+            };
+            Func<ProjectServiceUpdateValidationEntity> createEntity = () =>
+            {
+                return new ProjectServiceUpdateValidationEntity(
+                  updatedProject: createUpdatedProject(),
+                  projectToUpdate: projectToUpdate,
+                  goalsExist: goalsExist,
+                  themesExist: themesExist,
+                  pointsOfContactExist: pointsOfContactsExist,
+                  categoriesExist: categoriesExist,
+                  objectivesExist: objectivesExist,
+                  numberOfCategories: numberOfCategories,
+                  numberOfObjectives: numberOfObjectives,
+                  allowedCategoryIds: allowedCategoryIds,
+                  allowedObjectiveIds: allowedObjectiveIds,
+                  officeSettings: officeSettings
+                );
+
+            };
+
+            var entity = createEntity();
+            Assert.AreEqual(0, validator.DoValidateUpdate(entity).Count());
+
+            allowedObjectiveIds.Clear();
+            entity = createEntity();
+
+            var validationErrors = validator.DoValidateUpdate(entity).ToList();
+            Assert.AreEqual(1, validationErrors.Count);
+            Assert.AreEqual(ProjectServiceValidator.INVALID_OBJECTIVES_ERROR_MESSAGE, validationErrors.First().ErrorMessage);
+            Assert.AreEqual("ObjectiveIds", validationErrors.First().Property);
+        }
         #endregion
     }
 }

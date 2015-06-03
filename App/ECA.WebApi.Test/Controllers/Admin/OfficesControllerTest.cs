@@ -19,18 +19,22 @@ namespace ECA.WebApi.Test.Controllers.Admin
     public class OfficesControllerTest
     {
         private Mock<IOfficeService> serviceMock;
+        private Mock<IFocusCategoryService> focusCategoryService;
+        private Mock<IJustificationObjectiveService> justificationObjectiveService;
         private OfficesController controller;
 
         [TestInitialize]
         public void TestInit()
         {
             serviceMock = new Mock<IOfficeService>();
+            focusCategoryService = new Mock<IFocusCategoryService>();
+            justificationObjectiveService = new Mock<IJustificationObjectiveService>();
             serviceMock.Setup(x => x.GetOfficeByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync(new OfficeDTO());
             serviceMock.Setup(x => x.GetProgramsAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<OrganizationProgramDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<OrganizationProgramDTO>(0, new List<OrganizationProgramDTO>()));
             serviceMock.Setup(x => x.GetOfficeSettingsAsync(It.IsAny<int>())).ReturnsAsync(new OfficeSettings());
-            controller = new OfficesController(serviceMock.Object);
+            controller = new OfficesController(serviceMock.Object, focusCategoryService.Object, justificationObjectiveService.Object);
         }
 
         #region Get
@@ -62,6 +66,37 @@ namespace ECA.WebApi.Test.Controllers.Admin
         {
             controller.ModelState.AddModelError("key", "error");
             var response = await controller.GetProgramsByOfficeIdAsync(1, new PagingQueryBindingModel<OrganizationProgramDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetCategoriesByOfficeIdAsync()
+        {
+            var response = await controller.GetCategoriesByOfficeIdAsync(1, new PagingQueryBindingModel<FocusCategoryDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<FocusCategoryDTO>>));
+
+        }
+
+        [TestMethod]
+        public async Task TestGetCategoriesByOfficeIdAsync_InvalidQueryModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetCategoriesByOfficeIdAsync(1, new PagingQueryBindingModel<FocusCategoryDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetObjectivesByOfficeIdAsync()
+        {
+            var response = await controller.GetObjectivesByOfficeIdAsync(1, new PagingQueryBindingModel<JustificationObjectiveDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<JustificationObjectiveDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetObjectivesByOfficeIdAsync_InvalidQueryModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetObjectivesByOfficeIdAsync(1, new PagingQueryBindingModel<JustificationObjectiveDTO>());
             Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
         }
 

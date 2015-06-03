@@ -16,7 +16,7 @@ angular.module('staticApp')
               return DragonBreath.get('projects', id)
           },
           getProjectsByProgram: function (id, params) {
-              var path = 'programs/' + id + '/projects'
+              var path = 'programs/' + id + '/projects';
               return DragonBreath.get(params, path);
           },
           update: function (project, id) {
@@ -24,6 +24,14 @@ angular.module('staticApp')
           },
           create: function (project) {
               return DragonBreath.create(project, 'projects');
+          },
+          getCategories: function (programId, params) {
+              var path = 'programs/' + programId + '/categories';
+              return DragonBreath.get(params, path);
+          },
+          getObjectives: function (programId, params) {
+              var path = 'programs/' + programId + '/objectives';
+              return DragonBreath.get(params, path);
           },
           getCollaboratorInfo: function(projectId) {
               return DragonBreath.get('projects/' + projectId + '/collaborators/details');
