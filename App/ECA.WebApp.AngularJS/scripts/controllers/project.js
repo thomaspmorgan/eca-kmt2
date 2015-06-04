@@ -96,30 +96,6 @@ angular.module('staticApp')
             }
         });
 
-      $scope.participantsLoading = false;
-
-      $scope.getParticipants = function (tableState) {
-
-          $scope.participantsLoading = true;
-
-          TableService.setTableState(tableState);
-
-          var params = {
-              start: TableService.getStart(),
-              limit: TableService.getLimit(),
-              sort: TableService.getSort(),
-              filter: TableService.getFilter()
-          };
-
-          ParticipantService.getParticipantsByProject($stateParams.projectId, params)
-            .then(function (data) {
-                $scope.project.participants = data.results;
-                var limit = TableService.getLimit();
-                tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
-                $scope.participantsLoading = false;
-            });
-      };
-      
       var editStateName = 'projects.edit';
 
       $scope.showProjectEditCancelButton = function() {
