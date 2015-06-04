@@ -96,7 +96,7 @@ angular.module('staticApp')
           .then(function () {
               NotificationService.showSuccessMessage('Successfully added the collaborator.');
           }, function () {
-              NotificationService.showSuccessMessage('There was an error adding the collaborator.');
+              NotificationService.showErrorMessage('There was an error adding the collaborator.');
           })
           .then(function () {
               isSaving(false);

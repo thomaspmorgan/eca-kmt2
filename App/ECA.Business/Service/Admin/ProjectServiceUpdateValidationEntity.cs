@@ -28,6 +28,8 @@ namespace ECA.Business.Service.Admin
         /// <param name="numberOfCategories">The number of categories.</param>
         /// <param name="numberOfObjectives">The number of objectives.</param>
         /// <param name="officeSettings">The office settings.</param>
+        /// <param name="allowedCategoryIds">The category ids the project can be assigned as deteremined by the parent program.</param>
+        /// <param name="allowedObjectiveIds">The objective ids the project can be assigned as determined by the parent program.</param>
         public ProjectServiceUpdateValidationEntity(
             PublishedProject updatedProject, 
             Project projectToUpdate, 
@@ -38,6 +40,8 @@ namespace ECA.Business.Service.Admin
             bool objectivesExist,
             int numberOfObjectives,
             int numberOfCategories,
+            IEnumerable<int> allowedCategoryIds,
+            IEnumerable<int> allowedObjectiveIds,
             OfficeSettings officeSettings)
         {
             Contract.Requires(updatedProject != null, "The updated project must not be null.");
@@ -63,7 +67,31 @@ namespace ECA.Business.Service.Admin
             this.NumberOfCategories = numberOfCategories;
             this.NumberOfObjectives = numberOfObjectives;
             this.OfficeSettings = officeSettings;
+            this.CategoryIds = updatedProject.CategoryIds;
+            this.ObjectiveIds = updatedProject.ObjectiveIds;
+            this.AllowedCategoryIds = allowedCategoryIds == null ? new List<int>() : allowedCategoryIds.Distinct();
+            this.AllowedObjectiveIds = allowedObjectiveIds == null ? new List<int>() : allowedObjectiveIds.Distinct();
         }
+
+        /// <summary>
+        /// Gets the category ids.
+        /// </summary>
+        public IEnumerable<int> CategoryIds { get; private set; }
+
+        /// <summary>
+        /// Gets the objective ids.
+        /// </summary>
+        public IEnumerable<int> ObjectiveIds { get; private set; }
+
+        /// <summary>
+        /// Gets the allowed category (focus) ids for the project.
+        /// </summary>
+        public IEnumerable<int> AllowedCategoryIds { get; private set; }
+
+        /// <summary>
+        /// Gets the allowed objective (justification) ids for the project.
+        /// </summary>
+        public IEnumerable<int> AllowedObjectiveIds { get; private set; }
 
         /// <summary>
         /// Gets the office settings.

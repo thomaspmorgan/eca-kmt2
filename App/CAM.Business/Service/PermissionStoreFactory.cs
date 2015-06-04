@@ -29,32 +29,6 @@ namespace CAM.Business.Service
             permissionStore.PrincipalId = principalId;
             return permissionStore;
         }
-
-        /// <summary>
-        /// Returns and instance of an IPermissionStore, for a given principalId and resourceId
-        /// </summary>
-        /// <param name="principalId">User or Group ID</param>
-        /// <param name="resourceId">Resource ID, from table Resource</param>
-        /// <param name="cached">Optional parameter (default true) for whether the permissions are cached.  See <see cref="CAM.Business.CacheManager">CacheManager</see> class to see how the permissions are cached.  Default cache timeout is 10 minutes.</param>
-        /// <returns>An instance of a IPermissionStore object having all the permissions for the user/group for an application</returns>
-        public static IPermissionStore<IPermission> GetPermissionStoreForUserByResource(int principalId, int resourceId, bool cached = true)
-        {
-            var camModel = new CamModel();
-            var permissionModelService = new PermissionModelService(camModel);
-            var resourceService = new ResourceService(camModel);
-            IPermissionStore<IPermission> permissionStore;
-            if (cached)
-                permissionStore = new PermissionStoreCached(camModel, permissionModelService, resourceService);
-            else
-                permissionStore = new PermissionStore(camModel, permissionModelService, resourceService);
-
-            permissionStore.LoadUserPermissionsForResource(principalId,
-                                                           resourceId);
-            permissionStore.PrincipalId = principalId;
-            permissionStore.ResourceId = resourceId;
-            return permissionStore;
-        }
-
     }
 }
 

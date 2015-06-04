@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CAM.Business.Service
 {
@@ -15,8 +16,8 @@ namespace CAM.Business.Service
         bool HasPermissionForApplication(int principalId, string permissionName);
         bool HasPermissionForApplication(List<string> excludedPermissionNames);
 
-        void LoadUserPermissionsForResource(int principleId, int resourceId);
         void LoadUserPermissions(int principalId);
+        Task LoadUserPermissionsAsync(int principalId);
 
         int? ResourceId { get; set; }
         int? PrincipalId { get; set; }

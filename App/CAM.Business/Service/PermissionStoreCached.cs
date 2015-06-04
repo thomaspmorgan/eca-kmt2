@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NLog.Interface;
 using CAM.Data;
+using System.Threading.Tasks;
 
 namespace CAM.Business.Service
 {
@@ -56,26 +57,19 @@ namespace CAM.Business.Service
         #region Public Methods
 
         /// <summary>
-        /// Loads the Permissions list property with permission for the given User or Group Id and ResourceId, permissions are cached based on settings or the CacheManager class
+        /// Load all the permissions for a given User or Group Id.  Permissions are cached based on settings of the CacheManager class
         /// </summary>
         /// <param name="principleId">User or Group Id</param>
-        /// <param name="resourceId">Id of the Resource</param>
-        public void LoadUserPermissionsForResource(int principleId, int resourceId)
+        public void LoadUserPermissions(int principleId)
         {
-            logger.Trace("Getting User (PrincipalId={0}) Permissions for Resource={1}", principleId, resourceId);
-
-
-            string key = principleId.ToString() + "-" + resourceId.ToString();
-
+            logger.Trace("Getting User (PrincipalId={0}) Permissions", principleId);
+            var key = GetKey(principleId);
             Permissions = CacheManager.Get<List<IPermission>>(key);
-
             logger.Debug("Permissions found in cache? {0}", (Permissions != null) ? "Yes" : "No");
-
             if (Permissions == null)
             {
-                Permissions = GetUserPermissionsForResource(principleId, resourceId);
-                if (Permissions != null)
-                    CacheManager.Add<List<IPermission>>(Permissions, key);
+                Permissions = GetUserPermissions(principleId);
+                DoCache(principleId, Permissions);
             }
         }
 
@@ -83,24 +77,29 @@ namespace CAM.Business.Service
         /// Load all the permissions for a given User or Group Id.  Permissions are cached based on settings of the CacheManager class
         /// </summary>
         /// <param name="principleId">User or Group Id</param>
-        public void LoadUserPermissions(int principleId)
+        public async Task LoadUserPermissionsAsync(int principleId)
         {
             logger.Trace("Getting User (PrincipalId={0}) Permissions", principleId);
-
-            string key = principleId.ToString();
-
+            var key = GetKey(principleId);
             Permissions = CacheManager.Get<List<IPermission>>(key);
-
             logger.Debug("Permissions found in cache? {0}", (Permissions != null) ? "Yes" : "No");
-
             if (Permissions == null)
             {
-                Permissions = GetUserPermissions(principleId);
-                if (Permissions != null)
-                    CacheManager.Add<List<IPermission>>(Permissions, key);
+                Permissions = await GetUserPermissionsAsync(principleId);
+                DoCache(principleId, Permissions);
             }
         }
 
+        private string GetKey(int principalId)
+        {
+            return principalId.ToString();
+        }
+
+        private void DoCache(int principalId, List<IPermission> permissions)
+        {
+            var key = GetKey(principalId);
+            CacheManager.Add<List<IPermission>>(permissions, key);
+        }
    
         #endregion
     }

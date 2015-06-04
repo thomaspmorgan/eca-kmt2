@@ -169,7 +169,8 @@ namespace ECA.WebApi.Test.Security
             tester(provider.GetUserCache(user));
             tester(await provider.GetUserCacheAsync(user));
 
-            permissionStore.Verify(x => x.LoadUserPermissions(It.IsAny<int>()), Times.Exactly(2));
+            permissionStore.Verify(x => x.LoadUserPermissionsAsync(It.IsAny<int>()), Times.Exactly(1));
+            permissionStore.Verify(x => x.LoadUserPermissions(It.IsAny<int>()), Times.Exactly(1));
         }
 
         [TestMethod]

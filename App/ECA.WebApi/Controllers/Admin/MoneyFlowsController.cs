@@ -1,17 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using CAM.Business.Model;
+using CAM.Business.Queries.Models;
+using CAM.Business.Service;
+using CAM.Data;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
+using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Models.Security;
+using ECA.WebApi.Security;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Diagnostics.Contracts;
+using System.Web.Http.Results;
 
 namespace ECA.WebApi.Controllers.Admin
 {
@@ -26,11 +33,11 @@ namespace ECA.WebApi.Controllers.Admin
         /// The default sorter
         /// </summary>
         private static readonly ExpressionSorter<MoneyFlowDTO> DEFAULT_MONEY_FLOW_DTO_SORTER = new ExpressionSorter<MoneyFlowDTO>(x => x.TransactionDate, SortDirection.Descending);
-
-        /// <summary>
-        /// The injected moneyflow service
-        /// </summary>
+        
         private IMoneyFlowService moneyFlowService;
+        private IResourceAuthorizationHandler authorizationHandler;
+        private IUserProvider userProvider;
+        private IResourceService resourceService;
 
         /// <summary>
         /// Constructor
@@ -56,6 +63,68 @@ namespace ECA.WebApi.Controllers.Admin
             {
                 var results = await this.moneyFlowService.GetMoneyFlowsByProjectIdAsync(projectId, queryModel.ToQueryableOperator(DEFAULT_MONEY_FLOW_DTO_SORTER));
                 return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        
+        [ResponseType(typeof(MoneyFlowDTO))]
+        public async Task<IHttpActionResult> PostMoneyFlowAsync(DraftMoneyFlow model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                var moneyFlow = await moneyFlowService.CreateAsync(model, businessUser);
+                await moneyFlowService.SaveChangesAsync();
+                return null;
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Updates and returns the system's project given the client's updated project.
+        /// </summary>
+        /// <param name="model">The updated project.</param>
+        /// <returns>The saved and updated project.</returns>
+        [ResponseType(typeof(MoneyFlowDTO))]
+        public async Task<IHttpActionResult> PutMoneyFlowAsync(DraftMoneyFlow model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await moneyFlowService.UpdateAsync(model);
+                await moneyFlowService.SaveChangesAsync();
+                return null;
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        
+        [ResponseType(typeof(MoneyFlowDTO))]
+        public async Task<IHttpActionResult> CopyMoneyFlowAsync(int moneyFlowId)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await moneyFlowService.CopyAsync(moneyFlowId, businessUser);
+
+                return null;
+                /*
+                var moneyFlow = await moneyFlowService.CreateAsync(model, businessUser);
+                await moneyFlowService.SaveChangesAsync();
+                var dto = await moneyFlowService.GetProjectByIdAsync(project.ProjectId);
+                return Ok(dto);
+                 * */
             }
             else
             {

@@ -72,10 +72,28 @@ angular.module('staticApp')
               return DragonBreath.get(params, 'projectstatuses');
           },
           getAllMoneyFlowStati: function (params) {
-              return DragonBreath.get(params, 'moneyflowstatuses');
+              var defer = $q.defer();
+              DragonBreath.get(params, 'moneyflowstatuses')
+                .success(function (data) {
+                    defer.resolve(data);
+                });
+              return defer.promise;
           },
           getAllMoneyFlowTypes: function (params) {
-              return DragonBreath.get(params, 'moneyflowtypes');
+              var defer = $q.defer();
+              DragonBreath.get(params, 'moneyflowtypes')
+                .success(function (data) {
+                    defer.resolve(data);
+                });
+              return defer.promise;
+          },
+          getAllMoneyFlowSourceRecipientTypes: function (params) {
+              var defer = $q.defer();
+              DragonBreath.get(params, 'moneyflowsourcerecipienttypes')
+                .success(function (data) {
+                    defer.resolve(data);
+                });
+              return defer.promise;
           },
           getAllGenders: function (params) {
               var defer = $q.defer();

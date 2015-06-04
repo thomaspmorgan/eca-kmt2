@@ -17,7 +17,7 @@
     "bower": "*",
     "ngSticky": "~1.7.9",
     "adal-angular": "1.0.1",
-    "angular-smart-table": "~2.0.1",
+    "angular-smart-table": "~2.0.3",
     "angular-ui-date": "0.0.7",
     "angular-ui-select": "0.11.2",
     "select2": "3.4.5",

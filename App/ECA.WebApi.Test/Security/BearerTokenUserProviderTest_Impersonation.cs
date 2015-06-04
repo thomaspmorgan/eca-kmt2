@@ -77,7 +77,7 @@ namespace ECA.WebApi.Test.Security
             var isImpersonatedCamUserValid = true;
             var impersonatedUserPermissions = new List<IPermission>
             {
-                new CAM.Business.Service.Permission
+                new CAM.Business.Service.SimplePermission
                 {
                     IsAllowed = true,
                     PermissionId = 1,
@@ -151,7 +151,7 @@ namespace ECA.WebApi.Test.Security
             var isImpersonatedCamUserValid = true;
             var impersonatedUserPermissions = new List<IPermission>
             {
-                new CAM.Business.Service.Permission
+                new CAM.Business.Service.SimplePermission
                 {
                     IsAllowed = true,
                     PermissionId = 1,
@@ -213,7 +213,7 @@ namespace ECA.WebApi.Test.Security
             var isImpersonatedCamUserValid = false;
             var impersonatedUserPermissions = new List<IPermission>
             {
-                new CAM.Business.Service.Permission
+                new CAM.Business.Service.SimplePermission
                 {
                     IsAllowed = true,
                     PermissionId = 1,
@@ -284,7 +284,7 @@ namespace ECA.WebApi.Test.Security
             var isImpersonatedCamUserValid = false;
             var impersonatedUserPermissions = new List<IPermission>
             {
-                new CAM.Business.Service.Permission
+                new CAM.Business.Service.SimplePermission
                 {
                     IsAllowed = true,
                     PermissionId = 1,

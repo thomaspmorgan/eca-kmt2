@@ -25,12 +25,14 @@ angular.module('staticApp')
       $scope.view.isCollaboratorExpanded = false;
       $scope.view.numberOfCollaborators = -1;
       $scope.view.collaboratorsLastUpdated = null;
+      $scope.view.isCollaboratorsModalOpen = false;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       var projectId = $stateParams.projectId;
 
       $scope.view.addCollaborator = function ($event) {
+          $scope.view.isCollaboratorsModalOpen = true;
           var modalInstance = $modal.open({
               templateUrl: '/views/project/collaborators.html',
               controller: 'ProjectCollaboratorCtrl',
@@ -42,6 +44,9 @@ angular.module('staticApp')
               $log.info('Closing...');
           }, function () {
               $log.info('Dismiss add collaborator dialog...');
+          })
+          .then(function () {
+              $scope.view.isCollaboratorsModalOpen = false;
           });
       };
       
@@ -70,12 +75,21 @@ angular.module('staticApp')
       function loadCollaboratorDetails() {
           return ProjectService.getCollaboratorInfo(projectId)
           .then(function (response) {
-              $scope.view.numberOfCollaborators = response.data.allowedPrincipalsCount;
-              var lastRevisedDate = new Date(response.data.lastRevisedOn);
-              if (!isNaN(lastRevisedDate.getTime())) {
-                  $scope.view.collaboratorsLastUpdated = lastRevisedDate;
+              if (response.data !== null) {
+                  $scope.view.numberOfCollaborators = response.data.allowedPrincipalsCount;
+                  var lastRevisedDate = new Date(response.data.lastRevisedOn);
+                  if (!isNaN(lastRevisedDate.getTime())) {
+                      $scope.view.collaboratorsLastUpdated = lastRevisedDate;
+                  }
+              }
+              else {
+                  NotificationService.showWarningMessage('Unable to load collaborator details.');
               }
           }, function (error) {
+              $log.error('Unable to load project collaborator details.');
+              NotificationService.showErrorMessage('Unable to load project collaborator details.');
+          })
+          .catch(function () {
               $log.error('Unable to load project collaborator details.');
               NotificationService.showErrorMessage('Unable to load project collaborator details.');
           });

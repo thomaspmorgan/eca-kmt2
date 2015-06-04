@@ -80,4 +80,35 @@ namespace ECA.Business.Service.Admin
         }
         #endregion
     }
+
+    public class MoneyFlowSourceRecipientTypeService : LookupService<MoneyFlowSourceRecipientTypeDTO>, IMoneyFlowSourceRecipientTypeService
+    {
+
+        /// <summary>
+        /// Creates a new ProjectTypeService with the context and logger.
+        /// </summary>
+        /// <param name="context">The context to operate against.</param>
+        /// <param name="logger">The logger.</param>
+        public MoneyFlowSourceRecipientTypeService(EcaContext context)
+            : base(context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+        }
+
+        #region Get
+        /// <summary>
+        /// Returns a query to retrieve project Type dtos.
+        /// </summary>
+        /// <returns>A query to get project Type dtos.</returns>
+        protected override IQueryable<MoneyFlowSourceRecipientTypeDTO> GetSelectDTOQuery()
+        {
+            var query = this.Context.MoneyFlowSourceRecipientTypes.Select(x => new MoneyFlowSourceRecipientTypeDTO
+            {
+                Id = x.MoneyFlowSourceRecipientTypeId,
+                Name = x.TypeName
+            });
+            return query;
+        }
+        #endregion
+    }
 }

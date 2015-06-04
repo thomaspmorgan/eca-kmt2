@@ -56,16 +56,6 @@ namespace CAM.Business.Service
         #region Public Methods
 
         /// <summary>
-        /// Loads the Permissions list property with permission for the given User or Group Id and ResourceId
-        /// </summary>
-        /// <param name="principleId">User or Group Id</param>
-        /// <param name="resourceId">Id of the Resource</param>
-        public void LoadUserPermissionsForResource(int principleId, int resourceId)
-        {
-            Permissions = GetUserPermissionsForResource(principleId, resourceId);
-        }
-
-        /// <summary>
         /// Load all the permissions for a given User or Group Id
         /// </summary>
         /// <param name="principleId">User or Group Id</param>
@@ -74,5 +64,14 @@ namespace CAM.Business.Service
             Permissions = GetUserPermissions(principleId);
         }
         #endregion
+
+        /// <summary>
+        /// Load all the permissions for a given User or Group Id
+        /// </summary>
+        /// <param name="principleId">User or Group Id</param>
+        public async Task LoadUserPermissionsAsync(int principalId)
+        {
+            Permissions = await GetUserPermissionsAsync(principalId);
+        }
     }
 }

@@ -19,7 +19,7 @@
     </div>
     <div class="row recess" ng-show="view.isCollaboratorExpanded && permissions.isProjectOwner">
         <div class="col-md-9">Do you want to add a collaborator?</div>
-        <div class="col-md-3"><button class="btn btn-primary right" ng-click="view.addCollaborator($event)">ADD COLLABORATOR</button></div>
+        <div class="col-md-3"><button class="btn btn-primary right" ng-click="view.addCollaborator($event)" ng-disabled="view.isCollaboratorsModalOpen">ADD COLLABORATOR</button></div>
     </div>
     <div class="row expand" ng-show="view.isCollaboratorExpanded">
         <div class="col-md-12 expand">
@@ -152,7 +152,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="project.participants.length > 0"></div>
+            <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="project.participants.length > 0"></div>
         </div>
         <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="modalClose()" on-close="modalClear()" main-model="newParticipant">
             <h5>Fill out the required information below for each participant.</h5>

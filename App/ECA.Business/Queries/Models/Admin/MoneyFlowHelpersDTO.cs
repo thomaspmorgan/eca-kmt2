@@ -9,4 +9,6 @@ namespace ECA.Business.Queries.Models.Admin
 
     public class MoneyFlowStatusDTO : BaseDTO {}
     public class MoneyFlowTypeDTO : BaseDTO { }
+    public class MoneyFlowSourceRecipientTypeDTO : BaseDTO { }
+
 }

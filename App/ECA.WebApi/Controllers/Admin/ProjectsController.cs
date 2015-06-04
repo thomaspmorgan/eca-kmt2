@@ -214,7 +214,6 @@ namespace ECA.WebApi.Controllers.Admin
         /// Adds collaborators to a project.
         /// </summary>
         /// <param name="projectId">The id of the project to get collaborators for.</param>
-        /// <param name="queryModel">The filtering, paging, and sorting parameters.</param>
         /// <returns>An ok result.</returns>
         [ResponseType(typeof(ResourceAuthorizationInfoDTO))]
         [Route("Projects/{projectId}/Collaborators/Details")]

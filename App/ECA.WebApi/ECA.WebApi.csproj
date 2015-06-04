@@ -354,6 +354,7 @@
     <Compile Include="Controllers\Admin\FocusCategoriesController.cs" />
     <Compile Include="Controllers\Admin\GendersController.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesController.cs" />
+    <Compile Include="Controllers\Admin\MoneyFlowSourceRecipientTypesController.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowTypesController.cs" />
     <Compile Include="Controllers\Admin\OrganizationsController.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowStatusesController.cs" />

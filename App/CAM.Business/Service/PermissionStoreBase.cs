@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,16 @@ using NLog.Interface;
 using ECA.Core.Service;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using ECA.Core.DynamicLinq;
+using CAM.Business.Model;
+using CAM.Business.Queries;
 
 namespace CAM.Business.Service
 {
     public class PermissionStoreBase : DbContextService<CamModel>
     {
         private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
-        
+
 
         public PermissionStoreBase(CamModel camModel, IPermissionModelService permissionModelService, IResourceService resourceService)
             : base(camModel)
@@ -95,7 +99,7 @@ namespace CAM.Business.Service
         /// <returns>true if permission is found in list of permissions</returns>
         public bool HasPermission(int principalId, int permissionId, int resourceId)
         {
-            IPermission permission = new Permission(principalId, permissionId, resourceId);
+            IPermission permission = new SimplePermission(principalId, permissionId, resourceId);
             return Permissions.Contains(permission);
         }
 
@@ -164,52 +168,17 @@ namespace CAM.Business.Service
         }
 
         /// <summary>
-        /// Get User Permissions For a resource - internal, used to populate PermissionsStore.Perissions
+        /// Get User Permissions For all resources - internal, used to populate PermissionsStore.Perissions
         /// </summary>
         /// <param name="principalId"></param>
-        /// <param name="resourceId"></param>
         /// <returns></returns>
-        protected List<IPermission> GetUserPermissionsForResource(int principalId, int resourceId)
+        protected async Task<List<IPermission>> GetUserPermissionsAsync(int principalId)
         {
             var stopwatch = Stopwatch.StartNew();
-            IEnumerable<IPermission> rolePermissions = (from p in this.Context.RoleResourcePermissions
-                                                        join r in this.Context.PrincipalRoles on p.RoleId equals r.RoleId
-                                                    where r.PrincipalId == principalId && p.ResourceId== resourceId
-                                                    select new CAM.Business.Service.Permission
-                                                    {
-                                                        PrincipalId = r.PrincipalId,
-                                                        IsAllowed = true,
-                                                        PermissionId = p.PermissionId,
-                                                        ResourceId = p.ResourceId,
-                                                    });
-
-            IEnumerable<IPermission> userPermissions = (from p in this.Context.PermissionAssignments
-                                                 where p.PrincipalId == principalId && p.ResourceId == resourceId
-                                                 select new CAM.Business.Service.Permission
-                                                 {
-                                                     PrincipalId = p.PrincipalId,
-                                                     IsAllowed = p.IsAllowed,
-                                                     PermissionId = p.PermissionId,
-                                                     ResourceId = p.ResourceId,
-                                                 }).ToList();
-
-            var permissions = rolePermissions.Union(userPermissions);
-            List<IPermission> uList = userPermissions.ToList();
-            List<IPermission> permissionsList = permissions.ToList();
-            List<IPermission> removeList;
-
-            // remove negative permissions from list for user
-            removeList = uList.FindAll(u => u.IsAllowed == false);
-            foreach (IPermission perm in removeList)
-            {
-                while (permissionsList.Remove(permissionsList.Find(s => s.PrincipalId == perm.PrincipalId &&
-                                                                s.PermissionId == perm.PermissionId &&
-                                                                s.ResourceId == perm.ResourceId))) ;
-            }
+            var permissionsList = await CreateGetAllowedPermissionsByPrincipalIdQuery(principalId).ToListAsync();
             stopwatch.Stop();
             logger.Trace("Time Elasped: {0}", stopwatch.Elapsed);
             return permissionsList;
-
         }
 
         /// <summary>
@@ -220,43 +189,29 @@ namespace CAM.Business.Service
         protected List<IPermission> GetUserPermissions(int principalId)
         {
             var stopwatch = Stopwatch.StartNew();
-            IEnumerable<IPermission> rolePermissions = (from p in this.Context.RoleResourcePermissions
-                                                        join r in this.Context.PrincipalRoles on p.RoleId equals r.RoleId
-                                                    where r.PrincipalId == principalId 
-                                                    select new CAM.Business.Service.Permission
-                                                    {
-                                                        PrincipalId = r.PrincipalId,
-                                                        IsAllowed = true,
-                                                        PermissionId = p.PermissionId,
-                                                        ResourceId = p.ResourceId,
-                                                    });
-
-            IEnumerable<IPermission> userPermissions = (from p in this.Context.PermissionAssignments
-                                                 where p.PrincipalId == principalId 
-                                                 select new CAM.Business.Service.Permission
-                                                 {
-                                                     PrincipalId = p.PrincipalId,
-                                                     IsAllowed = p.IsAllowed,
-                                                     PermissionId = p.PermissionId,
-                                                     ResourceId = p.ResourceId,
-                                                 }).ToList();
-
-            var permissions = rolePermissions.Union(userPermissions);
-            List<IPermission> uList = userPermissions.ToList();
-            List<IPermission> permissionsList = permissions.ToList();
-            List<IPermission> removeList;
-
-            // remove negative permissions from list for user
-            removeList = uList.FindAll(u => u.IsAllowed == false);
-            foreach (IPermission perm in removeList)
-            {
-                while (permissionsList.Remove(permissionsList.Find(s => s.PrincipalId == perm.PrincipalId &&
-                                                                s.PermissionId == perm.PermissionId &&
-                                                                s.ResourceId == perm.ResourceId)));
-            }
+            var permissionsList = CreateGetAllowedPermissionsByPrincipalIdQuery(principalId).ToList();
             stopwatch.Stop();
             logger.Trace("Time Elasped: {0}", stopwatch.Elapsed);
             return permissionsList;
+        }
+
+        private IQueryable<IPermission> CreateGetAllowedPermissionsByPrincipalIdQuery(int principalId)
+        {
+            var query = ResourceQueries.CreateGetResourceAuthorizationsQuery(this.Context);
+            var permissionsQuery = query
+                .Where(x => x.PrincipalId == principalId)
+                .Where(x => x.IsAllowed)
+                .OrderBy(x => x.PrincipalId)
+                .ThenBy(x => x.ResourceId)
+                .ThenBy(x => x.PermissionId)
+                .Select(x => new CAM.Business.Service.SimplePermission
+                {
+                    IsAllowed = x.IsAllowed,
+                    PermissionId = x.PermissionId,
+                    PrincipalId = x.PrincipalId,
+                    ResourceId = x.ResourceId
+                }).Distinct();
+            return permissionsQuery;
         }
     }
 }
