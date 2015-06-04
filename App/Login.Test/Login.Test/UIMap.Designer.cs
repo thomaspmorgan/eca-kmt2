@@ -41,7 +41,7 @@ namespace Login.Test
             HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
             #endregion
 
-            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+            // Go to web page 'http://localhost:5556/index.html#/#top' using new browser instance
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LoginQAParams.UINewtabInternetExplorWindowUrl));
 
             // Click 'ecatest1_statedept_us' table
@@ -134,9 +134,9 @@ namespace Login.Test
         
         #region Fields
         /// <summary>
-        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
+        /// Go to web page 'http://localhost:5556/index.html#/#top' using new browser instance
         /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
+        public string UINewtabInternetExplorWindowUrl = "http://localhost:5556/index.html#/#top";
         
         /// <summary>
         /// Type '********' in 'Password' text box

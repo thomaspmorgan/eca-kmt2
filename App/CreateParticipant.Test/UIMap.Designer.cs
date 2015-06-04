@@ -1148,7 +1148,7 @@ namespace CreateParticipant.Test
             HtmlHyperlink uIBranchesProjectsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIBranchesProjectsHyperlink;
             #endregion
 
-            // Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Branches & Projects'
+            // Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Subprograms & Projects'
             StringAssert.Contains(uIBranchesProjectsHyperlink.InnerText, this.AssertBranches_ProjectsTabExpectedValues.UIBranchesProjectsHyperlinkInnerText, "No innertext of branches and projects tab available.");
 
             // Verify that the 'ControlType' property of 'Branches & Projects' link contains 'Hyperlink'
@@ -2836,9 +2836,9 @@ namespace CreateParticipant.Test
         
         #region Fields
         /// <summary>
-        /// Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Branches & Projects'
+        /// Verify that the 'InnerText' property of 'Branches & Projects' link contains 'Subprograms & Projects'
         /// </summary>
-        public string UIBranchesProjectsHyperlinkInnerText = "Branches & Projects";
+        public string UIBranchesProjectsHyperlinkInnerText = "Subprograms & Projects";
         
         /// <summary>
         /// Verify that the 'ControlType' property of 'Branches & Projects' link contains 'Hyperlink'
