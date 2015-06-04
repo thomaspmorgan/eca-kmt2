@@ -27,5 +27,19 @@ namespace ECA.Business.Service.Admin
         /// <param name="queryOperator">The query operator to apply</param>
         /// <returns>List of organizations</returns>
         PagedQueryResults<SimpleOrganizationDTO> GetOrganizations(QueryableOperator<SimpleOrganizationDTO> queryOperator);
+
+        /// <summary>
+        /// Gets the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <returns>The organization.</returns>
+        OrganizationDTO GetOrganizationById(int organizationId);
+
+        /// <summary>
+        /// Gets the organization with the given id.
+        /// </summary>
+        /// <param name="organizationId">The organization id.</param>
+        /// <returns>The organization.</returns>
+        Task<OrganizationDTO> GetOrganizationByIdAsync(int organizationId);
     }
 }
