@@ -1210,7 +1210,7 @@ None Selected
     <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UITopPane.UIBranchesProjectsHyperlink">
       <ParameterName />
       <PropertyName>InnerText</PropertyName>
-      <ExpectedValue>Branches &amp; Projects</ExpectedValue>
+      <ExpectedValue>Subprograms &amp; Projects</ExpectedValue>
       <MessageOnValidationFailure>No innertext of branches and projects tab available.</MessageOnValidationFailure>
       <Comparison>CurrentCulture</Comparison>
       <PropertyCondition>Contains</PropertyCondition>
