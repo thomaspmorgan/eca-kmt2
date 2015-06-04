@@ -98,6 +98,7 @@ namespace ECA.Business.Test.Service.Programs
             var parentProgram = new Program
             {
                 ProgramId = 10,
+                Name = "parent program"
             };
             var owner = new Organization
             {
@@ -242,6 +243,7 @@ namespace ECA.Business.Test.Service.Programs
                 Assert.AreEqual(program.ProgramId, publishedProgram.Id);
                 Assert.AreEqual(program.Name, publishedProgram.Name);
                 Assert.AreEqual(parentProgram.ProgramId, publishedProgram.ParentProgramId);
+                Assert.AreEqual(parentProgram.Name, publishedProgram.ParentProgramName);
 
                 Assert.AreEqual(now, publishedProgram.RevisedOn);
                 Assert.AreEqual(program.StartDate, publishedProgram.StartDate);
@@ -358,6 +360,7 @@ namespace ECA.Business.Test.Service.Programs
             Action<ProgramDTO> tester = (publishedProgram) =>
             {
                 Assert.IsFalse(publishedProgram.ParentProgramId.HasValue);
+                Assert.IsNull(publishedProgram.ParentProgramName);
             };
             var result = service.GetProgramById(program.ProgramId);
             var resultAsync = await service.GetProgramByIdAsync(program.ProgramId);

@@ -43,7 +43,7 @@
   <ExecuteActions>
     <NavigateToUrlAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
       <ParameterName />
-      <Url>https://eca-kmt-qa.azurewebsites.net/</Url>
+      <Url>http://localhost:5556/index.html#/#top</Url>
       <NewInstance>true</NewInstance>
     </NavigateToUrlAction>
     <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIEcatest1_statedept_uTable">

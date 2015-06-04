@@ -92,8 +92,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContextUtil.cs" />
-    <Compile Include="Controllers\Admin\JustificationObjectiveControllerTest.cs" />
-    <Compile Include="Controllers\Admin\FocusCategoriesControllerTest.cs" />
     <Compile Include="Controllers\Admin\FocusControllerTest.cs" />
     <Compile Include="Controllers\Admin\GendersControllerTest.cs" />
     <Compile Include="Controllers\Admin\GoalsControllerTest.cs" />

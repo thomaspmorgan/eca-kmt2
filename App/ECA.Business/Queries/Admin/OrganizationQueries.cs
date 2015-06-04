@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using ECA.Business.Service.Lookup;
 
 namespace ECA.Business.Queries.Admin
 {
@@ -38,6 +39,45 @@ namespace ECA.Business.Queries.Admin
                     Location = x.Addresses.FirstOrDefault().Location.Country.LocationName
                 });
             query = query.Apply(queryOperator);
+            return query;
+        }
+
+        public static IQueryable<OrganizationDTO> CreateGetOrganizationDTOByOrganizationIdQuery(EcaContext context, int organizationId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = from org in context.Organizations
+                        let parentOrg = org.ParentOrganization
+                        let orgType = org.OrganizationType
+                        let socialMedias = org.SocialMediaPresence
+                        let contacts = org.Contacts
+                        let addresses = org.Addresses
+                        where org.OrganizationId == organizationId
+                        select new OrganizationDTO
+                        {
+                            Contacts = contacts.Select(x => new SimpleLookupDTO { Id = x.ContactId, Value = x.FullName}),
+                            Description = org.Description,
+                            Locations = addresses.Select(x => new ECA.Business.Queries.Models.Persons.LocationDTO
+                            {
+                                City = x.Location.City,
+                                CityId = -1,
+                                Country = x.Location.Country.LocationName,
+                                CountryId = x.Location.Country.LocationId,
+                                Id = x.AddressId,
+                                PostalCode = x.Location.PostalCode,
+                                Street1 = x.Location.Street1,
+                                Street2 = x.Location.Street2,
+                                Street3 = x.Location.Street3
+                            }),
+                            Name = org.Name,
+                            OrganizationId = org.OrganizationId,
+                            OrganizationType = orgType.OrganizationTypeName,
+                            OrganizationTypeId = org.OrganizationTypeId,
+                            ParentOrganizationId = parentOrg == null ? -1 : parentOrg.OrganizationId,
+                            ParentOrganizationName = parentOrg == null ? null : parentOrg.Name,
+                            RevisedOn = org.History.RevisedOn,
+                            SocialMedias = socialMedias.Select(x => new SimpleTypeLookupDTO { Id = x.SocialMediaId, Type = x.SocialMediaType.SocialMediaTypeName, Value = x.SocialMediaValue}),
+                            Website = org.Website
+                        };
             return query;
         }
     }
