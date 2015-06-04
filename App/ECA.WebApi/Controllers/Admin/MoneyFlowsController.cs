@@ -49,6 +49,19 @@ namespace ECA.WebApi.Controllers.Admin
             this.moneyFlowService = moneyFlowService;
         }
 
+        [ResponseType(typeof(MoneyFlowDTO))]
+        public async Task<IHttpActionResult> GetMoneyFlowByIdAsync(int id)
+        {
+            var moneyFlow = await this.moneyFlowService.GetMoneyFlowByIdAsync(id);
+            if (moneyFlow != null)
+            {
+                return Ok(moneyFlow);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
         /// <summary>
         /// Gets moneyflows by the project id
         /// </summary>

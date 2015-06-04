@@ -512,6 +512,22 @@ div.modal-center-large .modal-content .modal-body {
     width:100px;
 }
 
+.moneyFlowDirection {
+    font-weight:normal;
+    margin-right: 15px;
+    padding: 10px 0 5px 0;
+    cursor:pointer;
+}
+
+.directionSelected {
+    border-bottom: 4px solid black;
+    font-weight:bold;
+}
+
+.narrow {
+    width: 35%;
+}
+
 .multiLineInput {
     height: 50%;
     width: 95%;

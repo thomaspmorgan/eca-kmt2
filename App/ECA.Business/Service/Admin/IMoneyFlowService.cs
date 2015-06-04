@@ -46,9 +46,9 @@ namespace ECA.Business.Service.Admin
 
         Task<MoneyFlow> CopyAsync(int moneyFlowId, User user);
 
-        Task<MoneyFlowDTO> GetMoneyFlowByIdAsync(int moneyFlowId);
+        Task<MoneyFlow> GetMoneyFlowByIdAsync(int moneyFlowId);
 
-        MoneyFlowDTO GetMoneyFlowById(int moneyFlowId);
+        MoneyFlow GetMoneyFlowById(int moneyFlowId);
 
     }
 }

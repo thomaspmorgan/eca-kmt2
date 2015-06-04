@@ -34,7 +34,7 @@ angular.module('staticApp')
       $scope.moneyFlowEditColumnClass = "col-md-2";
       $scope.sourceRecipientFreeText = false;
       $scope.moneyFlowConfirmMessage = "saved";
-
+      
       $scope.showFromToSelectControl = false;
       $scope.showFromToTextControl = false;
       
@@ -42,16 +42,7 @@ angular.module('staticApp')
       $scope.dateFormat = 'dd-MMMM-yyyy';
 
       // initialize new Program record
-      $scope.newMoneyFlow = {
-          description: '',
-          transactionDate: new Date(),
-          statusId: null,
-          sourceTypeId: null,
-          typeId: null,
-          organizationId: null,
-          amount: 0,
-          fromToText: ''
-      };
+      $scope.newMoneyFlow = {};
 
       /* END money flows*/
       $scope.currentlyEditing = false;
@@ -385,22 +376,40 @@ angular.module('staticApp')
                  $scope.moneyFlowsLoading = false;
              });
       };
-
-
+      
       $scope.createMoneyFlowForm = function () {
+          $scope.moneyFlowDirection = "incoming";
+          $scope.incomingSelected = "directionSelected";
+          $scope.outgoingSelected = "";
+          $scope.sourceRecipientLabel = "Source";
+
           $scope.showCreateMoneyFlow = true;
       };
 
       $scope.editMoneyFlow = function (moneyFlowId) {
           $scope.moneyFlowEditColumnClass = "col-md-1 editButtons";
           $scope.editingMoneyFlows[moneyFlowId] = true;
-          $scope.currentlyEditing = true;
+
+          MoneyFlowService.get(moneyFlowId)
+            .then(function (data) {
+                $scope.newMoneyFlow = data;
+                $scope.changeSourceRecipientType();
+                $scope.currentlyEditing = true;
+            });
       };
 
       $scope.copyMoneyFlow = function (moneyFlowId) {
           // show dialog then create new money flow based on existing
           $scope.currentCopyMoneyFlow = moneyFlowId;
           $scope.confirmCopy = true;
+      };
+
+      $scope.changeMoneyFlowDirection = function (direction) {
+          $scope.moneyFlowDirection = direction;
+          $scope.incomingSelected = direction == 'incoming' ? 'directionSelected' : '';
+          $scope.outgoingSelected = direction == 'outgoing' ? 'directionSelected' : '';
+
+          $scope.sourceRecipientLabel = direction == 'incoming' ? 'Source' : 'Recipient';
       };
 
       // DIALOG BOX FUNCTIONS
@@ -553,7 +562,6 @@ angular.module('staticApp')
 
       $scope.checkFormStatus = function () {
           if ($scope.modalForm.moneyFlowForm.$dirty) {
-              alert('form is dirty');
               $scope.showConfirmClose = true;
           }
           else {

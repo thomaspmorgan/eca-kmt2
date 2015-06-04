@@ -61,16 +61,14 @@ namespace ECA.Business.Service.Admin
             this.logger.Trace("Retrieved money flows by id {0} with query operator {1}.", projectId, queryOperator);
             return moneyFlows;
         }
-        public Task<MoneyFlowDTO> GetMoneyFlowByIdAsync(int moneyFlowId)
+        public Task<MoneyFlow> GetMoneyFlowByIdAsync(int moneyFlowId)
         {
-            // STUB
-            return null;
+            return this.Context.MoneyFlows.FindAsync(moneyFlowId);
         }
 
-        public MoneyFlowDTO GetMoneyFlowById(int moneyFlowId) 
+        public MoneyFlow GetMoneyFlowById(int moneyFlowId) 
         {
-            // STUB
-            return null;
+            return this.Context.MoneyFlows.Find(moneyFlowId);
         }
 
         public MoneyFlow Create(DraftMoneyFlow draftMoneyFlow, User user)
