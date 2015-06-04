@@ -36,7 +36,15 @@ angular.module('staticApp')
                     defer.resolve(data);
                 });
               return defer.promise;
-          },          
+          },
+          getCategories: function (officeId, params) {
+              var path = 'offices/' + officeId + '/categories';
+              return DragonBreath.get(params, path);
+          },
+          getObjectives: function (officeId, params) {
+              var path = 'offices/' + officeId + '/objectives';
+              return DragonBreath.get(params, path);
+          },
           getAllProgramsHierarchy: function (params) {
               var defer = $q.defer();
               var path = 'programs/Hierarchy';

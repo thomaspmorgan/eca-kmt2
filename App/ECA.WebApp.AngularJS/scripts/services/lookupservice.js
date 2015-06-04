@@ -35,23 +35,7 @@ angular.module('staticApp')
                     defer.resolve(data);
                 });
               return defer.promise;
-          },
-          getAllCategories: function(params) {
-              var defer = $q.defer();
-              DragonBreath.get(params, 'focusCategories')
-              .success(function (data) {
-                  defer.resolve(data);
-              });
-              return defer.promise;
-          },
-          getAllObjectives: function(params) {
-              var defer = $q.defer();
-              DragonBreath.get(params, 'justificationObjectives')
-              .success(function (data) {
-                  defer.resolve(data);
-              });
-              return defer.promise;
-          },
+          },         
           getAllFocusAreas: function (params) {
               var defer = $q.defer();
               DragonBreath.get(params, 'focus')

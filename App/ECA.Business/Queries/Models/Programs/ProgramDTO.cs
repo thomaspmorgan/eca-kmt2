@@ -56,6 +56,11 @@ namespace ECA.Business.Queries.Models.Programs
         public int? ParentProgramId { get; set; }
 
         /// <summary>
+        /// Gets or sets the Parent Program Name.
+        /// </summary>
+        public string ParentProgramName { get; set; }
+
+        /// <summary>
         /// Gets or sets the Themes.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Themes { get; set; }

@@ -94,6 +94,7 @@ namespace ECA.Business.Queries.Programs
                             OwnerOrganizationCategoryLabel = tempFocusSetting == null ? OfficeSettings.CATEGORY_DEFAULT_LABEL : tempFocusSetting.Value,
                             OwnerOrganizationObjectiveLabel = tempObjectiveSetting == null ? OfficeSettings.OBJECTIVE_DEFAULT_LABEL : tempObjectiveSetting.Value,
                             ParentProgramId = parentProgram == null ? default(int?) : parentProgram.ProgramId,
+                            ParentProgramName = parentProgram == null ? null : parentProgram.Name,
                             RevisedOn = program.History.RevisedOn,
                             RegionIsos = regions.Select(x => new SimpleLookupDTO { Id = x.LocationId, Value = x.LocationIso }),
                             RowVersion = program.RowVersion,

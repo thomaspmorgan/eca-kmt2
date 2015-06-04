@@ -26,6 +26,8 @@ namespace ECA.Business.Test
 
         public EntityState EntityStateToReturn { get; set; }
 
+        public Func<object> GetLocalDelegate { get; set; }
+
         public TestDbSet<LookupServiceTestDTO> LookupServiceTestDTOs { get; set; }
 
         public override int SaveChanges()
@@ -54,6 +56,18 @@ namespace ECA.Business.Test
         public override EntityState GetEntityState(object x)
         {
             return this.EntityStateToReturn;
+        }
+
+        public override T GetLocalEntity<T>(Func<T, bool> whereClause)
+        {
+            if (GetLocalDelegate != null)
+            {
+                return (T)GetLocalDelegate();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
