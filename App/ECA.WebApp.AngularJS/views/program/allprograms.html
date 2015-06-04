@@ -84,7 +84,12 @@
     </div>
     <div id="modal" class="row" in-context-form>
         <div class="col-md-10">
-            <form name="modalForm.editProgramForm">
+            <div class="spinner" ng-show="isFormBusy">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+            <form name="modalForm.editProgramForm" ng-show="!isFormBusy">
                 <input type="hidden" ng-model="newProgram.programStatusId" />
 
                 <div class="form-group">
@@ -245,8 +250,14 @@
 
     <div id="modal" class="row" in-context-form>
         <div class="col-md-10">
-            <form name="modalForm.programForm">
+            <div class="spinner" ng-show="isFormBusy">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+            <form name="modalForm.programForm" ng-show="!isFormBusy">
                 <div class="form-group">
+                    <input type="hidden" ng-model="newProgram.ownerOrganizationId" required/>
                     <label>Owner Office<span class="asterisk"> *</span></label>
                     <isteven-multi-select input-model="offices"
                                           output-model="out.OwnerOrganization"

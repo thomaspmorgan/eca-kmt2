@@ -382,5 +382,17 @@ namespace ECA.Data
         {
             return base.Entry<T>(x).State;
         }
+
+        /// <summary>
+        /// Returns the entity that is cached locally in the db set.  This method is virtual for unit testing.
+        /// </summary>
+        /// <typeparam name="T">The set type.</typeparam>
+        /// <param name="set">The set containing the objects.</param>
+        /// <param name="whereClause">The where clause to locate the entity.</param>
+        /// <returns>The local entity instance or null if not found.</returns>
+        public virtual T GetLocalEntity<T>(Func<T, bool> whereClause) where T : class
+        {
+            return this.Set<T>().Local.Where(whereClause).FirstOrDefault();
+        }
     }
 }

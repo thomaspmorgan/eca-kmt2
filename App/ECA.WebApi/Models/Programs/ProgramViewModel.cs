@@ -50,6 +50,7 @@ namespace ECA.WebApi.Models.Programs
             this.OwnerOfficeCategoryLabel = program.OwnerOrganizationCategoryLabel;
             this.OwnerOfficeObjectiveLabel = program.OwnerOrganizationObjectiveLabel;
             this.ParentProgramId = program.ParentProgramId;
+            this.ParentProgramName = program.ParentProgramName;
             this.RegionIsos = program.RegionIsos;
             this.RevisedOn = program.RevisedOn;
             this.RowVersion = Convert.ToBase64String(program.RowVersion);
@@ -92,12 +93,23 @@ namespace ECA.WebApi.Models.Programs
         public int? ParentProgramId { get; set; }
 
         /// <summary>
+        /// Gets or sets the Parent Program Name.
+        /// </summary>
+        public string ParentProgramName { get; set; }
+
+        /// <summary>
         /// Gets or sets the Themes.
         /// </summary>
         public IEnumerable<SimpleLookupDTO> Themes { get; set; }
 
+        /// <summary>
+        /// Gets or sets the categories.
+        /// </summary>
         public IEnumerable<FocusCategoryDTO> Categories { get; set; }
 
+        /// <summary>
+        /// Gets or sets the objectives.
+        /// </summary>
         public IEnumerable<JustificationObjectiveDTO> Objectives { get; set; }
 
         /// <summary>

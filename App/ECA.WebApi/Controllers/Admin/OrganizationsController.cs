@@ -2,6 +2,7 @@
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Query;
 using ECA.WebApi.Models.Query;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace ECA.WebApi.Controllers.Admin
 {
@@ -35,10 +37,11 @@ namespace ECA.WebApi.Controllers.Admin
         }
 
         /// <summary>
-        /// 
+        /// Returns the organizations in the system.
         /// </summary>
-        /// <param name="queryModel"></param>
-        /// <returns></returns>
+        /// <param name="queryModel">The query operator.</param>
+        /// <returns>The organizations in the system.</returns>
+        [ResponseType(typeof(PagedQueryResults<SimpleOrganizationDTO>))]
         public async Task<IHttpActionResult> GetOrganizationsAsync([FromUri]PagingQueryBindingModel<SimpleOrganizationDTO> queryModel) {
             if (ModelState.IsValid)
             {
@@ -48,6 +51,25 @@ namespace ECA.WebApi.Controllers.Admin
             else
             {
                 return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Returns the organization with the given id.
+        /// </summary>
+        /// <param name="id">The id of the organization.</param>
+        /// <returns>The organization.</returns>
+        [ResponseType(typeof(OrganizationDTO))]
+        public async Task<IHttpActionResult> GetOrganizationByIdAsync(int id)
+        {
+            var results = await service.GetOrganizationByIdAsync(id);
+            if (results != null)
+            {
+                return Ok(results);
+            }
+            else
+            {
+                return NotFound();
             }
         }
     }

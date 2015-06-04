@@ -221,7 +221,14 @@ namespace ECA.WebApi.Controllers.Admin
         public async Task<IHttpActionResult> GetCollaboratorDetailsAsync([FromUri]int projectId)
         {
             var info = await resourceService.GetResourceAuthorizationInfoDTOAsync(ResourceType.Project.Value, projectId);
-            return Ok(info);
+            if (info != null)
+            {
+                return Ok(info);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         private QueryableOperator<ResourceAuthorization> GetQueryableOperator(int projectId, PagingQueryBindingModel<ResourceAuthorization> queryModel)

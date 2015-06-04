@@ -430,6 +430,28 @@ namespace ECA.Business.Test.Service
         }
 
         [TestMethod]
+        public void TestSetObjectives_IsLocal()
+        {
+            var state = System.Data.Entity.EntityState.Added;
+
+            contextMock.Setup(x => x.GetEntityState<Objective>(It.IsAny<Objective>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Objective { ObjectiveId = 1 };
+            
+            var program = new Program();
+            program.Objectives.Add(original);
+
+            var newObjective = new Objective { ObjectiveId = 2 };
+            var newObjectiveIds = new List<int> { newObjective.ObjectiveId };
+            contextMock.Setup(x => x.GetLocalEntity<Objective>(It.IsAny<Func<Objective, bool>>())).Returns(newObjective);
+            service.SetObjectives(newObjectiveIds, program);
+            Assert.AreEqual(1, program.Objectives.Count);
+            Assert.AreEqual(newObjective.ObjectiveId, program.Objectives.First().ObjectiveId);
+        }
+
+        [TestMethod]
         public void TestSetCategories_IsDetached()
         {
             var state = System.Data.Entity.EntityState.Detached;
@@ -480,10 +502,37 @@ namespace ECA.Business.Test.Service
         }
 
         [TestMethod]
+        public void TestSetCategories_IsLocal()
+        {
+            var state = System.Data.Entity.EntityState.Added;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Category>(It.IsAny<Category>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Category { CategoryId = 1 };
+
+            var program = new Program();
+            program.Categories.Add(original);
+
+            var newCategory = new Category { CategoryId = 2 };
+            var newCategoryIds = new List<int> { newCategory.CategoryId };
+            contextMock.Setup(x => x.GetLocalEntity<Category>(It.IsAny<Func<Category, bool>>())).Returns(newCategory);
+            service.SetCategories(newCategoryIds, program);
+            Assert.AreEqual(1, program.Categories.Count);
+            Assert.AreEqual(newCategory.CategoryId, program.Categories.First().CategoryId);
+
+        }
+
+
+        [TestMethod]
         public void TestSetGoals_IsDetached()
         {
-            var state = System.Data.Entity.EntityState.Detached; 
-            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() => 
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
             {
                 return state;
             });
@@ -530,6 +579,32 @@ namespace ECA.Business.Test.Service
         }
 
         [TestMethod]
+        public void TestSetGoals_IsLocal()
+        {
+            var state = System.Data.Entity.EntityState.Added;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Goal>(It.IsAny<Goal>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Goal { GoalId = 1 };
+
+            var program = new Program();
+            program.Goals.Add(original);
+
+            var newGoal = new Goal { GoalId = 2 };
+            var newGoalIds = new List<int> { newGoal.GoalId };
+            contextMock.Setup(x => x.GetLocalEntity<Goal>(It.IsAny<Func<Goal, bool>>())).Returns(newGoal);
+            service.SetGoals(newGoalIds, program);
+            Assert.AreEqual(1, program.Goals.Count);
+            Assert.AreEqual(newGoal.GoalId, program.Goals.First().GoalId);
+
+        }
+
+        [TestMethod]
         public void TestSetThemes_IsDetached()
         {
             var state = System.Data.Entity.EntityState.Detached;
@@ -557,7 +632,7 @@ namespace ECA.Business.Test.Service
         [TestMethod]
         public void TestSetThemes_IsAdded()
         {
-            var state = System.Data.Entity.EntityState.Detached;
+            var state = System.Data.Entity.EntityState.Added;
             contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
             {
                 return state;
@@ -579,6 +654,23 @@ namespace ECA.Business.Test.Service
 
         }
 
+        [TestMethod]
+        public void TestSetThemes_IsLocal()
+        {
+            var state = System.Data.Entity.EntityState.Detached;
+            var original = new Theme { ThemeId = 1 };
+
+            var program = new Program();
+            program.Themes.Add(original);
+
+            var newTheme = new Theme { ThemeId = 2 };
+            var newThemeIds = new List<int> { newTheme.ThemeId };
+            contextMock.Setup(x => x.GetLocalEntity<Theme>(It.IsAny<Func<Theme, bool>>())).Returns(newTheme);
+            service.SetThemes(newThemeIds, program);
+            Assert.AreEqual(1, program.Themes.Count);
+            Assert.AreEqual(newTheme.ThemeId, program.Themes.First().ThemeId);
+
+        }
 
         [TestMethod]
         public void TestSetPointsOfContact_IsDetached()
@@ -627,5 +719,90 @@ namespace ECA.Business.Test.Service
             Assert.AreEqual(1, program.Contacts.Count);
             Assert.AreEqual(newContact.ContactId, program.Contacts.First().ContactId);
         }
+
+        [TestMethod]
+        public void TestSetPointsOfContact_Local()
+        {
+            var state = System.Data.Entity.EntityState.Detached;
+            var original = new Contact { ContactId = 1 };
+
+            var program = new Program();
+            program.Contacts.Add(original);
+
+            var newContact = new Contact { ContactId = 2 };
+            var newContactIds = new List<int> { newContact.ContactId };
+            contextMock.Setup(x => x.GetLocalEntity<Contact>(It.IsAny<Func<Contact, bool>>())).Returns(newContact);
+            service.SetPointOfContacts(newContactIds, program);
+            Assert.AreEqual(1, program.Contacts.Count);
+            Assert.AreEqual(newContact.ContactId, program.Contacts.First().ContactId);
+        }
+
+
+        [TestMethod]
+        public void TestSetRegions_IsDetached()
+        {
+            var state = System.Data.Entity.EntityState.Detached;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Location>(It.IsAny<Location>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Location { LocationId = 1 };
+
+            var program = new Program();
+            program.Regions.Add(original);
+
+            var newRegion = new Location { LocationId = 2 };
+            var newRegionIds = new List<int> { newRegion.LocationId };
+            service.SetRegions(newRegionIds, program);
+            Assert.AreEqual(1, program.Regions.Count);
+            Assert.AreEqual(newRegion.LocationId, program.Regions.First().LocationId);
+        }
+
+        [TestMethod]
+        public void TestSetRegions_IsAdded()
+        {
+            var state = System.Data.Entity.EntityState.Added;
+            contextMock.Setup(x => x.GetEntityState(It.IsAny<object>())).Returns(() =>
+            {
+                return state;
+            });
+            contextMock.Setup(x => x.GetEntityState<Location>(It.IsAny<Location>())).Returns(() =>
+            {
+                return state;
+            });
+            var original = new Location { LocationId = 1 };
+
+            var program = new Program();
+            program.Regions.Add(original);
+
+            var newRegion = new Location { LocationId = 2 };
+            var newRegionIds = new List<int> { newRegion.LocationId };
+            service.SetRegions(newRegionIds, program);
+            Assert.AreEqual(1, program.Regions.Count);
+            Assert.AreEqual(newRegion.LocationId, program.Regions.First().LocationId);
+        }
+
+        [TestMethod]
+        public void TestSetRegions_Local()
+        {
+            var state = System.Data.Entity.EntityState.Added;
+            var original = new Location { LocationId = 1 };
+
+            var program = new Program();
+            program.Regions.Add(original);
+
+            var newRegion = new Location { LocationId = 2 };
+            var newRegionIds = new List<int> { newRegion.LocationId };
+            contextMock.Setup(x => x.GetLocalEntity<Location>(It.IsAny<Func<Location, bool>>())).Returns(newRegion);
+            service.SetRegions(newRegionIds, program);
+            Assert.AreEqual(1, program.Regions.Count);
+            Assert.AreEqual(newRegion.LocationId, program.Regions.First().LocationId);
+        }
+
+
     }
 }
