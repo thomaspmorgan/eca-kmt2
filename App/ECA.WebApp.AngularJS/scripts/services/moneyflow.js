@@ -26,7 +26,7 @@ angular.module('staticApp')
               DragonBreath.get('moneyFlows', id)
                 .success(function (data) {
                     getMoneyFlow(data);
-                    defer.resolve(moneyFlow);
+                    defer.resolve(data);
                 });
               return defer.promise;
           },
