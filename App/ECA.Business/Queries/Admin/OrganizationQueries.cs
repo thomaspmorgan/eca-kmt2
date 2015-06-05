@@ -35,6 +35,7 @@ namespace ECA.Business.Queries.Admin
                 {
                     Name = x.Name,
                     OrganizationType = x.OrganizationType.OrganizationTypeName,
+                    OrganizationId = x.OrganizationId,
                     Status = x.Status,
                     Location = x.Addresses.FirstOrDefault().Location.Country.LocationName
                 });
@@ -42,15 +43,21 @@ namespace ECA.Business.Queries.Admin
             return query;
         }
 
+        /// <summary>
+        /// Creates a query that returns and organization dto from the organization with the given id.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="organizationId">The organization id.</param>
+        /// <returns>The query.</returns>
         public static IQueryable<OrganizationDTO> CreateGetOrganizationDTOByOrganizationIdQuery(EcaContext context, int organizationId)
         {
             Contract.Requires(context != null, "The context must not be null.");
             var query = from org in context.Organizations
-                        let parentOrg = org.ParentOrganization
                         let orgType = org.OrganizationType
                         let socialMedias = org.SocialMediaPresence
                         let contacts = org.Contacts
                         let addresses = org.Addresses
+                        let parentOrg = org.ParentOrganization
                         where org.OrganizationId == organizationId
                         select new OrganizationDTO
                         {
@@ -72,7 +79,7 @@ namespace ECA.Business.Queries.Admin
                             OrganizationId = org.OrganizationId,
                             OrganizationType = orgType.OrganizationTypeName,
                             OrganizationTypeId = org.OrganizationTypeId,
-                            ParentOrganizationId = parentOrg == null ? -1 : parentOrg.OrganizationId,
+                            ParentOrganizationId = parentOrg == null ? default(int?) : parentOrg.OrganizationId,
                             ParentOrganizationName = parentOrg == null ? null : parentOrg.Name,
                             RevisedOn = org.History.RevisedOn,
                             SocialMedias = socialMedias.Select(x => new SimpleTypeLookupDTO { Id = x.SocialMediaId, Type = x.SocialMediaType.SocialMediaTypeName, Value = x.SocialMediaValue}),

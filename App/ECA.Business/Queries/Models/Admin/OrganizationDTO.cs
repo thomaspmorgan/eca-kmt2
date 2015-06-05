@@ -65,7 +65,7 @@ namespace ECA.Business.Queries.Models.Admin
         /// <summary>
         /// Gets or sets the parent organization id.
         /// </summary>
-        public int ParentOrganizationId { get; set; }
+        public int? ParentOrganizationId { get; set; }
 
         /// <summary>
         /// Gets or sets the parent organization name.

@@ -1,0 +1,30 @@
+<div class="breadcrumbs">
+    <p ng-if="organization.parentOrganizationId">
+        <a ui-sref="organizations.overview({organizationId: organization.parentOrganizationId})">{{organization.parentOrganizationName}}</a>
+        &bull;
+        <a ui-sref="organizations.overview({organizationId: organization.organizationId})">{{organization.name}}</a>
+    </p>
+    <p ng-if="!organization.parentOrganizationId">
+        <a ui-sref="organizations.overview({organizationId: organization.organizationId})">{{organization.name}}</a>
+    </p>
+</div>
+<div class="jumbotron organization">
+    <div class="toolbar" sticky offset="50">
+        <div class="left2">
+            <span class="detail">Last Updated {{(organization.revisedOn | date:"MMM dd, yyyy") || 'No revised on date.'}}</span>
+        </div>
+        <div class="right">
+            <img class="icon star" src="images/star.png" alt="">
+            <img class="icon" src="images/exportA.png" alt="">
+            <img class="icon wide" src="images/collabA.png" alt="">
+            <img class="icon" src="images/toolCommentsA.png" alt="">
+        </div>
+    </div>
+    <div class="heading">
+        <h5>ORGANIZATION</h5>
+        <h1>{{organization.name}}</h1>
+    </div>
+</div>
+<tab-bar tabs="tabs" on-add="addTab()" edit></tab-bar>
+<div class="container" ui-view>
+</div>

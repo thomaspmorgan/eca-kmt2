@@ -390,6 +390,18 @@ angular
             controller: 'AllOrganizationsCtrl',
             requireADLogin: true
         })
+        .state('organizations', {
+            url: '/organizations/:organizationId',
+            templateUrl: 'views/organization.html',
+            controller: 'OrganizationCtrl',
+            requireADLogin: true
+        })
+        .state('organizations.overview', {
+            url: '/overview',
+            templateUrl: 'views/organizations/overview.html',
+            controller: 'OrganizationOverviewCtrl',
+            requireADLogin: true
+        })
 
         .state('partner', {
             url: '/partner',

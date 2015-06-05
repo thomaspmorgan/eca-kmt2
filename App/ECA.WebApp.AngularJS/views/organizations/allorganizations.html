@@ -37,7 +37,7 @@
             <tbody class="list2">
                 <tr class="hover" ng-repeat="organization in organizations" ng-show="!organizationsLoading">
                     <td>
-                        <h5 class="list-title"><a>{{organization.name}}</a></h5>
+                        <h5><a ng-bind-html="organization.name" ui-sref="organizations.overview({organizationId: organization.organizationId})">{{organization.name}}</a></h5>
                     </td>
                     <td>{{organization.organizationType}}</td>
                     <td>{{organization.status}}</td>
