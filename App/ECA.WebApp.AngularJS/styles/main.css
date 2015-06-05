@@ -6150,3 +6150,14 @@ div.modal-center-large .modal-content .modal-body {
 
 .editButtons {
   width: 10%; }
+<<<<<<< Updated upstream
+=======
+
+tr#participantInfo .row {
+  padding-left: 0;
+  padding-right: 0; }
+tr#participantInfo .row:first-child {
+  border: none; }
+
+/*# sourceMappingURL=main.css.map */
+>>>>>>> Stashed changes
