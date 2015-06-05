@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name staticApp.controller:OrganizationOverviewCtrl
- * @description The overview controller is used on the overview tab of an organization.
- * # OrganizationOverviewCtrl
+ * @name staticApp.controller:OrganizationArtifactsCtrl
+ * @description The artifacts controller is used on the artifacts view of an organization.
+ * # OrganizationArtifactsCtrl
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('OrganizationOverviewCtrl', function (
+  .controller('OrganizationArtifactsCtrl', function (
         $scope,
         $stateParams,
         $q,
@@ -23,7 +23,7 @@ angular.module('staticApp')
 
       $scope.data.loadedOrganizationPromise.promise
       .then(function (org) {
-          $log.info('overview here.');
+          $log.info('artificats here.');
           isOrganizationLoading(false);
       });
 

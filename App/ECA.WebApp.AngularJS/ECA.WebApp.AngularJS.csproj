@@ -132,6 +132,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="scripts\controllers\allorganizations.js" />
+    <Content Include="scripts\controllers\organization\activities.js" />
+    <Content Include="scripts\controllers\organization\impact.js" />
+    <Content Include="scripts\controllers\organization\artifacts.js" />
     <Content Include="scripts\controllers\organization\edit.js" />
     <Content Include="scripts\controllers\organization\organization.js" />
     <Content Include="scripts\controllers\organization\overview.js" />
@@ -152,6 +155,9 @@
     <Content Include="styles\main.min.css">
       <DependentUpon>main.css</DependentUpon>
     </Content>
+    <Content Include="views\organizations\activities.html" />
+    <Content Include="views\organizations\impact.html" />
+    <Content Include="views\organizations\artifacts.html" />
     <Content Include="views\organizations\edit.html" />
     <Content Include="views\organizations\overview.html" />
     <Content Include="views\partials\pagination.html" />

@@ -17,5 +17,17 @@ angular.module('staticApp')
         ConstantsService,
         NotificationService) {
 
-      
+      $scope.view = {};
+      $scope.view.params = $stateParams;
+      isOrganizationLoading(true);
+
+      $scope.data.loadedOrganizationPromise.promise
+      .then(function (org) {
+          $info.log('edit here.');
+          isOrganizationLoading(false);
+      });
+
+      function isOrganizationLoading(isLoading) {
+          $scope.view.isOrganizationLoading = isLoading;
+      }
   });
