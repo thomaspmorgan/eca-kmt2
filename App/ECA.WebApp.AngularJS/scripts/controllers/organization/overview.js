@@ -13,14 +13,13 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
-        OfficeService,
+        OrganizationService,
         ConstantsService,
         NotificationService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
-      $scope.view.isLoading = false;
-    
+
 
       //$scope.view.isLoading = true;
       //$q.all([loadProject(), loadOfficeSettings()])

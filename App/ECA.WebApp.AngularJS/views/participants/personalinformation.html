@@ -403,7 +403,7 @@
                     <div class="col-md-8">
                         <ul>
                             <li ng-repeat="socialMedia in contactInfo.socialMedias">
-                                <a href="{{socialMedia.type == 'Facebook' ? 'http://facebook.com/' : 'http://linkedin.com/'}}{{socialMedia.value}}">{{socialMedia.type}}</a>
+                                <socialmedialink model="socialMedia" />
                             </li>
                         </ul>
                     </div>

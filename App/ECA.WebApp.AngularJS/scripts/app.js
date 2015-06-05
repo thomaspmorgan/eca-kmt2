@@ -402,7 +402,12 @@ angular
             controller: 'OrganizationOverviewCtrl',
             requireADLogin: true
         })
-
+        .state('organizations.edit', {
+            url: '/edit',
+            templateUrl: 'views/organizations/edit.html',
+            controller: 'OrganizationEditCtrl',
+            requireADLogin: true
+        })
         .state('partner', {
             url: '/partner',
             templateUrl: 'views/partner.html',

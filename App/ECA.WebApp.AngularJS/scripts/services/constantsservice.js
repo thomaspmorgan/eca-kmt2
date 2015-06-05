@@ -64,6 +64,12 @@
 			program: {id: 3, value: "Program"},
 			project: {id: 4, value: "Project"}
 		},
+		socialMediaType: {
+			facebook: {id: 1, value: "Facebook"},
+			linkedin: {id: 2, value: "LinkedIn"},
+			twitter: {id: 3, value: "Twitter"},
+			weibo: {id: 4, value: "Weibo"}
+		},
 		adalLoginSuccessEventName: 'adal:loginSuccess',
 		cancelProjectEventName: 'cancelProjectEdit',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',

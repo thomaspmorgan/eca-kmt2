@@ -18,8 +18,15 @@ angular.module('staticApp')
         NotificationService) {
 
       $scope.view = {};
-      $scope.view.params = $stateParams;
-      $scope.view.isLoading = false;
+      $scope.tabs = {
+          overview: { title: 'Overview', path: 'overview', active: true, order: 1 },
+          artifacts: { title: 'Artifacts', path: 'artifacts', active: true, order: 2 },
+          impact: { title: 'Impact', path: 'impact', active: true, order: 3 },
+          activity: { title: 'Activities', path: 'activity', active: true, order: 74 }
+      };
+
+
+      $scope.view.isLoadingOrganization = false;
       $scope.view.organizationId = $stateParams.organizationId;
 
 
@@ -34,7 +41,7 @@ angular.module('staticApp')
           });
       }
 
-      $scope.view.isLoading = true;
+      $scope.view.isLoadingOrganization = true;
       $q.all([loadOrganization($scope.view.organizationId)])
       .then(function (results) {
           //results is an array
@@ -43,6 +50,6 @@ angular.module('staticApp')
           $log.error('Failed initial loading of organization view.');
       })
       .then(function () {
-          $scope.view.isLoading = false;
+          $scope.view.isLoadingOrganization = false;
       });
   });

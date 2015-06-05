@@ -132,6 +132,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="scripts\controllers\allorganizations.js" />
+    <Content Include="scripts\controllers\organization\edit.js" />
     <Content Include="scripts\controllers\organization\organization.js" />
     <Content Include="scripts\controllers\organization\overview.js" />
     <Content Include="scripts\controllers\person\personEduEmp.js" />
@@ -142,6 +143,7 @@
     <Content Include="scripts\controllers\project\overview_test.js" />
     <Content Include="scripts\controllers\project\projectparticipant.js" />
     <Content Include="scripts\controllers\project\unsavedchanges.js" />
+    <Content Include="scripts\directives\socialmedialink.js" />
     <Content Include="scripts\filters\groupby.js" />
     <Content Include="scripts\services\userservice.js" />
     <Content Include="styles\main.css">
@@ -150,6 +152,7 @@
     <Content Include="styles\main.min.css">
       <DependentUpon>main.css</DependentUpon>
     </Content>
+    <Content Include="views\organizations\edit.html" />
     <Content Include="views\organizations\overview.html" />
     <Content Include="views\partials\pagination.html" />
     <Content Include="views\participants\partials\eduempView.html" />

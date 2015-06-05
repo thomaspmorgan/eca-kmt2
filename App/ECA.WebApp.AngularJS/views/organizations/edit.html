@@ -1,0 +1,17 @@
+﻿<div class="spinner" ng-show="view.isOrganizationLoading">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+
+<div ng-show="!view.isLoading">
+    <h2 class="project-color tab-header" ng-show="!view.isOrganizationLoading">Overview</h2>
+    <div class="row">
+        <h5>{{organization.description}}</h5>
+    </div>
+    <div class="row tags">
+        <span ng-repeat="tag in project.tags" class="tag">#{{tag}}</span>
+    </div>
+
+</div>
+
