@@ -214,7 +214,6 @@ namespace ECA.WebApi.Controllers.Admin
         /// Adds collaborators to a project.
         /// </summary>
         /// <param name="projectId">The id of the project to get collaborators for.</param>
-        /// <param name="queryModel">The filtering, paging, and sorting parameters.</param>
         /// <returns>An ok result.</returns>
         [ResponseType(typeof(ResourceAuthorizationInfoDTO))]
         [Route("Projects/{projectId}/Collaborators/Details")]
@@ -222,7 +221,14 @@ namespace ECA.WebApi.Controllers.Admin
         public async Task<IHttpActionResult> GetCollaboratorDetailsAsync([FromUri]int projectId)
         {
             var info = await resourceService.GetResourceAuthorizationInfoDTOAsync(ResourceType.Project.Value, projectId);
-            return Ok(info);
+            if (info != null)
+            {
+                return Ok(info);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         private QueryableOperator<ResourceAuthorization> GetQueryableOperator(int projectId, PagingQueryBindingModel<ResourceAuthorization> queryModel)

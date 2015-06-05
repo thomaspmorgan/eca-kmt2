@@ -9,11 +9,10 @@
 angular.module('staticApp')
   .controller('personEducationEmploymentCtrl', function ($scope, ParticipantService, PersonService, $stateParams) {
 
-      ParticipantService.getParticipantById($stateParams.participantId)
-        .then(function (data) {
-        $scope.participant = data;
-        loadEmployments(data.personId);
-        loadEducations(data.personId);
+      $scope.personIdDeferred.promise
+      .then(function (personId) {
+          loadEmployments(personId);
+          loadEducations(personId);
       });
 
       function loadEmployments(personId) {

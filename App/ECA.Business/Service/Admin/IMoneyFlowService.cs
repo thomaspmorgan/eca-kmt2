@@ -30,24 +30,10 @@ namespace ECA.Business.Service.Admin
         /// <returns>List of moneyflows that are paged, sorted, and filtered</returns>
         Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByProjectIdAsync(int projectId, QueryableOperator<MoneyFlowDTO> queryOperator);
 
-        /// <summary>
-        /// Creates and returns money flow
-        /// </summary>
-        /// <param name="project">The MF to create</param>
-        /// <returns>The MF that was created</returns>
-        MoneyFlow Create(DraftMoneyFlow moneyFlow);
+        MoneyFlow Create(DraftMoneyFlow moneyFlow, User user);
 
-        /// <summary>
-        /// Creates and returns money flow asyncronously
-        /// </summary>
-        /// <param name="project">The MF to create</param>
-        /// <returns>The MF that was created</returns>
-        Task<MoneyFlow> CreateAsync(DraftMoneyFlow moneyFlow);
-
-        /// <summary>
-        /// Updates the project in the system with the given project.
-        /// </summary>
-        /// <param name="updatedProject">The updated project.</param>
+        Task<MoneyFlow> CreateAsync(DraftMoneyFlow moneyFlow, User user);
+        
         void Update(EcaMoneyFlow updatedMoneyFlow);
 
         /// <summary>
@@ -55,5 +41,14 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="updatedProject">The updated project.</param>
         Task UpdateAsync(EcaMoneyFlow updatedMoneyFlow);
+
+        MoneyFlow Copy(int moneyFlowId, User user);
+
+        Task<MoneyFlow> CopyAsync(int moneyFlowId, User user);
+
+        Task<MoneyFlow> GetMoneyFlowByIdAsync(int moneyFlowId);
+
+        MoneyFlow GetMoneyFlowById(int moneyFlowId);
+
     }
 }

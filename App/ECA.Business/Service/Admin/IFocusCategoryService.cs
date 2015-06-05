@@ -25,5 +25,21 @@ namespace ECA.Business.Service.Admin
         /// <param name="queryOperator">The query operator.</param>
         /// <returns>The focus categories.</returns>
         Task<PagedQueryResults<FocusCategoryDTO>> GetFocusCategoriesByOfficeIdAsync(int officeId, QueryableOperator<FocusCategoryDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the focus categories for the program with the given id.
+        /// </summary>
+        /// <param name="officeId">The program by id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The focus categories.</returns>
+        PagedQueryResults<FocusCategoryDTO> GetFocusCategoriesByProgramId(int programId, QueryableOperator<FocusCategoryDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the focus categories for the program with the given id.
+        /// </summary>
+        /// <param name="programId">The program by id.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The focus categories.</returns>
+        Task<PagedQueryResults<FocusCategoryDTO>> GetFocusCategoriesByProgramIdAsync(int programId, QueryableOperator<FocusCategoryDTO> queryOperator);
     }
 }

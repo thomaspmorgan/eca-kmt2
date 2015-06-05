@@ -143,6 +143,18 @@ namespace CAM.Business.Queries
         }
 
         /// <summary>
+        /// Creates a query to return all resource authorizations from the given context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>All resource authorizations in the context.</returns>
+        public static IQueryable<ResourceAuthorization> CreateGetResourceAuthorizationsQuery(CamModel context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = CreateGetResourceAuthorizationsByPermissionAssignmentsQuery(context).Union(CreateGetResourceAuthorizationsByRoleQuery(context));
+            return query;
+        }
+
+        /// <summary>
         /// Returns a filtered and sorted query of resource authorizations currently in the cam granted by both permissions and roles.
         /// </summary>
         /// <param name="context">The context to query.</param>
@@ -151,7 +163,7 @@ namespace CAM.Business.Queries
         public static IQueryable<ResourceAuthorization> CreateGetResourceAuthorizationsQuery(CamModel context, QueryableOperator<ResourceAuthorization> queryOperator)
         {
             Contract.Requires(context != null, "The context must not be null.");
-            var query = CreateGetResourceAuthorizationsByPermissionAssignmentsQuery(context).Union(CreateGetResourceAuthorizationsByRoleQuery(context));
+            var query = CreateGetResourceAuthorizationsQuery(context);
             query = query.Apply(queryOperator);
             return query;
         }
@@ -166,8 +178,6 @@ namespace CAM.Business.Queries
         {
             var query = CreateGetResourceAuthorizationsByPermissionAssignmentsQuery(context).Union(CreateGetResourceAuthorizationsByRoleQuery(context));
             query = query.Where(x => x.IsAllowed && x.ResourceType == resourceType && x.ForeignResourceId == foreignResourceId);
-
-
             var groupedQuery = from resourceAuthorization in query
                                group resourceAuthorization by resourceAuthorization.ResourceId into g
                                select new ResourceAuthorizationInfoDTO
@@ -175,10 +185,7 @@ namespace CAM.Business.Queries
                                    AllowedPrincipalsCount = g.Select(x => x.PrincipalId).Distinct().Count(),
                                    LastRevisedOn = g.Max(x => x.AssignedOn)
                                };
-
-            
             return groupedQuery;
-                               
         }
 
         /// <summary>

@@ -329,6 +329,221 @@ namespace ECA.Business.Test.Service.Admin
             tester(serviceResults);
             tester(serviceResultsAsync);
         }
+
+
+        [TestMethod]
+        public async Task TestGetJustificationObjectivesByProgramId()
+        {
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var justification1 = new Justification
+            {
+                JustificationId = 1,
+                JustificationName = "just1",
+            };
+            var objective1 = new Objective
+            {
+                Justification = justification1,
+                JustificationId = justification1.JustificationId,
+                ObjectiveId = 1,
+                ObjectiveName = "obj1",
+            };
+            
+            program.Objectives.Add(objective1);
+            context.Programs.Add(program);
+            context.Objectives.Add(objective1);
+            context.Justifications.Add(justification1);
+
+            Action<PagedQueryResults<JustificationObjectiveDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.AreEqual(justification1.JustificationId, results.Results.First().Id);
+                Assert.AreEqual(justification1.JustificationName, results.Results.First().JustificationName);
+                Assert.AreEqual(objective1.ObjectiveName, results.Results.First().Name);
+            };
+
+            var defaultSorter = new ExpressionSorter<JustificationObjectiveDTO>(x => x.Name, SortDirection.Descending);
+            var queryOperator = new QueryableOperator<JustificationObjectiveDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetJustificationObjectivesByProgramId(program.ProgramId, queryOperator);
+            var serviceResultsAsync = await service.GetJustificationObjectivesByProgramIdAsync(program.ProgramId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetJustificationObjectivesByProgramId_Sorted()
+        {
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var justification1 = new Justification
+            {
+                JustificationId = 1,
+                JustificationName = "just1",
+            };
+            var justification2 = new Justification
+            {
+                JustificationId = 2,
+                JustificationName = "just2",
+            };
+            var objective1 = new Objective
+            {
+                Justification = justification1,
+                JustificationId = justification1.JustificationId,
+                ObjectiveId = 1,
+                ObjectiveName = "obj1",
+
+            };
+            var objective2 = new Objective
+            {
+                Justification = justification1,
+                JustificationId = justification1.JustificationId,
+                ObjectiveId = 2,
+                ObjectiveName = "obj2",
+            };
+
+            program.Objectives.Add(objective1);
+            program.Objectives.Add(objective2);
+            context.Objectives.Add(objective1);
+            context.Objectives.Add(objective2);
+            context.Justifications.Add(justification1);
+            context.Justifications.Add(justification2);
+            context.Programs.Add(program);
+
+            Action<PagedQueryResults<JustificationObjectiveDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(2, results.Total);
+                Assert.AreEqual(2, results.Results.Count);
+                Assert.AreEqual(objective2.ObjectiveName, results.Results.First().Name);
+                Assert.AreEqual(objective1.ObjectiveName, results.Results.Last().Name);
+            };
+
+            var defaultSorter = new ExpressionSorter<JustificationObjectiveDTO>(x => x.Name, SortDirection.Descending);
+            var queryOperator = new QueryableOperator<JustificationObjectiveDTO>(0, 10, defaultSorter);
+            queryOperator.Sorters.Add(new ExpressionSorter<JustificationObjectiveDTO>(x => x.Name, SortDirection.Descending));
+            var serviceResults = service.GetJustificationObjectivesByProgramId(program.ProgramId, queryOperator);
+            var serviceResultsAsync = await service.GetJustificationObjectivesByProgramIdAsync(program.ProgramId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetJustificationObjectivesByProgramId_Filtered()
+        {
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var justification1 = new Justification
+            {
+                JustificationId = 1,
+                JustificationName = "just1",
+            };
+            var justification2 = new Justification
+            {
+                JustificationId = 2,
+                JustificationName = "just2",
+            };
+            var objective1 = new Objective
+            {
+                Justification = justification1,
+                JustificationId = justification1.JustificationId,
+                ObjectiveId = 1,
+                ObjectiveName = "obj1",
+
+            };
+            var objective2 = new Objective
+            {
+                Justification = justification1,
+                JustificationId = justification1.JustificationId,
+                ObjectiveId = 2,
+                ObjectiveName = "obj2",
+            };
+
+            program.Objectives.Add(objective1);
+            program.Objectives.Add(objective2);
+            context.Objectives.Add(objective1);
+            context.Objectives.Add(objective2);
+            context.Justifications.Add(justification1);
+            context.Justifications.Add(justification2);
+            context.Programs.Add(program);
+
+            Action<PagedQueryResults<JustificationObjectiveDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.AreEqual(objective1.ObjectiveName, results.Results.First().Name);
+            };
+
+            var defaultSorter = new ExpressionSorter<JustificationObjectiveDTO>(x => x.Name, SortDirection.Descending);
+            var queryOperator = new QueryableOperator<JustificationObjectiveDTO>(0, 10, defaultSorter);
+            queryOperator.Filters.Add(new ExpressionFilter<JustificationObjectiveDTO>(x => x.Name, ComparisonType.Equal, objective1.ObjectiveName));
+            var serviceResults = service.GetJustificationObjectivesByProgramId(program.ProgramId, queryOperator);
+            var serviceResultsAsync = await service.GetJustificationObjectivesByProgramIdAsync(program.ProgramId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetJustificationObjectivesByProgramId_Paged()
+        {
+            var program = new Program
+            {
+                ProgramId = 1
+            };
+            var justification1 = new Justification
+            {
+                JustificationId = 1,
+                JustificationName = "just1",
+            };
+            var justification2 = new Justification
+            {
+                JustificationId = 2,
+                JustificationName = "just2",
+            };
+            var objective1 = new Objective
+            {
+                Justification = justification1,
+                JustificationId = justification1.JustificationId,
+                ObjectiveId = 1,
+                ObjectiveName = "obj1",
+
+            };
+            var objective2 = new Objective
+            {
+                Justification = justification1,
+                JustificationId = justification1.JustificationId,
+                ObjectiveId = 2,
+                ObjectiveName = "obj2",
+            };
+
+            program.Objectives.Add(objective1);
+            program.Objectives.Add(objective2);
+            context.Objectives.Add(objective1);
+            context.Objectives.Add(objective2);
+            context.Justifications.Add(justification1);
+            context.Justifications.Add(justification2);
+            context.Programs.Add(program);
+
+            Action<PagedQueryResults<JustificationObjectiveDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(2, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.AreEqual(objective2.ObjectiveName, results.Results.First().Name);
+            };
+
+            var defaultSorter = new ExpressionSorter<JustificationObjectiveDTO>(x => x.Name, SortDirection.Descending);
+            var queryOperator = new QueryableOperator<JustificationObjectiveDTO>(0, 1, defaultSorter);
+            var serviceResults = service.GetJustificationObjectivesByProgramId(program.ProgramId, queryOperator);
+            var serviceResultsAsync = await service.GetJustificationObjectivesByProgramIdAsync(program.ProgramId, queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
         #endregion
     }
 }

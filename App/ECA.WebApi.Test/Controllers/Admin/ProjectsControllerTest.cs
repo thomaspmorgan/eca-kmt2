@@ -140,6 +140,15 @@ namespace ECA.WebApi.Test.Controllers.Admin
         }
 
         [TestMethod]
+        public async Task TestGetCollaboratorDetailsAsync_DoesNotExist()
+        {
+            resourceService.Setup(x => x.GetResourceAuthorizationInfoDTOAsync(It.IsAny<string>(), It.IsAny<int>())).ReturnsAsync(null);
+            var response = await controller.GetCollaboratorDetailsAsync(1);
+            Assert.IsInstanceOfType(response, typeof(NotFoundResult));
+            resourceService.Verify(x => x.GetResourceAuthorizationInfoDTOAsync(It.IsAny<string>(), It.IsAny<int>()), Times.Once());
+        }
+
+        [TestMethod]
         public async Task TestPostAddCollaboratorAsync()
         {
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));

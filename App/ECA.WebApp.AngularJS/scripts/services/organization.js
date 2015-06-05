@@ -17,6 +17,9 @@ angular.module('staticApp')
                     defer.resolve(data);
                 });
               return defer.promise;
+          },
+          getById: function (organizationId) {
+              return DragonBreath.get('organizations', organizationId)
           }
       };
   });

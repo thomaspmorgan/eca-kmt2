@@ -160,6 +160,12 @@ namespace ECA.Business.Service.Admin
             Contract.Assert(office != null, "The project must have an office.");
             var officeSettings = officeService.GetOfficeSettings(office.OrganizationId);
 
+            var allowedCategoryIds = CreateGetAllowedCategoryIdsQuery(projectToUpdate.ProgramId).ToList();
+            this.logger.Trace("Loaded allowed category ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
+
+            var allowedObjectiveIds = CreateGetAllowedObjectiveIdsQuery(projectToUpdate.ProgramId).ToList();
+            this.logger.Trace("Loaded allowed objective ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
+
             validator.ValidateUpdate(GetUpdateValidationEntity(
                 publishedProject: updatedProject,
                 projectToUpdate: projectToUpdate,
@@ -167,6 +173,8 @@ namespace ECA.Business.Service.Admin
                 themesExist: themesExist,
                 pointsOfContactExist: contactsExist,
                 settings: officeSettings,
+                allowedCategoryIds: allowedCategoryIds,
+                allowedObjectiveIds: allowedObjectiveIds,
                 categoriesExist: categoriesExist,
                 objectivesExist: objectivesExist,
                 numberOfCategories: updatedProject.CategoryIds.Count(),
@@ -206,17 +214,25 @@ namespace ECA.Business.Service.Admin
             Contract.Assert(office != null, "The project must have an office.");
             var officeSettings = await officeService.GetOfficeSettingsAsync(office.OrganizationId);
 
+            var allowedCategoryIds = await CreateGetAllowedCategoryIdsQuery(projectToUpdate.ProgramId).ToListAsync();
+            this.logger.Trace("Loaded allowed category ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
+
+            var allowedObjectiveIds = await CreateGetAllowedObjectiveIdsQuery(projectToUpdate.ProgramId).ToListAsync();
+            this.logger.Trace("Loaded allowed objective ids [{0}] for program with id [{1}].", String.Join(", ", allowedCategoryIds), projectToUpdate.ProgramId);
+
             validator.ValidateUpdate(GetUpdateValidationEntity(
-                publishedProject: updatedProject,
-                projectToUpdate: projectToUpdate,
-                goalsExist: goalsExist,
-                themesExist: themesExist,
-                pointsOfContactExist: contactsExist,
-                categoriesExist: categoriesExist,
-                objectivesExist: objectivesExist,
-                settings: officeSettings,
-                numberOfCategories: updatedProject.CategoryIds.Count(),
-                numberOfObjectives: updatedProject.ObjectiveIds.Count()));
+               publishedProject: updatedProject,
+               projectToUpdate: projectToUpdate,
+               goalsExist: goalsExist,
+               themesExist: themesExist,
+               pointsOfContactExist: contactsExist,
+               settings: officeSettings,
+               allowedCategoryIds: allowedCategoryIds,
+               allowedObjectiveIds: allowedObjectiveIds,
+               categoriesExist: categoriesExist,
+               objectivesExist: objectivesExist,
+               numberOfCategories: updatedProject.CategoryIds.Count(),
+               numberOfObjectives: updatedProject.ObjectiveIds.Count()));
             DoUpdate(updatedProject, projectToUpdate);
         }
 
@@ -250,6 +266,8 @@ namespace ECA.Business.Service.Admin
             bool objectivesExist,
             int numberOfCategories,
             int numberOfObjectives,
+            List<int> allowedCategoryIds,
+            List<int> allowedObjectiveIds,
             OfficeSettings settings)
         {
             return new ProjectServiceUpdateValidationEntity(
@@ -262,7 +280,9 @@ namespace ECA.Business.Service.Admin
                 objectivesExist: objectivesExist,
                 numberOfCategories: numberOfCategories,
                 numberOfObjectives: numberOfObjectives,
-                officeSettings: settings
+                officeSettings: settings,
+                allowedCategoryIds: allowedCategoryIds,
+                allowedObjectiveIds: allowedObjectiveIds
                 );
         }
         #endregion
@@ -307,6 +327,15 @@ namespace ECA.Business.Service.Admin
             return query;
         }
 
+        private IQueryable<int> CreateGetAllowedCategoryIdsQuery(int programId)
+        {
+            return FocusCategoryQueries.CreateGetFocusCategoryDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
+        }
+
+        private IQueryable<int> CreateGetAllowedObjectiveIdsQuery(int programId)
+        {
+            return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
+        }
 
 
         #region Get

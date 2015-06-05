@@ -13,10 +13,17 @@ using NLog;
 
 namespace ECA.Business.Service
 {
+    /// <summary>
+    /// An EcaService is a service that provides common functionality for checking existence and setting common properties.
+    /// </summary>
     public class EcaService : DbContextService<EcaContext>
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// An EcaService is a common service that can be extended by ECA services to advantage of common code.
+        /// </summary>
+        /// <param name="context">The context to operate against.</param>
         public EcaService(EcaContext context)
             : base(context)
         {
@@ -271,30 +278,6 @@ namespace ECA.Business.Service
         #endregion
 
         /// <summary>
-        /// Returns the focus with the given id.
-        /// </summary>
-        /// <param name="focusId">The focus id.</param>
-        /// <returns>The focus.</returns>
-        protected Focus GetFocusById(int focusId)
-        {
-            var focus = this.Context.Foci.Find(focusId);
-            logger.Trace("Loaded focus by id {0}.", focusId);
-            return focus;
-        }
-
-        /// <summary>
-        /// Returns the focus with the given id.
-        /// </summary>
-        /// <param name="focusId">The focus id.</param>
-        /// <returns>The focus.</returns>
-        protected async Task<Focus> GetFocusByIdAsync(int focusId)
-        {
-            var focus = await this.Context.Foci.FindAsync(focusId);
-            logger.Trace("Loaded focus by id {0}.", focusId);
-            return focus;
-        }
-
-        /// <summary>
         /// Updates the goals on the given program to the goals with the given ids.  Ensure the goals
         /// are already loaded via the context before calling this method.
         /// </summary>
@@ -342,11 +325,20 @@ namespace ECA.Business.Service
 
             contactsToAdd.ForEach(x =>
             {
-                if (Context.GetEntityState(x) == EntityState.Detached)
+                var localEntity = Context.GetLocalEntity<Contact>(y => y.ContactId == x.ContactId);
+                if (localEntity == null)
                 {
-                    Context.Contacts.Attach(x);
+                    if (Context.GetEntityState(x) == EntityState.Detached)
+                    {
+                        Context.Contacts.Attach(x);
+                    }
+                    contactable.Contacts.Add(x);
                 }
-                contactable.Contacts.Add(x);
+                else
+                {
+                    contactable.Contacts.Add(localEntity);
+                }
+                
             });
             contactsToRemove.ForEach(x =>
             {
@@ -366,11 +358,20 @@ namespace ECA.Business.Service
 
             regionsToAdd.ForEach(x =>
             {
-                if (Context.GetEntityState(x) == EntityState.Detached)
+                var localEntity = Context.GetLocalEntity<Location>(y => y.LocationId == x.LocationId);
+                if (localEntity == null)
                 {
-                    Context.Locations.Attach(x);
+                    if (Context.GetEntityState(x) == EntityState.Detached)
+                    {
+                        Context.Locations.Attach(x);
+                    }
+                    regionable.Regions.Add(x);
                 }
-                regionable.Regions.Add(x);
+                else
+                {
+                    regionable.Regions.Add(localEntity);
+                }
+
             });
             regionsToRemove.ForEach(x =>
             {
@@ -395,11 +396,19 @@ namespace ECA.Business.Service
 
             themesToAdd.ForEach(x =>
             {
-                if (Context.GetEntityState(x) == EntityState.Detached)
+                var localEntity = Context.GetLocalEntity<Theme>(y => y.ThemeId == x.ThemeId);
+                if (localEntity == null)
                 {
-                    Context.Themes.Attach(x);
+                    if (Context.GetEntityState(x) == EntityState.Detached)
+                    {
+                        Context.Themes.Attach(x);
+                    }
+                    themeable.Themes.Add(x);
                 }
-                themeable.Themes.Add(x);
+                else
+                {
+                    themeable.Themes.Add(localEntity);
+                }
             });
             themesToRemove.ForEach(x =>
             {
@@ -419,11 +428,19 @@ namespace ECA.Business.Service
 
             categoriesToAdd.ForEach(x =>
             {
-                if (Context.GetEntityState(x) == EntityState.Detached)
+                var localEntity = Context.GetLocalEntity<Category>(y => y.CategoryId == x.CategoryId);
+                if (localEntity == null)
                 {
-                    Context.Categories.Attach(x);
+                    if (Context.GetEntityState(x) == EntityState.Detached)
+                    {
+                        Context.Categories.Attach(x);
+                    }
+                    categorizable.Categories.Add(x);
                 }
-                categorizable.Categories.Add(x);
+                else
+                {
+                    categorizable.Categories.Add(localEntity);
+                }
             });
             categoriesToRemove.ForEach(x =>
             {
@@ -443,17 +460,26 @@ namespace ECA.Business.Service
 
             objectivesToAdd.ForEach(x =>
             {
-                if (Context.GetEntityState(x) == EntityState.Detached)
+                var localEntity = Context.GetLocalEntity<Objective>(y => y.ObjectiveId == x.ObjectiveId);
+                if (localEntity == null)
                 {
-                    Context.Objectives.Attach(x);
+                    if (Context.GetEntityState(x) == EntityState.Detached)
+                    {
+                        Context.Objectives.Attach(x);
+                    }
+                    objectivable.Objectives.Add(x);
                 }
-                objectivable.Objectives.Add(x);
+                else
+                {
+                    objectivable.Objectives.Add(localEntity);
+                }
             });
             objectivesToRemove.ForEach(x =>
             {
                 objectivable.Objectives.Remove(x);
             });
         }
+
         /// <summary>
         /// Get a list of locations
         /// </summary>

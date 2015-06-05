@@ -38,7 +38,8 @@ namespace ECA.Business.Queries.Admin
                         {
                             Id = moneyflows.MoneyFlowId,
                             TransactionDate = moneyflows.TransactionDate,
-                            Type = (moneyflows.SourceProjectId == projectId ? moneyflows.RecipientType.TypeName : moneyflows.SourceType.TypeName),
+                            SourceType = (moneyflows.SourceProjectId == projectId ? moneyflows.RecipientType.TypeName : moneyflows.SourceType.TypeName),
+                            Status = moneyflows.MoneyFlowStatus.MoneyFlowStatusName,
                             FromTo = (
                                 // If project is source
                                 moneyflows.SourceProjectId == projectId && moneyflows.RecipientAccommodationId != null ? moneyflows.RecipientAccommodation.Host.Name :
@@ -64,6 +65,8 @@ namespace ECA.Business.Queries.Admin
                             ),
                             Amount = (sourceType == "Project" ? -amount : amount),
                             Description = moneyflows.Description,
+                            FiscalYear = moneyflows.FiscalYear,
+                            Type = moneyflows.MoneyFlowType.MoneyFlowTypeName
                         };
             query = query.Apply(queryOperator);
             return query;

@@ -49,13 +49,23 @@
                 <td>
                     <h5 class="list-title"><a ui-sref="projects.overview({officeId: program.ownerOrganizationId, programId: program.id, projectId: project.projectId})">{{project.projectName}}</a></h5>
                 </td>
-                <td>{{project.projectStatusName}}</td>
-                <td>{{project.startYearAsString}}</td>
-                <td>{{project.locationNames[0]}}</td>
-                <td>
-                    <img class="icon" src="images/duplicateA.png" alt="">
-                    <img class="icon" src="images/editA.png" alt="">
-                    <img class="icon" src="images/trash.png" alt="">
+                <td style="vertical-align:middle;">{{project.projectStatusName}}</td>
+                <td style="vertical-align:middle;">{{project.startYearAsString}}</td>
+                <td style="vertical-align:middle;">{{project.locationNames[0]}}</td>
+                <td style="vertical-align:middle;">
+                    <div class="right" style="display:none;" showonparentrow>
+                        <div class="copyEditDeleteOptions">
+                            <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyProgramLoading"></i>
+                            <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="copyProgramLoading"></i>
+                        </div>
+                        <div class="copyEditDeleteOptions">
+                            <i class="md md-mode-edit md-2x copyEditDeleteOption" ng-show="!editProgramLoading"></i>
+                            <i class="fa fa-spinner fa-pulse fa-fw fa-2x" ng-show="editProgramLoading"></i>
+                        </div>
+                        <div class="copyEditDeleteOptions">
+                            <i class="md md-delete md-2x copyEditDeleteOption"></i>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -69,7 +79,7 @@
             </tr>
         </tbody>
     </table>
-    <div st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
+    <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="projects.length > 0"></div>
 </div>
 <modal-dialog show="modal.createProject" dialog-title="Create Project" on-open="modalSetPristine()" before-close="modalClose()" on-close="modalClear()">
     <div class="tip" ng-show="!isSavingProject">

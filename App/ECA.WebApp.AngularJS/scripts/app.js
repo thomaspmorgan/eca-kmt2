@@ -390,6 +390,18 @@ angular
             controller: 'AllOrganizationsCtrl',
             requireADLogin: true
         })
+        .state('organizations', {
+            url: '/organizations/:organizationId',
+            templateUrl: 'views/organization.html',
+            controller: 'OrganizationCtrl',
+            requireADLogin: true
+        })
+        .state('organizations.overview', {
+            url: '/overview',
+            templateUrl: 'views/organizations/overview.html',
+            controller: 'OrganizationOverviewCtrl',
+            requireADLogin: true
+        })
 
         .state('partner', {
             url: '/partner',
@@ -427,38 +439,35 @@ angular
         ];
 
         var leftOpen = false;
-
         $rootScope.pushMenu = function ($event) {
             var self = $event.target;
             self.classList.toggle('active');
             document.body.classList.toggle('cbp-spmenu-push-toright');
             document.getElementById('cbp-spmenu-s1').classList.toggle('cbp-spmenu-open');
-            leftOpen = true;
-        };
-
-        $rootScope.closeMenu = function () {
-            document.body.classList.toggle('cbp-spmenu-push-toright');
-            document.getElementById('cbp-spmenu-s1').classList.toggle('cbp-spmenu-open');
-            leftOpen = false;
+            leftOpen = !leftOpen;
+            toggleToolbar();
         };
 
         var rightOpen = false;
         $rootScope.pushMenu2 = function ($event) {
-            rightOpen = true;
             var self = $event.target;
             self.classList.toggle('active');
             document.body.classList.toggle('cbp-spmenu-push-toleft');
             document.getElementById('cbp-spmenu-s2').classList.toggle('cbp-spmenu-open');
+            rightOpen = !rightOpen;
+            toggleToolbar();
         };
 
-        $rootScope.closeMenu2 = function () {
-            document.body.classList.toggle('cbp-spmenu-push-toleft');
-            document.getElementById('cbp-spmenu-s2').classList.toggle('cbp-spmenu-open');
-        };
-
-        $rootScope.closeMenus = function () {
-            if (leftOpen === true) {
-                $rootScope.closeMenu();
+        function toggleToolbar() {
+            var toolbar = document.getElementsByClassName('toolbar')[0];
+            if (toolbar && toolbar.style.position === "fixed") {
+                if (leftOpen && toolbar.style.left === "0px") {
+                    toolbar.style.left = "240px";
+                } else if (rightOpen && toolbar.style.left === "0px") {
+                    toolbar.style.left = "-240px";
+                } else {
+                    toolbar.style.left = "0px";
+                }
             }
         };
 
@@ -490,14 +499,28 @@ angular
 
         $rootScope.$on('$stateChangeSuccess', function () {
             $location.hash('top');
+            closeMenus();
             // $anchorScroll();
         });
+
+        function closeMenus() {
+            if (leftOpen) {
+                document.body.classList.toggle('cbp-spmenu-push-toright');
+                document.getElementById('cbp-spmenu-s1').classList.toggle('cbp-spmenu-open');
+                leftOpen = !leftOpen;
+
+            }
+            if (rightOpen) {
+                document.body.classList.toggle('cbp-spmenu-push-toleft');
+                document.getElementById('cbp-spmenu-s2').classList.toggle('cbp-spmenu-open');
+                rightOpen = !rightOpen;
+            }
+        }
 
         $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
             // Prevent the transition from happening
             event.preventDefault();
         });
 
-        
         $rootScope.spotlightModal = false;
     }]);

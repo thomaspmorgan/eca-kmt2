@@ -16,6 +16,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Diagnostics.Contracts;
 using ECA.WebApi.Security;
+using ECA.Business.Service.Admin;
 
 namespace ECA.WebApi.Controllers.Programs
 {
@@ -33,20 +34,39 @@ namespace ECA.WebApi.Controllers.Programs
 
         private static readonly ExpressionSorter<OrganizationProgramDTO> HIERARCHY_PROGRAM_SORTER = new ExpressionSorter<OrganizationProgramDTO>(x => x.SortOrder, SortDirection.Ascending);
 
+        /// <summary>
+        /// The default sorter for a list of foci.
+        /// </summary>
+        private static readonly ExpressionSorter<FocusCategoryDTO> DEFAULT_FOCUSCATEGORY_DTO_SORTER =
+            new ExpressionSorter<FocusCategoryDTO>(x => x.FocusName, SortDirection.Ascending);
+        /// <summary>
+        /// The default sorter for a list of justifications.
+        /// </summary>
+        private static readonly ExpressionSorter<JustificationObjectiveDTO> DEFAULT_JUSTIFICATION_OBJECTIVE_DTO_SORTER =
+            new ExpressionSorter<JustificationObjectiveDTO>(x => x.JustificationName, SortDirection.Ascending);
+
+
         private IProgramService programService;
         private IUserProvider userProvider;
+        private IFocusCategoryService categoryService;
+        private IJustificationObjectiveService justificationObjectiveService;
 
         /// <summary>
         /// Creates a new ProgramController with the given program service.
         /// </summary>
         /// <param name="programService">The program service.</param>
         /// <param name="userProvider">The user provider.</param>
-        public ProgramsController(IProgramService programService, IUserProvider userProvider)
+        /// <param name="categoryService">The focus category service.</param>
+        public ProgramsController(IProgramService programService, IUserProvider userProvider, IFocusCategoryService categoryService, IJustificationObjectiveService justificationObjectiveService)
         {
             Contract.Requires(programService != null, "The program service must not be null.");
             Contract.Requires(userProvider != null, "The user provider must not be null.");
+            Contract.Requires(categoryService != null, "The category service must not be null.");
+            Contract.Requires(justificationObjectiveService != null, "The justification service must not be null.");
             this.programService = programService;
             this.userProvider = userProvider;
+            this.categoryService = categoryService;
+            this.justificationObjectiveService = justificationObjectiveService;
         }
 
         /// <summary>
@@ -150,6 +170,52 @@ namespace ECA.WebApi.Controllers.Programs
                 await programService.SaveChangesAsync();
                 var dto = await programService.GetProgramByIdAsync(model.Id);
                 return Ok(new ProgramViewModel(dto));
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Returns the child programs of the office with the given id.
+        /// </summary>
+        /// <param name="programId">The id of the program.</param>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The program categories.</returns>
+        [Route("Programs/{programId}/Categories")]
+        [ResponseType(typeof(PagedQueryResults<FocusCategoryDTO>))]
+        public async Task<IHttpActionResult> GetCategoriesByProgramIdAsync(int programId, [FromUri]PagingQueryBindingModel<FocusCategoryDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await categoryService.GetFocusCategoriesByProgramIdAsync(
+                    programId,
+                    queryModel.ToQueryableOperator(DEFAULT_FOCUSCATEGORY_DTO_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Returns the objectives of the program with the given id.
+        /// </summary>
+        /// <param name="programId">The id of the program.</param>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The objectives.</returns>
+        [Route("Programs/{programId}/Objectives")]
+        [ResponseType(typeof(PagedQueryResults<JustificationObjectiveDTO>))]
+        public async Task<IHttpActionResult> GetObjectivesByProgramIdAsync(int programId, [FromUri]PagingQueryBindingModel<JustificationObjectiveDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await justificationObjectiveService.GetJustificationObjectivesByProgramIdAsync(
+                    programId,
+                    queryModel.ToQueryableOperator(DEFAULT_JUSTIFICATION_OBJECTIVE_DTO_SORTER));
+                return Ok(results);
             }
             else
             {

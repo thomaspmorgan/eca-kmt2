@@ -44,8 +44,16 @@ namespace ECA.Data
         public int OrganizationTypeId { get; set; }
         [Required]
         public string Description { get; set; }
-        [Required]
+        
+        /// <summary>
+        /// Gets or sets the parent organization.
+        /// </summary>
         public Organization ParentOrganization { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent organization id.
+        /// </summary>
+        public int? ParentOrganizationId { get; set; }
         public string Status { get; set; }
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Contact> Contacts { get; set; }

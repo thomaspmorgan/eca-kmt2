@@ -21,6 +21,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.Results;
+using ECA.Business.Service.Admin;
 
 namespace ECA.WebApi.Test.Controllers.Programs
 {
@@ -29,6 +30,8 @@ namespace ECA.WebApi.Test.Controllers.Programs
     {
         private Mock<IProgramService> service;
         private Mock<IUserProvider> userProvider;
+        private Mock<IFocusCategoryService> focusCategoryService;
+        private Mock<IJustificationObjectiveService> justificationObjectiveService;
         private ProgramsController controller;
 
         [TestInitialize]
@@ -36,13 +39,15 @@ namespace ECA.WebApi.Test.Controllers.Programs
         {
             userProvider = new Mock<IUserProvider>();
             service = new Mock<IProgramService>();
+            focusCategoryService = new Mock<IFocusCategoryService>();
+            justificationObjectiveService = new Mock<IJustificationObjectiveService>();
             service.Setup(x => x.GetProgramsAsync(It.IsAny<QueryableOperator<OrganizationProgramDTO>>()))
                 .ReturnsAsync(new PagedQueryResults<OrganizationProgramDTO>(1, new List<OrganizationProgramDTO>()));
             service.Setup(x => x.CreateAsync(It.IsAny<DraftProgram>())).ReturnsAsync(new Program { RowVersion = new byte[0] });
             service.Setup(x => x.UpdateAsync(It.IsAny<EcaProgram>())).Returns(Task.FromResult<object>(null));
             service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
             service.Setup(x => x.GetProgramByIdAsync(It.IsAny<int>())).ReturnsAsync(new ProgramDTO { Id = 1, RowVersion = new byte[0] });
-            controller = new ProgramsController(service.Object, userProvider.Object);
+            controller = new ProgramsController(service.Object, userProvider.Object, focusCategoryService.Object, justificationObjectiveService.Object);
             controller.ControllerContext = ContextUtil.CreateControllerContext();
             HttpContext.Current = new HttpContext(
                 new HttpRequest("", "http://localhost", ""),
@@ -51,6 +56,36 @@ namespace ECA.WebApi.Test.Controllers.Programs
         }
 
         #region Get
+        [TestMethod]
+        public async Task TestGetObjectivesByProgramIdAsync()
+        {
+            var response = await controller.GetObjectivesByProgramIdAsync(1, new PagingQueryBindingModel<JustificationObjectiveDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<JustificationObjectiveDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetObjectivesByProgramIdAsync_InvalidQueryModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetObjectivesByProgramIdAsync(1, new PagingQueryBindingModel<JustificationObjectiveDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
+        [TestMethod]
+        public async Task TestGetCategoriesByProgramIdAsync()
+        {
+            var response = await controller.GetCategoriesByProgramIdAsync(1, new PagingQueryBindingModel<FocusCategoryDTO>());
+            Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<FocusCategoryDTO>>));
+        }
+
+        [TestMethod]
+        public async Task TestGetCategoriesByProgramIdAsync_InvalidModel()
+        {
+            controller.ModelState.AddModelError("key", "error");
+            var response = await controller.GetCategoriesByProgramIdAsync(1, new PagingQueryBindingModel<FocusCategoryDTO>());
+            Assert.IsInstanceOfType(response, typeof(InvalidModelStateResult));
+        }
+
         [TestMethod]
         public async Task TestGetProgramsAsync()
         {

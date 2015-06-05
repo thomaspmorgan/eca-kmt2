@@ -17,7 +17,9 @@ angular.module('staticApp')
         ConstantsService,
         AuthService,
         ProjectService,
-        NotificationService) {
+        NotificationService,
+        TableService,
+        ParticipantService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -25,12 +27,14 @@ angular.module('staticApp')
       $scope.view.isCollaboratorExpanded = false;
       $scope.view.numberOfCollaborators = -1;
       $scope.view.collaboratorsLastUpdated = null;
+      $scope.view.isCollaboratorsModalOpen = false;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       var projectId = $stateParams.projectId;
 
       $scope.view.addCollaborator = function ($event) {
+          $scope.view.isCollaboratorsModalOpen = true;
           var modalInstance = $modal.open({
               templateUrl: '/views/project/collaborators.html',
               controller: 'ProjectCollaboratorCtrl',
@@ -42,6 +46,9 @@ angular.module('staticApp')
               $log.info('Closing...');
           }, function () {
               $log.info('Dismiss add collaborator dialog...');
+          })
+          .then(function () {
+              $scope.view.isCollaboratorsModalOpen = false;
           });
       };
       
@@ -70,16 +77,51 @@ angular.module('staticApp')
       function loadCollaboratorDetails() {
           return ProjectService.getCollaboratorInfo(projectId)
           .then(function (response) {
-              $scope.view.numberOfCollaborators = response.data.allowedPrincipalsCount;
-              var lastRevisedDate = new Date(response.data.lastRevisedOn);
-              if (!isNaN(lastRevisedDate.getTime())) {
-                  $scope.view.collaboratorsLastUpdated = lastRevisedDate;
+              if (response.data !== null) {
+                  $scope.view.numberOfCollaborators = response.data.allowedPrincipalsCount;
+                  var lastRevisedDate = new Date(response.data.lastRevisedOn);
+                  if (!isNaN(lastRevisedDate.getTime())) {
+                      $scope.view.collaboratorsLastUpdated = lastRevisedDate;
+                  }
+              }
+              else {
+                  NotificationService.showWarningMessage('Unable to load collaborator details.');
               }
           }, function (error) {
               $log.error('Unable to load project collaborator details.');
               NotificationService.showErrorMessage('Unable to load project collaborator details.');
+          })
+          .catch(function () {
+              $log.error('Unable to load project collaborator details.');
+              NotificationService.showErrorMessage('Unable to load project collaborator details.');
           });
       }
+
+      $scope.participantsLoading = false;
+      $scope.getParticipants = function (tableState) {
+
+          $scope.participantsLoading = true;
+
+          TableService.setTableState(tableState);
+
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: TableService.getFilter()
+          };
+
+          ParticipantService.getParticipantsByProject($stateParams.projectId, params)
+            .then(function (data) {
+                $scope.project.participants = data.results;
+                var limit = TableService.getLimit();
+                tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
+                $scope.participantsLoading = false;
+            }, function (error) {
+                $log.error('Unable to load project participants.');
+                NotificationService.showErrorMessage('Unable to load project participants.');
+            });
+      };
 
       $scope.view.isLoading = true;
       $q.all([loadPermissions(), loadCollaboratorDetails()])

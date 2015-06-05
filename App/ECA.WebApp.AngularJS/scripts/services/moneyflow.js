@@ -26,7 +26,7 @@ angular.module('staticApp')
               DragonBreath.get('moneyFlows', id)
                 .success(function (data) {
                     getMoneyFlow(data);
-                    defer.resolve(moneyFlow);
+                    defer.resolve(data);
                 });
               return defer.promise;
           },
@@ -52,6 +52,14 @@ angular.module('staticApp')
           create: function (moneyFlow) {
               var defer = $q.defer();
               DragonBreath.create(moneyFlow, 'moneyFlows')
+                .success(function (data) {
+                    defer.resolve(data);
+                });
+              return defer.promise;
+          },
+          copy: function (id) {
+              var defer = $q.defer();
+              DragonBreath.copy(id, 'moneyFlows')
                 .success(function (data) {
                     defer.resolve(data);
                 });
