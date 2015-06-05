@@ -462,4 +462,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[IX_CountryCode]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="b747634a-32dd-4414-bb83-408e06651f49" ChangeDateTime="06/02/2015 19:15:05">
+    <Property Name="ElementName" Value="[dbo].[Location].[CityId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Location]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="City_LocationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8d5be83b-ecc8-4150-bbd8-27207aec6f8b" ChangeDateTime="06/02/2015 19:15:13">
+    <Property Name="ElementName" Value="[dbo].[Location].[DivisionId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Location]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Division_LocationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ad62a65b-495c-49e7-908d-9f6991663a3e" ChangeDateTime="06/02/2015 19:15:41">
+    <Property Name="ElementName" Value="[dbo].[Location].[IX_CityLocationId]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[Location]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_City_LocationId]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ab2c7c77-7890-4a6f-ae3d-78e6e9ed3e91" ChangeDateTime="06/03/2015 14:38:26">
+    <Property Name="ElementName" Value="[dbo].[LanguageProficiencyPerson].[NativeLanguage]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LanguageProficiencyPerson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NativeLanguageInd" />
+  </Operation>
 </Operations>

@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import and Load Sevis Table 12 - Student Reprint Codes"
   DTS:PackageType="5"
-  DTS:VersionBuild="32"
-  DTS:VersionGUID="{B4E44B45-777F-4EFE-A993-BD42526E676D}">
+  DTS:VersionBuild="34"
+  DTS:VersionGUID="{B6A3351A-43FD-4379-9ABB-BAA52DEDC230}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACQPojgcHT1Vy1kKJ0FJpgZy9oxIHxCxvwXYM1k4vWbhwAAAAAOgAAAAAIAACAAAACHl3uEZIyWXiTyH+z6isgOK9WrOynTNyMThYS4LNLCAyAAAABujTAbVfjdaoBTfSnPKFBp3K22lFtpcvXWAp44Hx4ZFkAAAAAKlV5MBFB3UrsXu/iUGJLOFpmDeqpQ7QZNglhgrLiQBl5EJkPk8Dn+k2xU+MfPYyoGzmecXU0LFxGjcFspEbOI</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACkUFdsp759Q2mkBi9hRJihFWx6Qv97T0WvKjbkXQiLQAAAAAAOgAAAAAIAACAAAADy/WeHHrxDUhJKOe/6reZqZ20zpwNGOQfyW9gKM7kQTSAAAABXtzWeleUwXM9+NhN333ktq6MdBP7jafytL8DGxj0p0UAAAADXRlAmxwsBS0u+AxJz/95XZN6imB9INQ6+aasD66fCHBxFszXY4E/IlD34I5OIUzW25QVXZvH9wDZBVuy6f/iG</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -72,7 +72,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACmFN+UZhFIkBreuCoW5kJ4pTyRN2bZhw2mwyRwC2ZcvAAAAAAOgAAAAAIAACAAAACG/ByOj1BlNbvTMgWJdRHuj1GqiEIHs1j8r0abQT30oCAAAAANrX7S4nBmWvHa80TtoOaokMI6nWgjhWV8RsMlnYundEAAAAA9tejl9qU4NIXkPvD7xwZky+wWHRYqga1bDfQp0xDID1jSjadmHCIvUXZaUN4Wcq2eBWlCPPL7FIM+ANwQDFmK</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAQullXaPpoimAkOSWszBmZfnHKyj5bLB0G2hj4JN5U1QAAAAAOgAAAAAIAACAAAADJwuzSOd3mJwBswVmzyihy6o6zRrZbh2OCU+bhYcGYoSAAAADyv6fEg6+rJJXLA7jFBTOAaPVpkhUE/H13KyMgWirEK0AAAABJFk7+w66F2ajCbAMGL2UwTtp2OuRFO6YBAKDpfdfQXOjlp7kQ/ipIDQHYoxiPcRfPGiB1gbi5r3WUCmbtvi+g</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -737,8 +737,8 @@
               <connections>
                 <connection
                   refId="Package\Load Sevis Student Reprint Code\Sevis Reprint Codes.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -987,7 +987,7 @@
     design-time-name="Package\Import Sevis Student Reprint Codes">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="248,42"
           Id="Package\Import Sevis Student Reprint Codes\Student Reprint Codes Excel Source"
@@ -1027,7 +1027,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
