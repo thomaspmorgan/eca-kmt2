@@ -1,0 +1,1993 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/4/2015 7:02:09 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{57B45097-F59A-4AA6-9D27-8DDDB8E0E6CF}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Resolve ISO and MRD Country Lists"
+  DTS:PackageType="5"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{E3BEF428-2408-481B-849A-3C4C5307B431}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{78620E61-0A25-471E-9A5A-AA99D5B1C6EB}"
+      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.Sample_Data]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{5ED08E0F-ABBB-4080-8967-056CD4D307DB}"
+      DTS:ObjectName="(localdb)\v11.0.Sample_Data">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=Sample_Data;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{17FF3490-41D0-4252-86E0-B48A6B411F6B}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.ECA_Data_Migration.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=ECA_Data_Migration;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAC8MLZJrsPgx5p7EUyXOCibU0mgY6tOMctr2WfhZDD8oAAAAAAOgAAAAAIAACAAAADzRuGmmvVdl2AeCuzmboT1vdEYTNZ4nYhh+FroiS00/iAAAABMZQt6+nXiTMC+4dSeRoIl6daZ32Ds8uGZAJ6qdxV9zUAAAAB2dmiY0TlET9Bes+dHcAp+dUNrBAy2RTyt/GTX9md/ARjIaSUfNKnNvDGTt7ai7z2Az17BQX4Anyn1KCfm2nEF</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Add ISO-2 Code to Countries"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{682349B0-36D5-45EE-A211-AAAA28DEA836}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Add ISO-2 Code to Countries"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5ED08E0F-ABBB-4080-8967-056CD4D307DB}"
+          SQLTask:SqlStatementSource="UPDATE  eca_local.dbo.location &#xA;SET     [locationiso-2] = &#xA;        (&#xA;          SELECT [Country or Area Code GENC 2] &#xA;          FROM sample_data.dbo.mrdCountryAreasList b &#xA;          WHERE eca_local.dbo.location.locationiso = b.[Country or Area Code GENC 3]&#xA;        )&#xA;WHERE eca_local.dbo.location.locationtypeid = 3 AND eca_local.dbo.location.locationiso is not null" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Add Missing Countries"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{71C8FE51-C51A-4513-B0CB-03DE26C417ED}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Add Missing Countries"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Add Missing Countries\Add Missing Countries to Location table"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Add Missing Countries to Location table"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Location]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Add Missing Countries\Add Missing Countries to Location table.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].Columns[Region_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Region_LocationId"
+                      externalMetadataColumnId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[Region_LocationId]"
+                      lineageId="Package\Add Missing Countries\Lookup DOS Regions.Outputs[Lookup Match Output].Columns[Region_LocationId]" />
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].Columns[CountryLocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="CountryLocationTypeId"
+                      externalMetadataColumnId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      lineageId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]" />
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].Columns[Country or Area Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Name"
+                      externalMetadataColumnId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[LocationName]"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Name]" />
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].Columns[Country or Area Code GENC 3]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Code GENC 3"
+                      externalMetadataColumnId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[LocationIso]"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Code GENC 3]" />
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].Columns[Country or Area Code GENC 2]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Code GENC 2"
+                      externalMetadataColumnId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[LocationISO-2]"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Code GENC 2]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[LocationId]"
+                      dataType="i4"
+                      name="LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      dataType="i4"
+                      name="LocationTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[Latitude]"
+                      dataType="r4"
+                      name="Latitude" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[Longitude]"
+                      dataType="r4"
+                      name="Longitude" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[Street1]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street1" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[Street2]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street2" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[Street3]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street3" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="200"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[Division]"
+                      dataType="wstr"
+                      length="100"
+                      name="Division" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[PostalCode]"
+                      dataType="wstr"
+                      length="50"
+                      name="PostalCode" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[LocationName]"
+                      dataType="wstr"
+                      length="200"
+                      name="LocationName" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[LocationIso]"
+                      dataType="wstr"
+                      length="50"
+                      name="LocationIso" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[Region_LocationId]"
+                      dataType="i4"
+                      name="Region_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[Country_LocationId]"
+                      dataType="i4"
+                      name="Country_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[LocationISO-2]"
+                      dataType="wstr"
+                      length="10"
+                      name="LocationISO-2" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[City_LocationId]"
+                      dataType="i4"
+                      name="City_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input].ExternalColumns[Division_LocationId]"
+                      dataType="i4"
+                      name="Division_LocationId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add Missing Countries\Add Missing Countries to Location table.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Add Missing Countries to Location table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Add Missing Countries to Location table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Add Missing Countries to Location table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add Missing Countries\Add required columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add required columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Add Missing Countries\Add required columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Add Missing Countries\Add required columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[CountryLocationTypeName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="7"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[CountryLocationTypeName]"
+                      name="CountryLocationTypeName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Country"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Country"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[RegionLocationTypeName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="6"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[RegionLocationTypeName]"
+                      name="RegionLocationTypeName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"Region"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"Region"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Add Missing Countries\Add required columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add Missing Countries\Lookup Country LocationTypeId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Country LocationTypeId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[LocationType]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[LocationType]) [refTable]
+where [refTable].[LocationTypeName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[CountryLocationTypeName]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Add Missing Countries\Lookup Country LocationTypeId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Add Missing Countries\Lookup Country LocationTypeId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Lookup Country LocationTypeId.Inputs[Lookup Input].Columns[CountryLocationTypeName]"
+                      cachedDataType="wstr"
+                      cachedLength="7"
+                      cachedName="CountryLocationTypeName"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[CountryLocationTypeName]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationTypeName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup Country LocationTypeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]"
+                      name="CountryLocationTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationTypeId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup Country LocationTypeId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup Country LocationTypeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add Missing Countries\Lookup DOS Regions"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup DOS Regions"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Location]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Location]) [refTable]
+where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">2</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[DOS Regional Bureau Symbol]};#{Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup Match Output].Columns[RegionLocationTypeId]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Add Missing Countries\Lookup DOS Regions.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Add Missing Countries\Lookup DOS Regions.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Lookup DOS Regions.Inputs[Lookup Input].Columns[DOS Regional Bureau Symbol]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DOS Regional Bureau Symbol"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[DOS Regional Bureau Symbol]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationIso</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Lookup DOS Regions.Inputs[Lookup Input].Columns[RegionLocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="RegionLocationTypeId"
+                      lineageId="Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup Match Output].Columns[RegionLocationTypeId]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationTypeId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add Missing Countries\Lookup DOS Regions.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="IgnoreFailure"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup DOS Regions.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup DOS Regions.Outputs[Lookup Match Output].Columns[Region_LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Add Missing Countries\Lookup DOS Regions.Outputs[Lookup Match Output].Columns[Region_LocationId]"
+                      name="Region_LocationId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add Missing Countries\Lookup DOS Regions.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup DOS Regions.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add Missing Countries\Lookup DOS Regions.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup DOS Regions.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup DOS Regions.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Lookup DOS Regions.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup DOS Regions.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Lookup DOS Regions.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Existing Countries from ECA Database"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Location]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Location]) [refTable]
+where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">2</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Code GENC 3]};#{Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Inputs[Lookup Input].Columns[Country or Area Code GENC 3]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Code GENC 3"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Code GENC 3]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationIso</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Inputs[Lookup Input].Columns[CountryLocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="CountryLocationTypeId"
+                      lineageId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Match Output].Columns[CountryLocationTypeId]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationTypeId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Outputs[Lookup Match Output].Columns[Country_LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Outputs[Lookup Match Output].Columns[Country_LocationId]"
+                      name="Country_LocationId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add Missing Countries\Lookup Region LocationTypeId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Region LocationTypeId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[LocationType]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[LocationType]) [refTable]
+where [refTable].[LocationTypeName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[RegionLocationTypeName]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Add Missing Countries\Lookup Region LocationTypeId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Add Missing Countries\Lookup Region LocationTypeId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Add Missing Countries\Lookup Region LocationTypeId.Inputs[Lookup Input].Columns[RegionLocationTypeName]"
+                      cachedDataType="wstr"
+                      cachedLength="6"
+                      cachedName="RegionLocationTypeName"
+                      lineageId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output].Columns[RegionLocationTypeName]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationTypeName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup Region LocationTypeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup Match Output].Columns[RegionLocationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup Match Output].Columns[RegionLocationTypeId]"
+                      name="RegionLocationTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationTypeId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup Region LocationTypeId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Add Missing Countries\Lookup Region LocationTypeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add Missing Countries\MRD Country List"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="MRD Country List"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[MRDCountryAreasList]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Add Missing Countries\MRD Country List.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area Name]"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Name]"
+                      name="Country or Area Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Name Full]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area Name Full]"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Name Full]"
+                      name="Country or Area Name Full"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Code GENC 2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area Code GENC 2]"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Code GENC 2]"
+                      name="Country or Area Code GENC 2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Code GENC 3]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area Code GENC 3]"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[Country or Area Code GENC 3]"
+                      name="Country or Area Code GENC 3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[DOS Regional Bureau Symbol]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[DOS Regional Bureau Symbol]"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[DOS Regional Bureau Symbol]"
+                      name="DOS Regional Bureau Symbol"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[DOS Regional Bureau ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[DOS Regional Bureau ID]"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[DOS Regional Bureau ID]"
+                      name="DOS Regional Bureau ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[DOS Regional Bureau Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[DOS Regional Bureau Name]"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].Columns[DOS Regional Bureau Name]"
+                      name="DOS Regional Bureau Name"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area ID" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Public View IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="Public View IND" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Name" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area Name Full]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Name Full" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area Code GENC 2]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code GENC 2" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area Code GENC 3]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code GENC 3" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area Code GENC NBR]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code GENC NBR" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area Code TAGS]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code TAGS" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country or Area Code 4FAH430]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code 4FAH430" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Country IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country IND" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Affiliated Country or Area ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Affiliated Country or Area ID" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Affiliated Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Affiliated Country or Area Name" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Capital Location ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Capital Location ID" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Capital Location Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Capital Location Name" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Admin Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Admin Capital ID" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Admin Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Admin Capital Name" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Legislative Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Legislative Capital ID" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Legislative Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Legislative Capital Name" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Judicial Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Judicial Capital ID" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Judicial Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Judicial Capital Name" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[GeoRegion ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="GeoRegion ID" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[GeoRegion Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="GeoRegion Name" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[USAID GeoRegion Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="USAID GeoRegion Code" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[USAID GeoRegion Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="USAID GeoRegion Name" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[DOS Regional Bureau ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS Regional Bureau ID" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[DOS Regional Bureau Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS Regional Bureau Symbol" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[DOS Regional Bureau Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS Regional Bureau Name" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[DOD Cmd AOR Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOD Cmd AOR Symbol" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[DOD Cmd AOR Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOD Cmd AOR Name" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Note]"
+                      dataType="wstr"
+                      length="255"
+                      name="Note" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Record Current Status Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Current Status Code" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Current Status Effective Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Current Status Effective Date" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Record Creation Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Creation Date" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Record Update Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Update Date" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Record Steward ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Steward ID" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Record Future Status Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Future Status Code" />
+                    <externalMetadataColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output].ExternalColumns[Record Future Status Effective Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Future Status Effective Date" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[Country or Area Name]"
+                      name="Country or Area Name" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[Country or Area Name Full]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[Country or Area Name Full]"
+                      name="Country or Area Name Full" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[Country or Area Code GENC 2]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[Country or Area Code GENC 2]"
+                      name="Country or Area Code GENC 2" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[Country or Area Code GENC 3]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[Country or Area Code GENC 3]"
+                      name="Country or Area Code GENC 3" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[DOS Regional Bureau Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[DOS Regional Bureau Symbol]"
+                      name="DOS Regional Bureau Symbol" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[DOS Regional Bureau ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[DOS Regional Bureau ID]"
+                      name="DOS Regional Bureau ID" />
+                    <outputColumn
+                      refId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[DOS Regional Bureau Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Error Output].Columns[DOS Regional Bureau Name]"
+                      name="DOS Regional Bureau Name" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Add Missing Countries.Paths[Derived Column Output]"
+              endId="Package\Add Missing Countries\Lookup Country LocationTypeId.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\Add Missing Countries\Add required columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Add Missing Countries.Paths[Lookup Match Output]"
+              endId="Package\Add Missing Countries\Lookup Region LocationTypeId.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Add Missing Countries\Lookup Country LocationTypeId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Add Missing Countries.Paths[Lookup Match Output1]"
+              endId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Add Missing Countries\Lookup Region LocationTypeId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Add Missing Countries.Paths[Lookup Match Output2]"
+              endId="Package\Add Missing Countries\Add Missing Countries to Location table.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Add Missing Countries\Lookup DOS Regions.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Add Missing Countries.Paths[Lookup No Match Output]"
+              endId="Package\Add Missing Countries\Lookup DOS Regions.Inputs[Lookup Input]"
+              name="Lookup No Match Output"
+              startId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\Add Missing Countries.Paths[OLE DB Source Output]"
+              endId="Package\Add Missing Countries\Add required columns.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Add Missing Countries\MRD Country List.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{99C9B479-D54D-4B21-B123-FA766A3DD551}"
+      DTS:From="Package\Add Missing Countries"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Add ISO-2 Code to Countries" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Add Missing Countries"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="215,42"
+          Id="Package\Add ISO-2 Code to Countries"
+          TopLeft="52.5,123.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="97,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="63,76"
+              Start="0,0"
+              End="63,68.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34"
+                    Point2="0,38"
+                    Point3="4,38" />
+                  <mssgle:LineSegment
+                    End="59,38" />
+                  <mssgle:CubicBezierSegment
+                    Point1="59,38"
+                    Point2="63,38"
+                    Point3="63,42" />
+                  <mssgle:LineSegment
+                    End="63,68.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Add Missing Countries">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Add Missing Countries\MRD Country List"
+          TopLeft="13.5,23.5" />
+        <NodeLayout
+          Size="295,42"
+          Id="Package\Add Missing Countries\Lookup Existing Countries from ECA Database"
+          TopLeft="19.5,118.5" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Add Missing Countries\Lookup DOS Regions"
+          TopLeft="403.5,115.5" />
+        <EdgeLayout
+          Id="Package\Add Missing Countries.Paths[Lookup No Match Output]"
+          TopLeft="314.5,138">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="89,0"
+              Start="0,0"
+              End="81.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="81.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-15.05638671875,5,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="264,42"
+          Id="Package\Add Missing Countries\Add Missing Countries to Location table"
+          TopLeft="651.5,119.5" />
+        <NodeLayout
+          Size="182,42"
+          Id="Package\Add Missing Countries\Add required columns"
+          TopLeft="278.5,24.5" />
+        <EdgeLayout
+          Id="Package\Add Missing Countries.Paths[OLE DB Source Output]"
+          TopLeft="174.5,45">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="104,0"
+              Start="0,0"
+              End="96.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="96.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Add Missing Countries\Lookup Country LocationTypeId"
+          TopLeft="522.5,24.5" />
+        <EdgeLayout
+          Id="Package\Add Missing Countries.Paths[Derived Column Output]"
+          TopLeft="460.5,45.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="62,0"
+              Start="0,0"
+              End="54.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="54.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="224,42"
+          Id="Package\Add Missing Countries\Lookup Region LocationTypeId"
+          TopLeft="795.5,25.5" />
+        <EdgeLayout
+          Id="Package\Add Missing Countries.Paths[Lookup Match Output]"
+          TopLeft="751.5,46">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="44,0"
+              Start="0,0"
+              End="36.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="36.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-29.94138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Add Missing Countries.Paths[Lookup Match Output1]"
+          TopLeft="907.5,67.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-740.5,51"
+              Start="0,0"
+              End="-740.5,43.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.5"
+                    Point2="0,25.5"
+                    Point3="-4,25.5" />
+                  <mssgle:LineSegment
+                    End="-736.5,25.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-736.5,25.5"
+                    Point2="-740.5,25.5"
+                    Point3="-740.5,29.5" />
+                  <mssgle:LineSegment
+                    End="-740.5,43.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-418.44138671875,30.5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Add Missing Countries.Paths[Lookup Match Output2]"
+          TopLeft="581.5,138.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="70,0"
+              Start="0,0"
+              End="62.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="62.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-16.94138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add Missing Countries\MRD Country List">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add Missing Countries\Lookup Existing Countries from ECA Database">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Location]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add Missing Countries\Lookup DOS Regions">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Location]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add Missing Countries\Add Missing Countries to Location table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add Missing Countries\Lookup Country LocationTypeId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[LocationType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add Missing Countries\Lookup Region LocationTypeId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[LocationType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

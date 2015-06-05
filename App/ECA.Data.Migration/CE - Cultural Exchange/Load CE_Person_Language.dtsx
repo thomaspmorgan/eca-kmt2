@@ -1,0 +1,1850 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/3/2015 11:44:11 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{97721B0E-451A-4CE6-9DE4-13EC12B78AF1}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Load CE_Person_Language"
+  DTS:PackageType="5"
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{B9026AB4-07FB-470E-A64E-AFB816023903}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{657C2E0D-42CA-4F70-9E05-A54F7B27C95D}"
+      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{F6439427-4D3B-4BFB-94F6-995449F36F87}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.CE.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=CE;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACNGz8LeRNLuWTxZjSLr+hWA+RxRo/4DvEDUs30RMb5lwAAAAAOgAAAAAIAACAAAAArkGEYC0Wae66omCIY+RX+wg/QxPnvHJ96hYCKjfehWCAAAADi+maWFLo9C4j7Nwo2OjrEl3ZlzIlpZRxoSi75FgIdW0AAAAB0a6jHMO4ieqlc0ll5+bO5Ft9BBU6uErGCP/SXP1INqlfoj/TUTHRX/cD2I9xZiPRHf5BMTQHsNgGUBlrHXwOI</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{161D7FF9-235C-4669-A279-107532573D9F}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.CE.msetien 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=CE;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABSEQ217opdupxueMsSArZRDENloxQJelPe6khP+MeGJQAAAAAOgAAAAAIAACAAAAB9XXVNMfqsdHiAxx3FQflmTS7WNDnl1OXxku8+XLdnoyAAAAAEkGlDdDs1eTgisommRgZPHZQPqnUV/kbsgPvprnd0+UAAAADi1K3jL6JfSqTBBYVWRB/u6nWX3Ei2ENJ4eEqgMltKmDeDdM2r0g5Q2Ef7IQk3OvGKsUj9HKQX4APJjZA0DhRr</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.IVLP.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{BE3C7C7D-690E-4747-BEEA-0EDF80A610A6}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.IVLP.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=IVLP;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACKeOvDpXlHTCiYBsiPXZhdV+PuN+8xtkMsLGtbdRzB3wAAAAAOgAAAAAIAACAAAADa+eBaX2cOOCfZj40KBnM2G+mLkCysLUEuog5cTzfvYSAAAADcCwndV2m1ej0e8OM4olxiRoL66zVD5fkyJJR69kUufUAAAABmo+7gYy00lNNk71zjXHOFRK6viwChQWW3AA8vuDBOihAv6X1IbNxDkRuYZrutN2NINrONDqjForMw/CbqJlwV</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{07C6D6F5-0CF8-4AB4-8066-0E5071AEA118}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\CE\CE_PILOT_DATA_PERSON_LANGUAGE.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import CE Person Language"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{C7BEF314-0CF1-48DD-9DDC-08232F07A076}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import CE Person Language"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import CE Person Language\CE Person Language Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="CE Person Language Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">'Sheet 1$'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import CE Person Language\CE Person Language Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_LANGUAGE_ID]"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_ID]"
+                      name="PERSON_LANGUAGE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_ID]"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_ID]"
+                      name="PERSON_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[LANGUAGE_TYPE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_TYPE]"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[LANGUAGE_TYPE]"
+                      name="LANGUAGE_TYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[NATIVE_LANGUAGE_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[NATIVE_LANGUAGE_IND]"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[NATIVE_LANGUAGE_IND]"
+                      name="NATIVE_LANGUAGE_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[SPEAKING_PROFICIENCY]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[SPEAKING_PROFICIENCY]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[SPEAKING_PROFICIENCY]"
+                      name="SPEAKING_PROFICIENCY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[READING_PROFICIENCY]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[READING_PROFICIENCY]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[READING_PROFICIENCY]"
+                      name="READING_PROFICIENCY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[COMPREHENSION_PROFICIENCY]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[COMPREHENSION_PROFICIENCY]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[COMPREHENSION_PROFICIENCY]"
+                      name="COMPREHENSION_PROFICIENCY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_CREATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_LANGUAGE_CREATE_ID]"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_CREATE_ID]"
+                      name="PERSON_LANGUAGE_CREATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_CREATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_LANGUAGE_CREATE_DT]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_CREATE_DT]"
+                      name="PERSON_LANGUAGE_CREATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_UPDATE_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_LANGUAGE_UPDATE_ID]"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_UPDATE_ID]"
+                      name="PERSON_LANGUAGE_UPDATE_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_UPDATE_DT]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_LANGUAGE_UPDATE_DT]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_UPDATE_DT]"
+                      name="PERSON_LANGUAGE_UPDATE_DT"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_LANGUAGE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_LANGUAGE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[LANGUAGE_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[NATIVE_LANGUAGE_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="NATIVE_LANGUAGE_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[SPEAKING_PROFICIENCY]"
+                      dataType="r8"
+                      name="SPEAKING_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[READING_PROFICIENCY]"
+                      dataType="r8"
+                      name="READING_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[COMPREHENSION_PROFICIENCY]"
+                      dataType="r8"
+                      name="COMPREHENSION_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_LANGUAGE_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_LANGUAGE_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_LANGUAGE_CREATE_DT]"
+                      dataType="date"
+                      name="PERSON_LANGUAGE_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_LANGUAGE_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_LANGUAGE_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].ExternalColumns[PERSON_LANGUAGE_UPDATE_DT]"
+                      dataType="date"
+                      name="PERSON_LANGUAGE_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_LANGUAGE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_LANGUAGE_ID]"
+                      name="PERSON_LANGUAGE_ID" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_ID]"
+                      name="PERSON_ID" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[LANGUAGE_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[LANGUAGE_TYPE]"
+                      name="LANGUAGE_TYPE" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[NATIVE_LANGUAGE_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[NATIVE_LANGUAGE_IND]"
+                      name="NATIVE_LANGUAGE_IND" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[SPEAKING_PROFICIENCY]"
+                      dataType="r8"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[SPEAKING_PROFICIENCY]"
+                      name="SPEAKING_PROFICIENCY" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[READING_PROFICIENCY]"
+                      dataType="r8"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[READING_PROFICIENCY]"
+                      name="READING_PROFICIENCY" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[COMPREHENSION_PROFICIENCY]"
+                      dataType="r8"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[COMPREHENSION_PROFICIENCY]"
+                      name="COMPREHENSION_PROFICIENCY" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_LANGUAGE_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_LANGUAGE_CREATE_ID]"
+                      name="PERSON_LANGUAGE_CREATE_ID" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_LANGUAGE_CREATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_LANGUAGE_CREATE_DT]"
+                      name="PERSON_LANGUAGE_CREATE_DT" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_LANGUAGE_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_LANGUAGE_UPDATE_ID]"
+                      name="PERSON_LANGUAGE_UPDATE_ID" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_LANGUAGE_UPDATE_DT]"
+                      dataType="date"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[PERSON_LANGUAGE_UPDATE_DT]"
+                      name="PERSON_LANGUAGE_UPDATE_DT" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import CE Person Language\CE_Person_Language"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="CE_Person_Language"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[CE_Person_Language]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import CE Person Language\CE_Person_Language.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].Columns[PERSON_LANGUAGE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PERSON_LANGUAGE_ID"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_LANGUAGE_ID]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].Columns[PERSON_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PERSON_ID"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_ID]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].Columns[LANGUAGE_TYPE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANGUAGE_TYPE"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_TYPE]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[LANGUAGE_TYPE]" />
+                    <inputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].Columns[NATIVE_LANGUAGE_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NATIVE_LANGUAGE_IND"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[NATIVE_LANGUAGE_IND]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[NATIVE_LANGUAGE_IND]" />
+                    <inputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].Columns[SPEAKING_PROFICIENCY]"
+                      cachedDataType="r8"
+                      cachedName="SPEAKING_PROFICIENCY"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[SPEAKING_PROFICIENCY]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[SPEAKING_PROFICIENCY]" />
+                    <inputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].Columns[READING_PROFICIENCY]"
+                      cachedDataType="r8"
+                      cachedName="READING_PROFICIENCY"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[READING_PROFICIENCY]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[READING_PROFICIENCY]" />
+                    <inputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].Columns[COMPREHENSION_PROFICIENCY]"
+                      cachedDataType="r8"
+                      cachedName="COMPREHENSION_PROFICIENCY"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[COMPREHENSION_PROFICIENCY]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[COMPREHENSION_PROFICIENCY]" />
+                    <inputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].Columns[PERSON_LANGUAGE_CREATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PERSON_LANGUAGE_CREATE_ID"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_LANGUAGE_CREATE_ID]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_CREATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].Columns[PERSON_LANGUAGE_CREATE_DT]"
+                      cachedDataType="date"
+                      cachedName="PERSON_LANGUAGE_CREATE_DT"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_LANGUAGE_CREATE_DT]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_CREATE_DT]" />
+                    <inputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].Columns[PERSON_LANGUAGE_UPDATE_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PERSON_LANGUAGE_UPDATE_ID"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_LANGUAGE_UPDATE_ID]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_UPDATE_ID]" />
+                    <inputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].Columns[PERSON_LANGUAGE_UPDATE_DT]"
+                      cachedDataType="date"
+                      cachedName="PERSON_LANGUAGE_UPDATE_DT"
+                      externalMetadataColumnId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_LANGUAGE_UPDATE_DT]"
+                      lineageId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output].Columns[PERSON_LANGUAGE_UPDATE_DT]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_LANGUAGE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_LANGUAGE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[LANGUAGE_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[NATIVE_LANGUAGE_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="NATIVE_LANGUAGE_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[SPEAKING_PROFICIENCY]"
+                      dataType="r8"
+                      name="SPEAKING_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[READING_PROFICIENCY]"
+                      dataType="r8"
+                      name="READING_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[COMPREHENSION_PROFICIENCY]"
+                      dataType="r8"
+                      name="COMPREHENSION_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_LANGUAGE_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_LANGUAGE_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_LANGUAGE_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PERSON_LANGUAGE_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_LANGUAGE_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_LANGUAGE_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input].ExternalColumns[PERSON_LANGUAGE_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PERSON_LANGUAGE_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import CE Person Language\CE_Person_Language.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import CE Person Language\CE_Person_Language.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import CE Person Language\CE_Person_Language.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import CE Person Language\CE_Person_Language.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import CE Person Language.Paths[Excel Source Output]"
+              endId="Package\Import CE Person Language\CE_Person_Language.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import CE Person Language\CE Person Language Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load CE Person Language"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{E25591C5-17C1-4DF3-97FD-E3E7EB1B712B}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load CE Person Language"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load CE Person Language\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load CE Person Language\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CE Person Language\Data Conversion.Inputs[Data Conversion Input].Columns[NATIVE_LANGUAGE_IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NATIVE_LANGUAGE_IND"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[NATIVE_LANGUAGE_IND]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CE Person Language\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Load CE Person Language\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Data Conversion.Outputs[Data Conversion Output].Columns[Char NATIVE_LANGUAGE_IND]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1"
+                      lineageId="Package\Load CE Person Language\Data Conversion.Outputs[Data Conversion Output].Columns[Char NATIVE_LANGUAGE_IND]"
+                      name="Char NATIVE_LANGUAGE_IND"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[NATIVE_LANGUAGE_IND]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CE Person Language\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Load CE Person Language\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Person Language\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Person Language\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CE Person Language\Local CE_Person_Language"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Local CE_Person_Language"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CE_Person_Language]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CE Person Language\Local CE_Person_Language.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien 1]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[CE_PERSON_ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[PERSON_ID]"
+                      length="255"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[CE_PERSON_ID]"
+                      name="CE_PERSON_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[LANGUAGE_TYPE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[LANGUAGE_TYPE]"
+                      length="255"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[LANGUAGE_TYPE]"
+                      name="LANGUAGE_TYPE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[NATIVE_LANGUAGE_IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[NATIVE_LANGUAGE_IND]"
+                      length="255"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[NATIVE_LANGUAGE_IND]"
+                      name="NATIVE_LANGUAGE_IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[SPEAKING_PROFICIENCY]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[SPEAKING_PROFICIENCY]"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[SPEAKING_PROFICIENCY]"
+                      name="SPEAKING_PROFICIENCY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[READING_PROFICIENCY]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[READING_PROFICIENCY]"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[READING_PROFICIENCY]"
+                      name="READING_PROFICIENCY"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[COMPREHENSION_PROFICIENCY]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[COMPREHENSION_PROFICIENCY]"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[COMPREHENSION_PROFICIENCY]"
+                      name="COMPREHENSION_PROFICIENCY"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[PERSON_LANGUAGE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_LANGUAGE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[LANGUAGE_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      name="LANGUAGE_TYPE" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[NATIVE_LANGUAGE_IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="NATIVE_LANGUAGE_IND" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[SPEAKING_PROFICIENCY]"
+                      dataType="r8"
+                      name="SPEAKING_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[READING_PROFICIENCY]"
+                      dataType="r8"
+                      name="READING_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[COMPREHENSION_PROFICIENCY]"
+                      dataType="r8"
+                      name="COMPREHENSION_PROFICIENCY" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[PERSON_LANGUAGE_CREATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_LANGUAGE_CREATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[PERSON_LANGUAGE_CREATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PERSON_LANGUAGE_CREATE_DT" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[PERSON_LANGUAGE_UPDATE_ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="PERSON_LANGUAGE_UPDATE_ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].ExternalColumns[PERSON_LANGUAGE_UPDATE_DT]"
+                      dataType="dbTimeStamp"
+                      name="PERSON_LANGUAGE_UPDATE_DT" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[PERSON_ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[PERSON_ID]"
+                      name="PERSON_ID" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[LANGUAGE_TYPE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[LANGUAGE_TYPE]"
+                      name="LANGUAGE_TYPE" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[NATIVE_LANGUAGE_IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[NATIVE_LANGUAGE_IND]"
+                      name="NATIVE_LANGUAGE_IND" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[SPEAKING_PROFICIENCY]"
+                      dataType="r8"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[SPEAKING_PROFICIENCY]"
+                      name="SPEAKING_PROFICIENCY" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[READING_PROFICIENCY]"
+                      dataType="r8"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[READING_PROFICIENCY]"
+                      name="READING_PROFICIENCY" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[COMPREHENSION_PROFICIENCY]"
+                      dataType="r8"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[COMPREHENSION_PROFICIENCY]"
+                      name="COMPREHENSION_PROFICIENCY" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CE Person Language\Lookup ECA PersonId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup ECA PersonId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[CE_Person_Map_Dev]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[CE_Person_Map_Dev]) [refTable]
+where [refTable].[CE_PersonId] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="CE_PersonId" dataType="DT_WSTR" length="255" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ECA_PersonId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[CE_PERSON_ID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CE Person Language\Lookup ECA PersonId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.CE.msetien]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load CE Person Language\Lookup ECA PersonId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CE Person Language\Lookup ECA PersonId.Inputs[Lookup Input].Columns[CE_PERSON_ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="CE_PERSON_ID"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[CE_PERSON_ID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">CE_PersonId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CE Person Language\Lookup ECA PersonId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load CE Person Language\Lookup ECA PersonId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Lookup ECA PersonId.Outputs[Lookup Match Output].Columns[ECA_PersonId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load CE Person Language\Lookup ECA PersonId.Outputs[Lookup Match Output].Columns[ECA_PersonId]"
+                      name="ECA_PersonId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ECA_PersonId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CE Person Language\Lookup ECA PersonId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load CE Person Language\Lookup ECA PersonId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CE Person Language\Lookup ECA PersonId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load CE Person Language\Lookup ECA PersonId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Lookup ECA PersonId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Person Language\Lookup ECA PersonId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Lookup ECA PersonId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Person Language\Lookup ECA PersonId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CE Person Language\Lookup Language"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Language"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[LanguageProficiency]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[LanguageProficiency]) [refTable]
+where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
+  UPPER( ? ) LIKE '%'+UPPER([refTable].[LanguageName])+'%')</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">2</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LanguageProficiencyId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LanguageName" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[LANGUAGE_TYPE]};#{Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[LANGUAGE_TYPE]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CE Person Language\Lookup Language.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load CE Person Language\Lookup Language.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CE Person Language\Lookup Language.Inputs[Lookup Input].Columns[LANGUAGE_TYPE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LANGUAGE_TYPE"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[LANGUAGE_TYPE]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LanguageName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CE Person Language\Lookup Language.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Load CE Person Language\Lookup Language.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Lookup Language.Outputs[Lookup Match Output].Columns[LanguageProficiencyId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Load CE Person Language\Lookup Language.Outputs[Lookup Match Output].Columns[LanguageProficiencyId]"
+                      name="LanguageProficiencyId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LanguageProficiencyId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CE Person Language\Lookup Language.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Load CE Person Language\Lookup Language.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load CE Person Language\Lookup Language.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Load CE Person Language\Lookup Language.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Lookup Language.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Person Language\Lookup Language.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Lookup Language.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Person Language\Lookup Language.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load CE Person Language\Person Language Proficiency"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Person Language Proficiency"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[LanguageProficiencyPerson]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load CE Person Language\Person Language Proficiency.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].Columns[LanguageProficiencyId]"
+                      cachedDataType="i4"
+                      cachedName="LanguageProficiencyId"
+                      externalMetadataColumnId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[LanguageProficiency_LanguageProficiencyId]"
+                      lineageId="Package\Load CE Person Language\Lookup Language.Outputs[Lookup Match Output].Columns[LanguageProficiencyId]" />
+                    <inputColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].Columns[ECA_PersonId]"
+                      cachedDataType="i4"
+                      cachedName="ECA_PersonId"
+                      externalMetadataColumnId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[Person_PersonId]"
+                      lineageId="Package\Load CE Person Language\Lookup ECA PersonId.Outputs[Lookup Match Output].Columns[ECA_PersonId]" />
+                    <inputColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].Columns[Char NATIVE_LANGUAGE_IND]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Char NATIVE_LANGUAGE_IND"
+                      externalMetadataColumnId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[NativeLanguageInd]"
+                      lineageId="Package\Load CE Person Language\Data Conversion.Outputs[Data Conversion Output].Columns[Char NATIVE_LANGUAGE_IND]" />
+                    <inputColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].Columns[SPEAKING_PROFICIENCY]"
+                      cachedDataType="r8"
+                      cachedName="SPEAKING_PROFICIENCY"
+                      externalMetadataColumnId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[SpeakingProficiency]"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[SPEAKING_PROFICIENCY]" />
+                    <inputColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].Columns[READING_PROFICIENCY]"
+                      cachedDataType="r8"
+                      cachedName="READING_PROFICIENCY"
+                      externalMetadataColumnId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[ReadingProficiency]"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[READING_PROFICIENCY]" />
+                    <inputColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].Columns[COMPREHENSION_PROFICIENCY]"
+                      cachedDataType="r8"
+                      cachedName="COMPREHENSION_PROFICIENCY"
+                      externalMetadataColumnId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[ComprehensionProficiency]"
+                      lineageId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output].Columns[COMPREHENSION_PROFICIENCY]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[LanguageProficiency_LanguageProficiencyId]"
+                      dataType="i4"
+                      name="LanguageProficiency_LanguageProficiencyId" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[Person_PersonId]"
+                      dataType="i4"
+                      name="Person_PersonId" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[NativeLanguageInd]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="NativeLanguageInd" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[SpeakingProficiency]"
+                      dataType="i4"
+                      name="SpeakingProficiency" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[ReadingProficiency]"
+                      dataType="i4"
+                      name="ReadingProficiency" />
+                    <externalMetadataColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input].ExternalColumns[ComprehensionProficiency]"
+                      dataType="i4"
+                      name="ComprehensionProficiency" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load CE Person Language\Person Language Proficiency.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Person Language\Person Language Proficiency.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load CE Person Language\Person Language Proficiency.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load CE Person Language\Person Language Proficiency.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load CE Person Language.Paths[Data Conversion Output]"
+              endId="Package\Load CE Person Language\Person Language Proficiency.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Load CE Person Language\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Load CE Person Language.Paths[Lookup Match Output]"
+              endId="Package\Load CE Person Language\Lookup Language.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Load CE Person Language\Lookup ECA PersonId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load CE Person Language.Paths[Lookup Match Output1]"
+              endId="Package\Load CE Person Language\Data Conversion.Inputs[Data Conversion Input]"
+              name="Lookup Match Output"
+              startId="Package\Load CE Person Language\Lookup Language.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load CE Person Language.Paths[OLE DB Source Output]"
+              endId="Package\Load CE Person Language\Lookup ECA PersonId.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load CE Person Language\Local CE_Person_Language.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C5DEE9BF-ED35-4930-9E51-FC4F176819F1}"
+      DTS:From="Package\Import CE Person Language"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load CE Person Language" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Load CE Person Language"
+          TopLeft="95.5,145.5" />
+        <NodeLayout
+          Size="211,42"
+          Id="Package\Import CE Person Language"
+          TopLeft="5.5,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="111,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="85.5,98"
+              Start="0,0"
+              End="85.5,90.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,45"
+                    Point2="0,49"
+                    Point3="4,49" />
+                  <mssgle:LineSegment
+                    End="81.5,49" />
+                  <mssgle:CubicBezierSegment
+                    Point1="81.5,49"
+                    Point2="85.5,49"
+                    Point3="85.5,53" />
+                  <mssgle:LineSegment
+                    End="85.5,90.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load CE Person Language">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Load CE Person Language\Lookup ECA PersonId"
+          TopLeft="27.5,95.5" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\Load CE Person Language\Person Language Proficiency"
+          TopLeft="119.5,322.5" />
+        <NodeLayout
+          Size="208,42"
+          Id="Package\Load CE Person Language\Local CE_Person_Language"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Load CE Person Language\Lookup Language"
+          TopLeft="68.5,208.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Load CE Person Language\Data Conversion"
+          TopLeft="320.5,247.5" />
+        <EdgeLayout
+          Id="Package\Load CE Person Language.Paths[OLE DB Source Output]"
+          TopLeft="109.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8,48"
+              Start="0,0"
+              End="8,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20"
+                    Point2="0,24"
+                    Point3="4,24" />
+                  <mssgle:LineSegment
+                    End="4,24" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4,24"
+                    Point2="8,24"
+                    Point3="8,28" />
+                  <mssgle:LineSegment
+                    End="8,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load CE Person Language.Paths[Lookup Match Output1]"
+          TopLeft="230.5,229.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="90,39"
+              Start="0,0"
+              End="82.5,39">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="41,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="41,0"
+                    Point2="45,0"
+                    Point3="45,4" />
+                  <mssgle:LineSegment
+                    End="45,35" />
+                  <mssgle:CubicBezierSegment
+                    Point1="45,35"
+                    Point2="45,39"
+                    Point3="49,39" />
+                  <mssgle:LineSegment
+                    End="82.5,39" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-3.19138671875,-17.609375,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load CE Person Language.Paths[Lookup Match Output]"
+          TopLeft="117.5,137.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="32,71"
+              Start="0,0"
+              End="32,63.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.5"
+                    Point2="0,35.5"
+                    Point3="4,35.5" />
+                  <mssgle:LineSegment
+                    End="28,35.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="28,35.5"
+                    Point2="32,35.5"
+                    Point3="32,39.5" />
+                  <mssgle:LineSegment
+                    End="32,63.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-32.19138671875,40.5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load CE Person Language.Paths[Data Conversion Output]"
+          TopLeft="398.5,289.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-172,33"
+              Start="0,0"
+              End="-172,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.5"
+                    Point2="0,16.5"
+                    Point3="-4,16.5" />
+                  <mssgle:LineSegment
+                    End="-168,16.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-168,16.5"
+                    Point2="-172,16.5"
+                    Point3="-172,20.5" />
+                  <mssgle:LineSegment
+                    End="-172,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CE Person Language\Lookup Language">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[LanguageProficiency]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CE Person Language\Local CE_Person_Language">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CE Person Language\Person Language Proficiency">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load CE Person Language\Lookup ECA PersonId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[CE_Person_Map_Dev]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Import CE Person Language">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="239,42"
+          Id="Package\Import CE Person Language\CE Person Language Excel Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\Import CE Person Language\CE_Person_Language"
+          TopLeft="44.5,119.5" />
+        <EdgeLayout
+          Id="Package\Import CE Person Language.Paths[Excel Source Output]"
+          TopLeft="125,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10,72"
+              Start="0,0"
+              End="10,64.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,32"
+                    Point2="0,36"
+                    Point3="4,36" />
+                  <mssgle:LineSegment
+                    End="6,36" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6,36"
+                    Point2="10,36"
+                    Point3="10,40" />
+                  <mssgle:LineSegment
+                    End="10,64.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import CE Person Language\CE Person Language Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import CE Person Language\CE_Person_Language">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

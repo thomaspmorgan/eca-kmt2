@@ -11,11 +11,21 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Import MRD Countries and Areas List"
   DTS:PackageType="5"
-  DTS:VersionBuild="1"
-  DTS:VersionGUID="{82DB5EA9-0CD3-44F7-8112-9378265DC1D0}">
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{A6588618-57AF-43F7-AC64-E12F1DA57E2B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.Sample_Data]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{8B5ED9BC-C7CE-46EB-8D51-7CBB810E2E5B}"
+      DTS:ObjectName="(localdb)\v11.0.Sample_Data">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=Sample_Data;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
       DTS:CreationName="OLEDB"
@@ -27,7 +37,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAzKfYLE3GYFy127uHFceMAXln5ryhwOBjPvZVkWdFGtAAAAAAOgAAAAAIAACAAAAA9u8H81qA2V5ruKq4A19m7iqdTxzY5Sut4HejRU9RxvyAAAADuXHTh/rF3o+LhSjjJ1IRRnwAhwDIYRmDXueBGI5CUJkAAAAAcmWMiNSFUgejb9R7IanxrxHgooh6jAziheqwksIYBR+/LdNQ6Te9G4p+Ng+yBQDhqgVZyYHMd4UBAP5oMliTD</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAvrIA4CP7LTp+i2tix2tsy6AtG96s4LZCBKL9WRJvljAAAAAAOgAAAAAIAACAAAACAWypRo7XVXoNC+srWcBGXR9v+gukhNV25nZCgZm43tiAAAAC/YuUiLldMLkXGgRSyiByT09UfvDPDjE44sPkFcvKgwUAAAAAlp9yaSS+ylFjJ0ct3o/wyMKjM8ii1/8dkraP/udTvlNvHxKwhsAgVzmf0Nwd4oyfjQ7YNEQ0ASwWJ41fmoiFP</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -38,7 +48,17 @@
       DTS:ObjectName="Excel Connection Manager">
       <DTS:ObjectData>
         <DTS:ConnectionManager
-          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\ECA\Copy of EDQI MRD Countries and Areas 2015-03-11.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\ECA\Copy of EDQI MRD Countries and Areas 2015-03-11.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 1]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{15E70A7E-95AF-444B-9D8A-D33F9FC4BD02}"
+      DTS:ObjectName="Excel Connection Manager 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\ECA\EDQI MRD Countries and Areas 2015-03-11.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -101,8 +121,8 @@
               <connections>
                 <connection
                   refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
-                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 1]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -974,8 +994,8 @@
               <connections>
                 <connection
                   refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
-                  connectionManagerRefId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.Sample_Data]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.Sample_Data]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
