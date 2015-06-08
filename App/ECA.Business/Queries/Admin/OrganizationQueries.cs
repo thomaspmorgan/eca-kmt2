@@ -29,7 +29,6 @@ namespace ECA.Business.Queries.Admin
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
 
             var query = context.Organizations
-                .Include(x => x.Addresses)
                 .Where(x => !Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(x.OrganizationTypeId))
                 .Select(x => new SimpleOrganizationDTO
                 {

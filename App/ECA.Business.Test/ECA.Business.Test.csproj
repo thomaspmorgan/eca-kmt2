@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ECA.Business.Fakes">
+      <HintPath>FakesAssemblies\ECA.Business.Fakes.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -104,6 +107,7 @@
     <Compile Include="Service\CreateTest.cs" />
     <Compile Include="Service\Lookup\SimpleLookupDTOTest.cs" />
     <Compile Include="Service\Lookup\LookupServiceTest.cs" />
+    <Compile Include="Service\Lookup\OrganizationTypeServiceTest.cs" />
     <Compile Include="Service\Persons\PersonServiceTest.cs" />
     <Compile Include="Service\Persons\PersonServiceValidatorTest.cs" />
     <Compile Include="Service\Persons\PersonServiceValidationEntityTest.cs" />
@@ -133,6 +137,7 @@
     <Fakes Include="Fakes\EntityFramework.fakes" />
     <Fakes Include="Fakes\System.Data.Entity.fakes" />
     <Fakes Include="Fakes\System.Core.fakes" />
+    <Fakes Include="Fakes\ECA.Business.fakes" />
     <None Include="InMemoryEcaDbContextGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InMemoryEcaDbContextGenerator.generated.cs</LastGenOutput>

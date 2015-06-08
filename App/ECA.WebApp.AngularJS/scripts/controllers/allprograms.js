@@ -41,6 +41,7 @@ angular.module('staticApp')
       $scope.modalForm = {};
 
       $scope.currentForm = null;
+      $scope.ecaUserId = null;
 
       $scope.editProgramLoading = false;
       $scope.currentpage = $stateParams.page || 1;

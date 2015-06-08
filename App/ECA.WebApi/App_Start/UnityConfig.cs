@@ -70,6 +70,8 @@ namespace ECA.WebApi
             container.RegisterType<IMoneyFlowTypeService, MoneyFlowTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IMoneyFlowSourceRecipientTypeService, MoneyFlowSourceRecipientTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOfficeService, OfficeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IOrganizationService, OrganizationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IOrganizationTypeService, OrganizationTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantService, ParticipantService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPersonService, PersonService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
@@ -78,7 +80,7 @@ namespace ECA.WebApi
             container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IOrganizationService, OrganizationService>(new HierarchicalLifetimeManager());
+            
         }
 
         /// <summary>

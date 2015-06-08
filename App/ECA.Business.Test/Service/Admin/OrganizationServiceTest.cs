@@ -10,6 +10,7 @@ using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using System.Linq;
+using Microsoft.QualityTools.Testing.Fakes;
 
 namespace ECA.Business.Test.Service.Admin
 {
@@ -29,36 +30,55 @@ namespace ECA.Business.Test.Service.Admin
             service = new OrganizationService(context);
         }
 
-        /** Not working
         [TestMethod]
-        public async Task TestGetOrganizations_CheckProperties()
+        public async Task TestGetOrganizations_CheckProperties_AddressIsNull()
         {
-            var organizationType = new OrganizationType
+            using (ShimsContext.Create())
             {
-                OrganizationTypeId = OrganizationType.Division.Id,
-                OrganizationTypeName = OrganizationType.Division.Value
-            };
+                //Fake an address all the way up until the LocationName is requested which will be null.
+                var nullAddress = new Address
+                {
+                    Location = new Location
+                    {
+                        Country = new Location
+                        {
+                            LocationName = null
+                        }
+                    }
+                };
+                System.Linq.Fakes.ShimEnumerable.FirstOrDefaultOf1IEnumerableOfM0<Address>((addressList) =>
+                {
+                    return nullAddress;    
+                });
 
-            var organization = new Organization
-            {
-                OrganizationId = 1,
-                OrganizationTypeId = organizationType.OrganizationTypeId,
-                Name = "name",
-                Description = "test",
-                Status = "status",
-                ParentOrganization = new Organization()
-            };
+                var organizationType = new OrganizationType
+                {
+                    OrganizationTypeId = OrganizationType.ForeignEducationalInstitution.Id,
+                    OrganizationTypeName = OrganizationType.ForeignEducationalInstitution.Value
+                };
 
-            context.OrganizationTypes.Add(organizationType);
-            context.Organizations.Add(organization);
+                var organization = new Organization
+                {
+                    OrganizationId = 1,
+                    OrganizationTypeId = organizationType.OrganizationTypeId,
+                    OrganizationType = organizationType,
+                    Name = "name",
+                    Description = "test",
+                    Status = "status",
+                    ParentOrganization = new Organization()
+                };
 
-            var defaultSorter = new ExpressionSorter<SimpleOrganizationDTO>(x => x.Name, SortDirection.Ascending);
-            var queryOperator = new QueryableOperator<SimpleOrganizationDTO>(0, 1, defaultSorter);
-            var serviceResultsAsync = await service.GetOrganizationsAsync(queryOperator);
+                context.OrganizationTypes.Add(organizationType);
+                context.Organizations.Add(organization);
 
-            Assert.AreEqual(1, serviceResultsAsync.Total);
+                var defaultSorter = new ExpressionSorter<SimpleOrganizationDTO>(x => x.Name, SortDirection.Ascending);
+                var queryOperator = new QueryableOperator<SimpleOrganizationDTO>(0, 10, defaultSorter);
+                var serviceResultsAsync = await service.GetOrganizationsAsync(queryOperator);
+
+                Assert.AreEqual(1, serviceResultsAsync.Total);
+            }
+
         }
-        **/
 
         #region Get By Id
         [TestMethod]
@@ -136,7 +156,7 @@ namespace ECA.Business.Test.Service.Admin
                 ParentOrganization = parentOrg,
             };
             org.History.RevisedOn = lastRevised;
-            
+
 
             context.Organizations.Add(org);
             context.Organizations.Add(parentOrg);

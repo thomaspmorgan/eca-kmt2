@@ -23,7 +23,7 @@ angular.module('staticApp')
 
       $scope.data.loadedOrganizationPromise.promise
       .then(function (org) {
-          $info.log('edit here.');
+          $log.info('edit here.');
           isOrganizationLoading(false);
       });
 
