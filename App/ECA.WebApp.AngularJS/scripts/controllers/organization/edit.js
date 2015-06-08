@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name staticApp.controller:OrganizationOverviewCtrl
- * @description The overview controller is used on the overview tab of an organization.
+ * @name staticApp.controller:OrganizationEditCtrl
+ * @description The edit controller is used on the edit view of an organization.
  * # OrganizationOverviewCtrl
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('OrganizationOverviewCtrl', function (
+  .controller('OrganizationEditCtrl', function (
         $scope,
         $stateParams,
         $q,
@@ -23,7 +23,7 @@ angular.module('staticApp')
 
       $scope.data.loadedOrganizationPromise.promise
       .then(function (org) {
-          $log.info('overview here.');
+          $info.log('edit here.');
           isOrganizationLoading(false);
       });
 

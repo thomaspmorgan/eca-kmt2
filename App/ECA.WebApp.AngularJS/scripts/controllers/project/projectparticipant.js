@@ -100,6 +100,7 @@ angular.module('staticApp')
       $scope.participantsLoading = false;
       $scope.getParticipants = function (tableState) {
 
+          $scope.showParticipantInfo = [];
           $scope.participantsLoading = true;
 
           TableService.setTableState(tableState);
@@ -121,6 +122,15 @@ angular.module('staticApp')
                 $log.error('Unable to load project participants.');
                 NotificationService.showErrorMessage('Unable to load project participants.');
             });
+      };
+
+      $scope.showParticipantInfo = [];
+      $scope.toggleParticipantInfo = function (participantId) {
+          if ($scope.showParticipantInfo[participantId] === true) {
+              $scope.showParticipantInfo[participantId] = false;
+          } else {
+              $scope.showParticipantInfo[participantId] = true;
+          }
       };
 
       $scope.view.isLoading = true;

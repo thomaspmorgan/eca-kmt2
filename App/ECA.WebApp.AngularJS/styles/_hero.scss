@@ -114,7 +114,10 @@
 
         .permalink {
             margin: 60px 0 -30px 0;
-            opacity: .75;
+            opacity: .75;            
+            a {
+                color:white;
+            }
         }
     }
 }

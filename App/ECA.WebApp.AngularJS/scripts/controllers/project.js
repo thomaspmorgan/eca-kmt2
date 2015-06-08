@@ -41,7 +41,7 @@ angular.module('staticApp')
       $scope.editingMoneyFlows = [];
       $scope.dateFormat = 'dd-MMMM-yyyy';
 
-      // initialize new Program record
+// initialize new Program record
       $scope.newMoneyFlow = {};
 
       /* END money flows*/
@@ -358,6 +358,11 @@ angular.module('staticApp')
           $scope.incomingSelected = "directionSelected";
           $scope.outgoingSelected = "";
           $scope.sourceRecipientLabel = "Source";
+
+          $scope.fiscalYears = [];
+          for (var i = new Date().getFullYear() ; i >= 2010 ; i--) {
+              $scope.fiscalYears.push({ year: i });
+          }
 
           $scope.showCreateMoneyFlow = true;
       };

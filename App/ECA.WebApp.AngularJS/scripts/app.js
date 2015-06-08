@@ -402,7 +402,30 @@ angular
             controller: 'OrganizationOverviewCtrl',
             requireADLogin: true
         })
-
+        .state('organizations.edit', {
+            url: '/edit',
+            templateUrl: 'views/organizations/edit.html',
+            controller: 'OrganizationEditCtrl',
+            requireADLogin: true
+        })
+        .state('organizations.artifacts', {
+            url: '/artifacts',
+            templateUrl: 'views/organizations/artifacts.html',
+            controller: 'OrganizationArtifactsCtrl',
+            requireADLogin: true
+        })
+        .state('organizations.impact', {
+            url: '/impact',
+            templateUrl: 'views/organizations/impact.html',
+            controller: 'OrganizationImpactCtrl',
+            requireADLogin: true
+        })
+        .state('organizations.activities', {
+            url: '/activities',
+            templateUrl: 'views/organizations/activities.html',
+            controller: 'OrganizationActivitiesCtrl',
+            requireADLogin: true
+        })
         .state('partner', {
             url: '/partner',
             templateUrl: 'views/partner.html',

@@ -118,33 +118,39 @@
                     <span class="moneyFlowDirection {{incomingSelected}}" ng-click="changeMoneyFlowDirection('incoming')">Incoming</span>
                     <span class="moneyFlowDirection {{outgoingSelected}}" ng-click="changeMoneyFlowDirection('outgoing')">Outgoing</span>
                 </div>
-                <label>Transaction Date<span class="asterisk"> *</span></label>
+                <div class="form-group narrow"
+                    <label>Transaction Date<span class="asterisk"> *</span></label>
 
-                <p class="input-group">
-                    <input name="start" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="newMoneyFlow.transactionDate"
-                           is-open="transactionCalendarOpened" close-text="Close" placeholder="Enter transaction date..." required />
-                    <span class="input-group-btn" style="width:0;">
-                        <button type="button" class="btn btn-default" ng-click="transactionCalendarOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                </p>
-                <div ng-show="modalForm.moneyFlowForm.start.$dirty">
-                    <div class="error" ng-show="modalForm.moneyFlowForm.start.$error.required">Please enter a transaction date.</div>
+                    <p class="input-group">
+                        <input name="start" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="newMoneyFlow.transactionDate"
+                               is-open="transactionCalendarOpened" close-text="Close" placeholder="Enter transaction date..." required />
+                        <span class="input-group-btn" style="width:0;">
+                            <button type="button" class="btn btn-default" ng-click="transactionCalendarOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                    <div ng-show="modalForm.moneyFlowForm.transactionDate.$dirty">
+                        <div class="error" ng-show="modalForm.moneyFlowForm.transactionDate.$error.required">Please enter a transaction date.</div>
+                    </div>
                 </div>
 
                 <div class="form-group narrow">
                     <label>Transaction Status<span class="asterisk"> *</span></label>
                     <select class="form-control" id="modalStatus" ng-options="s.id as s.name for s in moneyFlowStati" ng-model="newMoneyFlow.statusId" />
-                    <div ng-show="modalForm.moneyFlowForm.start.$dirty">
-                        <div class="error" ng-show="modalForm.moneyFlowForm.start.$error.required">Please enter a transaction date.</div>
+                    <div ng-show="modalForm.moneyFlowForm.statusId.$dirty">
+                        <div class="error" ng-show="modalForm.moneyFlowForm.statusId.$error.required">Please enter a transaction date.</div>
                     </div>
                 </div>
 
                 <div class="form-group narrow">
                     <label>Amount (USD) / Fiscal Year<span class="asterisk"> *</span></label>
+                    <p>
                     <input type="number" class="form-control currency" min="-1000000.00" max="1000000.00" step="100" value="0.00" ng-model="newMoneyFlow.amount"
                            form-element guidance="The USD amount of the transaction." required />
-                    <div ng-show="modalForm.moneyFlowForm.name.$dirty">
-                        <div class="error" ng-show="modalForm.moneyFlowForm.name.$error.required">Please enter a program name.</div>
+                    <select class="form-control" id="modalFiscalYear" ng-options="s.year for s in fiscalYears" ng-model="newMoneyFlow.fiscalYear" />
+                    </p>
+
+                    <div ng-show="modalForm.moneyFlowForm.amount.$dirty">
+                        <div class="error" ng-show="modalForm.moneyFlowForm.amount.$error.required">Please enter an amount and fiscal year</div>
                     </div>
                 </div>
 
@@ -153,6 +159,7 @@
                     <select class="form-control" id="modalSourceType"
                             ng-options="s.id as s.name for s in moneyFlowSourceTypes"
                             ng-model="newMoneyFlow.sourceTypeId"
+                            placeholder="Enter type of {{sourceRecipientLabel}}..."
                             ng-change="changeSourceRecipientType()" />
                 </div>
 
@@ -167,14 +174,15 @@
                 <div class="form-group" ng-show="showFromToTextControl">
                     <label>{{sourceRecipientLabel}}<span class="asterisk"> *</span></label>
                     <input name="fromTo" ng-model="newMoneyFlow.fromToText" form-element guidance="Enter source/recipient"
-                           type="text" class="form-control" placeholder="Enter source/recipient" required>
+                           type="text" class="form-control" placeholder="Enter source/recipient">
                 </div>
+
                 <div class="form-group">
                     <label>Description<span class="asterisk"> *</span></label>
                     <input name="name" ng-model="newMoneyFlow.description" form-element guidance="Enter a short description of this income or expense"
                            type="text" class="form-control" placeholder="Enter funding item description..." required>
-                    <div ng-show="modalForm.moneyFlowForm.name.$dirty">
-                        <div class="error" ng-show="modalForm.moneyFlowForm.name.$error.required">Please enter a description.</div>
+                    <div ng-show="modalForm.moneyFlowForm.description.$dirty">
+                        <div class="error" ng-show="modalForm.moneyFlowForm.description.$error.required">Please enter a description.</div>
                     </div>
                 </div>
 
@@ -184,7 +192,7 @@
             </div>
             <div class="modalFormButtons">
                 <button class="btn btn-default" ng-click="createModalCancel()">CANCEL</button>
-                <button ng-disabled="modalForm.moneyFlowForm.$invalid" class="btn btn-success right" ng-click="saveCreatedProgram()">CREATE</button>
+                <button ng-disabled="modalForm.moneyFlowForm.$invalid" class="btn btn-success right" ng-click="saveCreatedMoneyFlow()">CREATE</button>
             </div>
         </div>
 </modal-dialog>
