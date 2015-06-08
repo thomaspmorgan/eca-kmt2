@@ -9,8 +9,8 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllProgramsCtrl', function ($scope, $q, $stateParams, $state, ProgramService, LookupService, TableService, orderByFilter,
-      OfficeService, $timeout, $log, NotificationService) {
+  .controller('AllProgramsCtrl', function ($scope, $q, $stateParams, $state, ProgramService, LookupService, TableService, orderByFilter, ConstantsService,
+      AuthService, OfficeService, $timeout, $log, NotificationService) {
 
       $scope.errorMessage = 'Unknown Error';
       $scope.validations = [];
@@ -161,8 +161,15 @@ angular.module('staticApp')
               angular.forEach($scope.offices, function (value, key) {
                   $scope.offices[key].ticked = false;
               });
-
           });
+
+      AuthService.getUserInfo()
+      .then(function (response) {
+          $scope.ecaUserId = response.data.ecaUserId;
+      })
+      .catch(function () {
+          $log.error('Unable to load user info.');
+      })
 
       $scope.allCategoriesGrouped = [];
       function loadCategories(officeId) {
@@ -350,13 +357,18 @@ angular.module('staticApp')
               filter: TableService.getFilter(),
               keyword: TableService.getKeywords()
           };
-
-          $scope.programFilter = params.keyword;
-
-          if ($scope.draftsOnly) {
-              params.filter = [{ property: 'programstatusID', comparison: 'eq', value: 4 }];
+          if (!params.filter) {
+              params.filter = [];
           }
-
+          
+          $scope.programFilter = params.keyword;
+          if ($scope.draftsOnly) {
+              params.filter.push({ property: 'programStatusId', comparison: ConstantsService.equalComparisonType, value: ConstantsService.programStatus.draft.id });
+              params.filter.push({ property: 'createdByUserId', comparison: ConstantsService.equalComparisonType, value: $scope.ecaUserId });
+          }
+          else {
+              params.filter.push({ property: 'programStatusId', comparison: ConstantsService.notEqualComparisonType, value: ConstantsService.programStatus.draft.id });
+          }
           if ($scope.programList.type == "alpha") {
               $scope.refreshProgramsAlpha(params, tableState);
           }
@@ -546,8 +558,7 @@ angular.module('staticApp')
           if (programForm.$valid) {
               cleanUpNewProgram();
 
-              if ($scope.out.OwnerOrganization.length > 0)
-              {
+              if ($scope.out.OwnerOrganization.length > 0) {
                   $scope.newProgram.ownerOrganizationId = $scope.out.OwnerOrganization[0].organizationId;
               }
               ProgramService.create($scope.newProgram)

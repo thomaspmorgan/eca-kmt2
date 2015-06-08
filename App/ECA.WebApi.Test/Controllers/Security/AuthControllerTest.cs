@@ -76,7 +76,8 @@ namespace ECA.WebApi.Test.Controllers.Security
         {
             var camUser = new User
             {
-                DisplayName = "display Name"
+                DisplayName = "display Name",
+                PrincipalId = 1
 
             };
             var simpleUser = new SimpleUser
@@ -94,6 +95,7 @@ namespace ECA.WebApi.Test.Controllers.Security
             Assert.AreEqual(simpleUser.Id, okResult.Content.UserId);
             Assert.AreEqual(simpleUser.Username, okResult.Content.UserName);
             Assert.AreEqual(camUser.DisplayName, okResult.Content.DisplayName);
+            Assert.AreEqual(camUser.PrincipalId, okResult.Content.EcaUserId);
         }
 
         [TestMethod]

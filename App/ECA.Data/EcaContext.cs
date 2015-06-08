@@ -246,6 +246,11 @@ namespace ECA.Data
         public DbSet<ProgramType> ProgramTypes { get; set; }
 
         /// <summary>
+        /// Gets or sets program statuses.
+        /// </summary>
+        public DbSet<ProgramStatus> ProgramStatuses { get; set; }
+
+        /// <summary>
         /// Gets or sets projects.
         /// </summary>
         public DbSet<Project> Projects { get; set; }

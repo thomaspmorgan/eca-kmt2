@@ -16,6 +16,11 @@ namespace ECA.WebApi.Models.Security
         public Guid UserId { get; set; }
 
         /// <summary>
+        /// The eca system id i.e. the cam user id.
+        /// </summary>
+        public int EcaUserId { get; set; }
+
+        /// <summary>
         /// The username.
         /// </summary>
         public string UserName { get; set; }

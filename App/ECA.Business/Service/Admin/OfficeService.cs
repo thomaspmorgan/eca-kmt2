@@ -25,7 +25,7 @@ namespace ECA.Business.Service.Admin
         /// <summary>
         /// Gets the name of the GetPrograms sproc in the database.
         /// </summary>
-        private const string GET_PROGRAMS_SPROC_NAME = "GetPrograms";
+        public const string GET_PROGRAMS_SPROC_NAME = "GetPrograms";
 
         private const string GET_OFFICES_SPROC_NAME = "GetOffices";
 
