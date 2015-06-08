@@ -5,7 +5,7 @@
     [Description]                       NVARCHAR (3000)     NOT NULL,
     [Status]                            NVARCHAR (20)     NOT NULL,
     [Name]                              NVARCHAR (600)     NOT NULL,
-    [Website]                           NVARCHAR (200)     NULL,
+    [Website]                           NVARCHAR (2000)     NULL,
     [History_CreatedBy]                 INT                NOT NULL,
     [History_CreatedOn]                 DATETIMEOFFSET (7) NOT NULL,
     [History_RevisedBy]                 INT                NOT NULL,

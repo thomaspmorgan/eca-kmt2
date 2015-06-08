@@ -17,7 +17,9 @@ angular.module('staticApp')
         ConstantsService,
         AuthService,
         ProjectService,
-        NotificationService) {
+        NotificationService,
+        TableService,
+        ParticipantService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -94,6 +96,42 @@ angular.module('staticApp')
               NotificationService.showErrorMessage('Unable to load project collaborator details.');
           });
       }
+
+      $scope.participantsLoading = false;
+      $scope.getParticipants = function (tableState) {
+
+          $scope.showParticipantInfo = [];
+          $scope.participantsLoading = true;
+
+          TableService.setTableState(tableState);
+
+          var params = {
+              start: TableService.getStart(),
+              limit: TableService.getLimit(),
+              sort: TableService.getSort(),
+              filter: TableService.getFilter()
+          };
+
+          ParticipantService.getParticipantsByProject($stateParams.projectId, params)
+            .then(function (data) {
+                $scope.project.participants = data.results;
+                var limit = TableService.getLimit();
+                tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
+                $scope.participantsLoading = false;
+            }, function (error) {
+                $log.error('Unable to load project participants.');
+                NotificationService.showErrorMessage('Unable to load project participants.');
+            });
+      };
+
+      $scope.showParticipantInfo = [];
+      $scope.toggleParticipantInfo = function (participantId) {
+          if ($scope.showParticipantInfo[participantId] === true) {
+              $scope.showParticipantInfo[participantId] = false;
+          } else {
+              $scope.showParticipantInfo[participantId] = true;
+          }
+      };
 
       $scope.view.isLoading = true;
       $q.all([loadPermissions(), loadCollaboratorDetails()])

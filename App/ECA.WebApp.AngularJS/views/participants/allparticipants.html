@@ -35,7 +35,7 @@
             <tbody class="list2">
                 <tr class="hover" ng-repeat="participant in participants" ng-show="!participantsLoading">
                     <td>
-                        <h5 class="list-title"><a ui-sref="participants.personalinformation({participantId: participant.participantId})">{{participant.name}}</a></h5>
+                        <h5 class="list-title"><a ng-click="onParticipantClick(participant)">{{participant.name}}</a></h5>
                     </td>
                     <td>{{participant.participantType}}</td>
                     <td>Active</td>

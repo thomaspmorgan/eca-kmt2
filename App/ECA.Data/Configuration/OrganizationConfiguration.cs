@@ -18,6 +18,7 @@ namespace ECA.Data.Configuration
         public OrganizationConfiguration()
         {
             Property(a => a.OfficeSymbol).IsOptional().HasMaxLength(Organization.OFFICE_SYMBOL_MAX_LENGTH);
+            Property(a => a.ParentOrganizationId).HasColumnName("ParentOrganization_OrganizationId");
             HasMany<Contact>(p => p.Contacts).WithMany(t => t.Organizations)
             .Map(p =>
             {
@@ -29,6 +30,7 @@ namespace ECA.Data.Configuration
             HasMany<Focus>(p => p.Foci).WithRequired(t => t.Office).HasForeignKey(p => p.OfficeId);
             HasMany<Justification>(p => p.Justifications).WithRequired(t => t.Office).HasForeignKey(p => p.OfficeId);
             HasMany<OfficeSetting>(p => p.OfficeSettings).WithRequired(t => t.Office).HasForeignKey(p => p.OfficeId);
+            HasOptional(x => x.ParentOrganization).WithMany().HasForeignKey(x => x.ParentOrganizationId);
         }
     }
 }

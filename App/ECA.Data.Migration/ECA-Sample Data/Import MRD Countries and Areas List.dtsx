@@ -1,0 +1,1593 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/29/2015 4:52:41 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{F3F9F6FB-4F95-47EC-83FE-76E7C4E2F3EE}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Import MRD Countries and Areas List"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{A6588618-57AF-43F7-AC64-E12F1DA57E2B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.Sample_Data]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{8B5ED9BC-C7CE-46EB-8D51-7CBB810E2E5B}"
+      DTS:ObjectName="(localdb)\v11.0.Sample_Data">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=Sample_Data;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[BE00003308\SQLExpress2014.ECA_Data_Migration.msetien]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{5CCDD44D-0147-400B-BECE-29000BB95E31}"
+      DTS:ObjectName="BE00003308\SQLExpress2014.ECA_Data_Migration.msetien">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=BE00003308\SQLExpress2014;User ID=msetien;Initial Catalog=ECA_Data_Migration;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAvrIA4CP7LTp+i2tix2tsy6AtG96s4LZCBKL9WRJvljAAAAAAOgAAAAAIAACAAAACAWypRo7XVXoNC+srWcBGXR9v+gukhNV25nZCgZm43tiAAAAC/YuUiLldMLkXGgRSyiByT09UfvDPDjE44sPkFcvKgwUAAAAAlp9yaSS+ylFjJ0ct3o/wyMKjM8ii1/8dkraP/udTvlNvHxKwhsAgVzmf0Nwd4oyfjQ7YNEQ0ASwWJ41fmoiFP</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{C8518525-7891-448A-9954-FF9393C36CD3}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\ECA\Copy of EDQI MRD Countries and Areas 2015-03-11.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 1]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{15E70A7E-95AF-444B-9D8A-D33F9FC4BD02}"
+      DTS:ObjectName="Excel Connection Manager 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\ECA_KMT\App\ECA.Database\Data Migration\Sample Data\ECA\EDQI MRD Countries and Areas 2015-03-11.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Import MRD Countries and Areas"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{1F130A0F-4731-4ABE-AFC5-EEFD96660AD1}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Import MRD Countries and Areas"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="MRD Countries and Areas Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">ReferenceData$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 1]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area ID]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area ID]"
+                      name="Country or Area ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Public View IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Public View IND]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Public View IND]"
+                      name="Public View IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Name]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Name]"
+                      name="Country or Area Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Name Full]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Name Full]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Name Full]"
+                      name="Country or Area Name Full"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code GENC 2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Code GENC 2]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code GENC 2]"
+                      name="Country or Area Code GENC 2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code GENC 3]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Code GENC 3]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code GENC 3]"
+                      name="Country or Area Code GENC 3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code GENC NBR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Code GENC NBR]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code GENC NBR]"
+                      name="Country or Area Code GENC NBR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code TAGS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Code TAGS]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code TAGS]"
+                      name="Country or Area Code TAGS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code 4FAH430]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Code 4FAH430]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code 4FAH430]"
+                      name="Country or Area Code 4FAH430"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country IND]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country IND]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country IND]"
+                      name="Country IND"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Affiliated Country or Area ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Affiliated Country or Area ID]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Affiliated Country or Area ID]"
+                      name="Affiliated Country or Area ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Affiliated Country or Area Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Affiliated Country or Area Name]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Affiliated Country or Area Name]"
+                      name="Affiliated Country or Area Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Capital Location ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Capital Location ID]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Capital Location ID]"
+                      name="Capital Location ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Capital Location Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Capital Location Name]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Capital Location Name]"
+                      name="Capital Location Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Admin Capital ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Admin Capital ID]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Admin Capital ID]"
+                      name="Admin Capital ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Admin Capital Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Admin Capital Name]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Admin Capital Name]"
+                      name="Admin Capital Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Legislative Capital ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Legislative Capital ID]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Legislative Capital ID]"
+                      name="Legislative Capital ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Legislative Capital Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Legislative Capital Name]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Legislative Capital Name]"
+                      name="Legislative Capital Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Judicial Capital ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Judicial Capital ID]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Judicial Capital ID]"
+                      name="Judicial Capital ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Judicial Capital Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Judicial Capital Name]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Judicial Capital Name]"
+                      name="Judicial Capital Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[GeoRegion ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[GeoRegion ID]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[GeoRegion ID]"
+                      name="GeoRegion ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[GeoRegion Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[GeoRegion Name]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[GeoRegion Name]"
+                      name="GeoRegion Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[USAID GeoRegion Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[USAID GeoRegion Code]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[USAID GeoRegion Code]"
+                      name="USAID GeoRegion Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[USAID GeoRegion Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[USAID GeoRegion Name]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[USAID GeoRegion Name]"
+                      name="USAID GeoRegion Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOS Regional Bureau ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[DOS Regional Bureau ID]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOS Regional Bureau ID]"
+                      name="DOS Regional Bureau ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOS Regional Bureau Symbol]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[DOS Regional Bureau Symbol]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOS Regional Bureau Symbol]"
+                      name="DOS Regional Bureau Symbol"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOS Regional Bureau Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[DOS Regional Bureau Name]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOS Regional Bureau Name]"
+                      name="DOS Regional Bureau Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOD Cmd AOR Symbol]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[DOD Cmd AOR Symbol]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOD Cmd AOR Symbol]"
+                      name="DOD Cmd AOR Symbol"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOD Cmd AOR Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[DOD Cmd AOR Name]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOD Cmd AOR Name]"
+                      name="DOD Cmd AOR Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Note]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Note]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Note]"
+                      name="Note"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Current Status Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Current Status Code]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Current Status Code]"
+                      name="Record Current Status Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Current Status Effective Date]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Current Status Effective Date]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Current Status Effective Date]"
+                      name="Current Status Effective Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Creation Date]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Creation Date]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Creation Date]"
+                      name="Record Creation Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Update Date]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Update Date]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Update Date]"
+                      name="Record Update Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Steward ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Steward ID]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Steward ID]"
+                      name="Record Steward ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Future Status Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Future Status Code]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Future Status Code]"
+                      name="Record Future Status Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Future Status Effective Date]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Future Status Effective Date]"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Future Status Effective Date]"
+                      name="Record Future Status Effective Date"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Public View IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="Public View IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Name Full]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Name Full" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Code GENC 2]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code GENC 2" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Code GENC 3]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code GENC 3" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Code GENC NBR]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code GENC NBR" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Code TAGS]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code TAGS" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country or Area Code 4FAH430]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code 4FAH430" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Country IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Affiliated Country or Area ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Affiliated Country or Area ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Affiliated Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Affiliated Country or Area Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Capital Location ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Capital Location ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Capital Location Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Capital Location Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Admin Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Admin Capital ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Admin Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Admin Capital Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Legislative Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Legislative Capital ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Legislative Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Legislative Capital Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Judicial Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Judicial Capital ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Judicial Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Judicial Capital Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[GeoRegion ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="GeoRegion ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[GeoRegion Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="GeoRegion Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[USAID GeoRegion Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="USAID GeoRegion Code" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[USAID GeoRegion Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="USAID GeoRegion Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[DOS Regional Bureau ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS Regional Bureau ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[DOS Regional Bureau Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS Regional Bureau Symbol" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[DOS Regional Bureau Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS Regional Bureau Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[DOD Cmd AOR Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOD Cmd AOR Symbol" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[DOD Cmd AOR Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOD Cmd AOR Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Note]"
+                      dataType="wstr"
+                      length="255"
+                      name="Note" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Current Status Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Current Status Code" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Current Status Effective Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Current Status Effective Date" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Creation Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Creation Date" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Update Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Update Date" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Steward ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Steward ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Future Status Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Future Status Code" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].ExternalColumns[Record Future Status Effective Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Future Status Effective Date" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area ID]"
+                      name="Country or Area ID" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Public View IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Public View IND]"
+                      name="Public View IND" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Name]"
+                      name="Country or Area Name" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Name Full]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Name Full]"
+                      name="Country or Area Name Full" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Code GENC 2]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Code GENC 2]"
+                      name="Country or Area Code GENC 2" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Code GENC 3]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Code GENC 3]"
+                      name="Country or Area Code GENC 3" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Code GENC NBR]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Code GENC NBR]"
+                      name="Country or Area Code GENC NBR" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Code TAGS]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Code TAGS]"
+                      name="Country or Area Code TAGS" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Code 4FAH430]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country or Area Code 4FAH430]"
+                      name="Country or Area Code 4FAH430" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country IND]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Country IND]"
+                      name="Country IND" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Affiliated Country or Area ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Affiliated Country or Area ID]"
+                      name="Affiliated Country or Area ID" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Affiliated Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Affiliated Country or Area Name]"
+                      name="Affiliated Country or Area Name" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Capital Location ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Capital Location ID]"
+                      name="Capital Location ID" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Capital Location Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Capital Location Name]"
+                      name="Capital Location Name" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Admin Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Admin Capital ID]"
+                      name="Admin Capital ID" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Admin Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Admin Capital Name]"
+                      name="Admin Capital Name" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Legislative Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Legislative Capital ID]"
+                      name="Legislative Capital ID" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Legislative Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Legislative Capital Name]"
+                      name="Legislative Capital Name" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Judicial Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Judicial Capital ID]"
+                      name="Judicial Capital ID" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Judicial Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Judicial Capital Name]"
+                      name="Judicial Capital Name" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[GeoRegion ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[GeoRegion ID]"
+                      name="GeoRegion ID" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[GeoRegion Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[GeoRegion Name]"
+                      name="GeoRegion Name" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[USAID GeoRegion Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[USAID GeoRegion Code]"
+                      name="USAID GeoRegion Code" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[USAID GeoRegion Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[USAID GeoRegion Name]"
+                      name="USAID GeoRegion Name" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[DOS Regional Bureau ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[DOS Regional Bureau ID]"
+                      name="DOS Regional Bureau ID" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[DOS Regional Bureau Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[DOS Regional Bureau Symbol]"
+                      name="DOS Regional Bureau Symbol" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[DOS Regional Bureau Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[DOS Regional Bureau Name]"
+                      name="DOS Regional Bureau Name" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[DOD Cmd AOR Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[DOD Cmd AOR Symbol]"
+                      name="DOD Cmd AOR Symbol" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[DOD Cmd AOR Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[DOD Cmd AOR Name]"
+                      name="DOD Cmd AOR Name" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Note]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Note]"
+                      name="Note" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Current Status Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Current Status Code]"
+                      name="Record Current Status Code" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Current Status Effective Date]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Current Status Effective Date]"
+                      name="Current Status Effective Date" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Creation Date]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Creation Date]"
+                      name="Record Creation Date" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Update Date]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Update Date]"
+                      name="Record Update Date" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Steward ID]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Steward ID]"
+                      name="Record Steward ID" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Future Status Code]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Future Status Code]"
+                      name="Record Future Status Code" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Future Status Effective Date]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[Record Future Status Effective Date]"
+                      name="Record Future Status Effective Date" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Import MRD Countries and Areas\MRDCountryAreasList"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="MRDCountryAreasList"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[MRDCountryAreasList]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.Sample_Data]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.Sample_Data]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Country or Area ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area ID"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area ID]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area ID]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Public View IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Public View IND"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Public View IND]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Public View IND]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Country or Area Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Name"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Name]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Name]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Country or Area Name Full]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Name Full"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Name Full]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Name Full]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Country or Area Code GENC 2]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Code GENC 2"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Code GENC 2]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code GENC 2]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Country or Area Code GENC 3]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Code GENC 3"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Code GENC 3]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code GENC 3]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Country or Area Code GENC NBR]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Code GENC NBR"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Code GENC NBR]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code GENC NBR]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Country or Area Code TAGS]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Code TAGS"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Code TAGS]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code TAGS]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Country or Area Code 4FAH430]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country or Area Code 4FAH430"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Code 4FAH430]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country or Area Code 4FAH430]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Country IND]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Country IND"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country IND]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Country IND]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Affiliated Country or Area ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Affiliated Country or Area ID"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Affiliated Country or Area ID]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Affiliated Country or Area ID]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Affiliated Country or Area Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Affiliated Country or Area Name"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Affiliated Country or Area Name]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Affiliated Country or Area Name]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Capital Location ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Capital Location ID"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Capital Location ID]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Capital Location ID]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Capital Location Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Capital Location Name"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Capital Location Name]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Capital Location Name]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Admin Capital ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Admin Capital ID"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Admin Capital ID]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Admin Capital ID]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Admin Capital Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Admin Capital Name"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Admin Capital Name]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Admin Capital Name]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Legislative Capital ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Legislative Capital ID"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Legislative Capital ID]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Legislative Capital ID]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Legislative Capital Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Legislative Capital Name"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Legislative Capital Name]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Legislative Capital Name]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Judicial Capital ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Judicial Capital ID"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Judicial Capital ID]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Judicial Capital ID]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Judicial Capital Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Judicial Capital Name"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Judicial Capital Name]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Judicial Capital Name]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[GeoRegion ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="GeoRegion ID"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[GeoRegion ID]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[GeoRegion ID]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[GeoRegion Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="GeoRegion Name"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[GeoRegion Name]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[GeoRegion Name]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[USAID GeoRegion Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="USAID GeoRegion Code"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[USAID GeoRegion Code]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[USAID GeoRegion Code]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[USAID GeoRegion Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="USAID GeoRegion Name"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[USAID GeoRegion Name]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[USAID GeoRegion Name]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[DOS Regional Bureau ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DOS Regional Bureau ID"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[DOS Regional Bureau ID]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOS Regional Bureau ID]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[DOS Regional Bureau Symbol]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DOS Regional Bureau Symbol"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[DOS Regional Bureau Symbol]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOS Regional Bureau Symbol]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[DOS Regional Bureau Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DOS Regional Bureau Name"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[DOS Regional Bureau Name]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOS Regional Bureau Name]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[DOD Cmd AOR Symbol]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DOD Cmd AOR Symbol"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[DOD Cmd AOR Symbol]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOD Cmd AOR Symbol]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[DOD Cmd AOR Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DOD Cmd AOR Name"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[DOD Cmd AOR Name]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[DOD Cmd AOR Name]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Note]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Note"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Note]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Note]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Record Current Status Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Record Current Status Code"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Current Status Code]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Current Status Code]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Current Status Effective Date]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Current Status Effective Date"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Current Status Effective Date]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Current Status Effective Date]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Record Creation Date]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Record Creation Date"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Creation Date]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Creation Date]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Record Update Date]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Record Update Date"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Update Date]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Update Date]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Record Steward ID]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Record Steward ID"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Steward ID]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Steward ID]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Record Future Status Code]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Record Future Status Code"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Future Status Code]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Future Status Code]" />
+                    <inputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].Columns[Record Future Status Effective Date]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Record Future Status Effective Date"
+                      externalMetadataColumnId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Future Status Effective Date]"
+                      lineageId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output].Columns[Record Future Status Effective Date]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Public View IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="Public View IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Name Full]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Name Full" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Code GENC 2]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code GENC 2" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Code GENC 3]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code GENC 3" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Code GENC NBR]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code GENC NBR" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Code TAGS]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code TAGS" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country or Area Code 4FAH430]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country or Area Code 4FAH430" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Country IND]"
+                      dataType="wstr"
+                      length="255"
+                      name="Country IND" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Affiliated Country or Area ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Affiliated Country or Area ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Affiliated Country or Area Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Affiliated Country or Area Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Capital Location ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Capital Location ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Capital Location Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Capital Location Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Admin Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Admin Capital ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Admin Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Admin Capital Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Legislative Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Legislative Capital ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Legislative Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Legislative Capital Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Judicial Capital ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Judicial Capital ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Judicial Capital Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Judicial Capital Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[GeoRegion ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="GeoRegion ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[GeoRegion Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="GeoRegion Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[USAID GeoRegion Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="USAID GeoRegion Code" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[USAID GeoRegion Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="USAID GeoRegion Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[DOS Regional Bureau ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS Regional Bureau ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[DOS Regional Bureau Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS Regional Bureau Symbol" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[DOS Regional Bureau Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOS Regional Bureau Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[DOD Cmd AOR Symbol]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOD Cmd AOR Symbol" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[DOD Cmd AOR Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="DOD Cmd AOR Name" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Note]"
+                      dataType="wstr"
+                      length="255"
+                      name="Note" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Current Status Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Current Status Code" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Current Status Effective Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Current Status Effective Date" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Creation Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Creation Date" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Update Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Update Date" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Steward ID]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Steward ID" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Future Status Code]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Future Status Code" />
+                    <externalMetadataColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input].ExternalColumns[Record Future Status Effective Date]"
+                      dataType="wstr"
+                      length="255"
+                      name="Record Future Status Effective Date" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Import MRD Countries and Areas.Paths[Excel Source Output]"
+              endId="Package\Import MRD Countries and Areas\MRDCountryAreasList.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="234,42"
+          Id="Package\Import MRD Countries and Areas"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Import MRD Countries and Areas">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="262,42"
+          Id="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source"
+          TopLeft="5.5,7.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Import MRD Countries and Areas\MRDCountryAreasList"
+          TopLeft="85.5,109.5" />
+        <EdgeLayout
+          Id="Package\Import MRD Countries and Areas.Paths[Excel Source Output]"
+          TopLeft="136.5,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="39,60"
+              Start="0,0"
+              End="39,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
+                  <mssgle:LineSegment
+                    End="35,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="35,30"
+                    Point2="39,30"
+                    Point3="39,34" />
+                  <mssgle:LineSegment
+                    End="39,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import MRD Countries and Areas\MRD Countries and Areas Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import MRD Countries and Areas\MRDCountryAreasList">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -63,7 +63,14 @@ namespace ECA.WebApi.Controllers.Admin
         public async Task<IHttpActionResult> GetOrganizationByIdAsync(int id)
         {
             var results = await service.GetOrganizationByIdAsync(id);
-            return Ok(results);
+            if (results != null)
+            {
+                return Ok(results);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

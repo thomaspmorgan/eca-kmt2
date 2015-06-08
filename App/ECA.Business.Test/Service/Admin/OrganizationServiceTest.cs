@@ -179,7 +179,7 @@ namespace ECA.Business.Test.Service.Admin
             Action<OrganizationDTO> tester = (testDto) =>
             {
                 Assert.IsNull(testDto.ParentOrganizationName);
-                Assert.AreEqual(-1, testDto.ParentOrganizationId);
+                Assert.IsFalse(testDto.ParentOrganizationId.HasValue);
             };
 
             var dto = service.GetOrganizationById(org.OrganizationId);
