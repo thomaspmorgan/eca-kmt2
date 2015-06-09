@@ -98,6 +98,7 @@
     <Compile Include="Controllers\Admin\OfficesControllerTest.cs" />
     <Compile Include="Controllers\Admin\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsControllerTest.cs" />
+    <Compile Include="Controllers\Persons\ParticipantPersonsControllerTest.cs" />
     <Compile Include="Controllers\Projects\ProjectStatusControllerTest.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesControllerTest.cs" />
     <Compile Include="Controllers\Admin\OrganizationsControllerTest.cs" />

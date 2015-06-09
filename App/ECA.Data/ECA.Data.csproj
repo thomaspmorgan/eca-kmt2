@@ -105,6 +105,7 @@
     <Compile Include="Artifact.cs" />
     <Compile Include="ArtifactType.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="Configuration\FieldOfStudyConfiguration.cs" />
     <Compile Include="Configuration\FocusConfiguration.cs" />
     <Compile Include="Configuration\ImpactConfiguration.cs" />
     <Compile Include="Configuration\ItineraryStop.cs" />
@@ -113,12 +114,15 @@
     <Compile Include="Configuration\ParticipantConfiguration.cs" />
     <Compile Include="Configuration\ParticipantPersonConfiguration.cs" />
     <Compile Include="Configuration\PersonConfiguration.cs" />
+    <Compile Include="Configuration\PositionConfiguration.cs" />
     <Compile Include="Configuration\ProgramConfiguration.cs" />
+    <Compile Include="Configuration\ProgramSubjectConfiguration.cs" />
     <Compile Include="ECA-KMTStaticDataGenerator.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ECA-KMTStaticDataGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="FieldOfStudy.cs" />
     <Compile Include="Focus.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="Goal.cs" />
@@ -142,7 +146,9 @@
     <Compile Include="ParticipantPerson.cs" />
     <Compile Include="PersonStatus.cs" />
     <Compile Include="PhoneNumberType.cs" />
+    <Compile Include="Position.cs" />
     <Compile Include="ProgramStatus.cs" />
+    <Compile Include="ProgramSubject.cs" />
     <Compile Include="ProgramType.cs" />
     <Compile Include="ProjectStatus.cs" />
     <Compile Include="ProjectType.cs" />

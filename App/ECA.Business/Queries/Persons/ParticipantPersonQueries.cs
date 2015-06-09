@@ -23,9 +23,9 @@ namespace ECA.Business.Queries.Persons
                          select new SimpleParticipantPersonDTO
                          {
                              ParticipantId = p.ParticipantId,
-                             FieldOfStudy = p.FieldOfStudyCode,
+                             FieldOfStudy = p.FieldOfStudy.FieldOfStudyCode,
                              SevisId = p.SevisId,
-                             Position = p.PositionCode,
+                             Position = p.Position.PositionCode,
                              HomeInstitution = p.HomeInstitution != null ? new SimpleOrganizationDTO
                              {
                                  OrganizationId = p.HomeInstitution.OrganizationId,
