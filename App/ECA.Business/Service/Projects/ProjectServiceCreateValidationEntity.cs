@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Service.Admin
+namespace ECA.Business.Service.Projects
 {
     /// <summary>
     /// A ProjectServiceCreateValidationEntity is used to validate a new Project.

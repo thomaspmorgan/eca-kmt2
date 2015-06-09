@@ -4,6 +4,7 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
+using ECA.Business.Service.Projects;
 using ECA.Business.Service.Reports;
 using ECA.Business.Validation;
 using ECA.Core.Generation;

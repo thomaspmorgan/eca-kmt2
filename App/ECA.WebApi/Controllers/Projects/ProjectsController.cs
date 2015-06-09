@@ -20,7 +20,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
 
-namespace ECA.WebApi.Controllers.Admin
+namespace ECA.WebApi.Controllers.Projects
 {
     /// <summary>
     /// The ProjectsController is used for managing projects in the ECA system.

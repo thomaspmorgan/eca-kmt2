@@ -1,13 +1,12 @@
-﻿using ECA.Business.Validation;
+﻿using ECA.Business.Service.Admin;
+using ECA.Business.Validation;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ECA.Business.Service.Admin
+namespace ECA.Business.Service.Projects
 {
     /// <summary>
     /// The ProjectServiceValidator is used to validate a Project on create and update.

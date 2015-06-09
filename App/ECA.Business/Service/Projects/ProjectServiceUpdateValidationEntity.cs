@@ -1,13 +1,12 @@
-﻿using ECA.Core.Exceptions;
+﻿using ECA.Business.Service.Admin;
+using ECA.Core.Exceptions;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ECA.Business.Service.Admin
+namespace ECA.Business.Service.Projects
 {
     /// <summary>
     /// A ProjectServiceUpdateValidationEntity is used by a ProjectServiceValidator when validating updates

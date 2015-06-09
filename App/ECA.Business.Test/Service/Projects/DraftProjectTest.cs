@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace ECA.Business.Test.Service.Admin
+namespace ECA.Business.Test.Service.Projects
 {
     [TestClass]
     public class DraftProjectTest

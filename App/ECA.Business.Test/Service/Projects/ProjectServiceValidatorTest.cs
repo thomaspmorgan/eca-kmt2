@@ -1,12 +1,13 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using ECA.Business.Service;
 using ECA.Business.Service.Admin;
-using ECA.Business.Service;
+using ECA.Business.Service.Projects;
 using ECA.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace ECA.Business.Test.Service.Admin
+namespace ECA.Business.Test.Service.Projects
 {
     [TestClass]
     public class ProjectServiceValidatorTest

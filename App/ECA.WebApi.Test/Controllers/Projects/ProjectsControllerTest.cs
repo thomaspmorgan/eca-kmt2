@@ -1,30 +1,30 @@
 ﻿using CAM.Business.Model;
-using System.Linq;
+using CAM.Business.Queries.Models;
 using CAM.Business.Service;
+using CAM.Data;
 using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
+using ECA.Business.Service.Projects;
 using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
-using ECA.WebApi.Controllers.Admin;
+using ECA.WebApi.Controllers.Projects;
 using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
+using ECA.WebApi.Models.Security;
 using ECA.WebApi.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
-using ECA.Core.DynamicLinq.Filter;
-using CAM.Data;
-using ECA.WebApi.Models.Security;
-using CAM.Business.Queries.Models;
 
-namespace ECA.WebApi.Test.Controllers.Admin
+namespace ECA.WebApi.Test.Controllers.Projects
 {
     [TestClass]
     public class ProjectsControllerTest

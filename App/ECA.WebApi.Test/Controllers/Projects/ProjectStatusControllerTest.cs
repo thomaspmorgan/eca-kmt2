@@ -1,17 +1,16 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using ECA.Business.Service.Admin;
-using ECA.WebApi.Controllers.Admin;
+﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service.Projects;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
-using System.Collections.Generic;
-using ECA.Business.Queries.Models.Admin;
+using ECA.WebApi.Controllers.Projects;
 using ECA.WebApi.Models.Query;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 
-namespace ECA.WebApi.Test.Controllers.Admin
+namespace ECA.WebApi.Test.Controllers.Projects
 {
     [TestClass]
     public class ProjectStatusControllerTest
