@@ -111,6 +111,7 @@
     <Compile Include="Configuration\LocationConfiguration.cs" />
     <Compile Include="Configuration\OrganizationConfiguration.cs" />
     <Compile Include="Configuration\ParticipantConfiguration.cs" />
+    <Compile Include="Configuration\ParticipantPersonConfiguration.cs" />
     <Compile Include="Configuration\PersonConfiguration.cs" />
     <Compile Include="Configuration\ProgramConfiguration.cs" />
     <Compile Include="ECA-KMTStaticDataGenerator.generated.cs">

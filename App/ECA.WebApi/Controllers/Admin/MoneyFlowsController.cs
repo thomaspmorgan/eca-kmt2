@@ -121,28 +121,6 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
-        
-        [ResponseType(typeof(MoneyFlowDTO))]
-        public async Task<IHttpActionResult> CopyMoneyFlowAsync(int moneyFlowId)
-        {
-            if (ModelState.IsValid)
-            {
-                var currentUser = userProvider.GetCurrentUser();
-                var businessUser = userProvider.GetBusinessUser(currentUser);
-                await moneyFlowService.CopyAsync(moneyFlowId, businessUser);
 
-                return null;
-                /*
-                var moneyFlow = await moneyFlowService.CreateAsync(model, businessUser);
-                await moneyFlowService.SaveChangesAsync();
-                var dto = await moneyFlowService.GetProjectByIdAsync(project.ProjectId);
-                return Ok(dto);
-                 * */
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
     }
 }

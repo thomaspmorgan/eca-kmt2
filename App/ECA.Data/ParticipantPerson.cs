@@ -45,9 +45,12 @@ namespace ECA.Data
 
         //Relationships
         public Organization HostInstitution {get; set;}
-        public int HostInstitutionId {get; set;}
+
+        public int? HostInstitutionId {get; set;}
         public Organization HomeInstitution {get; set;}
-        public int HomeInstitutionId {get; set;}
+        public int? HomeInstitutionId {get; set;}
+
+        public Participant Participant { get; set; }
 
         public History History { get; set; }
     }
