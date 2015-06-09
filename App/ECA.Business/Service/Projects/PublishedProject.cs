@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Service.Admin
+namespace ECA.Business.Service.Projects
 {
     /// <summary>
     /// A PublishedProject is a business entity that can be used to update projects that current exist in the ECA system.

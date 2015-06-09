@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ECA.Business.Fakes">
-      <HintPath>FakesAssemblies\ECA.Business.Fakes.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -89,7 +86,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Service\Admin\DraftProjectTest.cs" />
+    <Compile Include="Service\Projects\DraftProjectTest.cs" />
     <Compile Include="Service\Admin\JustificationObjectiveServiceTest.cs" />
     <Compile Include="Service\Admin\FocusCategoryServiceTest.cs" />
     <Compile Include="Service\Admin\FocusServiceTest.cs" />
@@ -98,11 +95,11 @@
     <Compile Include="Service\Admin\OfficeServiceTest.cs" />
     <Compile Include="Service\Admin\OfficeSettingsTest.cs" />
     <Compile Include="Service\Admin\OrganizationServiceTest.cs" />
-    <Compile Include="Service\Admin\PublishedProjectTest.cs" />
-    <Compile Include="Service\Admin\ProjectServiceUpdateValidationEntityTest.cs" />
-    <Compile Include="Service\Admin\ProjectServiceValidatorTest.cs" />
-    <Compile Include="Service\Admin\ProjectServiceCreateValidationEntityTest.cs" />
-    <Compile Include="Service\Admin\ProjectStatusServiceTest.cs" />
+    <Compile Include="Service\Projects\PublishedProjectTest.cs" />
+    <Compile Include="Service\Projects\ProjectServiceUpdateValidationEntityTest.cs" />
+    <Compile Include="Service\Projects\ProjectServiceValidatorTest.cs" />
+    <Compile Include="Service\Projects\ProjectServiceCreateValidationEntityTest.cs" />
+    <Compile Include="Service\Projects\ProjectStatusServiceTest.cs" />
     <Compile Include="Service\Admin\GenderServiceTest.cs" />
     <Compile Include="Service\CreateTest.cs" />
     <Compile Include="Service\Lookup\SimpleLookupDTOTest.cs" />
@@ -125,7 +122,7 @@
     <Compile Include="Service\Persons\ContactServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantServiceTest.cs" />
     <Compile Include="Service\Programs\ProgramServiceTest.cs" />
-    <Compile Include="Service\Admin\ProjectServiceTest.cs" />
+    <Compile Include="Service\Projects\ProjectServiceTest.cs" />
     <Compile Include="Service\Lookup\ThemeServiceTest.cs" />
     <Compile Include="TestEcaContext.cs" />
     <Compile Include="Validation\BusinessValidationResultTest.cs" />
@@ -137,7 +134,6 @@
     <Fakes Include="Fakes\EntityFramework.fakes" />
     <Fakes Include="Fakes\System.Data.Entity.fakes" />
     <Fakes Include="Fakes\System.Core.fakes" />
-    <Fakes Include="Fakes\ECA.Business.fakes" />
     <None Include="InMemoryEcaDbContextGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InMemoryEcaDbContextGenerator.generated.cs</LastGenOutput>

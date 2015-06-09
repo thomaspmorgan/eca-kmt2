@@ -1,6 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service;
 using ECA.Business.Service.Admin;
+using ECA.Business.Service.Projects;
 using ECA.Business.Validation;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
@@ -14,10 +15,9 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Test.Service.Admin
+namespace ECA.Business.Test.Service.Projects
 {
     [TestClass]
     public class ProjectServiceTest

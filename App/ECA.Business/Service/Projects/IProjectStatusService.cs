@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECA.Business.Service.Admin
+namespace ECA.Business.Service.Projects
 {
     /// <summary>
     /// An IProjectStatusService performs crud operations for a project status.

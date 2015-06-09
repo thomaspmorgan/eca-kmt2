@@ -1,21 +1,20 @@
-﻿using System.Linq;
-using System.Data.Entity;
-using ECA.Business.Queries.Admin;
+﻿using ECA.Business.Queries.Admin;
 using ECA.Business.Queries.Models.Admin;
-using ECA.Core.DynamicLinq;
-using ECA.Core.Query;
-using ECA.Core.Service;
-using ECA.Data;
-using System;
-using System.Diagnostics.Contracts;
-using System.Threading.Tasks;
+using ECA.Business.Service.Admin;
 using ECA.Business.Validation;
-using System.Collections.Generic;
-using System.Diagnostics;
+using ECA.Core.DynamicLinq;
 using ECA.Core.Exceptions;
+using ECA.Core.Query;
+using ECA.Data;
 using NLog;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ECA.Business.Service.Admin
+namespace ECA.Business.Service.Projects
 {
     /// <summary>
     /// Service to perform crud operations on projects
@@ -40,6 +39,18 @@ namespace ECA.Business.Service.Admin
             this.validator = validator;
             this.officeService = officeService;
         }
+
+        #region Participants
+        //public void AddParticipant()
+        //{
+
+        //}
+
+        //public async Task AddParticipantAsync()
+        //{
+
+        //}
+        #endregion
 
         #region Create
 
@@ -336,7 +347,6 @@ namespace ECA.Business.Service.Admin
         {
             return JustificationObjectiveQueries.CreateGetJustificationObjectiveDTOByProgramIdQuery(this.Context, programId).Select(x => x.Id);
         }
-
 
         #region Get
 

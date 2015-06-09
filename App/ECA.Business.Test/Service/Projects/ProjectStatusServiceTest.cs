@@ -10,8 +10,9 @@ using ECA.Business.Queries.Models.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.DynamicLinq.Filter;
+using ECA.Business.Service.Projects;
 
-namespace ECA.Business.Test.Service.Admin
+namespace ECA.Business.Test.Service.Projects
 {
     [TestClass]
     public class ProjectStatusServiceTest

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using ECA.Business.Service;
+using ECA.Business.Service.Projects;
+using ECA.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ECA.Data;
+using System;
 using System.Collections.Generic;
-using ECA.Business.Service.Admin;
-using ECA.Business.Service;
+using System.Linq;
 
-namespace ECA.Business.Test.Service.Admin
+namespace ECA.Business.Test.Service.Projects
 {
     [TestClass]
     public class PublishedProjectTest

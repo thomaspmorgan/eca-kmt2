@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using ECA.Business.Service.Projects;
 using ECA.Data;
-using ECA.Business.Service.Admin;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
-namespace ECA.Business.Test.Service.Admin
+namespace ECA.Business.Test.Service.Projects
 {
     [TestClass]
     public class ProjectServiceCreateValidationEntityTest
