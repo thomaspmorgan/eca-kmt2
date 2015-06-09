@@ -48,7 +48,20 @@ namespace ECA.WebApi.Controllers.Admin
             Contract.Requires(moneyFlowService != null, "The money flow service must not be null.");
             this.moneyFlowService = moneyFlowService;
         }
+        public MoneyFlowsController(IMoneyFlowService moneyFlowService, 
+            IResourceAuthorizationHandler authorizationHandler, IUserProvider userProvider, 
+            IResourceService resourceService)
+        {
+            Contract.Requires(moneyFlowService != null, "The money flow service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
+            Contract.Requires(authorizationHandler != null, "The authorization handler must not be null.");
+            Contract.Requires(resourceService != null, "The resource service must not be null.");
 
+            this.moneyFlowService = moneyFlowService;
+            this.resourceService = resourceService;
+            this.authorizationHandler = authorizationHandler;
+            this.userProvider = userProvider;
+        }
         [ResponseType(typeof(MoneyFlowDTO))]
         public async Task<IHttpActionResult> GetMoneyFlowByIdAsync(int id)
         {
@@ -121,6 +134,30 @@ namespace ECA.WebApi.Controllers.Admin
                 return BadRequest(ModelState);
             }
         }
+        
+        /*
+        [ResponseType(typeof(MoneyFlowDTO))]
+        public async Task<IHttpActionResult> CopyMoneyFlowAsync(int moneyFlowId)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await moneyFlowService.CopyAsync(moneyFlowId, businessUser);
 
+                return null;
+                
+                var moneyFlow = await moneyFlowService.CreateAsync(model, businessUser);
+                await moneyFlowService.SaveChangesAsync();
+                var dto = await moneyFlowService.GetProjectByIdAsync(project.ProjectId);
+                return Ok(dto);
+                
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+         * */
     }
 }

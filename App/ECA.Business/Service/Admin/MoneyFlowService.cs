@@ -24,18 +24,15 @@ namespace ECA.Business.Service.Admin
     public class MoneyFlowService : EcaService, IMoneyFlowService
     {
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private readonly IBusinessValidator<MoneyFlowValidationEntity, MoneyFlowValidationEntity> validator;
+        private readonly IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator;
 
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="context">The context to query</param>
-        public MoneyFlowService(EcaContext context) : base(context)
+        public MoneyFlowService(EcaContext context, IOfficeService officeService, IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity> validator)
+            : base(context)
         {
             Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(validator != null, "The validator must not be null.");
+            this.validator = validator;
         }
-
         /// <summary>
         /// Gets moneyflows by the project id 
         /// </summary>
@@ -73,7 +70,7 @@ namespace ECA.Business.Service.Admin
 
         public MoneyFlow Create(DraftMoneyFlow draftMoneyFlow, User user)
         {
-            validator.ValidateCreate(GetValidationEntity(draftMoneyFlow));
+            validator.ValidateCreate(GetCreateValidationEntity(draftMoneyFlow));
             var moneyFlow = DoCreate(draftMoneyFlow);
             this.logger.Trace("Created money flow {0}.", moneyFlow);
             return moneyFlow;
@@ -81,7 +78,7 @@ namespace ECA.Business.Service.Admin
 
         public async Task<MoneyFlow> CreateAsync(DraftMoneyFlow draftMoneyFlow, User user)
         {
-            validator.ValidateCreate(GetValidationEntity(draftMoneyFlow));
+            validator.ValidateCreate(GetCreateValidationEntity(draftMoneyFlow));
             var moneyFlow = await DoCreateAsync(draftMoneyFlow);
             this.logger.Trace("Created money flow {0}.", moneyFlow);
             return moneyFlow;
@@ -226,9 +223,9 @@ namespace ECA.Business.Service.Admin
             return this.Context.Transportations.Find(transportationId);
         }
         
-        private MoneyFlowValidationEntity GetValidationEntity(DraftMoneyFlow draftMoneyFlow)
+        private MoneyFlowServiceCreateValidationEntity GetCreateValidationEntity(DraftMoneyFlow draftMoneyFlow)
         {
-            return new MoneyFlowValidationEntity(draftMoneyFlow.Description, draftMoneyFlow.Value,
+            return new MoneyFlowServiceCreateValidationEntity(draftMoneyFlow.Description, draftMoneyFlow.Value,
                 draftMoneyFlow.TransactionDate);
         }
 

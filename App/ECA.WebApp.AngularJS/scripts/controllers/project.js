@@ -25,6 +25,8 @@ angular.module('staticApp')
 
       /* Money Flow */
 
+      $scope.currentProjectId = $stateParams.projectId;
+
       $scope.moneyFlows = [];
       $scope.moneyFlowTypes = [];
       $scope.moneyFlowStati = [];
@@ -36,13 +38,25 @@ angular.module('staticApp')
       $scope.moneyFlowConfirmMessage = "saved";
       
       $scope.showFromToSelectControl = false;
-      $scope.showFromToTextControl = false;
       
       $scope.editingMoneyFlows = [];
       $scope.dateFormat = 'dd-MMMM-yyyy';
 
-// initialize new Program record
-      $scope.newMoneyFlow = {};
+// initialize new money flow record to be used for creating and editing
+      $scope.draftMoneyFlow = {
+          description: '',
+          moneyFlowTypeId: null,
+          moneyFlowStatusId: null,
+          value: 0,
+          transactionDate: new Date(),
+          fiscalYear: new Date().getFullYear(),
+          sourceProjectId: null,
+          recipientProjectId: null,
+          sourceRecipientId: null,
+          sourceTypeId: 0,
+          recipientTypeId: 0,
+          sourceRecipientTypeId: null
+      };
 
       /* END money flows*/
       $scope.currentlyEditing = false;
@@ -373,7 +387,7 @@ angular.module('staticApp')
 
           MoneyFlowService.get(moneyFlowId)
             .then(function (data) {
-                $scope.newMoneyFlow = data;
+                $scope.draftMoneyFlow = data;
                 $scope.changeSourceRecipientType();
                 $scope.currentlyEditing = true;
             });
@@ -418,7 +432,6 @@ angular.module('staticApp')
           }, 3000, function () {
               $("#transactionDate" + moneyFlowId).css("opacity", "100");
               $("#changesSaved" + moneyFlowId).css({"display": "none", "opacity" : "100"});
-
           });
       };
 
@@ -430,6 +443,109 @@ angular.module('staticApp')
           $scope.transactionCalendarOpened = true;
 
       };
+
+      $scope.saveCreatedMoneyFlow = function () {
+          $scope.setSourceRecipient();
+
+          MoneyFlowService.create($scope.draftMoneyFlow)
+            .then(function (moneyFlow) {
+                if (Array.isArray(moneyFlow)) {
+                    $scope.errorMessage = "There were one or more errors:";
+                    $scope.validations = moneyFlow;
+                    $scope.confirmFail = true;
+                }
+                else if (moneyFlow.hasOwnProperty('Message')) {
+                    $scope.errorMessage = moneyFlow.Message;
+                    $scope.validations = moneyFlow.ValidationErrors;
+                    $scope.confirmFail = true;
+                }
+                else if (moneyFlow.hasOwnProperty('ErrorMessage')) {
+                    $scope.errorMessage = moneyFlow.ErrorMessage;
+                    $scope.validations.push(moneyFlow.Property);
+                    $scope.validations.confirmFail = true;
+                }
+                else if (Array.isArray(moneyFlow)) {
+                    $scope.errorMessage = "There were one or more errors:";
+                    $scope.validations = moneyFlow;
+                    $scope.validations.confirmFail = true;
+                }
+                else {
+                    $scope.draftMoneyFlow = moneyFlow; //perhaps not, this is to get the id
+                    $scope.confirmSave = true;
+                    $scope.modalClear();
+                }
+            })
+              .then(function () {
+                $scope.isFormBusy = false;
+            })
+
+              .catch(function () {
+                  alert('Unable to save money flow.');
+              });
+      };
+
+      $scope.setSourceRecipient = function () {
+
+          $scope.draftMoneyFlow.fiscalYear = $scope.draftMoneyFlow.moneyFlowFiscalYear.year;
+          // using the direction and the selected org/project/participant, set the source or recipient
+          if ($scope.moneyFlowDirection == 'incoming')
+          {
+              // set the source
+              $scope.draftMoneyFlow.sourceTypeid = $scope.draftMoneyFlow.sourceRecipientTypeId;
+              $scope.recipientProjectId = $scope.currentProjectId;
+              $scope.draftMoneyFlow.moneyFlowTypeId = 1;
+
+              switch($scope.draftMoneyFlow.sourceRecipientTypeId)
+              {
+                  case 1:
+                      $scope.draftMoneyFlow.sourceOrganizationId = $scope.draftMoneyFlow.sourceRecipientId;
+                      break;
+                  case 2:
+                      $scope.draftMoneyFlow.sourceProgramId = $scope.draftMoneyFlow.sourceRecipientId;
+                      break;                  
+                  case 3:
+                      $scope.draftMoneyFlow.sourceProjectId = $scope.draftMoneyFlow.sourceRecipientId;
+                      break;                  
+                  case 4:
+                      $scope.draftMoneyFlow.sourceParticipantId = $scope.draftMoneyFlow.sourceRecipientId;
+                      break;
+                  case 5:
+                      $scope.draftMoneyFlow.sourceItineraryStopId = $scope.draftMoneyFlow.sourceRecipientId;          
+                      break;
+                  default:
+                      break;
+              }
+          }
+          else
+          {
+              // set the recipient
+              $scope.draftMoneyFlow.recipientTypeid = $scope.draftMoneyFlow.sourceRecipientTypeId;
+              $scope.sourceProjectId = $scope.currentProjectId;
+              $scope.draftMoneyFlow.moneyFlowTypeId = 2;
+
+              switch($scope.draftMoneyFlow.sourceRecipientTypeId)
+              {
+                  case 1:
+                      $scope.draftMoneyFlow.recipientOrganizationId = $scope.draftMoneyFlow.sourceRecipientId;
+                      break;
+                  case 2:
+                      $scope.draftMoneyFlow.recipientProgramId = $scope.draftMoneyFlow.sourceRecipientId;
+                      break;                  
+                  case 3:
+                      $scope.draftMoneyFlow.recipientProjectId = $scope.draftMoneyFlow.sourceRecipientId;
+                      break;                  
+                  case 4:
+                      $scope.draftMoneyFlow.recipientParticipantId = $scope.draftMoneyFlow.sourceRecipientId;
+                      break;
+                  case 5:
+                      $scope.draftMoneyFlow.recipientItineraryStopId = $scope.draftMoneyFlow.sourceRecipientId;          
+                      break;
+                  default:
+                      break;
+              }
+          }
+      };
+
       function saveCopiedMoneyFlow() {
           alert('Copying with function: ' + $scope.currentCopyMoneyFlow);
 
@@ -457,7 +573,7 @@ angular.module('staticApp')
                 }
                 else {
                     $scope.moneyFlow = moneyFlow; //perhaps not, this is to get the id
-                    $scope.confirmSave = true;
+                    $scope.confirmSuccess = true;
                     $scope.modalClear();
                 }
             });
@@ -466,32 +582,10 @@ angular.module('staticApp')
       $scope.changeSourceRecipientType = function () {
           // change the from/to box or keep free-text
           $scope.showFromToSelectControl = false;
-          $scope.showFromToTextControl = false;
 
-          switch($scope.newMoneyFlow.sourceTypeId)
-          {
-              case 1:
-              case 2:
-              case 3:
-              case 4:
+          if ($scope.draftMoneyFlow.sourceTypeId <= 7) {
                   getFromToChoices();
                   $scope.showFromToSelectControl = true;
-                  break;
-
-              case 6:
-              case 7:
-
-                  $scope.showFromToTextControl = true;
-                  break;
-
-              case 5:
-              case 8:
-              case 9:
-                  // do not show either field - these need to be clarified
-                  break;
-              default:
-                  break;
-
           }
       };
       
@@ -500,7 +594,7 @@ angular.module('staticApp')
           $scope.moneyFlowFromTo = [];
           var lookupParams = { start: null,limit: 300,sort: null,filter: null };
 
-          switch ($scope.newMoneyFlow.sourceTypeId)
+          switch ($scope.draftMoneyFlow.sourceRecipientTypeId)
           {
               case 1: // organization service
                   return OrganizationService.getOrganizations(lookupParams)
@@ -523,7 +617,15 @@ angular.module('staticApp')
                         $scope.moneyFlowFromTo = data.results;
                     });
                   break;
-
+              case 5: // itenerary stops
+                  // stub
+                  break;
+              case 6: // accommodation
+                  // stub
+                  break;
+              case 7: // transportation
+                  // stub
+                  break;
           }
       };
 
@@ -537,9 +639,17 @@ angular.module('staticApp')
           if (closeModal)
           {
               $scope.showCreateMoneyFlow = false;
+              $scope.modalClear();
           }
       };
 
+      $scope.modalClear = function () {
+          angular.forEach($scope.draftMoneyFlow, function (value, key) {
+              $scope.draftMoneyFlow[key] = ''
+          });
+
+          $scope.modalForm.moneyFlowForm.$setPristine();
+      };
 
       $scope.checkFormStatus = function () {
           if ($scope.modalForm.moneyFlowForm.$dirty) {

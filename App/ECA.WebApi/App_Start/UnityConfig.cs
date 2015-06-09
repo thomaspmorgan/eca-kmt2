@@ -100,6 +100,9 @@ namespace ECA.WebApi
             container.RegisterType<
                 IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity>,
                 PersonServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>,
+                MoneyFlowServiceValidator>();
         }
 
         public static void RegisterSecurityConcerns(IUnityContainer container)

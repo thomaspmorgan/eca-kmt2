@@ -143,6 +143,7 @@
     <Compile Include="Service\Admin\MoneyFlowValidationEntity.cs" />
     <Compile Include="Service\Admin\OfficeSettings.cs" />
     <Compile Include="Service\Admin\OrganizationService.cs" />
+    <Compile Include="Service\Admin\MoneyFlowServiceValidator.cs" />
     <Compile Include="Service\Projects\AdditionalPersonProjectParticipant.cs" />
     <Compile Include="Service\Projects\AdditionalProjectParticipant.cs" />
     <Compile Include="Service\Projects\ProjectServiceCreateValidationEntity.cs" />
