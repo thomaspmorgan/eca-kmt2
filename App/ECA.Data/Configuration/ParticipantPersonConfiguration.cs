@@ -17,7 +17,7 @@ namespace ECA.Data.Configuration
             HasRequired(a => a.Participant).WithRequiredDependent().WillCascadeOnDelete(false);
 
             Property(a => a.HomeInstitutionId).HasColumnName("HomeInstitutionId");
-            Property(a => a.HomeInstitutionId).HasColumnName("HostInstitutionId");
+            Property(a => a.HostInstitutionId).HasColumnName("HostInstitutionId");
         }
     }
 }
