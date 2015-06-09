@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Projects
 {
-    public class AdditionalPersonProjectParticipant : AdditionalProjectParticipant
+    public class AdditionalOrganizationProjectParticipant : AdditionalProjectParticipant
     {
-        public AdditionalPersonProjectParticipant(User projectOwner, int projectId, int personId)
+        public AdditionalOrganizationProjectParticipant(User projectOwner, int projectId, int organizationId)
             : base(projectOwner, projectId)
         {
             Contract.Requires(projectOwner != null, "The project owner must not be null.");
-            this.PersonId = personId;
-            this.ParticipantTypeId = ParticipantType.Individual.Id;
+            this.OrganizationId = organizationId;
         }
 
-        public int PersonId { get; private set; }
+        public int OrganizationId { get; private set; }
 
         protected override void UpdateParticipantDetails(Participant participant)
         {
-            participant.PersonId = this.PersonId;
+            participant.OrganizationId = this.OrganizationId;
         }
     }
 }

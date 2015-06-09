@@ -86,7 +86,14 @@
 		ValueColumnName = "OrganizationTypeName",
 		Namespace = nameSpace
 	});
-
+	types.Add(new StaticLookupConfig
+	{
+		TableName = "ParticipantStatus",
+		ClassName = "ParticipantStatus",
+		IdColumnName = "ParticipantStatusId",
+		ValueColumnName = "Status",
+		Namespace = nameSpace
+	});
 	types.Add(new StaticLookupConfig
 	{
 		TableName = "ParticipantType",

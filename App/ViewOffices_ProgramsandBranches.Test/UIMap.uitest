@@ -173,31 +173,6 @@ Supports foreign scholars to conduct post-doctoral research and university lectu
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument6.UISortlistPane.UIOfficeofAcademicExchHyperlink" ThinkTime="10000">
-      <ParameterName />
-      <PropertyName>ControlType</PropertyName>
-      <ExpectedValue>Hyperlink</ExpectedValue>
-      <MessageOnValidationFailure>No (Office of Academic Exchange Programs) hyperlink control type.</MessageOnValidationFailure>
-      <Comparison>CurrentCulture</Comparison>
-      <PropertyCondition>Contains</PropertyCondition>
-    </StringAssertAction>
-    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument6.UISortlistPane.UIOfficeofAcademicExchHyperlink">
-      <ParameterName />
-      <PropertyName>InnerText</PropertyName>
-      <ExpectedValue>Office of Academic Exchange Programs</ExpectedValue>
-      <MessageOnValidationFailure>No (Office of Academic Exchange Programs) InnerText available.</MessageOnValidationFailure>
-      <Comparison>CurrentCulture</Comparison>
-      <PropertyCondition>Contains</PropertyCondition>
-    </StringAssertAction>
-    <TestStepMarkerAction Comment="Verify the (Office of Academic Exchanges) control type and innertext are available." MarkerInformation="AssertOfficeName">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
     <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink">
       <ParameterName />
       <PropertyName>InnerText</PropertyName>

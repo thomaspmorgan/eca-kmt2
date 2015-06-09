@@ -47,6 +47,8 @@ namespace ECA.Business.Queries.Models.Admin
         /// </summary>
         public string OfficeSymbol { get; set; }
 
+        public string Status { get; set; }
+
         /// <summary>
         /// Gets or sets the program level.
         /// </summary>

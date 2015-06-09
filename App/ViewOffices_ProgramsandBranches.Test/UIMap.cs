@@ -20,60 +20,53 @@
     {
 
         /// <summary>
-        /// Open browser; navigate to QA site; select ECATest user; enter password; click sign in.
+        /// Verify the (Office of Academic Exchanges) control type and innertext are available.
         /// </summary>
-        public void LogintoQA_ExistingUser()
+        public void AssertOfficeName(string expectedOfficeName)
         {
             #region Variable Declarations
-            HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIECATest1statedeptusHyperlink;
-            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIPasswordEdit;
-            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UISigninPane;
+            HtmlHyperlink uIOfficeofAcademicExchHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument6.UISortlistPane.UIOfficeofAcademicExchHyperlink;
             #endregion
 
-            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
+            // Wait for 10 seconds for user delay between actions; Verify that the 'ControlType' property of 'Office of Academic Exchange Programs' link contains 'Hyperlink'
+            Playback.Wait(10000);
+            StringAssert.Contains(uIOfficeofAcademicExchHyperlink.ControlType.ToString(), "Hyperlink", "No (Office of Academic Exchange Programs) hyperlink control type.");
 
-            // Click 'ECATest1@statedept.us •••' link
-            Mouse.Click(uIECATest1statedeptusHyperlink, new Point(140, 38));
-
-            // Type '********' in 'Password' text box
-            uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
-
-            // Click 'Sign in' pane
-            Mouse.Click(uISigninPane, new Point(33, 24));
+            // Verify that the 'InnerText' property of 'Office of Academic Exchange Programs' link contains 'Office of Academic Exchange Programs'
+            StringAssert.Contains(uIOfficeofAcademicExchHyperlink.InnerText, expectedOfficeName, "No (Office of Academic Exchange Programs) InnerText available.");
         }
 
-        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
-        {
-            get
-            {
-                if ((this.mLogintoQA_ExistingUserParams == null))
-                {
-                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
-                }
-                return this.mLogintoQA_ExistingUserParams;
-            }
-        }
+        //public virtual AssertOfficeNameExpectedValues AssertOfficeNameExpectedValues
+        //{
+        //    get
+        //    {
+        //        if ((this.mAssertOfficeNameExpectedValues == null))
+        //        {
+        //            this.mAssertOfficeNameExpectedValues = new AssertOfficeNameExpectedValues();
+        //        }
+        //        return this.mAssertOfficeNameExpectedValues;
+        //    }
+        //}
 
-        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
+        //private AssertOfficeNameExpectedValues mAssertOfficeNameExpectedValues;
     }
-    /// <summary>
-    /// Parameters to be passed into 'LogintoQA_ExistingUser'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class LogintoQA_ExistingUserParams
-    {
+//    /// <summary>
+//    /// Parameters to be passed into 'AssertOfficeName'
+//    /// </summary>
+//    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+//    public class AssertOfficeNameExpectedValues
+//    {
 
-        #region Fields
-        /// <summary>
-        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-        /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
+//        #region Fields
+//        /// <summary>
+//        /// Wait for 10 seconds for user delay between actions; Verify that the 'ControlType' property of 'Office of Academic Exchange Programs' link contains 'Hyperlink'
+//        /// </summary>
+//        public string UIOfficeofAcademicExchHyperlinkControlType = "Hyperlink";
 
-        /// <summary>
-        /// Type '********' in 'Password' text box
-        /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7n9Hp5j+06Q16vTeHomf4bql8vy/6wcjU0=";
-        #endregion
-}
+//        /// <summary>
+//        /// Verify that the 'InnerText' property of 'Office of Academic Exchange Programs' link contains 'Office of Academic Exchange Programs'
+//        /// </summary>
+//        public string UIOfficeofAcademicExchHyperlinkInnerText = "Office of Academic Exchange Programs";
+//        #endregion
+//}
 }

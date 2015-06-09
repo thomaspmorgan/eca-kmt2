@@ -22,15 +22,17 @@ select
 	prog.History_CreatedBy as CreatedByUserId,
 	Org.Name As OrgName,
 	Org.OfficeSymbol as OfficeSymbol,
+	ProgramStatus.Status,
 	dbo.NumberOfChildPrograms(prog.ProgramID) as NumChildren,
     cast(row_number()over(partition by prog.parentProgram_ProgramId order by prog.name) as varchar(max)) as [path],
     0 as programLevel,
     row_number()over(partition by prog.parentProgram_ProgramId order by prog.name) / power(10.0,0) as sortOrder
  
 from program as prog
-Join Organization as Org on Owner_OrganizationId = Org.OrganizationId
+Join Organization as Org on Owner_OrganizationId = Org.OrganizationId 
+Join ProgramStatus On prog.ProgramStatusId = ProgramStatus.ProgramStatusId
 where ISNULL(parentProgram_ProgramId, 0) = 0
-and ProgramStatusId = 1
+and prog.ProgramStatusId = 1
 
 union all
 select
@@ -43,6 +45,7 @@ select
 	t.History_CreatedBy as CreatedByUserId,
 	Org.Name As OrgName,
 	Org.OfficeSymbol as OfficeSymbol,
+	ProgramStatus.Status,
 	dbo.NumberOfChildPrograms(t.ProgramID) as NumChildren,
     [path] +'-'+ cast(row_number()over(partition by t.parentProgram_ProgramId order by t.name) as varchar(max)),
     programLevel+1,
@@ -52,6 +55,7 @@ from
     cte
 Join Organization as Org on Owner_OrganizationId = Org.OrganizationId
 join program t on cte.ProgramId = t.parentProgram_ProgramId
+Join ProgramStatus On cte.ProgramStatusId = ProgramStatus.ProgramStatusId
 where t.programStatusId = 1
 
 )

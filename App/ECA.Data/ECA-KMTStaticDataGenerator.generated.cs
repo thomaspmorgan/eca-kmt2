@@ -17,6 +17,38 @@ namespace ECA.Data
 		/// Returns the Organization lookup with id 2.
 		/// </summary>
 		public static StaticLookup Organization { get { return new StaticLookup("Organization", 2); } }
+		/// <summary>
+		/// Returns the Appointment Host lookup with id 3.
+		/// </summary>
+		public static StaticLookup AppointmentHost { get { return new StaticLookup("Appointment Host", 3); } }
+		/// <summary>
+		/// Returns the Appointment Guest lookup with id 4.
+		/// </summary>
+		public static StaticLookup AppointmentGuest { get { return new StaticLookup("Appointment Guest", 4); } }
+		/// <summary>
+		/// Returns the NPACIV Event Guest lookup with id 5.
+		/// </summary>
+		public static StaticLookup NpacivEventGuest { get { return new StaticLookup("NPACIV Event Guest", 5); } }
+		/// <summary>
+		/// Returns the NPACIV Event Host lookup with id 6.
+		/// </summary>
+		public static StaticLookup NpacivEventHost { get { return new StaticLookup("NPACIV Event Host", 6); } }
+		/// <summary>
+		/// Returns the NPACIV ORGANIZATION EVENT HOST lookup with id 7.
+		/// </summary>
+		public static StaticLookup NpacivOrganizationEventHost { get { return new StaticLookup("NPACIV ORGANIZATION EVENT HOST", 7); } }
+		/// <summary>
+		/// Returns the Simultaneous/Seminar lookup with id 8.
+		/// </summary>
+		public static StaticLookup SimultaneousSeminar { get { return new StaticLookup("Simultaneous/Seminar", 8); } }
+		/// <summary>
+		/// Returns the Consecutive lookup with id 9.
+		/// </summary>
+		public static StaticLookup Consecutive { get { return new StaticLookup("Consecutive", 9); } }
+		/// <summary>
+		/// Returns the Liaison lookup with id 10.
+		/// </summary>
+		public static StaticLookup Liaison { get { return new StaticLookup("Liaison", 10); } }
 		///<summary>
 		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
 		///<param name="id">The lookup id.</param>
@@ -26,6 +58,14 @@ namespace ECA.Data
 		{
 			if (1 == id) return ActorType.Person;
 			if (2 == id) return ActorType.Organization;
+			if (3 == id) return ActorType.AppointmentHost;
+			if (4 == id) return ActorType.AppointmentGuest;
+			if (5 == id) return ActorType.NpacivEventGuest;
+			if (6 == id) return ActorType.NpacivEventHost;
+			if (7 == id) return ActorType.NpacivOrganizationEventHost;
+			if (8 == id) return ActorType.SimultaneousSeminar;
+			if (9 == id) return ActorType.Consecutive;
+			if (10 == id) return ActorType.Liaison;
 			return null;
 		}
 		///<summary>
@@ -37,6 +77,14 @@ namespace ECA.Data
 		{
 			if ("Person".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.Person;
 			if ("Organization".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.Organization;
+			if ("Appointment Host".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.AppointmentHost;
+			if ("Appointment Guest".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.AppointmentGuest;
+			if ("NPACIV Event Guest".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.NpacivEventGuest;
+			if ("NPACIV Event Host".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.NpacivEventHost;
+			if ("NPACIV ORGANIZATION EVENT HOST".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.NpacivOrganizationEventHost;
+			if ("Simultaneous/Seminar".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.SimultaneousSeminar;
+			if ("Consecutive".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.Consecutive;
+			if ("Liaison".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ActorType.Liaison;
 			return null;
 		}
 
@@ -715,6 +763,49 @@ namespace ECA.Data
 }
 #endregion
 
+#region ParticipantStatus
+namespace ECA.Data
+{
+	using ECA.Core.Generation;
+	public partial class ParticipantStatus : ECA.Core.Generation.IStaticLookup
+	{
+		/// <summary>
+		/// Returns the Active lookup with id 2.
+		/// </summary>
+		public static StaticLookup Active { get { return new StaticLookup("Active", 2); } }
+		///<summary>
+		/// Returns the lookup value of this entity with the given id, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given id, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(int id)
+		{
+			if (2 == id) return ParticipantStatus.Active;
+			return null;
+		}
+		///<summary>
+		/// Returns the lookup value of this entity with the given value, or null if it does not exist.
+		///<param name="id">The lookup id.</param>
+		/// <returns>The lookup with the given value, or null if it does not exist.</returns>
+		///</summary>
+		public static StaticLookup GetStaticLookup(string value)
+		{
+			if ("Active".Equals(value, System.StringComparison.OrdinalIgnoreCase)) return ParticipantStatus.Active;
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the static lookup config used to generate this type's static lookups.
+		/// <returns>The static lookup config used to generate this type's static lookups.</returns>
+		/// </summary>
+		public StaticLookupConfig GetConfig()
+		{
+			return new StaticLookupConfig { Namespace = "ECA.Data", ClassName = "ParticipantStatus", TableName = "ParticipantStatus", IdColumnName = "ParticipantStatusId", ValueColumnName = "Status" };
+		}
+	}
+}
+#endregion
+
 #region ParticipantType
 namespace ECA.Data
 {
@@ -1191,6 +1282,7 @@ namespace ECA.Data
 			errors.AddRange(validator.Validate<MoneyFlowStatus>());
 			errors.AddRange(validator.Validate<MoneyFlowType>());
 			errors.AddRange(validator.Validate<OrganizationType>());
+			errors.AddRange(validator.Validate<ParticipantStatus>());
 			errors.AddRange(validator.Validate<ParticipantType>());
 			errors.AddRange(validator.Validate<PhoneNumberType>());
 			errors.AddRange(validator.Validate<ProgramStatus>());
