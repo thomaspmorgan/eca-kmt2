@@ -12,7 +12,7 @@ namespace ECA.Data
     /// <summary>
     /// Participant Status describes the state of a person's journey through an itinerary, project, phase, etc.
     /// </summary>
-    public class ParticipantStatus
+    public partial class ParticipantStatus
     {
         /// <summary>
         /// Creates a new ParticipantStatus and initializes the participants and history properties.
