@@ -20,8 +20,10 @@ With Programs As
 	  ,Org.Name As OrgName
 	  ,Org.OfficeSymbol as OfficeSymbol
 	  ,1 As ProgramLevel
+	  ,ProgramStatus.Status
   FROM [Program] as TopLevelProgram
   Join Organization As Org On TopLevelProgram.Owner_OrganizationId = Org.OrganizationId
+  Join ProgramStatus On TopLevelProgram.ProgramStatusId = ProgramStatus.ProgramStatusId
   where TopLevelProgram.Owner_OrganizationId = @OfficeId and TopLevelProgram.ProgramStatusId = 1
   
   union all
@@ -34,9 +36,11 @@ With Programs As
 		,Org.Name As OrgName
 		,Org.OfficeSymbol as OfficeSymbol
 	  , PL.ProgramLevel + 1
+	  	  ,ProgramStatus.Status
   FROM [Program] as Prog
     Join Organization as Org on Prog.Owner_OrganizationId = Org.OrganizationId
   inner join Programs as PL On Prog.ParentProgram_ProgramId = PL.ProgramId
+    Join ProgramStatus On Prog.ProgramStatusId = ProgramStatus.ProgramStatusId
 
   where Prog.Owner_OrganizationId != @OfficeId and Prog.ProgramStatusId = 1)
 
