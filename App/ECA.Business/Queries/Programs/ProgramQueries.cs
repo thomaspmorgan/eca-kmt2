@@ -66,6 +66,7 @@ namespace ECA.Business.Queries.Programs
                             Name = program.Name,
                             NumChildren = 0,
                             OfficeSymbol = owner.OfficeSymbol,
+                            Status = program.ProgramStatus.Status,
                             OrgName = owner.Name,
                             Owner_OrganizationId = owner.OrganizationId,
                             ParentProgram_ProgramId = parentProgram == null ? default(int?) : parentProgram.ProgramId,
