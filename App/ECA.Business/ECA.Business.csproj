@@ -144,6 +144,7 @@
     <Compile Include="Service\Admin\OrganizationService.cs" />
     <Compile Include="Service\Admin\ProjectServiceCreateValidationEntity.cs" />
     <Compile Include="Service\Admin\ProjectServiceUpdateValidationEntity.cs" />
+    <Compile Include="Service\Admin\MoneyFlowServiceValidator.cs" />
     <Compile Include="Service\Admin\ProjectServiceValidator.cs" />
     <Compile Include="Service\Admin\MoneyFlowHelpersService.cs" />
     <Compile Include="Service\Admin\ProjectStatusService.cs" />
