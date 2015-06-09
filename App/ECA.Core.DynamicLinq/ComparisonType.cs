@@ -31,6 +31,9 @@ namespace ECA.Core.DynamicLinq
         private const string EQUAL = "eq";
         private const string EQUAL_DISPLAY = "==";
 
+        private const string NOT_EQUAL = "not_eq";
+        private const string NOT_EQUAL_DISPLAY = "!=";
+
         private const string IS_NULL = "null";
         private const string IS_NULL_DISPLAY = "Null";
 
@@ -90,6 +93,17 @@ namespace ECA.Core.DynamicLinq
             get
             {
                 return new ComparisonType(GREATER_THAN, GREATER_THAN_DISPLAY);
+            }
+        }
+
+        /// <summary>
+        /// Gets the not equal comparison type.
+        /// </summary>
+        public static ComparisonType NotEqual
+        {
+            get
+            {
+                return new ComparisonType(NOT_EQUAL, NOT_EQUAL_DISPLAY);
             }
         }
 
@@ -225,6 +239,7 @@ namespace ECA.Core.DynamicLinq
             dictionary.Add(LESS_THAN.ToUpper(), ComparisonType.LessThan);
             dictionary.Add(GREATER_THAN.ToUpper(), ComparisonType.GreaterThan);
             dictionary.Add(EQUAL.ToUpper(), ComparisonType.Equal);
+            dictionary.Add(NOT_EQUAL.ToUpper(), ComparisonType.NotEqual);
             dictionary.Add(IS_NULL.ToUpper(), ComparisonType.Null);
             dictionary.Add(IS_NOT_NULL.ToUpper(), ComparisonType.NotNull);
             dictionary.Add(LIKE.ToUpper(), ComparisonType.Like);

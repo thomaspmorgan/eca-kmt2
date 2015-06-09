@@ -34,6 +34,24 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         }
 
         [TestMethod]
+        public void TestToClientFilter_NotEqualComparison()
+        {
+            var filter = new SimpleFilter
+            {
+                Comparison = ComparisonType.NotEqual.Value,
+                Property = "S",
+                Value = "hello"
+            };
+
+            var linqFilter = filter.ToLinqFilter<SimpleFilterTestClass>();
+            Assert.IsInstanceOfType(linqFilter, typeof(NotEqualFilter<SimpleFilterTestClass>));
+
+            var typedLinqFilter = (NotEqualFilter<SimpleFilterTestClass>)linqFilter;
+            Assert.AreEqual(filter.Value, typedLinqFilter.Value);
+            Assert.AreEqual(filter.Property, typedLinqFilter.PropertyInfo.Name);
+        }
+
+        [TestMethod]
         public void TestToClientFilter_GreaterThanComparison()
         {
             var filter = new SimpleFilter

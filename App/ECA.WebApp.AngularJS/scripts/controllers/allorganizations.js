@@ -8,7 +8,7 @@
  * Controller of the staticApp
  */
 angular.module('staticApp')
-  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, OrganizationService, TableService) {
+  .controller('AllOrganizationsCtrl', function ($scope, $stateParams, $state, $log, OrganizationService, TableService) {
 
       $scope.organizations = [];
       $scope.start = 0;
@@ -16,6 +16,11 @@ angular.module('staticApp')
       $scope.total = 0;
 
       $scope.organizationsLoading = false;
+      $scope.selectedOrgType = {};
+
+      $scope.onEditIconClick = function (org) {
+          $state.go('organizations.edit', { organizationId: org.organizationId });
+      }
 
       $scope.getOrganizations = function (tableState) {
 

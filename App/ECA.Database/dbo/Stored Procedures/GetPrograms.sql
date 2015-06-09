@@ -18,12 +18,14 @@ select
 	prog.[description],
 	prog.[Owner_OrganizationId],
     prog.parentProgram_ProgramId,
+	prog.programStatusId,
+	prog.History_CreatedBy as CreatedByUserId,
 	Org.Name As OrgName,
 	Org.OfficeSymbol as OfficeSymbol,
 	dbo.NumberOfChildPrograms(prog.ProgramID) as NumChildren,
     cast(row_number()over(partition by prog.parentProgram_ProgramId order by prog.name) as varchar(max)) as [path],
     0 as programLevel,
-    row_number()over(partition by prog.parentProgram_ProgramId order by prog.name) / power(10.0,0) as x
+    row_number()over(partition by prog.parentProgram_ProgramId order by prog.name) / power(10.0,0) as sortOrder
  
 from program as prog
 Join Organization as Org on Owner_OrganizationId = Org.OrganizationId
@@ -37,12 +39,14 @@ select
 	t.[description],
 	t.[Owner_OrganizationId],
     t.parentProgram_ProgramId,
+	t.programStatusId,
+	t.History_CreatedBy as CreatedByUserId,
 	Org.Name As OrgName,
 	Org.OfficeSymbol as OfficeSymbol,
 	dbo.NumberOfChildPrograms(t.ProgramID) as NumChildren,
     [path] +'-'+ cast(row_number()over(partition by t.parentProgram_ProgramId order by t.name) as varchar(max)),
     programLevel+1,
-    x + row_number()over(partition by t.parentProgram_ProgramId order by t.name) / power(10.0,programlevel+1)
+    sortOrder + row_number()over(partition by t.parentProgram_ProgramId order by t.name) / power(10.0,programlevel+1)
  
 from
     cte
@@ -52,6 +56,6 @@ where t.programStatusId = 1
 
 )
    
-select * from cte order by x
+select * from cte order by sortOrder
 
 END

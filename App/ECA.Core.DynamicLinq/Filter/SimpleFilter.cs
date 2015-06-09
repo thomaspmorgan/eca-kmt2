@@ -42,6 +42,10 @@ namespace ECA.Core.DynamicLinq.Filter
             {
                 return new EqualFilter<T>(this.Property, this.Value);
             }
+            if (comparisonType == ComparisonType.NotEqual)
+            {
+                return new NotEqualFilter<T>(this.Property, this.Value);
+            }
             if (comparisonType == ComparisonType.GreaterThan)
             {
                 return new GreaterThanFilter<T>(this.Property, this.Value);

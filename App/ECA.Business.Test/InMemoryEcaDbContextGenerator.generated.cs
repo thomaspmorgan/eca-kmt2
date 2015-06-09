@@ -550,6 +550,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.OrganizationType>(this.SingleOrDefault(x => x.OrganizationTypeId.Equals(keyValues.First())));
 		}
 	}
+	public class ParticipantPersonTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ParticipantPerson>
+	{
+		public override ECA.Data.ParticipantPerson Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ParticipantId
+			return this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ParticipantPerson> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ParticipantId
+			return Task.FromResult<ECA.Data.ParticipantPerson>(this.SingleOrDefault(x => x.ParticipantId.Equals(keyValues.First())));
+		}
+	}
 	public class ParticipantTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.Participant>
 	{
 		public override ECA.Data.Participant Find(params object[] keyValues)
@@ -668,6 +683,21 @@ namespace ECA.Business.Test
 			if(keyValues.Length != 1) throw new System.NotSupportedException();
 			///ProgramId
 			return Task.FromResult<ECA.Data.Program>(this.SingleOrDefault(x => x.ProgramId.Equals(keyValues.First())));
+		}
+	}
+	public class ProgramStatusTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ProgramStatus>
+	{
+		public override ECA.Data.ProgramStatus Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ProgramStatusId
+			return this.SingleOrDefault(x => x.ProgramStatusId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.ProgramStatus> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///ProgramStatusId
+			return Task.FromResult<ECA.Data.ProgramStatus>(this.SingleOrDefault(x => x.ProgramStatusId.Equals(keyValues.First())));
 		}
 	}
 	public class ProgramTypeTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.ProgramType>
@@ -860,6 +890,7 @@ namespace ECA.Business.Test
 			this.OfficeSettings = new OfficeSettingTestDbSet();
 			this.Organizations = new OrganizationTestDbSet();
 			this.OrganizationTypes = new OrganizationTypeTestDbSet();
+			this.ParticipantPersons = new ParticipantPersonTestDbSet();
 			this.Participants = new ParticipantTestDbSet();
 			this.ParticipantStatuses = new ParticipantStatusTestDbSet();
 			this.ParticipantTypes = new ParticipantTypeTestDbSet();
@@ -868,6 +899,7 @@ namespace ECA.Business.Test
 			this.PhoneNumberTypes = new PhoneNumberTypeTestDbSet();
 			this.ProfessionEducations = new ProfessionEducationTestDbSet();
 			this.Programs = new ProgramTestDbSet();
+			this.ProgramStatuses = new ProgramStatusTestDbSet();
 			this.ProgramTypes = new ProgramTypeTestDbSet();
 			this.Projects = new ProjectTestDbSet();
 			this.ProjectStatuses = new ProjectStatusTestDbSet();

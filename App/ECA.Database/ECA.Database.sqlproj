@@ -271,8 +271,6 @@
     <Build Include="dbo\Tables\ItineraryCommentType.sql" />
     <Build Include="dbo\Tables\ItineraryAppointmentType.sql" />
     <Build Include="dbo\Functions\NumberOfChildPrograms.sql" />
-    <Build Include="dbo\Stored Procedures\GetProgramsForUser.sql" />
-    <Build Include="dbo\Stored Procedures\GetProgramsForUserAlpha.sql" />
     <Build Include="dbo\Tables\ParticipantPerson.sql" />
     <Build Include="Sevis\Schema\SevisSchema.sql" />
     <Build Include="Sevis\Tables\FieldOfStudy.sql" />

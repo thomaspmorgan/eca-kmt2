@@ -68,6 +68,7 @@ namespace ECA.WebApi.Controllers.Security
             {
                 viewModel.IsRegistered = true;
                 viewModel.DisplayName = camUser.DisplayName;
+                viewModel.EcaUserId = camUser.PrincipalId;
             }
             else
             {

@@ -8,7 +8,7 @@
     <div class="row">
         <span class="left programTypeRadio">Show programs in<input type="radio" ng-change="changeProgramList()" ng-model="programList.type" value="hierarchy">Hierarchical order</span>
         <span class="left programTypeRadio"><input type="radio" ng-change="changeProgramList()" ng-model="programList.type" value="alpha">Alphabetical order</span>
-        <span class="left programTypeRadio"><input type="checkbox" ng-change=changeProgramList() ng-model="draftsOnly">Show my drafts only</span>
+        <span class="left programTypeRadio" ng-show="ecaUserId"><input type="checkbox" ng-show="ecaUserId" ng-change=changeProgramList() ng-model="draftsOnly">Show my drafts only</span>
         <button ng-show="!programsLoading" ng-click="createProgramForm()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
     </div>
 
