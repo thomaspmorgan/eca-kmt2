@@ -11,6 +11,7 @@
                 <th st-sort="'status'" class="col-md-1 sort-label medium">Status</th>
                 <th st-sort="'sourceType'" class="col-md-1 sort-label medium">Source/Recipient Type</th>
                 <th st-sort="'fromTo'" class="col-md-2 sort-label medium">Source / Recipient</th>
+                <th st-sort="'fromTo'" class="col-md-2 sort-label medium">Direction</th>
                 <th st-sort="'amount'" class="col-md-1 sort-label medium">Amount</th>
                 <th st-sort="'description'" class="col-md-2 sort-label medium">Description</th>
                 <th class="{{moneyFlowEditColumnClass}}">&nbsp;</th>
@@ -25,6 +26,7 @@
                 <td>{{moneyFlow.status}}</td>
                 <td>{{moneyFlow.sourceType}}</td>
                 <td>{{moneyFlow.fromTo}}</td>
+                <td>{{moneyFlow.type}}</td>
                 <td><span class="{{moneyFlow.amount < 0 ? 'text-danger' : ''}}">{{moneyFlow.amount | currency}}</span></td>
                 <td>{{moneyFlow.description}}</td>
                 <td>
