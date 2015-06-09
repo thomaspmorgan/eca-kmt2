@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditProgram.Test", "EditPro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewProjectList.Test", "ViewProjectList1.Test\ViewProjectList.Test.csproj", "{65082451-0B9E-458B-B907-990344D10C32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddCollaborator.Test", "AddCollaborator.Test\AddCollaborator.Test.csproj", "{D7DD22C6-49AC-4CB9-9F9B-24E4572CB6A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -124,6 +126,10 @@ Global
 		{65082451-0B9E-458B-B907-990344D10C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65082451-0B9E-458B-B907-990344D10C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65082451-0B9E-458B-B907-990344D10C32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7DD22C6-49AC-4CB9-9F9B-24E4572CB6A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7DD22C6-49AC-4CB9-9F9B-24E4572CB6A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7DD22C6-49AC-4CB9-9F9B-24E4572CB6A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7DD22C6-49AC-4CB9-9F9B-24E4572CB6A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -171,21 +171,19 @@ namespace ViewOffices_ProgramsandBranches.Test
         }
         
         /// <summary>
-        /// Verify the innertext of the returned search result to contain (ECA-IIP/EX Office of the Executive Director).
+        /// Verify the innertext matches for the second office search (CBYX) after the search.
         /// </summary>
         public void AssertOfficeSearchResult_SecOffice()
         {
             #region Variable Declarations
-            HtmlCell uIECAIIPEXOfficeoftheECell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UISortlistPane1.UIItemTable.UIECAIIPEXOfficeoftheECell;
+            HtmlCell uIECAPECPYFASMYLECBYXFCell = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UISortlistPane2.UIItemTable.UIECAPECPYFASMYLECBYXFCell;
             #endregion
 
-            // Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of 'ECA-IIP/EX Office of the Executive Dir' cell contains 'ECA-IIP/EX 
-            //Office of the Executive Director
+            // Verify that the 'InnerText' property of 'ECA/PE/C/PY/F A-SMYLE, CBYX, FLEX & GA' cell contains 'ECA/PE/C/PY/F 
+            //A-SMYLE, CBYX, FLEX & GAPP Branch
             //
-            //The Office of the Executive Director (ECA-IIP/EX) reports to the ECA PDAS and IIP Deputy Coordinator and supports the operations of the Bureau of Educational and Cultural Affairs and the Bureau of International Information Programs. We strive to efficiently, effectively support ECA and IIP in realizing their program objectives by providing the highest quality customer service in administrative support, budget and financial management, grants, human resources, information technology, and management analysis.'
-            Playback.Wait(10000);
-            StringAssert.Contains(uIECAIIPEXOfficeoftheECell.InnerText, this.AssertOfficeSearchResult_SecOfficeExpectedValues.UIECAIIPEXOfficeoftheECellInnerText, "No available innertext for search result of (IIP) for the (ECA-IIP/EX Office of t" +
-                    "he Executive Director) cell.");
+            //A-SMYLE, CBYX, FLEX & GAPP Branch'
+            StringAssert.Contains(uIECAPECPYFASMYLECBYXFCell.InnerText, this.AssertOfficeSearchResult_SecOfficeExpectedValues.UIECAPECPYFASMYLECBYXFCellInnerText, "No available innertext for CBYX search. ");
         }
         
         /// <summary>
@@ -197,7 +195,7 @@ namespace ViewOffices_ProgramsandBranches.Test
             HtmlEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UISortlistPane1.UIItemEdit;
             #endregion
 
-            // Verify that the 'ValueAttribute' property of text box contains 'American'
+            // Verify that the 'ValueAttribute' property of text box contains 'CBYX'
             StringAssert.Contains(uIItemEdit.ValueAttribute, this.AssertSearchBoxTextInputValueExpectedValues.UIItemEditValueAttribute, "Text Input does not match.");
         }
         
@@ -279,7 +277,7 @@ namespace ViewOffices_ProgramsandBranches.Test
             // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'ECA/A/E Fulbright English Teaching Ass' cell contains 'ECA/A/E 
             //Fulbright English Teaching Assistant Program (ETA) 
             //
-            //Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign studentsâ€™ English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country.'
+            //Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign students English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country.'
             Playback.Wait(5000);
             StringAssert.Contains(uIECAAEFulbrightEnglisCell.InnerText, this.AssertSubProgramIndentExpectedValues.UIECAAEFulbrightEnglisCellInnerText, "No available InnerText in cell for Sub-program (ECA/A/E Fulbright English Teachin" +
                     "g Assistant Program (ETA)). ");
@@ -352,30 +350,6 @@ namespace ViewOffices_ProgramsandBranches.Test
 
             // Double-Click 'Sign in' pane
             Mouse.DoubleClick(uISigninPane, new Point(28, 6));
-        }
-        
-        /// <summary>
-        /// Open browser; navigate to QA site; select ECATest user; enter password; click sign in.
-        /// </summary>
-        public void LogintoQA_ExistingUser()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIECATest1statedeptusHyperlink;
-            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIPasswordEdit;
-            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UISigninPane;
-            #endregion
-
-            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
-
-            // Click 'ECATest1@statedept.us •••' link
-            Mouse.Click(uIECATest1statedeptusHyperlink, new Point(140, 38));
-
-            // Type '********' in 'Password' text box
-            uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
-
-            // Click 'Sign in' pane
-            Mouse.Click(uISigninPane, new Point(33, 24));
         }
         
         /// <summary>
@@ -515,7 +489,7 @@ namespace ViewOffices_ProgramsandBranches.Test
             HtmlEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UISortlistPane.UIItemEdit;
             #endregion
 
-            // Type 'American' in text box
+            // Type 'CBYX' in text box
             uIItemEdit.Text = this.SearchBoxText_InputParams.UIItemEditText;
         }
         
@@ -528,7 +502,7 @@ namespace ViewOffices_ProgramsandBranches.Test
             HtmlEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UISortlistPane.UIItemEdit;
             #endregion
 
-            // Type 'IIP' in text box
+            // Type 'CBYX' in text box
             uIItemEdit.Text = this.SearchOfficesTextInput_SecOfficeParams.UIItemEditText;
         }
         
@@ -614,16 +588,16 @@ namespace ViewOffices_ProgramsandBranches.Test
         }
         
         /// <summary>
-        /// Select the link to the (Office of the Executive Director) to navigate to the office overview page.
+        /// Select the link for (A-SMYLE, CBYX, FLEX & GAPP Branch) to navigate to the office branch.
         /// </summary>
         public void SelectSecondOffice()
         {
             #region Variable Declarations
-            HtmlHyperlink uIOfficeoftheExecutiveHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UISortlistPane1.UIOfficeoftheExecutiveHyperlink;
+            HtmlHyperlink uIASMYLECBYXFLEXGAPPBrHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UISortlistPane2.UIASMYLECBYXFLEXGAPPBrHyperlink;
             #endregion
 
-            // Click 'Office of the Executive Director' link
-            Mouse.Click(uIOfficeoftheExecutiveHyperlink, new Point(154, 16));
+            // Click 'A-SMYLE, CBYX, FLEX & GAPP Branch' link
+            Mouse.Click(uIASMYLECBYXFLEXGAPPBrHyperlink, new Point(151, 15));
         }
         
         /// <summary>
@@ -836,18 +810,6 @@ namespace ViewOffices_ProgramsandBranches.Test
             }
         }
         
-        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
-        {
-            get
-            {
-                if ((this.mLogintoQA_ExistingUserParams == null))
-                {
-                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
-                }
-                return this.mLogintoQA_ExistingUserParams;
-            }
-        }
-        
         public virtual RefreshBranchesandProgramsTabParams RefreshBranchesandProgramsTabParams
         {
             get
@@ -989,8 +951,6 @@ namespace ViewOffices_ProgramsandBranches.Test
         private ClearSearchProgramsBoxParams mClearSearchProgramsBoxParams;
         
         private LogintoQAParams mLogintoQAParams;
-        
-        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
         
         private RefreshBranchesandProgramsTabParams mRefreshBranchesandProgramsTabParams;
         
@@ -1184,15 +1144,13 @@ namespace ViewOffices_ProgramsandBranches.Test
         
         #region Fields
         /// <summary>
-        /// Wait for 10 seconds for user delay between actions; Verify that the 'InnerText' property of 'ECA-IIP/EX Office of the Executive Dir' cell contains 'ECA-IIP/EX 
-        ///Office of the Executive Director
+        /// Verify that the 'InnerText' property of 'ECA/PE/C/PY/F A-SMYLE, CBYX, FLEX & GA' cell contains 'ECA/PE/C/PY/F 
+        ///A-SMYLE, CBYX, FLEX & GAPP Branch
         ///
-        ///The Office of the Executive Director (ECA-IIP/EX) reports to the ECA PDAS and IIP Deputy Coordinator and supports the operations of the Bureau of Educational and Cultural Affairs and the Bureau of International Information Programs. We strive to efficiently, effectively support ECA and IIP in realizing their program objectives by providing the highest quality customer service in administrative support, budget and financial management, grants, human resources, information technology, and management analysis.'
+        ///A-SMYLE, CBYX, FLEX & GAPP Branch'
         /// </summary>
-        public string UIECAIIPEXOfficeoftheECellInnerText = @"ECA-IIP/EX 
-Office of the Executive Director
-
-The Office of the Executive Director (ECA-IIP/EX) reports to the ECA PDAS and IIP Deputy Coordinator and supports the operations of the Bureau of Educational and Cultural Affairs and the Bureau of International Information Programs. We strive to efficiently, effectively support ECA and IIP in realizing their program objectives by providing the highest quality customer service in administrative support, budget and financial management, grants, human resources, information technology, and management analysis.";
+        public string UIECAPECPYFASMYLECBYXFCellInnerText = "ECA/PE/C/PY/F \r\nA-SMYLE, CBYX, FLEX & GAPP Branch\r\n\r\nA-SMYLE, CBYX, FLEX & GAPP B" +
+            "ranch";
         #endregion
     }
     
@@ -1205,9 +1163,9 @@ The Office of the Executive Director (ECA-IIP/EX) reports to the ECA PDAS and II
         
         #region Fields
         /// <summary>
-        /// Verify that the 'ValueAttribute' property of text box contains 'American'
+        /// Verify that the 'ValueAttribute' property of text box contains 'CBYX'
         /// </summary>
-        public string UIItemEditValueAttribute = "American";
+        public string UIItemEditValueAttribute = "CBYX";
         #endregion
     }
     
@@ -1298,12 +1256,12 @@ The Office of the Executive Director (ECA-IIP/EX) reports to the ECA PDAS and II
         /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'ECA/A/E Fulbright English Teaching Ass' cell contains 'ECA/A/E 
         ///Fulbright English Teaching Assistant Program (ETA) 
         ///
-        ///Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign studentsâ€™ English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country.'
+        ///Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign students English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country.'
         /// </summary>
         public string UIECAAEFulbrightEnglisCellInnerText = @"ECA/A/E 
 Fulbright English Teaching Assistant Program (ETA) 
 
-Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign studentsâ€™ English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country.";
+Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign students English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country.";
         
         /// <summary>
         /// Verify that the 'ControlDefinition' property of 'ECA/A/E Fulbright English Teaching Ass' pane equals 'style="margin-left: 60px;" ng-style="{marginLeft: (program.programLevel - 1) * 60}"'
@@ -1364,26 +1322,6 @@ Places recent U.S. college graduates as English teaching assistants in schools o
     }
     
     /// <summary>
-    /// Parameters to be passed into 'LogintoQA_ExistingUser'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class LogintoQA_ExistingUserParams
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-        /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
-        
-        /// <summary>
-        /// Type '********' in 'Password' text box
-        /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
-        #endregion
-    }
-    
-    /// <summary>
     /// Parameters to be passed into 'RefreshBranchesandProgramsTab'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
@@ -1432,9 +1370,9 @@ Places recent U.S. college graduates as English teaching assistants in schools o
         
         #region Fields
         /// <summary>
-        /// Type 'American' in text box
+        /// Type 'CBYX' in text box
         /// </summary>
-        public string UIItemEditText = "American";
+        public string UIItemEditText = "CBYX";
         #endregion
     }
     
@@ -1447,9 +1385,9 @@ Places recent U.S. college graduates as English teaching assistants in schools o
         
         #region Fields
         /// <summary>
-        /// Type 'IIP' in text box
+        /// Type 'CBYX' in text box
         /// </summary>
-        public string UIItemEditText = "IIP";
+        public string UIItemEditText = "CBYX";
         #endregion
     }
     
@@ -1687,6 +1625,18 @@ Places recent U.S. college graduates as English teaching assistants in schools o
                 return this.mUIHttpsecakmtqaazureweDocument7;
             }
         }
+        
+        public UIHttpsecakmtqaazureweDocument8 UIHttpsecakmtqaazureweDocument8
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument8 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument8 = new UIHttpsecakmtqaazureweDocument8(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument8;
+            }
+        }
         #endregion
         
         #region Fields
@@ -1721,6 +1671,8 @@ Places recent U.S. college graduates as English teaching assistants in schools o
         private UISignintoECAClientDocument1 mUISignintoECAClientDocument1;
         
         private UIHttpsecakmtqaazureweDocument7 mUIHttpsecakmtqaazureweDocument7;
+        
+        private UIHttpsecakmtqaazureweDocument8 mUIHttpsecakmtqaazureweDocument8;
         #endregion
     }
     
@@ -3435,10 +3387,24 @@ Places recent U.S. college graduates as English teaching assistants in schools o
                 return this.mUISortlistPane;
             }
         }
+        
+        public UISortlistPane13 UISortlistPane1
+        {
+            get
+            {
+                if ((this.mUISortlistPane1 == null))
+                {
+                    this.mUISortlistPane1 = new UISortlistPane13(this);
+                }
+                return this.mUISortlistPane1;
+            }
+        }
         #endregion
         
         #region Fields
         private UISortlistPane3 mUISortlistPane;
+        
+        private UISortlistPane13 mUISortlistPane1;
         #endregion
     }
     
@@ -3490,6 +3456,121 @@ Places recent U.S. college graduates as English teaching assistants in schools o
         
         #region Fields
         private HtmlHyperlink mUIOfficeofAcademicExchHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane13 : HtmlDiv
+    {
+        
+        public UISortlistPane13(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Showing 1 - 25 of 38 programs\r\n\r\n\r\n \r\nEC";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope ng-isolate-scope\" id=\"sort-list\" st-table=\"programs\" st-pipe=\"get" +
+                "Programs\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "50";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UIItemTable1 UIItemTable
+        {
+            get
+            {
+                if ((this.mUIItemTable == null))
+                {
+                    this.mUIItemTable = new UIItemTable1(this);
+                }
+                return this.mUIItemTable;
+            }
+        }
+        
+        public HtmlDiv UIECAAEFulbrightEnglisPane
+        {
+            get
+            {
+                if ((this.mUIECAAEFulbrightEnglisPane == null))
+                {
+                    this.mUIECAAEFulbrightEnglisPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIECAAEFulbrightEnglisPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIECAAEFulbrightEnglisPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIECAAEFulbrightEnglisPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "ECA/A/E \r\nFulbright English Teaching Ass";
+                    this.mUIECAAEFulbrightEnglisPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIECAAEFulbrightEnglisPane.FilterProperties[HtmlDiv.PropertyNames.Class] = null;
+                    this.mUIECAAEFulbrightEnglisPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "style=\"margin-left: 0px;\" ng-style=\"{marginLeft: (program.programLevel - 1) * 60}" +
+                        "\"";
+                    this.mUIECAAEFulbrightEnglisPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "54";
+                    this.mUIECAAEFulbrightEnglisPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIECAAEFulbrightEnglisPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIItemTable1 mUIItemTable;
+        
+        private HtmlDiv mUIECAAEFulbrightEnglisPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIItemTable1 : HtmlTable
+    {
+        
+        public UIItemTable1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlTable.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlTable.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlTable.PropertyNames.InnerText] = "Showing 1 - 25 of 38 programs\r\n\r\n\r\n \r\nEC";
+            this.FilterProperties[HtmlTable.PropertyNames.ControlDefinition] = "class=\"col-md-12 table\"";
+            this.FilterProperties[HtmlTable.PropertyNames.RowCount] = "28";
+            this.FilterProperties[HtmlTable.PropertyNames.ColumnCount] = "2";
+            this.FilterProperties[HtmlTable.PropertyNames.Class] = "col-md-12 table";
+            this.FilterProperties[HtmlTable.PropertyNames.TagInstance] = "1";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlCell UIECAAEFulbrightEnglisCell
+        {
+            get
+            {
+                if ((this.mUIECAAEFulbrightEnglisCell == null))
+                {
+                    this.mUIECAAEFulbrightEnglisCell = new HtmlCell(this);
+                    #region Search Criteria
+                    this.mUIECAAEFulbrightEnglisCell.SearchProperties[HtmlCell.PropertyNames.Id] = null;
+                    this.mUIECAAEFulbrightEnglisCell.SearchProperties[HtmlCell.PropertyNames.Name] = null;
+                    this.mUIECAAEFulbrightEnglisCell.SearchProperties[HtmlCell.PropertyNames.MaxDepth] = "3";
+                    this.mUIECAAEFulbrightEnglisCell.SearchProperties[HtmlCell.PropertyNames.InnerText] = "ECA/A/E \r\nFulbright English Teaching Ass";
+                    this.mUIECAAEFulbrightEnglisCell.FilterProperties[HtmlCell.PropertyNames.ControlDefinition] = null;
+                    this.mUIECAAEFulbrightEnglisCell.FilterProperties[HtmlCell.PropertyNames.RowIndex] = "3";
+                    this.mUIECAAEFulbrightEnglisCell.FilterProperties[HtmlCell.PropertyNames.ColumnIndex] = "0";
+                    this.mUIECAAEFulbrightEnglisCell.FilterProperties[HtmlCell.PropertyNames.Class] = null;
+                    this.mUIECAAEFulbrightEnglisCell.FilterProperties[HtmlCell.PropertyNames.TagInstance] = "3";
+                    this.mUIECAAEFulbrightEnglisCell.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIECAAEFulbrightEnglisCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlCell mUIECAAEFulbrightEnglisCell;
         #endregion
     }
     
@@ -3626,15 +3707,27 @@ Places recent U.S. college graduates as English teaching assistants in schools o
             }
         }
         
-        public UISortlistPane13 UISortlistPane1
+        public UISortlistPane14 UISortlistPane1
         {
             get
             {
                 if ((this.mUISortlistPane1 == null))
                 {
-                    this.mUISortlistPane1 = new UISortlistPane13(this);
+                    this.mUISortlistPane1 = new UISortlistPane14(this);
                 }
                 return this.mUISortlistPane1;
+            }
+        }
+        
+        public UISortlistPane21 UISortlistPane2
+        {
+            get
+            {
+                if ((this.mUISortlistPane2 == null))
+                {
+                    this.mUISortlistPane2 = new UISortlistPane21(this);
+                }
+                return this.mUISortlistPane2;
             }
         }
         #endregion
@@ -3642,7 +3735,9 @@ Places recent U.S. college graduates as English teaching assistants in schools o
         #region Fields
         private UISortlistPane4 mUISortlistPane;
         
-        private UISortlistPane13 mUISortlistPane1;
+        private UISortlistPane14 mUISortlistPane1;
+        
+        private UISortlistPane21 mUISortlistPane2;
         #endregion
     }
     
@@ -3721,10 +3816,10 @@ Places recent U.S. college graduates as English teaching assistants in schools o
     }
     
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class UISortlistPane13 : HtmlDiv
+    public class UISortlistPane14 : HtmlDiv
     {
         
-        public UISortlistPane13(UITestControl searchLimitContainer) : 
+        public UISortlistPane14(UITestControl searchLimitContainer) : 
                 base(searchLimitContainer)
         {
             #region Search Criteria
@@ -3740,13 +3835,13 @@ Places recent U.S. college graduates as English teaching assistants in schools o
         }
         
         #region Properties
-        public UIItemTable1 UIItemTable
+        public UIItemTable2 UIItemTable
         {
             get
             {
                 if ((this.mUIItemTable == null))
                 {
-                    this.mUIItemTable = new UIItemTable1(this);
+                    this.mUIItemTable = new UIItemTable2(this);
                 }
                 return this.mUIItemTable;
             }
@@ -3779,17 +3874,17 @@ Places recent U.S. college graduates as English teaching assistants in schools o
         #endregion
         
         #region Fields
-        private UIItemTable1 mUIItemTable;
+        private UIItemTable2 mUIItemTable;
         
         private HtmlHyperlink mUIOfficeoftheExecutiveHyperlink;
         #endregion
     }
     
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class UIItemTable1 : HtmlTable
+    public class UIItemTable2 : HtmlTable
     {
         
-        public UIItemTable1(UITestControl searchLimitContainer) : 
+        public UIItemTable2(UITestControl searchLimitContainer) : 
                 base(searchLimitContainer)
         {
             #region Search Criteria
@@ -3817,7 +3912,7 @@ Places recent U.S. college graduates as English teaching assistants in schools o
                     this.mUIECAIIPEXOfficeoftheECell.SearchProperties[HtmlCell.PropertyNames.Id] = null;
                     this.mUIECAIIPEXOfficeoftheECell.SearchProperties[HtmlCell.PropertyNames.Name] = null;
                     this.mUIECAIIPEXOfficeoftheECell.SearchProperties[HtmlCell.PropertyNames.MaxDepth] = "3";
-                    this.mUIECAIIPEXOfficeoftheECell.SearchProperties[HtmlCell.PropertyNames.InnerText] = "ECA-IIP/EX \r\nOffice of the Executive Dir";
+                    this.mUIECAIIPEXOfficeoftheECell.SearchProperties[HtmlCell.PropertyNames.InnerText] = "ECA/PE/C/PY/F  ";
                     this.mUIECAIIPEXOfficeoftheECell.FilterProperties[HtmlCell.PropertyNames.ControlDefinition] = "class=\"col-md-7\" style=\"padding-left: 79px;\" ng-style=\"{\'padding-left\': 60+(20*of" +
                         "fice.officeLevel-1)}\"";
                     this.mUIECAIIPEXOfficeoftheECell.FilterProperties[HtmlCell.PropertyNames.RowIndex] = "2";
@@ -3834,6 +3929,211 @@ Places recent U.S. college graduates as English teaching assistants in schools o
         
         #region Fields
         private HtmlCell mUIECAIIPEXOfficeoftheECell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane21 : HtmlDiv
+    {
+        
+        public UISortlistPane21(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Showing 1 - 1 of 1 offices\r\n\r\n \r\n\r\n\r\n EC";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-isolate-scope\" id=\"sort-list\" st-table=\"offices\" st-pipe=\"getOffices\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "31";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UIItemTable3 UIItemTable
+        {
+            get
+            {
+                if ((this.mUIItemTable == null))
+                {
+                    this.mUIItemTable = new UIItemTable3(this);
+                }
+                return this.mUIItemTable;
+            }
+        }
+        
+        public HtmlHyperlink UIASMYLECBYXFLEXGAPPBrHyperlink
+        {
+            get
+            {
+                if ((this.mUIASMYLECBYXFLEXGAPPBrHyperlink == null))
+                {
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "A-SMYLE, CBYX, FLEX & GAPP Branch";
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/offices/1405/overview";
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/offices/1405/";
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "1";
+                    this.mUIASMYLECBYXFLEXGAPPBrHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIASMYLECBYXFLEXGAPPBrHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIItemTable3 mUIItemTable;
+        
+        private HtmlHyperlink mUIASMYLECBYXFLEXGAPPBrHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIItemTable3 : HtmlTable
+    {
+        
+        public UIItemTable3(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlTable.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlTable.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlTable.PropertyNames.InnerText] = "Showing 1 - 1 of 1 offices\r\n\r\n \r\n\r\n\r\n EC";
+            this.FilterProperties[HtmlTable.PropertyNames.ControlDefinition] = "class=\"col-md-12 table\"";
+            this.FilterProperties[HtmlTable.PropertyNames.RowCount] = "4";
+            this.FilterProperties[HtmlTable.PropertyNames.ColumnCount] = "2";
+            this.FilterProperties[HtmlTable.PropertyNames.Class] = "col-md-12 table";
+            this.FilterProperties[HtmlTable.PropertyNames.TagInstance] = "1";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlCell UIECAPECPYFASMYLECBYXFCell
+        {
+            get
+            {
+                if ((this.mUIECAPECPYFASMYLECBYXFCell == null))
+                {
+                    this.mUIECAPECPYFASMYLECBYXFCell = new HtmlCell(this);
+                    #region Search Criteria
+                    this.mUIECAPECPYFASMYLECBYXFCell.SearchProperties[HtmlCell.PropertyNames.Id] = null;
+                    this.mUIECAPECPYFASMYLECBYXFCell.SearchProperties[HtmlCell.PropertyNames.Name] = null;
+                    this.mUIECAPECPYFASMYLECBYXFCell.SearchProperties[HtmlCell.PropertyNames.MaxDepth] = "3";
+                    this.mUIECAPECPYFASMYLECBYXFCell.SearchProperties[HtmlCell.PropertyNames.InnerText] = "ECA/PE/C/PY/F \r\nA-SMYLE, CBYX, FLEX & GA";
+                    this.mUIECAPECPYFASMYLECBYXFCell.FilterProperties[HtmlCell.PropertyNames.ControlDefinition] = "class=\"col-md-7\" style=\"padding-left: 139px;\" ng-style=\"{\'padding-left\': 60+(20*o" +
+                        "ffice.officeLevel-1)}\"";
+                    this.mUIECAPECPYFASMYLECBYXFCell.FilterProperties[HtmlCell.PropertyNames.RowIndex] = "2";
+                    this.mUIECAPECPYFASMYLECBYXFCell.FilterProperties[HtmlCell.PropertyNames.ColumnIndex] = "0";
+                    this.mUIECAPECPYFASMYLECBYXFCell.FilterProperties[HtmlCell.PropertyNames.Class] = "col-md-7";
+                    this.mUIECAPECPYFASMYLECBYXFCell.FilterProperties[HtmlCell.PropertyNames.TagInstance] = "1";
+                    this.mUIECAPECPYFASMYLECBYXFCell.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIECAPECPYFASMYLECBYXFCell;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlCell mUIECAPECPYFASMYLECBYXFCell;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweDocument8 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument8(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/#/offices/1405/overview#top";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UITopPane4 UITopPane
+        {
+            get
+            {
+                if ((this.mUITopPane == null))
+                {
+                    this.mUITopPane = new UITopPane4(this);
+                }
+                return this.mUITopPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UITopPane4 mUITopPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UITopPane4 : HtmlDiv
+    {
+        
+        public UITopPane4(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "A-SMYLE, CBYX, FLEX & GAPP Branch\r\n\r\n\r\n\r";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" autoscroll=\"true\" ui-view=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "27";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIBranchesProgramsHyperlink
+        {
+            get
+            {
+                if ((this.mUIBranchesProgramsHyperlink == null))
+                {
+                    this.mUIBranchesProgramsHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIBranchesProgramsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIBranchesProgramsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIBranchesProgramsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIBranchesProgramsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "Branches & Programs";
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/offices/1405/branches";
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/offices/1405/";
+                    this.mUIBranchesProgramsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "2";
+                    this.mUIBranchesProgramsHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIBranchesProgramsHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIBranchesProgramsHyperlink;
         #endregion
     }
     

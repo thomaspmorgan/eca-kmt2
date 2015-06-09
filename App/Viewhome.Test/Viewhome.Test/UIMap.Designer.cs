@@ -57,30 +57,6 @@ namespace Viewhome.Test
         }
         
         /// <summary>
-        /// Open browser; navigate to QA site; select ECATest user; enter password; click sign in.
-        /// </summary>
-        public void LogintoQA_ExistingUser()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIECATest1statedeptusHyperlink;
-            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIPasswordEdit;
-            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UISigninPane;
-            #endregion
-
-            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
-
-            // Click 'ECATest1@statedept.us •••' link
-            Mouse.Click(uIECATest1statedeptusHyperlink, new Point(139, 34));
-
-            // Type '********' in 'Password' text box
-            uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
-
-            // Click 'Sign in' pane
-            Mouse.Click(uISigninPane, new Point(28, 11));
-        }
-        
-        /// <summary>
         /// Check for News Link
         /// </summary>
         public void NewsLink()
@@ -217,18 +193,6 @@ namespace Viewhome.Test
             }
         }
         
-        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
-        {
-            get
-            {
-                if ((this.mLogintoQA_ExistingUserParams == null))
-                {
-                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
-                }
-                return this.mLogintoQA_ExistingUserParams;
-            }
-        }
-        
         public virtual NewsLinkExpectedValues NewsLinkExpectedValues
         {
             get
@@ -305,8 +269,6 @@ namespace Viewhome.Test
         #region Fields
         private CloseBrowserButtonExpectedValues mCloseBrowserButtonExpectedValues;
         
-        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
-        
         private NewsLinkExpectedValues mNewsLinkExpectedValues;
         
         private Notifications_ActivityLinkExpectedValues mNotifications_ActivityLinkExpectedValues;
@@ -333,26 +295,6 @@ namespace Viewhome.Test
         /// Verify that the 'ControlType' property of 'Close' button equals 'Button'
         /// </summary>
         public string UICloseButtonControlType = "Button";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'LogintoQA_ExistingUser'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class LogintoQA_ExistingUserParams
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-        /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
-        
-        /// <summary>
-        /// Type '********' in 'Password' text box
-        /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7n9Hp5j+06Q16vTeHomf4bql8vy/6wcjU0=";
         #endregion
     }
     
@@ -917,7 +859,7 @@ namespace Viewhome.Test
             #region Search Criteria
             this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
             this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
-            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "ECA Knowledge Management Tool\n\n\n Your";
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "ECA Knowledge Management Tool\r\n\r\n\r\n Your";
             this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
             this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
             this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" ng-click=\"closeMenus()\" autoscroll=\"true\" ui-view=\"\"";

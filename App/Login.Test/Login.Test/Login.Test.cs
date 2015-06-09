@@ -16,7 +16,7 @@ namespace Login.Test
     /// Simple login to the QA site with the ECAState creds
     /// </summary>
     [CodedUITest]
-    public class LoginCodedUITest1
+    public partial class LoginCodedUITest1
     {
         public LoginCodedUITest1()
         {
@@ -25,6 +25,8 @@ namespace Login.Test
         [TestMethod]
         public void LoginCodedUITestMethod1()
         {
+
+
             // loginQA will take you to the homepage of QA. Add more depth after UIMap.LoginQA
             this.UIMap.LogintoQA_ExistingUser();
             //this.UIMap.LoginQA();
