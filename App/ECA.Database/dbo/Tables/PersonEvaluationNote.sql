@@ -11,6 +11,6 @@
     CONSTRAINT [FK_PersonEvaluationNote_ToPerson] FOREIGN KEY ([PersonId]) REFERENCES [Person]([PersonId])
 )
 
-GO
+GO 
 
 CREATE INDEX [IX_PersonEvaluationNote_PersonId] ON [dbo].[PersonEvaluationNote] ([PersonId])
