@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Data", "ECA.Data\ECA.Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebApi", "ECA.WebApi\ECA.WebApi.csproj", "{72993AAF-4C9F-4EA3-A3CB-263D20C32DE0}"
 EndProject
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "ECA.WebApi.Azure", "ECA.WebApi.Azure\ECA.WebApi.Azure.ccproj", "{CEA0E515-55A9-43AC-AA46-A6B31F6B98B9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.WebApp.AngularJS", "ECA.WebApp.AngularJS\ECA.WebApp.AngularJS.csproj", "{6634FB37-1B43-40F4-BE9E-C0FC316E0CB9}"
 EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "ECA.WebApp.AngularJS.Azure", "ECA.WebApp.AngularJS.Azure\ECA.WebApp.AngularJS.Azure.ccproj", "{B7AEFB6F-C680-44EB-ACC6-B88C3EAE599C}"
@@ -53,7 +51,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAM.Business", "CAM.Busines
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAM.Business.Test", "CAM.Business.Test\CAM.Business.Test.csproj", "{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRole", "WorkerRole\WorkerRole.csproj", "{A9158A58-52ED-428B-82F6-8E20A4745EB4}"
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "ECA.WebApi.Azure", "ECA.WebApi.Azure\ECA.WebApi.Azure.ccproj", "{7E9EB7F6-B17D-45E0-B825-616A6B1EA076}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,10 +67,6 @@ Global
 		{72993AAF-4C9F-4EA3-A3CB-263D20C32DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72993AAF-4C9F-4EA3-A3CB-263D20C32DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72993AAF-4C9F-4EA3-A3CB-263D20C32DE0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CEA0E515-55A9-43AC-AA46-A6B31F6B98B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEA0E515-55A9-43AC-AA46-A6B31F6B98B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEA0E515-55A9-43AC-AA46-A6B31F6B98B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEA0E515-55A9-43AC-AA46-A6B31F6B98B9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6634FB37-1B43-40F4-BE9E-C0FC316E0CB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6634FB37-1B43-40F4-BE9E-C0FC316E0CB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6634FB37-1B43-40F4-BE9E-C0FC316E0CB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -125,10 +119,10 @@ Global
 		{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07850DA1-7DD9-452C-BDAE-8DAF8F39446D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9158A58-52ED-428B-82F6-8E20A4745EB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9158A58-52ED-428B-82F6-8E20A4745EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9158A58-52ED-428B-82F6-8E20A4745EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9158A58-52ED-428B-82F6-8E20A4745EB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E9EB7F6-B17D-45E0-B825-616A6B1EA076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E9EB7F6-B17D-45E0-B825-616A6B1EA076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E9EB7F6-B17D-45E0-B825-616A6B1EA076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E9EB7F6-B17D-45E0-B825-616A6B1EA076}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
