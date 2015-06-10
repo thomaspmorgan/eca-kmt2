@@ -18,31 +18,38 @@ angular.module('staticApp')
         NotificationService) {
 
       $scope.view = {};
-      $scope.view.params = $stateParams;
-      $scope.view.isLoading = false;
+      $scope.tabs = {
+          overview: { title: 'Overview', path: 'overview', active: true, order: 1 },
+          artifacts: { title: 'Artifacts', path: 'artifacts', active: true, order: 2 },
+          impact: { title: 'Impact', path: 'impact', active: true, order: 3 },
+          activity: { title: 'Activities', path: 'activities', active: true, order: 4 }
+      };
+
       $scope.view.organizationId = $stateParams.organizationId;
 
+      $scope.data = {};
+      $scope.data.loadedOrganizationPromise = $q.defer();
+      $scope.data.loadedOrganizationPromise.promise.then(function (org) {
+          $scope.organization = org;
+      });
 
       function loadOrganization(organizationId) {
           return OrganizationService.getById(organizationId)
           .then(function (response) {
-              $scope.organization = response.data;
+              var org = response.data;
+              $scope.data.loadedOrganizationPromise.resolve(org);
           })
           .catch(function () {
               $log.error('Unable to load organization.');
               NotificationService.showErrorMessage('Unable to load organization.');
           });
       }
-
-      $scope.view.isLoading = true;
       $q.all([loadOrganization($scope.view.organizationId)])
       .then(function (results) {
           //results is an array
 
-      }, function (errorResponse) {
-          $log.error('Failed initial loading of organization view.');
       })
-      .then(function () {
-          $scope.view.isLoading = false;
-      });
+    .catch(function () {
+        $log.error('Unable to load organization.');
+    });
   });

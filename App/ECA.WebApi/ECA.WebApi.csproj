@@ -412,7 +412,7 @@
     <Compile Include="Controllers\Admin\ProjectStatusesController.cs" />
     <Compile Include="Controllers\Security\AuthController.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsController.cs" />
-    <Compile Include="Controllers\Admin\ProjectsController.cs" />
+    <Compile Include="Controllers\Projects\ProjectsController.cs" />
     <Compile Include="Controllers\Persons\ParticipantsController.cs" />
     <Compile Include="Controllers\Persons\ContactsController.cs" />
     <Compile Include="Controllers\Persons\PeopleController.cs" />

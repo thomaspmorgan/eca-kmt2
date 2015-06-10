@@ -583,3 +583,17 @@ div.modal-center-large .modal-content .modal-body {
 .editButtons {
     width:10%;
 }
+
+.verticalTop {
+    vertical-align: top;
+}
+
+tr#participantInfo {
+    .row {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .row:first-child {
+        border: none;
+    }
+}

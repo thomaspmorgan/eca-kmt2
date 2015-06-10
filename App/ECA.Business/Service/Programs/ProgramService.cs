@@ -55,10 +55,9 @@ namespace ECA.Business.Service.Programs
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
         public PagedQueryResults<OrganizationProgramDTO> GetPrograms(QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
-            var results = CreateGetProgramsAlphaSqlQuery().ToArray();
-            var pagedResults = GetPagedQueryResults(results, queryOperator);
-            this.logger.Trace("Retrieved program hierarchy by query operator [{0}].", queryOperator);
-            return pagedResults;
+            var results = ProgramQueries.CreateGetOrganizationProgramDTOQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved program with query operator [{0}].", queryOperator);
+            return results;
         }
 
         /// <summary>
@@ -68,10 +67,9 @@ namespace ECA.Business.Service.Programs
         /// <returns>The paged, filtered, and sorted list of program in the system.</returns>
         public async Task<PagedQueryResults<OrganizationProgramDTO>> GetProgramsAsync(QueryableOperator<OrganizationProgramDTO> queryOperator)
         {
-            var results = await (CreateGetProgramsAlphaSqlQuery().ToArrayAsync());
-            var pagedResults = GetPagedQueryResults(results, queryOperator);
-            this.logger.Trace("Retrieved program hierarchy by query operator [{0}].", queryOperator);
-            return pagedResults;
+            var results = await ProgramQueries.CreateGetOrganizationProgramDTOQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved program with query operator [{0}].", queryOperator);
+            return results;
         }
 
         public PagedQueryResults<OrganizationProgramDTO> GetProgramsHierarchy(QueryableOperator<OrganizationProgramDTO> queryOperator)
@@ -368,12 +366,6 @@ namespace ECA.Business.Service.Programs
             return this.Context.Programs.Find(parentProgramId);
         }
 
-        /// <summary>
-        /// Returns the program with the given id.
-        /// </summary>
-        /// <param name="parentProgramId">The program id.</param>
-        /// <returns>The program.</returns>
-
         private ProgramServiceValidationEntity GetValidationEntity(EcaProgram program, Organization owner, OfficeSettings ownerOfficeSettings, Program parentProgram, List<int> regionTypesIds)
         {
             return new ProgramServiceValidationEntity(
@@ -395,12 +387,7 @@ namespace ECA.Business.Service.Programs
 
         private DbRawSqlQuery<OrganizationProgramDTO> CreateGetProgramsHierarchySqlQuery()
         {
-            return this.Context.Database.SqlQuery<OrganizationProgramDTO>("GetProgramsForUser @userID = {0}", 2);
-        }
-
-        private DbRawSqlQuery<OrganizationProgramDTO> CreateGetProgramsAlphaSqlQuery()
-        {
-            return this.Context.Database.SqlQuery<OrganizationProgramDTO>("GetProgramsForUserAlpha @userID = {0}", 2);
+            return this.Context.Database.SqlQuery<OrganizationProgramDTO>(OfficeService.GET_PROGRAMS_SPROC_NAME);
         }
     }
 }

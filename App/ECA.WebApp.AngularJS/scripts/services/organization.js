@@ -20,6 +20,9 @@ angular.module('staticApp')
           },
           getById: function (organizationId) {
               return DragonBreath.get('organizations', organizationId)
+          },
+          getTypes: function (params) {
+              return DragonBreath.get(params, 'organizations/types');
           }
       };
   });

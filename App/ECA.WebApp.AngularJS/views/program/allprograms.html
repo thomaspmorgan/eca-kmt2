@@ -8,8 +8,7 @@
     <div class="row">
         <span class="left programTypeRadio">Show programs in<input type="radio" ng-change="changeProgramList()" ng-model="programList.type" value="hierarchy">Hierarchical order</span>
         <span class="left programTypeRadio"><input type="radio" ng-change="changeProgramList()" ng-model="programList.type" value="alpha">Alphabetical order</span>
-        <span class="left programTypeRadio"><input type="checkbox" ng-change=changeProgramList() ng-model="draftsOnly">Show my drafts only</span>
-        <button ng-show="!programsLoading" ng-click="createProgramForm()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
+        <span class="left programTypeRadio" ng-show="ecaUserId"><input type="checkbox" ng-show="ecaUserId" ng-change=changeProgramList() ng-model="draftsOnly">Show my drafts only</span>
     </div>
 
     <div st-pipe="getPrograms" st-table="programs" id="sort-list">
@@ -29,13 +28,17 @@
                             <p class="subheader">Showing {{skippedNumberOfPrograms}} - {{numberOfPrograms}} of {{totalNumberOfPrograms}} programs</p>
                         </div>
                     </th>
-                    <th class="col-md-2">&nbsp;</th>
+                    <th class="col-md-2 verticalTop">
+                        <button ng-show="!programsLoading" ng-click="createProgramForm()" class="btn btn-success right col-sd-2">CREATE PROGRAM</button>
+
+                    </th>
                 </tr>
             </thead>
             <tbody class="list2">
                 <tr ng-repeat="program in programs" ng-show="!programsLoading" id="program{{program.programId}}" program-level="{{program.programLevel}}">
                         <td class="col-md-9" ng-style="{'padding-left': 60+(30*program.programLevel-1)}">
                             <span class="owner-office">{{program.officeSymbol}}</span>
+                            <span class="owner-office"> - {{program.status}}</span>
                             <span class="draft-program{{program.programStatusId}}">DRAFT</span>
                             <h4>
                                 <span ng-show="program.numChildren > 0">
@@ -46,7 +49,7 @@
                             </h4>
                             <p ng-bind-html="program.description | highlight:programFilter">{{program.description}}</p>
                         </td>
-                        <td class="col-md-3 tools" style="padding: 50px 50px 0 0;">
+                        <td class="col-md-3 tools" style="vertical-align:middle; padding-right:40px;">
                             <div class="right" style="display:none;" showonparentrow>
                                 <div class="copyEditDeleteOptions" ng-click="copyProgram(program.programId)">
                                     <i class="md md-content-copy md-2x copyEditDeleteOption" ng-show="!copyProgramLoading"></i>
@@ -410,6 +413,7 @@
                 </div>
             </form>
         </div>
+
         <div class="col-md-2">
             <guidance></guidance>
         </div>

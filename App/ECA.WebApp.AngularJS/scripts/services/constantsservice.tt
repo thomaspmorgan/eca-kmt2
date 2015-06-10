@@ -21,6 +21,8 @@
 	types.Add(typeof(ProjectStatus));
 	types.Add(typeof(ParticipantType));
 	types.Add(typeof(OrganizationType));
+	types.Add(typeof(SocialMediaType));
+	types.Add(typeof(ProgramStatus));
 	types.Add(typeof(CAM.Data.Permission));
 	types.Add(typeof(CAM.Data.ResourceType));
 
@@ -42,6 +44,7 @@
 	otherConstants["lessThanComparisonType"] = ComparisonType.LessThan.Value;
 	otherConstants["greaterComparisonType"] = ComparisonType.GreaterThan.Value;
 	otherConstants["equalComparisonType"] = ComparisonType.Equal.Value;
+	otherConstants["notEqualComparisonType"] = ComparisonType.NotEqual.Value;
 	otherConstants["isNullComparisonType"] = ComparisonType.Null.Value;
 	otherConstants["isNotNullComparisonType"] = ComparisonType.NotNull.Value;
 

@@ -98,7 +98,8 @@
     <Compile Include="Controllers\Admin\OfficesControllerTest.cs" />
     <Compile Include="Controllers\Admin\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsControllerTest.cs" />
-    <Compile Include="Controllers\Admin\ProjectStatusControllerTest.cs" />
+    <Compile Include="Controllers\Persons\ParticipantPersonsControllerTest.cs" />
+    <Compile Include="Controllers\Projects\ProjectStatusControllerTest.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesControllerTest.cs" />
     <Compile Include="Controllers\Admin\OrganizationsControllerTest.cs" />
     <Compile Include="Controllers\Security\AuthControllerTest.cs" />
@@ -107,7 +108,7 @@
     <Compile Include="Controllers\Persons\PersonControllerTest.cs" />
     <Compile Include="Controllers\Programs\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Programs\ProgramsControllerTest.cs" />
-    <Compile Include="Controllers\Admin\ProjectsControllerTest.cs" />
+    <Compile Include="Controllers\Projects\ProjectsControllerTest.cs" />
     <Compile Include="Controllers\Security\PrincipalsControllerTest.cs" />
     <Compile Include="Controllers\Security\ResourcesControllerTest.cs" />
     <Compile Include="Controllers\Security\UsersControllerTest.cs" />

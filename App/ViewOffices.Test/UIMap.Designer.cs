@@ -212,30 +212,6 @@ namespace ViewOffices.Test
         }
         
         /// <summary>
-        /// Open browser; navigate to QA site; select ECATest user; enter password; click sign in.
-        /// </summary>
-        public void LogintoQA_ExistingUser()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIECATest1statedeptusHyperlink;
-            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
-            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
-            #endregion
-
-            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
-
-            // Click 'ECATest1@statedept.us •••' link
-            Mouse.Click(uIECATest1statedeptusHyperlink, new Point(115, 35));
-
-            // Type '********' in 'Password' text box
-            uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
-
-            // Click 'Sign in' pane
-            Mouse.Click(uISigninPane, new Point(31, 16));
-        }
-        
-        /// <summary>
         /// Refresh/Reload the All Offices/ECA Office Directory Page to display.
         /// </summary>
         public void RefreshAllOffices_ECAOfficeDirectoryPage()
@@ -396,18 +372,6 @@ namespace ViewOffices.Test
             }
         }
         
-        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
-        {
-            get
-            {
-                if ((this.mLogintoQA_ExistingUserParams == null))
-                {
-                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
-                }
-                return this.mLogintoQA_ExistingUserParams;
-            }
-        }
-        
         public virtual RefreshAllOffices_ECAOfficeDirectoryPageParams RefreshAllOffices_ECAOfficeDirectoryPageParams
         {
             get
@@ -451,8 +415,6 @@ namespace ViewOffices.Test
         private InputSearchOfficeTextParams mInputSearchOfficeTextParams;
         
         private LogintoQAParams mLogintoQAParams;
-        
-        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
         
         private RefreshAllOffices_ECAOfficeDirectoryPageParams mRefreshAllOffices_ECAOfficeDirectoryPageParams;
         
@@ -653,26 +615,6 @@ The Cultural Heritage Center supports the protection and preservation of cultura
         /// Type '********' in 'Password' text box
         /// </summary>
         public string UIPasswordEditPassword = "pnl8gvcmh7nq2IDxDyIPucvLUfiP5WCkCWyYApPZam4=";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'LogintoQA_ExistingUser'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class LogintoQA_ExistingUserParams
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-        /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
-        
-        /// <summary>
-        /// Type '********' in 'Password' text box
-        /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7n9Hp5j+06Q16vTeHomf4bql8vy/6wcjU0=";
         #endregion
     }
     

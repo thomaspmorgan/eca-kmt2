@@ -13,24 +13,21 @@ angular.module('staticApp')
         $stateParams,
         $q,
         $log,
-        OfficeService,
+        OrganizationService,
         ConstantsService,
         NotificationService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
-      $scope.view.isLoading = false;
-    
+      isOrganizationLoading(true);
 
-      //$scope.view.isLoading = true;
-      //$q.all([loadProject(), loadOfficeSettings()])
-      //.then(function (results) {
-      //    //results is an array
+      $scope.data.loadedOrganizationPromise.promise
+      .then(function (org) {
+          $log.info('overview here.');
+          isOrganizationLoading(false);
+      });
 
-      //}, function (errorResponse) {
-      //    $log.error('Failed initial loading of project view.');
-      //})
-      //.then(function () {
-      //    $scope.view.isLoading = false;
-      //});
+      function isOrganizationLoading(isLoading) {
+          $scope.view.isOrganizationLoading = isLoading;
+      }
   });

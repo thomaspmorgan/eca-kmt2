@@ -1,5 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Admin;
+using ECA.Business.Service.Projects;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
-namespace ECA.WebApi.Controllers.Admin
+namespace ECA.WebApi.Controllers.Projects
 {
     /// <summary>
     /// The Project Status controller handles crud operations on project stati.

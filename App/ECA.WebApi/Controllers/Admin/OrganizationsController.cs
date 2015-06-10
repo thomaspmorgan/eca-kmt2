@@ -1,5 +1,7 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Queries.Models.Lookup;
 using ECA.Business.Service.Admin;
+using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
@@ -24,16 +26,20 @@ namespace ECA.WebApi.Controllers.Admin
     public class OrganizationsController : ApiController
     {
         private static readonly ExpressionSorter<SimpleOrganizationDTO> DEFAULT_SORTER = new ExpressionSorter<SimpleOrganizationDTO>(x => x.Name, SortDirection.Ascending);
-        private IOrganizationService service;
+        private static readonly ExpressionSorter<OrganizationTypeDTO> DEFAULT_ORGANIZATION_TYPE_SORTER = new ExpressionSorter<OrganizationTypeDTO>(x => x.Name, SortDirection.Ascending);
+        private IOrganizationService organizationService;
+        private IOrganizationTypeService organizationTypeService;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="service">The service</param>
-        public OrganizationsController(IOrganizationService service)
+        public OrganizationsController(IOrganizationService service, IOrganizationTypeService organizationTypeService)
         {
             Contract.Requires(service != null, "The organization service must not be null.");
-            this.service = service;
+            Contract.Requires(organizationTypeService != null, "The organization type service must not be null.");
+            this.organizationService = service;
+            this.organizationTypeService = organizationTypeService;
         }
 
         /// <summary>
@@ -42,10 +48,11 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="queryModel">The query operator.</param>
         /// <returns>The organizations in the system.</returns>
         [ResponseType(typeof(PagedQueryResults<SimpleOrganizationDTO>))]
+        [Route("Organizations")]
         public async Task<IHttpActionResult> GetOrganizationsAsync([FromUri]PagingQueryBindingModel<SimpleOrganizationDTO> queryModel) {
             if (ModelState.IsValid)
             {
-                var results = await service.GetOrganizationsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await organizationService.GetOrganizationsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
                 return Ok(results);
             }
             else
@@ -60,9 +67,10 @@ namespace ECA.WebApi.Controllers.Admin
         /// <param name="id">The id of the organization.</param>
         /// <returns>The organization.</returns>
         [ResponseType(typeof(OrganizationDTO))]
+        [Route("Organizations/{id}")]
         public async Task<IHttpActionResult> GetOrganizationByIdAsync(int id)
         {
-            var results = await service.GetOrganizationByIdAsync(id);
+            var results = await organizationService.GetOrganizationByIdAsync(id);
             if (results != null)
             {
                 return Ok(results);
@@ -71,6 +79,18 @@ namespace ECA.WebApi.Controllers.Admin
             {
                 return NotFound();
             }
+        }
+
+        /// <summary>
+        /// Returns the organization types in the system.
+        /// </summary>
+        /// <param name="queryModel">The query model.</param>
+        /// <returns>The organization types.</returns>
+        [Route("Organizations/Types")]
+        [ResponseType(typeof(PagedQueryResults<OrganizationTypeDTO>))]
+        public async Task<IHttpActionResult> GetOrganizationTypesAsync([FromUri]PagingQueryBindingModel<OrganizationTypeDTO> queryModel)
+        {
+            return Ok(await organizationTypeService.GetAsync(queryModel.ToQueryableOperator(DEFAULT_ORGANIZATION_TYPE_SORTER)));
         }
     }
 }

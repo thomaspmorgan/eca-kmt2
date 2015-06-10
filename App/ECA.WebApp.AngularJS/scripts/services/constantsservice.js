@@ -46,6 +46,14 @@
 			editProject: {id: 7, value: "Edit Project"},
 			projectOwner: {id: 8, value: "Project Owner"}
 		},
+		programStatus: {
+			active: {id: 1, value: "Active"},
+			pending: {id: 2, value: "Pending"},
+			completed: {id: 3, value: "Completed"},
+			draft: {id: 4, value: "Draft"},
+			canceled: {id: 5, value: "Canceled"},
+			other: {id: 6, value: "Other"}
+		},
 		projectStatus: {
 			active: {id: 1, value: "Active"},
 			pending: {id: 2, value: "Pending"},
@@ -64,6 +72,12 @@
 			program: {id: 3, value: "Program"},
 			project: {id: 4, value: "Project"}
 		},
+		socialMediaType: {
+			facebook: {id: 1, value: "Facebook"},
+			linkedin: {id: 2, value: "LinkedIn"},
+			twitter: {id: 3, value: "Twitter"},
+			weibo: {id: 4, value: "Weibo"}
+		},
 		adalLoginSuccessEventName: 'adal:loginSuccess',
 		cancelProjectEventName: 'cancelProjectEdit',
 		emptyGuid: '00000000-0000-0000-0000-000000000000',
@@ -75,6 +89,7 @@
 		lessThanComparisonType: 'lt',
 		likeComparisonType: 'like',
 		logoutEventName: 'logout',
+		notEqualComparisonType: 'not_eq',
 		notInComparisonType: 'notin',
 		officeCategorySettingName: 'Category',
 		officeFocusSettingName: 'Focus',

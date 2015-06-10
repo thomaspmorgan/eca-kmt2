@@ -202,7 +202,7 @@ namespace ECA.Core.DynamicLinq.Test.Filter
         }
 
         [TestMethod]
-        public void TestEqualFilter_NullableDate_notEqualValue()
+        public void TestEqualFilter_NullableDate_NotEqualValue()
         {
             var instance = new EqualFilterTestClass
             {

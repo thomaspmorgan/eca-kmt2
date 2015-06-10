@@ -1,0 +1,1648 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/5/2015 12:02:45 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BE00003308"
+  DTS:CreatorName="BE00003308\Marc Setien"
+  DTS:DTSID="{129BF5C9-8455-48D7-B074-F407AFF78B8A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="12.0.2480.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Create City mappings to LocationCityID"
+  DTS:PackageType="5"
+  DTS:VersionBuild="9"
+  DTS:VersionGUID="{A3066B15-49F3-40DD-BC50-EC7904D2881D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B2590D38-7CF8-48A6-9F45-72D2CE6779B7}"
+      DTS:ObjectName="(localdb)\v11.0.ECA_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Add missing Cities to Location City Type"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{2D095928-D26A-4751-8C32-17A41CD702A6}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Add missing Cities to Location City Type"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Add missing Cities to Location City Type\Add required columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add required columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Add missing Cities to Location City Type\Add required columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Add required columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Add missing Cities to Location City Type\Add required columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Add required columns.Outputs[Derived Column Output].Columns[CityLocationTypeName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="4"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns.Outputs[Derived Column Output].Columns[CityLocationTypeName]"
+                      name="CityLocationTypeName"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"City"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"City"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Add required columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Add missing Cities to Location City Type\Add required columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add missing Cities to Location City Type\Add required columns 1"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Add required columns 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Add missing Cities to Location City Type\Add required columns 1.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Add missing Cities to Location City Type\Add required columns 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_CreatedBy]"
+                      name="History_CreatedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_CreatedOn]"
+                      name="History_CreatedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_RevisedBy]"
+                      name="History_RevisedBy"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_RevisedOn]"
+                      name="History_RevisedOn"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Add missing Cities to Location City Type\Add required columns 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add missing Cities to Location City Type\Aggregate"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="Aggregate;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;3"
+              description="Aggregates data with functions such as Average, Sum, Count, Max, and Min. For example, group data to compute the sum of sales per product or the average visits per day."
+              name="Aggregate"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the approximate number of distinct values in a column that the aggregation counts distinctly. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no CountDistinctScale value is used."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the exact number of distinct values in a column that the aggregation counts distinctly. If a CountDistinctScale value is specified, the value in CountDistinctKeys takes precedence."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage by which memory can be extended during the aggregation. Valid values are between 1 and 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Add missing Cities to Location City Type\Aggregate.Inputs[Aggregate Input 1]"
+                  name="Aggregate Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\Aggregate.Inputs[Aggregate Input 1].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="City"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[City]" />
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\Aggregate.Inputs[Aggregate Input 1].Columns[Country_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Country_LocationId"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Country_LocationId]" />
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\Aggregate.Inputs[Aggregate Input 1].Columns[Region_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Region_LocationId"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Region_LocationId]" />
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\Aggregate.Inputs[Aggregate Input 1].Columns[CityLocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="CityLocationTypeId"
+                      lineageId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Match Output].Columns[CityLocationTypeId]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1]"
+                  name="Aggregate Output 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the approximate number of group by keys that the aggregation produces. Low indicates 500,000 key values, Medium indicates 5 million key values, and High indicates more than 25 million key values. Unspecified indicates no KeyScale value is used."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the exact number of group by keys that the aggregation produces. If a KeyScale value is specified, the value in Keys takes precedence."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggCity]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggCity]"
+                      name="AggCity">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[City]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggCountry_LocationId]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggCountry_LocationId]"
+                      name="AggCountry_LocationId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Country_LocationId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggRegion_LocationId]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggRegion_LocationId]"
+                      name="AggRegion_LocationId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Region_LocationId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggCityLocationTypeId]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggCityLocationTypeId]"
+                      name="AggCityLocationTypeId">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the ID of the input column used in the aggregation."
+                          name="AggregationColumnId">#{Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Match Output].Columns[CityLocationTypeId]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the type of aggregation."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Indicates whether the column requires special handling because it may contain oversized data or it requires precision beyond a float data type."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the string comparison options."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add missing Cities to Location City Type\Location non-Null city entries"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Location non-Null city entries"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Location]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[LocationId]"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[LocationId]"
+                      name="LocationId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[LocationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[LocationTypeId]"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[LocationTypeId]"
+                      name="LocationTypeId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[City]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[City]"
+                      length="200"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Country_LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[Country_LocationId]"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Country_LocationId]"
+                      name="Country_LocationId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Region_LocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[Region_LocationId]"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Region_LocationId]"
+                      name="Region_LocationId"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[LocationId]"
+                      dataType="i4"
+                      name="LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[LocationTypeId]"
+                      dataType="i4"
+                      name="LocationTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[Latitude]"
+                      dataType="r4"
+                      name="Latitude" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[Longitude]"
+                      dataType="r4"
+                      name="Longitude" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[Street1]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street1" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[Street2]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street2" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[Street3]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street3" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="200"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[Division]"
+                      dataType="wstr"
+                      length="100"
+                      name="Division" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[PostalCode]"
+                      dataType="wstr"
+                      length="50"
+                      name="PostalCode" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[LocationName]"
+                      dataType="wstr"
+                      length="200"
+                      name="LocationName" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[LocationIso]"
+                      dataType="wstr"
+                      length="50"
+                      name="LocationIso" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[Region_LocationId]"
+                      dataType="i4"
+                      name="Region_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[Country_LocationId]"
+                      dataType="i4"
+                      name="Country_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[LocationISO-2]"
+                      dataType="wstr"
+                      length="10"
+                      name="LocationISO-2" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[City_LocationId]"
+                      dataType="i4"
+                      name="City_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].ExternalColumns[Division_LocationId]"
+                      dataType="i4"
+                      name="Division_LocationId" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[LocationId]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[LocationId]"
+                      name="LocationId" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[LocationTypeId]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[LocationTypeId]"
+                      name="LocationTypeId" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[City]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[Country_LocationId]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[Country_LocationId]"
+                      name="Country_LocationId" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[Region_LocationId]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Error Output].Columns[Region_LocationId]"
+                      name="Region_LocationId" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup City LocationTypeId"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[LocationType]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[LocationType]) [refTable]
+where [refTable].[LocationTypeName] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Add missing Cities to Location City Type\Add required columns.Outputs[Derived Column Output].Columns[CityLocationTypeName]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Inputs[Lookup Input].Columns[CityLocationTypeName]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="CityLocationTypeName"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns.Outputs[Derived Column Output].Columns[CityLocationTypeName]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationTypeName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Match Output].Columns[CityLocationTypeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Match Output].Columns[CityLocationTypeId]"
+                      name="CityLocationTypeId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationTypeId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup Existing Cities"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Location]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Location]) [refTable]
+where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_LocationId IS NULL AND ? IS NULL) OR ([refTable].[Country_LocationId] = ? )) and (([refTable].Region_LocationId IS NULL AND ? IS NULL) OR ( [refTable].[Region_LocationId] = ? )) and [refTable].[LocationTypeId] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">2</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationTypeId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Latitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Longitude" dataType="DT_R4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street1" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street2" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Street3" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="PostalCode" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationName" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationIso" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_CreatedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedBy" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="History_RevisedOn" dataType="DT_DBTIMESTAMPOFFSET" length="0" precision="0" scale="7" codePage="0"/&gt;&lt;referenceColumn name="Region_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Country_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LocationISO-2" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="City_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Division_LocationId" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[City]};#{Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Country_LocationId]};#{Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Country_LocationId]};#{Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Region_LocationId]};#{Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Region_LocationId]};#{Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Match Output].Columns[CityLocationTypeId]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Inputs[Lookup Input].Columns[City]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="City"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[City]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationName</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Inputs[Lookup Input].Columns[Country_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Country_LocationId"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Country_LocationId]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Country_LocationId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Inputs[Lookup Input].Columns[Region_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="Region_LocationId"
+                      lineageId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output].Columns[Region_LocationId]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Region_LocationId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Inputs[Lookup Input].Columns[CityLocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="CityLocationTypeId"
+                      lineageId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Match Output].Columns[CityLocationTypeId]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">LocationTypeId</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Outputs[Lookup Match Output].Columns[CityLocationId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Outputs[Lookup Match Output].Columns[CityLocationId]"
+                      name="CityLocationId"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">LocationId</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Add missing Cities to Location City Type\New City Locations"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="New City Locations"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Location]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Add missing Cities to Location City Type\New City Locations.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].Columns[History_CreatedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_CreatedBy"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_CreatedBy]" />
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].Columns[History_CreatedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_CreatedOn"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_CreatedOn]" />
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].Columns[History_RevisedBy]"
+                      cachedDataType="i4"
+                      cachedName="History_RevisedBy"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_RevisedBy]" />
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].Columns[History_RevisedOn]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="History_RevisedOn"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      lineageId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output].Columns[History_RevisedOn]" />
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].Columns[AggCity]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="AggCity"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[LocationName]"
+                      lineageId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggCity]" />
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].Columns[AggRegion_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="AggRegion_LocationId"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Region_LocationId]"
+                      lineageId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggRegion_LocationId]" />
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].Columns[AggCountry_LocationId]"
+                      cachedDataType="i4"
+                      cachedName="AggCountry_LocationId"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Country_LocationId]"
+                      lineageId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggCountry_LocationId]" />
+                    <inputColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].Columns[AggCityLocationTypeId]"
+                      cachedDataType="i4"
+                      cachedName="AggCityLocationTypeId"
+                      externalMetadataColumnId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      lineageId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1].Columns[AggCityLocationTypeId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[LocationId]"
+                      dataType="i4"
+                      name="LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[LocationTypeId]"
+                      dataType="i4"
+                      name="LocationTypeId" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Latitude]"
+                      dataType="r4"
+                      name="Latitude" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Longitude]"
+                      dataType="r4"
+                      name="Longitude" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Street1]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street1" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Street2]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street2" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Street3]"
+                      dataType="wstr"
+                      length="100"
+                      name="Street3" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      dataType="wstr"
+                      length="200"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Division]"
+                      dataType="wstr"
+                      length="100"
+                      name="Division" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[PostalCode]"
+                      dataType="wstr"
+                      length="50"
+                      name="PostalCode" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[LocationName]"
+                      dataType="wstr"
+                      length="200"
+                      name="LocationName" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[LocationIso]"
+                      dataType="wstr"
+                      length="50"
+                      name="LocationIso" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedBy]"
+                      dataType="i4"
+                      name="History_CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[History_CreatedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_CreatedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedBy]"
+                      dataType="i4"
+                      name="History_RevisedBy" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[History_RevisedOn]"
+                      dataType="dbTimeStampOffset"
+                      name="History_RevisedOn"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Region_LocationId]"
+                      dataType="i4"
+                      name="Region_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Country_LocationId]"
+                      dataType="i4"
+                      name="Country_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[LocationISO-2]"
+                      dataType="wstr"
+                      length="10"
+                      name="LocationISO-2" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[City_LocationId]"
+                      dataType="i4"
+                      name="City_LocationId" />
+                    <externalMetadataColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input].ExternalColumns[Division_LocationId]"
+                      dataType="i4"
+                      name="Division_LocationId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Add missing Cities to Location City Type\New City Locations.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\New City Locations.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Add missing Cities to Location City Type\New City Locations.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Add missing Cities to Location City Type\New City Locations.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Add missing Cities to Location City Type.Paths[Aggregate Output 1]"
+              endId="Package\Add missing Cities to Location City Type\Add required columns 1.Inputs[Derived Column Input]"
+              name="Aggregate Output 1"
+              startId="Package\Add missing Cities to Location City Type\Aggregate.Outputs[Aggregate Output 1]" />
+            <path
+              refId="Package\Add missing Cities to Location City Type.Paths[Derived Column Output]"
+              endId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\Add missing Cities to Location City Type\Add required columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Add missing Cities to Location City Type.Paths[Derived Column Output1]"
+              endId="Package\Add missing Cities to Location City Type\New City Locations.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Add missing Cities to Location City Type\Add required columns 1.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Add missing Cities to Location City Type.Paths[Lookup Match Output]"
+              endId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Add missing Cities to Location City Type.Paths[Lookup No Match Output]"
+              endId="Package\Add missing Cities to Location City Type\Aggregate.Inputs[Aggregate Input 1]"
+              name="Lookup No Match Output"
+              startId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\Add missing Cities to Location City Type.Paths[OLE DB Source Output]"
+              endId="Package\Add missing Cities to Location City Type\Add required columns.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update CityId"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{68FBF7E7-E107-4D30-90BA-E30DB8DC62C9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update CityId"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B2590D38-7CF8-48A6-9F45-72D2CE6779B7}"
+          SQLTask:SqlStatementSource="UPDATE  eca_local.dbo.location &#xA;SET     city_locationid = &#xA;        (&#xA;          SELECT locationid &#xA;          FROM eca_local.dbo.location b &#xA;          WHERE b.locationtypeid = 5 AND UPPER(b.locationname) = UPPER(eca_local.dbo.location.city) AND&#xA;&#x9;&#x9;  ((b.country_locationid IS NULL and eca_local.dbo.location.country_locationid is null) OR &#xA;&#x9;&#x9;   (b.country_locationid = eca_local.dbo.location.country_locationid)) AND&#xA;          ((b.region_locationid IS NULL and eca_local.dbo.location.region_locationid is null) OR &#xA;&#x9;&#x9;   (b.region_locationid = eca_local.dbo.location.region_locationid))&#xA;        )&#xA;WHERE eca_local.dbo.location.city is not null AND eca_local.dbo.location.locationtypeid &lt;&gt; 5" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="267,42"
+          Id="Package\Add missing Cities to Location City Type"
+          TopLeft="35.5,55.5" />
+        <NodeLayout
+          Size="143,42"
+          Id="Package\Update CityId"
+          TopLeft="102.5,164.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Add missing Cities to Location City Type">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="216,42"
+          Id="Package\Add missing Cities to Location City Type\Location non-Null city entries"
+          TopLeft="12.5,36.5" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\Add missing Cities to Location City Type\Lookup Existing Cities"
+          TopLeft="776.5,40.5" />
+        <NodeLayout
+          Size="182,42"
+          Id="Package\Add missing Cities to Location City Type\Add required columns"
+          TopLeft="272.5,39.5" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId"
+          TopLeft="505.5,39.5" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Add missing Cities to Location City Type\New City Locations"
+          TopLeft="625.5,126.5" />
+        <NodeLayout
+          Size="127,42"
+          Id="Package\Add missing Cities to Location City Type\Aggregate"
+          TopLeft="131.5,125.5" />
+        <EdgeLayout
+          Id="Package\Add missing Cities to Location City Type.Paths[OLE DB Source Output]"
+          TopLeft="228.5,59">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="44,0"
+              Start="0,0"
+              End="36.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="36.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Add missing Cities to Location City Type.Paths[Derived Column Output]"
+          TopLeft="454.5,60.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="51,0"
+              Start="0,0"
+              End="43.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="43.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Add missing Cities to Location City Type.Paths[Lookup Match Output]"
+          TopLeft="715.5,61">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="61,0"
+              Start="0,0"
+              End="53.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="53.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-21.44138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Add missing Cities to Location City Type.Paths[Lookup No Match Output]"
+          TopLeft="867,82.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-672,43"
+              Start="0,0"
+              End="-672,35.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.5"
+                    Point2="0,21.5"
+                    Point3="-4,21.5" />
+                  <mssgle:LineSegment
+                    End="-668,21.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-668,21.5"
+                    Point2="-672,21.5"
+                    Point3="-672,25.5" />
+                  <mssgle:LineSegment
+                    End="-672,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-391.80638671875,26.5,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="191,42"
+          Id="Package\Add missing Cities to Location City Type\Add required columns 1"
+          TopLeft="353,126" />
+        <EdgeLayout
+          Id="Package\Add missing Cities to Location City Type.Paths[Derived Column Output1]"
+          TopLeft="544,147.25">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="81.5,0"
+              Start="0,0"
+              End="74,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="74,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Add missing Cities to Location City Type.Paths[Aggregate Output 1]"
+          TopLeft="258.5,146.75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="94.5,0"
+              Start="0,0"
+              End="87,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="87,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add missing Cities to Location City Type\Location non-Null city entries">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add missing Cities to Location City Type\Lookup Existing Cities">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Location]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[LocationType]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add missing Cities to Location City Type\New City Locations">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

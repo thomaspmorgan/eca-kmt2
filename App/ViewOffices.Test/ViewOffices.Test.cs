@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
@@ -8,6 +9,12 @@ using Microsoft.VisualStudio.TestTools.UITesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
+using ECA.Business.Service.Admin;
+using ECA.Data;
+using ECA.Core.DynamicLinq;
+using ECA.Business.Queries.Models.Office;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.DynamicLinq.Filter;
 
 
 namespace ViewOffices.Test
@@ -19,13 +26,40 @@ namespace ViewOffices.Test
     [CodedUITest]
     public class ViewOfficesCodedUITest1
     {
+        private OfficeService officeService;
+        private EcaContext context;
+
         public ViewOfficesCodedUITest1()
         {
+        }
+
+        [TestInitialize]
+        public void TestInit()
+        {
+            var connectionString = @"Server=tcp:dx4ykgy2iu.database.windows.net,1433;Database=ECA_Dev;Persist Security Info=True;User ID=ECA@dx4ykgy2iu;Password=wisconsin-89;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;MultipleActiveResultSets=True";
+            context = new EcaContext(connectionString);
+            officeService = new OfficeService(context);
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            officeService.Dispose();
+            officeService = null;
         }
 
         [TestMethod]
         public void ViewOfficesCodedUITestMethod1()
         {
+            var defaultSorter = new ExpressionSorter<SimpleOfficeDTO>(x => x.Name, SortDirection.Ascending);
+            var nameFilter = new ExpressionFilter<SimpleOfficeDTO>(x => x.Name, ComparisonType.Like, "Cultural Heritage");
+            var queryOperator = new QueryableOperator<SimpleOfficeDTO>(0, 100, defaultSorter, new List<IFilter> { nameFilter }, null);
+
+            var dtos = officeService.GetOffices(queryOperator);
+            var testOffice = dtos.Results.First();
+            var searchText = testOffice.Name;
+            var linkText = testOffice.Name;
+            var total = dtos.Total;
 
             this.UIMap.LogintoQA_ExistingUser();
             //this.UIMap.LogintoQA();

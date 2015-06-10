@@ -173,31 +173,6 @@ Supports foreign scholars to conduct post-doctoral research and university lectu
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument6.UISortlistPane.UIOfficeofAcademicExchHyperlink" ThinkTime="10000">
-      <ParameterName />
-      <PropertyName>ControlType</PropertyName>
-      <ExpectedValue>Hyperlink</ExpectedValue>
-      <MessageOnValidationFailure>No (Office of Academic Exchange Programs) hyperlink control type.</MessageOnValidationFailure>
-      <Comparison>CurrentCulture</Comparison>
-      <PropertyCondition>Contains</PropertyCondition>
-    </StringAssertAction>
-    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument6.UISortlistPane.UIOfficeofAcademicExchHyperlink">
-      <ParameterName />
-      <PropertyName>InnerText</PropertyName>
-      <ExpectedValue>Office of Academic Exchange Programs</ExpectedValue>
-      <MessageOnValidationFailure>No (Office of Academic Exchange Programs) InnerText available.</MessageOnValidationFailure>
-      <Comparison>CurrentCulture</Comparison>
-      <PropertyCondition>Contains</PropertyCondition>
-    </StringAssertAction>
-    <TestStepMarkerAction Comment="Verify the (Office of Academic Exchanges) control type and innertext are available." MarkerInformation="AssertOfficeName">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Assertion</MarkerRegionType>
-    </TestStepMarkerAction>
     <AssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UICbpspmenus1Custom.UIOfficesHyperlink">
       <ParameterName />
       <PropertyName>InnerText</PropertyName>
@@ -223,18 +198,18 @@ Supports foreign scholars to conduct post-doctoral research and university lectu
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Assertion</MarkerRegionType>
     </TestStepMarkerAction>
-    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UISortlistPane1.UIItemTable.UIECAIIPEXOfficeoftheECell" ThinkTime="10000">
+    <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UISortlistPane2.UIItemTable.UIECAPECPYFASMYLECBYXFCell">
       <ParameterName />
       <PropertyName>InnerText</PropertyName>
-      <ExpectedValue>ECA-IIP/EX 
-Office of the Executive Director
+      <ExpectedValue>ECA/PE/C/PY/F 
+A-SMYLE, CBYX, FLEX &amp; GAPP Branch
 
-The Office of the Executive Director (ECA-IIP/EX) reports to the ECA PDAS and IIP Deputy Coordinator and supports the operations of the Bureau of Educational and Cultural Affairs and the Bureau of International Information Programs. We strive to efficiently, effectively support ECA and IIP in realizing their program objectives by providing the highest quality customer service in administrative support, budget and financial management, grants, human resources, information technology, and management analysis.</ExpectedValue>
-      <MessageOnValidationFailure>No available innertext for search result of (IIP) for the (ECA-IIP/EX Office of the Executive Director) cell.</MessageOnValidationFailure>
+A-SMYLE, CBYX, FLEX &amp; GAPP Branch</ExpectedValue>
+      <MessageOnValidationFailure>No available innertext for CBYX search. </MessageOnValidationFailure>
       <Comparison>CurrentCulture</Comparison>
       <PropertyCondition>Contains</PropertyCondition>
     </StringAssertAction>
-    <TestStepMarkerAction Comment="Verify the innertext of the returned search result to contain (ECA-IIP/EX Office of the Executive Director)." MarkerInformation="AssertOfficeSearchResult_SecOffice">
+    <TestStepMarkerAction Comment="Verify the innertext matches for the second office search (CBYX) after the search." MarkerInformation="AssertOfficeSearchResult_SecOffice">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -246,7 +221,7 @@ The Office of the Executive Director (ECA-IIP/EX) reports to the ECA PDAS and II
     <StringAssertAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UISortlistPane1.UIItemEdit">
       <ParameterName />
       <PropertyName>ValueAttribute</PropertyName>
-      <ExpectedValue>American</ExpectedValue>
+      <ExpectedValue>CBYX</ExpectedValue>
       <MessageOnValidationFailure>Text Input does not match.</MessageOnValidationFailure>
       <Comparison>CurrentCulture</Comparison>
       <PropertyCondition>Contains</PropertyCondition>
@@ -358,7 +333,7 @@ The Office of the Executive Director (ECA-IIP/EX) reports to the ECA PDAS and II
       <ExpectedValue>ECA/A/E 
 Fulbright English Teaching Assistant Program (ETA) 
 
-Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign studentsâ€™ English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country.</ExpectedValue>
+Places recent U.S. college graduates as English teaching assistants in schools or universities overseas, improving foreign students English language abilities and knowledge of the United States while increasing their own language skills and knowledge of the host country.</ExpectedValue>
       <MessageOnValidationFailure>No available InnerText in cell for Sub-program (ECA/A/E Fulbright English Teaching Assistant Program (ETA)). </MessageOnValidationFailure>
       <Comparison>CurrentCulture</Comparison>
       <PropertyCondition>Contains</PropertyCondition>
@@ -462,43 +437,6 @@ Places recent U.S. college graduates as English teaching assistants in schools o
       <MouseButton>Left</MouseButton>
     </MouseAction>
     <TestStepMarkerAction Comment="Open browser; navigate to QA site; input ECATest creds; click sign in" MarkerInformation="LogintoQA">
-      <ParameterName />
-      <StepId>-1</StepId>
-      <Direction>Start</Direction>
-      <Outcome />
-      <Disabled>false</Disabled>
-      <WorkItemId>0</WorkItemId>
-      <MarkerRegionType>Action</MarkerRegionType>
-    </TestStepMarkerAction>
-    <NavigateToUrlAction UIObjectName="UIMap.UINewtabInternetExplorWindow">
-      <ParameterName />
-      <Url>https://eca-kmt-qa.azurewebsites.net/</Url>
-      <NewInstance>true</NewInstance>
-    </NavigateToUrlAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIECATest1statedeptusHyperlink">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="140" Y="38" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UIPasswordEdit">
-      <ParameterName />
-      <Value Encoded="true">pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=</Value>
-      <Type>String</Type>
-    </SetValueAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UISignintoECAClientDocument1.UISigninPane">
-      <ParameterName />
-      <ModifierKeys>None</ModifierKeys>
-      <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="33" Y="24" />
-      <WheelDirection>0</WheelDirection>
-      <ActionType>Click</ActionType>
-      <MouseButton>Left</MouseButton>
-    </MouseAction>
-    <TestStepMarkerAction Comment="Open browser; navigate to QA site; select ECATest user; enter password; click sign in." MarkerInformation="LogintoQA_ExistingUser">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -706,7 +644,7 @@ Places recent U.S. college graduates as English teaching assistants in schools o
     </TestStepMarkerAction>
     <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UISortlistPane.UIItemEdit">
       <ParameterName />
-      <Value Encoded="false">American</Value>
+      <Value Encoded="false">CBYX</Value>
       <Type>String</Type>
     </SetValueAction>
     <TestStepMarkerAction Comment="Enter search box text for filtering the Programs list (American). " MarkerInformation="SearchBoxText_Input">
@@ -720,7 +658,7 @@ Places recent U.S. college graduates as English teaching assistants in schools o
     </TestStepMarkerAction>
     <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UISortlistPane.UIItemEdit">
       <ParameterName />
-      <Value Encoded="false">IIP</Value>
+      <Value Encoded="false">CBYX</Value>
       <Type>String</Type>
     </SetValueAction>
     <TestStepMarkerAction Comment="Input (IIP) into text box for search." MarkerInformation="SearchOfficesTextInput_SecOffice">
@@ -849,16 +787,16 @@ Places recent U.S. college graduates as English teaching assistants in schools o
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UISortlistPane1.UIOfficeoftheExecutiveHyperlink">
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument7.UISortlistPane2.UIASMYLECBYXFLEXGAPPBrHyperlink">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="154" Y="16" />
+      <Location X="151" Y="15" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <TestStepMarkerAction Comment="Select the link to the (Office of the Executive Director) to navigate to the office overview page." MarkerInformation="SelectSecondOffice">
+    <TestStepMarkerAction Comment="Select the link for (A-SMYLE, CBYX, FLEX &amp; GAPP Branch) to navigate to the office branch." MarkerInformation="SelectSecondOffice">
       <ParameterName />
       <StepId>-1</StepId>
       <Direction>Start</Direction>
@@ -2464,6 +2402,113 @@ Last Updated Jan 26, 2</PropertyCondition>
                     </UIObject>
                   </Descendants>
                 </UIObject>
+                <UIObject ControlType="Pane" Id="UISortlistPane1" FriendlyName="sort-list" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                      <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                      <PropertyCondition Name="Id">sort-list</PropertyCondition>
+                      <PropertyCondition Name="Name" />
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="InnerText">Showing 1 - 25 of 38 programs
+
+
+ 
+EC</PropertyCondition>
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">ng-scope ng-isolate-scope</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="ng-scope ng-isolate-scope" id="sort-list" st-table="programs" st-pipe="getPrograms"</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">50</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants>
+                    <UIObject ControlType="Table" Id="UIItemTable" FriendlyName="" SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Table</PropertyCondition>
+                          <PropertyCondition Name="TagName">TABLE</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="InnerText">Showing 1 - 25 of 38 programs
+
+
+ 
+EC</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="col-md-12 table"</PropertyCondition>
+                          <PropertyCondition Name="RowCount">28</PropertyCondition>
+                          <PropertyCondition Name="ColumnCount">2</PropertyCondition>
+                          <PropertyCondition Name="Class">col-md-12 table</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">1</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants>
+                        <UIObject ControlType="Cell" Id="UIECAAEFulbrightEnglisCell" FriendlyName="ECA/A/E Fulbright English Teaching Ass" SpecialControlType="None">
+                          <TechnologyName>Web</TechnologyName>
+                          <WindowTitles>
+                            <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                          </WindowTitles>
+                          <AndCondition Id="SearchCondition">
+                            <AndCondition Id="Primary">
+                              <PropertyCondition Name="ControlType">Cell</PropertyCondition>
+                              <PropertyCondition Name="TagName">TD</PropertyCondition>
+                              <PropertyCondition Name="Id" />
+                              <PropertyCondition Name="Name" />
+                              <PropertyCondition Name="MaxDepth">3</PropertyCondition>
+                              <PropertyCondition Name="InnerText">ECA/A/E 
+Fulbright English Teaching Ass</PropertyCondition>
+                            </AndCondition>
+                            <FilterCondition Id="Secondary">
+                              <PropertyCondition Name="ControlDefinition" />
+                              <PropertyCondition Name="RowIndex">3</PropertyCondition>
+                              <PropertyCondition Name="ColumnIndex">0</PropertyCondition>
+                              <PropertyCondition Name="Class" />
+                              <PropertyCondition Name="TagInstance">3</PropertyCondition>
+                            </FilterCondition>
+                          </AndCondition>
+                          <SupportLevel>0</SupportLevel>
+                          <Descendants />
+                        </UIObject>
+                      </Descendants>
+                    </UIObject>
+                    <UIObject ControlType="Pane" Id="UIECAAEFulbrightEnglisPane" FriendlyName="ECA/A/E Fulbright English Teaching Ass" SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                          <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="InnerText">ECA/A/E 
+Fulbright English Teaching Ass</PropertyCondition>
+                          <PropertyCondition Name="Title" />
+                          <PropertyCondition Name="Class" />
+                          <PropertyCondition Name="ControlDefinition">style="margin-left: 0px;" ng-style="{marginLeft: (program.programLevel - 1) * 60}"</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">54</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
+                  </Descendants>
+                </UIObject>
               </Descendants>
             </UIObject>
             <UIObject ControlType="Document" Id="UISignintoECAClientDocument1" FriendlyName="Sign in to ECA Client" SpecialControlType="None">
@@ -2737,8 +2782,7 @@ ECATest1@statedept.us
                               <PropertyCondition Name="Id" />
                               <PropertyCondition Name="Name" />
                               <PropertyCondition Name="MaxDepth">3</PropertyCondition>
-                              <PropertyCondition Name="InnerText">ECA-IIP/EX 
-Office of the Executive Dir</PropertyCondition>
+                              <PropertyCondition Name="InnerText">ECA/PE/C/PY/F  </PropertyCondition>
                             </AndCondition>
                             <FilterCondition Id="Secondary">
                               <PropertyCondition Name="ControlDefinition">class="col-md-7" style="padding-left: 79px;" ng-style="{'padding-left': 60+(20*office.officeLevel-1)}"</PropertyCondition>
@@ -2774,6 +2818,193 @@ Office of the Executive Dir</PropertyCondition>
                           <PropertyCondition Name="Class">ng-binding</PropertyCondition>
                           <PropertyCondition Name="ControlDefinition">class="ng-binding" href="#/offices/1/ove</PropertyCondition>
                           <PropertyCondition Name="TagInstance">1</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
+                  </Descendants>
+                </UIObject>
+                <UIObject ControlType="Pane" Id="UISortlistPane2" FriendlyName="sort-list" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                      <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                      <PropertyCondition Name="Id">sort-list</PropertyCondition>
+                      <PropertyCondition Name="Name" />
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="InnerText">Showing 1 - 1 of 1 offices
+
+ 
+
+
+ EC</PropertyCondition>
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">ng-isolate-scope</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="ng-isolate-scope" id="sort-list" st-table="offices" st-pipe="getOffices"</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">31</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants>
+                    <UIObject ControlType="Table" Id="UIItemTable" FriendlyName="" SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Table</PropertyCondition>
+                          <PropertyCondition Name="TagName">TABLE</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="InnerText">Showing 1 - 1 of 1 offices
+
+ 
+
+
+ EC</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="col-md-12 table"</PropertyCondition>
+                          <PropertyCondition Name="RowCount">4</PropertyCondition>
+                          <PropertyCondition Name="ColumnCount">2</PropertyCondition>
+                          <PropertyCondition Name="Class">col-md-12 table</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">1</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants>
+                        <UIObject ControlType="Cell" Id="UIECAPECPYFASMYLECBYXFCell" FriendlyName="ECA/PE/C/PY/F A-SMYLE, CBYX, FLEX &amp; GA" SpecialControlType="None">
+                          <TechnologyName>Web</TechnologyName>
+                          <WindowTitles>
+                            <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                          </WindowTitles>
+                          <AndCondition Id="SearchCondition">
+                            <AndCondition Id="Primary">
+                              <PropertyCondition Name="ControlType">Cell</PropertyCondition>
+                              <PropertyCondition Name="TagName">TD</PropertyCondition>
+                              <PropertyCondition Name="Id" />
+                              <PropertyCondition Name="Name" />
+                              <PropertyCondition Name="MaxDepth">3</PropertyCondition>
+                              <PropertyCondition Name="InnerText">ECA/PE/C/PY/F 
+A-SMYLE, CBYX, FLEX &amp; GA</PropertyCondition>
+                            </AndCondition>
+                            <FilterCondition Id="Secondary">
+                              <PropertyCondition Name="ControlDefinition">class="col-md-7" style="padding-left: 139px;" ng-style="{'padding-left': 60+(20*office.officeLevel-1)}"</PropertyCondition>
+                              <PropertyCondition Name="RowIndex">2</PropertyCondition>
+                              <PropertyCondition Name="ColumnIndex">0</PropertyCondition>
+                              <PropertyCondition Name="Class">col-md-7</PropertyCondition>
+                              <PropertyCondition Name="TagInstance">1</PropertyCondition>
+                            </FilterCondition>
+                          </AndCondition>
+                          <SupportLevel>0</SupportLevel>
+                          <Descendants />
+                        </UIObject>
+                      </Descendants>
+                    </UIObject>
+                    <UIObject ControlType="Hyperlink" Id="UIASMYLECBYXFLEXGAPPBrHyperlink" FriendlyName="A-SMYLE, CBYX, FLEX &amp; GAPP Branch" SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Hyperlink</PropertyCondition>
+                          <PropertyCondition Name="TagName">A</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                          <PropertyCondition Name="Target" />
+                          <PropertyCondition Name="InnerText">A-SMYLE, CBYX, FLEX &amp; GAPP Branch</PropertyCondition>
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="AbsolutePath" />
+                          <PropertyCondition Name="Title" />
+                          <PropertyCondition Name="Href">#/offices/1405/overview</PropertyCondition>
+                          <PropertyCondition Name="Class">ng-binding</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="ng-binding" href="#/offices/1405/</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">1</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
+                  </Descendants>
+                </UIObject>
+              </Descendants>
+            </UIObject>
+            <UIObject ControlType="Document" Id="UIHttpsecakmtqaazureweDocument8" FriendlyName="https://eca-kmt-qa.azurewebsites.net/#/offices/140..." SpecialControlType="None">
+              <TechnologyName>Web</TechnologyName>
+              <WindowTitles>
+                <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+              </WindowTitles>
+              <AndCondition Id="SearchCondition">
+                <AndCondition Id="Primary">
+                  <PropertyCondition Name="ControlType">Document</PropertyCondition>
+                  <PropertyCondition Name="TagName">BODY</PropertyCondition>
+                  <PropertyCondition Name="Id" />
+                  <PropertyCondition Name="RedirectingPage">False</PropertyCondition>
+                  <PropertyCondition Name="FrameDocument">False</PropertyCondition>
+                </AndCondition>
+                <FilterCondition Id="Secondary">
+                  <PropertyCondition Name="Title" />
+                  <PropertyCondition Name="AbsolutePath">/</PropertyCondition>
+                  <PropertyCondition Name="PageUrl">https://eca-kmt-qa.azurewebsites.net/#/offices/1405/overview#top</PropertyCondition>
+                </FilterCondition>
+              </AndCondition>
+              <SupportLevel>0</SupportLevel>
+              <Descendants>
+                <UIObject ControlType="Pane" Id="UITopPane" FriendlyName="top" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Pane</PropertyCondition>
+                      <PropertyCondition Name="TagName">DIV</PropertyCondition>
+                      <PropertyCondition Name="Id">top</PropertyCondition>
+                      <PropertyCondition Name="Name" />
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="InnerText">A-SMYLE, CBYX, FLEX &amp; GAPP Branch
+
+
+</PropertyCondition>
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">ng-scope</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="ng-scope" id="top" autoscroll="true" ui-view=""</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">27</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants>
+                    <UIObject ControlType="Hyperlink" Id="UIBranchesProgramsHyperlink" FriendlyName="Branches &amp; Programs" SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Hyperlink</PropertyCondition>
+                          <PropertyCondition Name="TagName">A</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                          <PropertyCondition Name="Target" />
+                          <PropertyCondition Name="InnerText">Branches &amp; Programs</PropertyCondition>
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="AbsolutePath" />
+                          <PropertyCondition Name="Title" />
+                          <PropertyCondition Name="Href">#/offices/1405/branches</PropertyCondition>
+                          <PropertyCondition Name="Class">ng-binding</PropertyCondition>
+                          <PropertyCondition Name="ControlDefinition">class="ng-binding" href="#/offices/1405/</PropertyCondition>
+                          <PropertyCondition Name="TagInstance">2</PropertyCondition>
                         </FilterCondition>
                       </AndCondition>
                       <SupportLevel>0</SupportLevel>
