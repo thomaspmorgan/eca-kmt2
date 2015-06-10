@@ -16,6 +16,7 @@ namespace ECA.Data
             this.History = new History();
         }
 
+        [Key]
         public int PositionId { get; set; }
         [MinLength(POSITION_CODE_LENGTH), MaxLength(POSITION_CODE_LENGTH)]
         public string PositionCode { get; set; }

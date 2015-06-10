@@ -16,6 +16,7 @@ namespace ECA.Data
             this.History = new History();
         }
 
+        [Key]
         public int FieldOfStudyId { get; set; }
         [MinLength(FIELD_OF_STUDY_CODE_LENGTH), MaxLength(FIELD_OF_STUDY_CODE_LENGTH)]
         public string FieldOfStudyCode { get; set; }

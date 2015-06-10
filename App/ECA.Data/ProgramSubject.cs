@@ -16,7 +16,7 @@ namespace ECA.Data
             this.History = new History();
         }
 
-
+        [Key]
         public int ProgramSubjectId { get; set; }
         [MinLength(PROGRAM_SUBJECT_CODE_LENGTH), MaxLength(PROGRAM_SUBJECT_CODE_LENGTH)]
         public string ProgramSubjectCode { get; set; }
