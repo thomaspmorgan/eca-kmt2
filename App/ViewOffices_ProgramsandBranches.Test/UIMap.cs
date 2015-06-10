@@ -22,7 +22,7 @@
         /// <summary>
         /// Verify the (Office of Academic Exchanges) control type and innertext are available.
         /// </summary>
-        public void AssertOfficeName(string expectedOfficeName)
+        public void AssertOfficeName()
         {
             #region Variable Declarations
             HtmlHyperlink uIOfficeofAcademicExchHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument6.UISortlistPane.UIOfficeofAcademicExchHyperlink;
@@ -33,7 +33,7 @@
             StringAssert.Contains(uIOfficeofAcademicExchHyperlink.ControlType.ToString(), "Hyperlink", "No (Office of Academic Exchange Programs) hyperlink control type.");
 
             // Verify that the 'InnerText' property of 'Office of Academic Exchange Programs' link contains 'Office of Academic Exchange Programs'
-            StringAssert.Contains(uIOfficeofAcademicExchHyperlink.InnerText, expectedOfficeName, "No (Office of Academic Exchange Programs) InnerText available.");
+            StringAssert.Contains(uIOfficeofAcademicExchHyperlink.InnerText.ToString(), "Office of Academic Exchange Programs", "No (Office of Academic Exchange Programs) InnerText available.");
         }
 
         //public virtual AssertOfficeNameExpectedValues AssertOfficeNameExpectedValues
