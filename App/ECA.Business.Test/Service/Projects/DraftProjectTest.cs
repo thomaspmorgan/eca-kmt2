@@ -1,5 +1,5 @@
 ﻿using ECA.Business.Service;
-using ECA.Business.Service.Admin;
+using ECA.Business.Service.Projects;
 using ECA.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

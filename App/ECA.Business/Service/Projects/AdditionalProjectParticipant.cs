@@ -8,8 +8,18 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Projects
 {
+    /// <summary>
+    /// An AdditionalProjectPariticipant is used to add a new participant to a project.
+    /// </summary>
+    [ContractClass(typeof(AdditionalProjectParticipantContract))]
     public abstract class AdditionalProjectParticipant
     {
+        /// <summary>
+        /// Creates a new AdditionalProjectParticipant with the project owner that is adding the participant
+        /// and the project id.
+        /// </summary>
+        /// <param name="projectOwner">The user adding the participant.</param>
+        /// <param name="projectId">The project id.</param>
         public AdditionalProjectParticipant(User projectOwner, int projectId)
         {
             Contract.Requires(projectOwner != null, "The project owner must not be null.");
@@ -18,22 +28,62 @@ namespace ECA.Business.Service.Projects
             this.ParticipantStatusId = ParticipantStatus.Active.Id;
         }
 
+        /// <summary>
+        /// Gets the Audit.
+        /// </summary>
         public Audit Audit { get; private set; }
 
+        /// <summary>
+        /// Gets the project id.
+        /// </summary>
         public int ProjectId { get; private set; }
 
+        /// <summary>
+        /// Gets the participant status id.
+        /// </summary>
         public int ParticipantStatusId { get; private set; }
 
-        public int ParticipantTypeId { get; protected set; }
-
-        public void UpdateParticipant(Participant participant)
+        /// <summary>
+        /// Updates the given participant with the AdditionalProjectParticipant details.
+        /// </summary>
+        /// <param name="participant">The participant that is being created.</param>
+        /// <param name="participantType">The participant type.</param>
+        public void UpdateParticipant(Participant participant, ParticipantType participantType)
         {
             Contract.Requires(participant != null, "The participant must not be null.");
+            Contract.Requires(participantType != null, "The participant type must not be null.");
             //participant.ProjectId = this.ProjectId;
             participant.ParticipantStatusId = this.ParticipantStatusId;
+            participant.ParticipantTypeId = participantType.ParticipantTypeId;
             UpdateParticipantDetails(participant);
         }
 
+        /// <summary>
+        /// Performs participant type specific logic.
+        /// </summary>
+        /// <param name="participant">The participant being created.</param>
         protected abstract void UpdateParticipantDetails(Participant participant);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [ContractClassFor(typeof(AdditionalProjectParticipant))]
+    public abstract class AdditionalProjectParticipantContract : AdditionalProjectParticipant
+    {
+        public AdditionalProjectParticipantContract(User projectOwner, int projectId)
+            : base(projectOwner, projectId)
+        {
+            Contract.Requires(projectOwner != null, "The project owner must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="participant"></param>
+        protected override void UpdateParticipantDetails(Participant participant)
+        {
+            Contract.Requires(participant != null, "The participant must not be null.");
+        }
     }
 }

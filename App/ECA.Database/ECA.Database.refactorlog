@@ -490,4 +490,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="NativeLanguageInd" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="979599c6-dcbd-4193-b700-addbc2374428" ChangeDateTime="06/10/2015 16:28:20">
+    <Property Name="ElementName" Value="[dbo].[PersonEvaluationNotes].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonEvaluationNotes]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EvaluationNoteId" />
+  </Operation>
 </Operations>

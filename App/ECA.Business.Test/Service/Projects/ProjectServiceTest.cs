@@ -26,6 +26,8 @@ namespace ECA.Business.Test.Service.Projects
         private ProjectService service;
         private Mock<IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>> validator;
         private Mock<IOfficeService> officeService;
+        private Action<AdditionalPersonProjectParticipant, Participant, User> addAdditionalPersonProjectParticipantTester;
+        private Action<AdditionalOrganizationProjectParticipant, Participant, User> addAdditionalOrganizationProjectParticipantTester;
 
         [TestInitialize]
         public void TestInit()
@@ -34,6 +36,29 @@ namespace ECA.Business.Test.Service.Projects
             validator = new Mock<IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity>>();
             officeService = new Mock<IOfficeService>();
             service = new ProjectService(context, officeService.Object, validator.Object);
+            addAdditionalPersonProjectParticipantTester = (personParticipant, addedParticipant, projectOwner) =>
+            {
+                Assert.IsFalse(addedParticipant.OrganizationId.HasValue);
+                Assert.AreEqual(personParticipant.PersonId, addedParticipant.PersonId);
+                Assert.AreEqual(projectOwner.Id, addedParticipant.History.CreatedBy);
+                Assert.AreEqual(projectOwner.Id, addedParticipant.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipant.History.CreatedOn, 2000);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipant.History.RevisedOn, 2000);
+                Assert.Fail("project must be checked...");
+                //Assert.AreEqual(personParticipant.ProjectId, addedParticipant.Projects)
+            };
+
+            addAdditionalOrganizationProjectParticipantTester = (organizationParticipant, addedParticipant, projectOwner) =>
+            {
+                Assert.IsFalse(addedParticipant.PersonId.HasValue);
+                Assert.AreEqual(organizationParticipant.OrganizationId, addedParticipant.OrganizationId);
+                Assert.AreEqual(projectOwner.Id, addedParticipant.History.CreatedBy);
+                Assert.AreEqual(projectOwner.Id, addedParticipant.History.RevisedBy);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipant.History.CreatedOn, 2000);
+                DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipant.History.RevisedOn, 2000);
+                Assert.Fail("project must be checked...");
+                //Assert.AreEqual(personParticipant.ProjectId, addedParticipant.Projects)
+            };
         }
 
         [TestCleanup]
@@ -46,7 +71,7 @@ namespace ECA.Business.Test.Service.Projects
         [TestMethod]
         public async Task TestCreate_CheckProperties()
         {
-            var program = new Program 
+            var program = new Program
             {
                 ProgramId = 1
             };
@@ -338,7 +363,7 @@ namespace ECA.Business.Test.Service.Projects
                 Status = status,
                 ProjectStatusId = status.ProjectStatusId
             };
-            
+
             project.Locations = new List<Location>();
             project.Locations.Add(location1);
             project.Locations.Add(location2);
@@ -754,7 +779,7 @@ namespace ECA.Business.Test.Service.Projects
             var status = new ProjectStatus
             {
                 ProjectStatusId = 1,
-                Status = "status" 
+                Status = "status"
             };
 
             var contact = new Contact
@@ -814,14 +839,14 @@ namespace ECA.Business.Test.Service.Projects
                 CollectionAssert.AreEqual(context.Goals.Select(x => x.GoalName).ToList(),
                     serviceResult.Goals.Select(x => x.Value).ToList());
                 Assert.AreEqual(context.ProjectStatuses.Select(x => x.Status).FirstOrDefault(), serviceResult.Status);
-                
+
                 CollectionAssert.AreEqual(context.Contacts.Select(x => x.ContactId).ToList(), serviceResult.Contacts.Select(x => x.Id).ToList());
                 CollectionAssert.AreEqual(context.Contacts.Select(x => x.FullName + " (" + x.Position + ")").ToList(), serviceResult.Contacts.Select(x => x.Value).ToList());
             };
 
             var result = service.GetProjectById(project.ProjectId);
             var resultAsync = await service.GetProjectByIdAsync(project.ProjectId);
-            
+
             tester(result);
             tester(resultAsync);
         }
@@ -860,7 +885,7 @@ namespace ECA.Business.Test.Service.Projects
 
             tester(result);
             tester(resultAsync);
-        } 
+        }
 
         [TestMethod]
         public async Task TestGetProjectById_WrongId()
@@ -1516,6 +1541,363 @@ namespace ECA.Business.Test.Service.Projects
 
         #endregion
 
+        #region Participants
+        [TestMethod]
+        public async Task TestAddPariticipant_ProjectDoesNotExist()
+        {
+            var user = new User(1);
+            var projectId = 1;
+            var organizationId = 2;
+            var personId = 3;
+
+            var person = new Person
+            {
+                PersonId = personId
+            };
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            context.People.Add(person);
+            context.Organizations.Add(organization);
+
+            var personParticipant = new AdditionalPersonProjectParticipant(user, projectId, personId);
+            var organizationParticipant = new AdditionalOrganizationProjectParticipant(user, projectId, organizationId);
+
+            service.Invoking(x => x.AddParticipant(personParticipant)).ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The project with id [{0}] does not exist.", projectId));
+            service.Invoking(x => x.AddParticipant(organizationParticipant)).ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The project with id [{0}] does not exist.", projectId));
+
+            Func<Task> addPerson = () =>
+            {
+                return service.AddParticipantAsync(personParticipant);
+            };
+            Func<Task> addOrg = () =>
+            {
+                return service.AddParticipantAsync(organizationParticipant);
+            };
+            addPerson.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The project with id [{0}] does not exist.", projectId));
+            addOrg.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The project with id [{0}] does not exist.", projectId));
+        }
+
+        [TestMethod]
+        public async Task TestAddPariticipant_PersonDoesNotExist()
+        {
+            var user = new User(1);
+            var projectId = 1;
+            var personId = 3;
+
+            var project = new Project
+            {
+                ProjectId = projectId
+            };
+            context.Projects.Add(project);
+
+            var personParticipant = new AdditionalPersonProjectParticipant(user, projectId, personId);
+
+            service.Invoking(x => x.AddParticipant(personParticipant)).ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The person with id [{0}] does not exist.", personId));
+
+            Func<Task> addPerson = () =>
+            {
+                return service.AddParticipantAsync(personParticipant);
+            };
+            addPerson.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The person with id [{0}] does not exist.", personId));
+
+        }
+
+        [TestMethod]
+        public async Task TestAddPariticipant_OrganizationDoesNotExist()
+        {
+            var user = new User(1);
+            var projectId = 1;
+            var organizationId = 2;
+
+            var project = new Project
+            {
+                ProjectId = projectId
+            };
+            context.Projects.Add(project);
+
+            var personParticipant = new AdditionalOrganizationProjectParticipant(user, projectId, organizationId);
+
+            service.Invoking(x => x.AddParticipant(personParticipant)).ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The organization with id [{0}] does not exist.", organizationId));
+
+            Func<Task> addPerson = () =>
+            {
+                return service.AddParticipantAsync(personParticipant);
+            };
+            addPerson.ShouldThrow<ModelNotFoundException>()
+                .WithMessage(String.Format("The organization with id [{0}] does not exist.", organizationId));
+        }
+
+        [TestMethod]
+        public async Task TestAddPariticipant_ParticipantTypeDoesNotExist()
+        {
+            var user = new User(1);
+            var projectId = 1;
+            var organizationId = 2;
+            var personId = 3;
+
+            var person = new Person
+            {
+                PersonId = personId
+            };
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            var project = new Project
+            {
+                ProjectId = projectId
+            };
+            context.People.Add(person);
+            context.Organizations.Add(organization);
+            context.Projects.Add(project);
+
+            var personParticipant = new AdditionalPersonProjectParticipant(user, projectId, personId);
+            var organizationParticipant = new AdditionalOrganizationProjectParticipant(user, projectId, organizationId);
+
+            service.Invoking(x => x.AddParticipant(personParticipant)).ShouldThrow<ModelNotFoundException>()
+                .WithMessage("The participant type does not exist.");
+            service.Invoking(x => x.AddParticipant(organizationParticipant)).ShouldThrow<ModelNotFoundException>()
+                .WithMessage("The participant type does not exist.");
+
+            Func<Task> addPerson = () =>
+            {
+                return service.AddParticipantAsync(personParticipant);
+            };
+            Func<Task> addOrg = () =>
+            {
+                return service.AddParticipantAsync(organizationParticipant);
+            };
+            addPerson.ShouldThrow<ModelNotFoundException>()
+                .WithMessage("The participant type does not exist.");
+            addOrg.ShouldThrow<ModelNotFoundException>()
+                .WithMessage("The participant type does not exist.");
+        }
+
+        [TestMethod]
+        public async Task TestAddParticipant_PersonParticipantAlreadyExists()
+        {
+            var user = new User(1);
+            var projectId = 1;
+            var organizationId = 2;
+            var personId = 3;
+
+            var person = new Person
+            {
+                PersonId = personId
+            };
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            var project = new Project
+            {
+                ProjectId = projectId
+            };
+            var participantType = new ParticipantType
+            {
+                Name = ParticipantType.ForeignEducationalInstitution.Value,
+                ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                PersonId = person.PersonId
+            };
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Organizations.Add(organization);
+                context.Projects.Add(project);
+                context.ParticipantTypes.Add(participantType);
+                context.Participants.Add(participant);
+            });
+            context.Revert();
+            Assert.AreEqual(1, context.Participants.Count());
+
+            Action<AdditionalPersonProjectParticipant> tester = (personParticipant) =>
+            {
+                Assert.AreEqual(1, context.Participants.Count());
+            };
+            var additionalParticipant = new AdditionalPersonProjectParticipant(user, projectId, personId);
+
+            context.Revert();
+            service.AddParticipant(additionalParticipant);
+            tester(additionalParticipant);
+
+            context.Revert();
+            await service.AddParticipantAsync(additionalParticipant);
+            tester(additionalParticipant);
+        }
+
+        [TestMethod]
+        public async Task TestAddParticipant_OrganizationParticipantAlreadyExists()
+        {
+            var user = new User(1);
+            var projectId = 1;
+            var organizationId = 2;
+            var personId = 3;
+
+            var person = new Person
+            {
+                PersonId = personId
+            };
+            var organization = new Organization
+            {
+                OrganizationId = organizationId
+            };
+            var project = new Project
+            {
+                ProjectId = projectId
+            };
+            var participantType = new ParticipantType
+            {
+                Name = ParticipantType.ForeignEducationalInstitution.Value,
+                ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id
+            };
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                OrganizationId = organizationId
+            };
+            context.SetupActions.Add(() =>
+            {
+                context.People.Add(person);
+                context.Organizations.Add(organization);
+                context.Projects.Add(project);
+                context.ParticipantTypes.Add(participantType);
+                context.Participants.Add(participant);
+            });
+            context.Revert();
+            Assert.AreEqual(1, context.Participants.Count());
+
+            Action<AdditionalOrganizationProjectParticipant> tester = (organizationParticipant) =>
+            {
+                Assert.AreEqual(1, context.Participants.Count());
+            };
+            var additionalParticipant = new AdditionalOrganizationProjectParticipant(user, projectId, organizationId);
+
+            context.Revert();
+            service.AddParticipant(additionalParticipant);
+            tester(additionalParticipant);
+
+            context.Revert();
+            await service.AddParticipantAsync(additionalParticipant);
+            tester(additionalParticipant);
+        }
+
+        //[TestMethod]
+        //public async Task TestAddParticipant_PersonParticipant()
+        //{
+        //    var user = new User(1);
+        //    var projectId = 1;
+        //    var organizationId = 2;
+        //    var personId = 3;
+
+        //    var person = new Person
+        //    {
+        //        PersonId = personId
+        //    };
+        //    var organization = new Organization
+        //    {
+        //        OrganizationId = organizationId
+        //    };
+        //    var project = new Project
+        //    {
+        //        ProjectId = projectId
+        //    };
+        //    var participantType = new ParticipantType
+        //    {
+        //        Name = ParticipantType.ForeignEducationalInstitution.Value,
+        //        ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id
+        //    };
+        //    context.SetupActions.Add(() =>
+        //    {
+        //        context.People.Add(person);
+        //        context.Organizations.Add(organization);
+        //        context.Projects.Add(project);
+        //        context.ParticipantTypes.Add(participantType);
+        //    });           
+
+        //    Assert.AreEqual(0, context.Participants.Count());
+
+        //    Action<AdditionalPersonProjectParticipant> tester = (personParticipant) =>
+        //    {
+        //        Assert.AreEqual(1, context.Participants.Count());
+        //        var addedParticipant = context.Participants.First();
+        //        addAdditionalPersonProjectParticipantTester(personParticipant, addedParticipant, user);
+        //    };
+        //    var additionalParticipant = new AdditionalPersonProjectParticipant(user, projectId, personId);
+
+        //    context.Revert();
+        //    service.AddParticipant(additionalParticipant);
+        //    tester(additionalParticipant);
+
+        //    context.Revert();
+        //    await service.AddParticipantAsync(additionalParticipant);
+        //    tester(additionalParticipant);
+        //}
+
+        //[TestMethod]
+        //public async Task TestAddParticipant_OrganizationParticipant()
+        //{
+        //    var user = new User(1);
+        //    var projectId = 1;
+        //    var organizationId = 2;
+        //    var personId = 3;
+
+        //    var person = new Person
+        //    {
+        //        PersonId = personId
+        //    };
+        //    var organization = new Organization
+        //    {
+        //        OrganizationId = organizationId
+        //    };
+        //    var project = new Project
+        //    {
+        //        ProjectId = projectId
+        //    };
+        //    var participantType = new ParticipantType
+        //    {
+        //        Name = ParticipantType.ForeignEducationalInstitution.Value,
+        //        ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id
+        //    };
+        //    context.SetupActions.Add(() =>
+        //    {
+        //        context.People.Add(person);
+        //        context.Organizations.Add(organization);
+        //        context.Projects.Add(project);
+        //        context.ParticipantTypes.Add(participantType);
+        //    });
+
+        //    Assert.AreEqual(0, context.Participants.Count());
+
+        //    Action<AdditionalOrganizationProjectParticipant> tester = (organizationParticipant) =>
+        //    {
+        //        Assert.AreEqual(1, context.Participants.Count());
+        //        var addedParticipant = context.Participants.First();
+        //        addAdditionalOrganizationProjectParticipantTester(organizationParticipant, addedParticipant, user);
+        //    };
+        //    var additionalParticipant = new AdditionalOrganizationProjectParticipant(user, projectId, organizationId);
+
+        //    context.Revert();
+        //    service.AddParticipant(additionalParticipant);
+        //    tester(additionalParticipant);
+
+        //    context.Revert();
+        //    await service.AddParticipantAsync(additionalParticipant);
+        //    tester(additionalParticipant);
+        //}
+        #endregion
     }
 }
 

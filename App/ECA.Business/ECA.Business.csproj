@@ -179,7 +179,7 @@
     <Compile Include="Service\Persons\PersonServiceValidator.cs" />
     <Compile Include="Service\Persons\UpdatePii.cs" />
     <Compile Include="Service\Programs\DraftProgram.cs" />
-    <Compile Include="Service\Admin\DraftProject.cs" />
+    <Compile Include="Service\Projects\DraftProject.cs" />
     <Compile Include="Service\Lookup\SimpleLookupDTO.cs" />
     <Compile Include="Service\Programs\EcaProgram.cs" />
     <Compile Include="Queries\Admin\GoalQueries.cs" />
@@ -208,7 +208,7 @@
     <Compile Include="Service\Persons\IParticipantService.cs" />
     <Compile Include="Service\Persons\ParticipantService.cs" />
     <Compile Include="Service\Programs\IProgramService.cs" />
-    <Compile Include="Service\Admin\IProjectService.cs" />
+    <Compile Include="Service\Projects\IProjectService.cs" />
     <Compile Include="Service\Lookup\IThemeService.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Service\Programs\ProgramServiceValidationEntity.cs" />
