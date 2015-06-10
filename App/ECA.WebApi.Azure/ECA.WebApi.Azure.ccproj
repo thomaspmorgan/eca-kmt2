@@ -4,8 +4,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>2.5</ProductVersion>
-    <ProjectGuid>cea0e515-55a9-43ac-aa46-a6b31f6b98b9</ProjectGuid>
+    <ProductVersion>2.6</ProductVersion>
+    <ProjectGuid>{7e9eb7f6-b17d-45e0-b825-616a6b1ea076}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ECA.WebApi.Azure</RootNamespace>
@@ -43,30 +43,28 @@
   <ItemGroup>
     <Folder Include="ECA.WebApiContent\" />
     <Folder Include="Profiles" />
-    <Folder Include="WorkerRoleContent\" />
   </ItemGroup>
   <ItemGroup>
     <DiagnosticsConfiguration Include="ECA.WebApiContent\diagnostics.wadcfgx" />
-    <DiagnosticsConfiguration Include="WorkerRoleContent\diagnostics.wadcfgx" />
   </ItemGroup>
   <ItemGroup>
     <PublishProfile Include="Profiles\ECAApi Prod.azurePubxml" />
     <PublishProfile Include="Profiles\ECAApi Staging.azurePubxml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WorkerRole\WorkerRole.csproj">
-      <Name>WorkerRole</Name>
-      <Project>{a9158a58-52ed-428b-82f6-8e20a4745eb4}</Project>
+    <ProjectReference Include="..\ECA.WebApi\ECA.WebApi.csproj">
+      <Name>ECA.WebApi</Name>
+      <Project>{72993aaf-4c9f-4ea3-a3cb-263d20c32de0}</Project>
       <Private>True</Private>
-      <RoleType>Worker</RoleType>
-      <RoleName>WorkerRole</RoleName>
+      <RoleType>Web</RoleType>
+      <RoleName>ECA.WebApi</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
-    <CloudExtensionsDir Condition=" '$(CloudExtensionsDir)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Windows Azure Tools\2.5\</CloudExtensionsDir>
+    <CloudExtensionsDir Condition=" '$(CloudExtensionsDir)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Windows Azure Tools\2.6\</CloudExtensionsDir>
   </PropertyGroup>
   <Import Project="$(CloudExtensionsDir)Microsoft.WindowsAzure.targets" />
 </Project>
