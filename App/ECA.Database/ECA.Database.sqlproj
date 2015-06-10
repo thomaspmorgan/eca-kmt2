@@ -107,6 +107,7 @@
     <None Include="Data Migration\MigrationScripts\VisitingScholars\PhoneNumber.Create.Visiting.Scholar.Person.Participant.PhoneNumber.Data.sql" />
     <None Include="Data Migration\MigrationScripts\VisitingScholars\Project.Update.FocusId.Values.Data.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.MaritalStatus.staticdata.sql" />
+    <None Include="ECA_UAT.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\ECA.PostDeployment.sql" />
