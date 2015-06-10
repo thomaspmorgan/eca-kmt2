@@ -1,12 +1,11 @@
 ﻿using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Service.Projects;
 using ECA.Core.DynamicLinq;
 using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-namespace ECA.Business.Service.Admin
+namespace ECA.Business.Service.Projects
 {
     /// <summary>
     /// A ProjectService is a service capable of performing crud on projects.
@@ -69,6 +68,18 @@ namespace ECA.Business.Service.Admin
         /// </summary>
         /// <param name="updatedProject">The updated project.</param>
         Task UpdateAsync(PublishedProject updatedProject);
+
+        /// <summary>
+        /// Adds the participant to the project.
+        /// </summary>
+        /// <param name="additionalParticipant">The additional participant.</param>
+        void AddParticipant(AdditionalProjectParticipant additionalParticipant);
+
+        /// <summary>
+        /// Adds the participant to the project.
+        /// </summary>
+        /// <param name="additionalParticipant">The additional participant.</param>
+        Task AddParticipantAsync(AdditionalProjectParticipant additionalParticipant);
     }
 
     /// <summary>
@@ -181,6 +192,26 @@ namespace ECA.Business.Service.Admin
         public Task<int> SaveChangesAsync(System.Collections.Generic.IList<ISaveAction> saveActions = null)
         {
             return Task.FromResult<int>(1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="additionalParticipant"></param>
+        public void AddParticipant(AdditionalProjectParticipant additionalParticipant)
+        {
+            Contract.Requires(additionalParticipant != null, "The additional participant must not be null.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="additionalParticipant"></param>
+        /// <returns></returns>
+        public Task AddParticipantAsync(AdditionalProjectParticipant additionalParticipant)
+        {
+            Contract.Requires(additionalParticipant != null, "The additional participant must not be null.");
+            return Task.FromResult<object>(null);
         }
     }
 }

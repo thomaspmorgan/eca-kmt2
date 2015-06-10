@@ -22,6 +22,8 @@
 		WriteLine(String.Format("namespace {0}", nameSpace));
 		WriteLine("{");
 		PushIndent("\t");		
+		WriteLine("using System;");
+		WriteLine("using System.Collections.Generic;");
 		WriteLine("using System.Linq;");
 		WriteLine("using System.Threading.Tasks;");
 		WriteLine(String.Format("#region {0}", type.Name));
@@ -37,6 +39,15 @@
 		PushIndent("\t");	
 
 		WriteConstructor(type);
+
+		WriteLine(String.Empty);
+		WriteInitializeDbSetsMethod(type);
+
+		WriteLine(String.Empty);
+		WriteSetupActionsProperty();
+
+		WriteLine(String.Empty);
+		WriteRevertMethod();
 		
 		PopIndent();
 		WriteLine("}");
@@ -64,9 +75,24 @@
 	}
 
 	public void WriteConstructor(Type parentContextType)
-	{
-        
+	{   
 		WriteLine(String.Format("public {0}()", GetClassName(parentContextType)));
+		WriteLine("{");
+		PushIndent("\t");	
+        WriteLine(String.Format("{0}();", GetInitializeDbSetsMethodName()));
+		WriteLine(String.Format("this.{0} = new List<Action>();", GetSetupActionsPropertyName()));
+		PopIndent();
+		WriteLine("}");
+	}
+
+	public string GetInitializeDbSetsMethodName()
+	{
+		return "InitializeDbSets";
+	}
+
+	public void WriteInitializeDbSetsMethod(Type parentContextType)
+	{
+		WriteLine(String.Format("public void {0}()", GetInitializeDbSetsMethodName()));
 		WriteLine("{");
 		PushIndent("\t");	
         foreach (var dbSetProperty in GetDbSetTypes(parentContextType))
@@ -79,9 +105,30 @@
 		WriteLine("}");
 	}
 
+	public string GetSetupActionsPropertyName()
+	{
+		return "SetupActions";
+	}
+
+	public void WriteSetupActionsProperty()
+	{
+		WriteLine(String.Format("public List<Action> {0} {{ get; set; }}", GetSetupActionsPropertyName()));
+	}
+
 	public string GetClassSpecificTestDbSetClassName(Type dbSetType)
 	{
 		return String.Format("{0}TestDbSet", dbSetType.Name);
+	}
+
+	public void WriteRevertMethod()
+	{
+		WriteLine(String.Format("public void Revert()"));
+		WriteLine("{");
+		PushIndent("\t");	
+		WriteLine(String.Format("{0}();", GetInitializeDbSetsMethodName()));
+		WriteLine(String.Format("this.{0}.ForEach(x => x());", GetSetupActionsPropertyName()));
+		PopIndent();
+		WriteLine("}");
 	}
 
 	public void WriteClassSpecificTestDbSet(Type dbSetType)

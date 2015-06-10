@@ -89,6 +89,9 @@
     <Compile Include="Service\Admin\MoneyFlowServiceCreateValidationEntityTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceUpdateValidationEntityTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceValidatorTest.cs" />
+    <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipantTest.cs" />
+    <Compile Include="Service\Projects\AdditionalPersonProjectParticipantTest.cs" />
+    <Compile Include="Service\Projects\AdditionalProjectParticipantTest.cs" />
     <Compile Include="Service\Projects\DraftProjectTest.cs" />
     <Compile Include="Service\Admin\JustificationObjectiveServiceTest.cs" />
     <Compile Include="Service\Admin\FocusCategoryServiceTest.cs" />

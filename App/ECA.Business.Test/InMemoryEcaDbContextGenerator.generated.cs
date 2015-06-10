@@ -7,6 +7,8 @@
 
 namespace ECA.Business.Test
 {
+	using System;
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
 	#region EcaContext
@@ -854,6 +856,12 @@ namespace ECA.Business.Test
 	{
 		public InMemoryEcaContext()
 		{
+			InitializeDbSets();
+			this.SetupActions = new List<Action>();
+		}
+
+		public void InitializeDbSets()
+		{
 			this.Accommodations = new AccommodationTestDbSet();
 			this.Actors = new ActorTestDbSet();
 			this.Addresses = new AddressTestDbSet();
@@ -910,6 +918,14 @@ namespace ECA.Business.Test
 			this.SpecialStatuses = new SpecialStatusTestDbSet();
 			this.Themes = new ThemeTestDbSet();
 			this.Transportations = new TransportationTestDbSet();
+		}
+
+		public List<Action> SetupActions { get; set; }
+
+		public void Revert()
+		{
+			InitializeDbSets();
+			this.SetupActions.ForEach(x => x());
 		}
 	}
 	#endregion

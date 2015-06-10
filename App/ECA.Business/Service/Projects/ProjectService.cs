@@ -25,6 +25,9 @@ namespace ECA.Business.Service.Projects
         private readonly IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator;
         private readonly IOfficeService officeService;
 
+        private Action<int, Project> throwIfProjectDoesNotExist;
+        private Action<ParticipantType> throwIfParticipantTypeDoesNotExist;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -38,18 +41,187 @@ namespace ECA.Business.Service.Projects
             Contract.Requires(validator != null, "The validator must not be null.");
             this.validator = validator;
             this.officeService = officeService;
+            throwIfProjectDoesNotExist = (projectId, project) =>
+            {
+                if (project == null)
+                {
+                    throw new ModelNotFoundException(String.Format("The project with id [{0}] does not exist.", projectId));
+                }
+            };
+            throwIfParticipantTypeDoesNotExist = (participantType) =>
+            {
+                if (participantType == null)
+                {
+                    throw new ModelNotFoundException("The participant type does not exist.");
+                }
+            };
         }
 
         #region Participants
-        //public void AddParticipant()
-        //{
 
-        //}
+        /// <summary>
+        /// Adds the participant to the project.
+        /// </summary>
+        /// <param name="additionalParticipant">The additional participant.</param>
+        public void AddParticipant(AdditionalProjectParticipant additionalParticipant)
+        {
+            HandleAdditionalProjectParticipant(additionalParticipant);
+        }
 
-        //public async Task AddParticipantAsync()
-        //{
+        /// <summary>
+        /// Adds the participant to the project.
+        /// </summary>
+        /// <param name="additionalParticipant">The additional participant.</param>
+        public Task AddParticipantAsync(AdditionalProjectParticipant additionalParticipant)
+        {
+            return HandleAdditionalProjectParticipantAsync(additionalParticipant);
+        }
 
-        //}
+        private void HandleAdditionalProjectParticipant(AdditionalProjectParticipant additionalParticipant)
+        {
+            if (additionalParticipant is AdditionalPersonProjectParticipant)
+            {
+                HandleAdditionalPersonParticipant(additionalParticipant as AdditionalPersonProjectParticipant);
+            }
+            else if (additionalParticipant is AdditionalOrganizationProjectParticipant)
+            {
+                HandleAdditionalOrganizationParticipant(additionalParticipant as AdditionalOrganizationProjectParticipant);
+            }
+            else
+            {
+                throw new NotSupportedException("The additional participant is not supported.");
+            }
+        }
+
+        private Task HandleAdditionalProjectParticipantAsync(AdditionalProjectParticipant additionalParticipant)
+        {
+            if (additionalParticipant is AdditionalPersonProjectParticipant)
+            {
+                return HandleAdditionalPersonParticipantAsync(additionalParticipant as AdditionalPersonProjectParticipant);
+            }
+            else if (additionalParticipant is AdditionalOrganizationProjectParticipant)
+            {
+                return HandleAdditionalOrganizationParticipantAsync(additionalParticipant as AdditionalOrganizationProjectParticipant);
+            }
+            else
+            {
+                throw new NotSupportedException("The additional participant is not supported.");
+            }
+        }
+
+        private void HandleAdditionalOrganizationParticipant(AdditionalOrganizationProjectParticipant additionalOrganizationProjectParticipant)
+        {
+            var organization = CreateGetOrganizationQuery(additionalOrganizationProjectParticipant.OrganizationId).FirstOrDefault();
+            if (organization == null)
+            {
+                throw new ModelNotFoundException(String.Format("The organization with id [{0}] does not exist.", additionalOrganizationProjectParticipant.OrganizationId));
+            }
+            var project = CreateGetProjectByIdQuery(additionalOrganizationProjectParticipant.ProjectId).FirstOrDefault();
+            throwIfProjectDoesNotExist(additionalOrganizationProjectParticipant.ProjectId, project);
+
+            var participantType = CreateGetParticipantTypeQuery().FirstOrDefault();
+            throwIfParticipantTypeDoesNotExist(participantType);
+
+            var existingParticipant = CreateGetParticipantByProjectIdAndOrganizationId(project.ProjectId, organization.OrganizationId).FirstOrDefault();
+            if (existingParticipant == null)
+            {
+                DoHandleAdditionalProjectParticipant(additionalOrganizationProjectParticipant, participantType);
+            }
+        }
+
+        private async Task HandleAdditionalOrganizationParticipantAsync(AdditionalOrganizationProjectParticipant additionalOrganizationProjectParticipant)
+        {
+            var organization = await CreateGetOrganizationQuery(additionalOrganizationProjectParticipant.OrganizationId).FirstOrDefaultAsync();
+            if (organization == null)
+            {
+                throw new ModelNotFoundException(String.Format("The organization with id [{0}] does not exist.", additionalOrganizationProjectParticipant.OrganizationId));
+            }
+            var project = await CreateGetProjectByIdQuery(additionalOrganizationProjectParticipant.ProjectId).FirstOrDefaultAsync();
+            throwIfProjectDoesNotExist(additionalOrganizationProjectParticipant.ProjectId, project);
+
+            var participantType = await CreateGetParticipantTypeQuery().FirstOrDefaultAsync();
+            throwIfParticipantTypeDoesNotExist(participantType);
+            var existingParticipant = CreateGetParticipantByProjectIdAndOrganizationId(project.ProjectId, organization.OrganizationId).FirstOrDefault();
+            if (existingParticipant == null)
+            {
+                DoHandleAdditionalProjectParticipant(additionalOrganizationProjectParticipant, participantType);
+            }
+        }
+
+        private void HandleAdditionalPersonParticipant(AdditionalPersonProjectParticipant additionalPersonProjectParticipant)
+        {
+            var person = CreateGetPersonQuery(additionalPersonProjectParticipant.PersonId).FirstOrDefault();
+            if (person == null)
+            {
+                throw new ModelNotFoundException(String.Format("The person with id [{0}] does not exist.", additionalPersonProjectParticipant.PersonId));
+            }
+            var project = CreateGetProjectByIdQuery(additionalPersonProjectParticipant.ProjectId).FirstOrDefault();
+            throwIfProjectDoesNotExist(additionalPersonProjectParticipant.ProjectId, project);
+
+            var participantType = CreateGetParticipantTypeQuery().FirstOrDefault();
+            throwIfParticipantTypeDoesNotExist(participantType);
+
+            var existingParticipant = CreateGetParticipantByProjectIdAndPersonId(project.ProjectId, person.PersonId).FirstOrDefault();
+            if (existingParticipant == null)
+            {
+                DoHandleAdditionalProjectParticipant(additionalPersonProjectParticipant, participantType);
+            }
+        }
+
+        private async Task HandleAdditionalPersonParticipantAsync(AdditionalPersonProjectParticipant additionalPersonProjectParticipant)
+        {
+            var person = await CreateGetPersonQuery(additionalPersonProjectParticipant.PersonId).FirstOrDefaultAsync();
+            if (person == null)
+            {
+                throw new ModelNotFoundException(String.Format("The person with id [{0}] does not exist.", additionalPersonProjectParticipant.PersonId));
+            }
+            var project = await CreateGetProjectByIdQuery(additionalPersonProjectParticipant.ProjectId).FirstOrDefaultAsync();
+            throwIfProjectDoesNotExist(additionalPersonProjectParticipant.ProjectId, project);
+
+            var participantType = await CreateGetParticipantTypeQuery().FirstOrDefaultAsync();
+            throwIfParticipantTypeDoesNotExist(participantType);
+
+            var existingParticipant = await CreateGetParticipantByProjectIdAndPersonId(project.ProjectId, person.PersonId).FirstOrDefaultAsync();
+            if (existingParticipant == null)
+            {
+                DoHandleAdditionalProjectParticipant(additionalPersonProjectParticipant, participantType);
+            }
+        }
+
+        private Participant DoHandleAdditionalProjectParticipant(AdditionalProjectParticipant additionalProjectParticipant, ParticipantType participantType)
+        {
+            var participant = new Participant();
+            additionalProjectParticipant.UpdateParticipant(participant, participantType);
+            additionalProjectParticipant.Audit.SetHistory(participant);
+            Context.Participants.Add(participant);
+            return participant;
+        }
+
+        private IQueryable<Participant> CreateGetParticipantByProjectIdAndPersonId(int projectId, int personId)
+        {
+            return Context.Participants.Where(x => x.PersonId == personId);
+        }
+
+        private IQueryable<Participant> CreateGetParticipantByProjectIdAndOrganizationId(int projectId, int organizationId)
+        {
+            return Context.Participants.Where(x => x.OrganizationId == organizationId);
+        }
+
+        private IQueryable<ParticipantType> CreateGetParticipantTypeQuery()
+        {
+            return this.Context.ParticipantTypes.Where(x => x.ParticipantTypeId == ParticipantType.ForeignEducationalInstitution.Id);
+        }
+
+        private IQueryable<Organization> CreateGetOrganizationQuery(int organizationId)
+        {
+            return this.Context.Organizations.Where(x => x.OrganizationId == organizationId);
+        }
+
+        private IQueryable<Person> CreateGetPersonQuery(int personId)
+        {
+            return this.Context.People.Where(x => x.PersonId == personId);
+        }
+
         #endregion
 
         #region Create

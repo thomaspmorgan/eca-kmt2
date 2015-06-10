@@ -120,6 +120,8 @@
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramViewModelTest.cs" />
+    <Compile Include="Models\Projects\AdditionalPersonProjectParticipantBindingModelTest.cs" />
+    <Compile Include="Models\Projects\AdditionalOrganizationProjectParticipantBindingModelTest.cs" />
     <Compile Include="Models\Projects\DraftProjectBindingModelTest.cs" />
     <Compile Include="Models\Projects\PublishedProjectBindingModelTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelConvertTest.cs" />
