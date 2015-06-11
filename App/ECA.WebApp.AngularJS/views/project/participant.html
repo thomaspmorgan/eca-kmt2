@@ -85,36 +85,39 @@
         <div class="col-sd-2">
             <span class="right"><img src="images/expand.png"></span>
         </div>
-        
     </div>
-    <div class="row expand" ng-show="dataExpanded2">
-        <div class="col-md-12">
-            <h4 class="tab-subheader">Add a Participant to this Project</h4>
+    <div class="row" ng-show="dataExpanded2">
+        <h4 class="tab-subheader">Add a Participant to this Project</h4>
+        <div class="col-md-9">
+            <div>
+                Showing {{view.addParticipantsLimit}} of {{view.totalAvailableParticipants}} available participants.
+            </div>
             <div>
                 Filter By:
                 <label class="radio-inline">
-                    <input type="radio" value="{{view.addPersonFilterValue}}" ng-model="view.addParticipantFilter" />
+                    <input type="radio" value="{{view.addPersonFilterValue}}" ng-change="view.onRadioButtonChange(view.addPersonFilterValue)" ng-model="view.addParticipantFilter" />
                     Person
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" value="{{view.addOrganizationFilterValue}}" ng-model="view.addParticipantFilter" />
+                    <input type="radio" value="{{view.addOrganizationFilterValue}}" ng-change="view.onRadioButtonChange(view.addOrganizationFilterValue)" ng-model="view.addParticipantFilter" />
                     Organization
                 </label>
-                <div>
-                    <input type="text"
-                           class="form-control"
-                           typeahead-input-formatter="view.formatAddedParticipant($item)"
-                           placeholder="Add an existing participant"
-                           typeahead-wait-ms ="200"
-                           ng-model="view.addParticipantSearch"
-                           typeahead="participant.participantId as participant.name for participant in view.getAvailableParticipants($viewValue) | filter : $viewValue | limitTo : view.addParticipantsLimit"
-                           typeahead-on-select="view.onAddParticipantSelect($item, $model, $label)"
-                           typeahead-template-url="addCollaboratorTemplate.html"
-                           typeahead-editable="false" />
-                </div>
-                
             </div>
+            <input type="text"
+                   class="form-control"
+                   typeahead-append-to-body="true"
+                   typeahead-input-formatter="view.formatAddedParticipant($model)"
+                   placeholder="Add an existing participant..."
+                   ng-model="view.addParticipantSearch"
+                   typeahead-wait-ms="250"
+                   typeahead-loading="view.isLoadingAvailableParticipants"
+                   typeahead="participant as participant.name for participant in view.getAvailableParticipants($viewValue) | filter : $viewValue | limitTo : view.addParticipantsLimit"
+                   typeahead-on-select="view.onAddParticipantSelect($item, $model, $label)"
+                   typeahead-template-url="addCollaboratorTemplate.html"
+                   typeahead-editable="false" />
         </div>
+    </div>
+    <div class="row expand" ng-show="dataExpanded2">
         <!--
         <div class="col-md-10">
             <input type="checkbox" class="checkbox-participant">
@@ -375,8 +378,7 @@
     </div>
     <div class="divider"></div>
 </div>
-<modal-dialog show="modal.addParticipantResult" dialog-title="{{result.title
-}}" before-close="modal.addParticipantResult = false">
+<modal-dialog show="modal.addParticipantResult" dialog-title="{{result.title}}" before-close="modal.addParticipantResult = false">
     <p class="strong">{{result.subtitle}}</p>
     <p class="alert-danger" ng-show="result.error">{{result.error}}</p>
     <button class="btn btn-default right" ng-click="modal.addParticipantResult = false">OK</button>
@@ -387,8 +389,10 @@
         <div>
             <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
         </div>
-        <!--<div ng-show="match.model.email && match.model.email.length > 0" style="margin-left:10px;">
-            {{match.model.email}}
-        </div>-->
+        <div ng-show="match.model.city || match.model.country" style="margin-left:10px;">
+            <span bind-html-unsafe="match.model.city | typeaheadHighlight:query"></span>
+            <span ng-show="match.model.city && match.model.country">, </span>
+            <span bind-html-unsafe="match.model.country | typeaheadHighlight:query"></span>
+        </div>
     </a>
 </script>

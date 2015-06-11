@@ -34,6 +34,8 @@ angular.module('staticApp')
       $scope.view.addParticipantFilter = 'person';
       $scope.view.addParticipantSearch = '';
       $scope.view.addParticipantsLimit = 10;
+      $scope.view.isLoadingAvailableParticipants = false;
+      $scope.view.totalAvailableParticipants = 0;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
@@ -63,16 +65,16 @@ angular.module('staticApp')
           var clientModel = {
               projectId: projectId
           }
-          var promise = null;
+          var dfd = null;
           if ($item.personId) {
               clientModel.personId = $item.personId;
-              promise = ProjectService.addPersonParticipant(clientModel)
+              dfd = ProjectService.addPersonParticipant(clientModel)
           }
           else {
               clientModel.organizationId = $item.organizationId;
-              promise = ProjectService.addOrganizationParticipant(clientModel);
+              dfd = ProjectService.addOrganizationParticipant(clientModel);
           }
-          promise.then(function () {
+          dfd.then(function () {
               NotificationService.showSuccessMessage('Successfully added the project participant.');
           })
           .catch(function () {
@@ -81,7 +83,7 @@ angular.module('staticApp')
           .then(function () {
               $scope.view.isLoading = false;
           });
-          return promise;
+          return dfd;
       }
       
       $scope.view.getAvailableParticipants = function (search) {
@@ -89,11 +91,18 @@ angular.module('staticApp')
       }
 
       $scope.view.formatAddedParticipant = function (participant) {
-          if (participant) {
+          if (participant && participant.name.length > 0) {
               return participant.name;
           }
           else {
               return '';
+          }
+      }
+
+
+      $scope.view.onRadioButtonChange = function (radioButtonValue) {
+          if ($scope.view.addParticipantSearch) {
+              loadAvailableParticipants($scope.view.addParticipantSearch.name, radioButtonValue);
           }
       }
 
@@ -116,22 +125,25 @@ angular.module('staticApp')
           var params = {
               start: 0,
               limit: $scope.view.addParticipantsLimit,
-              filter: [{
-                  property: 'name',
-                  comparison: ConstantsService.likeComparisonType,
-                  value: search
-              },
-              participantTypeFilter
-             ]
+              filter: [participantTypeFilter]
           };
+          if (search) {
+              params.keyword = search
+          }
+          $scope.view.isLoadingAvailableParticipants = true;
           return ParticipantService.getParticipants(params)
           .then(function (response) {
+              debugger;
+              $scope.view.isLoadingAvailableParticipants = false;
+              $scope.view.totalAvailableParticipants = response.total;
               return response.results;
           })
           .catch(function () {
+              $scope.view.isLoadingAvailableParticipants = false;
               $log.error('Unable to load available participants.');
               NotificationService.showErrorMessage('Unable to load available participants.');
-          })
+          });
+          
       }
 
       function loadPermissions() {

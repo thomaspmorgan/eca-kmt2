@@ -51,7 +51,11 @@ namespace ECA.WebApi.Controllers.Persons
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetParticipantsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await this.service.GetParticipantsAsync(
+                    queryModel.ToQueryableOperator(DEFAULT_SORTER,
+                    x => x.City,
+                    x => x.Country,
+                    x => x.Name));
                 return Ok(results);
             }
             else

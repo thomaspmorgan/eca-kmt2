@@ -10,6 +10,7 @@ using ECA.Core.Query;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.DynamicLinq.Filter;
 using System.Collections.Generic;
+using ECA.Business.Queries.Persons;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -27,274 +28,6 @@ namespace ECA.Business.Test.Service.Persons
         }
 
         #region Get
-        [TestMethod]
-        public async Task TestGetParticipants_ParticipantIsPerson_CheckProperties()
-        {
-            var participantType = new ParticipantType
-            {
-                Name = ParticipantType.Individual.Value,
-                ParticipantTypeId = ParticipantType.Individual.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 1,
-                Gender = gender,
-                GenderId = gender.GenderId,
-                FirstName = "first",
-                LastName = "last"
-            };
-            
-            var participant = new Participant
-            {
-                Person = person,
-                PersonId = person.PersonId,
-                ParticipantType = participantType,
-                ParticipantTypeId = participantType.ParticipantTypeId
-            };
-            context.ParticipantTypes.Add(participantType);
-            context.Genders.Add(gender);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-
-            Action<PagedQueryResults<SimpleParticipantDTO>> tester = (results) =>
-            {
-                Assert.AreEqual(1, results.Total);
-                Assert.AreEqual(1, results.Results.Count);
-                var participantResult = results.Results.First();
-
-                //Assert all org properties are null
-                Assert.IsFalse(participantResult.OrganizationId.HasValue);
-
-                Assert.AreEqual(participantType.ParticipantTypeId, participantResult.ParticipantTypeId);
-                Assert.AreEqual(participantType.Name, participantResult.ParticipantType);
-                Assert.AreEqual(person.PersonId, participantResult.PersonId);
-                Assert.AreEqual(String.Format("{0} {1}", person.FirstName, person.LastName), participantResult.Name);
-            };
-
-            var defaultSorter = new ExpressionSorter<SimpleParticipantDTO>(x => x.Name, SortDirection.Ascending);
-            var queryOperator = new QueryableOperator<SimpleParticipantDTO>(0, 1, defaultSorter);
-            var serviceResults = service.GetParticipants(queryOperator);
-            var serviceResultsAsync = await service.GetParticipantsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-            
-        }
-
-        [TestMethod]
-        public async Task TestGetParticipants_ParticipantIsPerson_FirstNameIsNull()
-        {
-            var participantType = new ParticipantType
-            {
-                Name = ParticipantType.Individual.Value,
-                ParticipantTypeId = ParticipantType.Individual.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 1,
-                Gender = gender,
-                GenderId = gender.GenderId,
-                FirstName = null,
-                LastName = "last"
-            };
-
-            var participant = new Participant
-            {
-                Person = person,
-                PersonId = person.PersonId,
-                ParticipantType = participantType,
-                ParticipantTypeId = participantType.ParticipantTypeId
-            };
-            context.ParticipantTypes.Add(participantType);
-            context.Genders.Add(gender);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-
-            Action<PagedQueryResults<SimpleParticipantDTO>> tester = (results) =>
-            {
-                Assert.AreEqual(1, results.Total);
-                Assert.AreEqual(1, results.Results.Count);
-                var participantResult = results.Results.First();
-
-                Assert.AreEqual(person.LastName, participantResult.Name);
-
-            };
-
-            var defaultSorter = new ExpressionSorter<SimpleParticipantDTO>(x => x.Name, SortDirection.Ascending);
-            var queryOperator = new QueryableOperator<SimpleParticipantDTO>(0, 1, defaultSorter);
-            var serviceResults = service.GetParticipants(queryOperator);
-            var serviceResultsAsync = await service.GetParticipantsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-
-        }
-
-
-        [TestMethod]
-        public async Task TestGetParticipants_ParticipantIsPerson_LastNameIsNull()
-        {
-            var participantType = new ParticipantType
-            {
-                Name = ParticipantType.Individual.Value,
-                ParticipantTypeId = ParticipantType.Individual.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 1,
-                Gender = gender,
-                GenderId = gender.GenderId,
-                FirstName = "first",
-                LastName = null
-            };
-
-            var participant = new Participant
-            {
-                Person = person,
-                PersonId = person.PersonId,
-                ParticipantType = participantType,
-                ParticipantTypeId = participantType.ParticipantTypeId
-            };
-            context.ParticipantTypes.Add(participantType);
-            context.Genders.Add(gender);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-
-            Action<PagedQueryResults<SimpleParticipantDTO>> tester = (results) =>
-            {
-                Assert.AreEqual(1, results.Total);
-                Assert.AreEqual(1, results.Results.Count);
-                var participantResult = results.Results.First();
-
-                Assert.AreEqual(String.Format("{0}", person.FirstName, null), participantResult.Name);
-
-            };
-
-            var defaultSorter = new ExpressionSorter<SimpleParticipantDTO>(x => x.Name, SortDirection.Ascending);
-            var queryOperator = new QueryableOperator<SimpleParticipantDTO>(0, 1, defaultSorter);
-            var serviceResults = service.GetParticipants(queryOperator);
-            var serviceResultsAsync = await service.GetParticipantsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-
-        }
-
-        [TestMethod]
-        public async Task TestGetParticipants_ParticipantIsPerson_BothNamesAreNull()
-        {
-            var participantType = new ParticipantType
-            {
-                Name = ParticipantType.Individual.Value,
-                ParticipantTypeId = ParticipantType.Individual.Id,
-            };
-            var gender = new Gender
-            {
-                GenderId = Gender.Male.Id,
-                GenderName = Gender.Male.Value
-            };
-            var person = new Person
-            {
-                PersonId = 1,
-                Gender = gender,
-                GenderId = gender.GenderId,
-                FirstName = null,
-                LastName = null
-            };
-
-            var participant = new Participant
-            {
-                Person = person,
-                PersonId = person.PersonId,
-                ParticipantType = participantType,
-                ParticipantTypeId = participantType.ParticipantTypeId
-            };
-            context.ParticipantTypes.Add(participantType);
-            context.Genders.Add(gender);
-            context.People.Add(person);
-            context.Participants.Add(participant);
-
-            Action<PagedQueryResults<SimpleParticipantDTO>> tester = (results) =>
-            {
-                Assert.AreEqual(1, results.Total);
-                Assert.AreEqual(1, results.Results.Count);
-                var participantResult = results.Results.First();
-
-                Assert.AreEqual(String.Empty, participantResult.Name);
-
-            };
-
-            var defaultSorter = new ExpressionSorter<SimpleParticipantDTO>(x => x.Name, SortDirection.Ascending);
-            var queryOperator = new QueryableOperator<SimpleParticipantDTO>(0, 1, defaultSorter);
-            var serviceResults = service.GetParticipants(queryOperator);
-            var serviceResultsAsync = await service.GetParticipantsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-
-        }
-
-        [TestMethod]
-        public async Task TestGetParticipants_ParticipantIsOrganization_CheckProperties()
-        {
-            var participantType = new ParticipantType
-            {
-                Name = ParticipantType.PublicInternationalOrganizationPio.Value,
-                ParticipantTypeId = ParticipantType.PublicInternationalOrganizationPio.Id,
-            };
-            var organization = new Organization
-            {
-                OrganizationId = 1,
-                Name = "org name"
-            };
-
-            var participant = new Participant
-            {
-                Organization = organization,
-                OrganizationId = organization.OrganizationId,
-                ParticipantType = participantType,
-                ParticipantTypeId = participantType.ParticipantTypeId
-            };
-            context.ParticipantTypes.Add(participantType);
-            context.Organizations.Add(organization);
-            context.Participants.Add(participant);
-
-            Action<PagedQueryResults<SimpleParticipantDTO>> tester = (results) =>
-            {
-                Assert.AreEqual(1, results.Total);
-                Assert.AreEqual(1, results.Results.Count);
-                var participantResult = results.Results.First();
-
-                //Assert all org properties are null
-                Assert.IsFalse(participantResult.PersonId.HasValue);
-                //Assert.IsFalse(participantResult.GenderId.HasValue);
-                //Assert.IsNull(participantResult.Gender);
-
-                Assert.AreEqual(participantType.ParticipantTypeId, participantResult.ParticipantTypeId);
-                Assert.AreEqual(participantType.Name, participantResult.ParticipantType);
-                Assert.AreEqual(organization.Name, participantResult.Name);
-
-            };
-
-            var defaultSorter = new ExpressionSorter<SimpleParticipantDTO>(x => x.Name, SortDirection.Ascending);
-            var queryOperator = new QueryableOperator<SimpleParticipantDTO>(0, 1, defaultSorter);
-            var serviceResults = service.GetParticipants(queryOperator);
-            var serviceResultsAsync = await service.GetParticipantsAsync(queryOperator);
-            tester(serviceResults);
-            tester(serviceResultsAsync);
-
-        }
 
         [TestMethod]
         public async Task TestGetParticipants_DefaultSorter()
@@ -331,6 +64,23 @@ namespace ECA.Business.Test.Service.Persons
                 ParticipantType = participantType,
                 ParticipantTypeId = participantType.ParticipantTypeId
             };
+            var address = new Address
+            {
+                Location = new Location
+                {
+                    City = "city",
+                    Country = new Location
+                    {
+                        LocationName = "country"
+                    }
+                }
+            };
+            organization1.Addresses.Add(address);
+            organization2.Addresses.Add(address);
+            context.Addresses.Add(address);
+            context.Locations.Add(address.Location);
+            context.Locations.Add(address.Location.Country);
+
             context.ParticipantTypes.Add(participantType);
             context.Organizations.Add(organization1);
             context.Participants.Add(participant1);
