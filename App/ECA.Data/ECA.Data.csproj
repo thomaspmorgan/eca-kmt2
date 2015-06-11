@@ -192,6 +192,7 @@
     <Compile Include="SocialMedia.cs" />
     <Compile Include="SpecialStatus.cs" />
     <Compile Include="Transportation.cs" />
+    <Compile Include="UserAccount.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App-toAzureDB.config" />

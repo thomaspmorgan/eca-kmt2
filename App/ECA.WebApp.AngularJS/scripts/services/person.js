@@ -11,6 +11,14 @@ angular.module('staticApp')
   .factory('PersonService', function ($q, DragonBreath) {
 
       return {
+          getEvaluationNotesById: function (id) {
+              var defer = $q.defer();
+              DragonBreath.get('people/' + id + '/evaluationNotes')
+                .success(function (data) {
+                    defer.resolve(data);
+                })
+              return defer.promise;
+          },
           getEducationsById: function (id) {
               var defer = $q.defer();
               DragonBreath.get('people/' + id + '/education')

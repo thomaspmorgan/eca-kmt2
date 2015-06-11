@@ -140,6 +140,26 @@ namespace ECA.WebApi.Controllers.Persons
         }
 
         /// <summary>
+        /// Returns Evaluation-Notes info associated with a person
+        /// </summary>
+        /// <param name="personId">The person id to find Evalution-Notes info for</param>
+        /// <returns>Evaluation-Notes info associated with person</returns>
+        [ResponseType(typeof(IList<EvaluationNoteDTO>))]
+        [Route("People/{personId:int}/EvaluationNotes")]
+        public async Task<IHttpActionResult> GetEvaluationNotesByPersonIdAsync(int personId)
+        {
+            var evaluationNotes = await service.GetEvaluationNotesByPersonIdAsync(personId);
+            if (evaluationNotes != null)
+            {
+                return Ok(evaluationNotes);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
         /// Post method to create a person
         /// </summary>
         /// <param name="model">The model to create</param>

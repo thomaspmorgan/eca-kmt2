@@ -76,6 +76,7 @@ namespace ECA.Data
             SocialMedias = new HashSet<SocialMedia>();
             Addresses = new HashSet<Address>();
             Events = new HashSet<Event>();
+            EvaluationNotes = new HashSet<PersonEvaluationNote>();
             Family = new HashSet<Person>();
             OtherFamily = new HashSet<Person>();
             Impacts = new HashSet<Impact>();

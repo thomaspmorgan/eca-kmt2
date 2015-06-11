@@ -221,6 +221,11 @@ namespace ECA.Data
         public DbSet<Person> People { get; set; }
 
         /// <summary>
+        /// Gets or sets EvaluationNotes for a Person
+        /// </summary>
+        public DbSet<PersonEvaluationNote> PersonEvaluationNotes { get; set; }
+        
+        /// <summary>
         /// Gets or sets phone numbers.
         /// </summary>
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
@@ -319,6 +324,11 @@ namespace ECA.Data
         /// Gets or sets the money flow source recipient types.
         /// </summary>
         public DbSet<MoneyFlowSourceRecipientType> MoneyFlowSourceRecipientTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets users;
+        /// </summary>
+        public DbSet<UserAccount> UserAccounts { get; set; }
 
         /// <summary>
         /// Overrides the DbContext OnModelCreating method.
