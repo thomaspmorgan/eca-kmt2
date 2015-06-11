@@ -45,8 +45,8 @@ namespace ECA.Data
         public Position Position { get; set; }
 
         public Organization HostInstitution {get; set;}
-
         public int? HostInstitutionId {get; set;}
+
         public Organization HomeInstitution {get; set;}
         public int? HomeInstitutionId {get; set;}
 

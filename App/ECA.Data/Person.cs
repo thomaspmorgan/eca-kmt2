@@ -168,7 +168,7 @@ namespace ECA.Data
         public ICollection<SocialMedia> SocialMedias { get; set; }
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Event> Events { get; set; }
-        public string EvaluationRetention { get; set; }
+        public ICollection<PersonEvaluationNote> EvaluationNotes { get; set; }
         public ICollection<Person> Family { get; set; }
         public ICollection<Person> OtherFamily { get; set; }
         public ICollection<Impact> Impacts { get; set; }

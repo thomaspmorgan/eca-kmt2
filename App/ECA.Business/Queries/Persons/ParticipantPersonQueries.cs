@@ -16,31 +16,48 @@ namespace ECA.Business.Queries.Persons
     /// </summary>
     public static class ParticipantPersonQueries
     {
-
-        private static IQueryable<SimpleParticipantPersonDTO> CreateGetSimpleParticipantPersonsDTOQuery(EcaContext context)
+        /// <summary>
+        /// Query to get a list of participant people 
+        /// </summary>
+        /// <param name="context">The context to query</param>
+        /// <returns>List of participant people</returns>
+        public static IQueryable<SimpleParticipantPersonDTO> CreateGetSimpleParticipantPersonsDTOQuery(EcaContext context)
         {
             var query = (from p in context.ParticipantPersons
                          select new SimpleParticipantPersonDTO
                          {
                              ParticipantId = p.ParticipantId,
-                             FieldOfStudy = p.FieldOfStudy.FieldOfStudyCode,
                              SevisId = p.SevisId,
-                             Position = p.Position.PositionCode,
-                             HomeInstitution = p.HomeInstitution != null ? new SimpleOrganizationDTO
+                             ContactAgreement = p.ContactAgreement,
+                             StudyProject = p.StudyProject,
+                             FieldOfStudy = p.FieldOfStudy != null ? p.FieldOfStudy.FieldOfStudyCode : null,
+                             ProgramSubject = p.ProgramSubject != null ? p.ProgramSubject.ProgramSubjectCode : null,
+                             Position = p.Position != null ? p.Position.PositionCode : null,
+                             HomeInstitution = p.HomeInstitution != null ? new InstitutionDTO
                              {
-                                 OrganizationId = p.HomeInstitution.OrganizationId,
                                  Name = p.HomeInstitution.Name,
-                                 OrganizationType = p.HomeInstitution.OrganizationType.OrganizationTypeName,
-                                 Status = p.HomeInstitution.Status,
-                                 Location = p.HomeInstitution.Addresses.FirstOrDefault().Location.Country.LocationName
+                                 Addresses = p.HomeInstitution.Addresses.Select(x => new ECA.Business.Queries.Models.Persons.LocationDTO
+                                 {
+                                    Street1 = x.Location.Street1,
+                                    Street2 = x.Location.Street2,
+                                    Street3 = x.Location.Street3,
+                                    Country = x.Location.Country.LocationName,
+                                    City = x.Location.City,
+                                    PostalCode = x.Location.PostalCode
+                                 })
                              } : null,
-                             HostInstitution = p.HostInstitution != null ? new SimpleOrganizationDTO
+                             HostInstitution = p.HostInstitution != null ? new InstitutionDTO
                              {
-                                 OrganizationId = p.HostInstitution.OrganizationId,
                                  Name = p.HostInstitution.Name,
-                                 OrganizationType = p.HostInstitution.OrganizationType.OrganizationTypeName,
-                                 Status = p.HostInstitution.Status,
-                                 Location = p.HostInstitution.Addresses.FirstOrDefault().Location.Country.LocationName
+                                 Addresses = p.HostInstitution.Addresses.Select(x => new ECA.Business.Queries.Models.Persons.LocationDTO
+                                 {
+                                    Street1 = x.Location.Street1,
+                                    Street2 = x.Location.Street2,
+                                    Street3 = x.Location.Street3,
+                                    Country = x.Location.Country.LocationName,
+                                    City = x.Location.City,
+                                    PostalCode = x.Location.PostalCode
+                                 })
                              } : null
                          });
             return query;
