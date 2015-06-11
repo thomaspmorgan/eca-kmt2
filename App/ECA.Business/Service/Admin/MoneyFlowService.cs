@@ -68,96 +68,97 @@ namespace ECA.Business.Service.Admin
             return this.Context.MoneyFlows.Find(moneyFlowId);
         }
 
-        public MoneyFlow Create(DraftMoneyFlow draftMoneyFlow, User user)
+        public MoneyFlow Create(EcaMoneyFlow moneyFlow, User user)
         {
-            validator.ValidateCreate(GetCreateValidationEntity(draftMoneyFlow));
-            var moneyFlow = DoCreate(draftMoneyFlow);
+            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow));
+            var newMoneyFlow = DoCreate(moneyFlow, user);
             this.logger.Trace("Created money flow {0}.", moneyFlow);
-            return moneyFlow;
+            return newMoneyFlow;
         }
 
-        public async Task<MoneyFlow> CreateAsync(DraftMoneyFlow draftMoneyFlow, User user)
+        public async Task<MoneyFlow> CreateAsync(EcaMoneyFlow moneyFlow, User user)
         {
-            validator.ValidateCreate(GetCreateValidationEntity(draftMoneyFlow));
-            var moneyFlow = await DoCreateAsync(draftMoneyFlow);
-            this.logger.Trace("Created money flow {0}.", moneyFlow);
-            return moneyFlow;
+            validator.ValidateCreate(GetCreateValidationEntity(moneyFlow));
+            var newMoneyFlow = await DoCreateAsync(moneyFlow, user);
+            this.logger.Trace("Created money flow {0}.", newMoneyFlow);
+            return newMoneyFlow;
         }
 
-        private MoneyFlow DoCreate(DraftMoneyFlow draftMoneyFlow)
+        private MoneyFlow DoCreate(EcaMoneyFlow moneyFlow, User createdBy)
         {
-            var moneyFlow = new MoneyFlow
+            var newMoneyFlow = new MoneyFlow
             {
-                MoneyFlowTypeId = draftMoneyFlow.MoneyFlowTypeId,
-                MoneyFlowStatusId = draftMoneyFlow.MoneyFlowStatusId,
-                TransactionDate = draftMoneyFlow.TransactionDate,
-                Value = draftMoneyFlow.Value,
-                Description = draftMoneyFlow.Description,
-                FiscalYear = draftMoneyFlow.FiscalYear,
-                SourceTypeId = draftMoneyFlow.SourceTypeId,
-                RecipientTypeId = draftMoneyFlow.RecipientTypeId,
+                MoneyFlowTypeId = moneyFlow.MoneyFlowTypeId,
+                MoneyFlowStatusId = moneyFlow.MoneyFlowStatusId,
+                TransactionDate = moneyFlow.TransactionDate,
+                Value = moneyFlow.Value,
+                Description = moneyFlow.Description,
+                FiscalYear = moneyFlow.FiscalYear,
+                SourceTypeId = moneyFlow.SourceTypeId,
+                RecipientTypeId = moneyFlow.RecipientTypeId,
         };
 
-            moneyFlow.Parent = GetParent(draftMoneyFlow.ParentMoneyFlowId);
-            moneyFlow.SourceOrganization = GetOrganization(draftMoneyFlow.SourceOrganizationId);
-            moneyFlow.RecipientOrganization = GetOrganization(draftMoneyFlow.RecipientOrganizationId);
 
-            moneyFlow.SourceProgram = GetProgram(draftMoneyFlow.SourceProgramId);
-            moneyFlow.RecipientProgram = GetProgram(draftMoneyFlow.RecipientProgramId);
+            newMoneyFlow.SourceOrganization = GetOrganization(moneyFlow.SourceOrganizationId);
+            newMoneyFlow.RecipientOrganization = GetOrganization(moneyFlow.RecipientOrganizationId);
 
-            moneyFlow.SourceProject = GetProject(draftMoneyFlow.SourceProjectId);
-            moneyFlow.RecipientProject = GetProject(draftMoneyFlow.RecipientProjectId);
+            newMoneyFlow.SourceProgram = GetProgram(moneyFlow.SourceProgramId);
+            newMoneyFlow.RecipientProgram = GetProgram(moneyFlow.RecipientProgramId);
 
-            moneyFlow.SourceParticipant = GetParticipant(draftMoneyFlow.SourceParticipantId);
-            moneyFlow.RecipientParticipant = GetParticipant(draftMoneyFlow.RecipientParticipantId);
+            newMoneyFlow.SourceProject = GetProject(moneyFlow.SourceProjectId);
+            newMoneyFlow.RecipientProject = GetProject(moneyFlow.RecipientProjectId);
 
-            moneyFlow.SourceItineraryStop = GetItineraryStop(draftMoneyFlow.SourceItineraryStopId);
-            moneyFlow.RecipientItineraryStop = GetItineraryStop(draftMoneyFlow.RecipientItineraryStopId);
+            newMoneyFlow.SourceParticipant = GetParticipant(moneyFlow.SourceParticipantId);
+            newMoneyFlow.RecipientParticipant = GetParticipant(moneyFlow.RecipientParticipantId);
 
-            moneyFlow.RecipientAccommodation = GetAccomodation(draftMoneyFlow.RecipientAccommodationId);
-            moneyFlow.RecipientTransportation = GetTransportation(draftMoneyFlow.RecipientTransportationId);
+            newMoneyFlow.SourceItineraryStop = GetItineraryStop(moneyFlow.SourceItineraryStopId);
+            newMoneyFlow.RecipientItineraryStop = GetItineraryStop(moneyFlow.RecipientItineraryStopId);
 
-            draftMoneyFlow.Audit.SetHistory(moneyFlow);
-            this.Context.MoneyFlows.Add(moneyFlow);
-            return moneyFlow;
+            newMoneyFlow.RecipientAccommodation = GetAccomodation(moneyFlow.RecipientAccommodationId);
+            newMoneyFlow.RecipientTransportation = GetTransportation(moneyFlow.RecipientTransportationId);
+
+            moneyFlow.Audit = new Create(createdBy);
+            moneyFlow.Audit.SetHistory(newMoneyFlow);
+            this.Context.MoneyFlows.Add(newMoneyFlow);
+            return newMoneyFlow;
         }
 
-        private async Task<MoneyFlow> DoCreateAsync(DraftMoneyFlow draftMoneyFlow)
+        private async Task<MoneyFlow> DoCreateAsync(EcaMoneyFlow moneyFlow, User createdBy)
         {
-            var moneyFlow = new MoneyFlow
+            var newMoneyFlow = new MoneyFlow
             {
-                MoneyFlowTypeId = draftMoneyFlow.MoneyFlowTypeId,
-                MoneyFlowStatusId = draftMoneyFlow.MoneyFlowStatusId,
-                TransactionDate = draftMoneyFlow.TransactionDate,
-                Value = draftMoneyFlow.Value,
-                Description = draftMoneyFlow.Description,
-                FiscalYear = draftMoneyFlow.FiscalYear,
-                SourceTypeId = draftMoneyFlow.SourceTypeId,
-                RecipientTypeId = draftMoneyFlow.RecipientTypeId,
+                MoneyFlowTypeId = moneyFlow.MoneyFlowTypeId,
+                MoneyFlowStatusId = moneyFlow.MoneyFlowStatusId,
+                TransactionDate = moneyFlow.TransactionDate,
+                Value = moneyFlow.Value,
+                Description = moneyFlow.Description,
+                FiscalYear = moneyFlow.FiscalYear,
+                SourceTypeId = moneyFlow.SourceTypeId,
+                RecipientTypeId = moneyFlow.RecipientTypeId,
         };
 
-            moneyFlow.Parent = GetParent(draftMoneyFlow.ParentMoneyFlowId);
-            moneyFlow.SourceOrganization = GetOrganization(draftMoneyFlow.SourceOrganizationId);
-            moneyFlow.RecipientOrganization = GetOrganization(draftMoneyFlow.RecipientOrganizationId);
+            newMoneyFlow.SourceOrganization = GetOrganization(moneyFlow.SourceOrganizationId);
+            newMoneyFlow.RecipientOrganization = GetOrganization(moneyFlow.RecipientOrganizationId);
 
-            moneyFlow.SourceProgram = GetProgram(draftMoneyFlow.SourceProgramId);
-            moneyFlow.RecipientProgram = GetProgram(draftMoneyFlow.RecipientProgramId);
+            newMoneyFlow.SourceProgram = GetProgram(moneyFlow.SourceProgramId);
+            newMoneyFlow.RecipientProgram = GetProgram(moneyFlow.RecipientProgramId);
 
-            moneyFlow.SourceProject = GetProject(draftMoneyFlow.SourceProjectId);
-            moneyFlow.RecipientProject = GetProject(draftMoneyFlow.RecipientProjectId);
+            newMoneyFlow.SourceProject = GetProject(moneyFlow.SourceProjectId);
+            newMoneyFlow.RecipientProject = GetProject(moneyFlow.RecipientProjectId);
 
-            moneyFlow.SourceParticipant = GetParticipant(draftMoneyFlow.SourceParticipantId);
-            moneyFlow.RecipientParticipant = GetParticipant(draftMoneyFlow.RecipientParticipantId);
+            newMoneyFlow.SourceParticipant = GetParticipant(moneyFlow.SourceParticipantId);
+            newMoneyFlow.RecipientParticipant = GetParticipant(moneyFlow.RecipientParticipantId);
 
-            moneyFlow.SourceItineraryStop = GetItineraryStop(draftMoneyFlow.SourceItineraryStopId);
-            moneyFlow.RecipientItineraryStop = GetItineraryStop(draftMoneyFlow.RecipientItineraryStopId);
+            newMoneyFlow.SourceItineraryStop = GetItineraryStop(moneyFlow.SourceItineraryStopId);
+            newMoneyFlow.RecipientItineraryStop = GetItineraryStop(moneyFlow.RecipientItineraryStopId);
 
-            moneyFlow.RecipientAccommodation = GetAccomodation(draftMoneyFlow.RecipientAccommodationId);
-            moneyFlow.RecipientTransportation = GetTransportation(draftMoneyFlow.RecipientTransportationId);
+            newMoneyFlow.RecipientAccommodation = GetAccomodation(moneyFlow.RecipientAccommodationId);
+            newMoneyFlow.RecipientTransportation = GetTransportation(moneyFlow.RecipientTransportationId);
 
-            draftMoneyFlow.Audit.SetHistory(moneyFlow);
-            this.Context.MoneyFlows.Add(moneyFlow);
-            return moneyFlow;
+            moneyFlow.Audit = new Create(createdBy);
+            moneyFlow.Audit.SetHistory(newMoneyFlow);
+            this.Context.MoneyFlows.Add(newMoneyFlow);
+            return newMoneyFlow;
         }
 
 
@@ -223,7 +224,7 @@ namespace ECA.Business.Service.Admin
             return this.Context.Transportations.Find(transportationId);
         }
         
-        private MoneyFlowServiceCreateValidationEntity GetCreateValidationEntity(DraftMoneyFlow draftMoneyFlow)
+        private MoneyFlowServiceCreateValidationEntity GetCreateValidationEntity(EcaMoneyFlow draftMoneyFlow)
         {
             return new MoneyFlowServiceCreateValidationEntity(draftMoneyFlow.Description, draftMoneyFlow.Value,
                 draftMoneyFlow.TransactionDate);

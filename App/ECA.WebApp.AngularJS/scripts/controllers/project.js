@@ -493,6 +493,7 @@ angular.module('staticApp')
               // set the source
               $scope.draftMoneyFlow.sourceTypeid = $scope.draftMoneyFlow.sourceRecipientTypeId;
               $scope.recipientProjectId = $scope.currentProjectId;
+              $scope.draftMoneyFlow.recipientTypeId = 3;
               $scope.draftMoneyFlow.moneyFlowTypeId = 1;
 
               switch($scope.draftMoneyFlow.sourceRecipientTypeId)
@@ -521,6 +522,7 @@ angular.module('staticApp')
               // set the recipient
               $scope.draftMoneyFlow.recipientTypeid = $scope.draftMoneyFlow.sourceRecipientTypeId;
               $scope.sourceProjectId = $scope.currentProjectId;
+              $scope.draftMoneyFlow.sourceTypeId = 3;
               $scope.draftMoneyFlow.moneyFlowTypeId = 2;
 
               switch($scope.draftMoneyFlow.sourceRecipientTypeId)
