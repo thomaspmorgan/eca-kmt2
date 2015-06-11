@@ -181,7 +181,8 @@ namespace ECA.Business.Queries.Persons
                             EvaluationNote = evaluationNote.EvaluationNote,
                             AddedOn = evaluationNote.History.CreatedOn,
                             UserId = evaluationNote.History.CreatedBy,
-                            UserName = user.DisplayName
+                            UserName = user.DisplayName,
+                            EmailAddress = user.EmailAddress
                         };
             return query;
         }
