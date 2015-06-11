@@ -139,6 +139,7 @@
     <Content Include="scripts\controllers\organization\organization.js" />
     <Content Include="scripts\controllers\organization\overview.js" />
     <Content Include="scripts\controllers\person\personEduEmp.js" />
+    <Content Include="scripts\controllers\person\personEvaluationNotes.js" />
     <Content Include="scripts\controllers\person\personGeneral.js" />
     <Content Include="scripts\controllers\project\collaborator.js" />
     <Content Include="scripts\controllers\project\edit.js" />
@@ -148,6 +149,7 @@
     <Content Include="scripts\controllers\project\unsavedchanges.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
     <Content Include="scripts\filters\groupby.js" />
+    <Content Include="scripts\services\participantperson.js" />
     <Content Include="scripts\services\userservice.js" />
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />
@@ -155,6 +157,7 @@
     <Content Include="views\organizations\edit.html" />
     <Content Include="views\organizations\overview.html" />
     <Content Include="views\partials\pagination.html" />
+    <Content Include="views\participants\partials\evaluationNotesView.html" />
     <Content Include="views\participants\partials\eduempView.html" />
     <Content Include="views\participants\partials\generalView.html" />
     <Content Include="views\organization.html" />

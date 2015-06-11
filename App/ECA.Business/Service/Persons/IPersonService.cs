@@ -85,6 +85,21 @@ namespace ECA.Business.Service.Persons
         /// <returns>Professional employment information for person</returns>
         Task<IList<EducationEmploymentDTO>> GetEmploymentsByPersonIdAsync(int personId);
 
+
+        /// <summary>
+        /// Returns evaluation-notes information for a user 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Evaluation-notes information for person</returns>
+        IList<EvaluationNoteDTO> GetEvaluationNotesByPersonId(int personId);
+
+        /// <summary>
+        /// Returns evaluation-notes information for a user asyncronously
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Evaluation-notes information for person</returns>
+        Task<IList<EvaluationNoteDTO>> GetEvaluationNotesByPersonIdAsync(int personId);
+
         /// <summary>
         /// Creates a new person
         /// </summary>

@@ -1,0 +1,10 @@
+﻿<div ng-controller="personEvaluationNotesCtrl">
+    <div class="row" ng-show="!editGeneral">
+        <div class="col-md-12">
+            <div class="row" style="border-top: 1px solid silver;" ng-repeat="evaluationNote in evaluationNotes">
+                <h5>{{evaluationNote.evaluationNote}}</h5>
+                <i class=" md md-messenger"></i> Added by {{evaluationNote.userName}} ({{evaluationNote.emailAddress}}) on {{evaluationNote.addedOn | date:'longDate'}}
+            </div>
+        </div>
+    </div>
+</div>
