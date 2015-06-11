@@ -29,6 +29,12 @@ angular.module('staticApp')
       $scope.view.collaboratorsLastUpdated = null;
       $scope.view.isCollaboratorsModalOpen = false;
 
+      $scope.view.addPersonFilterValue = 'person';
+      $scope.view.addOrganizationFilterValue = 'organization';
+      $scope.view.addParticipantFilter = 'person';
+      $scope.view.addParticipantSearch = '';
+      $scope.view.addParticipantsLimit = 10;
+
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
       var projectId = $stateParams.projectId;
@@ -51,7 +57,82 @@ angular.module('staticApp')
               $scope.view.isCollaboratorsModalOpen = false;
           });
       };
+
+      $scope.view.onAddParticipantSelect = function ($item, $model, $label) {
+          $scope.view.isLoading = false;
+          var clientModel = {
+              projectId: projectId
+          }
+          var promise = null;
+          if ($item.personId) {
+              clientModel.personId = $item.personId;
+              promise = ProjectService.addPersonParticipant(clientModel)
+          }
+          else {
+              clientModel.organizationId = $item.organizationId;
+              promise = ProjectService.addOrganizationParticipant(clientModel);
+          }
+          promise.then(function () {
+              NotificationService.showSuccessMessage('Successfully added the project participant.');
+          })
+          .catch(function () {
+              NotificationService.showErrorMessage('Unable to add project participant.');
+          })
+          .then(function () {
+              $scope.view.isLoading = false;
+          });
+          return promise;
+      }
       
+      $scope.view.getAvailableParticipants = function (search) {
+          return loadAvailableParticipants(search, $scope.view.addParticipantFilter);
+      }
+
+      $scope.view.formatAddedParticipant = function (participant) {
+          if (participant) {
+              return participant.name;
+          }
+          else {
+              return '';
+          }
+      }
+
+      function loadAvailableParticipants(search, participantType) {
+          var participantTypeFilter = {
+              comparison: ConstantsService.isNotNullComparisonType
+          };
+          if (participantType === $scope.view.addPersonFilterValue) {
+              $log.info('Adding not null filter on person participant type.');
+              participantTypeFilter.property = 'personId';
+          }
+          else if (participantType === $scope.view.addOrganizationFilterValue) {
+              $log.info('Adding not null filter on organization participant type.');
+              participantTypeFilter.property = 'organizationId';
+          }
+          else {
+              $log.error('Unable to add participant type filter.');
+          }
+
+          var params = {
+              start: 0,
+              limit: $scope.view.addParticipantsLimit,
+              filter: [{
+                  property: 'name',
+                  comparison: ConstantsService.likeComparisonType,
+                  value: search
+              },
+              participantTypeFilter
+             ]
+          };
+          return ParticipantService.getParticipants(params)
+          .then(function (response) {
+              return response.results;
+          })
+          .catch(function () {
+              $log.error('Unable to load available participants.');
+              NotificationService.showErrorMessage('Unable to load available participants.');
+          })
+      }
 
       function loadPermissions() {
           console.assert(ConstantsService.resourceType.project.value, 'The constants service must have the project resource type value.');

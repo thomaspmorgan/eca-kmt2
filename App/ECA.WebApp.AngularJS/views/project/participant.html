@@ -78,15 +78,43 @@
 
     <div class="row" ng-click="dataExpanded2 = !dataExpanded2">
         <div class="col-md-10">
-            <h4 class="tab-subheader">Participant List</h4>
+            <h4 class="tab-subheader">Participant Data</h4>
             <h5 class="subheader2">Keep track of participant data that has been added to this project.</h5>
             <p class="mute">Participants: {{project.participants.length}} | Last updated {{project.updated | date}}</p>
         </div>
         <div class="col-sd-2">
             <span class="right"><img src="images/expand.png"></span>
         </div>
+        
     </div>
     <div class="row expand" ng-show="dataExpanded2">
+        <div class="col-md-12">
+            <h4 class="tab-subheader">Add a Participant to this Project</h4>
+            <div>
+                Filter By:
+                <label class="radio-inline">
+                    <input type="radio" value="{{view.addPersonFilterValue}}" ng-model="view.addParticipantFilter" />
+                    Person
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" value="{{view.addOrganizationFilterValue}}" ng-model="view.addParticipantFilter" />
+                    Organization
+                </label>
+                <div>
+                    <input type="text"
+                           class="form-control"
+                           typeahead-input-formatter="view.formatAddedParticipant($item)"
+                           placeholder="Add an existing participant"
+                           typeahead-wait-ms ="200"
+                           ng-model="view.addParticipantSearch"
+                           typeahead="participant.participantId as participant.name for participant in view.getAvailableParticipants($viewValue) | filter : $viewValue | limitTo : view.addParticipantsLimit"
+                           typeahead-on-select="view.onAddParticipantSelect($item, $model, $label)"
+                           typeahead-template-url="addCollaboratorTemplate.html"
+                           typeahead-editable="false" />
+                </div>
+                
+            </div>
+        </div>
         <!--
         <div class="col-md-10">
             <input type="checkbox" class="checkbox-participant">
@@ -356,3 +384,14 @@
     <p class="alert-danger" ng-show="result.error">{{result.error}}</p>
     <button class="btn btn-default right" ng-click="modal.addParticipantResult = false">OK</button>
 </modal-dialog>
+
+<script type="text/ng-template" id="addCollaboratorTemplate.html">
+    <a>
+        <div>
+            <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
+        </div>
+        <!--<div ng-show="match.model.email && match.model.email.length > 0" style="margin-left:10px;">
+            {{match.model.email}}
+        </div>-->
+    </a>
+</script>

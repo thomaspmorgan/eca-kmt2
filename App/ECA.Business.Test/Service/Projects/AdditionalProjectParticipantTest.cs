@@ -35,25 +35,25 @@ namespace ECA.Business.Test.Service.Projects
             Assert.AreEqual(projectId, instance.ProjectId);
         }
 
-        //[TestMethod]
-        //public void TestUpdateParticipant()
-        //{
-        //    var user = new User(1);
-        //    var projectId = 10;
-        //    var instance = new TestAdditionalProjectParticipant(user, projectId);
-        //    var participant = new Participant();
-        //    var participantType = new ParticipantType
-        //    {
-        //        ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id,
-        //        Name = ParticipantType.ForeignEducationalInstitution.Value
-        //    };
+        [TestMethod]
+        public void TestUpdateParticipant()
+        {
+            var user = new User(1);
+            var projectId = 10;
+            var instance = new TestAdditionalProjectParticipant(user, projectId);
+            var participant = new Participant();
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id,
+                Name = ParticipantType.ForeignEducationalInstitution.Value
+            };
 
-        //    Assert.IsFalse(instance.UpdateParticipantDetailsCalled);
-        //    instance.UpdateParticipant(participant, participantType);
-        //    Assert.IsTrue(instance.UpdateParticipantDetailsCalled);
-        //    Assert.AreEqual(participantType.ParticipantTypeId, participant.ParticipantTypeId);
-        //    Assert.AreEqual(ParticipantStatus.Active.Id, participant.ParticipantStatusId);
-        //    Assert.Fail("This test needs to check the project.");
-        //}
+            Assert.IsFalse(instance.UpdateParticipantDetailsCalled);
+            instance.UpdateParticipant(participant, participantType);
+            Assert.IsTrue(instance.UpdateParticipantDetailsCalled);
+            Assert.AreEqual(participantType.ParticipantTypeId, participant.ParticipantTypeId);
+            Assert.AreEqual(ParticipantStatus.Active.Id, participant.ParticipantStatusId);
+            Assert.Fail("This test needs to check the project.");
+        }
     }
 }
