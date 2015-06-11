@@ -100,7 +100,7 @@ angular.module('staticApp')
       $scope.participantsLoading = false;
       $scope.getParticipants = function (tableState) {
 
-          $scope.showParticipantInfo = [];
+          $scope.showParticipantInfo = {};
           $scope.participantsLoading = true;
 
           TableService.setTableState(tableState);
@@ -124,7 +124,7 @@ angular.module('staticApp')
             });
       };
 
-      $scope.showParticipantInfo = [];
+      $scope.showParticipantInfo = {};
       $scope.toggleParticipantInfo = function (participantId) {
           if ($scope.showParticipantInfo[participantId] === true) {
               $scope.showParticipantInfo[participantId] = false;

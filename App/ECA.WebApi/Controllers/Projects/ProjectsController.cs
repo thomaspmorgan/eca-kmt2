@@ -3,17 +3,14 @@ using CAM.Business.Queries.Models;
 using CAM.Business.Service;
 using CAM.Data;
 using ECA.Business.Queries.Models.Admin;
-using ECA.Business.Service.Admin;
+using ECA.Business.Service.Projects;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
 using ECA.Core.Query;
 using ECA.WebApi.Models.Projects;
 using ECA.WebApi.Models.Query;
-using ECA.WebApi.Models.Security;
 using ECA.WebApi.Security;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -142,6 +139,52 @@ namespace ECA.WebApi.Controllers.Projects
                 await projectService.SaveChangesAsync();
                 var dto = await projectService.GetProjectByIdAsync(model.Id);
                 return Ok(dto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        
+        /// <summary>
+        /// Adds the person as a participant to the project.
+        /// </summary>
+        /// <returns>An Ok Result.</returns>
+        [Route("Projects/Participants/Person/Add")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(CollaboratorBindingModel), "ProjectId")]
+        public async Task<IHttpActionResult> PostAddPersonParticipantAsync(AdditionalPersonProjectParticipantBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await projectService.AddParticipantAsync(model.ToAdditionalPersonProjectParticipant(businessUser));
+                await projectService.SaveChangesAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Adds the person as a participant to the project.
+        /// </summary>
+        /// <returns>An Ok Result.</returns>
+        [Route("Projects/Participants/Organization/Add")]
+        [ResponseType(typeof(OkResult))]
+        [ResourceAuthorize(CAM.Data.Permission.PROJECT_OWNER_VALUE, ResourceType.PROJECT_VALUE, typeof(CollaboratorBindingModel), "ProjectId")]
+        public async Task<IHttpActionResult> PostAddOrganizationParticipantAsync(AdditionalOrganizationProjectPariticipantBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = userProvider.GetCurrentUser();
+                var businessUser = userProvider.GetBusinessUser(currentUser);
+                await projectService.AddParticipantAsync(model.ToAdditionalOrganizationProjectParticipant(businessUser));
+                await projectService.SaveChangesAsync();
+                return Ok();
             }
             else
             {

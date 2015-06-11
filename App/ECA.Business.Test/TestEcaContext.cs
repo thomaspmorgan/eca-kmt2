@@ -18,6 +18,7 @@ namespace ECA.Business.Test
 
             //this will skip attempting to attach an entity to the context in the EcaService classes
             this.EntityStateToReturn = EntityState.Added;
+            this.SetupActions = new List<Action>();
         }
 
         public int SaveChangesCalledCount { get; set; }
