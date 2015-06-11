@@ -37,9 +37,10 @@ angular.module('staticApp')
           },
       };
 
+      $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
       $scope.showGeneral = true;
-      $scope.showPii = true;
+      $scope.showPii = false;
       $scope.showContact = true;
       $scope.editPii = false;
       $scope.datePickerOpen = false;

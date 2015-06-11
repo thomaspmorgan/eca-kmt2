@@ -76,6 +76,7 @@ namespace ECA.Data
             SocialMedias = new HashSet<SocialMedia>();
             Addresses = new HashSet<Address>();
             Events = new HashSet<Event>();
+            EvaluationNotes = new HashSet<PersonEvaluationNote>();
             Family = new HashSet<Person>();
             OtherFamily = new HashSet<Person>();
             Impacts = new HashSet<Impact>();
@@ -168,7 +169,7 @@ namespace ECA.Data
         public ICollection<SocialMedia> SocialMedias { get; set; }
         public ICollection<Address> Addresses { get; set; }
         public ICollection<Event> Events { get; set; }
-        public string EvaluationRetention { get; set; }
+        public ICollection<PersonEvaluationNote> EvaluationNotes { get; set; }
         public ICollection<Person> Family { get; set; }
         public ICollection<Person> OtherFamily { get; set; }
         public ICollection<Impact> Impacts { get; set; }

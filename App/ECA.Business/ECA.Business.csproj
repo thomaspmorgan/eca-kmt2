@@ -118,7 +118,9 @@
     <Compile Include="Queries\Models\Office\SimpleOfficeDTO.cs" />
     <Compile Include="Queries\Models\Persons\ContactInfoDTO.cs" />
     <Compile Include="Queries\Models\Persons\EducationEmploymentDTO.cs" />
+    <Compile Include="Queries\Models\Persons\EvaluationNoteDTO.cs" />
     <Compile Include="Queries\Models\Persons\GeneralDTO.cs" />
+    <Compile Include="Queries\Models\Persons\InstitutionDTO.cs" />
     <Compile Include="Queries\Models\Persons\LocationDTO.cs" />
     <Compile Include="Queries\Models\Persons\ParticipantDTO.cs" />
     <Compile Include="Queries\Models\Persons\PiiDTO.cs" />
