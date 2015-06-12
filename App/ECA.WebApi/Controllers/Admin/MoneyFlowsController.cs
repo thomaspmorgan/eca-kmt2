@@ -106,7 +106,8 @@ namespace ECA.WebApi.Controllers.Admin
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 var newMoneyFlow = await moneyFlowService.CreateAsync(moneyFlow, businessUser);
                 await moneyFlowService.SaveChangesAsync();
-                return null;
+                var moneyFlowDTO = await moneyFlowService.GetMoneyFlowByIdAsync(newMoneyFlow.MoneyFlowId);
+                return Ok(moneyFlowDTO);
             }
             else
             {
