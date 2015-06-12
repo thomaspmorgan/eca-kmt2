@@ -209,7 +209,7 @@ angular.module('staticApp')
 
           ParticipantService.getParticipantsByProject($stateParams.projectId, params)
             .then(function (data) {
-                $scope.project.participants = data.results;
+                $scope.participants = data.results;
                 var limit = TableService.getLimit();
                 tableState.pagination.numberOfPages = Math.ceil(data.total / limit);
                 $scope.participantsLoading = false;
