@@ -88,8 +88,14 @@
     </div>
     <div class="row" ng-show="dataExpanded2">
         <h4 class="tab-subheader">Add a Participant to this Project</h4>
-        <div class="col-md-6">
-            
+        <div class="col-md-12" ng-show="view.isAddingParticipant">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+        <div class="col-md-6" ng-show="!view.isAddingParticipant">
             <div>
                 Filter By:
                 <label class="radio-inline">
@@ -118,13 +124,15 @@
                        typeahead-template-url="addCollaboratorTemplate.html"
                        typeahead-editable="false" />
                 <div>
-                    <i ng-show="view.isLoadingAvailableParticipants" class="glyphicon glyphicon-refresh"></i>                    
+                    <i ng-show="view.isLoadingAvailableParticipants" class="glyphicon glyphicon-refresh"></i>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <p>Search not returning a result?</p>
-            <button class="btn btn-primary right" ng-click="modal.addParticipant = true">ADD NEW PARTICIPANT</button>
+        <div class="col-md-4" ng-show="!view.isAddingParticipant">
+            <p class="pull-right" style="margin-top:10px;">Search not returning a result?</p>
+        </div>
+        <div class="col-md-2" ng-show="!view.isAddingParticipant">
+            <button class="btn btn-primary" ng-click="modal.addParticipant = true">ADD NEW PARTICIPANT</button>
         </div>
     </div>
     <div class="row expand" ng-show="dataExpanded2">

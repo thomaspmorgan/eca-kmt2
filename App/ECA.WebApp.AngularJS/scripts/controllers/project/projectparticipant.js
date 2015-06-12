@@ -38,6 +38,7 @@ angular.module('staticApp')
       $scope.view.isLoadingAvailableParticipants = false;
       $scope.view.totalAvailableParticipants = 0;
       $scope.view.displayedAvailableParticipantsCount = 0;
+      $scope.view.isAddingParticipant = false;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
@@ -63,7 +64,7 @@ angular.module('staticApp')
       };
 
       $scope.view.onAddParticipantSelect = function ($item, $model, $label) {
-          $scope.view.isLoading = false;
+          $scope.view.isAddingParticipant = true;
           var clientModel = {
               projectId: projectId
           }
@@ -83,7 +84,7 @@ angular.module('staticApp')
               NotificationService.showErrorMessage('Unable to add project participant.');
           })
           .then(function () {
-              $scope.view.isLoading = false;
+              $scope.view.isAddingParticipant = false;
           });
           return dfd;
       }
