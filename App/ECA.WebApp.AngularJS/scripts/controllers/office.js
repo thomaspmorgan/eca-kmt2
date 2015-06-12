@@ -24,7 +24,7 @@ angular.module('staticApp')
               order: 2
           },
           participants: {
-              title: 'Activity',
+              title: 'Timeline',
               path: 'activity',
               active: true,
               order: 3

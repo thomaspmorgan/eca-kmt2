@@ -80,7 +80,7 @@
         <div class="col-md-10">
             <h4 class="tab-subheader">Participant Data</h4>
             <h5 class="subheader2">Keep track of participant data that has been added to this project.</h5>
-            <p class="mute">Participants: {{project.participants.length}} | Last updated {{project.updated | date}}</p>
+            <p class="mute">Participants: {{participants.length}} | Last updated {{project.updated | date}}</p>
         </div>
         <div class="col-sd-2">
             <span class="right"><img src="images/expand.png"></span>
@@ -138,18 +138,10 @@
         </div>
     </div>
     <div class="row expand" ng-show="dataExpanded2">
-        <!--
-        <div class="col-md-10">
-            <input type="checkbox" class="checkbox-participant">
-            <input type="text" ng-model="participantFilter" placeholder="Search Participants" class="search-contextual">
-            <i class="glyphicon glyphicon-search contextual"></i>
-        </div>
-        -->
-
-        <div class="dashed col-md-12" ng-show="project.participants.length === 0">
+        <div class="dashed col-md-12" ng-show="participants.length === 0">
             <h4>No participants yet.<span class="light"> Drop files here, <a>upload</a> or <a ng-click="modal.addParticipant = true">add manually</a>.</span></h4>
         </div>
-        <div st-pipe="getParticipants" st-table="project.participants" id="sort-list">
+        <div st-pipe="getParticipants" st-table="participants" id="sort-list">
             <table class="col-md-12 alt">
                 <thead>
                     <tr>
@@ -178,7 +170,7 @@
                     </tr>
                 </thead>
                 <tbody class="list2">
-                    <tr class="hover-dark" ng-repeat-start="participant in project.participants" ng-show="!participantsLoading">
+                    <tr class="hover-dark" ng-repeat-start="participant in participants" ng-show="!participantsLoading">
                         <td>
                             <h5 class="list-title"><a ui-sref="participants.personalinformation({participantId: participant.participantId})">{{participant.name}}</a></h5>
                         </td>
@@ -348,7 +340,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="project.participants.length > 0"></div>
+            <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="participants.length > 0"></div>
         </div>
         <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="modalClose()" on-close="modalClear()" main-model="newParticipant">
             <h5>Fill out the required information below for each participant.</h5>
@@ -425,23 +417,21 @@
             <button class="btn btn-success right" ng-disabled="participantForm.$invalid" ng-click="addParticipant()">ADD</button>
         </modal-dialog>
     </div>
-    <div class="divider"></div>
-</div>
-<modal-dialog show="modal.addParticipantResult" dialog-title="{{result.title}}" before-close="modal.addParticipantResult = false">
-    <p class="strong">{{result.subtitle}}</p>
-    <p class="alert-danger" ng-show="result.error">{{result.error}}</p>
-    <button class="btn btn-default right" ng-click="modal.addParticipantResult = false">OK</button>
-</modal-dialog>
+    <modal-dialog show="modal.addParticipantResult" dialog-title="{{result.title}}" before-close="modal.addParticipantResult = false">
+        <p class="strong">{{result.subtitle}}</p>
+        <p class="alert-danger" ng-show="result.error">{{result.error}}</p>
+        <button class="btn btn-default right" ng-click="modal.addParticipantResult = false">OK</button>
+    </modal-dialog>
 
-<script type="text/ng-template" id="addCollaboratorTemplate.html">
-    <a>
-        <div>
-            <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
-        </div>
-        <div ng-show="match.model.city || match.model.country" style="margin-left:10px;">
-            <span bind-html-unsafe="match.model.city | typeaheadHighlight:query"></span>
-            <span ng-show="match.model.city && match.model.country">, </span>
-            <span bind-html-unsafe="match.model.country | typeaheadHighlight:query"></span>
-        </div>
-    </a>
-</script>
+    <script type="text/ng-template" id="addCollaboratorTemplate.html">
+        <a>
+            <div>
+                <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
+            </div>
+            <div ng-show="match.model.city || match.model.country" style="margin-left:10px;">
+                <span bind-html-unsafe="match.model.city | typeaheadHighlight:query"></span>
+                <span ng-show="match.model.city && match.model.country">, </span>
+                <span bind-html-unsafe="match.model.country | typeaheadHighlight:query"></span>
+            </div>
+        </a>
+    </script>

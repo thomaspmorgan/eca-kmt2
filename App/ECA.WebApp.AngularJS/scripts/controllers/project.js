@@ -75,8 +75,8 @@ angular.module('staticApp')
           artifacts: {title: 'Artifacts',path: 'artifacts',active: true,order: 4 },
           moneyflows: {title: 'Funding',path: 'moneyflows',active: true,order: 5},
           impact: {title: 'Impact',path: 'impact',active: false,order: 6},
-          activity: {title: 'Activities',path: 'activity',active: true,order: 7},
-          itinerary: {title: 'Itineraries',path: 'itineraries',active: true,order: 8}
+          activity: {title: 'Timeline',path: 'activity',active: true,order: 7},
+          itinerary: {title: 'Travel',path: 'itineraries',active: true,order: 8}
       };
 
       function enabledProjectStatusButton() {
@@ -471,7 +471,7 @@ angular.module('staticApp')
                 }
                 else {
                     $scope.draftMoneyFlow = moneyFlow; //perhaps not, this is to get the id
-                    $scope.confirmSave = true;
+                    $scope.confirmSuccess = true;
                     $scope.modalClear();
                 }
             })
@@ -480,7 +480,7 @@ angular.module('staticApp')
             })
 
               .catch(function () {
-                  alert('Unable to save money flow.');
+                  alert('Unable to save this funding item.');
               });
       };
 
@@ -492,7 +492,7 @@ angular.module('staticApp')
           {
               // set the source
               $scope.draftMoneyFlow.sourceTypeid = $scope.draftMoneyFlow.sourceRecipientTypeId;
-              $scope.recipientProjectId = $scope.currentProjectId;
+              $scope.draftMoneyFlow.recipientProjectId = $scope.currentProjectId;
               $scope.draftMoneyFlow.recipientTypeId = 3;
               $scope.draftMoneyFlow.moneyFlowTypeId = 1;
 
@@ -521,7 +521,7 @@ angular.module('staticApp')
           {
               // set the recipient
               $scope.draftMoneyFlow.recipientTypeid = $scope.draftMoneyFlow.sourceRecipientTypeId;
-              $scope.sourceProjectId = $scope.currentProjectId;
+              $scope.draftMoneyFlow.sourceProjectId = $scope.currentProjectId;
               $scope.draftMoneyFlow.sourceTypeId = 3;
               $scope.draftMoneyFlow.moneyFlowTypeId = 2;
 
@@ -645,12 +645,20 @@ angular.module('staticApp')
           }
       };
 
+      $scope.confirmCloseSuccess = function () {
+          $scope.confirmSuccess = false;
+          $scope.getMoneyFlows();
+
+      };
+
+
       $scope.modalClear = function () {
           angular.forEach($scope.draftMoneyFlow, function (value, key) {
               $scope.draftMoneyFlow[key] = ''
           });
 
           $scope.modalForm.moneyFlowForm.$setPristine();
+          $scope.showCreateMoneyFlow = false;
       };
 
       $scope.checkFormStatus = function () {
