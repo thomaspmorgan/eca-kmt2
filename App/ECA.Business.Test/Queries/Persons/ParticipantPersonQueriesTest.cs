@@ -50,6 +50,7 @@ namespace ECA.Business.Test.Queries.Persons
             {
                 FieldOfStudyId = 1,
                 FieldOfStudyCode = "123",
+                Description = "description"
             };
 
             var participantPerson = new ParticipantPerson
@@ -62,7 +63,7 @@ namespace ECA.Business.Test.Queries.Persons
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
-            Assert.AreEqual(fieldOfStudy.FieldOfStudyCode, participantPersonResult.FieldOfStudy);
+            Assert.AreEqual(fieldOfStudy.Description, participantPersonResult.FieldOfStudy);
         }
 
         [TestMethod]
@@ -71,7 +72,8 @@ namespace ECA.Business.Test.Queries.Persons
             var programSubject = new ProgramSubject
             {
                 ProgramSubjectId = 1,
-                ProgramSubjectCode = "123"
+                ProgramSubjectCode = "123",
+                Description = "description"
             };
 
             var participantPerson = new ParticipantPerson
@@ -84,7 +86,7 @@ namespace ECA.Business.Test.Queries.Persons
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
-            Assert.AreEqual(programSubject.ProgramSubjectCode, participantPersonResult.ProgramSubject);
+            Assert.AreEqual(programSubject.Description, participantPersonResult.ProgramSubject);
         }
 
         [TestMethod]
@@ -93,7 +95,8 @@ namespace ECA.Business.Test.Queries.Persons
             var position = new Position
             {
                 PositionId = 1,
-                PositionCode = "123"
+                PositionCode = "123",
+                Description = "description"
             };
 
             var participantPerson = new ParticipantPerson
@@ -106,7 +109,7 @@ namespace ECA.Business.Test.Queries.Persons
 
             var participantPersonResult = ParticipantPersonQueries.CreateGetSimpleParticipantPersonsDTOQuery(context).FirstOrDefault();
 
-            Assert.AreEqual(position.PositionCode, participantPersonResult.Position);
+            Assert.AreEqual(position.Description, participantPersonResult.Position);
         }
 
         [TestMethod]
@@ -163,6 +166,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(location.Street2, addressResult.Street2);
             Assert.AreEqual(location.Street3, addressResult.Street3);
             Assert.AreEqual(country.LocationName, addressResult.Country);
+            Assert.AreEqual(country.LocationId, addressResult.CountryId);
             Assert.AreEqual(location.City, addressResult.City);
             Assert.AreEqual(location.PostalCode, addressResult.PostalCode);
         }
@@ -221,6 +225,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(location.Street2, addressResult.Street2);
             Assert.AreEqual(location.Street3, addressResult.Street3);
             Assert.AreEqual(country.LocationName, addressResult.Country);
+            Assert.AreEqual(country.LocationId, addressResult.CountryId);
             Assert.AreEqual(location.City, addressResult.City);
             Assert.AreEqual(location.PostalCode, addressResult.PostalCode);
         }

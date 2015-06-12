@@ -48,8 +48,16 @@ namespace ViewParticipantProfile.Test
             this.UIMap.RefreshParticipantsPage();
             this.UIMap.SelectParticipant();
             this.UIMap.AssertParticipantNameHeading();
+            this.UIMap.RefreshParticipantsPage();
             this.UIMap.AssertPIISectionFields();
             this.UIMap.AssertContactSectionFields();
+            //next participant- navigate using breadcrumb back to participants list and then search Steve Pike for General and Edu&Employ sections
+            this.UIMap.AssertParticipantsBreadcrumb();
+            this.UIMap.SelectParticipantsBreadcrumb();
+            this.UIMap.FilterParticipantName_SelectParticipant2();
+            this.UIMap.AssertGeneralSection();
+            this.UIMap.AssertEducation_EmploymentSection();
+
             //this.UIMap.AssertParticipantsPersonalInfo(); not needed based on individual section and field assertion
             this.UIMap.CloseBrowser();
         }

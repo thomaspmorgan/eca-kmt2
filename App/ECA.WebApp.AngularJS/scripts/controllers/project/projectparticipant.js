@@ -19,7 +19,8 @@ angular.module('staticApp')
         ProjectService,
         NotificationService,
         TableService,
-        ParticipantService) {
+        ParticipantService,
+        ParticipantPersonsService) {
 
       $scope.view = {};
       $scope.view.params = $stateParams;
@@ -165,7 +166,7 @@ angular.module('staticApp')
             }, function () {
                 $log.error('Unable to load user permissions in project.js controller.');
             });
-      }
+      };
       
       function loadCollaboratorDetails() {
           return ProjectService.getCollaboratorInfo(projectId)
@@ -188,12 +189,12 @@ angular.module('staticApp')
               $log.error('Unable to load project collaborator details.');
               NotificationService.showErrorMessage('Unable to load project collaborator details.');
           });
-      }
+      };
 
       $scope.participantsLoading = false;
       $scope.getParticipants = function (tableState) {
 
-          $scope.showParticipantInfo = {};
+          $scope.participantInfo = {};
           $scope.participantsLoading = true;
 
           TableService.setTableState(tableState);
@@ -217,12 +218,32 @@ angular.module('staticApp')
             });
       };
 
-      $scope.showParticipantInfo = {};
+      function loadParticipantInfo(participantId) {
+          return ParticipantPersonsService.getParticipantPersonsById(participantId)
+          .then(function (data) {
+              $scope.participantInfo[participantId] = data.data;
+              $scope.participantInfo[participantId].show = true;
+          }, function (error) {
+              if (error.status === 404) {
+                  $scope.participantInfo[participantId] = {};
+                  $scope.participantInfo[participantId].show = true;
+              } else {
+                  $log.error('Unable to load participant info for ' + participantId + '.')
+                  NotificationService.showErrorMessage('Unable to load participant info for ' + participantId + '.');
+              }
+          });
+      };
+
+      $scope.participantInfo = {};
       $scope.toggleParticipantInfo = function (participantId) {
-          if ($scope.showParticipantInfo[participantId] === true) {
-              $scope.showParticipantInfo[participantId] = false;
+          if ($scope.participantInfo[participantId]) {
+              if ($scope.participantInfo[participantId].show === true) {
+                  $scope.participantInfo[participantId].show = false;
+              } else {
+                  $scope.participantInfo[participantId].show = true;
+              }
           } else {
-              $scope.showParticipantInfo[participantId] = true;
+              loadParticipantInfo(participantId);
           }
       };
 
