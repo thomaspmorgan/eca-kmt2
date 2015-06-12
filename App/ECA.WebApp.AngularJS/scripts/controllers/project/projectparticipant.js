@@ -32,10 +32,11 @@ angular.module('staticApp')
       $scope.view.addPersonFilterValue = 'person';
       $scope.view.addOrganizationFilterValue = 'organization';
       $scope.view.addParticipantFilter = 'person';
-      $scope.view.addParticipantSearch = '';
+      $scope.view.selectedExistingParticipant = null;
       $scope.view.addParticipantsLimit = 10;
       $scope.view.isLoadingAvailableParticipants = false;
       $scope.view.totalAvailableParticipants = 0;
+      $scope.view.displayedAvailableParticipantsCount = 0;
 
       $scope.permissions = {};
       $scope.permissions.isProjectOwner = false;
@@ -101,9 +102,9 @@ angular.module('staticApp')
 
 
       $scope.view.onRadioButtonChange = function (radioButtonValue) {
-          if ($scope.view.addParticipantSearch) {
-              loadAvailableParticipants($scope.view.addParticipantSearch.name, radioButtonValue);
-          }
+          $scope.view.selectedExistingParticipant = null;
+          $scope.view.displayedAvailableParticipantsCount = 0;
+          $scope.view.totalAvailableParticipants = 0;
       }
 
       function loadAvailableParticipants(search, participantType) {
@@ -133,9 +134,9 @@ angular.module('staticApp')
           $scope.view.isLoadingAvailableParticipants = true;
           return ParticipantService.getParticipants(params)
           .then(function (response) {
-              debugger;
               $scope.view.isLoadingAvailableParticipants = false;
               $scope.view.totalAvailableParticipants = response.total;
+              $scope.view.displayedAvailableParticipantsCount = response.results.length;
               return response.results;
           })
           .catch(function () {
@@ -143,7 +144,6 @@ angular.module('staticApp')
               $log.error('Unable to load available participants.');
               NotificationService.showErrorMessage('Unable to load available participants.');
           });
-          
       }
 
       function loadPermissions() {
