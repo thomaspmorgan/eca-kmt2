@@ -30,6 +30,92 @@ namespace ViewOrganization.Test
     {
         
         /// <summary>
+        /// Verify the fields within the Org Profile for the Overview and the Details section.
+        /// </summary>
+        public void AssertIndividualOrg_OverviewDetails()
+        {
+            #region Variable Declarations
+            HtmlDiv uIORGANIZATION911MemorPane = this.UIHttpsecakmtqaazureweWindow3.UIHttpsecakmtqaazureweDocument.UITopPane.UIORGANIZATION911MemorPane;
+            HtmlDiv uIDetailsWebsitehttpwwPane = this.UIHttpsecakmtqaazureweWindow3.UIHttpsecakmtqaazureweDocument.UITopPane.UIDetailsWebsitehttpwwPane;
+            HtmlDiv uIWebsitehttpwww911memPane = this.UIHttpsecakmtqaazureweWindow3.UIHttpsecakmtqaazureweDocument.UITopPane.UIWebsitehttpwww911memPane;
+            HtmlDiv uITypeOtherPane = this.UIHttpsecakmtqaazureweWindow3.UIHttpsecakmtqaazureweDocument.UITopPane.UITypeOtherPane;
+            HtmlDiv uIPointsofContactPane = this.UIHttpsecakmtqaazureweWindow3.UIHttpsecakmtqaazureweDocument.UITopPane.UIPointsofContactPane;
+            HtmlDiv uISocialMediaPane = this.UIHttpsecakmtqaazureweWindow3.UIHttpsecakmtqaazureweDocument.UITopPane.UISocialMediaPane;
+            HtmlDiv uIAddressesPane = this.UIHttpsecakmtqaazureweWindow3.UIHttpsecakmtqaazureweDocument.UITopPane.UIAddressesPane;
+            HtmlDiv uIItem911MemorialPane = this.UIHttpsecakmtqaazureweWindow3.UIHttpsecakmtqaazureweDocument.UITopPane.UIItem911MemorialPane;
+            #endregion
+
+            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'ORGANIZATION 9-11 Memorial http://' pane contains 'ORGANIZATION
+            //
+            //9-11 Memorial
+            //
+            //http://www.911memorial.org/'
+            Playback.Wait(5000);
+            StringAssert.Contains(uIORGANIZATION911MemorPane.InnerText, this.AssertIndividualOrg_OverviewDetailsExpectedValues.UIORGANIZATION911MemorPaneInnerText, "No Org banner for (9-11 Memorial) available.");
+
+            // Verify that the 'InnerText' property of 'Details Website http://www.911' pane contains 'Details
+            //
+            //
+            //
+            //Website
+            //
+            //http://www.911memorial.org/ 
+            //
+            //
+            //Type
+            //
+            //Other
+            //
+            //
+            //Points of Contact
+            //
+            // 
+            //
+            //Social Media
+            //
+            // 
+            //
+            //
+            //Parent Organization
+            //
+            //
+            //
+            //
+            //Addresses
+            //
+            // '
+            StringAssert.Contains(uIDetailsWebsitehttpwwPane.InnerText, this.AssertIndividualOrg_OverviewDetailsExpectedValues.UIDetailsWebsitehttpwwPaneInnerText, "No Details section available for Org (9-11 Memorial)");
+
+            // Verify that the 'DisplayText' property of 'Website http://www.911memorial.org/' pane contains 'Website
+            //
+            //http://www.911memorial.org/ '
+            StringAssert.Contains(uIWebsitehttpwww911memPane.DisplayText, this.AssertIndividualOrg_OverviewDetailsExpectedValues.UIWebsitehttpwww911memPaneDisplayText, "Display Text for Website field does not match.");
+
+            // Verify that the 'DisplayText' property of 'Type Other' pane contains 'Type
+            //
+            //Other'
+            StringAssert.Contains(uITypeOtherPane.DisplayText, this.AssertIndividualOrg_OverviewDetailsExpectedValues.UITypeOtherPaneDisplayText, "Display Text for Type field does not match.");
+
+            // Verify that the 'DisplayText' property of 'Points of Contact' pane contains 'Points of Contact
+            //
+            // '
+            StringAssert.Contains(uIPointsofContactPane.DisplayText, this.AssertIndividualOrg_OverviewDetailsExpectedValues.UIPointsofContactPaneDisplayText, "Display Text for Points of Contact field does not match.");
+
+            // Verify that the 'DisplayText' property of 'Social Media' pane contains 'Social Media
+            //
+            // '
+            StringAssert.Contains(uISocialMediaPane.DisplayText, this.AssertIndividualOrg_OverviewDetailsExpectedValues.UISocialMediaPaneDisplayText, "Display Text for Social Media field does not match.");
+
+            // Verify that the 'DisplayText' property of 'Addresses' pane contains 'Addresses
+            //
+            // '
+            StringAssert.Contains(uIAddressesPane.DisplayText, this.AssertIndividualOrg_OverviewDetailsExpectedValues.UIAddressesPaneDisplayText, "Display Text for Addresses field does not match.");
+
+            // Verify that the 'DisplayText' property of '9-11 Memorial' pane contains '9-11 Memorial'
+            StringAssert.Contains(uIItem911MemorialPane.DisplayText, this.AssertIndividualOrg_OverviewDetailsExpectedValues.UIItem911MemorialPaneDisplayText, "Display Text for Overview summary field does not match.");
+        }
+        
+        /// <summary>
         /// Verify the Organizations section exists for selection in the Content Menu.
         /// </summary>
         public void AssertOrganizations_ContentMenu()
@@ -99,6 +185,19 @@ namespace ViewOrganization.Test
         }
         
         /// <summary>
+        /// Select the (9-11 Memorial) org from the list to nav to the Org Profile.
+        /// </summary>
+        public void SelectOrganization()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIItem911MemorialHyperlink = this.UIHttpsecakmtqaazureweWindow2.UIHttpsecakmtqaazureweDocument.UISortlistPane.UIItem911MemorialHyperlink;
+            #endregion
+
+            // Click '9-11 Memorial' link
+            Mouse.Click(uIItem911MemorialHyperlink, new Point(54, 9));
+        }
+        
+        /// <summary>
         /// Select the Org section link from the content menu.
         /// </summary>
         public void SelectOrganizationsLink()
@@ -134,7 +233,32 @@ namespace ViewOrganization.Test
             Mouse.Click(uITogglenavigationButton, new Point(21, 14));
         }
         
+        /// <summary>
+        /// Refresh/reload browser for display.
+        /// </summary>
+        public void RefreshBrowser()
+        {
+            #region Variable Declarations
+            BrowserWindow uIHttpsecakmtqaazureweWindow4 = this.UIHttpsecakmtqaazureweWindow4;
+            #endregion
+
+            // Perform Refresh on Browser Window
+            uIHttpsecakmtqaazureweWindow4.Refresh();
+        }
+        
         #region Properties
+        public virtual AssertIndividualOrg_OverviewDetailsExpectedValues AssertIndividualOrg_OverviewDetailsExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertIndividualOrg_OverviewDetailsExpectedValues == null))
+                {
+                    this.mAssertIndividualOrg_OverviewDetailsExpectedValues = new AssertIndividualOrg_OverviewDetailsExpectedValues();
+                }
+                return this.mAssertIndividualOrg_OverviewDetailsExpectedValues;
+            }
+        }
+        
         public virtual AssertOrganizations_ContentMenuExpectedValues AssertOrganizations_ContentMenuExpectedValues
         {
             get
@@ -206,9 +330,47 @@ namespace ViewOrganization.Test
                 return this.mUIHttpsecakmtqaazureweWindow1;
             }
         }
+        
+        public UIHttpsecakmtqaazureweWindow2 UIHttpsecakmtqaazureweWindow2
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweWindow2 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweWindow2 = new UIHttpsecakmtqaazureweWindow2();
+                }
+                return this.mUIHttpsecakmtqaazureweWindow2;
+            }
+        }
+        
+        public UIHttpsecakmtqaazureweWindow3 UIHttpsecakmtqaazureweWindow3
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweWindow3 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweWindow3 = new UIHttpsecakmtqaazureweWindow3();
+                }
+                return this.mUIHttpsecakmtqaazureweWindow3;
+            }
+        }
+        
+        public UIHttpsecakmtqaazureweWindow4 UIHttpsecakmtqaazureweWindow4
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweWindow4 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweWindow4 = new UIHttpsecakmtqaazureweWindow4();
+                }
+                return this.mUIHttpsecakmtqaazureweWindow4;
+            }
+        }
         #endregion
         
         #region Fields
+        private AssertIndividualOrg_OverviewDetailsExpectedValues mAssertIndividualOrg_OverviewDetailsExpectedValues;
+        
         private AssertOrganizations_ContentMenuExpectedValues mAssertOrganizations_ContentMenuExpectedValues;
         
         private AssertOrgListExpectedValues mAssertOrgListExpectedValues;
@@ -220,6 +382,108 @@ namespace ViewOrganization.Test
         private UIHttpsecakmtqaazureweWindow mUIHttpsecakmtqaazureweWindow;
         
         private UIHttpsecakmtqaazureweWindow1 mUIHttpsecakmtqaazureweWindow1;
+        
+        private UIHttpsecakmtqaazureweWindow2 mUIHttpsecakmtqaazureweWindow2;
+        
+        private UIHttpsecakmtqaazureweWindow3 mUIHttpsecakmtqaazureweWindow3;
+        
+        private UIHttpsecakmtqaazureweWindow4 mUIHttpsecakmtqaazureweWindow4;
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertIndividualOrg_OverviewDetails'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertIndividualOrg_OverviewDetailsExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'ORGANIZATION 9-11 Memorial http://' pane contains 'ORGANIZATION
+        ///
+        ///9-11 Memorial
+        ///
+        ///http://www.911memorial.org/'
+        /// </summary>
+        public string UIORGANIZATION911MemorPaneInnerText = "ORGANIZATION\r\n\r\n9-11 Memorial\r\n\r\nhttp://www.911memorial.org/";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Details Website http://www.911' pane contains 'Details
+        ///
+        ///
+        ///
+        ///Website
+        ///
+        ///http://www.911memorial.org/ 
+        ///
+        ///
+        ///Type
+        ///
+        ///Other
+        ///
+        ///
+        ///Points of Contact
+        ///
+        /// 
+        ///
+        ///Social Media
+        ///
+        /// 
+        ///
+        ///
+        ///Parent Organization
+        ///
+        ///
+        ///
+        ///
+        ///Addresses
+        ///
+        /// '
+        /// </summary>
+        public string UIDetailsWebsitehttpwwPaneInnerText = "Details\r\n\r\n\r\n\r\nWebsite\r\n\r\nhttp://www.911memorial.org/ \r\n\r\n\r\nType\r\n\r\nOther\r\n\r\n\r\nPo" +
+            "ints of Contact\r\n\r\n \r\n\r\nSocial Media\r\n\r\n \r\n\r\n\r\nParent Organization\r\n\r\n\r\n\r\n\r\nAddr" +
+            "esses\r\n\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Website http://www.911memorial.org/' pane contains 'Website
+        ///
+        ///http://www.911memorial.org/ '
+        /// </summary>
+        public string UIWebsitehttpwww911memPaneDisplayText = "Website\r\n\r\nhttp://www.911memorial.org/ ";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Type Other' pane contains 'Type
+        ///
+        ///Other'
+        /// </summary>
+        public string UITypeOtherPaneDisplayText = "Type\r\n\r\nOther";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Points of Contact' pane contains 'Points of Contact
+        ///
+        /// '
+        /// </summary>
+        public string UIPointsofContactPaneDisplayText = "Points of Contact\r\n\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Social Media' pane contains 'Social Media
+        ///
+        /// '
+        /// </summary>
+        public string UISocialMediaPaneDisplayText = "Social Media\r\n\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of 'Addresses' pane contains 'Addresses
+        ///
+        /// '
+        /// </summary>
+        public string UIAddressesPaneDisplayText = "Addresses\r\n\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'DisplayText' property of '9-11 Memorial' pane contains '9-11 Memorial'
+        /// </summary>
+        public string UIItem911MemorialPaneDisplayText = "9-11 Memorial";
         #endregion
     }
     
@@ -1081,5 +1345,488 @@ namespace ViewOrganization.Test
         
         private HtmlCell mUIItemCell;
         #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweWindow2 : BrowserWindow
+    {
+        
+        public UIHttpsecakmtqaazureweWindow2()
+        {
+            #region Search Criteria
+            this.SearchProperties[UITestControl.PropertyNames.Name] = "https://eca-kmt-qa.azurewebsites.net/";
+            this.SearchProperties[UITestControl.PropertyNames.ClassName] = "IEFrame";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        public void LaunchUrl(System.Uri url)
+        {
+            this.CopyFrom(BrowserWindow.Launch(url));
+        }
+        
+        #region Properties
+        public UIHttpsecakmtqaazureweDocument2 UIHttpsecakmtqaazureweDocument
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument = new UIHttpsecakmtqaazureweDocument2(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIHttpsecakmtqaazureweDocument2 mUIHttpsecakmtqaazureweDocument;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweDocument2 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument2(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UISortlistPane1 UISortlistPane
+        {
+            get
+            {
+                if ((this.mUISortlistPane == null))
+                {
+                    this.mUISortlistPane = new UISortlistPane1(this);
+                }
+                return this.mUISortlistPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UISortlistPane1 mUISortlistPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane1 : HtmlDiv
+    {
+        
+        public UISortlistPane1(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Name\r\n\r\nType\r\n\r\nStatus\r\n\r\nLocation\r\n\r\n \r";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-isolate-scope\" id=\"sort-list\" st-table=\"organizations\" st-pipe=\"getOrga" +
+                "nizations\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "31";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIItem911MemorialHyperlink
+        {
+            get
+            {
+                if ((this.mUIItem911MemorialHyperlink == null))
+                {
+                    this.mUIItem911MemorialHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIItem911MemorialHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIItem911MemorialHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIItem911MemorialHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIItem911MemorialHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "9-11 Memorial";
+                    this.mUIItem911MemorialHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIItem911MemorialHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIItem911MemorialHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/organizations/2127/overview";
+                    this.mUIItem911MemorialHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
+                    this.mUIItem911MemorialHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/organizations";
+                    this.mUIItem911MemorialHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "1";
+                    this.mUIItem911MemorialHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItem911MemorialHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIItem911MemorialHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweWindow3 : BrowserWindow
+    {
+        
+        public UIHttpsecakmtqaazureweWindow3()
+        {
+            #region Search Criteria
+            this.SearchProperties[UITestControl.PropertyNames.Name] = "https://eca-kmt-qa.azurewebsites.net/";
+            this.SearchProperties[UITestControl.PropertyNames.ClassName] = "IEFrame";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        public void LaunchUrl(System.Uri url)
+        {
+            this.CopyFrom(BrowserWindow.Launch(url));
+        }
+        
+        #region Properties
+        public UIHttpsecakmtqaazureweDocument3 UIHttpsecakmtqaazureweDocument
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument = new UIHttpsecakmtqaazureweDocument3(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UIHttpsecakmtqaazureweDocument3 mUIHttpsecakmtqaazureweDocument;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweDocument3 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument3(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/#/organizations/2127/overview#top";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UITopPane UITopPane
+        {
+            get
+            {
+                if ((this.mUITopPane == null))
+                {
+                    this.mUITopPane = new UITopPane(this);
+                }
+                return this.mUITopPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UITopPane mUITopPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UITopPane : HtmlDiv
+    {
+        
+        public UITopPane(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "9-11 Memorial \r\n \r\n\r\n\r\nLast Updated Mar ";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" autoscroll=\"true\" ui-view=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "27";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlDiv UIORGANIZATION911MemorPane
+        {
+            get
+            {
+                if ((this.mUIORGANIZATION911MemorPane == null))
+                {
+                    this.mUIORGANIZATION911MemorPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIORGANIZATION911MemorPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIORGANIZATION911MemorPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIORGANIZATION911MemorPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "ORGANIZATION\r\n\r\n9-11 Memorial\r\n\r\nhttp://";
+                    this.mUIORGANIZATION911MemorPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIORGANIZATION911MemorPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "heading";
+                    this.mUIORGANIZATION911MemorPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"heading\"";
+                    this.mUIORGANIZATION911MemorPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "33";
+                    this.mUIORGANIZATION911MemorPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIORGANIZATION911MemorPane;
+            }
+        }
+        
+        public HtmlDiv UIOverview911MemorialDPane
+        {
+            get
+            {
+                if ((this.mUIOverview911MemorialDPane == null))
+                {
+                    this.mUIOverview911MemorialDPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIOverview911MemorialDPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIOverview911MemorialDPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIOverview911MemorialDPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Overview\r\n\r\n\r\n9-11 Memorial\r\n\r\n \r\n\r\n\r\nDe";
+                    this.mUIOverview911MemorialDPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIOverview911MemorialDPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+                    this.mUIOverview911MemorialDPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" ng-show=\"!view.isOrganizationLoading\"";
+                    this.mUIOverview911MemorialDPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "47";
+                    this.mUIOverview911MemorialDPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIOverview911MemorialDPane;
+            }
+        }
+        
+        public HtmlDiv UIDetailsWebsitehttpwwPane
+        {
+            get
+            {
+                if ((this.mUIDetailsWebsitehttpwwPane == null))
+                {
+                    this.mUIDetailsWebsitehttpwwPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIDetailsWebsitehttpwwPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIDetailsWebsitehttpwwPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIDetailsWebsitehttpwwPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Details\r\n\r\n\r\n\r\nWebsite\r\n\r\nhttp://www.911";
+                    this.mUIDetailsWebsitehttpwwPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIDetailsWebsitehttpwwPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row table";
+                    this.mUIDetailsWebsitehttpwwPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row table\"";
+                    this.mUIDetailsWebsitehttpwwPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "50";
+                    this.mUIDetailsWebsitehttpwwPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIDetailsWebsitehttpwwPane;
+            }
+        }
+        
+        public HtmlDiv UIWebsitePane
+        {
+            get
+            {
+                if ((this.mUIWebsitePane == null))
+                {
+                    this.mUIWebsitePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIWebsitePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIWebsitePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIWebsitePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Website";
+                    this.mUIWebsitePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIWebsitePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "col-md-6 title-label";
+                    this.mUIWebsitePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"col-md-6 title-label\"";
+                    this.mUIWebsitePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "53";
+                    this.mUIWebsitePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIWebsitePane;
+            }
+        }
+        
+        public HtmlDiv UIWebsitehttpwww911memPane
+        {
+            get
+            {
+                if ((this.mUIWebsitehttpwww911memPane == null))
+                {
+                    this.mUIWebsitehttpwww911memPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIWebsitehttpwww911memPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIWebsitehttpwww911memPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIWebsitehttpwww911memPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Website\r\n\r\nhttp://www.911memorial.org/ ";
+                    this.mUIWebsitehttpwww911memPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIWebsitehttpwww911memPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIWebsitehttpwww911memPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\" ng-show=\"organization.website\"";
+                    this.mUIWebsitehttpwww911memPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "52";
+                    this.mUIWebsitehttpwww911memPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIWebsitehttpwww911memPane;
+            }
+        }
+        
+        public HtmlDiv UITypeOtherPane
+        {
+            get
+            {
+                if ((this.mUITypeOtherPane == null))
+                {
+                    this.mUITypeOtherPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUITypeOtherPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUITypeOtherPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUITypeOtherPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Type\r\n\r\nOther";
+                    this.mUITypeOtherPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUITypeOtherPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUITypeOtherPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUITypeOtherPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "55";
+                    this.mUITypeOtherPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUITypeOtherPane;
+            }
+        }
+        
+        public HtmlDiv UIPointsofContactPane
+        {
+            get
+            {
+                if ((this.mUIPointsofContactPane == null))
+                {
+                    this.mUIPointsofContactPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIPointsofContactPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIPointsofContactPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIPointsofContactPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Points of Contact\r\n\r\n ";
+                    this.mUIPointsofContactPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIPointsofContactPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIPointsofContactPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\" ng-show=\"organization.contacts\"";
+                    this.mUIPointsofContactPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "58";
+                    this.mUIPointsofContactPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIPointsofContactPane;
+            }
+        }
+        
+        public HtmlDiv UISocialMediaPane
+        {
+            get
+            {
+                if ((this.mUISocialMediaPane == null))
+                {
+                    this.mUISocialMediaPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISocialMediaPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISocialMediaPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISocialMediaPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Social Media\r\n\r\n ";
+                    this.mUISocialMediaPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISocialMediaPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUISocialMediaPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\" ng-show=\"organization.socialMedias\"";
+                    this.mUISocialMediaPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "61";
+                    this.mUISocialMediaPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISocialMediaPane;
+            }
+        }
+        
+        public HtmlDiv UIAddressesPane
+        {
+            get
+            {
+                if ((this.mUIAddressesPane == null))
+                {
+                    this.mUIAddressesPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIAddressesPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIAddressesPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIAddressesPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Addresses\r\n\r\n ";
+                    this.mUIAddressesPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIAddressesPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIAddressesPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIAddressesPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "68";
+                    this.mUIAddressesPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAddressesPane;
+            }
+        }
+        
+        public HtmlDiv UIItem911MemorialPane
+        {
+            get
+            {
+                if ((this.mUIItem911MemorialPane == null))
+                {
+                    this.mUIItem911MemorialPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIItem911MemorialPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIItem911MemorialPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIItem911MemorialPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "9-11 Memorial";
+                    this.mUIItem911MemorialPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIItem911MemorialPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIItem911MemorialPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIItem911MemorialPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "48";
+                    this.mUIItem911MemorialPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItem911MemorialPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlDiv mUIORGANIZATION911MemorPane;
+        
+        private HtmlDiv mUIOverview911MemorialDPane;
+        
+        private HtmlDiv mUIDetailsWebsitehttpwwPane;
+        
+        private HtmlDiv mUIWebsitePane;
+        
+        private HtmlDiv mUIWebsitehttpwww911memPane;
+        
+        private HtmlDiv mUITypeOtherPane;
+        
+        private HtmlDiv mUIPointsofContactPane;
+        
+        private HtmlDiv mUISocialMediaPane;
+        
+        private HtmlDiv mUIAddressesPane;
+        
+        private HtmlDiv mUIItem911MemorialPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweWindow4 : BrowserWindow
+    {
+        
+        public UIHttpsecakmtqaazureweWindow4()
+        {
+            #region Search Criteria
+            this.SearchProperties[UITestControl.PropertyNames.Name] = "https://eca-kmt-qa.azurewebsites.net/";
+            this.SearchProperties[UITestControl.PropertyNames.ClassName] = "IEFrame";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        public void LaunchUrl(System.Uri url)
+        {
+            this.CopyFrom(BrowserWindow.Launch(url));
+        }
     }
 }
