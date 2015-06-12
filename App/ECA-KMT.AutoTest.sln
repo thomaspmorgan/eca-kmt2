@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Core.DynamicLinq", "ECA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Data", "ECA.Data\ECA.Data.csproj", "{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewOrganization.Test", "ViewOrganization.Test\ViewOrganization.Test.csproj", "{421AF0A0-3620-4111-A63A-F37B2BB147C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -156,6 +158,10 @@ Global
 		{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CEF11E6-50E8-4B54-A1A7-A75583CCB6EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{421AF0A0-3620-4111-A63A-F37B2BB147C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{421AF0A0-3620-4111-A63A-F37B2BB147C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{421AF0A0-3620-4111-A63A-F37B2BB147C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{421AF0A0-3620-4111-A63A-F37B2BB147C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
