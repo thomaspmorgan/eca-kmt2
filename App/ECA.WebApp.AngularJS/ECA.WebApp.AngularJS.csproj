@@ -151,6 +151,12 @@
     <Content Include="scripts\filters\groupby.js" />
     <Content Include="scripts\services\participantperson.js" />
     <Content Include="scripts\services\userservice.js" />
+    <Content Include="styles\main.css">
+      <DependentUpon>main.scss</DependentUpon>
+    </Content>
+    <Content Include="styles\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />
     <Content Include="views\organizations\artifacts.html" />
@@ -224,6 +230,9 @@
     <Content Include="scripts\services\constantsservice.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>constantsservice.js</LastGenOutput>
+    </Content>
+    <Content Include="styles\main.css.map">
+      <DependentUpon>main.css</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

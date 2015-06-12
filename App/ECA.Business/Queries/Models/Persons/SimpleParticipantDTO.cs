@@ -42,23 +42,18 @@ namespace ECA.Business.Queries.Models.Persons
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the participant's sevis id
-        /// </summary>
-        public string SevisId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the participant's status
-        /// </summary>
-        public string Status { get; set; }
-
-        /// <summary>
-        /// Gets or sets the participant's last status date
-        /// </summary>
-        public DateTimeOffset? StatusDate { get; set; }
-
-        /// <summary>
         /// Gets or sets the date revised on.
         /// </summary>
         public DateTimeOffset RevisedOn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country the participant is located.
+        /// </summary>
+        public string Country { get; set; }
+
+        /// <summary>
+        /// Gets or sets the city the participant is located.
+        /// </summary>
+        public string City { get; set; }
     }
 }

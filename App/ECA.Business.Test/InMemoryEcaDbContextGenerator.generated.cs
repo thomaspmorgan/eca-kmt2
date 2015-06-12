@@ -627,6 +627,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.Person>(this.SingleOrDefault(x => x.PersonId.Equals(keyValues.First())));
 		}
 	}
+	public class PersonEvaluationNoteTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PersonEvaluationNote>
+	{
+		public override ECA.Data.PersonEvaluationNote Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///EvaluationNoteId
+			return this.SingleOrDefault(x => x.EvaluationNoteId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.PersonEvaluationNote> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///EvaluationNoteId
+			return Task.FromResult<ECA.Data.PersonEvaluationNote>(this.SingleOrDefault(x => x.EvaluationNoteId.Equals(keyValues.First())));
+		}
+	}
 	public class PhoneNumberTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.PhoneNumber>
 	{
 		public override ECA.Data.PhoneNumber Find(params object[] keyValues)
@@ -852,6 +867,21 @@ namespace ECA.Business.Test
 			return Task.FromResult<ECA.Data.Transportation>(this.SingleOrDefault(x => x.TransportationId.Equals(keyValues.First())));
 		}
 	}
+	public class UserAccountTestDbSet : ECA.Core.Data.TestDbSet<ECA.Data.UserAccount>
+	{
+		public override ECA.Data.UserAccount Find(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///PrincipalId
+			return this.SingleOrDefault(x => x.PrincipalId.Equals(keyValues.First()));
+		}
+		public override Task<ECA.Data.UserAccount> FindAsync(params object[] keyValues)
+		{
+			if(keyValues.Length != 1) throw new System.NotSupportedException();
+			///PrincipalId
+			return Task.FromResult<ECA.Data.UserAccount>(this.SingleOrDefault(x => x.PrincipalId.Equals(keyValues.First())));
+		}
+	}
 	public class InMemoryEcaContext : ECA.Data.EcaContext
 	{
 		public InMemoryEcaContext()
@@ -903,6 +933,7 @@ namespace ECA.Business.Test
 			this.ParticipantStatuses = new ParticipantStatusTestDbSet();
 			this.ParticipantTypes = new ParticipantTypeTestDbSet();
 			this.People = new PersonTestDbSet();
+			this.PersonEvaluationNotes = new PersonEvaluationNoteTestDbSet();
 			this.PhoneNumbers = new PhoneNumberTestDbSet();
 			this.PhoneNumberTypes = new PhoneNumberTypeTestDbSet();
 			this.ProfessionEducations = new ProfessionEducationTestDbSet();
@@ -918,6 +949,7 @@ namespace ECA.Business.Test
 			this.SpecialStatuses = new SpecialStatusTestDbSet();
 			this.Themes = new ThemeTestDbSet();
 			this.Transportations = new TransportationTestDbSet();
+			this.UserAccounts = new UserAccountTestDbSet();
 		}
 
 		public List<Action> SetupActions { get; set; }

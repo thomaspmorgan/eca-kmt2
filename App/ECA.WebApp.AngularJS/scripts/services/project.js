@@ -62,6 +62,12 @@ angular.module('staticApp')
                   permissionId: permissionId
               };
               return DragonBreath.create(permissionModel, 'projects/collaborator/remove');
+          },
+          addPersonParticipant: function (params) {
+              return DragonBreath.create(params, 'projects/participants/person/add');
+          },
+          addOrganizationParticipant: function (params) {
+              return DragonBreath.create(params, 'projects/participants/organization/add');
           }
 
       };
