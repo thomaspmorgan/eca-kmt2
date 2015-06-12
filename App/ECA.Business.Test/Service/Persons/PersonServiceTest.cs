@@ -522,6 +522,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 PhoneNumberId = 1,
                 PhoneNumberTypeId  = phoneNumberType.PhoneNumberTypeId,
+                PhoneNumberType = phoneNumberType,
                 Number = "1234567890"
             };
 
