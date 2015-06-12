@@ -614,3 +614,27 @@ tr#participantInfo {
 .radio-inline input[type=radio]{
     margin-top:0px;
 }
+
+/* tooltip styling */
+div.tip:hover {
+    position: relative
+}
+
+div.tip span {
+    display: none
+}
+div.tip:hover span {
+    border: #c0c0c0 1px dotted;
+    border-radius: 4px;
+    padding: 5px 5px 5px 5px;
+    display: block;
+    z-index: 100;
+    background-color: black;
+    color: white;
+    left: -5px;
+    margin: 5px;
+    width: 55px;
+    position: absolute;
+    top: 50px;
+    text-decoration: none
+}
