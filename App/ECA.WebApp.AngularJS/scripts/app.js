@@ -456,7 +456,7 @@ angular
           { name: 'Programs', state: 'allprograms' },
           { name: 'Participants', state: 'allparticipants' },
           { name: 'Organizations', state: 'allorganizations' },
-          { name: 'Events', state: 'events' },
+          { name: 'Activities', state: 'events' },
           { name: 'Reports', state: 'reports' },
           { name: 'Partners', state: 'home.notifications' }
         ];

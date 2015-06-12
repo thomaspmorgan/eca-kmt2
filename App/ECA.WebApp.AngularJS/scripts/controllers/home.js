@@ -17,7 +17,7 @@ angular.module('staticApp')
               order: 1
           },
           notfications: {
-              title: 'Notifications & Activity',
+              title: 'Notifications & Timeline',
               path: 'notifications',
               active: true,
               order: 2
