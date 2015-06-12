@@ -1794,109 +1794,109 @@ namespace ECA.Business.Test.Service.Projects
             tester(additionalParticipant);
         }
 
-        [TestMethod]
-        public async Task TestAddParticipant_PersonParticipant()
-        {
-            var user = new User(1);
-            var projectId = 1;
-            var organizationId = 2;
-            var personId = 3;
+        //[TestMethod]
+        //public async Task TestAddParticipant_PersonParticipant()
+        //{
+        //    var user = new User(1);
+        //    var projectId = 1;
+        //    var organizationId = 2;
+        //    var personId = 3;
 
-            var person = new Person
-            {
-                PersonId = personId
-            };
-            var organization = new Organization
-            {
-                OrganizationId = organizationId
-            };
-            var project = new Project
-            {
-                ProjectId = projectId
-            };
-            var participantType = new ParticipantType
-            {
-                Name = ParticipantType.ForeignEducationalInstitution.Value,
-                ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id
-            };
-            context.SetupActions.Add(() =>
-            {
-                context.People.Add(person);
-                context.Organizations.Add(organization);
-                context.Projects.Add(project);
-                context.ParticipantTypes.Add(participantType);
-            });           
+        //    var person = new Person
+        //    {
+        //        PersonId = personId
+        //    };
+        //    var organization = new Organization
+        //    {
+        //        OrganizationId = organizationId
+        //    };
+        //    var project = new Project
+        //    {
+        //        ProjectId = projectId
+        //    };
+        //    var participantType = new ParticipantType
+        //    {
+        //        Name = ParticipantType.ForeignEducationalInstitution.Value,
+        //        ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id
+        //    };
+        //    context.SetupActions.Add(() =>
+        //    {
+        //        context.People.Add(person);
+        //        context.Organizations.Add(organization);
+        //        context.Projects.Add(project);
+        //        context.ParticipantTypes.Add(participantType);
+        //    });           
 
-            Assert.AreEqual(0, context.Participants.Count());
+        //    Assert.AreEqual(0, context.Participants.Count());
 
-            Action<AdditionalPersonProjectParticipant> tester = (personParticipant) =>
-            {
-                Assert.AreEqual(1, context.Participants.Count());
-                var addedParticipant = context.Participants.First();
-                addAdditionalPersonProjectParticipantTester(personParticipant, addedParticipant, user);
-            };
-            var additionalParticipant = new AdditionalPersonProjectParticipant(user, projectId, personId);
+        //    Action<AdditionalPersonProjectParticipant> tester = (personParticipant) =>
+        //    {
+        //        Assert.AreEqual(1, context.Participants.Count());
+        //        var addedParticipant = context.Participants.First();
+        //        addAdditionalPersonProjectParticipantTester(personParticipant, addedParticipant, user);
+        //    };
+        //    var additionalParticipant = new AdditionalPersonProjectParticipant(user, projectId, personId);
 
-            context.Revert();
-            service.AddParticipant(additionalParticipant);
-            tester(additionalParticipant);
+        //    context.Revert();
+        //    service.AddParticipant(additionalParticipant);
+        //    tester(additionalParticipant);
 
-            context.Revert();
-            await service.AddParticipantAsync(additionalParticipant);
-            tester(additionalParticipant);
-        }
+        //    context.Revert();
+        //    await service.AddParticipantAsync(additionalParticipant);
+        //    tester(additionalParticipant);
+        //}
 
-        [TestMethod]
-        public async Task TestAddParticipant_OrganizationParticipant()
-        {
-            var user = new User(1);
-            var projectId = 1;
-            var organizationId = 2;
-            var personId = 3;
+        //[TestMethod]
+        //public async Task TestAddParticipant_OrganizationParticipant()
+        //{
+        //    var user = new User(1);
+        //    var projectId = 1;
+        //    var organizationId = 2;
+        //    var personId = 3;
 
-            var person = new Person
-            {
-                PersonId = personId
-            };
-            var organization = new Organization
-            {
-                OrganizationId = organizationId
-            };
-            var project = new Project
-            {
-                ProjectId = projectId
-            };
-            var participantType = new ParticipantType
-            {
-                Name = ParticipantType.ForeignEducationalInstitution.Value,
-                ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id
-            };
-            context.SetupActions.Add(() =>
-            {
-                context.People.Add(person);
-                context.Organizations.Add(organization);
-                context.Projects.Add(project);
-                context.ParticipantTypes.Add(participantType);
-            });
+        //    var person = new Person
+        //    {
+        //        PersonId = personId
+        //    };
+        //    var organization = new Organization
+        //    {
+        //        OrganizationId = organizationId
+        //    };
+        //    var project = new Project
+        //    {
+        //        ProjectId = projectId
+        //    };
+        //    var participantType = new ParticipantType
+        //    {
+        //        Name = ParticipantType.ForeignEducationalInstitution.Value,
+        //        ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id
+        //    };
+        //    context.SetupActions.Add(() =>
+        //    {
+        //        context.People.Add(person);
+        //        context.Organizations.Add(organization);
+        //        context.Projects.Add(project);
+        //        context.ParticipantTypes.Add(participantType);
+        //    });
 
-            Assert.AreEqual(0, context.Participants.Count());
+        //    Assert.AreEqual(0, context.Participants.Count());
 
-            Action<AdditionalOrganizationProjectParticipant> tester = (organizationParticipant) =>
-            {
-                Assert.AreEqual(1, context.Participants.Count());
-                var addedParticipant = context.Participants.First();
-                addAdditionalOrganizationProjectParticipantTester(organizationParticipant, addedParticipant, user);
-            };
-            var additionalParticipant = new AdditionalOrganizationProjectParticipant(user, projectId, organizationId);
+        //    Action<AdditionalOrganizationProjectParticipant> tester = (organizationParticipant) =>
+        //    {
+        //        Assert.AreEqual(1, context.Participants.Count());
+        //        var addedParticipant = context.Participants.First();
+        //        addAdditionalOrganizationProjectParticipantTester(organizationParticipant, addedParticipant, user);
+        //    };
+        //    var additionalParticipant = new AdditionalOrganizationProjectParticipant(user, projectId, organizationId);
 
-            context.Revert();
-            service.AddParticipant(additionalParticipant);
-            tester(additionalParticipant);
+        //    context.Revert();
+        //    service.AddParticipant(additionalParticipant);
+        //    tester(additionalParticipant);
 
-            context.Revert();
-            await service.AddParticipantAsync(additionalParticipant);
-            tester(additionalParticipant);
-        }
+        //    context.Revert();
+        //    await service.AddParticipantAsync(additionalParticipant);
+        //    tester(additionalParticipant);
+        //}
         #endregion
     }
 }
