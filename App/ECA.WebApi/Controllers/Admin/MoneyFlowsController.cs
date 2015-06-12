@@ -3,6 +3,7 @@ using CAM.Business.Queries.Models;
 using CAM.Business.Service;
 using CAM.Data;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Models.Admin;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
@@ -97,15 +98,16 @@ namespace ECA.WebApi.Controllers.Admin
         }
         
         [ResponseType(typeof(MoneyFlowDTO))]
-        public async Task<IHttpActionResult> PostMoneyFlowAsync(DraftMoneyFlow model)
+        public async Task<IHttpActionResult> PostMoneyFlowAsync(EcaMoneyFlow moneyFlow)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                var moneyFlow = await moneyFlowService.CreateAsync(model, businessUser);
+                var newMoneyFlow = await moneyFlowService.CreateAsync(moneyFlow, businessUser);
                 await moneyFlowService.SaveChangesAsync();
-                return null;
+                var moneyFlowDTO = await moneyFlowService.GetMoneyFlowByIdAsync(newMoneyFlow.MoneyFlowId);
+                return Ok(moneyFlowDTO);
             }
             else
             {

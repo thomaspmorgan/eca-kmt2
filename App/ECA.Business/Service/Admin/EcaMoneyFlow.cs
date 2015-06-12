@@ -72,6 +72,7 @@ namespace ECA.Business.Models.Admin
             this.RecipientItineraryStopId = recipientItineraryStopId;
             this.RecipientTransportationId = recipientTransportationId;
             this.RecipientAccommodationId = recipientAccommodationId;
+
         }
 
 
@@ -117,7 +118,7 @@ namespace ECA.Business.Models.Admin
 
         public int? RecipientAccommodationId { get; private set; }
 
-        public Audit Audit { get; protected set; }
+        public Audit Audit { get; set; }
 
         /// <summary>
         /// Gets or sets the row version.

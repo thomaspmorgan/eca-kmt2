@@ -36,7 +36,7 @@ angular.module('staticApp')
               order: 2
           },
           activity: {
-              title: 'Activity',
+              title: 'Timeline',
               path: 'activity',
               active: true,
               order: 3

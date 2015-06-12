@@ -141,17 +141,33 @@
                     </div>
                 </div>
 
-                <div class="form-group narrow">
-                    <label>Amount (USD) / Fiscal Year<span class="asterisk"> *</span></label>
-                    <p>
-                    <input type="number" class="form-control" ng-model="draftMoneyFlow.value" ng-required="true"
-                           form-element guidance="The USD amount of the transaction."/>
-                    <select class="form-control" id="modalFiscalYear" ng-options="s.year for s in fiscalYears" ng-model="draftMoneyFlow.moneyFlowFiscalYear" ng-required="true" />
-                    </p>
+                <div class="form-group">
+                    <table class="col-md-12 modalTable">
+                        <thead>
+                            <tr>
+                                <th class="col-md-2 modalLabel"><label>Amount (USD)<span class="asterisk"> *</span></label></th>
+                                <th class="col-md-1">&nbsp;</th>
+                                <th class="col-md-2 modalLabel"><label>Fiscal Year<span class="asterisk"> *</span></label></th>
+                                <th class="col-md-4"></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <th>
+                                <input type="number" class="form-control" ng-model="draftMoneyFlow.value" ng-required="true"
+                                       form-element guidance="The USD amount of the transaction." />
+                            </th>
+                            <th>
+                                &nbsp;
+                            </th>
+                            <th>
+                                <select class="form-control" id="modalFiscalYear" ng-options="s.year for s in fiscalYears" ng-model="draftMoneyFlow.moneyFlowFiscalYear" ng-required="true" />
 
-                    <div ng-show="modalForm.moneyFlowForm.amount.$dirty">
-                        <div class="error" ng-show="modalForm.moneyFlowForm.amount.$error.required">Please enter an amount and fiscal year</div>
-                    </div>
+                            </th>
+                        </tr>
+                    </table>
+                        <div ng-show="modalForm.moneyFlowForm.amount.$dirty">
+                            <div class="error" ng-show="modalForm.moneyFlowForm.amount.$error.required">Please enter an amount and fiscal year</div>
+                        </div>
                 </div>
 
                 <div class="form-group narrow">
@@ -207,9 +223,9 @@
     <button class="btn btn-default right" ng-click="confirmCopyYes()">OK</button>
 </modal-dialog>
 
-<modal-dialog show="confirmSuccess" dialog-title="Success!" before-close="confirmSaveYes()">
+<modal-dialog show="confirmSuccess" dialog-title="Success!">
     <p class="strong">The funding item was {{moneyFlowConfirmMessage}} sucessfully</p>
-    <button class="btn btn-default right" ng-click="closeConfirm()">OK</button>
+    <button class="btn btn-default right" ng-click="confirmCloseSuccess()">OK</button>
 </modal-dialog>
 
 <style>

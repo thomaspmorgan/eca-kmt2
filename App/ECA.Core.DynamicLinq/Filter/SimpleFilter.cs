@@ -83,7 +83,7 @@ namespace ECA.Core.DynamicLinq.Filter
         /// <returns>A string of this simple filter.</returns>
         public override string ToString()
         {
-            return String.Format("{0} {1} {2}", this.Property, ComparisonType.ToComparisonType(this.Comparison), this.Value.ToString());
+            return String.Format("{0} {1} {2}", this.Property, ComparisonType.ToComparisonType(this.Comparison), this.Value == null ? "null" : this.Value.ToString());
         }
     }
 }

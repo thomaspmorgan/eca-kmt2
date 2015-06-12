@@ -1,7 +1,6 @@
-﻿namespace ViewParticipantProfile.Test
+﻿namespace ViewOrganization.Test
 {
     using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
-    using Microsoft.VisualStudio.TestTools.UITesting.WinControls;
     using System;
     using System.Collections.Generic;
     using System.CodeDom.Compiler;
@@ -20,7 +19,7 @@
     {
 
         /// <summary>
-        /// Open browser; navigate to QA site; select ECATest user; enter password; click sign in.
+        /// Open browser; nav to QA; select ECATest user; enter password; click sign in.
         /// </summary>
         public void LogintoQA_ExistingUser()
         {
@@ -34,13 +33,13 @@
             this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
 
             // Click 'ECATest1@statedept.us •••' link
-            Mouse.Click(uIECATest1statedeptusHyperlink, new Point(134, 34));
+            Mouse.Click(uIECATest1statedeptusHyperlink, new Point(121, 31));
 
             // Type '********' in 'Password' text box
             uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
 
             // Click 'Sign in' pane
-            Mouse.Click(uISigninPane, new Point(23, 20));
+            Mouse.Click(uISigninPane, new Point(37, 7));
         }
 
         public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams

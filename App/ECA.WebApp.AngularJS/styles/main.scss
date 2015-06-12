@@ -627,6 +627,19 @@ div.modal-center-large .modal-content .modal-body {
     vertical-align: top;
 }
 
+.modalLabel {
+    padding-left:0;
+
+}
+
+.modalTable {
+     margin-bottom:20px;
+}
+
+.modalTable tr {
+    border:none;
+}
+
 tr#participantInfo {
     .row {
         padding-left: 0;
@@ -635,5 +648,9 @@ tr#participantInfo {
     .row:first-child {
         border: none;
     }
+}
+
+.radio-inline input[type=radio]{
+    margin-top:0px;
 }
 

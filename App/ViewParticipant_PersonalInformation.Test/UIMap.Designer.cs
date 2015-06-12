@@ -87,6 +87,124 @@ namespace ViewParticipantProfile.Test
         }
         
         /// <summary>
+        /// Verify the fields exist in the education and employment section; Education and Professional History.
+        /// </summary>
+        public void AssertEducation_EmploymentSection()
+        {
+            #region Variable Declarations
+            HtmlDiv uIEducationEmploymentPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIEducationEmploymentPane;
+            HtmlDiv uIEducationGeorgeWashiPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIEducationGeorgeWashiPane;
+            HtmlDiv uIProfessionalHistoryBPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIProfessionalHistoryBPane;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Education & Employment' pane contains 'Education & Employment'
+            StringAssert.Contains(uIEducationEmploymentPane.InnerText, this.AssertEducation_EmploymentSectionExpectedValues.UIEducationEmploymentPaneInnerText, "Education and Employment section does not exist.");
+
+            // Verify that the 'InnerText' property of 'Education George Washingon Universit' pane contains ' 
+            //Education
+            //
+            // George Washingon University (1992-1994) 
+            // MS in Computer Science 
+            // Marquette University (1979-1983) 
+            // BS in Computer Engineering 
+            // '
+            StringAssert.Contains(uIEducationGeorgeWashiPane.InnerText, this.AssertEducation_EmploymentSectionExpectedValues.UIEducationGeorgeWashiPaneInnerText, "Education field not available.");
+
+            // Verify that the 'InnerText' property of 'Professional History Bureau of Educa' pane contains ' 
+            //Professional History
+            //
+            // Bureau of Educational and Cultural Affairs (2005-) 
+            // Program Manager 
+            // Information Resources Management, Department of State (1999-2005) 
+            // Project Manager 
+            // '
+            StringAssert.Contains(uIProfessionalHistoryBPane.InnerText, this.AssertEducation_EmploymentSectionExpectedValues.UIProfessionalHistoryBPaneInnerText, "Professional History field not available.");
+        }
+        
+        /// <summary>
+        /// Verify the fields for the General Section; Participant Origination; Status; Prominent Categories; Events Participated; Related Reports; Participant Type; Memberships; Language Proficiencies; Dependants; Impact Stories.
+        /// </summary>
+        public void AssertGeneralSection()
+        {
+            #region Variable Declarations
+            HtmlDiv uIGeneralInformationPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIGeneralInformationPane;
+            HtmlDiv uIParticipantOriginatiPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIParticipantOriginatiPane;
+            HtmlDiv uIStatusActivePane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIStatusActivePane;
+            HtmlDiv uIProminentCategoriesCPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIProminentCategoriesCPane;
+            HtmlDiv uIEventsParticipatedFoPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIEventsParticipatedFoPane;
+            HtmlDiv uIRelatedReportsPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIRelatedReportsPane;
+            HtmlDiv uIParticipantTypeIndivPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIParticipantTypeIndivPane;
+            HtmlDiv uIMembershipsLoyalOrdePane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIMembershipsLoyalOrdePane;
+            HtmlDiv uILanguageProficienciePane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UILanguageProficienciePane;
+            HtmlDiv uIDependantsHosfordJunPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIDependantsHosfordJunPane;
+            HtmlDiv uIImpactStoriesForeignPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument5.UITopPane.UIImpactStoriesForeignPane;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'General Information' pane contains 'General Information'
+            StringAssert.Contains(uIGeneralInformationPane.InnerText, this.AssertGeneralSectionExpectedValues.UIGeneralInformationPaneInnerText, "General Information section does not exist.");
+
+            // Verify that the 'InnerText' property of 'Participant Origination' pane contains 'Participant Origination
+            //
+            // '
+            StringAssert.Contains(uIParticipantOriginatiPane.InnerText, this.AssertGeneralSectionExpectedValues.UIParticipantOriginatiPaneInnerText, "No Participant Origination field available.");
+
+            // Verify that the 'InnerText' property of 'Status Active' pane contains 'Status
+            //
+            //Active '
+            StringAssert.Contains(uIStatusActivePane.InnerText, this.AssertGeneralSectionExpectedValues.UIStatusActivePaneInnerText, "No Status field available.");
+
+            // Verify that the 'InnerText' property of 'Prominent Categories Cabinet Member -' pane contains 'Prominent Categories
+            //
+            //Cabinet Member - United States 
+            //Ambassador to Australia
+            //Grand Poobah
+            // '
+            StringAssert.Contains(uIProminentCategoriesCPane.InnerText, this.AssertGeneralSectionExpectedValues.UIProminentCategoriesCPaneInnerText, "No Prominent Categories field available.");
+
+            // Verify that the 'InnerText' property of 'Events Participated Foreign Assistanc' pane contains 'Events Participated
+            //
+            //Foreign Assistance Evaluation Transparency Initiative
+            // '
+            StringAssert.Contains(uIEventsParticipatedFoPane.InnerText, this.AssertGeneralSectionExpectedValues.UIEventsParticipatedFoPaneInnerText, "No Events Participated field available.");
+
+            // Verify that the 'InnerText' property of 'Related Reports' pane contains 'Related Reports
+            //
+            // '
+            StringAssert.Contains(uIRelatedReportsPane.InnerText, this.AssertGeneralSectionExpectedValues.UIRelatedReportsPaneInnerText, "Related Reports field not available.");
+
+            // Verify that the 'InnerText' property of 'Participant Type Individual' pane contains 'Participant Type
+            //
+            //Individual '
+            StringAssert.Contains(uIParticipantTypeIndivPane.InnerText, this.AssertGeneralSectionExpectedValues.UIParticipantTypeIndivPaneInnerText, "No Participant Type field available.");
+
+            // Verify that the 'InnerText' property of 'Memberships Loyal Order of Water Buff' pane contains 'Memberships
+            //
+            //Loyal Order of Water Buffaloes Lodge No. 26.
+            // '
+            StringAssert.Contains(uIMembershipsLoyalOrdePane.InnerText, this.AssertGeneralSectionExpectedValues.UIMembershipsLoyalOrdePaneInnerText, "No Memberships field available.");
+
+            // Verify that the 'InnerText' property of 'Language Proficiencies English Esper' pane contains 'Language Proficiencies
+            //
+            //English
+            //Esperanto
+            // '
+            StringAssert.Contains(uILanguageProficienciePane.InnerText, this.AssertGeneralSectionExpectedValues.UILanguageProficienciePaneInnerText, "Language Proficiencies field not available.");
+
+            // Verify that the 'InnerText' property of 'Dependants Hosford, June Houchins, S' pane contains 'Dependants
+            //
+            //Hosford, June
+            //Houchins, Sue
+            // '
+            StringAssert.Contains(uIDependantsHosfordJunPane.InnerText, this.AssertGeneralSectionExpectedValues.UIDependantsHosfordJunPaneInnerText, "Dependants field not available.");
+
+            // Verify that the 'InnerText' property of 'Impact Stories Foreign Intelligence S' pane contains 'Impact Stories
+            //
+            //Foreign Intelligence Surveilance Act
+            // '
+            StringAssert.Contains(uIImpactStoriesForeignPane.InnerText, this.AssertGeneralSectionExpectedValues.UIImpactStoriesForeignPaneInnerText, "Impact Stories field not available.");
+        }
+        
+        /// <summary>
         /// Verify the Participant name appears in the heading for the individual participant (Abdelatif Elboudjay)
         /// </summary>
         public void AssertParticipantNameHeading()
@@ -120,6 +238,22 @@ namespace ViewParticipantProfile.Test
         }
         
         /// <summary>
+        /// Verify the Participants breadcrumb is available and will allow you to navigate back to the All Participants page.
+        /// </summary>
+        public void AssertParticipantsBreadcrumb()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIParticipantsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane2.UIParticipantsHyperlink;
+            #endregion
+
+            // Verify that the 'InnerText' property of 'Participants' link contains 'Participants'
+            StringAssert.Contains(uIParticipantsHyperlink.InnerText, this.AssertParticipantsBreadcrumbExpectedValues.UIParticipantsHyperlinkInnerText, "No participants breadcrumb.");
+
+            // Verify that the 'ControlType' property of 'Participants' link equals 'Hyperlink'
+            Assert.AreEqual(this.AssertParticipantsBreadcrumbExpectedValues.UIParticipantsHyperlinkControlType, uIParticipantsHyperlink.ControlType.ToString(), "Participants breadcrumb hyperlink not available.");
+        }
+        
+        /// <summary>
         /// Verify the Participants link is available for selection in the content menu. check inner text; check hyperlink controltype
         /// </summary>
         public void AssertParticipantsLink()
@@ -136,20 +270,21 @@ namespace ViewParticipantProfile.Test
         }
         
         /// <summary>
-        /// Verify the Participant name is available for selection from the All Participants link (Abdelatif Elboudjay)
+        /// Verify the participants name displays in the list and is available for selection. (Abdelatif Elboudjay)
         /// </summary>
         public void AssertParticipantsNameLink()
         {
             #region Variable Declarations
-            HtmlHyperlink uIAbdelatifElboudjayHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UISortlistPane.UIAbdelatifElboudjayHyperlink;
+            HtmlCustom uIAbdelatifElboudjay = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UISortlistPane.UIAbdelatifElboudjay;
             #endregion
 
-            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Abdelatif Elboudjay' link equals 'Abdelatif Elboudjay'
+            // Wait for 5 seconds for user delay between actions; Verify that the 'ControlType' property of custom control contains 'Custom'
             Playback.Wait(5000);
-            Assert.AreEqual(this.AssertParticipantsNameLinkExpectedValues.UIAbdelatifElboudjayHyperlinkInnerText, uIAbdelatifElboudjayHyperlink.InnerText, "No Participant for selection (Abdelatif Elboudjay)");
+            StringAssert.Contains(uIAbdelatifElboudjay.ControlType.ToString(), this.AssertParticipantsNameLinkExpectedValues.UIAbdelatifElboudjayControlType, "Custom Control/Hyperlink not available.");
 
-            // Verify that the 'ControlType' property of 'Abdelatif Elboudjay' link equals 'Hyperlink'
-            Assert.AreEqual(this.AssertParticipantsNameLinkExpectedValues.UIAbdelatifElboudjayHyperlinkControlType, uIAbdelatifElboudjayHyperlink.ControlType.ToString(), "No hyperlink available for the participant name (Abdelatif Elboudjay)");
+            // Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of custom control contains 'Abdelatif Elboudjay'
+            Playback.Wait(5000);
+            StringAssert.Contains(uIAbdelatifElboudjay.InnerText, this.AssertParticipantsNameLinkExpectedValues.UIAbdelatifElboudjayInnerText, "Participant name does not match (Abdelatif Elboudjay)");
         }
         
         /// <summary>
@@ -237,50 +372,209 @@ namespace ViewParticipantProfile.Test
         {
             #region Variable Declarations
             HtmlDiv uIPersonalIdentifiablePane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UIPersonalIdentifiablePane;
-            HtmlDiv uINamesAlternativesFirPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UINamesAlternativesFirPane;
-            HtmlDiv uIGenderMalePane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UIGenderMalePane;
-            HtmlDiv uIEthnicityPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UIEthnicityPane;
-            HtmlDiv uIPlaceofBirthPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UIPlaceofBirthPane;
-            HtmlDiv uIDateofBirthJan12015Pane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UIDateofBirthJan12015Pane;
-            HtmlDiv uICountriesofCitizenshPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UICountriesofCitizenshPane;
-            HtmlDiv uIResidenceAddressPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UIResidenceAddressPane;
-            HtmlDiv uIMedicalConditionsPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UIMedicalConditionsPane;
-            HtmlDiv uIMaritalStatusPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UIMaritalStatusPane;
-            HtmlDiv uISevisIdPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane1.UISevisIdPane;
+            HtmlDiv uINamesAlternativesFirPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIPiiFormCustom.UINamesAlternativesFirPane;
+            HtmlDiv uIGenderMaleFemalePane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIPiiFormCustom.UIGenderMaleFemalePane;
+            HtmlDiv uIEthnicityPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIPiiFormCustom.UIEthnicityPane;
+            HtmlDiv uIPlaceofBirthCountryPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIPiiFormCustom.UIPlaceofBirthCountryPane;
+            HtmlDiv uIDateofBirthPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIPiiFormCustom.UIDateofBirthPane;
+            HtmlDiv uICountriesofCitizenshPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIPiiFormCustom.UICountriesofCitizenshPane;
+            HtmlDiv uIResidenceAddressPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIPiiFormCustom.UIResidenceAddressPane;
+            HtmlDiv uIMedicalConditionsPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIPiiFormCustom.UIMedicalConditionsPane;
+            HtmlDiv uIMaritalStatusNotDiscPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIPiiFormCustom.UIMaritalStatusNotDiscPane;
+            HtmlDiv uISevisIdPane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UIPiiFormCustom.UISevisIdPane;
             #endregion
 
             // Verify that the 'InnerText' property of 'Personal Identifiable Information (PII)' pane equals 'Personal Identifiable Information (PII)'
             Assert.AreEqual(this.AssertPIISectionFieldsExpectedValues.UIPersonalIdentifiablePaneInnerText, uIPersonalIdentifiablePane.InnerText, "No Personal Identifiable Information (PII) InnerText for the section header.");
 
-            // Verify that the 'InnerText' property of 'Names & Alternatives First name: Abde' pane contains 'Names & Alternatives
+            // Wait for 3 seconds for user delay between actions; Verify that the 'InnerText' property of 'Names & Alternatives First name' pane contains 'Names & Alternatives
             //
-            //First name: Abdelatif
-            //Last name: Elboudjay
-            //'
+            //
+            //
+            //First name
+            //
+            //Abdelatif 
+            //
+            //
+            //Last name
+            //
+            //Elboudjay 
+            //
+            //
+            //Name prefix
+            //
+            // 
+            //
+            //
+            //Name suffix
+            //
+            // 
+            //
+            //
+            //Given name
+            //
+            // 
+            //
+            //
+            //Family name
+            //
+            // 
+            //
+            //
+            //Middle name
+            //
+            // 
+            //
+            //
+            //Patronym
+            //
+            // 
+            //
+            //
+            //Alias
+            //
+            // 
+            //
+            //
+            //
+            //First name*
+            //
+            //
+            //
+            //Last name*
+            //
+            //
+            //
+            //Name prefix
+            //
+            //
+            //
+            //Name suffix
+            //
+            //
+            //
+            //Given name
+            //
+            //
+            //
+            //Family name
+            //
+            //
+            //
+            //Middle name
+            //
+            //
+            //
+            //Patronym
+            //
+            //
+            //
+            //Alias'
+            Playback.Wait(3000);
             StringAssert.Contains(uINamesAlternativesFirPane.InnerText, this.AssertPIISectionFieldsExpectedValues.UINamesAlternativesFirPaneInnerText, "No Names & Alternatives field display.");
 
-            // Verify that the 'InnerText' property of 'Gender Male' pane contains 'Gender
+            // Verify that the 'InnerText' property of 'Gender* Male Female' pane contains 'Gender*
             //
-            //Male'
-            StringAssert.Contains(uIGenderMalePane.InnerText, this.AssertPIISectionFieldsExpectedValues.UIGenderMalePaneInnerText, "No Gender field available for display.");
+            //
+            //
+            //
+            //Male 
+            //
+            //
+            //
+            //
+            //
+            //FemaleMaleNot SpecifiedOther'
+            StringAssert.Contains(uIGenderMaleFemalePane.InnerText, this.AssertPIISectionFieldsExpectedValues.UIGenderMaleFemalePaneInnerText, "No Gender field available for display.");
 
             // Verify that the 'InnerText' property of 'Ethnicity' pane contains 'Ethnicity'
             StringAssert.Contains(uIEthnicityPane.InnerText, this.AssertPIISectionFieldsExpectedValues.UIEthnicityPaneInnerText, "No Ethnicity field available for display.");
 
-            // Verify that the 'InnerText' property of 'Place of Birth ,' pane contains 'Place of Birth
+            // Verify that the 'InnerText' property of 'Place of Birth Country' pane contains 'Place of Birth
             //
-            //, '
-            StringAssert.Contains(uIPlaceofBirthPane.InnerText, this.AssertPIISectionFieldsExpectedValues.UIPlaceofBirthPaneInnerText, "No Place of Birth field to display.");
-
-            // Verify that the 'InnerText' property of 'Date of Birth Jan 1, 2015' pane contains 'Date of Birth
             //
-            //Jan 1, 2015'
-            StringAssert.Contains(uIDateofBirthJan12015Pane.InnerText, this.AssertPIISectionFieldsExpectedValues.UIDateofBirthJan12015PaneInnerText, "No Date of Birth field to display.");
-
-            // Verify that the 'InnerText' property of 'Countries of Citizenship Morocco' pane contains 'Countries of Citizenship
             //
-            //Morocco
+            //Country
+            //
+            // 
+            //
+            //
+            //City
+            //
+            // 
+            //
+            //
+            //
+            //Country*
+            //
+            //
+            //AfghanistanAkrotiriAland IslandsAlbaniaAlgeria American SamoaAndorra Angola AnguillaAntarcticaAntigua and BarbudaArgentinaArmeniaArubaAshmore and Cartier IslandsAustraliaAustriaAzerbaijanBahamasBahrainBaker IslandBangladeshBarbadosBassas da IndiaBelarusBelgiumBelizeBeninBermudaBhutanBoliviaBonaire, Sint Eustatius and SabaBosnia and HerzegovinaBotswanaBouvet IslandBrazilBritish Indian Ocean TerritoryBritish Virgin IslandsBruneiBulgariaBurkina FasoBurmaBurundiCabo VerdeCambodiaCameroonCanadaCayman IslandsCentral African RepublicChadChileChinaChristmas IslandClipperton IslandCocos (Keeling) IslandsColombiaComorosCook IslandsCoral Sea IslandsCosta RicaCôte d'IvoireCroatiaCubaCuracaoCyprusCzech RepublicDemocratic Republic of the CongoDenmarkDhekeliaDjiboutiDominicaDominican RepublicEcuadorEgyptEl SalvadorEquatorial GuineaEritreaEstoniaEthiopiaEuropa IslandFalkland Islands (Malvinas)Faroe IslandsFijiFinlandFranceFrench GuianaFrench PolynesiaFrench Southern TerritoriesGabonGambiaGaza StripGeorgiaGermanyGhanaGibraltarGlorioso IslandsGreeceGreenlandGrenadaGuadeloupeGuamGuatemalaGuernseyGuineaGuinea-BissauGuyanaHaitiHeard Island and Mcdonald IslandsHoly See (Vatican City State)HondurasHong KongHowland IslandHungaryIcelandIndiaIndonesiaInternationalIranIraqIrelandIsle of ManIsraelItalyJamaicaJan MayenJapanJarvis IslandJerseyJerusalemJohnston AtollJordanJuan de Nova IslandKazakhstanKenyaKingman ReefKiribatiKorea, Democratic People's Republic ofKorea, Republic ofKosovoKuwaitKyrgyzstanLaos People's Democratic RepublicLatviaLebanonLesothoLiberiaLibyaLiechtensteinLithuaniaLuxembourgMacao, Special Administrative Region of ChinaMacedonia, The Republic ofMadagascarMalawiMalaysiaMaldivesMaliMaltaMarshall IslandsMartiniqueMauritaniaMauritiusMayotteMexicoMicronesia, Federated States ofMidway IslandsMoldova, Republic ofMonacoMongoliaMontenegroMontserratMoroccoMozambiqueNamibiaNauruNavassa IslandNepalNetherlandsNetherlands AntillesNetherlands AntillesNew CaledoniaNew ZealandNicaraguaNigerNigeriaNiueNorfolk IslandNorthern Mariana IslandsNorwayOmanPakistanPalauPalestine, State ofPalmyra AtollPanamaPapua New GuineaParacel IslandsParaguayPeruPhilippinesPitcairnPolandPortugalPuerto RicoQatarRepublic of the CongoRéunionRomaniaRussiaRwandaSaint HelenaSaint Kitts and NevisSaint LuciaSaint Pierre and MiquelonSaint Vincent and the GrenadinesSaint-BarthélemySaint-Martin (French part)SamoaSan MarinoSao Tome and PrincipeSaudi ArabiaSenegalSerbiaSeychellesSierra LeoneSingaporeSint MaartenSlovakiaSloveniaSolomon IslandsSomaliaSouth AfricaSouth Georgia and the South Sandwich IslandsSouth SudanSpainSpratly IslandsSri LankaSudanSurinameSvalbardSvalbard and Jan Mayen IslandsSwazilandSwedenSwitzerlandSyrian Arab RepublicTaiwanTajikistanTanzania, United Republic ofThailandTimor-LesteTogoTokelauTongaTrinidad and TobagoTromelin IslandTunisiaTurkeyTurkmenistanTurks and Caicos IslandsTuvaluUgandaUkraineUnited Arab EmiratesUnited KingdomUnited States Minor Outlying IslandsUnited States of AmericaUruguayUzbekistanVanuatuVenezuelaVietnamVirgin Islands, USWake IslandWallis and Futuna IslandsWest BankWestern SaharaYemenZambiaZimbabwe
+            //
+            //
+            //City*
+            //
             // '
+            StringAssert.Contains(uIPlaceofBirthCountryPane.InnerText, this.AssertPIISectionFieldsExpectedValues.UIPlaceofBirthCountryPaneInnerText, "No Place of Birth field to display.");
+
+            // Verify that the 'InnerText' property of 'Date of Birth*' pane contains 'Date of Birth*
+            //
+            //
+            //
+            //
+            // 
+            //
+            //
+            //
+            //
+            // 
+            // 
+            //
+            //
+            //
+            //June 2015
+            //
+            //
+            //
+            //
+            //
+            //Sun
+            //
+            //Mon
+            //
+            //Tue
+            //
+            //Wed
+            //
+            //Thu
+            //
+            //Fri
+            //
+            //Sat
+            // 
+            //
+            // 22 31  01  02  03  04  05  06  
+            // 23 07  08  09  10  11  12  13  
+            // 24 14  15  16  17  18  19  20  
+            // 25 21  22  23  24  25  26  27  
+            // 26 28  29  30  01  02  03  04  
+            // 27 05  06  07  08  09  10  11  
+            //    
+            // Today Clear  Close'
+            StringAssert.Contains(uIDateofBirthPane.InnerText, this.AssertPIISectionFieldsExpectedValues.UIDateofBirthPaneInnerText, "No Date of Birth field to display.");
+
+            // Verify that the 'InnerText' property of 'Countries of Citizenship* Moro' pane contains 'Countries of Citizenship*
+            //
+            //
+            // 
+            //
+            //Morocco 
+            // 
+            //
+            //
+            //
+            //
+            // 
+            //Morocco'
             StringAssert.Contains(uICountriesofCitizenshPane.InnerText, this.AssertPIISectionFieldsExpectedValues.UICountriesofCitizenshPaneInnerText, "No Countries of Citizenship available to display.");
 
             // Verify that the 'InnerText' property of 'Residence Address' pane contains 'Residence Address
@@ -291,8 +585,19 @@ namespace ViewParticipantProfile.Test
             // Verify that the 'InnerText' property of 'Medical Conditions' pane contains 'Medical Conditions'
             StringAssert.Contains(uIMedicalConditionsPane.InnerText, this.AssertPIISectionFieldsExpectedValues.UIMedicalConditionsPaneInnerText, "No Medical Conditions available to display.");
 
-            // Verify that the 'InnerText' property of 'Marital Status' pane contains 'Marital Status'
-            StringAssert.Contains(uIMaritalStatusPane.InnerText, this.AssertPIISectionFieldsExpectedValues.UIMaritalStatusPaneInnerText, "No Marital Status available to display.");
+            // Verify that the 'InnerText' property of 'Marital Status Not Disclosed' pane contains 'Marital Status
+            //
+            //
+            //
+            //
+            //Not Disclosed 
+            //
+            //
+            //
+            //
+            //
+            //Divorced Married Not Disclosed Separated Single Unmarried Widowed '
+            StringAssert.Contains(uIMaritalStatusNotDiscPane.InnerText, this.AssertPIISectionFieldsExpectedValues.UIMaritalStatusNotDiscPaneInnerText, "No Marital Status available to display.");
 
             // Verify that the 'InnerText' property of 'Sevis Id' pane contains 'Sevis Id'
             StringAssert.Contains(uISevisIdPane.InnerText, this.AssertPIISectionFieldsExpectedValues.UISevisIdPaneInnerText, "No SEVIS ID available for display.");
@@ -309,6 +614,29 @@ namespace ViewParticipantProfile.Test
 
             // Perform Close on Browser Window
             uINewtabInternetExplorWindow.Close();
+        }
+        
+        /// <summary>
+        /// Using the Name text box, type Steve Pike; refresh/reload page for display to resolve; type Steve Pike again in the text box; select Steve Pike participant name from result list to navigate to the profile.
+        /// </summary>
+        public void FilterParticipantName_SelectParticipant2()
+        {
+            #region Variable Declarations
+            HtmlEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UISortlistPane.UIItemEdit;
+            HtmlCustom uIStevePike = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UISortlistPane.UIStevePike;
+            #endregion
+
+            // Type 'Steve Pike' in text box
+            uIItemEdit.Text = this.FilterParticipantName_SelectParticipant2Params.UIItemEditText;
+
+            // Type '{F5}' in text box
+            Keyboard.SendKeys(uIItemEdit, this.FilterParticipantName_SelectParticipant2Params.UIItemEditSendKeys, ModifierKeys.None);
+
+            // Type 'Steve Pike' in text box
+            uIItemEdit.Text = this.FilterParticipantName_SelectParticipant2Params.UIItemEditText1;
+
+            // Click custom control
+            Mouse.Click(uIStevePike, new Point(47, 11));
         }
         
         /// <summary>
@@ -348,30 +676,6 @@ namespace ViewParticipantProfile.Test
 
             // Double-Click 'Sign in' pane
             Mouse.DoubleClick(uISigninPane, new Point(42, 15));
-        }
-        
-        /// <summary>
-        /// Open browser; navigate to QA site; select ECATest user; enter password; click sign in.
-        /// </summary>
-        public void LogintoQA_ExistingUser()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIECATest1statedeptusHyperlink = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIECATest1statedeptusHyperlink;
-            HtmlEdit uIPasswordEdit = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UIPasswordEdit;
-            HtmlSpan uISigninPane = this.UINewtabInternetExplorWindow.UISignintoECAClientDocument.UISigninPane;
-            #endregion
-
-            // Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-            this.UINewtabInternetExplorWindow.LaunchUrl(new System.Uri(this.LogintoQA_ExistingUserParams.UINewtabInternetExplorWindowUrl));
-
-            // Click 'ECATest1@statedept.us •••' link
-            Mouse.Click(uIECATest1statedeptusHyperlink, new Point(134, 34));
-
-            // Type '********' in 'Password' text box
-            uIPasswordEdit.Password = this.LogintoQA_ExistingUserParams.UIPasswordEditPassword;
-
-            // Click 'Sign in' pane
-            Mouse.Click(uISigninPane, new Point(23, 20));
         }
         
         /// <summary>
@@ -432,12 +736,29 @@ namespace ViewParticipantProfile.Test
         public void SelectParticipant()
         {
             #region Variable Declarations
-            HtmlHyperlink uIAbdelatifElboudjayHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument2.UISortlistPane.UIAbdelatifElboudjayHyperlink;
+            HtmlCustom uIAbdelatifElboudjay = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument4.UISortlistPane.UIAbdelatifElboudjay;
             #endregion
 
-            // Wait for 2 seconds for user delay between actions; Click 'Abdelatif Elboudjay' link
+            // Wait for 2 seconds for user delay between actions; Click custom control
             Playback.Wait(2000);
-            Mouse.Click(uIAbdelatifElboudjayHyperlink, new Point(91, 6));
+            Mouse.Click(uIAbdelatifElboudjay, new Point(91, 6));
+        }
+        
+        /// <summary>
+        /// Select the Participants breadcrumb to nav back to the Participants list; refresh/reload page for display.
+        /// </summary>
+        public void SelectParticipantsBreadcrumb()
+        {
+            #region Variable Declarations
+            HtmlHyperlink uIParticipantsHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument3.UITopPane2.UIParticipantsHyperlink;
+            BrowserWindow uINewtabInternetExplorWindow = this.UINewtabInternetExplorWindow;
+            #endregion
+
+            // Click 'Participants' link
+            Mouse.Click(uIParticipantsHyperlink, new Point(44, 8));
+
+            // Perform Refresh on Browser Window
+            uINewtabInternetExplorWindow.Refresh();
         }
         
         #region Properties
@@ -465,6 +786,30 @@ namespace ViewParticipantProfile.Test
             }
         }
         
+        public virtual AssertEducation_EmploymentSectionExpectedValues AssertEducation_EmploymentSectionExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertEducation_EmploymentSectionExpectedValues == null))
+                {
+                    this.mAssertEducation_EmploymentSectionExpectedValues = new AssertEducation_EmploymentSectionExpectedValues();
+                }
+                return this.mAssertEducation_EmploymentSectionExpectedValues;
+            }
+        }
+        
+        public virtual AssertGeneralSectionExpectedValues AssertGeneralSectionExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertGeneralSectionExpectedValues == null))
+                {
+                    this.mAssertGeneralSectionExpectedValues = new AssertGeneralSectionExpectedValues();
+                }
+                return this.mAssertGeneralSectionExpectedValues;
+            }
+        }
+        
         public virtual AssertParticipantNameHeadingExpectedValues AssertParticipantNameHeadingExpectedValues
         {
             get
@@ -486,6 +831,18 @@ namespace ViewParticipantProfile.Test
                     this.mAssertParticipantsBannerExpectedValues = new AssertParticipantsBannerExpectedValues();
                 }
                 return this.mAssertParticipantsBannerExpectedValues;
+            }
+        }
+        
+        public virtual AssertParticipantsBreadcrumbExpectedValues AssertParticipantsBreadcrumbExpectedValues
+        {
+            get
+            {
+                if ((this.mAssertParticipantsBreadcrumbExpectedValues == null))
+                {
+                    this.mAssertParticipantsBreadcrumbExpectedValues = new AssertParticipantsBreadcrumbExpectedValues();
+                }
+                return this.mAssertParticipantsBreadcrumbExpectedValues;
             }
         }
         
@@ -537,6 +894,18 @@ namespace ViewParticipantProfile.Test
             }
         }
         
+        public virtual FilterParticipantName_SelectParticipant2Params FilterParticipantName_SelectParticipant2Params
+        {
+            get
+            {
+                if ((this.mFilterParticipantName_SelectParticipant2Params == null))
+                {
+                    this.mFilterParticipantName_SelectParticipant2Params = new FilterParticipantName_SelectParticipant2Params();
+                }
+                return this.mFilterParticipantName_SelectParticipant2Params;
+            }
+        }
+        
         public virtual LogintoQAParams LogintoQAParams
         {
             get
@@ -546,18 +915,6 @@ namespace ViewParticipantProfile.Test
                     this.mLogintoQAParams = new LogintoQAParams();
                 }
                 return this.mLogintoQAParams;
-            }
-        }
-        
-        public virtual LogintoQA_ExistingUserParams LogintoQA_ExistingUserParams
-        {
-            get
-            {
-                if ((this.mLogintoQA_ExistingUserParams == null))
-                {
-                    this.mLogintoQA_ExistingUserParams = new LogintoQA_ExistingUserParams();
-                }
-                return this.mLogintoQA_ExistingUserParams;
             }
         }
         
@@ -579,9 +936,15 @@ namespace ViewParticipantProfile.Test
         
         private AssertContentMenuButtonExpectedValues mAssertContentMenuButtonExpectedValues;
         
+        private AssertEducation_EmploymentSectionExpectedValues mAssertEducation_EmploymentSectionExpectedValues;
+        
+        private AssertGeneralSectionExpectedValues mAssertGeneralSectionExpectedValues;
+        
         private AssertParticipantNameHeadingExpectedValues mAssertParticipantNameHeadingExpectedValues;
         
         private AssertParticipantsBannerExpectedValues mAssertParticipantsBannerExpectedValues;
+        
+        private AssertParticipantsBreadcrumbExpectedValues mAssertParticipantsBreadcrumbExpectedValues;
         
         private AssertParticipantsLinkExpectedValues mAssertParticipantsLinkExpectedValues;
         
@@ -591,9 +954,9 @@ namespace ViewParticipantProfile.Test
         
         private AssertPIISectionFieldsExpectedValues mAssertPIISectionFieldsExpectedValues;
         
-        private LogintoQAParams mLogintoQAParams;
+        private FilterParticipantName_SelectParticipant2Params mFilterParticipantName_SelectParticipant2Params;
         
-        private LogintoQA_ExistingUserParams mLogintoQA_ExistingUserParams;
+        private LogintoQAParams mLogintoQAParams;
         
         private UINewtabInternetExplorWindow mUINewtabInternetExplorWindow;
         #endregion
@@ -665,6 +1028,144 @@ namespace ViewParticipantProfile.Test
     }
     
     /// <summary>
+    /// Parameters to be passed into 'AssertEducation_EmploymentSection'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertEducation_EmploymentSectionExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Education & Employment' pane contains 'Education & Employment'
+        /// </summary>
+        public string UIEducationEmploymentPaneInnerText = "Education & Employment";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Education George Washingon Universit' pane contains ' 
+        ///Education
+        ///
+        /// George Washingon University (1992-1994) 
+        /// MS in Computer Science 
+        /// Marquette University (1979-1983) 
+        /// BS in Computer Engineering 
+        /// '
+        /// </summary>
+        public string UIEducationGeorgeWashiPaneInnerText = " \r\nEducation\r\n\r\n George Washingon University (1992-1994) \r\n MS in Computer Scienc" +
+            "e \r\n Marquette University (1979-1983) \r\n BS in Computer Engineering \r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Professional History Bureau of Educa' pane contains ' 
+        ///Professional History
+        ///
+        /// Bureau of Educational and Cultural Affairs (2005-) 
+        /// Program Manager 
+        /// Information Resources Management, Department of State (1999-2005) 
+        /// Project Manager 
+        /// '
+        /// </summary>
+        public string UIProfessionalHistoryBPaneInnerText = " \r\nProfessional History\r\n\r\n Bureau of Educational and Cultural Affairs (2005-) \r\n" +
+            " Program Manager \r\n Information Resources Management, Department of State (1999-" +
+            "2005) \r\n Project Manager \r\n ";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AssertGeneralSection'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertGeneralSectionExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'General Information' pane contains 'General Information'
+        /// </summary>
+        public string UIGeneralInformationPaneInnerText = "General Information";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Participant Origination' pane contains 'Participant Origination
+        ///
+        /// '
+        /// </summary>
+        public string UIParticipantOriginatiPaneInnerText = "Participant Origination\r\n\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Status Active' pane contains 'Status
+        ///
+        ///Active '
+        /// </summary>
+        public string UIStatusActivePaneInnerText = "Status\r\n\r\nActive ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Prominent Categories Cabinet Member -' pane contains 'Prominent Categories
+        ///
+        ///Cabinet Member - United States 
+        ///Ambassador to Australia
+        ///Grand Poobah
+        /// '
+        /// </summary>
+        public string UIProminentCategoriesCPaneInnerText = "Prominent Categories\r\n\r\nCabinet Member - United States \r\nAmbassador to Australia\r" +
+            "\nGrand Poobah\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Events Participated Foreign Assistanc' pane contains 'Events Participated
+        ///
+        ///Foreign Assistance Evaluation Transparency Initiative
+        /// '
+        /// </summary>
+        public string UIEventsParticipatedFoPaneInnerText = "Events Participated\r\n\r\nForeign Assistance Evaluation Transparency Initiative\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Related Reports' pane contains 'Related Reports
+        ///
+        /// '
+        /// </summary>
+        public string UIRelatedReportsPaneInnerText = "Related Reports\r\n\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Participant Type Individual' pane contains 'Participant Type
+        ///
+        ///Individual '
+        /// </summary>
+        public string UIParticipantTypeIndivPaneInnerText = "Participant Type\r\n\r\nIndividual ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Memberships Loyal Order of Water Buff' pane contains 'Memberships
+        ///
+        ///Loyal Order of Water Buffaloes Lodge No. 26.
+        /// '
+        /// </summary>
+        public string UIMembershipsLoyalOrdePaneInnerText = "Memberships\r\n\r\nLoyal Order of Water Buffaloes Lodge No. 26.\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Language Proficiencies English Esper' pane contains 'Language Proficiencies
+        ///
+        ///English
+        ///Esperanto
+        /// '
+        /// </summary>
+        public string UILanguageProficienciePaneInnerText = "Language Proficiencies\r\n\r\nEnglish\r\nEsperanto\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Dependants Hosford, June Houchins, S' pane contains 'Dependants
+        ///
+        ///Hosford, June
+        ///Houchins, Sue
+        /// '
+        /// </summary>
+        public string UIDependantsHosfordJunPaneInnerText = "Dependants\r\n\r\nHosford, June\r\nHouchins, Sue\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Impact Stories Foreign Intelligence S' pane contains 'Impact Stories
+        ///
+        ///Foreign Intelligence Surveilance Act
+        /// '
+        /// </summary>
+        public string UIImpactStoriesForeignPaneInnerText = "Impact Stories\r\n\r\nForeign Intelligence Surveilance Act\r\n ";
+        #endregion
+    }
+    
+    /// <summary>
     /// Parameters to be passed into 'AssertParticipantNameHeading'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
@@ -699,6 +1200,26 @@ namespace ViewParticipantProfile.Test
     }
     
     /// <summary>
+    /// Parameters to be passed into 'AssertParticipantsBreadcrumb'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class AssertParticipantsBreadcrumbExpectedValues
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Participants' link contains 'Participants'
+        /// </summary>
+        public string UIParticipantsHyperlinkInnerText = "Participants";
+        
+        /// <summary>
+        /// Verify that the 'ControlType' property of 'Participants' link equals 'Hyperlink'
+        /// </summary>
+        public string UIParticipantsHyperlinkControlType = "Hyperlink";
+        #endregion
+    }
+    
+    /// <summary>
     /// Parameters to be passed into 'AssertParticipantsLink'
     /// </summary>
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
@@ -727,14 +1248,14 @@ namespace ViewParticipantProfile.Test
         
         #region Fields
         /// <summary>
-        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of 'Abdelatif Elboudjay' link equals 'Abdelatif Elboudjay'
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'ControlType' property of custom control contains 'Custom'
         /// </summary>
-        public string UIAbdelatifElboudjayHyperlinkInnerText = "Abdelatif Elboudjay";
+        public string UIAbdelatifElboudjayControlType = "Custom";
         
         /// <summary>
-        /// Verify that the 'ControlType' property of 'Abdelatif Elboudjay' link equals 'Hyperlink'
+        /// Wait for 5 seconds for user delay between actions; Verify that the 'InnerText' property of custom control contains 'Abdelatif Elboudjay'
         /// </summary>
-        public string UIAbdelatifElboudjayHyperlinkControlType = "Hyperlink";
+        public string UIAbdelatifElboudjayInnerText = "Abdelatif Elboudjay";
         #endregion
     }
     
@@ -895,20 +1416,189 @@ Sevis Id";
         public string UIPersonalIdentifiablePaneInnerText = "Personal Identifiable Information (PII)";
         
         /// <summary>
-        /// Verify that the 'InnerText' property of 'Names & Alternatives First name: Abde' pane contains 'Names & Alternatives
+        /// Wait for 3 seconds for user delay between actions; Verify that the 'InnerText' property of 'Names & Alternatives First name' pane contains 'Names & Alternatives
         ///
-        ///First name: Abdelatif
-        ///Last name: Elboudjay
-        ///'
+        ///
+        ///
+        ///First name
+        ///
+        ///Abdelatif 
+        ///
+        ///
+        ///Last name
+        ///
+        ///Elboudjay 
+        ///
+        ///
+        ///Name prefix
+        ///
+        /// 
+        ///
+        ///
+        ///Name suffix
+        ///
+        /// 
+        ///
+        ///
+        ///Given name
+        ///
+        /// 
+        ///
+        ///
+        ///Family name
+        ///
+        /// 
+        ///
+        ///
+        ///Middle name
+        ///
+        /// 
+        ///
+        ///
+        ///Patronym
+        ///
+        /// 
+        ///
+        ///
+        ///Alias
+        ///
+        /// 
+        ///
+        ///
+        ///
+        ///First name*
+        ///
+        ///
+        ///
+        ///Last name*
+        ///
+        ///
+        ///
+        ///Name prefix
+        ///
+        ///
+        ///
+        ///Name suffix
+        ///
+        ///
+        ///
+        ///Given name
+        ///
+        ///
+        ///
+        ///Family name
+        ///
+        ///
+        ///
+        ///Middle name
+        ///
+        ///
+        ///
+        ///Patronym
+        ///
+        ///
+        ///
+        ///Alias'
         /// </summary>
-        public string UINamesAlternativesFirPaneInnerText = "Names & Alternatives\r\n\r\nFirst name: Abdelatif\r\nLast name: Elboudjay\r\n";
+        public string UINamesAlternativesFirPaneInnerText = @"Names & Alternatives
+
+
+
+First name
+
+Abdelatif 
+
+
+Last name
+
+Elboudjay 
+
+
+Name prefix
+
+ 
+
+
+Name suffix
+
+ 
+
+
+Given name
+
+ 
+
+
+Family name
+
+ 
+
+
+Middle name
+
+ 
+
+
+Patronym
+
+ 
+
+
+Alias
+
+ 
+
+
+
+First name*
+
+
+
+Last name*
+
+
+
+Name prefix
+
+
+
+Name suffix
+
+
+
+Given name
+
+
+
+Family name
+
+
+
+Middle name
+
+
+
+Patronym
+
+
+
+Alias";
         
         /// <summary>
-        /// Verify that the 'InnerText' property of 'Gender Male' pane contains 'Gender
+        /// Verify that the 'InnerText' property of 'Gender* Male Female' pane contains 'Gender*
         ///
-        ///Male'
+        ///
+        ///
+        ///
+        ///Male 
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///FemaleMaleNot SpecifiedOther'
         /// </summary>
-        public string UIGenderMalePaneInnerText = "Gender\r\n\r\nMale";
+        public string UIGenderMaleFemalePaneInnerText = "Gender*\r\n\r\n\r\n\r\n\r\nMale \r\n\r\n\r\n\r\n\r\n\r\nFemaleMaleNot SpecifiedOther";
         
         /// <summary>
         /// Verify that the 'InnerText' property of 'Ethnicity' pane contains 'Ethnicity'
@@ -916,26 +1606,180 @@ Sevis Id";
         public string UIEthnicityPaneInnerText = "Ethnicity";
         
         /// <summary>
-        /// Verify that the 'InnerText' property of 'Place of Birth ,' pane contains 'Place of Birth
+        /// Verify that the 'InnerText' property of 'Place of Birth Country' pane contains 'Place of Birth
         ///
-        ///, '
-        /// </summary>
-        public string UIPlaceofBirthPaneInnerText = "Place of Birth\r\n\r\n, ";
-        
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Date of Birth Jan 1, 2015' pane contains 'Date of Birth
         ///
-        ///Jan 1, 2015'
-        /// </summary>
-        public string UIDateofBirthJan12015PaneInnerText = "Date of Birth\r\n\r\nJan 1, 2015";
-        
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Countries of Citizenship Morocco' pane contains 'Countries of Citizenship
         ///
-        ///Morocco
+        ///Country
+        ///
+        /// 
+        ///
+        ///
+        ///City
+        ///
+        /// 
+        ///
+        ///
+        ///
+        ///Country*
+        ///
+        ///
+        ///AfghanistanAkrotiriAland IslandsAlbaniaAlgeria American SamoaAndorra Angola AnguillaAntarcticaAntigua and BarbudaArgentinaArmeniaArubaAshmore and Cartier IslandsAustraliaAustriaAzerbaijanBahamasBahrainBaker IslandBangladeshBarbadosBassas da IndiaBelarusBelgiumBelizeBeninBermudaBhutanBoliviaBonaire, Sint Eustatius and SabaBosnia and HerzegovinaBotswanaBouvet IslandBrazilBritish Indian Ocean TerritoryBritish Virgin IslandsBruneiBulgariaBurkina FasoBurmaBurundiCabo VerdeCambodiaCameroonCanadaCayman IslandsCentral African RepublicChadChileChinaChristmas IslandClipperton IslandCocos (Keeling) IslandsColombiaComorosCook IslandsCoral Sea IslandsCosta RicaCôte d'IvoireCroatiaCubaCuracaoCyprusCzech RepublicDemocratic Republic of the CongoDenmarkDhekeliaDjiboutiDominicaDominican RepublicEcuadorEgyptEl SalvadorEquatorial GuineaEritreaEstoniaEthiopiaEuropa IslandFalkland Islands (Malvinas)Faroe IslandsFijiFinlandFranceFrench GuianaFrench PolynesiaFrench Southern TerritoriesGabonGambiaGaza StripGeorgiaGermanyGhanaGibraltarGlorioso IslandsGreeceGreenlandGrenadaGuadeloupeGuamGuatemalaGuernseyGuineaGuinea-BissauGuyanaHaitiHeard Island and Mcdonald IslandsHoly See (Vatican City State)HondurasHong KongHowland IslandHungaryIcelandIndiaIndonesiaInternationalIranIraqIrelandIsle of ManIsraelItalyJamaicaJan MayenJapanJarvis IslandJerseyJerusalemJohnston AtollJordanJuan de Nova IslandKazakhstanKenyaKingman ReefKiribatiKorea, Democratic People's Republic ofKorea, Republic ofKosovoKuwaitKyrgyzstanLaos People's Democratic RepublicLatviaLebanonLesothoLiberiaLibyaLiechtensteinLithuaniaLuxembourgMacao, Special Administrative Region of ChinaMacedonia, The Republic ofMadagascarMalawiMalaysiaMaldivesMaliMaltaMarshall IslandsMartiniqueMauritaniaMauritiusMayotteMexicoMicronesia, Federated States ofMidway IslandsMoldova, Republic ofMonacoMongoliaMontenegroMontserratMoroccoMozambiqueNamibiaNauruNavassa IslandNepalNetherlandsNetherlands AntillesNetherlands AntillesNew CaledoniaNew ZealandNicaraguaNigerNigeriaNiueNorfolk IslandNorthern Mariana IslandsNorwayOmanPakistanPalauPalestine, State ofPalmyra AtollPanamaPapua New GuineaParacel IslandsParaguayPeruPhilippinesPitcairnPolandPortugalPuerto RicoQatarRepublic of the CongoRéunionRomaniaRussiaRwandaSaint HelenaSaint Kitts and NevisSaint LuciaSaint Pierre and MiquelonSaint Vincent and the GrenadinesSaint-BarthélemySaint-Martin (French part)SamoaSan MarinoSao Tome and PrincipeSaudi ArabiaSenegalSerbiaSeychellesSierra LeoneSingaporeSint MaartenSlovakiaSloveniaSolomon IslandsSomaliaSouth AfricaSouth Georgia and the South Sandwich IslandsSouth SudanSpainSpratly IslandsSri LankaSudanSurinameSvalbardSvalbard and Jan Mayen IslandsSwazilandSwedenSwitzerlandSyrian Arab RepublicTaiwanTajikistanTanzania, United Republic ofThailandTimor-LesteTogoTokelauTongaTrinidad and TobagoTromelin IslandTunisiaTurkeyTurkmenistanTurks and Caicos IslandsTuvaluUgandaUkraineUnited Arab EmiratesUnited KingdomUnited States Minor Outlying IslandsUnited States of AmericaUruguayUzbekistanVanuatuVenezuelaVietnamVirgin Islands, USWake IslandWallis and Futuna IslandsWest BankWestern SaharaYemenZambiaZimbabwe
+        ///
+        ///
+        ///City*
+        ///
         /// '
         /// </summary>
-        public string UICountriesofCitizenshPaneInnerText = "Countries of Citizenship\r\n\r\nMorocco\r\n ";
+        public string UIPlaceofBirthCountryPaneInnerText = "Place of Birth\r\n\r\n\r\n\r\nCountry\r\n\r\n \r\n\r\n\r\nCity\r\n\r\n \r\n\r\n\r\n\r\nCountry*\r\n\r\n\r\nAfghanista" +
+            "nAkrotiriAland IslandsAlbaniaAlgeria American SamoaAndorra Angola AnguillaAntarc" +
+            "ticaAntigua and BarbudaArgentinaArmeniaArubaAshmore and Cartier IslandsAustralia" +
+            "AustriaAzerbaijanBahamasBahrainBaker IslandBangladeshBarbadosBassas da IndiaBela" +
+            "rusBelgiumBelizeBeninBermudaBhutanBoliviaBonaire, Sint Eustatius and SabaBosnia " +
+            "and HerzegovinaBotswanaBouvet IslandBrazilBritish Indian Ocean TerritoryBritish " +
+            "Virgin IslandsBruneiBulgariaBurkina FasoBurmaBurundiCabo VerdeCambodiaCameroonCa" +
+            "nadaCayman IslandsCentral African RepublicChadChileChinaChristmas IslandClippert" +
+            "on IslandCocos (Keeling) IslandsColombiaComorosCook IslandsCoral Sea IslandsCost" +
+            "a RicaCôte d\'IvoireCroatiaCubaCuracaoCyprusCzech RepublicDemocratic Republic of " +
+            "the CongoDenmarkDhekeliaDjiboutiDominicaDominican RepublicEcuadorEgyptEl Salvado" +
+            "rEquatorial GuineaEritreaEstoniaEthiopiaEuropa IslandFalkland Islands (Malvinas)" +
+            "Faroe IslandsFijiFinlandFranceFrench GuianaFrench PolynesiaFrench Southern Terri" +
+            "toriesGabonGambiaGaza StripGeorgiaGermanyGhanaGibraltarGlorioso IslandsGreeceGre" +
+            "enlandGrenadaGuadeloupeGuamGuatemalaGuernseyGuineaGuinea-BissauGuyanaHaitiHeard " +
+            "Island and Mcdonald IslandsHoly See (Vatican City State)HondurasHong KongHowland" +
+            " IslandHungaryIcelandIndiaIndonesiaInternationalIranIraqIrelandIsle of ManIsrael" +
+            "ItalyJamaicaJan MayenJapanJarvis IslandJerseyJerusalemJohnston AtollJordanJuan d" +
+            "e Nova IslandKazakhstanKenyaKingman ReefKiribatiKorea, Democratic People\'s Repub" +
+            "lic ofKorea, Republic ofKosovoKuwaitKyrgyzstanLaos People\'s Democratic RepublicL" +
+            "atviaLebanonLesothoLiberiaLibyaLiechtensteinLithuaniaLuxembourgMacao, Special Ad" +
+            "ministrative Region of ChinaMacedonia, The Republic ofMadagascarMalawiMalaysiaMa" +
+            "ldivesMaliMaltaMarshall IslandsMartiniqueMauritaniaMauritiusMayotteMexicoMicrone" +
+            "sia, Federated States ofMidway IslandsMoldova, Republic ofMonacoMongoliaMonteneg" +
+            "roMontserratMoroccoMozambiqueNamibiaNauruNavassa IslandNepalNetherlandsNetherlan" +
+            "ds AntillesNetherlands AntillesNew CaledoniaNew ZealandNicaraguaNigerNigeriaNiue" +
+            "Norfolk IslandNorthern Mariana IslandsNorwayOmanPakistanPalauPalestine, State of" +
+            "Palmyra AtollPanamaPapua New GuineaParacel IslandsParaguayPeruPhilippinesPitcair" +
+            "nPolandPortugalPuerto RicoQatarRepublic of the CongoRéunionRomaniaRussiaRwandaSa" +
+            "int HelenaSaint Kitts and NevisSaint LuciaSaint Pierre and MiquelonSaint Vincent" +
+            " and the GrenadinesSaint-BarthélemySaint-Martin (French part)SamoaSan MarinoSao " +
+            "Tome and PrincipeSaudi ArabiaSenegalSerbiaSeychellesSierra LeoneSingaporeSint Ma" +
+            "artenSlovakiaSloveniaSolomon IslandsSomaliaSouth AfricaSouth Georgia and the Sou" +
+            "th Sandwich IslandsSouth SudanSpainSpratly IslandsSri LankaSudanSurinameSvalbard" +
+            "Svalbard and Jan Mayen IslandsSwazilandSwedenSwitzerlandSyrian Arab RepublicTaiw" +
+            "anTajikistanTanzania, United Republic ofThailandTimor-LesteTogoTokelauTongaTrini" +
+            "dad and TobagoTromelin IslandTunisiaTurkeyTurkmenistanTurks and Caicos IslandsTu" +
+            "valuUgandaUkraineUnited Arab EmiratesUnited KingdomUnited States Minor Outlying " +
+            "IslandsUnited States of AmericaUruguayUzbekistanVanuatuVenezuelaVietnamVirgin Is" +
+            "lands, USWake IslandWallis and Futuna IslandsWest BankWestern SaharaYemenZambiaZ" +
+            "imbabwe\r\n\r\n\r\nCity*\r\n\r\n ";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Date of Birth*' pane contains 'Date of Birth*
+        ///
+        ///
+        ///
+        ///
+        /// 
+        ///
+        ///
+        ///
+        ///
+        /// 
+        /// 
+        ///
+        ///
+        ///
+        ///June 2015
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Sun
+        ///
+        ///Mon
+        ///
+        ///Tue
+        ///
+        ///Wed
+        ///
+        ///Thu
+        ///
+        ///Fri
+        ///
+        ///Sat
+        /// 
+        ///
+        /// 22 31  01  02  03  04  05  06  
+        /// 23 07  08  09  10  11  12  13  
+        /// 24 14  15  16  17  18  19  20  
+        /// 25 21  22  23  24  25  26  27  
+        /// 26 28  29  30  01  02  03  04  
+        /// 27 05  06  07  08  09  10  11  
+        ///    
+        /// Today Clear  Close'
+        /// </summary>
+        public string UIDateofBirthPaneInnerText = @"Date of Birth*
+
+
+
+
+ 
+
+
+
+
+ 
+ 
+
+
+
+June 2015
+
+
+
+
+
+Sun
+
+Mon
+
+Tue
+
+Wed
+
+Thu
+
+Fri
+
+Sat
+ 
+
+ 22 31  01  02  03  04  05  06  
+ 23 07  08  09  10  11  12  13  
+ 24 14  15  16  17  18  19  20  
+ 25 21  22  23  24  25  26  27  
+ 26 28  29  30  01  02  03  04  
+ 27 05  06  07  08  09  10  11  
+    
+ Today Clear  Close";
+        
+        /// <summary>
+        /// Verify that the 'InnerText' property of 'Countries of Citizenship* Moro' pane contains 'Countries of Citizenship*
+        ///
+        ///
+        /// 
+        ///
+        ///Morocco 
+        /// 
+        ///
+        ///
+        ///
+        ///
+        /// 
+        ///Morocco'
+        /// </summary>
+        public string UICountriesofCitizenshPaneInnerText = "Countries of Citizenship*\r\n\r\n\r\n \r\n\r\nMorocco \r\n \r\n\r\n\r\n\r\n\r\n \r\nMorocco";
         
         /// <summary>
         /// Verify that the 'InnerText' property of 'Residence Address' pane contains 'Residence Address
@@ -950,14 +1794,51 @@ Sevis Id";
         public string UIMedicalConditionsPaneInnerText = "Medical Conditions";
         
         /// <summary>
-        /// Verify that the 'InnerText' property of 'Marital Status' pane contains 'Marital Status'
+        /// Verify that the 'InnerText' property of 'Marital Status Not Disclosed' pane contains 'Marital Status
+        ///
+        ///
+        ///
+        ///
+        ///Not Disclosed 
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Divorced Married Not Disclosed Separated Single Unmarried Widowed '
         /// </summary>
-        public string UIMaritalStatusPaneInnerText = "Marital Status";
+        public string UIMaritalStatusNotDiscPaneInnerText = "Marital Status\r\n\r\n\r\n\r\n\r\nNot Disclosed \r\n\r\n\r\n\r\n\r\n\r\nDivorced Married Not Disclosed " +
+            "Separated Single Unmarried Widowed ";
         
         /// <summary>
         /// Verify that the 'InnerText' property of 'Sevis Id' pane contains 'Sevis Id'
         /// </summary>
         public string UISevisIdPaneInnerText = "Sevis Id";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'FilterParticipantName_SelectParticipant2'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class FilterParticipantName_SelectParticipant2Params
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type 'Steve Pike' in text box
+        /// </summary>
+        public string UIItemEditText = "Steve Pike";
+        
+        /// <summary>
+        /// Type '{F5}' in text box
+        /// </summary>
+        public string UIItemEditSendKeys = "{F5}";
+        
+        /// <summary>
+        /// Type 'Steve Pike' in text box
+        /// </summary>
+        public string UIItemEditText1 = "Steve Pike";
         #endregion
     }
     
@@ -993,26 +1874,6 @@ Sevis Id";
         /// Type '********' in 'Password' text box
         /// </summary>
         public string UIPasswordEditPassword = "pnl8gvcmh7nq2IDxDyIPucvLUfiP5WCkCWyYApPZam4=";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'LogintoQA_ExistingUser'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class LogintoQA_ExistingUserParams
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Go to web page 'https://eca-kmt-qa.azurewebsites.net/' using new browser instance
-        /// </summary>
-        public string UINewtabInternetExplorWindowUrl = "https://eca-kmt-qa.azurewebsites.net/";
-        
-        /// <summary>
-        /// Type '********' in 'Password' text box
-        /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7n9Hp5j+06Q16vTeHomf4bql8vy/6wcjU0=";
         #endregion
     }
     
@@ -1145,6 +2006,30 @@ Sevis Id";
                 return this.mUISignintoECAClientDocument;
             }
         }
+        
+        public UIHttpsecakmtqaazureweDocument4 UIHttpsecakmtqaazureweDocument4
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument4 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument4 = new UIHttpsecakmtqaazureweDocument4(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument4;
+            }
+        }
+        
+        public UIHttpsecakmtqaazureweDocument5 UIHttpsecakmtqaazureweDocument5
+        {
+            get
+            {
+                if ((this.mUIHttpsecakmtqaazureweDocument5 == null))
+                {
+                    this.mUIHttpsecakmtqaazureweDocument5 = new UIHttpsecakmtqaazureweDocument5(this);
+                }
+                return this.mUIHttpsecakmtqaazureweDocument5;
+            }
+        }
         #endregion
         
         #region Fields
@@ -1165,6 +2050,10 @@ Sevis Id";
         private UIHttpsecakmtqaazureweDocument3 mUIHttpsecakmtqaazureweDocument3;
         
         private UISignintoECAClientDocument mUISignintoECAClientDocument;
+        
+        private UIHttpsecakmtqaazureweDocument4 mUIHttpsecakmtqaazureweDocument4;
+        
+        private UIHttpsecakmtqaazureweDocument5 mUIHttpsecakmtqaazureweDocument5;
         #endregion
     }
     
@@ -1623,8 +2512,8 @@ Sevis Id";
                     this.mUIAbdelatifElboudjayHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
                     this.mUIAbdelatifElboudjayHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/participants/986/personalinformation";
                     this.mUIAbdelatifElboudjayHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = "ng-binding";
-                    this.mUIAbdelatifElboudjayHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" href=\"#/participants/";
-                    this.mUIAbdelatifElboudjayHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "1";
+                    this.mUIAbdelatifElboudjayHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "class=\"ng-binding\" ng-click=\"onParticipantClick(participant)\"";
+                    this.mUIAbdelatifElboudjayHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "12";
                     this.mUIAbdelatifElboudjayHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
                     #endregion
                 }
@@ -1769,12 +2658,40 @@ Sevis Id";
                 return this.mUITopPane1;
             }
         }
+        
+        public UIPiiFormCustom UIPiiFormCustom
+        {
+            get
+            {
+                if ((this.mUIPiiFormCustom == null))
+                {
+                    this.mUIPiiFormCustom = new UIPiiFormCustom(this);
+                }
+                return this.mUIPiiFormCustom;
+            }
+        }
+        
+        public UITopPane2 UITopPane2
+        {
+            get
+            {
+                if ((this.mUITopPane2 == null))
+                {
+                    this.mUITopPane2 = new UITopPane2(this);
+                }
+                return this.mUITopPane2;
+            }
+        }
         #endregion
         
         #region Fields
         private UITopPane1 mUITopPane;
         
         private UITopPane11 mUITopPane1;
+        
+        private UIPiiFormCustom mUIPiiFormCustom;
+        
+        private UITopPane2 mUITopPane2;
         #endregion
     }
     
@@ -2307,6 +3224,321 @@ Sevis Id";
     }
     
     [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIPiiFormCustom : HtmlCustom
+    {
+        
+        public UIPiiFormCustom(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties["TagName"] = "FORM";
+            this.SearchProperties["Id"] = null;
+            this.SearchProperties[UITestControl.PropertyNames.Name] = "piiForm";
+            this.FilterProperties["Class"] = "form-horizontal ng-pristine ng-valid-date ng-invalid ng-invalid-required ng-valid" +
+                "-date-disabled";
+            this.FilterProperties["ControlDefinition"] = "name=\"piiForm\" class=\"form-horizontal ng";
+            this.FilterProperties["TagInstance"] = "1";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlDiv UINamesAlternativesFirPane
+        {
+            get
+            {
+                if ((this.mUINamesAlternativesFirPane == null))
+                {
+                    this.mUINamesAlternativesFirPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUINamesAlternativesFirPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUINamesAlternativesFirPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUINamesAlternativesFirPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Names & Alternatives\r\n\r\n\r\n\r\nFirst name\r\n";
+                    this.mUINamesAlternativesFirPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUINamesAlternativesFirPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUINamesAlternativesFirPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUINamesAlternativesFirPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "77";
+                    this.mUINamesAlternativesFirPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUINamesAlternativesFirPane;
+            }
+        }
+        
+        public HtmlDiv UIGenderMaleFemalePane
+        {
+            get
+            {
+                if ((this.mUIGenderMaleFemalePane == null))
+                {
+                    this.mUIGenderMaleFemalePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIGenderMaleFemalePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIGenderMaleFemalePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIGenderMaleFemalePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Gender*\r\n\r\n\r\n\r\n\r\nMale \r\n\r\n\r\n\r\n\r\n\r\nFemale";
+                    this.mUIGenderMaleFemalePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIGenderMaleFemalePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIGenderMaleFemalePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIGenderMaleFemalePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "117";
+                    this.mUIGenderMaleFemalePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIGenderMaleFemalePane;
+            }
+        }
+        
+        public HtmlDiv UIEthnicityPane
+        {
+            get
+            {
+                if ((this.mUIEthnicityPane == null))
+                {
+                    this.mUIEthnicityPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEthnicityPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEthnicityPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEthnicityPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Ethnicity\r\n\r\n\r\n\r\n\r\n ";
+                    this.mUIEthnicityPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEthnicityPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIEthnicityPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIEthnicityPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "125";
+                    this.mUIEthnicityPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEthnicityPane;
+            }
+        }
+        
+        public HtmlDiv UIPlaceofBirthCountryPane
+        {
+            get
+            {
+                if ((this.mUIPlaceofBirthCountryPane == null))
+                {
+                    this.mUIPlaceofBirthCountryPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIPlaceofBirthCountryPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIPlaceofBirthCountryPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIPlaceofBirthCountryPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Place of Birth\r\n\r\n\r\n\r\nCountry\r\n\r\n \r\n\r\n\r\n";
+                    this.mUIPlaceofBirthCountryPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIPlaceofBirthCountryPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIPlaceofBirthCountryPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIPlaceofBirthCountryPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "133";
+                    this.mUIPlaceofBirthCountryPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIPlaceofBirthCountryPane;
+            }
+        }
+        
+        public HtmlDiv UIDateofBirthPane
+        {
+            get
+            {
+                if ((this.mUIDateofBirthPane == null))
+                {
+                    this.mUIDateofBirthPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIDateofBirthPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIDateofBirthPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIDateofBirthPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Date of Birth*\r\n\r\n\r\n\r\n\r\n \r\n\r\n\r\n\r\n\r\n \r\n \r";
+                    this.mUIDateofBirthPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIDateofBirthPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIDateofBirthPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIDateofBirthPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "145";
+                    this.mUIDateofBirthPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIDateofBirthPane;
+            }
+        }
+        
+        public HtmlDiv UICountriesofCitizenshPane
+        {
+            get
+            {
+                if ((this.mUICountriesofCitizenshPane == null))
+                {
+                    this.mUICountriesofCitizenshPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUICountriesofCitizenshPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUICountriesofCitizenshPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUICountriesofCitizenshPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Countries of Citizenship*\r\n\r\n\r\n \r\n\r\nMoro";
+                    this.mUICountriesofCitizenshPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUICountriesofCitizenshPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUICountriesofCitizenshPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUICountriesofCitizenshPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "155";
+                    this.mUICountriesofCitizenshPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUICountriesofCitizenshPane;
+            }
+        }
+        
+        public HtmlDiv UIResidenceAddressPane
+        {
+            get
+            {
+                if ((this.mUIResidenceAddressPane == null))
+                {
+                    this.mUIResidenceAddressPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIResidenceAddressPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIResidenceAddressPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIResidenceAddressPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Residence Address\r\n\r\n ";
+                    this.mUIResidenceAddressPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIResidenceAddressPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIResidenceAddressPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIResidenceAddressPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "167";
+                    this.mUIResidenceAddressPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIResidenceAddressPane;
+            }
+        }
+        
+        public HtmlDiv UIMedicalConditionsPane
+        {
+            get
+            {
+                if ((this.mUIMedicalConditionsPane == null))
+                {
+                    this.mUIMedicalConditionsPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIMedicalConditionsPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIMedicalConditionsPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIMedicalConditionsPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Medical Conditions\r\n\r\n\r\n\r\n\r\n ";
+                    this.mUIMedicalConditionsPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIMedicalConditionsPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIMedicalConditionsPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIMedicalConditionsPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "170";
+                    this.mUIMedicalConditionsPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIMedicalConditionsPane;
+            }
+        }
+        
+        public HtmlDiv UIMaritalStatusNotDiscPane
+        {
+            get
+            {
+                if ((this.mUIMaritalStatusNotDiscPane == null))
+                {
+                    this.mUIMaritalStatusNotDiscPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIMaritalStatusNotDiscPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIMaritalStatusNotDiscPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIMaritalStatusNotDiscPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Marital Status\r\n\r\n\r\n\r\n\r\nNot Disclosed \r\n";
+                    this.mUIMaritalStatusNotDiscPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIMaritalStatusNotDiscPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIMaritalStatusNotDiscPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIMaritalStatusNotDiscPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "178";
+                    this.mUIMaritalStatusNotDiscPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIMaritalStatusNotDiscPane;
+            }
+        }
+        
+        public HtmlDiv UISevisIdPane
+        {
+            get
+            {
+                if ((this.mUISevisIdPane == null))
+                {
+                    this.mUISevisIdPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUISevisIdPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUISevisIdPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUISevisIdPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Sevis Id\r\n\r\n\r\n\r\n\r\n ";
+                    this.mUISevisIdPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUISevisIdPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUISevisIdPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUISevisIdPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "186";
+                    this.mUISevisIdPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUISevisIdPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlDiv mUINamesAlternativesFirPane;
+        
+        private HtmlDiv mUIGenderMaleFemalePane;
+        
+        private HtmlDiv mUIEthnicityPane;
+        
+        private HtmlDiv mUIPlaceofBirthCountryPane;
+        
+        private HtmlDiv mUIDateofBirthPane;
+        
+        private HtmlDiv mUICountriesofCitizenshPane;
+        
+        private HtmlDiv mUIResidenceAddressPane;
+        
+        private HtmlDiv mUIMedicalConditionsPane;
+        
+        private HtmlDiv mUIMaritalStatusNotDiscPane;
+        
+        private HtmlDiv mUISevisIdPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UITopPane2 : HtmlDiv
+    {
+        
+        public UITopPane2(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants • Abdelatif Elboudjay\r\n\r\n\r\n";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" autoscroll=\"true\" ui-view=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "27";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlHyperlink UIParticipantsHyperlink
+        {
+            get
+            {
+                if ((this.mUIParticipantsHyperlink == null))
+                {
+                    this.mUIParticipantsHyperlink = new HtmlHyperlink(this);
+                    #region Search Criteria
+                    this.mUIParticipantsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Id] = null;
+                    this.mUIParticipantsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Name] = null;
+                    this.mUIParticipantsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.Target] = null;
+                    this.mUIParticipantsHyperlink.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "Participants";
+                    this.mUIParticipantsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.AbsolutePath] = null;
+                    this.mUIParticipantsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Title] = null;
+                    this.mUIParticipantsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Href] = "#/allparticipants";
+                    this.mUIParticipantsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.Class] = null;
+                    this.mUIParticipantsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.ControlDefinition] = "href=\"#/allparticipants\" ui-sref=\"allpar";
+                    this.mUIParticipantsHyperlink.FilterProperties[HtmlHyperlink.PropertyNames.TagInstance] = "1";
+                    this.mUIParticipantsHyperlink.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIParticipantsHyperlink;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlHyperlink mUIParticipantsHyperlink;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
     public class UISignintoECAClientDocument : HtmlDocument
     {
         
@@ -2405,6 +3637,609 @@ Sevis Id";
         private HtmlEdit mUIPasswordEdit;
         
         private HtmlSpan mUISigninPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweDocument4 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument4(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/#/allparticipants#top";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UISortlistPane2 UISortlistPane
+        {
+            get
+            {
+                if ((this.mUISortlistPane == null))
+                {
+                    this.mUISortlistPane = new UISortlistPane2(this);
+                }
+                return this.mUISortlistPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UISortlistPane2 mUISortlistPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UISortlistPane2 : HtmlDiv
+    {
+        
+        public UISortlistPane2(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "sort-list";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Name\r\n\r\nType\r\n\r\nStatus\r\n\r\n \r\n\r\n\r\n\r\n\r\n\r\n ";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-isolate-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-isolate-scope\" id=\"sort-list\" st-table=\"participants\" st-pipe=\"getParti" +
+                "cipants\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "31";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlEdit UIItemEdit
+        {
+            get
+            {
+                if ((this.mUIItemEdit == null))
+                {
+                    this.mUIItemEdit = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "input-lg form-control";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"input-lg form-control\" type=\"sear";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "1";
+                    this.mUIItemEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEdit;
+            }
+        }
+        
+        public HtmlCustom UIAbdelatifElboudjay
+        {
+            get
+            {
+                if ((this.mUIAbdelatifElboudjay == null))
+                {
+                    this.mUIAbdelatifElboudjay = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIAbdelatifElboudjay.SearchProperties["TagName"] = "A";
+                    this.mUIAbdelatifElboudjay.SearchProperties["Id"] = null;
+                    this.mUIAbdelatifElboudjay.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIAbdelatifElboudjay.SearchProperties["InnerText"] = "Abdelatif Elboudjay";
+                    this.mUIAbdelatifElboudjay.FilterProperties["Class"] = "ng-binding";
+                    this.mUIAbdelatifElboudjay.FilterProperties["ControlDefinition"] = "class=\"ng-binding\" ng-click=\"onParticipa";
+                    this.mUIAbdelatifElboudjay.FilterProperties["TagInstance"] = "1";
+                    this.mUIAbdelatifElboudjay.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAbdelatifElboudjay;
+            }
+        }
+        
+        public HtmlCustom UIStevePike
+        {
+            get
+            {
+                if ((this.mUIStevePike == null))
+                {
+                    this.mUIStevePike = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIStevePike.SearchProperties["TagName"] = "A";
+                    this.mUIStevePike.SearchProperties["Id"] = "";
+                    this.mUIStevePike.SearchProperties[UITestControl.PropertyNames.Name] = "";
+                    this.mUIStevePike.SearchProperties["InnerText"] = "Steve Pike";
+                    this.mUIStevePike.FilterProperties["Class"] = "ng-binding";
+                    this.mUIStevePike.FilterProperties["ControlDefinition"] = "class=\"ng-binding\" ng-click=\"onParticipa";
+                    this.mUIStevePike.FilterProperties["TagInstance"] = "1";
+                    this.mUIStevePike.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIStevePike;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlEdit mUIItemEdit;
+        
+        private HtmlCustom mUIAbdelatifElboudjay;
+        
+        private HtmlCustom mUIStevePike;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UIHttpsecakmtqaazureweDocument5 : HtmlDocument
+    {
+        
+        public UIHttpsecakmtqaazureweDocument5(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDocument.PropertyNames.Id] = null;
+            this.SearchProperties[HtmlDocument.PropertyNames.RedirectingPage] = "False";
+            this.SearchProperties[HtmlDocument.PropertyNames.FrameDocument] = "False";
+            this.FilterProperties[HtmlDocument.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDocument.PropertyNames.AbsolutePath] = "/";
+            this.FilterProperties[HtmlDocument.PropertyNames.PageUrl] = "https://eca-kmt-qa.azurewebsites.net/#/participants/9246/personalinformation#top";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public UITopPane3 UITopPane
+        {
+            get
+            {
+                if ((this.mUITopPane == null))
+                {
+                    this.mUITopPane = new UITopPane3(this);
+                }
+                return this.mUITopPane;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private UITopPane3 mUITopPane;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
+    public class UITopPane3 : HtmlDiv
+    {
+        
+        public UITopPane3(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[HtmlDiv.PropertyNames.Id] = "top";
+            this.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participants • Steve Pike\r\n\r\n\r\n\r\nLast Up";
+            this.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+            this.FilterProperties[HtmlDiv.PropertyNames.Class] = "ng-scope";
+            this.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"ng-scope\" id=\"top\" autoscroll=\"true\" ui-view=\"\"";
+            this.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "27";
+            this.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+            #endregion
+        }
+        
+        #region Properties
+        public HtmlDiv UIGeneralInformationPane
+        {
+            get
+            {
+                if ((this.mUIGeneralInformationPane == null))
+                {
+                    this.mUIGeneralInformationPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIGeneralInformationPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIGeneralInformationPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIGeneralInformationPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "General Information";
+                    this.mUIGeneralInformationPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIGeneralInformationPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "col-md-6";
+                    this.mUIGeneralInformationPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"col-md-6\"";
+                    this.mUIGeneralInformationPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "45";
+                    this.mUIGeneralInformationPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIGeneralInformationPane;
+            }
+        }
+        
+        public HtmlDiv UIParticipantOriginatiPane
+        {
+            get
+            {
+                if ((this.mUIParticipantOriginatiPane == null))
+                {
+                    this.mUIParticipantOriginatiPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIParticipantOriginatiPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIParticipantOriginatiPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIParticipantOriginatiPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participant Origination\r\n\r\n ";
+                    this.mUIParticipantOriginatiPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIParticipantOriginatiPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIParticipantOriginatiPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIParticipantOriginatiPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "51";
+                    this.mUIParticipantOriginatiPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIParticipantOriginatiPane;
+            }
+        }
+        
+        public HtmlDiv UIStatusActivePane
+        {
+            get
+            {
+                if ((this.mUIStatusActivePane == null))
+                {
+                    this.mUIStatusActivePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIStatusActivePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIStatusActivePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIStatusActivePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Status\r\n\r\nActive ";
+                    this.mUIStatusActivePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIStatusActivePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIStatusActivePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIStatusActivePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "53";
+                    this.mUIStatusActivePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIStatusActivePane;
+            }
+        }
+        
+        public HtmlDiv UIProminentCategoriesCPane
+        {
+            get
+            {
+                if ((this.mUIProminentCategoriesCPane == null))
+                {
+                    this.mUIProminentCategoriesCPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIProminentCategoriesCPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIProminentCategoriesCPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIProminentCategoriesCPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Prominent Categories\r\n\r\nCabinet Member -";
+                    this.mUIProminentCategoriesCPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIProminentCategoriesCPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIProminentCategoriesCPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIProminentCategoriesCPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "55";
+                    this.mUIProminentCategoriesCPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIProminentCategoriesCPane;
+            }
+        }
+        
+        public HtmlDiv UIEventsParticipatedFoPane
+        {
+            get
+            {
+                if ((this.mUIEventsParticipatedFoPane == null))
+                {
+                    this.mUIEventsParticipatedFoPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEventsParticipatedFoPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEventsParticipatedFoPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEventsParticipatedFoPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Events Participated\r\n\r\nForeign Assistanc";
+                    this.mUIEventsParticipatedFoPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEventsParticipatedFoPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIEventsParticipatedFoPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIEventsParticipatedFoPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "57";
+                    this.mUIEventsParticipatedFoPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEventsParticipatedFoPane;
+            }
+        }
+        
+        public HtmlDiv UIRelatedReportsPane
+        {
+            get
+            {
+                if ((this.mUIRelatedReportsPane == null))
+                {
+                    this.mUIRelatedReportsPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIRelatedReportsPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIRelatedReportsPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIRelatedReportsPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Related Reports\r\n\r\n ";
+                    this.mUIRelatedReportsPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIRelatedReportsPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIRelatedReportsPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIRelatedReportsPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "59";
+                    this.mUIRelatedReportsPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIRelatedReportsPane;
+            }
+        }
+        
+        public HtmlDiv UIParticipantTypeIndivPane
+        {
+            get
+            {
+                if ((this.mUIParticipantTypeIndivPane == null))
+                {
+                    this.mUIParticipantTypeIndivPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIParticipantTypeIndivPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIParticipantTypeIndivPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIParticipantTypeIndivPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Participant Type\r\n\r\nIndividual ";
+                    this.mUIParticipantTypeIndivPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIParticipantTypeIndivPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIParticipantTypeIndivPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIParticipantTypeIndivPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "62";
+                    this.mUIParticipantTypeIndivPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIParticipantTypeIndivPane;
+            }
+        }
+        
+        public HtmlDiv UIMembershipsLoyalOrdePane
+        {
+            get
+            {
+                if ((this.mUIMembershipsLoyalOrdePane == null))
+                {
+                    this.mUIMembershipsLoyalOrdePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIMembershipsLoyalOrdePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIMembershipsLoyalOrdePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIMembershipsLoyalOrdePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Memberships\r\n\r\nLoyal Order of Water Buff";
+                    this.mUIMembershipsLoyalOrdePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIMembershipsLoyalOrdePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIMembershipsLoyalOrdePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIMembershipsLoyalOrdePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "64";
+                    this.mUIMembershipsLoyalOrdePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIMembershipsLoyalOrdePane;
+            }
+        }
+        
+        public HtmlDiv UILanguageProficienciePane
+        {
+            get
+            {
+                if ((this.mUILanguageProficienciePane == null))
+                {
+                    this.mUILanguageProficienciePane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUILanguageProficienciePane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUILanguageProficienciePane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUILanguageProficienciePane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Language Proficiencies\r\n\r\nEnglish\r\nEsper";
+                    this.mUILanguageProficienciePane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUILanguageProficienciePane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUILanguageProficienciePane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUILanguageProficienciePane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "66";
+                    this.mUILanguageProficienciePane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUILanguageProficienciePane;
+            }
+        }
+        
+        public HtmlDiv UIDependantsHosfordJunPane
+        {
+            get
+            {
+                if ((this.mUIDependantsHosfordJunPane == null))
+                {
+                    this.mUIDependantsHosfordJunPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIDependantsHosfordJunPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIDependantsHosfordJunPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIDependantsHosfordJunPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Dependants\r\n\r\nHosford, June\r\nHouchins, S";
+                    this.mUIDependantsHosfordJunPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIDependantsHosfordJunPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIDependantsHosfordJunPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIDependantsHosfordJunPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "68";
+                    this.mUIDependantsHosfordJunPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIDependantsHosfordJunPane;
+            }
+        }
+        
+        public HtmlDiv UIImpactStoriesForeignPane
+        {
+            get
+            {
+                if ((this.mUIImpactStoriesForeignPane == null))
+                {
+                    this.mUIImpactStoriesForeignPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIImpactStoriesForeignPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIImpactStoriesForeignPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIImpactStoriesForeignPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Impact Stories\r\n\r\nForeign Intelligence S";
+                    this.mUIImpactStoriesForeignPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIImpactStoriesForeignPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIImpactStoriesForeignPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\"";
+                    this.mUIImpactStoriesForeignPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "70";
+                    this.mUIImpactStoriesForeignPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIImpactStoriesForeignPane;
+            }
+        }
+        
+        public HtmlDiv UIEducationEmploymentPane
+        {
+            get
+            {
+                if ((this.mUIEducationEmploymentPane == null))
+                {
+                    this.mUIEducationEmploymentPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEducationEmploymentPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEducationEmploymentPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEducationEmploymentPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Education & Employment";
+                    this.mUIEducationEmploymentPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEducationEmploymentPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "col-md-6";
+                    this.mUIEducationEmploymentPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"col-md-6\"";
+                    this.mUIEducationEmploymentPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "216";
+                    this.mUIEducationEmploymentPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEducationEmploymentPane;
+            }
+        }
+        
+        public HtmlDiv UIEducationGeorgeWashiPane
+        {
+            get
+            {
+                if ((this.mUIEducationGeorgeWashiPane == null))
+                {
+                    this.mUIEducationGeorgeWashiPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIEducationGeorgeWashiPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIEducationGeorgeWashiPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIEducationGeorgeWashiPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Education\r\n\r\n George Washingon Universit";
+                    this.mUIEducationGeorgeWashiPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIEducationGeorgeWashiPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIEducationGeorgeWashiPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\" style=\"border-top-color: silver; border-top-width: 1px; border-top-st" +
+                        "yle: solid;\"";
+                    this.mUIEducationGeorgeWashiPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "222";
+                    this.mUIEducationGeorgeWashiPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIEducationGeorgeWashiPane;
+            }
+        }
+        
+        public HtmlDiv UIProfessionalHistoryBPane
+        {
+            get
+            {
+                if ((this.mUIProfessionalHistoryBPane == null))
+                {
+                    this.mUIProfessionalHistoryBPane = new HtmlDiv(this);
+                    #region Search Criteria
+                    this.mUIProfessionalHistoryBPane.SearchProperties[HtmlDiv.PropertyNames.Id] = null;
+                    this.mUIProfessionalHistoryBPane.SearchProperties[HtmlDiv.PropertyNames.Name] = null;
+                    this.mUIProfessionalHistoryBPane.FilterProperties[HtmlDiv.PropertyNames.InnerText] = "Professional History\r\n\r\n Bureau of Educa";
+                    this.mUIProfessionalHistoryBPane.FilterProperties[HtmlDiv.PropertyNames.Title] = null;
+                    this.mUIProfessionalHistoryBPane.FilterProperties[HtmlDiv.PropertyNames.Class] = "row";
+                    this.mUIProfessionalHistoryBPane.FilterProperties[HtmlDiv.PropertyNames.ControlDefinition] = "class=\"row\" style=\"border-top-color: silver; border-top-width: 1px; border-top-st" +
+                        "yle: solid;\"";
+                    this.mUIProfessionalHistoryBPane.FilterProperties[HtmlDiv.PropertyNames.TagInstance] = "225";
+                    this.mUIProfessionalHistoryBPane.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIProfessionalHistoryBPane;
+            }
+        }
+        
+        public HtmlCustom UIItemEduEmpChevron
+        {
+            get
+            {
+                if ((this.mUIItemEduEmpChevron == null))
+                {
+                    this.mUIItemEduEmpChevron = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIItemEduEmpChevron.SearchProperties["TagName"] = "A";
+                    this.mUIItemEduEmpChevron.SearchProperties["Id"] = null;
+                    this.mUIItemEduEmpChevron.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIItemEduEmpChevron.FilterProperties["Class"] = null;
+                    this.mUIItemEduEmpChevron.FilterProperties["ControlDefinition"] = "ng-click=\"showEduEmp = !showEduEmp\"";
+                    this.mUIItemEduEmpChevron.FilterProperties["TagInstance"] = "15";
+                    this.mUIItemEduEmpChevron.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemEduEmpChevron;
+            }
+        }
+        
+        public HtmlCustom UIItemPIIChevronandEdit
+        {
+            get
+            {
+                if ((this.mUIItemPIIChevronandEdit == null))
+                {
+                    this.mUIItemPIIChevronandEdit = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIItemPIIChevronandEdit.SearchProperties["TagName"] = "A";
+                    this.mUIItemPIIChevronandEdit.SearchProperties["Id"] = null;
+                    this.mUIItemPIIChevronandEdit.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIItemPIIChevronandEdit.FilterProperties["Class"] = null;
+                    this.mUIItemPIIChevronandEdit.FilterProperties["ControlDefinition"] = "ng-click=\"showPii = !showPii\"";
+                    this.mUIItemPIIChevronandEdit.FilterProperties["TagInstance"] = "11";
+                    this.mUIItemPIIChevronandEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemPIIChevronandEdit;
+            }
+        }
+        
+        public HtmlCustom UIItemGeneralInfoChevron
+        {
+            get
+            {
+                if ((this.mUIItemGeneralInfoChevron == null))
+                {
+                    this.mUIItemGeneralInfoChevron = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIItemGeneralInfoChevron.SearchProperties["TagName"] = "A";
+                    this.mUIItemGeneralInfoChevron.SearchProperties["Id"] = null;
+                    this.mUIItemGeneralInfoChevron.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIItemGeneralInfoChevron.FilterProperties["Class"] = null;
+                    this.mUIItemGeneralInfoChevron.FilterProperties["ControlDefinition"] = "ng-click=\"showGeneral = !showGeneral\"";
+                    this.mUIItemGeneralInfoChevron.FilterProperties["TagInstance"] = "10";
+                    this.mUIItemGeneralInfoChevron.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIItemGeneralInfoChevron;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private HtmlDiv mUIGeneralInformationPane;
+        
+        private HtmlDiv mUIParticipantOriginatiPane;
+        
+        private HtmlDiv mUIStatusActivePane;
+        
+        private HtmlDiv mUIProminentCategoriesCPane;
+        
+        private HtmlDiv mUIEventsParticipatedFoPane;
+        
+        private HtmlDiv mUIRelatedReportsPane;
+        
+        private HtmlDiv mUIParticipantTypeIndivPane;
+        
+        private HtmlDiv mUIMembershipsLoyalOrdePane;
+        
+        private HtmlDiv mUILanguageProficienciePane;
+        
+        private HtmlDiv mUIDependantsHosfordJunPane;
+        
+        private HtmlDiv mUIImpactStoriesForeignPane;
+        
+        private HtmlDiv mUIEducationEmploymentPane;
+        
+        private HtmlDiv mUIEducationGeorgeWashiPane;
+        
+        private HtmlDiv mUIProfessionalHistoryBPane;
+        
+        private HtmlCustom mUIItemEduEmpChevron;
+        
+        private HtmlCustom mUIItemPIIChevronandEdit;
+        
+        private HtmlCustom mUIItemGeneralInfoChevron;
         #endregion
     }
 }
