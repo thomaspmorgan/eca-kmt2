@@ -96,7 +96,7 @@
             </div>
         </div>
         <div class="col-md-6" ng-show="!view.isAddingParticipant">
-            <div>
+            <div style="margin-top:10px;">
                 Filter By:
                 <label class="radio-inline">
                     <input type="radio" value="{{view.addPersonFilterValue}}" ng-change="view.onRadioButtonChange(view.addPersonFilterValue)" ng-model="view.addParticipantFilter" />
@@ -107,32 +107,34 @@
                     Organization
                 </label>
             </div>
-            <div>
-                <div>
-                    Showing {{view.displayedAvailableParticipantsCount}} of {{view.totalAvailableParticipants}} available participants.
+            <div style="margin-top:10px;">
+                <div style="margin-top:10px;" style="margin-top:10px;">
+                    Showing {{view.displayedAvailableParticipantsCount}} of {{view.totalAvailableParticipants}} available {{view.addParticipantFilter}} participants.
                 </div>
-                <input type="text"
-                       class="form-control"
-                       typeahead-append-to-body="true"
-                       typeahead-input-formatter="view.formatAddedParticipant($model)"
-                       placeholder="Add an existing participant..."
-                       ng-model="view.selectedExistingParticipant"
-                       typeahead-wait-ms="250"
-                       typeahead-loading="view.isLoadingAvailableParticipants"
-                       typeahead="participant as participant.name for participant in view.getAvailableParticipants($viewValue) | filter : $viewValue | limitTo : view.addParticipantsLimit"
-                       typeahead-on-select="view.onAddParticipantSelect($item, $model, $label)"
-                       typeahead-template-url="addCollaboratorTemplate.html"
-                       typeahead-editable="false" />
-                <div>
-                    <i ng-show="view.isLoadingAvailableParticipants" class="glyphicon glyphicon-refresh"></i>
-                </div>
+                <label style="position:relative; margin-top:10px;" >
+                    <i ng-show="!view.isLoadingAvailableParticipants" class="md md-search md-lg" style="position:absolute; right:10px;top:13px;"></i>
+                    <i ng-show="view.isLoadingAvailableParticipants" class="md md-loop md-spin-reverse md-lg" style="position:absolute; right:10px;top:13px;"></i>
+                    <input type="text"
+                           class="form-control"
+                           typeahead-append-to-body="true"
+                           typeahead-input-formatter="view.formatAddedParticipant($model)"
+                           placeholder="Add an existing participant..."
+                           ng-model="view.selectedExistingParticipant"
+                           typeahead-wait-ms="400"
+                           typeahead-loading="view.isLoadingAvailableParticipants"
+                           typeahead="participant as participant.name for participant in view.getAvailableParticipants($viewValue) | filter : $viewValue | limitTo : view.addParticipantsLimit"
+                           typeahead-on-select="view.onAddParticipantSelect($item, $model, $label)"
+                           typeahead-template-url="addCollaboratorTemplate.html"
+                           typeahead-editable="false">
+                    </input>
+                </label>
             </div>
         </div>
-        <div class="col-md-4" ng-show="!view.isAddingParticipant">
-            <p class="pull-right" style="margin-top:10px;">Search not returning a result?</p>
+        <div class="col-md-5" ng-show="!view.isAddingParticipant" style="margin-top:75px;">
+            <p class="pull-right" style="font-style:italic">Search not returning a result?</p>
         </div>
-        <div class="col-md-2" ng-show="!view.isAddingParticipant">
-            <button class="btn btn-primary" ng-click="modal.addParticipant = true">ADD NEW PARTICIPANT</button>
+        <div class="col-md-1" ng-show="!view.isAddingParticipant" style="margin-top:65px;">
+            <button class="btn btn-primary" ng-click=" modal.addparticipant=true">ADD NEW PARTICIPANT</button>
         </div>
     </div>
     <div class="row expand" ng-show="dataExpanded2">
