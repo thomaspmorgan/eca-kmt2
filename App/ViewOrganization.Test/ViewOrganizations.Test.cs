@@ -25,12 +25,17 @@ namespace ViewOrganization.Test
         [TestMethod]
         public void ViewOrganizationCodedUITestMethod()
         {
-            // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
+            
             this.UIMap.LogintoQA_ExistingUser();
             this.UIMap.ToggleContentMenu();
             this.UIMap.AssertOrganizations_ContentMenu();
             this.UIMap.SelectOrganizationsLink();
             this.UIMap.AssertOrgList();
+            this.UIMap.SelectOrganization();
+            this.UIMap.RefreshBrowser();
+            this.UIMap.SelectOrganization();
+            this.UIMap.AssertIndividualOrg_OverviewDetails();
+
         }
 
         #region Additional test attributes
