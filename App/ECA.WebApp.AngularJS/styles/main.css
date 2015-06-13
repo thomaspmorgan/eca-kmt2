@@ -5613,8 +5613,8 @@ label {
 .table .row {
   border-top: 1px solid #f7f7f7;
   margin-right: 10px;
-  padding-bottom: 25px;
-  padding-top: 21px; }
+  padding-bottom: 15px;
+  padding-top: 11px; }
   .table .row input {
     height: auto; }
 
@@ -5654,7 +5654,7 @@ table tr {
   margin-bottom: 60px; }
 
 .tab-subheader {
-  margin-bottom: 45px; }
+  margin-bottom: 20px; }
 
 .subheader {
   font-size: 14px;
@@ -5972,6 +5972,52 @@ table tr {
     line-height: 12px; }
   .footer .bottom .left-border {
     border-left: 1px solid #415358; }
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 14px;
+  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga'; }
+
+.material-icons.md-18 {
+  font-size: 18px; }
+
+.material-icons.md-24 {
+  font-size: 24px; }
+
+.material-icons.md-36 {
+  font-size: 36px; }
+
+.material-icons.md-48 {
+  font-size: 48px; }
+
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54); }
+
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26); }
+
+.material-icons.md-light {
+  color: white; }
+
+.material-icons.md-light.md-inactive {
+  color: rgba(255, 255, 255, 0.3); }
 
 body {
   color: #415358;
