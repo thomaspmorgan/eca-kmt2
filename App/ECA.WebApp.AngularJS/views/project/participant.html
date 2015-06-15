@@ -133,7 +133,7 @@
             <p class="pull-right" style="font-style:italic">Search not returning a result?</p>
         </div>
         <div class="col-md-1" ng-show="!view.isAddingParticipant" style="margin-top:65px;">
-            <button class="btn btn-primary" ng-click=" modal.addparticipant=true">ADD NEW PARTICIPANT</button>
+            <button class="btn btn-primary" ng-click=" modal.addParticipant=true">ADD NEW PARTICIPANT</button>
         </div>
     </div>
     <div class="row expand" ng-show="dataExpanded2">
@@ -341,7 +341,7 @@
             </table>
             <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="participants.length > 0"></div>
         </div>
-        <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="modalClose()" on-close="modalClear()" main-model="newParticipant">
+        <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="modal.addParticipant = false" on-close="modal.addParticipant = false" main-model="newParticipant">
             <h5>Fill out the required information below for each participant.</h5>
             <div class="required2">* Marks required fields</div>
             <div id="modal-tab" class="tabs">
@@ -376,12 +376,12 @@
                                     <input type="text" ng-model="newParticipant.countriesOfCitizenship[0]" required style="display: none">
                                 </div>
                                 <!--
-                                <div class="form-group">
-                                    <label for="">ORIGINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfOrigination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countryOfOrigination" required style="display: none">
-                                </div>
-                                -->
+                            <div class="form-group">
+                                <label for="">ORIGINATION - COUNTRY<span class="asterisk"> *</span></label>
+                                <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfOrigination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                                <input type="text" ng-model="newParticipant.countryOfOrigination" required style="display: none">
+                            </div>
+                            -->
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -398,12 +398,12 @@
                                     <input type="text" ng-model="newParticipant.cityOfBirth" required style="display: none">
                                 </div>
                                 <!--
-                                <div class="form-group">
-                                    <label for="">DESTINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfDestination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countryOfDestination" required style="display: none">
-                                </div>
-                                -->
+                            <div class="form-group">
+                                <label for="">DESTINATION - COUNTRY<span class="asterisk"> *</span></label>
+                                <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfDestination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                                <input type="text" ng-model="newParticipant.countryOfDestination" required style="display: none">
+                            </div>
+                            -->
                             </div>
                         </div>
                     </form>

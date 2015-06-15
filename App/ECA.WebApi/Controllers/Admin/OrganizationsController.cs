@@ -34,6 +34,7 @@ namespace ECA.WebApi.Controllers.Admin
         /// Constructor
         /// </summary>
         /// <param name="service">The service</param>
+        /// <param name="organizationTypeService">The organization type service.</param>
         public OrganizationsController(IOrganizationService service, IOrganizationTypeService organizationTypeService)
         {
             Contract.Requires(service != null, "The organization service must not be null.");
