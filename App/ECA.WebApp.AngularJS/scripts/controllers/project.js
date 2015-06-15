@@ -615,7 +615,7 @@ angular.module('staticApp')
       function getFromToChoices() {
 
           $scope.moneyFlowFromTo = [];
-          var lookupParams = { start: null, limit: null,sort: null,filter: null };
+          var lookupParams = { start: null, limit: 300 ,sort: null,filter: null };
 
           switch ($scope.draftMoneyFlow.sourceRecipientTypeId)
           {
