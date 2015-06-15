@@ -25,8 +25,8 @@ namespace ECA.Business.Service.Projects
         private readonly IBusinessValidator<ProjectServiceCreateValidationEntity, ProjectServiceUpdateValidationEntity> validator;
         private readonly IOfficeService officeService;
 
-        private Action<int, Project> throwIfProjectDoesNotExist;
-        private Action<ParticipantType> throwIfParticipantTypeDoesNotExist;
+        private readonly Action<int, Project> throwIfProjectDoesNotExist;
+        private readonly Action<ParticipantType> throwIfParticipantTypeDoesNotExist;
 
         /// <summary>
         /// Constructor

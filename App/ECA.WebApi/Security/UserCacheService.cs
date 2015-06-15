@@ -22,7 +22,7 @@ namespace ECA.WebApi.Security
         /// </summary>
         public const int DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS = 10 * 60;
 
-        private ObjectCache cache;
+        private readonly ObjectCache cache;
         private readonly int timeToLiveInSeconds;
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -30,7 +30,6 @@ namespace ECA.WebApi.Security
         /// Creates a new UserCacheService.  If the ObjectCache is null, the MemoryCache.Default instance will be used.  If the time to live
         /// in seconds is null, the default value is used.
         /// </summary>
-        /// <param name="logger">The logger instance.</param>
         /// <param name="cache">The cache object to store user cache details to.</param>
         /// <param name="timeToLiveInSeconds">The time a cache item is valid before it is invalidated.</param>
         public UserCacheService(ObjectCache cache = null, int timeToLiveInSeconds = DEFAULT_CACHE_TIME_TO_LIVE_IN_SECONDS)

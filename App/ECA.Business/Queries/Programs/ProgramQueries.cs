@@ -10,6 +10,9 @@ using ECA.Business.Service;
 
 namespace ECA.Business.Queries.Programs
 {
+    /// <summary>
+    /// Contains queries for retrieving program dto's from the eca context.
+    /// </summary>
     public static class ProgramQueries
     {
         /// <summary>
