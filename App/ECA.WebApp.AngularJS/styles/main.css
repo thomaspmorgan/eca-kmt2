@@ -6196,6 +6196,12 @@ div.modal-center-large .modal-content .modal-body {
 .modalTable tr {
   border: none; }
 
+.expandChevron {
+  position: absolute;
+  right: 70px;
+  cursor: pointer;
+  margin-top: -15px; }
+
 tr#participantInfo .row {
   padding-left: 0;
   padding-right: 0; }
