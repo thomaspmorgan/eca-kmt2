@@ -658,9 +658,16 @@ tr#participantInfo {
     }
 }
 
-.radio-inline input[type=radio]{
-    margin-top:0px;
+label.radio-inline{
+    font-size:12pt;
+    text-transform:none;
 }
+
+.radio-inline input[type=radio]{
+    margin-top:0;
+}
+
+
 
 /* tooltip styling */
 div.tip:hover {

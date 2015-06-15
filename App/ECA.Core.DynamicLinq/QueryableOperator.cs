@@ -83,7 +83,7 @@ namespace ECA.Core.DynamicLinq
                 defaultSorterString = this.DefaultSorter.ToString();
             }
 
-            return String.Format("Start:  [{0}], Limit:  [{1}], Filters:[{2}], Sorters:  [{3}], DefaultSorter:  [{4}]",
+            return String.Format("Start:  [{0}], Limit:  [{1}], Filters:  [{2}], Sorters:  [{3}], DefaultSorter:  [{4}]",
                 this.Start,
                 this.Limit,
                 filterString,

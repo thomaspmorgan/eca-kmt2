@@ -5416,7 +5416,7 @@ table tr {
   margin: -40px 0 45px; }
 
 .subheader2 {
-  margin-top: -30px; }
+  margin-top: -10px; }
 
 .listCount {
   margin-top: -10px; }
@@ -6208,8 +6208,12 @@ tr#participantInfo .row {
 tr#participantInfo .row:first-child {
   border: none; }
 
+label.radio-inline {
+  font-size: 12pt;
+  text-transform: none; }
+
 .radio-inline input[type=radio] {
-  margin-top: 0px; }
+  margin-top: 0; }
 
 /* tooltip styling */
 div.tip:hover {

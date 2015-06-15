@@ -51,6 +51,8 @@ namespace ECA.WebApi.Controllers.Admin
         /// Creates a new controller instance.
         /// </summary>
         /// <param name="service">The service.</param>
+        /// <param name="focusCategoryService">The focus category service.</param>
+        /// <param name="justificationObjectiveService">The justification objective service.</param>
         public OfficesController(IOfficeService service, IFocusCategoryService focusCategoryService, IJustificationObjectiveService justificationObjectiveService)
         {
             Contract.Requires(service != null, "The office service must not be null.");
