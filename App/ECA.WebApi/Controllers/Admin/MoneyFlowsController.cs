@@ -137,6 +137,15 @@ namespace ECA.WebApi.Controllers.Admin
             }
         }
         
+        public async Task<IHttpActionResult> DeleteMoneyFlowAsync(int moneyFlowId)
+        {
+            // TODO - add audit trail? Scheme for making items 'inactive' but not deleting from DB?
+            var currentUser = userProvider.GetCurrentUser();
+            var businessUser = userProvider.GetBusinessUser(currentUser);
+            await moneyFlowService.DeleteAsync(moneyFlowId, businessUser);
+
+            return null;
+        }
         /*
         [ResponseType(typeof(MoneyFlowDTO))]
         public async Task<IHttpActionResult> CopyMoneyFlowAsync(int moneyFlowId)
@@ -147,8 +156,6 @@ namespace ECA.WebApi.Controllers.Admin
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 await moneyFlowService.CopyAsync(moneyFlowId, businessUser);
 
-                return null;
-                
                 var moneyFlow = await moneyFlowService.CreateAsync(model, businessUser);
                 await moneyFlowService.SaveChangesAsync();
                 var dto = await moneyFlowService.GetProjectByIdAsync(project.ProjectId);
