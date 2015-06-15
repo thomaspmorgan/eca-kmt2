@@ -30,7 +30,7 @@ angular.module('staticApp')
               order: 3
           },
           artifacts: {
-              title: 'Artifacts',
+              title: 'Attachments',
               path: 'artifacts',
               active: true,
               order: 4

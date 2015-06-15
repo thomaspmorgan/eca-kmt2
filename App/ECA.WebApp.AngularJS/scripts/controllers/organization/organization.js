@@ -20,7 +20,7 @@ angular.module('staticApp')
       $scope.view = {};
       $scope.tabs = {
           overview: { title: 'Overview', path: 'overview', active: true, order: 1 },
-          artifacts: { title: 'Artifacts', path: 'artifacts', active: true, order: 2 },
+          artifacts: { title: 'Attachments', path: 'artifacts', active: true, order: 2 },
           impact: { title: 'Impact', path: 'impact', active: true, order: 3 },
           activity: { title: 'Timeline', path: 'activities', active: true, order: 4 }
       };

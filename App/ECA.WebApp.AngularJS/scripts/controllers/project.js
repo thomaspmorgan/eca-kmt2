@@ -74,7 +74,7 @@ angular.module('staticApp')
           overview: {title: 'Overview', path: 'overview', active: true, order: 1 },
           partners: {title: 'Partners', path: 'partners', active: false,order: 3 },
           participants: {title: 'Participants',path: 'participants',active: true,order: 2 },
-          artifacts: {title: 'Artifacts',path: 'artifacts',active: true,order: 4 },
+          artifacts: {title: 'Attachments',path: 'artifacts',active: true,order: 4 },
           moneyflows: {title: 'Funding',path: 'moneyflows',active: true,order: 5},
           impact: {title: 'Impact',path: 'impact',active: false,order: 6},
           activity: {title: 'Timeline',path: 'activity',active: true,order: 7},
