@@ -640,6 +640,14 @@ div.modal-center-large .modal-content .modal-body {
     border:none;
 }
 
+.expandChevron {
+    position: absolute;
+    right:70px;
+    cursor:pointer;
+    margin-top:-15px;
+
+
+}
 tr#participantInfo {
     .row {
         padding-left: 0;
