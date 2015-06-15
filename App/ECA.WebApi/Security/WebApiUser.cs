@@ -83,12 +83,16 @@ namespace ECA.WebApi.Security
         /// </summary>
         public const string FULL_NAME_KEY = "name";
 
+        /// <summary>
+        /// The date of the unix epoch 1/1/1970.
+        /// </summary>
+        public static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         private const string MISSING_CLAIM_ERROR_MESSAGE = "The bearer token does not contain a claim with the key [{0}].";
 
         private const string UNABLE_TO_PARSE_SECONDS_ERROR_MESSAGE = "Unable to parse seconds as an integer from the claim value [{0}] with claim type [{1}].";
 
-        public static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        
 
         private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IEnumerable<Claim> claims;
