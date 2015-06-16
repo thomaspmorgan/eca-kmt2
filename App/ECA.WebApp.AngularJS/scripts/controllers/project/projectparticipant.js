@@ -129,18 +129,8 @@ angular.module('staticApp')
           PersonService.create($scope.newParticipant)
             .then(function () {
                 displaySuccess();
-                $scope.getParticipants();
-                //$scope.participantsLoading = true;
-                //var params = {
-                //    start: TableService.getStart(),
-                //    limit: TableService.getLimit(),
-                //};
-                //ParticipantService.getParticipantsByProject($stateParams.projectId, params)
-                //    .then(function (data) {
-                //        $scope.project.participants = data.results;
-                //        $scope.participantsLoading = false;
-                //    });
-                
+                console.assert($scope.getParticipantsTableState, "The table state function must exist.");
+                $scope.getParticipants($scope.getParticipantsTableState());                
             }, function (error) {
                 if (error.status == 400) {
                     displayError(error.data);
@@ -302,7 +292,6 @@ angular.module('staticApp')
 
       $scope.participantsLoading = false;
       $scope.getParticipants = function (tableState) {
-
           $scope.participantInfo = {};
           $scope.participantsLoading = true;
 
