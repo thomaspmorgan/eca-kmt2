@@ -37,6 +37,7 @@ angular.module('staticApp')
       
       $scope.showFromToSelectControl = false;
       
+      $scope.showFullMoneyFlowDescription = [];
       $scope.editingMoneyFlows = [];
       $scope.dateFormat = 'dd-MMMM-yyyy';
 
@@ -258,6 +259,7 @@ angular.module('staticApp')
 
                  angular.forEach($scope.moneyFlows, function (value) {
                      $scope.editingMoneyFlows[value.id] = false;
+                     $scope.showFullMoneyFlowDescription[value.id] = false;
                  });
 
                  $scope.moneyFlowsLoading = false;
@@ -272,7 +274,7 @@ angular.module('staticApp')
 
           $scope.fiscalYears = [];
           for (var i = new Date().getFullYear() ; i >= 2010 ; i--) {
-              $scope.fiscalYears.push({ year: i });
+              $scope.fiscalYears.push({ year: i, name: i-1 + ' - ' + i });
           }
 
           $scope.showCreateMoneyFlow = true;
@@ -385,7 +387,7 @@ angular.module('staticApp')
                 else {
                     $scope.draftMoneyFlow = moneyFlow; //perhaps not, this is to get the id
                     $scope.confirmSuccess = true;
-                    $scope.modalClear();
+                    $scope.modalClearMoneyFlow();
                 }
             })
               .then(function () {
@@ -462,7 +464,7 @@ angular.module('staticApp')
       };
 
       function executeDeleteMoneyFlow() {
-          MoneyFlowService.deleteMoneyFlow
+          //MoneyFlowService.deleteMoneyFlow();
       };
 
       function executeCopyMoneyFlow() {
@@ -492,9 +494,18 @@ angular.module('staticApp')
                 else {
                     $scope.moneyFlow = moneyFlow; //perhaps not, this is to get the id
                     $scope.confirmSuccess = true;
-                    $scope.modalClear();
+                    $scope.modalClearMoneyFlow();
                 }
             });
+      };
+
+      $scope.expandMoneyFlowDescription = function (moneyFlowId, showFullDescription) {
+
+          $scope.showFullMoneyFlowDescription[moneyFlowId] = showFullDescription;
+          $('#expand' + moneyFlowId).toggle();
+          $('#contract' + moneyFlowId).toggle();
+
+
       };
 
       $scope.changeSourceRecipientType = function () {
@@ -568,7 +579,7 @@ angular.module('staticApp')
       };
 
 
-      $scope.modalClear = function () {
+      $scope.modalClearMoneyFlow = function () {
           angular.forEach($scope.draftMoneyFlow, function (value, key) {
               $scope.draftMoneyFlow[key] = ''
           });
