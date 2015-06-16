@@ -122,6 +122,13 @@ namespace ECA.Business.Test.Queries.Persons
                 LocationName = "country"
             };
 
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationTypeId = LocationType.City.Id,
+                LocationName = "city"
+            };
+
             var location = new Location
             {
                 LocationId = 1,
@@ -130,7 +137,7 @@ namespace ECA.Business.Test.Queries.Persons
                 Street2 = "street2",
                 Street3 = "street3",
                 Country = country, 
-                City = "city",
+                City = city,
                 PostalCode = "12345"
             };
 
@@ -167,7 +174,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(location.Street3, addressResult.Street3);
             Assert.AreEqual(country.LocationName, addressResult.Country);
             Assert.AreEqual(country.LocationId, addressResult.CountryId);
-            Assert.AreEqual(location.City, addressResult.City);
+            Assert.AreEqual(location.City.LocationName, addressResult.City);
             Assert.AreEqual(location.PostalCode, addressResult.PostalCode);
         }
 
@@ -181,6 +188,13 @@ namespace ECA.Business.Test.Queries.Persons
                 LocationName = "country"
             };
 
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationTypeId = LocationType.City.Id,
+                LocationName = "city"
+            };
+
             var location = new Location
             {
                 LocationId = 1,
@@ -189,7 +203,7 @@ namespace ECA.Business.Test.Queries.Persons
                 Street2 = "street2",
                 Street3 = "street3",
                 Country = country, 
-                City = "city",
+                City = city,
                 PostalCode = "12345"
             };
 
@@ -226,7 +240,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(location.Street3, addressResult.Street3);
             Assert.AreEqual(country.LocationName, addressResult.Country);
             Assert.AreEqual(country.LocationId, addressResult.CountryId);
-            Assert.AreEqual(location.City, addressResult.City);
+            Assert.AreEqual(city.LocationName, addressResult.City);
             Assert.AreEqual(location.PostalCode, addressResult.PostalCode);
         }
     }

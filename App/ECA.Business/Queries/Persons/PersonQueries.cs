@@ -52,9 +52,9 @@ namespace ECA.Business.Queries.Persons
                                                             Street1 = x.Location.Street1, 
                                                             Street2 = x.Location.Street2, 
                                                             Street3 = x.Location.Street3,
-                                                            City = x.Location.City,
+                                                            City = x.Location.City.LocationName,
                                                             CityId = context.Locations.Where(y => y.CountryId == x.Location.Country.LocationId && 
-                                                                                             y.LocationName == x.Location.City &&
+                                                                                             y.LocationName == x.Location.City.LocationName &&
                                                                                              y.LocationTypeId == LocationType.City.Id)
                                                                                              .FirstOrDefault().LocationId,
 

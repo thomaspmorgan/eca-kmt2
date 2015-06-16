@@ -287,7 +287,7 @@ namespace ECA.Business.Test.Service.Persons
                 Street1 = "street1",
                 Street2 = "street2",
                 Street3 = "street3",
-                City = "city",
+                City = city,
                 PostalCode = "postalCode",
                 CountryId = 2,
                 Country = country
@@ -328,7 +328,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(location.Street1, homeAddress.Street1);
                 Assert.AreEqual(location.Street2, homeAddress.Street2);
                 Assert.AreEqual(location.Street3, homeAddress.Street3);
-                Assert.AreEqual(location.City, homeAddress.City);
+                Assert.AreEqual(city.LocationName, homeAddress.City);
                 Assert.AreEqual(location.PostalCode, homeAddress.PostalCode);
                 Assert.AreEqual(country.LocationName, homeAddress.Country);
             };

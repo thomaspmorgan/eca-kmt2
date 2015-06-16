@@ -64,8 +64,8 @@ namespace ECA.Business.Queries.Admin
                             Description = org.Description,
                             Locations = addresses.Select(x => new ECA.Business.Queries.Models.Persons.LocationDTO
                             {
-                                City = x.Location.City,
-                                CityId = -1,
+                                City = x.Location.City.LocationName,
+                                CityId = x.Location.CityId,
                                 Country = x.Location.Country.LocationName,
                                 CountryId = x.Location.Country.LocationId,
                                 Id = x.AddressId,

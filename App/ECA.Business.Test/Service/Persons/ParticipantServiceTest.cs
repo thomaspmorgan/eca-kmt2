@@ -68,7 +68,10 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Location = new Location
                 {
-                    City = "city",
+                    City = new Location
+                    {
+                        LocationName = "city"
+                    },
                     Country = new Location
                     {
                         LocationName = "country"
