@@ -300,7 +300,10 @@ namespace ECA.Business.Test.Queries.Persons
             {
                 Location = new Location
                 {
-                    City = "city",
+                    City = new Location
+                    {
+                        LocationName = "city"
+                    },
                     Country = new Location
                     {
                         LocationName = "country"
@@ -324,7 +327,7 @@ namespace ECA.Business.Test.Queries.Persons
             Assert.AreEqual(participantType.ParticipantTypeId, participantResult.ParticipantTypeId);
             Assert.AreEqual(participantType.Name, participantResult.ParticipantType);
             Assert.AreEqual(organization.Name, participantResult.Name);
-            Assert.AreEqual(address.Location.City, participantResult.City);
+            Assert.AreEqual(address.Location.City.LocationName, participantResult.City);
             Assert.AreEqual(address.Location.Country.LocationName, participantResult.Country);
         }
 

@@ -37,7 +37,7 @@ namespace ECA.Business.Queries.Persons
                             City = location == null
                                 ? null : location.Location == null
                                 ? null : location.Location.City == null
-                                ? null : location.Location.City,
+                                ? null : location.Location.City.LocationName,
                             Country = location == null
                                 ? null : location.Location == null
                                 ? null : location.Location.Country == null
@@ -71,7 +71,7 @@ namespace ECA.Business.Queries.Persons
                             City = location == null 
                                 ? null : location.Location == null 
                                 ? null : location.Location.City == null 
-                                ? null : location.Location.City,
+                                ? null : location.Location.City.LocationName,
                             Country = location == null 
                                 ? null : location.Location == null 
                                 ? null : location.Location.Country == null

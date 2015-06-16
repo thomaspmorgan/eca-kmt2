@@ -44,7 +44,7 @@ namespace ECA.Business.Queries.Persons
                                     Street3 = x.Location.Street3,
                                     Country = x.Location.Country.LocationName,
                                     CountryId = x.Location.Country.LocationId,
-                                    City = x.Location.City,
+                                    City = x.Location.City.LocationName,
                                     PostalCode = x.Location.PostalCode
                                  })
                              } : null,
@@ -59,7 +59,7 @@ namespace ECA.Business.Queries.Persons
                                     Street3 = x.Location.Street3,
                                     Country = x.Location.Country.LocationName,
                                     CountryId = x.Location.Country.LocationId,
-                                    City = x.Location.City,
+                                    City = x.Location.City.LocationName,
                                     PostalCode = x.Location.PostalCode
                                  })
                              } : null

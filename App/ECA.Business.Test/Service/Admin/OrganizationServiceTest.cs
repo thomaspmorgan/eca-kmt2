@@ -216,10 +216,18 @@ namespace ECA.Business.Test.Service.Admin
                 LocationName = "USA",
                 LocationId = 1
             };
+
+            var city = new Location
+            {
+                LocationId = 3,
+                LocationName = "Nashville"
+            };
+
             var addressLocation = new Location
             {
                 LocationId = 2,
-                City = "Nashville",
+                City = city,
+                CityId = city.LocationId,
                 Country = country,
                 CountryId = country.LocationId,
                 PostalCode = "12345",
@@ -260,8 +268,8 @@ namespace ECA.Business.Test.Service.Admin
             {
                 Assert.AreEqual(1, testDto.Locations.Count());
                 var testAddress = testDto.Locations.First();
-                Assert.AreEqual(addressLocation.City, testAddress.City);
-                Assert.AreEqual(-1, testAddress.CityId);
+                Assert.AreEqual(addressLocation.City.LocationName, testAddress.City);
+                Assert.AreEqual(addressLocation.City.LocationId, testAddress.CityId);
                 Assert.AreEqual(addressLocation.Country.LocationName, testAddress.Country);
                 Assert.AreEqual(addressLocation.Country.LocationId, testAddress.CountryId);
                 Assert.AreEqual(address.AddressId, testAddress.Id);
