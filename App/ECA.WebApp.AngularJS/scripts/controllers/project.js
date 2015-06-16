@@ -490,7 +490,7 @@ angular.module('staticApp')
                 else {
                     $scope.draftMoneyFlow = moneyFlow; //perhaps not, this is to get the id
                     $scope.confirmSuccess = true;
-                    $scope.modalClear();
+                    $scope.modalClearMoneyFlow();
                 }
             })
               .then(function () {
@@ -597,7 +597,7 @@ angular.module('staticApp')
                 else {
                     $scope.moneyFlow = moneyFlow; //perhaps not, this is to get the id
                     $scope.confirmSuccess = true;
-                    $scope.modalClear();
+                    $scope.modalClearMoneyFlow();
                 }
             });
       };
@@ -673,7 +673,7 @@ angular.module('staticApp')
       };
 
 
-      $scope.modalClear = function () {
+      $scope.modalClearMoneyFlow = function () {
           angular.forEach($scope.draftMoneyFlow, function (value, key) {
               $scope.draftMoneyFlow[key] = ''
           });
