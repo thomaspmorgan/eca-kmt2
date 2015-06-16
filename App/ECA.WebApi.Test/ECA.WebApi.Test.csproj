@@ -96,6 +96,7 @@
     <Compile Include="Controllers\Admin\GendersControllerTest.cs" />
     <Compile Include="Controllers\Admin\GoalsControllerTest.cs" />
     <Compile Include="Controllers\Admin\OfficesControllerTest.cs" />
+    <Compile Include="Controllers\Admin\ParticipantTypesControllerTest.cs" />
     <Compile Include="Controllers\Admin\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsControllerTest.cs" />
     <Compile Include="Controllers\Persons\ParticipantPersonsControllerTest.cs" />

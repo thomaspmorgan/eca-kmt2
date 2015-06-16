@@ -70,21 +70,54 @@ angular.module('staticApp')
       };
 
       $scope.view.onAddParticipantSelect = function ($item, $model, $label) {
-          $scope.view.isAddingParticipant = true;
           var clientModel = {
-              projectId: projectId
+              projectId: projectId,
+              name: $model.name
           }
-          var dfd = null;
           if ($item.personId) {
               clientModel.personId = $item.personId;
-              dfd = ProjectService.addPersonParticipant(clientModel)
           }
           else {
               clientModel.organizationId = $item.organizationId;
+          }
+          addParticipant(clientModel);
+      }
+
+      function addParticipant(clientModel) {
+          var modalInstance = $modal.open({
+              templateUrl: '/views/project/selectparticipanttype.html',
+              controller: 'SelectParticipantTypeCtrl',
+              backdrop: 'static',
+              resolve: {
+                  clientModel: function () {
+                      return clientModel;
+                  }
+              },
+          });
+          modalInstance.result.then(function (updatedClientModel) {
+              console.assert(updatedClientModel.participantTypeId, "The participant type must be set.");
+              doAddParticipant(updatedClientModel);
+              $log.info('Closing...');
+          }, function () {
+              clearAddParticipantView();
+              $log.info('Dismiss select participant type dialog...');
+          })
+          .then(function () {
+
+          });
+      };
+
+      function doAddParticipant(clientModel) {
+          $scope.view.isAddingParticipant = true;
+          var dfd = null;
+          if (clientModel.personId) {
+              dfd = ProjectService.addPersonParticipant(clientModel)
+          }
+          else {
               dfd = ProjectService.addOrganizationParticipant(clientModel);
           }
           dfd.then(function () {
-              NotificationService.showSuccessMessage('Successfully added ' + $model.name + ' as a project participant.');
+              NotificationService.showSuccessMessage('Successfully added ' + clientModel.name + ' as a project participant.');
           })
           .catch(function () {
               NotificationService.showErrorMessage('Unable to add project participant.');
@@ -109,9 +142,7 @@ angular.module('staticApp')
       }
 
       $scope.view.onRadioButtonChange = function (radioButtonValue) {
-          $scope.view.selectedExistingParticipant = null;
-          $scope.view.displayedAvailableParticipantsCount = 0;
-          $scope.view.totalAvailableParticipants = 0;
+          clearAddParticipantView();
       }
 
       $scope.birthCountrySelected = function (data) {
@@ -166,6 +197,12 @@ angular.module('staticApp')
           });
           $scope.cities = [];
       };
+
+      function clearAddParticipantView() {
+          $scope.view.selectedExistingParticipant = null;
+          $scope.view.displayedAvailableParticipantsCount = 0;
+          $scope.view.totalAvailableParticipants = 0;
+      }
 
       function loadGenders() {
           return LookupService.getAllGenders({ limit: 300 })
