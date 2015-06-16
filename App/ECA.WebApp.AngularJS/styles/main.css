@@ -5643,6 +5643,55 @@ table tr {
 .contextual {
   margin-left: -30px; }
 
+.material-icons.md-18.contextual-busy {
+  position: relative;
+  left: -30px;
+  top: 4px; }
+
+.material-icons-spin {
+  -webkit-animation: material-icons-spin 1.5s infinite linear;
+  animation: material-icons-spin 1.5s infinite linear; }
+
+.material-icons-spin-reverse {
+  -webkit-animation: material-icons-spin-reverse 1.5s infinite linear;
+  animation: material-icons-spin-reverse 1.5s infinite linear; }
+
+@-webkit-keyframes material-icons-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+
+@keyframes material-icons-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+
+@-webkit-keyframes material-icons-spin-reverse {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -webkit-transform: rotate(-359deg);
+    transform: rotate(-359deg); } }
+
+@keyframes material-icons-spin-reverse {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -webkit-transform: rotate(-359deg);
+    transform: rotate(-359deg); } }
+
 .hotspot {
   background-color: #bada55;
   height: 36px;

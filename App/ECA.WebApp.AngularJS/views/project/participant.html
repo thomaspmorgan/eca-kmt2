@@ -126,7 +126,7 @@
                        typeahead-editable="false">
                 </input>
                 <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingAvailableParticipants"></i>
-                <i class="md md-loop md-spin-reverse md-lg contextual" ng-show="view.isLoadingAvailableParticipants"></i>
+                <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingAvailableParticipants">refresh</i>
             </div>
         </div>
         <div class="col-md-5" ng-show="!view.isAddingParticipant" style="margin-top:75px;">
@@ -341,7 +341,7 @@
             </table>
             <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="participants.length > 0"></div>
         </div>
-        <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="modal.addParticipant = false" on-close="modal.addParticipant = false" main-model="newParticipant">
+        <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="addParticipantModalClose()" on-close="addParticipantModalClear()" main-model="newParticipant">
             <h5>Fill out the required information below for each participant.</h5>
             <div class="required2">* Marks required fields</div>
             <div id="modal-tab" class="tabs">
