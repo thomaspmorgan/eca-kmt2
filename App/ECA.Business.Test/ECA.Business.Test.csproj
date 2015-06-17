@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
     <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
+    <Compile Include="Queries\Persons\PersonQueriesTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceCreateValidationEntityTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceUpdateValidationEntityTest.cs" />
     <Compile Include="Service\Admin\MoneyFlowServiceValidatorTest.cs" />

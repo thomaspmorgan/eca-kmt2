@@ -73,7 +73,7 @@ angular.module('staticApp')
       $scope.view.onAddParticipantSelect = function ($item, $model, $label) {
           var clientModel = {
               projectId: projectId,
-              name: $model.name
+              name: $model.name || $model.fullName
           }
           if ($item.personId) {
               clientModel.personId = $item.personId;
@@ -135,8 +135,11 @@ angular.module('staticApp')
       }
 
       $scope.view.formatAddedParticipant = function (participant) {
-          if (participant && participant.name.length > 0) {
+          if (participant && participant.name && participant.name.length > 0) {
               return participant.name;
+          }
+          else if (participant && participant.fullName && participant.fullName.length > 0) {
+              return participant.fullName;
           }
           else {
               return '';
@@ -284,7 +287,6 @@ angular.module('staticApp')
                   data = response.results;
                   total = response.total;
               }
-
               $scope.view.isLoadingAvailableParticipants = false;
               $scope.view.totalAvailableParticipants = total;
               $scope.view.displayedAvailableParticipantsCount = data.length;

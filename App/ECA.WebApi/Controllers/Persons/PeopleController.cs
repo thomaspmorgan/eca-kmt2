@@ -175,7 +175,7 @@ namespace ECA.WebApi.Controllers.Persons
         {
             if (ModelState.IsValid)
             {
-                var results = await this.service.GetPeopleAsync(model.ToQueryableOperator(DEFAULT_PEOPLE_SORTER));
+                var results = await this.service.GetPeopleAsync(model.ToQueryableOperator(DEFAULT_PEOPLE_SORTER, x => x.FullName));
                 return Ok(results);
             }
             else

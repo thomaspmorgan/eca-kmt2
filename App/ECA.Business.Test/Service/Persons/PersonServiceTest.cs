@@ -1235,9 +1235,9 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(person.NamePrefix, firstResult.NamePrefix);
                 Assert.AreEqual(person.NameSuffix, firstResult.NameSuffix);
                 Assert.AreEqual(person.Patronym, firstResult.Patronym);
-                Assert.AreEqual(person.PersonId, firstResult.Id);
+                Assert.AreEqual(person.PersonId, firstResult.PersonId);
             };
-            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.Id, SortDirection.Ascending);
+            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.PersonId, SortDirection.Ascending);
             var queryOperator = new QueryableOperator<SimplePersonDTO>(0, 10, defaultSort);
             var serviceResults = service.GetPeople(queryOperator);
             var serviceResultsAsync = await service.GetPeopleAsync(queryOperator);
@@ -1274,10 +1274,10 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(2, results.Total);
                 Assert.AreEqual(2, results.Results.Count);
-                Assert.AreEqual(person2.PersonId, results.Results.First().Id);
-                Assert.AreEqual(person1.PersonId, results.Results.Last().Id);
+                Assert.AreEqual(person2.PersonId, results.Results.First().PersonId);
+                Assert.AreEqual(person1.PersonId, results.Results.Last().PersonId);
             };
-            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.Id, SortDirection.Descending);
+            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.PersonId, SortDirection.Descending);
             var queryOperator = new QueryableOperator<SimplePersonDTO>(0, 10, defaultSort);
             var serviceResults = service.GetPeople(queryOperator);
             var serviceResultsAsync = await service.GetPeopleAsync(queryOperator);
@@ -1314,11 +1314,11 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(1, results.Total);
                 Assert.AreEqual(1, results.Results.Count);
-                Assert.AreEqual(person1.PersonId, results.Results.First().Id);
+                Assert.AreEqual(person1.PersonId, results.Results.First().PersonId);
             };
-            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.Id, SortDirection.Descending);
+            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.PersonId, SortDirection.Descending);
             var queryOperator = new QueryableOperator<SimplePersonDTO>(0, 10, defaultSort);
-            queryOperator.Filters.Add(new ExpressionFilter<SimplePersonDTO>(x => x.Id, ComparisonType.Equal, person1.PersonId));
+            queryOperator.Filters.Add(new ExpressionFilter<SimplePersonDTO>(x => x.PersonId, ComparisonType.Equal, person1.PersonId));
             var serviceResults = service.GetPeople(queryOperator);
             var serviceResultsAsync = await service.GetPeopleAsync(queryOperator);
             tester(serviceResults);
@@ -1353,9 +1353,9 @@ namespace ECA.Business.Test.Service.Persons
             {
                 Assert.AreEqual(2, results.Total);
                 Assert.AreEqual(1, results.Results.Count);
-                Assert.AreEqual(person1.PersonId, results.Results.First().Id);
+                Assert.AreEqual(person1.PersonId, results.Results.First().PersonId);
             };
-            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.Id, SortDirection.Ascending);
+            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.PersonId, SortDirection.Ascending);
             var queryOperator = new QueryableOperator<SimplePersonDTO>(0, 1, defaultSort);
             var serviceResults = service.GetPeople(queryOperator);
             var serviceResultsAsync = await service.GetPeopleAsync(queryOperator);

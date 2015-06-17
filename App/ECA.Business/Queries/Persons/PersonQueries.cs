@@ -30,16 +30,21 @@ namespace ECA.Business.Queries.Persons
                             FirstName = person.FirstName,
                             Gender = gender.GenderName,
                             GivenName = person.GivenName,
-                            Id = person.PersonId,
+                            PersonId = person.PersonId,
                             LastName = person.LastName,
                             MiddleName = person.MiddleName,
                             NamePrefix = person.NamePrefix,
                             NameSuffix = person.NameSuffix,
                             Patronym = person.Patronym,
 
-                            FullName = person.NamePrefix != null ? person.NamePrefix : String.Empty
-                                        + person.FirstName != null ? person.FirstName : String.Empty
-                                        + person.MiddleName != null ? " " + person.MiddleName : String.Empty
+                            FullName = (((person.NamePrefix != null && person.NamePrefix.Trim().Length > 0) ? (person.NamePrefix.Trim() + " ") : String.Empty)
+                                        + ((person.FirstName != null && person.FirstName.Trim().Length > 0) ? (person.FirstName.Trim() + " ") : String.Empty)
+                                        + ((person.MiddleName != null && person.MiddleName.Trim().Length > 0) ? (person.MiddleName.Trim() + " ") : String.Empty)
+                                        + ((person.LastName != null && person.LastName.Trim().Length > 0) ? (person.LastName.Trim() + " ") : String.Empty)
+                                        + ((person.Patronym != null && person.Patronym.Trim().Length > 0) ? (person.Patronym.Trim() + " ") : String.Empty)
+                                        + ((person.NameSuffix != null && person.NameSuffix.Trim().Length > 0) ? (person.NameSuffix.Trim() + " ") : String.Empty)
+                                        + ((person.Alias != null && person.Alias.Trim().Length > 0) ? ("(" + person.Alias.Trim() + ")") : String.Empty)
+                                        ).Trim()
                         };
             return query;
         }

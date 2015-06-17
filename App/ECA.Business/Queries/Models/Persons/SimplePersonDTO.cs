@@ -19,7 +19,7 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the person id.
         /// </summary>
-        public int Id { get; set; }
+        public int PersonId { get; set; }
 
         /// <summary>
         /// Gets or sets the first name.
