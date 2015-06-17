@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Load IVLP_Person_Language"
   DTS:PackageType="5"
-  DTS:VersionBuild="7"
-  DTS:VersionGUID="{EA00C4B1-6A51-458B-96E0-C41207296F8B}">
+  DTS:VersionBuild="9"
+  DTS:VersionGUID="{698C2692-24DD-4300-B376-EA09E9E12E75}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -37,7 +37,22 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAD4aHLM2YzJAp9D3VyjSJvYeqxFE+73l1iKXC2NLSRflgAAAAAOgAAAAAIAACAAAAB4/vFDahQ3V3I1A8Djzf2AG2TnQ+mx4SD+v9jGhf/SXSAAAAAjUMlRGP9uOv7rmnee80NEYGE2ZTkmHLEnntV7QUyn1UAAAACIjhPlh4VZ7Rob9/gIB8cAaoue2YL/NUN9S91W1rRBEC3WjMYw4WDs+KcJYPMLQv1rBFOLhscGROz4GWpmZ0dj</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA0byRx7KzwPoAmrzxoKf4jSCvpm+QpETie3Ocz+VctbAAAAAAOgAAAAAIAACAAAABughCxELIqurNpGgRSESZZAWMaOi7bZHab56Ek0qut7yAAAACMm6bn/VKzwWejA1va4NYT2sJ58ue9J1MIAQ/rPZ36E0AAAACCejjjndWuys+jQ3/iTu7K6gJaSDr5d8CS99k3koFpA3VM6kTm22OCe7n38gB0yy8X073LqJSccZT6M6lNBzSS</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E935B12A-AEB6-43E0-88CD-D7E9ED9AFB35}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACLvgmxFEfUbZOuLIZzgdrp2yY7wBoD0H+2Hv5d2r/3WwAAAAAOgAAAAAIAACAAAAAWe7rWvfoBYyyo07WVxQkPFtB7NB4iHwgugkitnz34LyAAAAC6Z5YfbBYTZ5WUblSB+a2uowPDMIr6A54HQO5T/FJb5EAAAADzbwDiNxCMzQhNhMYJlKe3hpCMosBT4pe5n/1u8BRS/uV3W1g4wYlivUdyc+8/y2vv6t3B3NWoknIiGSmb7YnC</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -48,6 +63,7 @@
       DTS:refId="Package\Load IVLP Person Language"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{CF88B38D-94F9-4025-B88D-0EB7803D857A}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -378,13 +394,13 @@
                   description="Specifies the SQL statement that generates the lookup table."
                   expressionType="Notify"
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[IVLP_ECA_Person_XRef_Local]</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[IVLP_ECA_Person_XRef]</property>
                 <property
                   dataType="System.String"
                   description="Specifies a SQL statement that uses parameters to generate the lookup table."
                   expressionType="Notify"
                   name="SqlCommandParam"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[IVLP_ECA_Person_XRef_Local]) [refTable]
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[IVLP_ECA_Person_XRef]) [refTable]
 where [refTable].[IVLP_Person_Id] = ?</property>
                 <property
                   dataType="System.Int32"
@@ -594,8 +610,8 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
               <connections>
                 <connection
                   refId="Package\Load IVLP Person Language\Lookup Language.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -741,8 +757,8 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
               <connections>
                 <connection
                   refId="Package\Load IVLP Person Language\Person Language Proficiency.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -905,6 +921,10 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
           Id="Package\Load IVLP Person Language\Lookup ECA PersonId"
           TopLeft="27.5,95.5" />
         <NodeLayout
+          Size="214,42"
+          Id="Package\Load IVLP Person Language\Person Language Proficiency"
+          TopLeft="119.5,322.5" />
+        <NodeLayout
           Size="217,42"
           Id="Package\Load IVLP Person Language\Local IVLP_Person_Language"
           TopLeft="5.5,5.5" />
@@ -1010,10 +1030,6 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="214,42"
-          Id="Package\Load IVLP Person Language\Person Language Proficiency"
-          TopLeft="119.5,322.5" />
         <EdgeLayout
           Id="Package\Load IVLP Person Language.Paths[Data Conversion Output]"
           TopLeft="398.5,289.5">
@@ -1067,7 +1083,7 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1088,29 +1104,6 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load IVLP Person Language\Lookup ECA PersonId">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:string">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[IVLP_ECA_Person_XRef_Local]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Load IVLP Person Language\Person Language Proficiency">
     <Properties>
       <Property>
@@ -1120,6 +1113,29 @@ where (UPPER([refTable].[LanguageName]) LIKE '%'+UPPER( ? )+'%' OR
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load IVLP Person Language\Lookup ECA PersonId">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[IVLP_ECA_Person_XRef]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
