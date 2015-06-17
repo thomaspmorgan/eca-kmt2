@@ -237,10 +237,10 @@ angular
             controller: 'ParticipantCtrl',
             requireADLogin: true
         })
-        .state('participants.activity', {
-            url: '/activity',
-            templateUrl: 'views/participants/activity.html',
-            controller: 'ParticipantCtrl'
+        .state('participants.timeline', {
+            url: '/timeline',
+            templateUrl: 'views/participants/timeline.html',
+            controller: 'ParticipantTimelineCtrl'
         })
         .state('participants.personalinformation', {
             url: '/personalinformation',

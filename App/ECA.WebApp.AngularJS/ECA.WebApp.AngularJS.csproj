@@ -139,6 +139,7 @@
     <Content Include="scripts\controllers\organization\edit.js" />
     <Content Include="scripts\controllers\organization\organization.js" />
     <Content Include="scripts\controllers\organization\overview.js" />
+    <Content Include="scripts\controllers\participant\timeline.js" />
     <Content Include="scripts\controllers\person\personEduEmp.js" />
     <Content Include="scripts\controllers\person\personEvaluationNotes.js" />
     <Content Include="scripts\controllers\person\personGeneral.js" />
@@ -390,7 +391,7 @@
     <Content Include="views\partials\tabbar.html" />
     <Content Include="views\partner.html" />
     <Content Include="views\participants.html" />
-    <Content Include="views\participants\activity.html" />
+    <Content Include="views\participants\timeline.html" />
     <Content Include="views\participants\allparticipants.html" />
     <Content Include="views\participants\impact.html" />
     <Content Include="views\participants\overview.html" />
