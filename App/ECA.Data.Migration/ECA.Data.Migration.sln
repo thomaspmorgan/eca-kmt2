@@ -13,6 +13,8 @@ Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "SEVIS", "SEVIS\SEVIS.dtproj
 EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Cultural Heritage", "Cultural Heritage\Cultural Heritage.dtproj", "{8895B59F-4C9D-4260-B248-14542E3E0637}"
 EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "LoadLanguages", "LoadLanguages\LoadLanguages.dtproj", "{3F67BE8B-DF52-4190-A49C-95A806907240}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,12 @@ Global
 		{8895B59F-4C9D-4260-B248-14542E3E0637}.Development|Any CPU.Build.0 = Development
 		{8895B59F-4C9D-4260-B248-14542E3E0637}.Release|Any CPU.ActiveCfg = Development
 		{8895B59F-4C9D-4260-B248-14542E3E0637}.Release|Any CPU.Build.0 = Development
+		{3F67BE8B-DF52-4190-A49C-95A806907240}.Debug|Any CPU.ActiveCfg = Development
+		{3F67BE8B-DF52-4190-A49C-95A806907240}.Debug|Any CPU.Build.0 = Development
+		{3F67BE8B-DF52-4190-A49C-95A806907240}.Development|Any CPU.ActiveCfg = Development
+		{3F67BE8B-DF52-4190-A49C-95A806907240}.Development|Any CPU.Build.0 = Development
+		{3F67BE8B-DF52-4190-A49C-95A806907240}.Release|Any CPU.ActiveCfg = Development
+		{3F67BE8B-DF52-4190-A49C-95A806907240}.Release|Any CPU.Build.0 = Development
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

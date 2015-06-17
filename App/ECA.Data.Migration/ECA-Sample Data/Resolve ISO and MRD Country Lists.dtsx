@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Resolve ISO and MRD Country Lists"
   DTS:PackageType="5"
-  DTS:VersionBuild="6"
-  DTS:VersionGUID="{E3BEF428-2408-481B-849A-3C4C5307B431}">
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{A631DF13-4569-436D-AEDA-1DA76A47B58D}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -47,7 +47,22 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAC8MLZJrsPgx5p7EUyXOCibU0mgY6tOMctr2WfhZDD8oAAAAAAOgAAAAAIAACAAAADzRuGmmvVdl2AeCuzmboT1vdEYTNZ4nYhh+FroiS00/iAAAABMZQt6+nXiTMC+4dSeRoIl6daZ32Ds8uGZAJ6qdxV9zUAAAAB2dmiY0TlET9Bes+dHcAp+dUNrBAy2RTyt/GTX9md/ARjIaSUfNKnNvDGTt7ai7z2Az17BQX4Anyn1KCfm2nEF</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABkuZjnsnN4gT2Rgzwa5XwHaCQcsxMuJZjtANjl+tEHYwAAAAAOgAAAAAIAACAAAAD3fZgwEjXfs/aV3/4vmXuV+izRXCbSvpWZ4Af2ecRLEyAAAABonjOQIYZiK1IJd+bj6FXeccLT6an6r3gmp24eZPJd10AAAADAQhXvWvjEzfnQG3hrfh+X3DhVVgp+n3q8W9t2bJRWLYd+KEH4pmO2KYvue5b46ev4JFzf5fodmQr7a/2o1VR3</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{FDCBF0DC-5E78-41AE-BE5F-E04A9978BF11}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAArnOGgyiUSTljxCOnvtSzPM5KVckMpbWEe4+Jg1YkItAAAAAAOgAAAAAIAACAAAABmQylnME0idj73arB4b8Wjf4Rt9NR73hnsfkhBqRamDyAAAACF1s26IauGC10OOPbkmFyHIB5jPX4DlCR6jqHYiVLV1EAAAAAEpfaatl+hEM+Doa6CVnQIR2qPUajeos5R8rESrWLhVo/jNASRzMQQPzJ/JLSLjurJOlyLNA26K/UtByT6nzZg</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -68,8 +83,8 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{5ED08E0F-ABBB-4080-8967-056CD4D307DB}"
-          SQLTask:SqlStatementSource="UPDATE  eca_local.dbo.location &#xA;SET     [locationiso-2] = &#xA;        (&#xA;          SELECT [Country or Area Code GENC 2] &#xA;          FROM sample_data.dbo.mrdCountryAreasList b &#xA;          WHERE eca_local.dbo.location.locationiso = b.[Country or Area Code GENC 3]&#xA;        )&#xA;WHERE eca_local.dbo.location.locationtypeid = 3 AND eca_local.dbo.location.locationiso is not null" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:Connection="{17FF3490-41D0-4252-86E0-B48A6B411F6B}"
+          SQLTask:SqlStatementSource="UPDATE  eca_dev.eca_dev.dbo.location &#xA;SET     [locationiso-2] = &#xA;        (&#xA;          SELECT [Country or Area Code GENC 2] &#xA;          FROM ECA_Data_Migration.dbo.mrdCountryAreasList b &#xA;          WHERE locationiso = b.[Country or Area Code GENC 3]&#xA;        )&#xA;WHERE locationtypeid = 3 AND locationiso is not null" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -146,8 +161,8 @@
               <connections>
                 <connection
                   refId="Package\Add Missing Countries\Add Missing Countries to Location table.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -597,8 +612,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Add Missing Countries\Lookup Country LocationTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -756,8 +771,8 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
               <connections>
                 <connection
                   refId="Package\Add Missing Countries\Lookup DOS Regions.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -931,8 +946,8 @@ where [refTable].[LocationIso] = ? and [refTable].[LocationTypeId] = ?</property
               <connections>
                 <connection
                   refId="Package\Add Missing Countries\Lookup Existing Countries from ECA Database.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1105,8 +1120,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Add Missing Countries\Lookup Region LocationTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1639,13 +1654,13 @@ where [refTable].[LocationTypeName] = ?</property>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="183,42"
-          Id="Package\Add Missing Countries"
-          TopLeft="5.5,5.5" />
-        <NodeLayout
           Size="215,42"
           Id="Package\Add ISO-2 Code to Countries"
           TopLeft="52.5,123.5" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Add Missing Countries"
+          TopLeft="5.5,5.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="97,47.5">
@@ -1689,6 +1704,14 @@ where [refTable].[LocationTypeName] = ?</property>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
+          Size="182,42"
+          Id="Package\Add Missing Countries\Add required columns"
+          TopLeft="278.5,24.5" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Add Missing Countries\Lookup DOS Regions"
+          TopLeft="403.5,115.5" />
+        <NodeLayout
           Size="161,42"
           Id="Package\Add Missing Countries\MRD Country List"
           TopLeft="13.5,23.5" />
@@ -1697,9 +1720,41 @@ where [refTable].[LocationTypeName] = ?</property>
           Id="Package\Add Missing Countries\Lookup Existing Countries from ECA Database"
           TopLeft="19.5,118.5" />
         <NodeLayout
-          Size="178,42"
-          Id="Package\Add Missing Countries\Lookup DOS Regions"
-          TopLeft="403.5,115.5" />
+          Size="229,42"
+          Id="Package\Add Missing Countries\Lookup Country LocationTypeId"
+          TopLeft="522.5,24.5" />
+        <NodeLayout
+          Size="264,42"
+          Id="Package\Add Missing Countries\Add Missing Countries to Location table"
+          TopLeft="651.5,119.5" />
+        <NodeLayout
+          Size="224,42"
+          Id="Package\Add Missing Countries\Lookup Region LocationTypeId"
+          TopLeft="795.5,25.5" />
+        <EdgeLayout
+          Id="Package\Add Missing Countries.Paths[OLE DB Source Output]"
+          TopLeft="174.5,45">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="104,0"
+              Start="0,0"
+              End="96.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="96.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Add Missing Countries.Paths[Lookup No Match Output]"
           TopLeft="314.5,138">
@@ -1724,87 +1779,27 @@ where [refTable].[LocationTypeName] = ?</property>
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="264,42"
-          Id="Package\Add Missing Countries\Add Missing Countries to Location table"
-          TopLeft="651.5,119.5" />
-        <NodeLayout
-          Size="182,42"
-          Id="Package\Add Missing Countries\Add required columns"
-          TopLeft="278.5,24.5" />
         <EdgeLayout
-          Id="Package\Add Missing Countries.Paths[OLE DB Source Output]"
-          TopLeft="174.5,45">
+          Id="Package\Add Missing Countries.Paths[Lookup Match Output2]"
+          TopLeft="581.5,138.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="104,0"
+              EndConnector="70,0"
               Start="0,0"
-              End="96.5,0">
+              End="62.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="96.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="229,42"
-          Id="Package\Add Missing Countries\Lookup Country LocationTypeId"
-          TopLeft="522.5,24.5" />
-        <EdgeLayout
-          Id="Package\Add Missing Countries.Paths[Derived Column Output]"
-          TopLeft="460.5,45.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="62,0"
-              Start="0,0"
-              End="54.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="54.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="224,42"
-          Id="Package\Add Missing Countries\Lookup Region LocationTypeId"
-          TopLeft="795.5,25.5" />
-        <EdgeLayout
-          Id="Package\Add Missing Countries.Paths[Lookup Match Output]"
-          TopLeft="751.5,46">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="44,0"
-              Start="0,0"
-              End="36.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="36.5,0" />
+                    End="62.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-29.94138671875,5,96.3827734375,11.609375"
+              BoundingBox="-16.94138671875,5,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -1845,32 +1840,79 @@ where [refTable].[LocationTypeName] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Add Missing Countries.Paths[Lookup Match Output2]"
-          TopLeft="581.5,138.5">
+          Id="Package\Add Missing Countries.Paths[Lookup Match Output]"
+          TopLeft="751.5,46">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="70,0"
+              EndConnector="44,0"
               Start="0,0"
-              End="62.5,0">
+              End="36.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="62.5,0" />
+                    End="36.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-16.94138671875,5,96.3827734375,11.609375"
+              BoundingBox="-29.94138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Add Missing Countries.Paths[Derived Column Output]"
+          TopLeft="460.5,45.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="62,0"
+              Start="0,0"
+              End="54.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="54.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add Missing Countries\Lookup DOS Regions">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">true</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Location]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Add Missing Countries\MRD Country List">
     <Properties>
@@ -1890,7 +1932,7 @@ where [refTable].[LocationTypeName] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -1900,7 +1942,7 @@ where [refTable].[LocationTypeName] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1908,22 +1950,22 @@ where [refTable].[LocationTypeName] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Add Missing Countries\Lookup DOS Regions">
+    design-time-name="Package\Add Missing Countries\Lookup Country LocationTypeId">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
         <Value
-          type="q3:string">[dbo].[Location]</Value>
+          type="q3:string">[dbo].[LocationType]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1944,35 +1986,12 @@ where [refTable].[LocationTypeName] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Add Missing Countries\Lookup Country LocationTypeId">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[LocationType]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Add Missing Countries\Lookup Region LocationTypeId">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -1982,7 +2001,7 @@ where [refTable].[LocationTypeName] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
