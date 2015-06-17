@@ -67,7 +67,7 @@ namespace ECA.Business.Test.Service.Projects
             Assert.IsTrue(instance.UpdateParticipantDetailsCalled);
             Assert.AreEqual(participantType.ParticipantTypeId, participant.ParticipantTypeId);
             Assert.AreEqual(ParticipantStatus.Active.Id, participant.ParticipantStatusId);
-            Assert.Fail("This test needs to check the project.");
+            Assert.AreEqual(projectId, participant.ProjectId);
         }
     }
 }

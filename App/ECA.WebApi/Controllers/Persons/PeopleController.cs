@@ -1,6 +1,10 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Persons;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Query;
 using ECA.WebApi.Models.Person;
+using ECA.WebApi.Models.Query;
 using ECA.WebApi.Security;
 using System;
 using System.Collections.Generic;
@@ -22,6 +26,8 @@ namespace ECA.WebApi.Controllers.Persons
     [Authorize]
     public class PeopleController : ApiController
     {
+        private static ExpressionSorter<SimplePersonDTO> DEFAULT_PEOPLE_SORTER = new ExpressionSorter<SimplePersonDTO>(x => x.LastName, SortDirection.Ascending);
+
         private IPersonService service;
         private IUserProvider userProvider;
 
@@ -156,6 +162,25 @@ namespace ECA.WebApi.Controllers.Persons
             else
             {
                 return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Returns sorted, filtered, and paged people in the eca system.
+        /// </summary>
+        /// <param name="model">The filters, paging, and sorting details.</param>
+        /// <returns>The people in the ssytem.</returns>
+        [ResponseType(typeof(PagedQueryResults<SimplePersonDTO>))]
+        public async Task<IHttpActionResult> GetPeopleAsync([FromUri]PagingQueryBindingModel<SimplePersonDTO> model)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await this.service.GetPeopleAsync(model.ToQueryableOperator(DEFAULT_PEOPLE_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
             }
         }
 

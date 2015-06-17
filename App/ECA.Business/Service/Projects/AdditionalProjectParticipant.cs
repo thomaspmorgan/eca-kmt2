@@ -65,7 +65,7 @@ namespace ECA.Business.Service.Projects
         {
             Contract.Requires(participant != null, "The participant must not be null.");
             Contract.Requires(participantType != null, "The participant type must not be null.");
-            //participant.ProjectId = this.ProjectId;
+            participant.ProjectId = this.ProjectId;
             participant.ParticipantStatusId = this.ParticipantStatusId;
             participant.ParticipantTypeId = participantType.ParticipantTypeId;
             UpdateParticipantDetails(participant);

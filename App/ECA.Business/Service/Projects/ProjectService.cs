@@ -199,12 +199,12 @@ namespace ECA.Business.Service.Projects
 
         private IQueryable<Participant> CreateGetParticipantByProjectIdAndPersonId(int projectId, int personId)
         {
-            return Context.Participants.Where(x => x.PersonId == personId);
+            return Context.Participants.Where(x => x.PersonId == personId && x.ProjectId == projectId);
         }
 
         private IQueryable<Participant> CreateGetParticipantByProjectIdAndOrganizationId(int projectId, int organizationId)
         {
-            return Context.Participants.Where(x => x.OrganizationId == organizationId);
+            return Context.Participants.Where(x => x.OrganizationId == organizationId && x.ProjectId == projectId);
         }
 
         private IQueryable<ParticipantType> CreateGetParticipantTypeQuery(int participantTypeId)

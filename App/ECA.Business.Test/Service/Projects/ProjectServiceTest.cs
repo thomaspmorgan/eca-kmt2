@@ -59,8 +59,7 @@ namespace ECA.Business.Test.Service.Projects
                 Assert.AreEqual(personParticipant.ParticipantTypeId, addedParticipant.ParticipantTypeId);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipant.History.CreatedOn, 2000);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipant.History.RevisedOn, 2000);
-                Assert.Fail("project must be checked...");
-                //Assert.AreEqual(personParticipant.ProjectId, addedParticipant.Projects)
+                Assert.AreEqual(personParticipant.ProjectId, addedParticipant.ProjectId);
             };
 
             addAdditionalOrganizationProjectParticipantTester = (organizationParticipant, addedParticipant, projectOwner) =>
@@ -72,8 +71,7 @@ namespace ECA.Business.Test.Service.Projects
                 Assert.AreEqual(organizationParticipant.ParticipantTypeId, addedParticipant.ParticipantTypeId);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipant.History.CreatedOn, 2000);
                 DateTimeOffset.UtcNow.Should().BeCloseTo(addedParticipant.History.RevisedOn, 2000);
-                Assert.Fail("project must be checked...");
-                //Assert.AreEqual(personParticipant.ProjectId, addedParticipant.Projects)
+                Assert.AreEqual(organizationParticipant.ProjectId, addedParticipant.ProjectId);
             };
         }
 
@@ -1744,7 +1742,9 @@ namespace ECA.Business.Test.Service.Projects
             var participant = new Participant
             {
                 ParticipantId = 1,
-                PersonId = person.PersonId
+                PersonId = person.PersonId,
+                ProjectId = project.ProjectId,
+                Project = project
             };
             context.SetupActions.Add(() =>
             {
@@ -1799,7 +1799,9 @@ namespace ECA.Business.Test.Service.Projects
             var participant = new Participant
             {
                 ParticipantId = 1,
-                OrganizationId = organizationId
+                OrganizationId = organizationId,
+                ProjectId = project.ProjectId,
+                Project = project
             };
             context.SetupActions.Add(() =>
             {

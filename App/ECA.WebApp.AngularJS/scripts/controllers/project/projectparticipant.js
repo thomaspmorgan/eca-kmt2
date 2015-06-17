@@ -14,6 +14,7 @@ angular.module('staticApp')
         $q,
         $log,
         $modal,
+        OrganizationService,
         PersonService,
         LocationService,
         LookupService,
@@ -124,6 +125,7 @@ angular.module('staticApp')
           })
           .then(function () {
               $scope.view.isAddingParticipant = false;
+              reloadParticipantTable();
           });
           return dfd;
       }
@@ -160,8 +162,7 @@ angular.module('staticApp')
           PersonService.create($scope.newParticipant)
             .then(function () {
                 displaySuccess();
-                console.assert($scope.getParticipantsTableState, "The table state function must exist.");
-                $scope.getParticipants($scope.getParticipantsTableState());                
+                reloadParticipantTable();
             }, function (error) {
                 if (error.status == 400) {
                     displayError(error.data);
@@ -197,6 +198,11 @@ angular.module('staticApp')
           });
           $scope.cities = [];
       };
+
+      function reloadParticipantTable() {
+          console.assert($scope.getParticipantsTableState, "The table state function must exist.");
+          $scope.getParticipants($scope.getParticipantsTableState());
+      }
 
       function clearAddParticipantView() {
           $scope.view.selectedExistingParticipant = null;
@@ -245,36 +251,44 @@ angular.module('staticApp')
       };
 
       function loadAvailableParticipants(search, participantType) {
-          var participantTypeFilter = {
-              comparison: ConstantsService.isNotNullComparisonType
-          };
-          if (participantType === $scope.view.addPersonFilterValue) {
-              $log.info('Adding not null filter on person participant type.');
-              participantTypeFilter.property = 'personId';
-          }
-          else if (participantType === $scope.view.addOrganizationFilterValue) {
-              $log.info('Adding not null filter on organization participant type.');
-              participantTypeFilter.property = 'organizationId';
-          }
-          else {
-              $log.error('Unable to add participant type filter.');
-          }
-
           var params = {
               start: 0,
               limit: $scope.view.addParticipantsLimit,
-              filter: [participantTypeFilter]
           };
           if (search) {
               params.keyword = search
           }
           $scope.view.isLoadingAvailableParticipants = true;
-          return ParticipantService.getParticipants(params)
+          var dfd = null;
+          
+
+          if (participantType === $scope.view.addPersonFilterValue) {
+              dfd = PersonService.getPeople(params);
+          }
+          else if (participantType === $scope.view.addOrganizationFilterValue) {
+              dfd = OrganizationService.getOrganizations(params);
+          }
+          else {
+              throw error('Unable to add participant type filter.');
+          }
+
+          return dfd
           .then(function (response) {
+              var data = null;
+              var total = null;
+              if (response.data) {
+                  data = response.data.results;
+                  total = response.data.total;
+              }
+              else{
+                  data = response.results;
+                  total = response.total;
+              }
+
               $scope.view.isLoadingAvailableParticipants = false;
-              $scope.view.totalAvailableParticipants = response.total;
-              $scope.view.displayedAvailableParticipantsCount = response.results.length;
-              return response.results;
+              $scope.view.totalAvailableParticipants = total;
+              $scope.view.displayedAvailableParticipantsCount = data.length;
+              return data;
           })
           .catch(function () {
               $scope.view.isLoadingAvailableParticipants = false;

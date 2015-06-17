@@ -1,10 +1,12 @@
 ﻿using ECA.Business.Queries.Models.Persons;
 using ECA.Business.Service.Lookup;
+using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +17,48 @@ namespace ECA.Business.Queries.Persons
     /// </summary>
     public class PersonQueries
     {
+        public static IQueryable<SimplePersonDTO> CreateGetSimplePersonDTOsQuery(EcaContext context)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var query = from person in context.People
+                        let gender = person.Gender
+                        select new SimplePersonDTO
+                        {
+                            Alias = person.Alias,
+                            DateOfBirth = person.DateOfBirth,
+                            FamilyName = person.FamilyName,
+                            FirstName = person.FirstName,
+                            Gender = gender.GenderName,
+                            GivenName = person.GivenName,
+                            Id = person.PersonId,
+                            LastName = person.LastName,
+                            MiddleName = person.MiddleName,
+                            NamePrefix = person.NamePrefix,
+                            NameSuffix = person.NameSuffix,
+                            Patronym = person.Patronym,
+
+                            FullName = person.NamePrefix != null ? person.NamePrefix : String.Empty
+                                        + person.FirstName != null ? person.FirstName : String.Empty
+                                        + person.MiddleName != null ? " " + person.MiddleName : String.Empty
+                        };
+            return query;
+        }
+
+        /// <summary>
+        /// Returns a query capable of retrieving filtered and sorted simple person dtos in the given context.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The query to return filtered and sorted simple person dtos.</returns>
+        public static IQueryable<SimplePersonDTO> CreateGetSimplePersonDTOsQuery(EcaContext context, QueryableOperator<SimplePersonDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            var query = CreateGetSimplePersonDTOsQuery(context);
+            query = query.Apply(queryOperator);
+            return query;
+        }
+
         /// <summary>
         /// Get pii by id
         /// </summary>

@@ -29,6 +29,7 @@ namespace ECA.Business.Queries.Persons
                              ParticipantId = p.ParticipantId,
                              SevisId = p.SevisId,
                              ContactAgreement = p.ContactAgreement,
+                             ProjectId = p.Participant.ProjectId,
                              StudyProject = p.StudyProject,
                              FieldOfStudy = p.FieldOfStudy != null ? p.FieldOfStudy.Description : null,
                              ProgramSubject = p.ProgramSubject != null ? p.ProgramSubject.Description : null,
@@ -38,14 +39,14 @@ namespace ECA.Business.Queries.Persons
                                  Name = p.HomeInstitution.Name,
                                  Addresses = p.HomeInstitution.Addresses.Select(x => new ECA.Business.Queries.Models.Persons.LocationDTO
                                  {
-                                    Id = x.LocationId,
-                                    Street1 = x.Location.Street1,
-                                    Street2 = x.Location.Street2,
-                                    Street3 = x.Location.Street3,
-                                    Country = x.Location.Country.LocationName,
-                                    CountryId = x.Location.Country.LocationId,
-                                    City = x.Location.City.LocationName,
-                                    PostalCode = x.Location.PostalCode
+                                     Id = x.LocationId,
+                                     Street1 = x.Location.Street1,
+                                     Street2 = x.Location.Street2,
+                                     Street3 = x.Location.Street3,
+                                     Country = x.Location.Country.LocationName,
+                                     CountryId = x.Location.Country.LocationId,
+                                     City = x.Location.City.LocationName,
+                                     PostalCode = x.Location.PostalCode
                                  })
                              } : null,
                              HostInstitution = p.HostInstitution != null ? new InstitutionDTO
@@ -53,14 +54,14 @@ namespace ECA.Business.Queries.Persons
                                  Name = p.HostInstitution.Name,
                                  Addresses = p.HostInstitution.Addresses.Select(x => new ECA.Business.Queries.Models.Persons.LocationDTO
                                  {
-                                    Id = x.LocationId,
-                                    Street1 = x.Location.Street1,
-                                    Street2 = x.Location.Street2,
-                                    Street3 = x.Location.Street3,
-                                    Country = x.Location.Country.LocationName,
-                                    CountryId = x.Location.Country.LocationId,
-                                    City = x.Location.City.LocationName,
-                                    PostalCode = x.Location.PostalCode
+                                     Id = x.LocationId,
+                                     Street1 = x.Location.Street1,
+                                     Street2 = x.Location.Street2,
+                                     Street3 = x.Location.Street3,
+                                     Country = x.Location.Country.LocationName,
+                                     CountryId = x.Location.Country.LocationId,
+                                     City = x.Location.City.LocationName,
+                                     PostalCode = x.Location.PostalCode
                                  })
                              } : null
                          });
@@ -93,16 +94,7 @@ namespace ECA.Business.Queries.Persons
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetSimpleParticipantPersonsDTOQuery(context);
-
-            query = from participant in context.Participants
-                    join q in query
-                    on participant.ParticipantId equals q.ParticipantId
-
-                    from project in context.Projects
-                    where project.ProjectId == projectId && participant.Projects.Contains(project)
-                    select q;
-
+            var query = CreateGetSimpleParticipantPersonsDTOQuery(context).Where(x => x.ProjectId == projectId);
             query = query.Apply(queryOperator);
             return query;
         }

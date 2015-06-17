@@ -17,14 +17,7 @@ namespace ECA.Data.Configuration
         /// </summary>
         public ParticipantConfiguration()
         {
-            HasMany<Project>(p => p.Projects)
-                .WithMany(t => t.Participants)
-                .Map(p =>
-                {
-                    p.MapLeftKey("ParticipantId");
-                    p.MapRightKey("ProjectId");
-                    p.ToTable("ParticipantProject");
-                });
+            HasRequired(a => a.Project).WithMany(a => a.Participants).HasForeignKey(a => a.ProjectId).WillCascadeOnDelete(false);
         }
     }
 }

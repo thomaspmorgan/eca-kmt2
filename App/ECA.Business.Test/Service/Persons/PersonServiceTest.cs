@@ -1,4 +1,5 @@
 ﻿using ECA.Business.Queries.Models.Persons;
+using System.Linq;
 using ECA.Business.Service.Persons;
 using ECA.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,6 +14,10 @@ using System.Data.Entity;
 using ECA.Business.Exceptions;
 using ECA.Business.Validation;
 using Moq;
+using ECA.Core.Query;
+using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.DynamicLinq.Filter;
 
 namespace ECA.Business.Test.Service.Persons
 {
@@ -702,11 +707,11 @@ namespace ECA.Business.Test.Service.Persons
                                          new List<int>());
             var person = await service.CreateAsync(newPerson);
             // Check that participant is associated to person
-            var participant = context.Participants.Where(x => x.PersonId == person.PersonId).FirstOrDefaultAsync().Result;
+            var participant = await context.Participants.Where(x => x.PersonId == person.PersonId).FirstOrDefaultAsync();
             Assert.AreEqual(person.PersonId, participant.PersonId);
             // Check that participant is associated to project
-            var participantProject = participant.Projects.First();
-            Assert.AreEqual(project.ProjectId, participantProject.ProjectId);
+            var participantProject = participant.Project;
+            Assert.IsTrue(Object.ReferenceEquals(project, participant.Project));
         }
 
         [TestMethod]
@@ -1183,6 +1188,181 @@ namespace ECA.Business.Test.Service.Persons
                                     null);
             var updatedPerson = await service.UpdatePiiAsync(pii);
         }
+        #endregion
+
+        #region Get People
+        [TestMethod]
+        public async Task TestGetPeople_CheckProperties()
+        {
+            var dob = DateTime.UtcNow;
+            var gender = new Gender
+            {
+                GenderId = Gender.Female.Id,
+                GenderName = Gender.Female.Value
+            };
+            var person = new Person
+            {
+                Alias = "alias",
+                DateOfBirth = dob,
+                FamilyName = "family",
+                FirstName = "firstName",
+                Gender = gender,
+                GenderId = gender.GenderId,
+                GivenName = "given",
+                LastName = "last name",
+                MiddleName = "middle",
+                NamePrefix = "name prefix",
+                NameSuffix = "name suffix",
+                Patronym = "patronym",
+                PersonId = 1,
+            };
+            context.Genders.Add(gender);
+            context.People.Add(person);
+
+            Action<PagedQueryResults<SimplePersonDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                var firstResult = results.Results.First();
+                Assert.AreEqual(gender.GenderName, firstResult.Gender);
+
+                Assert.AreEqual(person.Alias, firstResult.Alias);
+                Assert.AreEqual(person.DateOfBirth, firstResult.DateOfBirth);
+                Assert.AreEqual(person.FamilyName, firstResult.FamilyName);
+                Assert.AreEqual(person.FirstName, firstResult.FirstName);
+                Assert.AreEqual(person.LastName, firstResult.LastName);
+                Assert.AreEqual(person.MiddleName, firstResult.MiddleName);
+                Assert.AreEqual(person.NamePrefix, firstResult.NamePrefix);
+                Assert.AreEqual(person.NameSuffix, firstResult.NameSuffix);
+                Assert.AreEqual(person.Patronym, firstResult.Patronym);
+                Assert.AreEqual(person.PersonId, firstResult.Id);
+            };
+            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<SimplePersonDTO>(0, 10, defaultSort);
+            var serviceResults = service.GetPeople(queryOperator);
+            var serviceResultsAsync = await service.GetPeopleAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetPeople_DefaultSort()
+        {
+            var dob = DateTime.UtcNow;
+            var gender = new Gender
+            {
+                GenderId = Gender.Female.Id,
+                GenderName = Gender.Female.Value
+            };
+            var person1 = new Person
+            {
+                PersonId = 1,
+                GenderId = gender.GenderId,
+                Gender = gender
+            };
+            var person2 = new Person
+            {
+                PersonId = 2,
+                GenderId = gender.GenderId,
+                Gender = gender
+            };
+            context.Genders.Add(gender);
+            context.People.Add(person1);
+            context.People.Add(person2);
+
+            Action<PagedQueryResults<SimplePersonDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(2, results.Total);
+                Assert.AreEqual(2, results.Results.Count);
+                Assert.AreEqual(person2.PersonId, results.Results.First().Id);
+                Assert.AreEqual(person1.PersonId, results.Results.Last().Id);
+            };
+            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.Id, SortDirection.Descending);
+            var queryOperator = new QueryableOperator<SimplePersonDTO>(0, 10, defaultSort);
+            var serviceResults = service.GetPeople(queryOperator);
+            var serviceResultsAsync = await service.GetPeopleAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetPeople_Filter()
+        {
+            var dob = DateTime.UtcNow;
+            var gender = new Gender
+            {
+                GenderId = Gender.Female.Id,
+                GenderName = Gender.Female.Value
+            };
+            var person1 = new Person
+            {
+                PersonId = 1,
+                GenderId = gender.GenderId,
+                Gender = gender
+            };
+            var person2 = new Person
+            {
+                PersonId = 2,
+                GenderId = gender.GenderId,
+                Gender = gender
+            };
+            context.Genders.Add(gender);
+            context.People.Add(person1);
+            context.People.Add(person2);
+
+            Action<PagedQueryResults<SimplePersonDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.AreEqual(person1.PersonId, results.Results.First().Id);
+            };
+            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.Id, SortDirection.Descending);
+            var queryOperator = new QueryableOperator<SimplePersonDTO>(0, 10, defaultSort);
+            queryOperator.Filters.Add(new ExpressionFilter<SimplePersonDTO>(x => x.Id, ComparisonType.Equal, person1.PersonId));
+            var serviceResults = service.GetPeople(queryOperator);
+            var serviceResultsAsync = await service.GetPeopleAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        [TestMethod]
+        public async Task TestGetPeople_Paging()
+        {
+            var dob = DateTime.UtcNow;
+            var gender = new Gender
+            {
+                GenderId = Gender.Female.Id,
+                GenderName = Gender.Female.Value
+            };
+            var person1 = new Person
+            {
+                PersonId = 1,
+                GenderId = gender.GenderId,
+                Gender = gender
+            };
+            var person2 = new Person
+            {
+                PersonId = 2,
+                GenderId = gender.GenderId,
+                Gender = gender
+            };
+            context.Genders.Add(gender);
+            context.People.Add(person1);
+            context.People.Add(person2);
+
+            Action<PagedQueryResults<SimplePersonDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(2, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.AreEqual(person1.PersonId, results.Results.First().Id);
+            };
+            var defaultSort = new ExpressionSorter<SimplePersonDTO>(x => x.Id, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<SimplePersonDTO>(0, 1, defaultSort);
+            var serviceResults = service.GetPeople(queryOperator);
+            var serviceResultsAsync = await service.GetPeopleAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
         #endregion
     }
 } 
