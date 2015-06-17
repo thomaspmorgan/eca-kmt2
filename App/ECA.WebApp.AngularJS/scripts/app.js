@@ -238,7 +238,7 @@ angular
             requireADLogin: true
         })
         .state('participants.timeline', {
-            url: '/activity',
+            url: '/timeline',
             templateUrl: 'views/participants/timeline.html',
             controller: 'ParticipantTimelineCtrl'
         })
