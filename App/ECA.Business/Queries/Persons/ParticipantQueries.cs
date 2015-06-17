@@ -3,6 +3,7 @@ using ECA.Core.DynamicLinq;
 using ECA.Data;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.SqlServer;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -15,48 +16,73 @@ namespace ECA.Business.Queries.Persons
     /// </summary>
     public static class ParticipantQueries
     {
-        private static IQueryable<SimpleParticipantDTO> CreateGetPersonParticipantsQuery(EcaContext context)
+        /// <summary>
+        /// Returns a query that selects SimpleParticipantDTO's from the given context's participant persons.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query.</returns>
+        public static IQueryable<SimpleParticipantDTO> CreateGetPersonParticipantsQuery(EcaContext context)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             var query = from participant in context.Participants
                         let person = participant.Person
+                        let location = person == null ? null : person.Addresses.FirstOrDefault()
                         let participantType = participant.ParticipantType
-                        where participant.PersonId != null
+                        where participant.PersonId.HasValue
                         select new SimpleParticipantDTO
                         {
                             Name = (person.FirstName != null ? person.FirstName : String.Empty)
                                   + (person.FirstName != null && person.LastName != null ? " " : String.Empty)
                                   + (person.LastName != null ? person.LastName : String.Empty),
+                            City = location == null
+                                ? null : location.Location == null
+                                ? null : location.Location.City == null
+                                ? null : location.Location.City.LocationName,
+                            Country = location == null
+                                ? null : location.Location == null
+                                ? null : location.Location.Country == null
+                                ? null : location.Location.Country.LocationName,
                             OrganizationId = default(int?),
                             ParticipantId = participant.ParticipantId,
                             ParticipantType = participantType.Name,
                             ParticipantTypeId = participantType.ParticipantTypeId,
                             PersonId = person.PersonId,
                             RevisedOn = participant.History.RevisedOn
-                            //,
-                            //Status = participant.Status.Status,
-                            //StatusDate = participant.StatusDate
                         };
             return query;
         }
 
-        private static IQueryable<SimpleParticipantDTO> CreateGetOrganizationParticipantsQuery(EcaContext context)
+        /// <summary>
+        /// Returns a query that selects SimpleParticipantDTOs from the given context's participant organizations.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query.</returns>
+        public static IQueryable<SimpleParticipantDTO> CreateGetOrganizationParticipantsQuery(EcaContext context)
         {
+            Contract.Requires(context != null, "The context must not be null.");
             var query = from participant in context.Participants
                         let org = participant.Organization
+                        let location = org == null ? null : org.Addresses.FirstOrDefault()
                         let participantType = participant.ParticipantType
                         where participant.PersonId == null
                         select new SimpleParticipantDTO
                         {
                             Name = org.Name,
+                            City = location == null 
+                                ? null : location.Location == null 
+                                ? null : location.Location.City == null 
+                                ? null : location.Location.City.LocationName,
+                            Country = location == null 
+                                ? null : location.Location == null 
+                                ? null : location.Location.Country == null
+                                ? null : location.Location.Country == null
+                                ? null : location.Location.Country.LocationName,
                             OrganizationId = org.OrganizationId,
                             ParticipantId = participant.ParticipantId,
                             ParticipantType = participantType.Name,
                             ParticipantTypeId = participantType.ParticipantTypeId,
                             PersonId = default(int?),
                             RevisedOn = participant.History.RevisedOn
-                            //,
-                            //Status = participant.Status.Status,
-                            //StatusDate = participant.StatusDate
                         };
             return query;
         }

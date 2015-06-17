@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace ECA.Business.Queries.Models.Admin
 {
     /// <summary>
-    /// An OrganizationProgram is an object from the GetPrograms stored procedure.  The program level
-    /// is the level from the root owner.
+    /// An OrganizationProgram is an object relating an organization to a program.  The object is used by both stored procedures and linq queries.
+    /// The program level is the level from the root owner.
     /// </summary>
     public class OrganizationProgramDTO
     {
@@ -37,7 +37,6 @@ namespace ECA.Business.Queries.Models.Admin
         /// </summary>
         public int Owner_OrganizationId { get; set; }
 
-        public int OwnerId { get; set; }
         /// <summary>
         /// Gets or sets the org name.
         /// </summary>
@@ -48,18 +47,31 @@ namespace ECA.Business.Queries.Models.Admin
         /// </summary>
         public string OfficeSymbol { get; set; }
 
+        public string Status { get; set; }
+
         /// <summary>
         /// Gets or sets the program level.
         /// </summary>
         public int ProgramLevel { get; set; }
 
         /// <summary>
-        /// Indicates whether the program is a parent
+        /// Indicates whether the program is a parent.
         /// </summary>
         public int NumChildren { get; set; }
 
+        /// <summary>
+        /// Gets or sets the program status id.
+        /// </summary>
         public int ProgramStatusId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the sort order.
+        /// </summary>
         public decimal SortOrder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the id of the creator.
+        /// </summary>
+        public int CreatedByUserId { get; set; }
     }
 }

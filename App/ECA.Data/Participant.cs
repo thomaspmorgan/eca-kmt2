@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace ECA.Data
 {
-    public class Participant
+    public class Participant : IHistorical
     {
 
         /// <summary>

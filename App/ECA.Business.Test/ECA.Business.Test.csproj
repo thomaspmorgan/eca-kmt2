@@ -86,7 +86,17 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Service\Admin\DraftProjectTest.cs" />
+    <Compile Include="Queries\Persons\ParticipantPersonQueriesTest.cs" />
+    <Compile Include="Queries\Persons\ParticipantQueriesTest.cs" />
+    <Compile Include="Service\Admin\MoneyFlowServiceCreateValidationEntityTest.cs" />
+    <Compile Include="Service\Admin\MoneyFlowServiceUpdateValidationEntityTest.cs" />
+    <Compile Include="Service\Admin\MoneyFlowServiceValidatorTest.cs" />
+    <Compile Include="Service\Lookup\ParticipantTypeServiceTest.cs" />
+    <Compile Include="Service\Persons\ParticipantPersonServiceTest.cs" />
+    <Compile Include="Service\Projects\AdditionalOrganizationProjectParticipantTest.cs" />
+    <Compile Include="Service\Projects\AdditionalPersonProjectParticipantTest.cs" />
+    <Compile Include="Service\Projects\AdditionalProjectParticipantTest.cs" />
+    <Compile Include="Service\Projects\DraftProjectTest.cs" />
     <Compile Include="Service\Admin\JustificationObjectiveServiceTest.cs" />
     <Compile Include="Service\Admin\FocusCategoryServiceTest.cs" />
     <Compile Include="Service\Admin\FocusServiceTest.cs" />
@@ -95,15 +105,16 @@
     <Compile Include="Service\Admin\OfficeServiceTest.cs" />
     <Compile Include="Service\Admin\OfficeSettingsTest.cs" />
     <Compile Include="Service\Admin\OrganizationServiceTest.cs" />
-    <Compile Include="Service\Admin\PublishedProjectTest.cs" />
-    <Compile Include="Service\Admin\ProjectServiceUpdateValidationEntityTest.cs" />
-    <Compile Include="Service\Admin\ProjectServiceValidatorTest.cs" />
-    <Compile Include="Service\Admin\ProjectServiceCreateValidationEntityTest.cs" />
-    <Compile Include="Service\Admin\ProjectStatusServiceTest.cs" />
+    <Compile Include="Service\Projects\PublishedProjectTest.cs" />
+    <Compile Include="Service\Projects\ProjectServiceUpdateValidationEntityTest.cs" />
+    <Compile Include="Service\Projects\ProjectServiceValidatorTest.cs" />
+    <Compile Include="Service\Projects\ProjectServiceCreateValidationEntityTest.cs" />
+    <Compile Include="Service\Projects\ProjectStatusServiceTest.cs" />
     <Compile Include="Service\Admin\GenderServiceTest.cs" />
     <Compile Include="Service\CreateTest.cs" />
     <Compile Include="Service\Lookup\SimpleLookupDTOTest.cs" />
     <Compile Include="Service\Lookup\LookupServiceTest.cs" />
+    <Compile Include="Service\Lookup\OrganizationTypeServiceTest.cs" />
     <Compile Include="Service\Persons\PersonServiceTest.cs" />
     <Compile Include="Service\Persons\PersonServiceValidatorTest.cs" />
     <Compile Include="Service\Persons\PersonServiceValidationEntityTest.cs" />
@@ -121,7 +132,7 @@
     <Compile Include="Service\Persons\ContactServiceTest.cs" />
     <Compile Include="Service\Persons\ParticipantServiceTest.cs" />
     <Compile Include="Service\Programs\ProgramServiceTest.cs" />
-    <Compile Include="Service\Admin\ProjectServiceTest.cs" />
+    <Compile Include="Service\Projects\ProjectServiceTest.cs" />
     <Compile Include="Service\Lookup\ThemeServiceTest.cs" />
     <Compile Include="TestEcaContext.cs" />
     <Compile Include="Validation\BusinessValidationResultTest.cs" />

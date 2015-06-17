@@ -287,7 +287,7 @@ namespace ECA.Business.Test.Service.Persons
                 Street1 = "street1",
                 Street2 = "street2",
                 Street3 = "street3",
-                City = "city",
+                City = city,
                 PostalCode = "postalCode",
                 CountryId = 2,
                 Country = country
@@ -328,7 +328,7 @@ namespace ECA.Business.Test.Service.Persons
                 Assert.AreEqual(location.Street1, homeAddress.Street1);
                 Assert.AreEqual(location.Street2, homeAddress.Street2);
                 Assert.AreEqual(location.Street3, homeAddress.Street3);
-                Assert.AreEqual(location.City, homeAddress.City);
+                Assert.AreEqual(city.LocationName, homeAddress.City);
                 Assert.AreEqual(location.PostalCode, homeAddress.PostalCode);
                 Assert.AreEqual(country.LocationName, homeAddress.Country);
             };
@@ -460,6 +460,9 @@ namespace ECA.Business.Test.Service.Persons
             
             var result = service.GetContactInfoById(person.PersonId);
             var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+
+            tester(result);
+            tester(resultAsync);
         }
 
         [TestMethod]
@@ -501,6 +504,9 @@ namespace ECA.Business.Test.Service.Persons
 
             var result = service.GetContactInfoById(person.PersonId);
             var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+
+            tester(result);
+            tester(resultAsync);
         }
 
         [TestMethod]
@@ -516,6 +522,7 @@ namespace ECA.Business.Test.Service.Persons
             {
                 PhoneNumberId = 1,
                 PhoneNumberTypeId  = phoneNumberType.PhoneNumberTypeId,
+                PhoneNumberType = phoneNumberType,
                 Number = "1234567890"
             };
 
@@ -541,8 +548,91 @@ namespace ECA.Business.Test.Service.Persons
 
             var result = service.GetContactInfoById(person.PersonId);
             var resultAsync = await service.GetContactInfoByIdAsync(person.PersonId);
+
+            tester(result);
+            tester(resultAsync);
         }
 
+        #endregion
+
+        #region Get EvaluationNotes By Id
+
+        [TestMethod]
+        public async Task TestGetEvaluationNotesById()
+        {
+            int principalId = 1;
+            int personId = 2;
+            DateTime date1 = new DateTime(2015,6,11);
+            DateTime date2 = new DateTime(2015, 6, 2);
+            var user = new UserAccount
+            {
+                PrincipalId = principalId,
+                FirstName = "Jack",
+                LastName = "Diddly",
+                DisplayName = "Jack Diddly",
+                EmailAddress = "jack@diddly.us"
+            };
+
+            var history1 = new History
+            {
+                CreatedBy = principalId,
+                CreatedOn = new DateTimeOffset(date1),
+                RevisedBy = principalId,
+                RevisedOn = new DateTimeOffset(date1)
+            };
+
+            var history2 = new History
+            {
+                CreatedBy = principalId,
+                CreatedOn = new DateTimeOffset(date2),
+                RevisedBy = principalId,
+                RevisedOn = new DateTimeOffset(date2)
+            };
+
+            var person = new Person
+            {
+                PersonId = personId
+            };
+
+            var eval1 = new PersonEvaluationNote
+            {
+                EvaluationNoteId = 1,
+                PersonId = personId,
+                EvaluationNote = "Jack is awesome.",
+                History = history1
+            };
+
+            var eval2 = new PersonEvaluationNote
+            {
+                EvaluationNoteId = 2,
+                PersonId = personId,
+                EvaluationNote = "Jack is really cool.",
+                History = history2
+            };
+
+            person.EvaluationNotes.Add(eval1);
+            person.EvaluationNotes.Add(eval2);
+
+            context.UserAccounts.Add(user);
+            context.PersonEvaluationNotes.Add(eval1);
+            context.PersonEvaluationNotes.Add(eval2);
+            context.People.Add(person);
+
+            Action<IList<EvaluationNoteDTO>> tester = (serviceResult) =>
+            {
+                Assert.IsNotNull(serviceResult);
+                Assert.AreEqual(person.EvaluationNotes.Count(), serviceResult.Count());
+                CollectionAssert.AreEqual(person.EvaluationNotes.Select(x => x.EvaluationNote).ToList(), serviceResult.Select(x => x.EvaluationNote).ToList());
+                CollectionAssert.AreEqual(person.EvaluationNotes.Select(x => x.History.CreatedBy).ToList(), serviceResult.Select(x => x.UserId).ToList());
+            };
+
+            var result = service.GetEvaluationNotesByPersonId(personId);
+            var resultAsync = await service.GetEvaluationNotesByPersonIdAsync(personId);
+
+            tester(result);
+            tester(resultAsync);
+
+        }
         #endregion
 
         #region Create

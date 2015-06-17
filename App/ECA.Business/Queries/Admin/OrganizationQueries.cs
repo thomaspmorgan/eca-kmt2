@@ -29,7 +29,6 @@ namespace ECA.Business.Queries.Admin
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
 
             var query = context.Organizations
-                .Include(x => x.Addresses)
                 .Where(x => !Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(x.OrganizationTypeId))
                 .Select(x => new SimpleOrganizationDTO
                 {
@@ -65,8 +64,8 @@ namespace ECA.Business.Queries.Admin
                             Description = org.Description,
                             Locations = addresses.Select(x => new ECA.Business.Queries.Models.Persons.LocationDTO
                             {
-                                City = x.Location.City,
-                                CityId = -1,
+                                City = x.Location.City.LocationName,
+                                CityId = x.Location.CityId,
                                 Country = x.Location.Country.LocationName,
                                 CountryId = x.Location.Country.LocationId,
                                 Id = x.AddressId,

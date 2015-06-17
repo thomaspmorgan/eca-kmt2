@@ -42,6 +42,10 @@ namespace ECA.Core.DynamicLinq.Filter
             {
                 return new EqualFilter<T>(this.Property, this.Value);
             }
+            if (comparisonType == ComparisonType.NotEqual)
+            {
+                return new NotEqualFilter<T>(this.Property, this.Value);
+            }
             if (comparisonType == ComparisonType.GreaterThan)
             {
                 return new GreaterThanFilter<T>(this.Property, this.Value);
@@ -79,7 +83,7 @@ namespace ECA.Core.DynamicLinq.Filter
         /// <returns>A string of this simple filter.</returns>
         public override string ToString()
         {
-            return String.Format("{0} {1} {2}", this.Property, ComparisonType.ToComparisonType(this.Comparison), this.Value.ToString());
+            return String.Format("{0} {1} {2}", this.Property, ComparisonType.ToComparisonType(this.Comparison), this.Value == null ? "null" : this.Value.ToString());
         }
     }
 }

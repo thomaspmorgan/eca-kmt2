@@ -73,16 +73,6 @@ namespace ECA.Data
         public string Street3 { get; set; }
 
         /// <summary>
-        /// Gets or sets the City.
-        /// </summary>
-        public string City { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Division.
-        /// </summary>
-        public string Division { get; set; }
-
-        /// <summary>
         /// Gets or sets the postal code.
         /// </summary>
         public string PostalCode { get; set; }
@@ -96,6 +86,11 @@ namespace ECA.Data
         /// Gets or sets the Iso.
         /// </summary>
         public string LocationIso { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location iso 2
+        /// </summary>
+        public string LocationIso2 { get; set; }
 
         /// <summary>
         /// Gets or sets the region id.
@@ -117,6 +112,26 @@ namespace ECA.Data
         /// Gets or sets the country
         /// </summary>
         public virtual Location Country { get; set; }
+
+        /// <summary>
+        /// Gets or sets the city id
+        /// </summary>
+        public int? CityId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the city
+        /// </summary>
+        public virtual Location City { get; set; }
+
+        /// <summary>
+        /// Gets or sets the division id
+        /// </summary>
+        public int? DivisionId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the division
+        /// </summary>
+        public virtual Location Division { get; set; }
 
         /// <summary>
         /// Gets or sets the birth place people

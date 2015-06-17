@@ -76,6 +76,7 @@
     <Folder Include="Sevis" />
     <Folder Include="Sevis\Schema" />
     <Folder Include="Sevis\Tables" />
+    <Folder Include="dbo\Views" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ECA_Local.publish.xml" />
@@ -107,6 +108,7 @@
     <None Include="Data Migration\MigrationScripts\VisitingScholars\PhoneNumber.Create.Visiting.Scholar.Person.Participant.PhoneNumber.Data.sql" />
     <None Include="Data Migration\MigrationScripts\VisitingScholars\Project.Update.FocusId.Values.Data.sql" />
     <None Include="Scripts\PostDeploy\StaticData\dbo.MaritalStatus.staticdata.sql" />
+    <None Include="ECA_UAT.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\ECA.PostDeployment.sql" />
@@ -271,8 +273,6 @@
     <Build Include="dbo\Tables\ItineraryCommentType.sql" />
     <Build Include="dbo\Tables\ItineraryAppointmentType.sql" />
     <Build Include="dbo\Functions\NumberOfChildPrograms.sql" />
-    <Build Include="dbo\Stored Procedures\GetProgramsForUser.sql" />
-    <Build Include="dbo\Stored Procedures\GetProgramsForUserAlpha.sql" />
     <Build Include="dbo\Tables\ParticipantPerson.sql" />
     <Build Include="Sevis\Schema\SevisSchema.sql" />
     <Build Include="Sevis\Tables\FieldOfStudy.sql" />
@@ -286,8 +286,18 @@
     <Build Include="Sevis\Tables\OccupationalCategory.sql" />
     <Build Include="Sevis\Tables\StudentReprint.sql" />
     <Build Include="Sevis\Tables\BirthCountry.sql" />
+    <Build Include="dbo\Tables\PersonEvaluationNote.sql" />
+    <Build Include="dbo\Views\UserView.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ECA.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CAM.Database\CAM.Database.sqlproj">
+      <Name>CAM.Database</Name>
+      <Project>{a4a83f58-a03f-4f95-878c-5887c0a96f74}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+    </ProjectReference>
   </ItemGroup>
 </Project>

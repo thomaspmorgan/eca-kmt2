@@ -1,0 +1,23 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Select Participant Type</h3>
+    <div class="page-header">
+        <p class="subheader">Select the type of the participant you are adding to this project.</p>
+        <div class="spinner" ng-show="view.isLoading">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+</div>
+<div class="modal-body">
+    <div class="form-group row">
+        <label class="col-md-4 title-label" for="status">Participant Type</label>
+        <div>
+            <select class="col-md-8 form-control" id="participanttype" ng-options="t.id as t.name for t in view.participantTypes" ng-model="view.clientModel.participantTypeId" />
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" ng-disabled="!view.clientModel.participantTypeId" ng-click="view.onOkClick()">Ok</button>
+    <button class="btn btn-default" ng-click="view.onCancelClick()">Cancel</button>
+</div>

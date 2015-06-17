@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ECA.Business.Service.Admin
 {
+    /// <summary>
+    /// The OfficeSettings object is a container for all settings related to an office.
+    /// </summary>
     public class OfficeSettings
     {
         /// <summary>

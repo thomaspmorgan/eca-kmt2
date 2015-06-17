@@ -4,6 +4,7 @@ using ECA.Business.Service.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Business.Service.Persons;
 using ECA.Business.Service.Programs;
+using ECA.Business.Service.Projects;
 using ECA.Business.Service.Reports;
 using ECA.Business.Validation;
 using ECA.Core.Generation;
@@ -70,7 +71,10 @@ namespace ECA.WebApi
             container.RegisterType<IMoneyFlowTypeService, MoneyFlowTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IMoneyFlowSourceRecipientTypeService, MoneyFlowSourceRecipientTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOfficeService, OfficeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IOrganizationService, OrganizationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IOrganizationTypeService, OrganizationTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IParticipantService, ParticipantService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IParticipantTypeService, ParticipantTypeService>(new HierarchicalLifetimeManager());
             container.RegisterType<IPersonService, PersonService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProgramService, ProgramService>(new HierarchicalLifetimeManager());
             container.RegisterType<IProjectService, ProjectService>(new HierarchicalLifetimeManager());
@@ -78,7 +82,8 @@ namespace ECA.WebApi
             container.RegisterType<IReportService, ReportService>(new HierarchicalLifetimeManager());
             container.RegisterType<IStaticGeneratorValidator, DbContextStaticLookupValidator>(new HierarchicalLifetimeManager());
             container.RegisterType<IThemeService, ThemeService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IOrganizationService, OrganizationService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IParticipantPersonService, ParticipantPersonService>(new HierarchicalLifetimeManager());
+            
         }
 
         /// <summary>
@@ -96,6 +101,9 @@ namespace ECA.WebApi
             container.RegisterType<
                 IBusinessValidator<PersonServiceValidationEntity, PersonServiceValidationEntity>,
                 PersonServiceValidator>();
+            container.RegisterType<
+                IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>,
+                MoneyFlowServiceValidator>();
         }
 
         public static void RegisterSecurityConcerns(IUnityContainer container)

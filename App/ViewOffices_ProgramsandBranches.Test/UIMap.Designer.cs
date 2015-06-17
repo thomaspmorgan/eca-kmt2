@@ -138,23 +138,6 @@ namespace ViewOffices_ProgramsandBranches.Test
         }
         
         /// <summary>
-        /// Verify the (Office of Academic Exchanges) control type and innertext are available.
-        /// </summary>
-        public void AssertOfficeName()
-        {
-            #region Variable Declarations
-            HtmlHyperlink uIOfficeofAcademicExchHyperlink = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument6.UISortlistPane.UIOfficeofAcademicExchHyperlink;
-            #endregion
-
-            // Wait for 10 seconds for user delay between actions; Verify that the 'ControlType' property of 'Office of Academic Exchange Programs' link contains 'Hyperlink'
-            Playback.Wait(10000);
-            StringAssert.Contains(uIOfficeofAcademicExchHyperlink.ControlType.ToString(), this.AssertOfficeNameExpectedValues.UIOfficeofAcademicExchHyperlinkControlType, "No (Office of Academic Exchange Programs) hyperlink control type.");
-
-            // Verify that the 'InnerText' property of 'Office of Academic Exchange Programs' link contains 'Office of Academic Exchange Programs'
-            StringAssert.Contains(uIOfficeofAcademicExchHyperlink.InnerText, this.AssertOfficeNameExpectedValues.UIOfficeofAcademicExchHyperlinkInnerText, "No (Office of Academic Exchange Programs) InnerText available.");
-        }
-        
-        /// <summary>
         /// Verify the Offices link is available for selection; check inner text; check controltype.
         /// </summary>
         public void AssertOfficesContentMenuLink()
@@ -704,18 +687,6 @@ namespace ViewOffices_ProgramsandBranches.Test
             }
         }
         
-        public virtual AssertOfficeNameExpectedValues AssertOfficeNameExpectedValues
-        {
-            get
-            {
-                if ((this.mAssertOfficeNameExpectedValues == null))
-                {
-                    this.mAssertOfficeNameExpectedValues = new AssertOfficeNameExpectedValues();
-                }
-                return this.mAssertOfficeNameExpectedValues;
-            }
-        }
-        
         public virtual AssertOfficesContentMenuLinkExpectedValues AssertOfficesContentMenuLinkExpectedValues
         {
             get
@@ -968,8 +939,6 @@ namespace ViewOffices_ProgramsandBranches.Test
         
         private AssertIndividualOffice_ProgramNameDescriptionExpectedValues mAssertIndividualOffice_ProgramNameDescriptionExpectedValues;
         
-        private AssertOfficeNameExpectedValues mAssertOfficeNameExpectedValues;
-        
         private AssertOfficesContentMenuLinkExpectedValues mAssertOfficesContentMenuLinkExpectedValues;
         
         private AssertOfficeSearchResult_SecOfficeExpectedValues mAssertOfficeSearchResult_SecOfficeExpectedValues;
@@ -1132,26 +1101,6 @@ namespace ViewOffices_ProgramsandBranches.Test
         public string UIECAAEFulbrightVisitiPaneInnerText = "ECA/A/E \r\nFulbright Visiting Scholar Program \r\n\r\nSupports foreign scholars to con" +
             "duct post-doctoral research and university lecturing at U.S. institutions for an" +
             " academic year or term.";
-        #endregion
-    }
-    
-    /// <summary>
-    /// Parameters to be passed into 'AssertOfficeName'
-    /// </summary>
-    [GeneratedCode("Coded UITest Builder", "12.0.31101.0")]
-    public class AssertOfficeNameExpectedValues
-    {
-        
-        #region Fields
-        /// <summary>
-        /// Wait for 10 seconds for user delay between actions; Verify that the 'ControlType' property of 'Office of Academic Exchange Programs' link contains 'Hyperlink'
-        /// </summary>
-        public string UIOfficeofAcademicExchHyperlinkControlType = "Hyperlink";
-        
-        /// <summary>
-        /// Verify that the 'InnerText' property of 'Office of Academic Exchange Programs' link contains 'Office of Academic Exchange Programs'
-        /// </summary>
-        public string UIOfficeofAcademicExchHyperlinkInnerText = "Office of Academic Exchange Programs";
         #endregion
     }
     
@@ -1379,7 +1328,7 @@ Places recent U.S. college graduates as English teaching assistants in schools o
         /// <summary>
         /// Type '********' in 'Password' text box
         /// </summary>
-        public string UIPasswordEditPassword = "pnl8gvcmh7k//RLoLhz21H311rAYM7tLgX1DFCS84gg=";
+        public string UIPasswordEditPassword = "pnl8gvcmh7n9Hp5j+06Q16vTeHomf4bql8vy/6wcjU0=";
         #endregion
     }
     

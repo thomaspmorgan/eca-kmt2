@@ -1,14 +1,20 @@
 ﻿using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Service;
 using ECA.Business.Service.Admin;
+using ECA.Business.Validation;
 using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Filter;
 using ECA.Core.DynamicLinq.Sorter;
+using ECA.Core.Exceptions;
 using ECA.Core.Query;
 using ECA.Data;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ECA.Business.Test.Service.Admin
@@ -18,12 +24,16 @@ namespace ECA.Business.Test.Service.Admin
     {
         private TestEcaContext context;
         private MoneyFlowService service;
+        private Mock<IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>> validator;
+        private Mock<IOfficeService> officeService;
 
         [TestInitialize]
         public void TestInit()
         {
             context = new TestEcaContext();
-            service = new MoneyFlowService(context);
+            validator = new Mock<IBusinessValidator<MoneyFlowServiceCreateValidationEntity, MoneyFlowServiceUpdateValidationEntity>>();
+            officeService = new Mock<IOfficeService>();
+            service = new MoneyFlowService(context, officeService.Object, validator.Object);
         }
 
         [TestCleanup]

@@ -376,7 +376,348 @@ namespace ECA.Business.Test.Service.Programs
         }
 
         [TestMethod]
+        public async Task TestGetPrograms_CheckProperties_DoesNotHaveParentProgram()
+        {
+            var active = new ProgramStatus
+            {
+                ProgramStatusId = ProgramStatus.Active.Id,
+                Status = ProgramStatus.Active.Value
+            };
+            var owner1 = new Organization
+            {
+                OrganizationId = 1,
+                Name = "owner 1",
+                OfficeSymbol = "owner 1 symbol",
+            };
+            var program1 = new Program
+            {
+                Description = "desc1",
+                History = new History
+                {
+                    CreatedBy = 1,
+                },
+                Name = "program 1",
+                Owner = owner1,
+                OwnerId = owner1.OrganizationId,
+                ProgramStatus = active,
+                ProgramStatusId = active.ProgramStatusId,
+            };
+            context.Programs.Add(program1);
+            context.Organizations.Add(owner1);
+            context.ProgramStatuses.Add(active);
+
+            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
+
+            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                var firstResult = results.Results.First();
+                Assert.AreEqual(program1.History.CreatedBy, firstResult.CreatedByUserId);
+                Assert.AreEqual(program1.Description, firstResult.Description);
+                Assert.AreEqual(program1.Name, firstResult.Name);
+                Assert.AreEqual(0, firstResult.NumChildren);
+                Assert.AreEqual(owner1.OfficeSymbol, firstResult.OfficeSymbol);
+                Assert.AreEqual(owner1.Name, firstResult.OrgName);
+                Assert.AreEqual(owner1.OrganizationId, firstResult.Owner_OrganizationId);
+                Assert.IsNull(firstResult.ParentProgram_ProgramId);
+                Assert.AreEqual(program1.ProgramId, firstResult.ProgramId);
+                Assert.AreEqual(0, firstResult.ProgramLevel);
+                Assert.AreEqual(active.ProgramStatusId, firstResult.ProgramStatusId);
+                Assert.AreEqual(0, firstResult.SortOrder);
+            };
+
+            var serviceResults = service.GetPrograms(queryOperator);
+            var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+
+        }
+
+        [TestMethod]
+        public async Task TestGetPrograms_HasParentProgram()
+        {
+            var active = new ProgramStatus
+            {
+                ProgramStatusId = ProgramStatus.Active.Id,
+                Status = ProgramStatus.Active.Value
+            };
+            var owner1 = new Organization
+            {
+                OrganizationId = 1,
+                Name = "owner 1",
+                OfficeSymbol = "owner 1 symbol",
+            };
+            var parentProgram = new Program
+            {
+                ProgramId = 2,
+                Name = "parent",
+                Owner = owner1,
+                OwnerId = owner1.OrganizationId
+            };
+            var program1 = new Program
+            {
+                Description = "desc1",
+                History = new History
+                {
+                    CreatedBy = 1,
+                },
+                Name = "program 1",
+                Owner = owner1,
+                OwnerId = owner1.OrganizationId,
+                ProgramStatus = active,
+                ProgramStatusId = active.ProgramStatusId,
+                ParentProgram = parentProgram,
+            };
+            context.Programs.Add(parentProgram);
+            context.Programs.Add(program1);
+            context.Organizations.Add(owner1);
+            context.ProgramStatuses.Add(active);
+
+            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
+            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(2, results.Total);
+                Assert.AreEqual(2, results.Results.Count);
+
+                var childProgramResult = results.Results.Where(x => x.ParentProgram_ProgramId.HasValue).FirstOrDefault();
+                var parentProgramResult = results.Results.Where(x => !x.ParentProgram_ProgramId.HasValue).FirstOrDefault();
+                Assert.IsNotNull(childProgramResult);
+                Assert.IsNotNull(parentProgramResult);
+                Assert.AreEqual(program1.ParentProgram.ProgramId, childProgramResult.ParentProgram_ProgramId);
+            };
+
+            var serviceResults = service.GetPrograms(queryOperator);
+            var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
         public async Task TestGetPrograms_Filter()
+        {
+            var active = new ProgramStatus
+            {
+                ProgramStatusId = ProgramStatus.Active.Id,
+                Status = ProgramStatus.Active.Value
+            };
+            var cancelled = new ProgramStatus
+            {
+                ProgramStatusId = ProgramStatus.Canceled.Id,
+                Status = ProgramStatus.Canceled.Value
+            };
+            var owner1 = new Organization
+            {
+                OrganizationId = 1,
+                Name = "owner 1",
+                OfficeSymbol = "owner 1 symbol",
+            };
+            var owner2 = new Organization
+            {
+                OrganizationId = 2,
+                Name = "owner 2",
+                OfficeSymbol = "owner 2 symbol",
+            };
+            var program1 = new Program
+            {
+                Description = "desc1",
+                History = new History
+                {
+                    CreatedBy = 1,
+                },
+                Name = "program 1",
+                Owner = owner1,
+                OwnerId = owner1.OrganizationId,
+                ProgramStatus = active,
+                ProgramStatusId = active.ProgramStatusId,
+            };
+            var program2 = new Program
+            {
+                Description = "desc2",
+                History = new History
+                {
+                    CreatedBy = 2,
+                },
+                Name = "program 2",
+                Owner = owner2,
+                OwnerId = owner2.OrganizationId,
+                ProgramStatus = cancelled,
+                ProgramStatusId = cancelled.ProgramStatusId,
+            };
+            context.Programs.Add(program1);
+            context.Programs.Add(program2);
+            context.Organizations.Add(owner1);
+            context.Organizations.Add(owner2);
+            context.ProgramStatuses.Add(active);
+            context.ProgramStatuses.Add(cancelled);
+
+            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
+            queryOperator.Filters.Add(new ExpressionFilter<OrganizationProgramDTO>(x => x.Name, ComparisonType.Equal, program1.Name));
+
+            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(1, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.AreEqual(program1.ProgramId, results.Results.First().ProgramId);
+            };
+
+            var serviceResults = service.GetPrograms(queryOperator);
+            var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+
+        }
+
+        [TestMethod]
+        public async Task TestGetPrograms_Sort()
+        {
+            var active = new ProgramStatus
+            {
+                ProgramStatusId = ProgramStatus.Active.Id,
+                Status = ProgramStatus.Active.Value
+            };
+            var cancelled = new ProgramStatus
+            {
+                ProgramStatusId = ProgramStatus.Canceled.Id,
+                Status = ProgramStatus.Canceled.Value
+            };
+            var owner1 = new Organization
+            {
+                OrganizationId = 1,
+                Name = "owner 1",
+                OfficeSymbol = "owner 1 symbol",
+            };
+            var owner2 = new Organization
+            {
+                OrganizationId = 2,
+                Name = "owner 2",
+                OfficeSymbol = "owner 2 symbol",
+            };
+            var program1 = new Program
+            {
+                Description = "desc1",
+                History = new History
+                {
+                    CreatedBy = 1,
+                },
+                Name = "program 1",
+                Owner = owner1,
+                OwnerId = owner1.OrganizationId,
+                ProgramStatus = active,
+                ProgramStatusId = active.ProgramStatusId,
+            };
+            var program2 = new Program
+            {
+                Description = "desc2",
+                History = new History
+                {
+                    CreatedBy = 2,
+                },
+                Name = "program 2",
+                Owner = owner2,
+                OwnerId = owner2.OrganizationId,
+                ProgramStatus = cancelled,
+                ProgramStatusId = cancelled.ProgramStatusId,
+            };
+            context.Programs.Add(program1);
+            context.Programs.Add(program2);
+            context.Organizations.Add(owner1);
+            context.Organizations.Add(owner2);
+            context.ProgramStatuses.Add(active);
+            context.ProgramStatuses.Add(cancelled);
+
+            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Owner_OrganizationId, SortDirection.Descending));
+
+            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(2, results.Total);
+                Assert.AreEqual(2, results.Results.Count);
+                Assert.AreEqual(program1.ProgramId, results.Results.First().ProgramId);
+                Assert.AreEqual(program2.ProgramId, results.Results.Last().ProgramId);
+            };
+
+            var serviceResults = service.GetPrograms(queryOperator);
+            var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetPrograms_Paging()
+        {
+            var active = new ProgramStatus
+            {
+                ProgramStatusId = ProgramStatus.Active.Id,
+                Status = ProgramStatus.Active.Value
+            };
+            var cancelled = new ProgramStatus
+            {
+                ProgramStatusId = ProgramStatus.Canceled.Id,
+                Status = ProgramStatus.Canceled.Value
+            };
+            var owner1 = new Organization
+            {
+                OrganizationId = 1,
+                Name = "owner 1",
+                OfficeSymbol = "owner 1 symbol",
+            };
+            var owner2 = new Organization
+            {
+                OrganizationId = 2,
+                Name = "owner 2",
+                OfficeSymbol = "owner 2 symbol",
+            };
+            var program1 = new Program
+            {
+                Description = "desc1",
+                History = new History
+                {
+                    CreatedBy = 1,
+                },
+                Name = "program 1",
+                Owner = owner1,
+                OwnerId = owner1.OrganizationId,
+                ProgramStatus = active,
+                ProgramStatusId = active.ProgramStatusId,
+            };
+            var program2 = new Program
+            {
+                Description = "desc2",
+                History = new History
+                {
+                    CreatedBy = 2,
+                },
+                Name = "program 2",
+                Owner = owner2,
+                OwnerId = owner2.OrganizationId,
+                ProgramStatus = cancelled,
+                ProgramStatusId = cancelled.ProgramStatusId,
+            };
+            context.Programs.Add(program1);
+            context.Programs.Add(program2);
+            context.Organizations.Add(owner1);
+            context.Organizations.Add(owner2);
+            context.ProgramStatuses.Add(active);
+            context.ProgramStatuses.Add(cancelled);
+
+            var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 1, new ExpressionSorter<OrganizationProgramDTO>(x => x.Owner_OrganizationId, SortDirection.Descending));
+
+            Action<PagedQueryResults<OrganizationProgramDTO>> tester = (results) =>
+            {
+                Assert.AreEqual(2, results.Total);
+                Assert.AreEqual(1, results.Results.Count);
+                Assert.AreEqual(program1.ProgramId, results.Results.First().ProgramId);
+            };
+
+            var serviceResults = service.GetPrograms(queryOperator);
+            var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+
+        [TestMethod]
+        public async Task TestGetProgramsHierarchy_Filter()
         {
             using (ShimsContext.Create())
             {
@@ -389,7 +730,6 @@ namespace ECA.Business.Test.Service.Programs
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
-                    OwnerId = 3,
                     ParentProgram_ProgramId = 4,
                     ProgramId = 5,
                     ProgramLevel = 6,
@@ -404,7 +744,6 @@ namespace ECA.Business.Test.Service.Programs
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
-                    OwnerId = 30,
                     ParentProgram_ProgramId = 40,
                     ProgramId = 50,
                     ProgramLevel = 60,
@@ -443,15 +782,15 @@ namespace ECA.Business.Test.Service.Programs
                 };
                 var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
                 queryOperator.Filters.Add(new ExpressionFilter<OrganizationProgramDTO>(x => x.Name, ComparisonType.Equal, dto1.Name));
-                var serviceResults = service.GetPrograms(queryOperator);
-                var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+                var serviceResults = service.GetProgramsHierarchy(queryOperator);
+                var serviceResultsAsync = await service.GetProgramsHierarchyAsync(queryOperator);
                 tester(serviceResults);
                 tester(serviceResultsAsync);
             }
         }
 
         [TestMethod]
-        public async Task TestGetPrograms_DefaultSort()
+        public async Task TestGetProgramsHierarchy_DefaultSort()
         {
             using (ShimsContext.Create())
             {
@@ -464,7 +803,6 @@ namespace ECA.Business.Test.Service.Programs
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
-                    OwnerId = 3,
                     ParentProgram_ProgramId = 4,
                     ProgramId = 5,
                     ProgramLevel = 6,
@@ -479,7 +817,6 @@ namespace ECA.Business.Test.Service.Programs
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
-                    OwnerId = 30,
                     ParentProgram_ProgramId = 40,
                     ProgramId = 50,
                     ProgramLevel = 60,
@@ -518,15 +855,15 @@ namespace ECA.Business.Test.Service.Programs
                     Assert.IsTrue(object.ReferenceEquals(dto1, firstResult));
                 };
                 var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
-                var serviceResults = service.GetPrograms(queryOperator);
-                var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+                var serviceResults = service.GetProgramsHierarchy(queryOperator);
+                var serviceResultsAsync = await service.GetProgramsHierarchyAsync(queryOperator);
                 tester(serviceResults);
                 tester(serviceResultsAsync);
             }
         }
 
         [TestMethod]
-        public async Task TestGetPrograms_Sort()
+        public async Task TestGetProgramsHierarchy_Sort()
         {
             using (ShimsContext.Create())
             {
@@ -539,7 +876,6 @@ namespace ECA.Business.Test.Service.Programs
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
-                    OwnerId = 3,
                     ParentProgram_ProgramId = 4,
                     ProgramId = 5,
                     ProgramLevel = 6,
@@ -554,7 +890,6 @@ namespace ECA.Business.Test.Service.Programs
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
-                    OwnerId = 30,
                     ParentProgram_ProgramId = 40,
                     ProgramId = 50,
                     ProgramLevel = 60,
@@ -594,15 +929,15 @@ namespace ECA.Business.Test.Service.Programs
                 };
                 var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 10, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
                 queryOperator.Sorters.Add(new ExpressionSorter<OrganizationProgramDTO>(x => x.NumChildren, SortDirection.Descending));
-                var serviceResults = service.GetPrograms(queryOperator);
-                var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+                var serviceResults = service.GetProgramsHierarchy(queryOperator);
+                var serviceResultsAsync = await service.GetProgramsHierarchyAsync(queryOperator);
                 tester(serviceResults);
                 tester(serviceResultsAsync);
             }
         }
 
         [TestMethod]
-        public async Task TestGetPrograms_Paging()
+        public async Task TestGetProgramsHierarchy_Paging()
         {
             using (ShimsContext.Create())
             {
@@ -615,7 +950,6 @@ namespace ECA.Business.Test.Service.Programs
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 2,
-                    OwnerId = 3,
                     ParentProgram_ProgramId = 4,
                     ProgramId = 5,
                     ProgramLevel = 6,
@@ -630,7 +964,6 @@ namespace ECA.Business.Test.Service.Programs
                     OfficeSymbol = "eca",
                     OrgName = "eca org",
                     Owner_OrganizationId = 20,
-                    OwnerId = 30,
                     ParentProgram_ProgramId = 40,
                     ProgramId = 50,
                     ProgramLevel = 60,
@@ -669,8 +1002,8 @@ namespace ECA.Business.Test.Service.Programs
                     Assert.IsTrue(object.ReferenceEquals(dto1, firstResult));
                 };
                 var queryOperator = new QueryableOperator<OrganizationProgramDTO>(0, 1, new ExpressionSorter<OrganizationProgramDTO>(x => x.Name, SortDirection.Ascending));
-                var serviceResults = service.GetPrograms(queryOperator);
-                var serviceResultsAsync = await service.GetProgramsAsync(queryOperator);
+                var serviceResults = service.GetProgramsHierarchy(queryOperator);
+                var serviceResultsAsync = await service.GetProgramsHierarchyAsync(queryOperator);
                 tester(serviceResults);
                 tester(serviceResultsAsync);
             }

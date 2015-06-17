@@ -96,9 +96,11 @@
     <Compile Include="Controllers\Admin\GendersControllerTest.cs" />
     <Compile Include="Controllers\Admin\GoalsControllerTest.cs" />
     <Compile Include="Controllers\Admin\OfficesControllerTest.cs" />
+    <Compile Include="Controllers\Admin\ParticipantTypesControllerTest.cs" />
     <Compile Include="Controllers\Admin\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Admin\MoneyFlowsControllerTest.cs" />
-    <Compile Include="Controllers\Admin\ProjectStatusControllerTest.cs" />
+    <Compile Include="Controllers\Persons\ParticipantPersonsControllerTest.cs" />
+    <Compile Include="Controllers\Projects\ProjectStatusControllerTest.cs" />
     <Compile Include="Controllers\Admin\MaritalStatusesControllerTest.cs" />
     <Compile Include="Controllers\Admin\OrganizationsControllerTest.cs" />
     <Compile Include="Controllers\Security\AuthControllerTest.cs" />
@@ -107,7 +109,7 @@
     <Compile Include="Controllers\Persons\PersonControllerTest.cs" />
     <Compile Include="Controllers\Programs\ThemesControllerTest.cs" />
     <Compile Include="Controllers\Programs\ProgramsControllerTest.cs" />
-    <Compile Include="Controllers\Admin\ProjectsControllerTest.cs" />
+    <Compile Include="Controllers\Projects\ProjectsControllerTest.cs" />
     <Compile Include="Controllers\Security\PrincipalsControllerTest.cs" />
     <Compile Include="Controllers\Security\ResourcesControllerTest.cs" />
     <Compile Include="Controllers\Security\UsersControllerTest.cs" />
@@ -119,6 +121,8 @@
     <Compile Include="Models\Programs\ProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\DraftProgramBindingModelTest.cs" />
     <Compile Include="Models\Programs\ProgramViewModelTest.cs" />
+    <Compile Include="Models\Projects\AdditionalPersonProjectParticipantBindingModelTest.cs" />
+    <Compile Include="Models\Projects\AdditionalOrganizationProjectParticipantBindingModelTest.cs" />
     <Compile Include="Models\Projects\DraftProjectBindingModelTest.cs" />
     <Compile Include="Models\Projects\PublishedProjectBindingModelTest.cs" />
     <Compile Include="Models\Query\FilterBindingModelConvertTest.cs" />

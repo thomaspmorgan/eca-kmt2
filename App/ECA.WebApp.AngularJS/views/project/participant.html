@@ -78,33 +78,69 @@
 
     <div class="row" ng-click="dataExpanded2 = !dataExpanded2">
         <div class="col-md-10">
-            <h4 class="tab-subheader">Participant List</h4>
+            <h4 class="tab-subheader">Participant Data</h4>
             <h5 class="subheader2">Keep track of participant data that has been added to this project.</h5>
-            <p class="mute">Participants: {{project.participants.length}} | Last updated {{project.updated | date}}</p>
+            <p class="mute">Participants: {{participants.length}} | Last updated {{project.updated | date}}</p>
         </div>
         <div class="col-sd-2">
             <span class="right"><img src="images/expand.png"></span>
         </div>
     </div>
+    <div class="row" ng-show="dataExpanded2">
+        <h4 class="tab-subheader">Add a Participant to this Project</h4>
+        <div class="col-md-12" ng-show="view.isAddingParticipant">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+        <div class="col-md-6" ng-show="!view.isAddingParticipant">
+            <div style="margin-top:10px;">
+                <span style="font-size:12pt;margin-right:5px;">Filter By:</span>
+                <label class="radio-inline">
+                    <input type="radio" value="{{view.addPersonFilterValue}}" ng-change="view.onRadioButtonChange(view.addPersonFilterValue)" ng-model="view.addParticipantFilter" />
+                    Person
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" value="{{view.addOrganizationFilterValue}}" ng-change="view.onRadioButtonChange(view.addOrganizationFilterValue)" ng-model="view.addParticipantFilter" />
+                    Organization
+                </label>
+            </div>
+            <div style="margin-top:10px;">
+                <div style="margin-top:10px;" style="margin-top:10px;" class="mute">
+                    Showing {{view.displayedAvailableParticipantsCount}} of {{view.totalAvailableParticipants}} available participants.
+                </div>
+                <input type="search"
+                       class="search-contextual"
+                       maxlength="100"
+                       typeahead-append-to-body="true"
+                       typeahead-input-formatter="view.formatAddedParticipant($model)"
+                       placeholder="Add an existing participant..."
+                       ng-model="view.selectedExistingParticipant"
+                       typeahead-wait-ms="400"
+                       typeahead-loading="view.isLoadingAvailableParticipants"
+                       typeahead="participant as participant.name for participant in view.getAvailableParticipants($viewValue) | filter : $viewValue | limitTo : view.addParticipantsLimit"
+                       typeahead-on-select="view.onAddParticipantSelect($item, $model, $label)"
+                       typeahead-template-url="addCollaboratorTemplate.html"
+                       typeahead-editable="false">
+                </input>
+                <i class="glyphicon glyphicon-search contextual" ng-show="!view.isLoadingAvailableParticipants"></i>
+                <i class="material-icons md-18 material-icons-spin contextual-busy" ng-show="view.isLoadingAvailableParticipants">refresh</i>
+            </div>
+        </div>
+        <div class="col-md-5" ng-show="!view.isAddingParticipant" style="margin-top:75px;">
+            <p class="pull-right" style="font-style:italic">Search not returning a result?</p>
+        </div>
+        <div class="col-md-1" ng-show="!view.isAddingParticipant" style="margin-top:65px;">
+            <button class="btn btn-primary" ng-click=" modal.addParticipant=true">ADD NEW PARTICIPANT</button>
+        </div>
+    </div>
     <div class="row expand" ng-show="dataExpanded2">
-        <!--
-        <div class="col-md-10">
-            <input type="checkbox" class="checkbox-participant">
-            <input type="text" ng-model="participantFilter" placeholder="Search Participants" class="search-contextual">
-            <i class="glyphicon glyphicon-search contextual"></i>
-        </div>
-        -->
-        <div id="list-views" class="col-md-12">
-            <!-- 		  <div class="left">
-                        <img src="images/gridViewA.png">
-                        <img src="images/listView.png">
-                      </div> -->
-            <button class="btn btn-primary right" ng-click="modal.addParticipant = true">ADD</button>
-        </div>
-        <div class="dashed col-md-12" ng-show="project.participants.length === 0">
+        <div class="dashed col-md-12" ng-show="participants.length === 0">
             <h4>No participants yet.<span class="light"> Drop files here, <a>upload</a> or <a ng-click="modal.addParticipant = true">add manually</a>.</span></h4>
         </div>
-        <div st-pipe="getParticipants" st-table="project.participants" id="sort-list">
+        <div st-pipe="getParticipants" st-table="participants" exposetablestate="getParticipantsTableState" id="sort-list">
             <table class="col-md-12 alt">
                 <thead>
                     <tr>
@@ -133,7 +169,7 @@
                     </tr>
                 </thead>
                 <tbody class="list2">
-                    <tr class="hover-dark" ng-repeat-start="participant in project.participants" ng-show="!participantsLoading">
+                    <tr class="hover-dark" ng-repeat-start="participant in participants" ng-show="!participantsLoading">
                         <td>
                             <h5 class="list-title"><a ui-sref="participants.personalinformation({participantId: participant.participantId})">{{participant.name}}</a></h5>
                         </td>
@@ -146,114 +182,149 @@
                         </td>
                         <td>
                             <a ng-click="toggleParticipantInfo(participant.participantId)">
-                                <i class="fa fa-chevron-down" ng-show="showParticipantInfo[participant.participantId] === undefined || showParticipantInfo[participant.participantId] === false"></i>
-                                <i class="fa fa-chevron-up" ng-show="showParticipantInfo[participant.participantId]"></i>
+                                <i class="fa fa-chevron-up" ng-show="participantInfo[participant.participantId] === undefined || participantInfo[participant.participantId].show === false"></i>
+                                <i class="fa fa-chevron-down" ng-show="participantInfo[participant.participantId].show"></i>
                             </a>
                         </td>
                     </tr>
-                    <tr id="participantInfo" ng-repeat-end ng-show="showParticipantInfo[participant.participantId]">
+                    <tr id="participantInfo" ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId">
                         <td colspan="5">
                             <div class="col-md-7">
-                                <div class="row">
+                                <div class="row" ng-show="participantInfo[participant.participantId].hostInstitution">
                                     <div class="col-md-4 title-label">Host Institution</div>
                                     <div class="col-md-8">
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">Street 1</label>
+                                        <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.name">
+                                            <label class="col-md-4 title-label">Name</label>
                                             <div class="col-md-8">
-                                                Rue Juliette Wytsman 63A
+                                                {{participantInfo[participant.participantId].hostInstitution.name}}
                                             </div>
                                         </div>
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">Street 2</label>
-                                            <div class="col-md-8">
-                                                Rue Juliette Wytsman 63A
+                                        <div ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0]">
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street1">
+                                                <label class="col-md-4 title-label">Street 1</label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].hostInstitution.addresses[0].street1}}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">Street 3</label>
-                                            <div class="col-md-8">
-                                                Rue Juliette Wytsman 63A
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street2">
+                                                <label class="col-md-4 title-label">
+                                                    Street 2
+                                                </label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].hostInstitution.addresses[0].street2}}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">Country</label>
-                                            <div class="col-md-8">
-                                                Belgium
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].street3">
+                                                <label class=" col-md-4 title-label">
+                                                    Street 3
+                                                </label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].hostInstitution.addresses[0].street3}}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">City</label>
-                                            <div class="col-md-8">
-                                                Brussels
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].country">
+                                                <label class="col-md-4 title-label">Country</label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].hostInstitution.addresses[0].country}}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">Postal Code</label>
-                                            <div class="col-md-8">
-                                                1050
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].city">
+                                                <label class="col-md-4 title-label">City</label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].hostInstitution.addresses[0].city}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].hostInstitution.addresses[0].postalCode">
+                                                <label class="col-md-4 title-label">Postal Code</label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].hostInstitution.addresses[0].postalCode}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" ng-show="participantInfo[participant.participantId].homeInstitution">
                                     <div class="col-md-4 title-label">Home Institution</div>
                                     <div class="col-md-8">
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">Street 1</label>
+                                        <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.name">
+                                            <label class=" col-md-4 title-label">
+                                                Name
+                                            </label>
                                             <div class="col-md-8">
-                                                Rue Juliette Wytsman 63A
+                                                {{participantInfo[participant.participantId].homeInstitution.name}}
                                             </div>
                                         </div>
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">Street 2</label>
-                                            <div class="col-md-8">
-                                                Rue Juliette Wytsman 63A
+                                        <div ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0]">
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street1">
+                                                <label class="col-md-4 title-label">Street 1</label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].homeInstitution.addresses[0].street1}}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">Street 3</label>
-                                            <div class="col-md-8">
-                                                Rue Juliette Wytsman 63A
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street2">
+                                                <label class="col-md-4 title-label">Street 2</label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].homeInstitution.addresses[0].street2}}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">Country</label>
-                                            <div class="col-md-8">
-                                                Belgium
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].street3">
+                                                <label class="col-md-4 title-label">Street 3</label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].homeInstitution.addresses[0].street3}}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">City</label>
-                                            <div class="col-md-8">
-                                                Brussels
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].country">
+                                                <label class="col-md-4 title-label">Country</label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].homeInstitution.addresses[0].country}}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group clearfix">
-                                            <label class="col-md-4 title-label">Postal Code</label>
-                                            <div class="col-md-8">
-                                                1050
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].city">
+                                                <label class="col-md-4 title-label">City</label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].homeInstitution.addresses[0].city}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix" ng-show="participantInfo[participant.participantId].homeInstitution.addresses[0].postalCode">
+                                                <label class="col-md-4 title-label">Postal Code</label>
+                                                <div class="col-md-8">
+                                                    {{participantInfo[participant.participantId].homeInstitution.addresses[0].postalCode}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-5">
-                                <div class="row">
+                                <div class="row" ng-show="participant.participantType">
                                     <div class="col-md-4 title-label">Participant Type</div>
-                                    <div class="col-md-8">U.S. Traveling Participant</div>
+                                    <div class="col-md-8">{{participant.participantType}}</div>
                                 </div>
-                                <div class="row">
+                                <div class="row" ng-show="participantInfo[participant.participantId].sevisId">
                                     <div class="col-md-4 title-label">Sevis Id</div>
-                                    <div class="col-md-8">N0000000000001</div>
+                                    <div class="col-md-8">
+                                        {{participantInfo[participant.participantId].sevisId}}
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 title-label">Status</div>
                                     <div class="col-md-8">Active</div>
                                 </div>
-                                <div class="row">
+                                <div class="row" ng-show="participantInfo[participant.participantId].fieldOfStudy">
                                     <div class="col-md-4 title-label">Field Of Study</div>
-                                    <div class="col-md-8">DemoField</div>
+                                    <div class="col-md-8">{{participantInfo[participant.participantId].fieldOfStudy}}</div>
                                 </div>
+                                <div class="row" ng-show="participantInfo[participant.participantId].position">
+                                    <div class="col-md-4 title-label">Position</div>
+                                    <div class="col-md-8">{{participantInfo[participant.participantId].position}}</div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="participantInfo" ng-repeat-end ng-show="participantInfo[participant.participantId].show && participantInfo[participant.participantId].participantId === undefined">
+                        <td colspan="5">
+                            <div class="col-md-12 text-center">
+                                There is no additional information for this participant.
                             </div>
                         </td>
                     </tr>
@@ -268,9 +339,9 @@
                     </tr>
                 </tbody>
             </table>
-            <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="project.participants.length > 0"></div>
+            <div st-template="views/partials/pagination.html" st-pagination="" st-items-by-page="25" st-displayed-pages="10" ng-show="participants.length > 0"></div>
         </div>
-        <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="modalClose()" on-close="modalClear()" main-model="newParticipant">
+        <modal-dialog show="modal.addParticipant" dialog-title="Add to Participants" before-close="addParticipantModalClose()" on-close="addParticipantModalClear()" main-model="newParticipant">
             <h5>Fill out the required information below for each participant.</h5>
             <div class="required2">* Marks required fields</div>
             <div id="modal-tab" class="tabs">
@@ -280,7 +351,6 @@
                     <li class="tab right active">Personal Information</li>
                 </ul>
             </div>
-
             <div id="form-container" class="row" in-context-form>
                 <div class="col-md-10">
                     <form name="participantForm">
@@ -306,12 +376,12 @@
                                     <input type="text" ng-model="newParticipant.countriesOfCitizenship[0]" required style="display: none">
                                 </div>
                                 <!--
-                                <div class="form-group">
-                                    <label for="">ORIGINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfOrigination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countryOfOrigination" required style="display: none">
-                                </div>
-                                -->
+                            <div class="form-group">
+                                <label for="">ORIGINATION - COUNTRY<span class="asterisk"> *</span></label>
+                                <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfOrigination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                                <input type="text" ng-model="newParticipant.countryOfOrigination" required style="display: none">
+                            </div>
+                            -->
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -328,12 +398,12 @@
                                     <input type="text" ng-model="newParticipant.cityOfBirth" required style="display: none">
                                 </div>
                                 <!--
-                                <div class="form-group">
-                                    <label for="">DESTINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfDestination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                    <input type="text" ng-model="newParticipant.countryOfDestination" required style="display: none">
-                                </div>
-                                -->
+                            <div class="form-group">
+                                <label for="">DESTINATION - COUNTRY<span class="asterisk"> *</span></label>
+                                <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfDestination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                                <input type="text" ng-model="newParticipant.countryOfDestination" required style="display: none">
+                            </div>
+                            -->
                             </div>
                         </div>
                     </form>
@@ -345,14 +415,23 @@
             <button class="btn btn-default" ng-click="modal.addParticipant = false">CANCEL</button>
             <button class="btn btn-success right" ng-disabled="participantForm.$invalid" ng-click="addParticipant()">ADD</button>
         </modal-dialog>
-
-
     </div>
-    <div class="divider"></div>
-</div>
+    <modal-dialog show="modal.addParticipantResult" dialog-title="{{result.title}}" before-close="modal.addParticipantResult = false">
+        <p class="strong">{{result.subtitle}}</p>
+        <p class="alert-danger" ng-show="result.error">{{result.error}}</p>
+        <button class="btn btn-default right" ng-click="modal.addParticipantResult = false">OK</button>
+    </modal-dialog>
 
-<modal-dialog show="modal.addParticipantResult" dialog-title="{{result.title}}" before-close="modal.addParticipantResult = false">
-    <p class="strong">{{result.subtitle}}</p>
-    <p class="alert-danger" ng-show="result.error">{{result.error}}</p>
-    <button class="btn btn-default right" ng-click="modal.addParticipantResult = false">OK</button>
-</modal-dialog>
+    <script type="text/ng-template" id="addCollaboratorTemplate.html">
+        <a>
+            <div>
+                <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
+            </div>
+            <div ng-show="match.model.city || match.model.country" style="margin-left:30px;">
+                <span bind-html-unsafe="match.model.city | typeaheadHighlight:query"></span>
+                <span ng-show="match.model.city && match.model.country">, </span>
+                <span bind-html-unsafe="match.model.country | typeaheadHighlight:query"></span>
+            </div>
+        </a>
+    </script>
+</div>

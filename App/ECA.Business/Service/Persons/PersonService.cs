@@ -159,6 +159,30 @@ namespace ECA.Business.Service.Persons
         }
 
         /// <summary>
+        /// Returns evaluationNotes information for a user 
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>EvaluationNotes information for person</returns>
+        public IList<EvaluationNoteDTO> GetEvaluationNotesByPersonId(int personId)
+        {
+            var evaluationNotes = PersonQueries.CreateGetEvaluationNotesByPersonIdQuery(this.Context, personId).ToList();
+            this.logger.Trace("Retrieved evaluationNotes for person info by id {0}.", personId);
+            return evaluationNotes;
+        }
+
+        /// <summary>
+        /// Returns educations information for a user asyncronously
+        /// </summary>
+        /// <param name="personId">The person id to lookup</param>
+        /// <returns>Educations information for person</returns>
+        public async Task<IList<EvaluationNoteDTO>> GetEvaluationNotesByPersonIdAsync(int personId)
+        {
+            var evaluationNotes = await PersonQueries.CreateGetEvaluationNotesByPersonIdQuery(this.Context, personId).ToListAsync();
+            this.logger.Trace("Retrieved evaluationNotes for person info by id {0}.", personId);
+            return evaluationNotes;
+        }
+
+        /// <summary>
         /// Create a person
         /// </summary>
         /// <param name="newPerson">The person to create</param>

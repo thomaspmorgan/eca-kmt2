@@ -132,6 +132,9 @@ namespace ECA.WebApi.Test.Controllers.Programs
                 ProgramStatusId = ProgramStatus.Active.Id
             };
             var response = await controller.PostProgramAsync(model);
+            service.Verify(x => x.CreateAsync(It.IsAny<DraftProgram>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            service.Verify(x => x.GetProgramByIdAsync(It.IsAny<int>()), Times.Once());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProgramViewModel>));
         }
 
@@ -162,6 +165,9 @@ namespace ECA.WebApi.Test.Controllers.Programs
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(1));
             var response = await controller.PutProgramAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ProgramViewModel>));
+            service.Verify(x => x.UpdateAsync(It.IsAny<EcaProgram>()), Times.Once());
+            service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
+            service.Verify(x => x.GetProgramByIdAsync(It.IsAny<int>()), Times.Once());
         }
 
         [TestMethod]

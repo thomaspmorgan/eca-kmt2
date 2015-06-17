@@ -30,9 +30,9 @@ namespace ECA.Business.Service.Admin
         /// <returns>List of moneyflows that are paged, sorted, and filtered</returns>
         Task<PagedQueryResults<MoneyFlowDTO>> GetMoneyFlowsByProjectIdAsync(int projectId, QueryableOperator<MoneyFlowDTO> queryOperator);
 
-        MoneyFlow Create(DraftMoneyFlow moneyFlow, User user);
+        MoneyFlow Create(EcaMoneyFlow moneyFlow, User user);
 
-        Task<MoneyFlow> CreateAsync(DraftMoneyFlow moneyFlow, User user);
+        Task<MoneyFlow> CreateAsync(EcaMoneyFlow moneyFlow, User user);
         
         void Update(EcaMoneyFlow updatedMoneyFlow);
 
@@ -45,6 +45,10 @@ namespace ECA.Business.Service.Admin
         MoneyFlow Copy(int moneyFlowId, User user);
 
         Task<MoneyFlow> CopyAsync(int moneyFlowId, User user);
+
+        void Delete(int moneyFlowId, User user);
+
+        Task DeleteAsync(int moneyFlowId, User user);
 
         Task<MoneyFlow> GetMoneyFlowByIdAsync(int moneyFlowId);
 

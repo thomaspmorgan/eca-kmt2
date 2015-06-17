@@ -3,6 +3,7 @@ using CAM.Business.Queries.Models;
 using CAM.Business.Service;
 using CAM.Data;
 using ECA.Business.Queries.Models.Admin;
+using ECA.Business.Models.Admin;
 using ECA.Business.Service.Admin;
 using ECA.Core.DynamicLinq;
 using ECA.Core.DynamicLinq.Filter;
@@ -48,7 +49,20 @@ namespace ECA.WebApi.Controllers.Admin
             Contract.Requires(moneyFlowService != null, "The money flow service must not be null.");
             this.moneyFlowService = moneyFlowService;
         }
+        public MoneyFlowsController(IMoneyFlowService moneyFlowService, 
+            IResourceAuthorizationHandler authorizationHandler, IUserProvider userProvider, 
+            IResourceService resourceService)
+        {
+            Contract.Requires(moneyFlowService != null, "The money flow service must not be null.");
+            Contract.Requires(userProvider != null, "The user provider must not be null.");
+            Contract.Requires(authorizationHandler != null, "The authorization handler must not be null.");
+            Contract.Requires(resourceService != null, "The resource service must not be null.");
 
+            this.moneyFlowService = moneyFlowService;
+            this.resourceService = resourceService;
+            this.authorizationHandler = authorizationHandler;
+            this.userProvider = userProvider;
+        }
         [ResponseType(typeof(MoneyFlowDTO))]
         public async Task<IHttpActionResult> GetMoneyFlowByIdAsync(int id)
         {
@@ -84,15 +98,16 @@ namespace ECA.WebApi.Controllers.Admin
         }
         
         [ResponseType(typeof(MoneyFlowDTO))]
-        public async Task<IHttpActionResult> PostMoneyFlowAsync(DraftMoneyFlow model)
+        public async Task<IHttpActionResult> PostMoneyFlowAsync(EcaMoneyFlow moneyFlow)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = userProvider.GetCurrentUser();
                 var businessUser = userProvider.GetBusinessUser(currentUser);
-                var moneyFlow = await moneyFlowService.CreateAsync(model, businessUser);
+                var newMoneyFlow = await moneyFlowService.CreateAsync(moneyFlow, businessUser);
                 await moneyFlowService.SaveChangesAsync();
-                return null;
+                var moneyFlowDTO = await moneyFlowService.GetMoneyFlowByIdAsync(newMoneyFlow.MoneyFlowId);
+                return Ok(moneyFlowDTO);
             }
             else
             {
@@ -122,6 +137,16 @@ namespace ECA.WebApi.Controllers.Admin
             }
         }
         
+        public async Task<IHttpActionResult> DeleteMoneyFlowAsync(int moneyFlowId)
+        {
+            // TODO - add audit trail? Scheme for making items 'inactive' but not deleting from DB?
+            var currentUser = userProvider.GetCurrentUser();
+            var businessUser = userProvider.GetBusinessUser(currentUser);
+            await moneyFlowService.DeleteAsync(moneyFlowId, businessUser);
+
+            return null;
+        }
+        /*
         [ResponseType(typeof(MoneyFlowDTO))]
         public async Task<IHttpActionResult> CopyMoneyFlowAsync(int moneyFlowId)
         {
@@ -131,18 +156,17 @@ namespace ECA.WebApi.Controllers.Admin
                 var businessUser = userProvider.GetBusinessUser(currentUser);
                 await moneyFlowService.CopyAsync(moneyFlowId, businessUser);
 
-                return null;
-                /*
                 var moneyFlow = await moneyFlowService.CreateAsync(model, businessUser);
                 await moneyFlowService.SaveChangesAsync();
                 var dto = await moneyFlowService.GetProjectByIdAsync(project.ProjectId);
                 return Ok(dto);
-                 * */
+                
             }
             else
             {
                 return BadRequest(ModelState);
             }
         }
+         * */
     }
 }

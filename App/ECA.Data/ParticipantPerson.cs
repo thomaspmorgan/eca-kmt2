@@ -17,9 +17,6 @@ namespace ECA.Data
         /// </summary>
         private const int SEVIS_ID_MAX_LENGTH = 11;
         private const int STUDY_PROJECT_MAX_LENGTH = 250;
-        private const int FIELD_OF_STUDY_CODE_LENGTH = 7;
-        private const int PROGRAM_SUBJECT_CODE_LENGTH = 7;
-        private const int POSITION_CODE_LENGTH = 3;
 
         public ParticipantPerson()
         {
@@ -36,18 +33,24 @@ namespace ECA.Data
         public bool ContactAgreement { get; set; }
         [MaxLength(STUDY_PROJECT_MAX_LENGTH)]
         public string StudyProject {get; set;}
-        [MinLength(FIELD_OF_STUDY_CODE_LENGTH), MaxLength(FIELD_OF_STUDY_CODE_LENGTH)]
-        public string FieldOfStudyCode {get; set;}
-        [MinLength(PROGRAM_SUBJECT_CODE_LENGTH), MaxLength(PROGRAM_SUBJECT_CODE_LENGTH)]
-        public string ProgramSubjectCode {get; set;}
-        [MinLength(POSITION_CODE_LENGTH), MaxLength(POSITION_CODE_LENGTH)]
-        public string PositionCode {get; set;}
 
-        //Relationships
+        // Relationships
+        public int? FieldOfStudyId { get; set; }
+        public FieldOfStudy FieldOfStudy { get; set; }
+
+        public int? ProgramSubjectId { get; set; }
+        public ProgramSubject ProgramSubject { get; set; }
+
+        public int? PositionId { get; set; }
+        public Position Position { get; set; }
+
         public Organization HostInstitution {get; set;}
-        public int HostInstitutionId {get; set;}
+        public int? HostInstitutionId {get; set;}
+
         public Organization HomeInstitution {get; set;}
-        public int HomeInstitutionId {get; set;}
+        public int? HomeInstitutionId {get; set;}
+
+        public Participant Participant { get; set; }
 
         public History History { get; set; }
     }

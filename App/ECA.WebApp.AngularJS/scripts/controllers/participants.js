@@ -18,7 +18,7 @@ angular.module('staticApp')
               order: 1
           },
           activity: {
-              title: 'Activities',
+              title: 'Timeline',
               path: 'activity',
               active: true,
               order: 2
@@ -37,9 +37,10 @@ angular.module('staticApp')
           },
       };
 
+      $scope.showEvalNotes = true;
       $scope.showEduEmp = true;
       $scope.showGeneral = true;
-      $scope.showPii = true;
+      $scope.showPii = false;
       $scope.showContact = true;
       $scope.editPii = false;
       $scope.datePickerOpen = false;

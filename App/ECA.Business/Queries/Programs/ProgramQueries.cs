@@ -6,33 +6,15 @@ using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using ECA.Business.Service.Admin;
+using ECA.Business.Service;
 
 namespace ECA.Business.Queries.Programs
 {
+    /// <summary>
+    /// Contains queries for retrieving program dto's from the eca context.
+    /// </summary>
     public static class ProgramQueries
     {
-        /// <summary>
-        /// Creates a query to return filtered and sorted simple program dtos.
-        /// </summary>
-        /// <param name="context">The context to query.</param>
-        /// <param name="queryOperator">The query operator.</param>
-        /// <returns>The query to return filtered and sorted simple program dtos.</returns>
-        public static IQueryable<SimpleProgramDTO> CreateGetSimpleProgramDTOsQuery(EcaContext context, QueryableOperator<SimpleProgramDTO> queryOperator)
-        {
-            Contract.Requires(context != null, "The context must not be null.");
-            Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = context.Programs.Select(x => new SimpleProgramDTO
-            {
-                Description = x.Description,
-                Name = x.Name,
-                OwnerId = x.Owner.OrganizationId,
-                ProgramId = x.ProgramId,
-                ProgramStatusId = x.ProgramStatusId
-            });
-            query = query.Apply(queryOperator);
-            return query;
-        }
-
         /// <summary>
         /// Returns a query to locate a program by id.
         /// </summary>
@@ -43,6 +25,39 @@ namespace ECA.Business.Queries.Programs
         {
             Contract.Requires(context != null, "The context must not be null.");
             return CreateGetPublishedProgramsQuery(context).Where(x => x.Id == programId);
+        }
+
+        /// <summary>
+        /// Returns a query for retrieving organization program dto's in non-hierarchy collection.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The query.</returns>
+        public static IQueryable<OrganizationProgramDTO> CreateGetOrganizationProgramDTOQuery(EcaContext context, QueryableOperator<OrganizationProgramDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            var query = from program in context.Programs
+                        let owner = program.Owner
+                        let parentProgram = program.ParentProgram
+                        select new OrganizationProgramDTO
+                        {
+                            CreatedByUserId = program.History.CreatedBy,
+                            Description = program.Description,
+                            Name = program.Name,
+                            NumChildren = 0,
+                            OfficeSymbol = owner.OfficeSymbol,
+                            Status = program.ProgramStatus.Status,
+                            OrgName = owner.Name,
+                            Owner_OrganizationId = owner.OrganizationId,
+                            ParentProgram_ProgramId = parentProgram == null ? default(int?) : parentProgram.ProgramId,
+                            ProgramId = program.ProgramId,
+                            ProgramLevel = 0,
+                            ProgramStatusId = program.ProgramStatusId,
+                            SortOrder = 0
+                        };
+            query = query.Apply(queryOperator);
+            return query;
         }
 
         /// <summary>

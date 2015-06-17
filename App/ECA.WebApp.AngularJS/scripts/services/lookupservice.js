@@ -55,6 +55,9 @@ angular.module('staticApp')
           getAllProjectStati: function (params) {
               return DragonBreath.get(params, 'projectstatuses');
           },
+          getParticipantTypes: function (params) {
+              return DragonBreath.get(params, 'participanttypes');
+          },
           getAllMoneyFlowStati: function (params) {
               var defer = $q.defer();
               DragonBreath.get(params, 'moneyflowstatuses')

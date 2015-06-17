@@ -490,4 +490,39 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="NativeLanguageInd" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="979599c6-dcbd-4193-b700-addbc2374428" ChangeDateTime="06/10/2015 16:28:20">
+    <Property Name="ElementName" Value="[dbo].[PersonEvaluationNotes].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonEvaluationNotes]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EvaluationNoteId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e831fa9b-9837-4f6f-9c2a-a5b9c442cab1" ChangeDateTime="06/11/2015 18:01:23">
+    <Property Name="ElementName" Value="[dbo].[PersonEvaluationNote].[CreatedBy]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonEvaluationNote]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_CreatedBy" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5295df8b-d630-496b-aee9-f957f242f43f" ChangeDateTime="06/11/2015 18:01:29">
+    <Property Name="ElementName" Value="[dbo].[PersonEvaluationNote].[CreatedOn]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonEvaluationNote]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_CreatedOn" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="73db3d2a-b563-430a-a5d8-3a5c7a407b2c" ChangeDateTime="06/11/2015 18:01:35">
+    <Property Name="ElementName" Value="[dbo].[PersonEvaluationNote].[RevisedBy]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonEvaluationNote]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_RevisedBy" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="83c71c66-43d5-4514-bcfc-3d538f1fd8c0" ChangeDateTime="06/11/2015 18:01:42">
+    <Property Name="ElementName" Value="[dbo].[PersonEvaluationNote].[RevisedOn]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PersonEvaluationNote]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="History_RevisedOn" />
+  </Operation>
 </Operations>

@@ -50,12 +50,12 @@ namespace ECA.Business.Queries.Models.Persons
         /// <summary>
         /// Gets or sets the participantPerson's Host Institution (organization)
         /// </summary>
-        public SimpleOrganizationDTO HostInstitution { get; set; }
+        public InstitutionDTO HostInstitution { get; set; }
 
         /// <summary>
         /// Gets or sets the participantPerson's Home Institution (organization)
         /// </summary>
-        public SimpleOrganizationDTO HomeInstitution { get; set; }
+        public InstitutionDTO HomeInstitution { get; set; }
 
         /// <summary>
         /// Gets or sets the date revised on.

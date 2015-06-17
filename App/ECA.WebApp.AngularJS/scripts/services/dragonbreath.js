@@ -11,8 +11,9 @@ angular.module('staticApp')
 	.constant('API_PREFIX', 'api/')
 	.constant('API_ENDPOINT_CLOUDAPP_DEV', 'https://ecaapi-kmt-dev.azurewebsites.net/')
 	.constant('API_ENDPOINT_CLOUDAPP_QA', 'https://ecaapi-kmt-qa.azurewebsites.net/')
+    .constant('API_ENDPOINT_CLOUDAPP_UAT', 'http://ecaapi.usgovcloudapp.net/')
 	.constant('API_ENDPOINT_LOCALHOST', 'http://localhost:5555/')
-  .factory('DragonBreath', function ($http, API_ENDPOINT_CLOUDAPP_QA, API_ENDPOINT_CLOUDAPP_DEV, API_ENDPOINT_LOCALHOST, API_PREFIX) {
+  .factory('DragonBreath', function ($http, API_ENDPOINT_CLOUDAPP_QA, API_ENDPOINT_CLOUDAPP_DEV, API_ENDPOINT_LOCALHOST, API_ENDPOINT_CLOUDAPP_UAT, API_PREFIX) {
 
       function DragonPath(args, slicePos) {
           if (location.hostname == 'localhost') {
@@ -21,8 +22,11 @@ angular.module('staticApp')
           else if (location.hostname.indexOf('qa') != -1) {
               this.path = API_ENDPOINT_CLOUDAPP_QA + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
           }
+          else if (location.hostname.indexOf('dev') != -1) {
+              this.path = API_ENDPOINT_CLOUDAPP_DEV+ API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
+          }
           else {
-              this.path = API_ENDPOINT_CLOUDAPP_DEV + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
+              this.path = API_ENDPOINT_CLOUDAPP_UAT + API_PREFIX + Array.prototype.slice.call(args, slicePos).join('/');
           }
 
       }

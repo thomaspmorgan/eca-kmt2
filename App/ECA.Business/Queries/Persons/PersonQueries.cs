@@ -52,9 +52,9 @@ namespace ECA.Business.Queries.Persons
                                                             Street1 = x.Location.Street1, 
                                                             Street2 = x.Location.Street2, 
                                                             Street3 = x.Location.Street3,
-                                                            City = x.Location.City,
+                                                            City = x.Location.City.LocationName,
                                                             CityId = context.Locations.Where(y => y.CountryId == x.Location.Country.LocationId && 
-                                                                                             y.LocationName == x.Location.City &&
+                                                                                             y.LocationName == x.Location.City.LocationName &&
                                                                                              y.LocationTypeId == LocationType.City.Id)
                                                                                              .FirstOrDefault().LocationId,
 
@@ -164,6 +164,26 @@ namespace ECA.Business.Queries.Persons
                             } : null
                         };
 
+            return query;
+        }
+
+        public static IQueryable<EvaluationNoteDTO> CreateGetEvaluationNotesByPersonIdQuery(EcaContext context, int personId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+
+            var query = from evaluationNote in context.PersonEvaluationNotes
+                        join user in context.UserAccounts on evaluationNote.History.CreatedBy equals user.PrincipalId
+                        where evaluationNote.PersonId == personId
+                        orderby evaluationNote.History.CreatedOn descending
+                        select new EvaluationNoteDTO
+                        {
+                            EvaluationNoteId = evaluationNote.EvaluationNoteId,
+                            EvaluationNote = evaluationNote.EvaluationNote,
+                            AddedOn = evaluationNote.History.CreatedOn,
+                            UserId = evaluationNote.History.CreatedBy,
+                            UserName = user.DisplayName,
+                            EmailAddress = user.EmailAddress
+                        };
             return query;
         }
     }

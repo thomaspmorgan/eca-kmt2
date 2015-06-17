@@ -11,6 +11,9 @@ namespace ECA.Business.Queries.Models.Admin
     /// </summary>
     public class FocusCategoryDTO : BaseDTO
     {
+        /// <summary>
+        /// Gets or sets the focus name.
+        /// </summary>
         public string FocusName { get; set; }
     }
 }

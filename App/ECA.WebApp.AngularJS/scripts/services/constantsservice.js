@@ -46,6 +46,14 @@
 			editProject: {id: 7, value: "Edit Project"},
 			projectOwner: {id: 8, value: "Project Owner"}
 		},
+		programStatus: {
+			active: {id: 1, value: "Active"},
+			pending: {id: 2, value: "Pending"},
+			completed: {id: 3, value: "Completed"},
+			draft: {id: 4, value: "Draft"},
+			canceled: {id: 5, value: "Canceled"},
+			other: {id: 6, value: "Other"}
+		},
 		projectStatus: {
 			active: {id: 1, value: "Active"},
 			pending: {id: 2, value: "Pending"},
@@ -81,6 +89,7 @@
 		lessThanComparisonType: 'lt',
 		likeComparisonType: 'like',
 		logoutEventName: 'logout',
+		notEqualComparisonType: 'not_eq',
 		notInComparisonType: 'notin',
 		officeCategorySettingName: 'Category',
 		officeFocusSettingName: 'Focus',

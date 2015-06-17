@@ -36,13 +36,13 @@ angular.module('staticApp')
               order: 2
           },
           activity: {
-              title: 'Activity',
+              title: 'Timeline',
               path: 'activity',
               active: true,
               order: 3
           },
           artifacts: {
-              title: 'Artifacts',
+              title: 'Attachments',
               path: 'artifacts',
               active: true,
               order: 4
