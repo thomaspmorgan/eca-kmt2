@@ -30,6 +30,7 @@ namespace ECA.WebApi.Controllers.Projects
         /// The default sorter for a list of projects.
         /// </summary>
         private static readonly ExpressionSorter<SimpleProjectDTO> DEFAULT_SIMPLE_PROJECT_DTO_SORTER = new ExpressionSorter<SimpleProjectDTO>(x => x.ProjectName, SortDirection.Ascending);
+        private static readonly ExpressionSorter<ParticipantTimelineDTO> PARTICIPANT_TIMELINE_DTO_SORTER = new ExpressionSorter<ParticipantTimelineDTO>(x => x.Status, SortDirection.Ascending);
 
         /// <summary>
         /// The default sorter to resource authorizations.
@@ -72,6 +73,27 @@ namespace ECA.WebApi.Controllers.Projects
             if (ModelState.IsValid)
             {
                 var results = await this.projectService.GetProjectsByProgramIdAsync(programId, queryModel.ToQueryableOperator(DEFAULT_SIMPLE_PROJECT_DTO_SORTER));
+                return Ok(results);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Returns a list of projects by person id
+        /// </summary>
+        /// <param name="personId">The person id</param>
+        /// <param name="queryModel">The query model</param>
+        /// <returns>A list of projects by person id</returns>
+        [ResponseType(typeof(PagedQueryResults<ParticipantTimelineDTO>))]
+        [Route("People/{personId:int}/Projects")]
+        public async Task<IHttpActionResult> GetProjectsByPersonIdAsync(int personId, [FromUri]PagingQueryBindingModel<ParticipantTimelineDTO> queryModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var results = await projectService.GetProjectsByPersonIdAsync(personId, queryModel.ToQueryableOperator(PARTICIPANT_TIMELINE_DTO_SORTER));
                 return Ok(results);
             }
             else
