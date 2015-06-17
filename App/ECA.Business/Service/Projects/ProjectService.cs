@@ -119,7 +119,7 @@ namespace ECA.Business.Service.Projects
             var project = CreateGetProjectByIdQuery(additionalOrganizationProjectParticipant.ProjectId).FirstOrDefault();
             throwIfProjectDoesNotExist(additionalOrganizationProjectParticipant.ProjectId, project);
 
-            var participantType = CreateGetParticipantTypeQuery().FirstOrDefault();
+            var participantType = CreateGetParticipantTypeQuery(additionalOrganizationProjectParticipant.ParticipantTypeId).FirstOrDefault();
             throwIfParticipantTypeDoesNotExist(participantType);
 
             var existingParticipant = CreateGetParticipantByProjectIdAndOrganizationId(project.ProjectId, organization.OrganizationId).FirstOrDefault();
@@ -139,7 +139,7 @@ namespace ECA.Business.Service.Projects
             var project = await CreateGetProjectByIdQuery(additionalOrganizationProjectParticipant.ProjectId).FirstOrDefaultAsync();
             throwIfProjectDoesNotExist(additionalOrganizationProjectParticipant.ProjectId, project);
 
-            var participantType = await CreateGetParticipantTypeQuery().FirstOrDefaultAsync();
+            var participantType = await CreateGetParticipantTypeQuery(additionalOrganizationProjectParticipant.ParticipantTypeId).FirstOrDefaultAsync();
             throwIfParticipantTypeDoesNotExist(participantType);
             var existingParticipant = CreateGetParticipantByProjectIdAndOrganizationId(project.ProjectId, organization.OrganizationId).FirstOrDefault();
             if (existingParticipant == null)
@@ -158,7 +158,7 @@ namespace ECA.Business.Service.Projects
             var project = CreateGetProjectByIdQuery(additionalPersonProjectParticipant.ProjectId).FirstOrDefault();
             throwIfProjectDoesNotExist(additionalPersonProjectParticipant.ProjectId, project);
 
-            var participantType = CreateGetParticipantTypeQuery().FirstOrDefault();
+            var participantType = CreateGetParticipantTypeQuery(additionalPersonProjectParticipant.ParticipantTypeId).FirstOrDefault();
             throwIfParticipantTypeDoesNotExist(participantType);
 
             var existingParticipant = CreateGetParticipantByProjectIdAndPersonId(project.ProjectId, person.PersonId).FirstOrDefault();
@@ -178,7 +178,7 @@ namespace ECA.Business.Service.Projects
             var project = await CreateGetProjectByIdQuery(additionalPersonProjectParticipant.ProjectId).FirstOrDefaultAsync();
             throwIfProjectDoesNotExist(additionalPersonProjectParticipant.ProjectId, project);
 
-            var participantType = await CreateGetParticipantTypeQuery().FirstOrDefaultAsync();
+            var participantType = await CreateGetParticipantTypeQuery(additionalPersonProjectParticipant.ParticipantTypeId).FirstOrDefaultAsync();
             throwIfParticipantTypeDoesNotExist(participantType);
 
             var existingParticipant = await CreateGetParticipantByProjectIdAndPersonId(project.ProjectId, person.PersonId).FirstOrDefaultAsync();
@@ -207,9 +207,9 @@ namespace ECA.Business.Service.Projects
             return Context.Participants.Where(x => x.OrganizationId == organizationId);
         }
 
-        private IQueryable<ParticipantType> CreateGetParticipantTypeQuery()
+        private IQueryable<ParticipantType> CreateGetParticipantTypeQuery(int participantTypeId)
         {
-            return this.Context.ParticipantTypes.Where(x => x.ParticipantTypeId == ParticipantType.ForeignEducationalInstitution.Id);
+            return this.Context.ParticipantTypes.Where(x => x.ParticipantTypeId == participantTypeId);
         }
 
         private IQueryable<Organization> CreateGetOrganizationQuery(int organizationId)

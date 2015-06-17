@@ -138,6 +138,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
             var model = new AdditionalPersonProjectParticipantBindingModel();
+            model.ParticipantTypeId = ParticipantType.Individual.Id;
             var response = await controller.PostAddPersonParticipantAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());
@@ -159,6 +160,7 @@ namespace ECA.WebApi.Test.Controllers.Projects
             userProvider.Setup(x => x.GetBusinessUser(It.IsAny<IWebApiUser>())).Returns(new Business.Service.User(0));
             service.Setup(x => x.SaveChangesAsync(It.IsAny<List<ISaveAction>>())).ReturnsAsync(1);
             var model = new AdditionalOrganizationProjectPariticipantBindingModel();
+            model.ParticipantTypeId = ParticipantType.Individual.Id;
             var response = await controller.PostAddOrganizationParticipantAsync(model);
             Assert.IsInstanceOfType(response, typeof(OkResult));
             service.Verify(x => x.SaveChangesAsync(It.IsAny<IList<ISaveAction>>()), Times.Once());

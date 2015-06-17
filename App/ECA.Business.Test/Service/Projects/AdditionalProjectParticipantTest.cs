@@ -3,13 +3,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ECA.Business.Service.Projects;
 using ECA.Business.Service;
 using ECA.Data;
+using ECA.Core.Exceptions;
 
 namespace ECA.Business.Test.Service.Projects
 {
     public class TestAdditionalProjectParticipant : AdditionalProjectParticipant
     {
-        public TestAdditionalProjectParticipant(User projectOwner, int projectId)
-            : base(projectOwner, projectId)
+        public TestAdditionalProjectParticipant(User projectOwner, int projectId, int participantTypeId)
+            : base(projectOwner, projectId, participantTypeId)
         {
             this.UpdateParticipantDetailsCalled = false;
         }
@@ -30,30 +31,43 @@ namespace ECA.Business.Test.Service.Projects
         {
             var user = new User(1);
             var projectId = 10;
-            var instance = new TestAdditionalProjectParticipant(user, projectId);
+            var participantTypeId = ParticipantType.Individual.Id;
+            var instance = new TestAdditionalProjectParticipant(user, projectId, participantTypeId);
             Assert.IsTrue(Object.ReferenceEquals(user, instance.Audit.User));
             Assert.AreEqual(projectId, instance.ProjectId);
+            Assert.AreEqual(participantTypeId, instance.ParticipantTypeId);
         }
 
-        //[TestMethod]
-        //public void TestUpdateParticipant()
-        //{
-        //    var user = new User(1);
-        //    var projectId = 10;
-        //    var instance = new TestAdditionalProjectParticipant(user, projectId);
-        //    var participant = new Participant();
-        //    var participantType = new ParticipantType
-        //    {
-        //        ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id,
-        //        Name = ParticipantType.ForeignEducationalInstitution.Value
-        //    };
+        [TestMethod]
+        [ExpectedException(typeof(UnknownStaticLookupException))]
+        public void TestConstructor_UnknownParticipantTypeId()
+        {
+            var user = new User(1);
+            var projectId = 10;
+            var participantTypeId = -1;
+            var instance = new TestAdditionalProjectParticipant(user, projectId, participantTypeId);
+        }
 
-        //    Assert.IsFalse(instance.UpdateParticipantDetailsCalled);
-        //    instance.UpdateParticipant(participant, participantType);
-        //    Assert.IsTrue(instance.UpdateParticipantDetailsCalled);
-        //    Assert.AreEqual(participantType.ParticipantTypeId, participant.ParticipantTypeId);
-        //    Assert.AreEqual(ParticipantStatus.Active.Id, participant.ParticipantStatusId);
-        //    Assert.Fail("This test needs to check the project.");
-        //}
+        [TestMethod]
+        public void TestUpdateParticipant()
+        {
+            var user = new User(1);
+            var projectId = 10;
+            var participantTypeId = ParticipantType.Individual.Id;
+            var instance = new TestAdditionalProjectParticipant(user, projectId, participantTypeId);
+            var participant = new Participant();
+            var participantType = new ParticipantType
+            {
+                ParticipantTypeId = ParticipantType.ForeignEducationalInstitution.Id,
+                Name = ParticipantType.ForeignEducationalInstitution.Value
+            };
+
+            Assert.IsFalse(instance.UpdateParticipantDetailsCalled);
+            instance.UpdateParticipant(participant, participantType);
+            Assert.IsTrue(instance.UpdateParticipantDetailsCalled);
+            Assert.AreEqual(participantType.ParticipantTypeId, participant.ParticipantTypeId);
+            Assert.AreEqual(ParticipantStatus.Active.Id, participant.ParticipantStatusId);
+            Assert.Fail("This test needs to check the project.");
+        }
     }
 }
