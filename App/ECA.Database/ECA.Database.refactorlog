@@ -525,4 +525,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="History_RevisedOn" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="62ad64fb-1f9f-4f95-a34a-5b873e61ea05" ChangeDateTime="06/17/2015 14:11:42">
+    <Property Name="ElementName" Value="[dbo].[Organization].[IX_Organization_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[dbo].[Organization]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_Name]" />
+  </Operation>
 </Operations>
