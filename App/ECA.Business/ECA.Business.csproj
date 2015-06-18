@@ -110,6 +110,7 @@
     <Compile Include="Queries\Models\Admin\OfficeDTO.cs" />
     <Compile Include="Queries\Models\Admin\MoneyFlowHelpersDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationDTO.cs" />
+    <Compile Include="Queries\Models\Admin\ParticipantTimelineDTO.cs" />
     <Compile Include="Queries\Models\Admin\SimpleOrganizationDTO.cs" />
     <Compile Include="Queries\Models\Admin\OrganizationProgramDTO.cs" />
     <Compile Include="Queries\Models\Admin\ProjectStatusDTO.cs" />

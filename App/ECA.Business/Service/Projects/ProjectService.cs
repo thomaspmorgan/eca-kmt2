@@ -549,6 +549,32 @@ namespace ECA.Business.Service.Projects
         }
 
         /// <summary>
+        /// Returns projects by person id
+        /// </summary>
+        /// <param name="personId">The person id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>Projects by person id</returns>
+        public PagedQueryResults<ParticipantTimelineDTO> GetProjectsByPersonId(int personId, QueryableOperator<ParticipantTimelineDTO> queryOperator)
+        {
+            var projects = ProjectQueries.CreateGetProjectsByPersonIdQuery(this.Context, personId, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved projects by person id {0} and query operator {1}.", personId, queryOperator);
+            return projects;
+        }
+
+        /// <summary>
+        /// Returns projects by person id
+        /// </summary>
+        /// <param name="personId">The person id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>Projects by person id</returns>
+        public Task<PagedQueryResults<ParticipantTimelineDTO>> GetProjectsByPersonIdAsync(int personId, QueryableOperator<ParticipantTimelineDTO> queryOperator)
+        {
+            var projects = ProjectQueries.CreateGetProjectsByPersonIdQuery(this.Context, personId, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            this.logger.Trace("Retrieved projects by person id {0} and query operator {1}.", personId, queryOperator);
+            return projects;
+        }
+
+        /// <summary>
         /// Returns a project by id asynchronously
         /// </summary>
         /// <param name="projectId">The project id</param>
