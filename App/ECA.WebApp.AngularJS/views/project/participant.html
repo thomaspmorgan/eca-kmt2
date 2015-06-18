@@ -424,15 +424,15 @@
 
     <script type="text/ng-template" id="addCollaboratorTemplate.html">
         <a>
+            <!--Organization search results-->
             <div ng-show="match.model.name">
                 <span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
             </div>
-            <div ng-show="match.model.city || match.model.country" style="margin-left:30px;">
-                <span bind-html-unsafe="match.model.city | typeaheadHighlight:query"></span>
-                <span ng-show="match.model.city && match.model.country">, </span>
-                <span bind-html-unsafe="match.model.country | typeaheadHighlight:query"></span>
+            <div ng-show="match.model.location" style="margin-left:30px;">
+                <span bind-html-unsafe="match.model.location | typeaheadHighlight:query"></span>
             </div>
 
+            <!--Person search results-->
             <div ng-show="match.model.fullName">
                 <span bind-html-unsafe="match.model.fullName | typeaheadHighlight:query"></span>
             </div>
@@ -440,6 +440,7 @@
                 <span bind-html-unsafe="match.model.gender | typeaheadHighlight:query"></span>
             </div>
             <div ng-show="match.model.dateOfBirth" style="margin-left:30px;">
+                <span>Born:  </span>
                 <span bind-html-unsafe="(match.model.dateOfBirth | date:'MMM dd, yyyy')"></span>
             </div>
         </a>

@@ -17,6 +17,11 @@ namespace ECA.Business.Queries.Persons
     /// </summary>
     public class PersonQueries
     {
+        /// <summary>
+        /// Returns a query capable of retrieving people from the given context.  A FullName value is also calculated for the person.
+        /// </summary>
+        /// <param name="context">The context to query.</param>
+        /// <returns>The query to retrieve people from the context.</returns>
         public static IQueryable<SimplePersonDTO> CreateGetSimplePersonDTOsQuery(EcaContext context)
         {
             Contract.Requires(context != null, "The context must not be null.");
