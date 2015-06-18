@@ -5,7 +5,7 @@
     <div class="bounce3"></div>
 </div>
 <div class="list2" ng-show="!view.isLoading">
-    <div class="row" ng-click="view.isCollaboratorExpanded = !view.isCollaboratorExpanded">
+    <div class="row">
         <div class="col-md-10">
             <h4 class="tab-subheader">Required Data</h4>
             <h5 class="subheader2">Setup the required data that you'll need to track, and add collaborators.</h5>
@@ -13,8 +13,10 @@
             <p class="mute" ng-if="view.numberOfCollaborators > 0">{{view.numberOfCollaborators}} Collaborators | Last updated {{view.collaboratorsLastUpdated | date}}</p>
         </div>
         <div class="col-sd-2">
-            <span class="right"><img src="images/expand.png"></span>
-            <!--<img class="right icon" src="images/yeoman.png" alt="">-->
+            <a ng-click="view.isCollaboratorExpanded = !view.isCollaboratorExpanded">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="view.isCollaboratorExpanded">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!view.isCollaboratorExpanded">expand_less</i>
+            </a>
         </div>
     </div>
     <div class="row recess" ng-show="view.isCollaboratorExpanded && permissions.isProjectOwner">
@@ -76,14 +78,17 @@
         </div>
     </div>
 
-    <div class="row" ng-click="dataExpanded2 = !dataExpanded2">
+    <div class="row">
         <div class="col-md-10">
             <h4 class="tab-subheader">Participant Data</h4>
             <h5 class="subheader2">Keep track of participant data that has been added to this project.</h5>
             <p class="mute">Participants: {{participants.length}} | Last updated {{project.updated | date}}</p>
         </div>
         <div class="col-sd-2">
-            <span class="right"><img src="images/expand.png"></span>
+            <a ng-click="dataExpanded2 = !dataExpanded2">
+                <i class="material-icons md-dark md-36 pull-right" ng-show="dataExpanded2">expand_more</i>
+                <i class="material-icons md-dark md-36 pull-right" ng-show="!dataExpanded2">expand_less</i>
+            </a>
         </div>
     </div>
     <div class="row" ng-show="dataExpanded2">
@@ -376,12 +381,12 @@
                                     <input type="text" ng-model="newParticipant.countriesOfCitizenship[0]" required style="display: none">
                                 </div>
                                 <!--
-                            <div class="form-group">
-                                <label for="">ORIGINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfOrigination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                <input type="text" ng-model="newParticipant.countryOfOrigination" required style="display: none">
-                            </div>
-                            -->
+                                <div class="form-group">
+                                    <label for="">ORIGINATION - COUNTRY<span class="asterisk"> *</span></label>
+                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfOrigination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                                    <input type="text" ng-model="newParticipant.countryOfOrigination" required style="display: none">
+                                </div>
+                                -->
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -398,12 +403,12 @@
                                     <input type="text" ng-model="newParticipant.cityOfBirth" required style="display: none">
                                 </div>
                                 <!--
-                            <div class="form-group">
-                                <label for="">DESTINATION - COUNTRY<span class="asterisk"> *</span></label>
-                                <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfDestination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
-                                <input type="text" ng-model="newParticipant.countryOfDestination" required style="display: none">
-                            </div>
-                            -->
+                                <div class="form-group">
+                                    <label for="">DESTINATION - COUNTRY<span class="asterisk"> *</span></label>
+                                    <isteven-multi-select input-model="countries" output-model="newParticipant.countryOfDestination" button-label="name" item-label="name" tick-property="ticked" selection-mode="single"></isteven-multi-select>
+                                    <input type="text" ng-model="newParticipant.countryOfDestination" required style="display: none">
+                                </div>
+                                -->
                             </div>
                         </div>
                     </form>
