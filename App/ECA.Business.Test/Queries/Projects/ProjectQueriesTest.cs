@@ -29,17 +29,33 @@ namespace ECA.Business.Test.Queries.Projects
                 PersonId = 1
             };
 
+            var org = new Organization
+            {
+                OrganizationId = 1
+            };
+
+            var program = new Program
+            {
+                ProgramId = 1,
+                Owner = org,
+                OwnerId = org.OrganizationId
+            };
+
             var project = new Project
             {
-                ProjectId = 1
+                ProjectId = 1,
+                ProgramId = program.ProgramId,
+                ParentProgram = program
             };
+
 
             var participant = new Participant
             {
                 ParticipantId = 1,
                 Person = person,
                 PersonId = person.PersonId,
-                Project = project
+                Project = project,
+                ProjectId = project.ProjectId
             };
 
             context.Participants.Add(participant);
@@ -49,6 +65,12 @@ namespace ECA.Business.Test.Queries.Projects
             var projects = ProjectQueries.CreateGetProjectsByPersonIdQuery(context, person.PersonId, queryOperator);
 
             Assert.AreEqual(1, projects.Count());
+
+            var projectResult = projects.FirstOrDefault();
+
+            Assert.AreEqual(project.ProjectId, projectResult.ProjectId);
+            Assert.AreEqual(program.ProgramId, projectResult.ProgramId);
+            Assert.AreEqual(org.OrganizationId, projectResult.OfficeId);
         }
 
         [TestMethod]
@@ -72,6 +94,7 @@ namespace ECA.Business.Test.Queries.Projects
             var project = new Project
             {
                 ProjectId = 1,
+                Name = "name",
                 StartDate = new DateTime(2013, 5, 1, 06, 32, 00),
                 EndDate = new DateTime(2017, 5, 1, 06, 32, 00),
                 Description = "description"
@@ -97,6 +120,7 @@ namespace ECA.Business.Test.Queries.Projects
             var projectResult = projects.FirstOrDefault();
 
             Assert.AreEqual(project.ProjectId, projectResult.ProjectId);
+            Assert.AreEqual(project.Name, projectResult.Name);
             Assert.AreEqual(project.StartDate, projectResult.StartDate);
             Assert.AreEqual(project.EndDate, projectResult.EndDate);
             Assert.AreEqual(project.Description, projectResult.Description);
