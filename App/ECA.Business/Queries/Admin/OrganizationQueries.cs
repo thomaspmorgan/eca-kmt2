@@ -28,16 +28,33 @@ namespace ECA.Business.Queries.Admin
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
 
-            var query = context.Organizations
-                .Where(x => !Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(x.OrganizationTypeId))
-                .Select(x => new SimpleOrganizationDTO
-                {
-                    Name = x.Name,
-                    OrganizationType = x.OrganizationType.OrganizationTypeName,
-                    OrganizationId = x.OrganizationId,
-                    Status = x.Status,
-                    Location = x.Addresses.FirstOrDefault().Location.Country.LocationName
-                });
+            var query = from organization in context.Organizations
+                        let organizationType = organization.OrganizationType
+                        let address = organization.Addresses.FirstOrDefault()
+
+                        let addressHasCity = address != null 
+                                            && address.Location != null 
+                                            && address.Location.City != null
+                                            && address.Location.City.LocationName != null
+
+                        let addressHasCountry = address != null 
+                                            && address.Location != null 
+                                            && address.Location.Country != null
+                                            && address.Location.Country.LocationName != null
+
+                        where !Organization.OFFICE_ORGANIZATION_TYPE_IDS.Contains(organization.OrganizationTypeId)
+                        select new SimpleOrganizationDTO
+                        {
+                            Location = (addressHasCity ? address.Location.City.LocationName : String.Empty)
+                                        + (addressHasCity && addressHasCountry ? ", " : String.Empty)
+                                        + (addressHasCountry ? address.Location.Country.LocationName : String.Empty),
+                           
+                            Name = organization.Name,
+                            OrganizationId = organization.OrganizationId,
+                            OrganizationType = organizationType.OrganizationTypeName,
+                            Status = organization.Status
+                        };
+
             query = query.Apply(queryOperator);
             return query;
         }
@@ -64,8 +81,8 @@ namespace ECA.Business.Queries.Admin
                             Description = org.Description,
                             Locations = addresses.Select(x => new ECA.Business.Queries.Models.Persons.LocationDTO
                             {
-                                City = x.Location.City,
-                                CityId = -1,
+                                City = x.Location.City.LocationName,
+                                CityId = x.Location.CityId,
                                 Country = x.Location.Country.LocationName,
                                 CountryId = x.Location.Country.LocationId,
                                 Id = x.AddressId,

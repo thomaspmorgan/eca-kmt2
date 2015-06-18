@@ -59,6 +59,9 @@ angular.module('staticApp')
                 })
               return defer.promise;
           },
+          getPeople: function(params) {
+              return DragonBreath.get(params, 'people');
+          },
           updatePii: function (pii, id) {
               return DragonBreath.save(pii, 'people/pii')
           },

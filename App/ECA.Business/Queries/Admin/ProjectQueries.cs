@@ -53,6 +53,31 @@ namespace ECA.Business.Queries.Admin
         }
 
         /// <summary>
+        /// Returns projects by person id
+        /// </summary>
+        /// <param name="context">The context</param>
+        /// <param name="personId">The person id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>Return projects by person id</returns>
+        public static IQueryable<ParticipantTimelineDTO> CreateGetProjectsByPersonIdQuery(EcaContext context, int personId, QueryableOperator<ParticipantTimelineDTO> queryOperator)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+
+            var query = context.Participants.Where(x => x.PersonId == personId).Select(x => new ParticipantTimelineDTO
+            {
+                ProjectId = x.ProjectId,
+                StartDate = x.Project.StartDate,
+                EndDate = x.Project.EndDate,
+                OfficeSymbol = x.Project.ParentProgram != null && x.Project.ParentProgram.Owner != null ? x.Project.ParentProgram.Owner.OfficeSymbol : null,
+                Description = x.Project.Description,
+                Status = x.Project.Status != null ? x.Project.Status.Status : null 
+            });
+            query = query.Apply(queryOperator);
+            return query;
+        }
+
+        /// <summary>
         /// Returns a project by id
         /// </summary>
         /// <param name="context">The context to query</param>

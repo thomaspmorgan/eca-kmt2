@@ -139,25 +139,22 @@
     <Content Include="scripts\controllers\organization\edit.js" />
     <Content Include="scripts\controllers\organization\organization.js" />
     <Content Include="scripts\controllers\organization\overview.js" />
+    <Content Include="scripts\controllers\participant\timeline.js" />
     <Content Include="scripts\controllers\person\personEduEmp.js" />
     <Content Include="scripts\controllers\person\personEvaluationNotes.js" />
     <Content Include="scripts\controllers\person\personGeneral.js" />
+    <Content Include="scripts\controllers\project\selectparticipanttype.js" />
     <Content Include="scripts\controllers\project\collaborator.js" />
     <Content Include="scripts\controllers\project\edit.js" />
     <Content Include="scripts\controllers\project\overview.js" />
     <Content Include="scripts\controllers\project\overview_test.js" />
     <Content Include="scripts\controllers\project\projectparticipant.js" />
     <Content Include="scripts\controllers\project\unsavedchanges.js" />
+    <Content Include="scripts\directives\exposetablestate.js" />
     <Content Include="scripts\directives\socialmedialink.js" />
     <Content Include="scripts\filters\groupby.js" />
     <Content Include="scripts\services\participantperson.js" />
     <Content Include="scripts\services\userservice.js" />
-    <Content Include="styles\main.css">
-      <DependentUpon>main.scss</DependentUpon>
-    </Content>
-    <Content Include="styles\main.min.css">
-      <DependentUpon>main.css</DependentUpon>
-    </Content>
     <Content Include="views\organizations\activities.html" />
     <Content Include="views\organizations\impact.html" />
     <Content Include="views\organizations\artifacts.html" />
@@ -168,6 +165,7 @@
     <Content Include="views\participants\partials\eduempView.html" />
     <Content Include="views\participants\partials\generalView.html" />
     <Content Include="views\organization.html" />
+    <Content Include="views\project\selectparticipanttype.html" />
     <Content Include="views\project\collaborators.html" />
     <Content Include="scripts\services\organization.js" />
     <Content Include="views\organizations\allorganizations.html" />
@@ -231,9 +229,6 @@
     <Content Include="scripts\services\constantsservice.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>constantsservice.js</LastGenOutput>
-    </Content>
-    <Content Include="styles\main.css.map">
-      <DependentUpon>main.css</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -396,7 +391,7 @@
     <Content Include="views\partials\tabbar.html" />
     <Content Include="views\partner.html" />
     <Content Include="views\participants.html" />
-    <Content Include="views\participants\activity.html" />
+    <Content Include="views\participants\timeline.html" />
     <Content Include="views\participants\allparticipants.html" />
     <Content Include="views\participants\impact.html" />
     <Content Include="views\participants\overview.html" />

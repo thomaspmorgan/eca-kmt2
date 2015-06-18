@@ -1,10 +1,10 @@
 ﻿'use strict';
-/*global Datamap */
+
 /**
  * @ngdoc directive
- * @name staticApp.directive:map
+ * @name staticApp.directive:socialmedialink
  * @description
- * # map
+ * # socialmedialink
  */
 angular.module('staticApp')
   .directive('socialmedialink', function ($log, ConstantsService) {

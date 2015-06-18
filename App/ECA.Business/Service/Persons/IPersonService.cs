@@ -1,4 +1,6 @@
 ﻿using ECA.Business.Queries.Models.Persons;
+using ECA.Core.DynamicLinq;
+using ECA.Core.Query;
 using ECA.Core.Service;
 using ECA.Data;
 using System;
@@ -107,5 +109,19 @@ namespace ECA.Business.Service.Persons
         Task<Person> CreateAsync(NewPerson person);
 
         Task<Person> UpdatePiiAsync(UpdatePii pii);
+
+        /// <summary>
+        /// Returns the paged, sorted, and filtered people in the system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, sorted, and filtered people in the system.</returns>
+        PagedQueryResults<SimplePersonDTO> GetPeople(QueryableOperator<SimplePersonDTO> queryOperator);
+
+        /// <summary>
+        /// Returns the paged, sorted, and filtered people in the system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, sorted, and filtered people in the system.</returns>
+        Task<PagedQueryResults<SimplePersonDTO>> GetPeopleAsync(QueryableOperator<SimplePersonDTO> queryOperator);
     }
 }

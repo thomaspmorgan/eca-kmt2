@@ -19,7 +19,7 @@ angular.module('staticApp')
           },
           activity: {
               title: 'Timeline',
-              path: 'activity',
+              path: 'timeline',
               active: true,
               order: 2
           },

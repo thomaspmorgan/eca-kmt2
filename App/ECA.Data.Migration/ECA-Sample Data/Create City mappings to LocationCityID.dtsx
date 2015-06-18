@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Create City mappings to LocationCityID"
   DTS:PackageType="5"
-  DTS:VersionBuild="9"
-  DTS:VersionGUID="{A3066B15-49F3-40DD-BC50-EC7904D2881D}">
+  DTS:VersionBuild="14"
+  DTS:VersionGUID="{F21207E2-8661-404E-A5B3-307ED55EEADF}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -24,6 +24,36 @@
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=ECA_Local;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{2ACB7259-21D9-44F2-9F21-DFE18219C221}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA2Iu0UBLkEOiPn8wy5KY4LW//kMUtyibxe3qni2XQY/wAAAAAOgAAAAAIAACAAAADubJZTxKaMcJ7dVutqRMnjtCwnqsEFPs0j9GJVrMlbXyAAAAD90UcvHohj5omQ+vDbuEyWqQjKbDKk5q3XOZrTS0ABS0AAAABekP6UUVljhDoHOvJSLvzxLifl+vvhT3MRvKJjyKXdG6SWq9ZVEQz3ME0UsiT3NQjqgt/XO2ByOa3YX/js9Oyu</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{FABB5F0D-8E1D-4AF6-ADC7-4D8DB4D0BE3A}"
+      DTS:ObjectName="tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=tcp:dx4ykgy2iu.database.windows.net;User ID=ECA@dx4ykgy2iu;Initial Catalog=ECA_Dev;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ+Nz3eebzkG5YAJNPl/qygAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAi/adWQicp4DvB+VXbN/MfH70dyZWQiBInmbvmyfNEEQAAAAAOgAAAAAIAACAAAACygd0XKsgTP5BrBwqNGZbB0V8vmqam4PCsC4Boe/qE0CAAAAAHBQ9ztdlMBzPg1wCVgflcQ80ZaFKTstO/1W2duSKvyEAAAACewiN1Bo5X05pUGsUOi1MWoHxVC8oc5wDTvYo3mU21dt2CKW8PTktDQzIh1pIagC79TaYSkKgliOKQiF6Ergll</DTS:Password>
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -495,8 +525,8 @@
               <connections>
                 <connection
                   refId="Package\Add missing Cities to Location City Type\Location non-Null city entries.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -769,8 +799,8 @@ where [refTable].[LocationTypeName] = ?</property>
               <connections>
                 <connection
                   refId="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -928,8 +958,8 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
               <connections>
                 <connection
                   refId="Package\Add missing Cities to Location City Type\Lookup Existing Cities.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="Connection manager used to access lookup data."
                   name="OleDbConnection" />
               </connections>
@@ -1123,8 +1153,8 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
               <connections>
                 <connection
                   refId="Package\Add missing Cities to Location City Type\New City Locations.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
-                  connectionManagerRefId="Package.ConnectionManagers[(localdb)\v11.0.ECA_Local]"
+                  connectionManagerID="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
+                  connectionManagerRefId="Package.ConnectionManagers[tcp:dx4ykgy2iu.database.windows.net.ECA_Dev.ECA@dx4ykgy2iu]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1351,6 +1381,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
       DTS:refId="Package\Update CityId"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
       DTS:DTSID="{68FBF7E7-E107-4D30-90BA-E30DB8DC62C9}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -1360,11 +1391,21 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{B2590D38-7CF8-48A6-9F45-72D2CE6779B7}"
-          SQLTask:SqlStatementSource="UPDATE  eca_local.dbo.location &#xA;SET     city_locationid = &#xA;        (&#xA;          SELECT locationid &#xA;          FROM eca_local.dbo.location b &#xA;          WHERE b.locationtypeid = 5 AND UPPER(b.locationname) = UPPER(eca_local.dbo.location.city) AND&#xA;&#x9;&#x9;  ((b.country_locationid IS NULL and eca_local.dbo.location.country_locationid is null) OR &#xA;&#x9;&#x9;   (b.country_locationid = eca_local.dbo.location.country_locationid)) AND&#xA;          ((b.region_locationid IS NULL and eca_local.dbo.location.region_locationid is null) OR &#xA;&#x9;&#x9;   (b.region_locationid = eca_local.dbo.location.region_locationid))&#xA;        )&#xA;WHERE eca_local.dbo.location.city is not null AND eca_local.dbo.location.locationtypeid &lt;&gt; 5" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:Connection="{FABB5F0D-8E1D-4AF6-ADC7-4D8DB4D0BE3A}"
+          SQLTask:SqlStatementSource="UPDATE a&#xA;SET   a.city_locationid = b.locationid &#xA;FROM    location a&#xA;        INNER JOIN location b&#xA;            ON UPPER(a.city) = (b.locationName) and b.locationtypeid = 5 AND &#xA;&#x9;&#x9;&#x9;((b.country_locationid IS NULL AND a.country_locationid is null) &#xA;&#x9;&#x9;&#x9; OR (b.country_locationid = a.country_locationid)) &#xA;&#x9;&#x9;&#x9;AND ((b.region_locationid IS NULL and a.region_locationid is null) &#xA;&#x9;&#x9;&#x9; OR (b.region_locationid = a.region_locationid))&#xA;WHERE a.locationtypeid &lt;&gt; 5 AND a.city IS NOT NULL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{8B83D730-291F-424B-92E7-3ADD4E148766}"
+      DTS:From="Package\Add missing Cities to Location City Type"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Update CityId" />
+  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -1376,7 +1417,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="267,42"
           Id="Package\Add missing Cities to Location City Type"
@@ -1385,6 +1426,28 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
           Size="143,42"
           Id="Package\Update CityId"
           TopLeft="102.5,164.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="171.5,97.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,67"
+              Start="0,0"
+              End="0,59.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,59.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -1394,29 +1457,33 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="216,42"
-          Id="Package\Add missing Cities to Location City Type\Location non-Null city entries"
-          TopLeft="12.5,36.5" />
+          Size="168,42"
+          Id="Package\Add missing Cities to Location City Type\New City Locations"
+          TopLeft="625.5,126.5" />
         <NodeLayout
           Size="181,42"
           Id="Package\Add missing Cities to Location City Type\Lookup Existing Cities"
           TopLeft="776.5,40.5" />
         <NodeLayout
-          Size="182,42"
-          Id="Package\Add missing Cities to Location City Type\Add required columns"
-          TopLeft="272.5,39.5" />
+          Size="127,42"
+          Id="Package\Add missing Cities to Location City Type\Aggregate"
+          TopLeft="131.5,125.5" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\Add missing Cities to Location City Type\Location non-Null city entries"
+          TopLeft="12.5,36.5" />
+        <NodeLayout
+          Size="191,42"
+          Id="Package\Add missing Cities to Location City Type\Add required columns 1"
+          TopLeft="353,126" />
         <NodeLayout
           Size="210,42"
           Id="Package\Add missing Cities to Location City Type\Lookup City LocationTypeId"
           TopLeft="505.5,39.5" />
         <NodeLayout
-          Size="168,42"
-          Id="Package\Add missing Cities to Location City Type\New City Locations"
-          TopLeft="625.5,126.5" />
-        <NodeLayout
-          Size="127,42"
-          Id="Package\Add missing Cities to Location City Type\Aggregate"
-          TopLeft="131.5,125.5" />
+          Size="182,42"
+          Id="Package\Add missing Cities to Location City Type\Add required columns"
+          TopLeft="272.5,39.5" />
         <EdgeLayout
           Id="Package\Add missing Cities to Location City Type.Paths[OLE DB Source Output]"
           TopLeft="228.5,59">
@@ -1437,52 +1504,6 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Add missing Cities to Location City Type.Paths[Derived Column Output]"
-          TopLeft="454.5,60.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="51,0"
-              Start="0,0"
-              End="43.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="43.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Add missing Cities to Location City Type.Paths[Lookup Match Output]"
-          TopLeft="715.5,61">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="61,0"
-              Start="0,0"
-              End="53.5,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="53.5,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-21.44138671875,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1521,10 +1542,30 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="191,42"
-          Id="Package\Add missing Cities to Location City Type\Add required columns 1"
-          TopLeft="353,126" />
+        <EdgeLayout
+          Id="Package\Add missing Cities to Location City Type.Paths[Lookup Match Output]"
+          TopLeft="715.5,61">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="61,0"
+              Start="0,0"
+              End="53.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="53.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-21.44138671875,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Add missing Cities to Location City Type.Paths[Derived Column Output1]"
           TopLeft="544,147.25">
@@ -1539,6 +1580,28 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
                   Capacity="5">
                   <mssgle:LineSegment
                     End="74,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Add missing Cities to Location City Type.Paths[Derived Column Output]"
+          TopLeft="454.5,60.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="51,0"
+              Start="0,0"
+              End="43.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="43.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1573,7 +1636,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Add missing Cities to Location City Type\Location non-Null city entries">
+    design-time-name="Package\Add missing Cities to Location City Type\New City Locations">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1591,7 +1654,7 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">true</Value>
+          type="q2:string">true</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -1605,6 +1668,19 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Add missing Cities to Location City Type\Location non-Null city entries">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -1628,19 +1704,6 @@ where UPPER([refTable].[LocationName]) = UPPER( ? ) and (([refTable].Country_Loc
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Add missing Cities to Location City Type\New City Locations">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

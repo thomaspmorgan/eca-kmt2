@@ -14,6 +14,8 @@ using ECA.Business.Queries.Admin;
 using NLog;
 using ECA.Business.Exceptions;
 using ECA.Business.Validation;
+using ECA.Core.Query;
+using ECA.Core.DynamicLinq;
 
 namespace ECA.Business.Service.Persons
 {
@@ -36,7 +38,7 @@ namespace ECA.Business.Service.Persons
             Contract.Requires(validator != null, "The validator must not be null.");
             this.validator = validator;
         }
-
+        #region Pii
         /// <summary>
         /// Returns personally identifiable information for a user 
         /// </summary>
@@ -60,7 +62,9 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved person by id {0}.", personId);
             return pii;
         }
+        #endregion
 
+        #region Get General Person Info
         /// <summary>
         /// Returns general information for a user 
         /// </summary>
@@ -84,7 +88,9 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved general person info by id {0}.", personId);
             return general;
         }
+        #endregion
 
+        #region Contact
         /// <summary>
         /// Returns contact info related to a person
         /// </summary>
@@ -108,7 +114,9 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved contact info by id {0}.", personId);             
             return contactInfo;
         }
+        #endregion
 
+        #region Employment
         /// <summary>
         /// Returns education and professional employment information for a user 
         /// </summary>
@@ -132,8 +140,9 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved employments for person info by id {0}.", personId);
             return employments;
         }
+        #endregion
 
-
+        #region Education
         /// <summary>
         /// Returns professional employments information for a user 
         /// </summary>
@@ -157,7 +166,9 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved educations for person info by id {0}.", personId);
             return educations;
         }
+        #endregion
 
+        #region Evaluation Notes
         /// <summary>
         /// Returns evaluationNotes information for a user 
         /// </summary>
@@ -181,7 +192,9 @@ namespace ECA.Business.Service.Persons
             this.logger.Trace("Retrieved evaluationNotes for person info by id {0}.", personId);
             return evaluationNotes;
         }
+        #endregion
 
+        #region Create
         /// <summary>
         /// Create a person
         /// </summary>
@@ -308,7 +321,7 @@ namespace ECA.Business.Service.Persons
                 ParticipantTypeId = ParticipantType.Individual.Id
             };
 
-            participant.Projects.Add(project);
+            participant.Project = project;
             this.Context.Participants.Add(participant);
             this.logger.Trace("Creating new participant {0}.", person); 
             return participant;
@@ -385,6 +398,34 @@ namespace ECA.Business.Service.Persons
             });
         }
 
+        #endregion
+
+        #region Get People
+
+        /// <summary>
+        /// Returns the paged, sorted, and filtered people in the system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, sorted, and filtered people in the system.</returns>
+        public PagedQueryResults<SimplePersonDTO> GetPeople(QueryableOperator<SimplePersonDTO> queryOperator)
+        {
+            var people = PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context, queryOperator).ToPagedQueryResults(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved people using the query operator [{0}]", queryOperator);
+            return people;
+        }
+
+        /// <summary>
+        /// Returns the paged, sorted, and filtered people in the system.
+        /// </summary>
+        /// <param name="queryOperator">The query operator.</param>
+        /// <returns>The paged, sorted, and filtered people in the system.</returns>
+        public async Task<PagedQueryResults<SimplePersonDTO>> GetPeopleAsync(QueryableOperator<SimplePersonDTO> queryOperator)
+        {
+            var people = await PersonQueries.CreateGetSimplePersonDTOsQuery(this.Context, queryOperator).ToPagedQueryResultsAsync(queryOperator.Start, queryOperator.Limit);
+            logger.Trace("Retrieved people using the query operator [{0}]", queryOperator);
+            return people;
+        }
+        #endregion
 
         /// <summary>
         /// Get participant by id 

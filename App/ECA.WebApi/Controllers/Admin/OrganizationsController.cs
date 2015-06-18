@@ -53,7 +53,8 @@ namespace ECA.WebApi.Controllers.Admin
         public async Task<IHttpActionResult> GetOrganizationsAsync([FromUri]PagingQueryBindingModel<SimpleOrganizationDTO> queryModel) {
             if (ModelState.IsValid)
             {
-                var results = await organizationService.GetOrganizationsAsync(queryModel.ToQueryableOperator(DEFAULT_SORTER));
+                var results = await organizationService.GetOrganizationsAsync(
+                    queryModel.ToQueryableOperator(DEFAULT_SORTER, x => x.Name, x => x.Location, x => x.Status));
                 return Ok(results);
             }
             else

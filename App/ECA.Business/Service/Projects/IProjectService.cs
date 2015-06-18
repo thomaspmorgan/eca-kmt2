@@ -44,6 +44,22 @@ namespace ECA.Business.Service.Projects
         Task<PagedQueryResults<SimpleProjectDTO>> GetProjectsByProgramIdAsync(int programId, QueryableOperator<SimpleProjectDTO> queryOperator);
 
         /// <summary>
+        /// Returns projects by person id
+        /// </summary>
+        /// <param name="personId">The person id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>Projects by person id</returns>
+        PagedQueryResults<ParticipantTimelineDTO> GetProjectsByPersonId(int personId, QueryableOperator<ParticipantTimelineDTO> queryOperator);
+
+        /// <summary>
+        /// Returns projects by person id
+        /// </summary>
+        /// <param name="personId">The person id</param>
+        /// <param name="queryOperator">The query operator</param>
+        /// <returns>Projects by person id</returns>
+        Task<PagedQueryResults<ParticipantTimelineDTO>> GetProjectsByPersonIdAsync(int personId, QueryableOperator<ParticipantTimelineDTO> queryOperator);
+
+        /// <summary>
         /// Returns a project by id asynchronously
         /// </summary>
         /// <param name="projectId">The project id</param>
@@ -132,6 +148,30 @@ namespace ECA.Business.Service.Projects
         {
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
             return Task.FromResult<PagedQueryResults<SimpleProjectDTO>>(null);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public PagedQueryResults<ParticipantTimelineDTO> GetProjectsByPersonId(int personId, QueryableOperator<ParticipantTimelineDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="queryOperator"></param>
+        /// <returns></returns>
+        public Task<PagedQueryResults<ParticipantTimelineDTO>> GetProjectsByPersonIdAsync(int personId, QueryableOperator<ParticipantTimelineDTO> queryOperator)
+        {
+            Contract.Requires(queryOperator != null, "The query operator must not be null.");
+            return Task.FromResult<PagedQueryResults<ParticipantTimelineDTO>>(null);
         }
 
         /// <summary>

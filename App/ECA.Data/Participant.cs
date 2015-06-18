@@ -19,7 +19,6 @@ namespace ECA.Data
 
         public Participant()
         {
-            this.Projects = new HashSet<Project>();
             this.ItineraryStops = new HashSet<ItineraryStop>();
             this.SourceParticipantMoneyFlows = new HashSet<MoneyFlow>();
             this.RecipientParticipantMoneyFlows = new HashSet<MoneyFlow>();
@@ -47,8 +46,10 @@ namespace ECA.Data
 
         public DateTimeOffset? StatusDate { get; set; }
 
+        public int ProjectId { get; set; }
+        public Project Project { get; set; }
+
         //Relationships
-        public ICollection<Project> Projects { get; set; }
         public ICollection<ItineraryStop> ItineraryStops { get; set; }
         public ICollection<MoneyFlow> SourceParticipantMoneyFlows { get; set; }
         public ICollection<MoneyFlow> RecipientParticipantMoneyFlows { get; set; }
