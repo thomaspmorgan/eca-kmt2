@@ -1,9 +1,11 @@
 ﻿using ECA.Business.Queries.Models.Admin;
 using ECA.Business.Service.Lookup;
 using ECA.Core.DynamicLinq;
+using ECA.Core.DynamicLinq.Filter;
 using ECA.Data;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Text;
 
 namespace ECA.Business.Queries.Admin
 {
@@ -28,13 +30,16 @@ namespace ECA.Business.Queries.Admin
                         let objectives = project.Objectives
                         let status = project.Status
                         let startDate = project.StartDate
+                        let regionNames = project.Regions.Select(l => l.LocationName)
+                        let regionIds = project.Regions.Select(l => l.LocationId)
                         where project.ProgramId == programId
                         select new SimpleProjectDTO
                         {
                             ProgramId = parentProgram.ProgramId,
                             ProjectId = project.ProjectId,
                             ProjectName = project.Name,
-                            LocationNames = locations.Select(x => x.LocationName),
+                            RegionNames = regionNames,
+                            RegionIds = regionIds,
                             ProjectStatusId = status.ProjectStatusId,
                             ProjectStatusName = status.Status,
                             StartDate = startDate,
@@ -43,6 +48,7 @@ namespace ECA.Business.Queries.Admin
                         };
 
             query = query.Apply(queryOperator);
+            
             return query;
         }
 

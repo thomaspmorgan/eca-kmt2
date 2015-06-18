@@ -190,6 +190,8 @@ angular.module('staticApp')
             $scope.countries = data.results;
         });
 
+
+
       $scope.birthCountrySelected = function (data) {
           LocationService.get({
               limit: 300,
@@ -569,6 +571,7 @@ angular.module('staticApp')
       };
 
       function executeDeleteMoneyFlow() {
+          alert('deletet');
           //MoneyFlowService.deleteMoneyFlow();
       };
 
@@ -661,6 +664,8 @@ angular.module('staticApp')
                   // stub
                   break;
           }
+
+          $scope.draftMoneyFlow.sourceRecipientId = null;
       };
 
       $scope.createModalCancel = function () {

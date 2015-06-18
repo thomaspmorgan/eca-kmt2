@@ -63,5 +63,15 @@ namespace ECA.Business.Queries.Models.Admin
         /// Gets or sets the location names.
         /// </summary>
         public IEnumerable<string> LocationNames { get; set; }
+
+        public IEnumerable<string> RegionNames { get; set; }
+
+        public IEnumerable<int> RegionIds { get; set; }
+
+        public string RegionNamesAsString {
+            get {
+                return string.Join(", ", this.RegionNames);
+            }
+        }
     }
 }
