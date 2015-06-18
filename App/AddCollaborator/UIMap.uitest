@@ -52,7 +52,7 @@
       <IsGlobalHotkey>false</IsGlobalHotkey>
       <Text Encoded="false">{F5}</Text>
     </SendKeysAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIImagesexpandpngImage">
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITopPane.UIREQDATAChevronExpand">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
@@ -70,7 +70,7 @@
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
     </MouseAction>
-    <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UIItemEdit">
+    <SetValueAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UIAddCollabSearch" ThinkTime="3000">
       <ParameterName />
       <Value Encoded="false">Marc</Value>
       <Type>String</Type>
@@ -144,7 +144,7 @@ Marc.Setien@Buchanan-Edwards.com</ExpectedValue>
 
 Setup the required data that you'll need to track, and add collaborators.
  
-9 Collaborators | Last updated Jun 10, 2015
+9 Collaborators | Last updated Jun 18, 2015
  </ExpectedValue>
       <MessageOnValidationFailure>Required Data does not match after the collaborator add. (9) collaborators and (today's date: for last updated)</MessageOnValidationFailure>
       <Comparison>CurrentCulture</Comparison>
@@ -204,11 +204,11 @@ Setup the required data that you'll need to track, and add collaborators.
       <WorkItemId>0</WorkItemId>
       <MarkerRegionType>Action</MarkerRegionType>
     </TestStepMarkerAction>
-    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITopPane.UIRequiredDataSetupthePane">
+    <MouseAction UIObjectName="UIMap.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITopPane.UIREQDATAChevronExpand" ThinkTime="3000">
       <ParameterName />
       <ModifierKeys>None</ModifierKeys>
       <IsGlobalHotkey>false</IsGlobalHotkey>
-      <Location X="594" Y="54" />
+      <Location X="9" Y="2" />
       <WheelDirection>0</WheelDirection>
       <ActionType>Click</ActionType>
       <MouseButton>Left</MouseButton>
@@ -484,6 +484,27 @@ Setup the required data</PropertyCondition>
                       <SupportLevel>0</SupportLevel>
                       <Descendants />
                     </UIObject>
+                    <UIObject ControlType="Custom" Id="UIREQDATAChevronExpand" FriendlyName="" SpecialControlType="None">
+                      <TechnologyName>Web</TechnologyName>
+                      <WindowTitles>
+                        <WindowTitle>https://eca-kmt-qa.azurewebsites.net/#/offices/1036/programs/1038/project/1805/participant#top</WindowTitle>
+                      </WindowTitles>
+                      <AndCondition Id="SearchCondition">
+                        <AndCondition Id="Primary">
+                          <PropertyCondition Name="ControlType">Custom</PropertyCondition>
+                          <PropertyCondition Name="TagName">A</PropertyCondition>
+                          <PropertyCondition Name="Id" />
+                          <PropertyCondition Name="Name" />
+                        </AndCondition>
+                        <FilterCondition Id="Secondary">
+                          <PropertyCondition Name="Class" />
+                          <PropertyCondition Name="ControlDefinition">ng-click="view.isCollaboratorExpanded = </PropertyCondition>
+                          <PropertyCondition Name="TagInstance">20</PropertyCondition>
+                        </FilterCondition>
+                      </AndCondition>
+                      <SupportLevel>0</SupportLevel>
+                      <Descendants />
+                    </UIObject>
                   </Descendants>
                 </UIObject>
               </Descendants>
@@ -622,9 +643,7 @@ Setup the required data</PropertyCondition>
                     </AndCondition>
                     <FilterCondition Id="Secondary">
                       <PropertyCondition Name="Title" />
-                      <PropertyCondition Name="Class">form-control ng-pristine ng-untouched ng-valid</PropertyCondition>
-                      <PropertyCondition Name="ControlDefinition">class="form-control ng-pristine ng-untou</PropertyCondition>
-                      <PropertyCondition Name="TagInstance">520</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">type="text" placeholder="Add a collaborator..." ng-model="view.addedCollaborator" typeahead-editable="false" typeahead-template-url="addCollaboratorTemplate.html" typeahead-on-select="view.onAddCollaboratorSelect($item, $model, $label)" typeahead="user.id as user.displayName for user in view.getUsers($viewValue) | filter : $viewValue | limitTo : view.addCollaboratorLimit" typeahead-input-formatter="view.addedCollaboratorFormatter($item)"</PropertyCondition>
                     </FilterCondition>
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>
@@ -782,6 +801,30 @@ View Project
                       <PropertyCondition Name="Class">btn btn-default</PropertyCondition>
                       <PropertyCondition Name="ControlDefinition">class="btn btn-default" ng-click="view.o</PropertyCondition>
                       <PropertyCondition Name="TagInstance">25</PropertyCondition>
+                    </FilterCondition>
+                  </AndCondition>
+                  <SupportLevel>0</SupportLevel>
+                  <Descendants />
+                </UIObject>
+                <UIObject ControlType="Edit" Id="UIAddCollabSearch" FriendlyName="" SpecialControlType="None">
+                  <TechnologyName>Web</TechnologyName>
+                  <WindowTitles>
+                    <WindowTitle>https://eca-kmt-qa.azurewebsites.net/</WindowTitle>
+                  </WindowTitles>
+                  <AndCondition Id="SearchCondition">
+                    <AndCondition Id="Primary">
+                      <PropertyCondition Name="ControlType">Edit</PropertyCondition>
+                      <PropertyCondition Name="TagName">INPUT</PropertyCondition>
+                      <PropertyCondition Name="Id" />
+                      <PropertyCondition Name="Name" />
+                      <PropertyCondition Name="LabeledBy" />
+                      <PropertyCondition Name="Type">SINGLELINE</PropertyCondition>
+                    </AndCondition>
+                    <FilterCondition Id="Secondary">
+                      <PropertyCondition Name="Title" />
+                      <PropertyCondition Name="Class">form-control ng-pristine ng-untouched ng-valid</PropertyCondition>
+                      <PropertyCondition Name="ControlDefinition">class="form-control ng-pristine ng-untou</PropertyCondition>
+                      <PropertyCondition Name="TagInstance">581</PropertyCondition>
                     </FilterCondition>
                   </AndCondition>
                   <SupportLevel>0</SupportLevel>

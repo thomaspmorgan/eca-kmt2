@@ -36,11 +36,10 @@ namespace AddCollaborator
         {
             #region Variable Declarations
             HtmlButton uIADDCOLLABORATORButton = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITopPane.UIADDCOLLABORATORButton;
-            HtmlImage uIImagesexpandpngImage = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIImagesexpandpngImage;
+            HtmlCustom uIREQDATAChevronExpand = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITopPane.UIREQDATAChevronExpand;
             HtmlButton uIADDCOLLABORATORButton1 = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITopPane.UIADDCOLLABORATORButton;
-            HtmlEdit uIItemEdit = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UIItemEdit;
+            HtmlEdit uIAddCollabSearch = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UIAddCollabSearch;
             HtmlCustom uIItemCustom = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument1.UITypeahead11008353optCustom.UIItemCustom;
-            HtmlDiv uIRequiredDataSetupthePane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITopPane.UIRequiredDataSetupthePane;
             #endregion
 
             // Click 'ADD COLLABORATOR' button
@@ -49,18 +48,15 @@ namespace AddCollaborator
             // Type '{F5}' in 'ADD COLLABORATOR' button
             Keyboard.SendKeys(uIADDCOLLABORATORButton, this.AddCollaboratorParams.UIADDCOLLABORATORButtonSendKeys, ModifierKeys.None);
 
-            // Click '/images/expand.png' image
-            //Mouse.Click(uIImagesexpandpngImage, new Point(9, 2));
-
-            Mouse.Click(uIRequiredDataSetupthePane, new Point(594, 54));
-
-            //Mouse.Click(uIImagesexpandpngImage, new Point(594, 54));
+            // Click custom control
+            Mouse.Click(uIREQDATAChevronExpand, new Point(9, 2));
 
             // Click 'ADD COLLABORATOR' button
-            Mouse.Click(uIADDCOLLABORATORButton1, new Point(67, 26));
+            Mouse.Click(uIADDCOLLABORATORButton1, new Point(81, 23));
 
-            // Type 'Marc' in text box
-            uIItemEdit.Text = this.AddCollaboratorParams.UIItemEditText;
+            // Wait for 3 seconds for user delay between actions; Type 'Marc' in text box
+            Playback.Wait(3000);
+            uIAddCollabSearch.Text = this.AddCollaboratorParams.UIAddCollabSearchText;
 
             // Click custom control
             Mouse.Click(uIItemCustom, new Point(106, 21));
@@ -110,7 +106,7 @@ namespace AddCollaborator
             //
             //Setup the required data that you'll need to track, and add collaborators.
             // 
-            //9 Collaborators | Last updated Jun 10, 2015
+            //9 Collaborators | Last updated Jun 18, 2015
             // '
             StringAssert.Contains(uIRequiredDataSetupthePane.DisplayText, this.AssertUpdatetoRequiredData_PostAddExpectedValues.UIRequiredDataSetupthePaneDisplayText, "Required Data does not match after the collaborator add. (9) collaborators and (t" +
                     "oday\'s date: for last updated)");
@@ -162,11 +158,12 @@ namespace AddCollaborator
         public void SelectRequiredDataField()
         {
             #region Variable Declarations
-            HtmlDiv uIRequiredDataSetupthePane = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITopPane.UIRequiredDataSetupthePane;
+            HtmlCustom uIREQDATAChevronExpand = this.UINewtabInternetExplorWindow.UIHttpsecakmtqaazureweDocument.UITopPane.UIREQDATAChevronExpand;
             #endregion
 
-            // Click 'Required Data Setup the required data' pane
-            Mouse.Click(uIRequiredDataSetupthePane, new Point(594, 54));
+            // Wait for 3 seconds for user delay between actions; Click custom control
+            Playback.Wait(3000);
+            Mouse.Click(uIREQDATAChevronExpand, new Point(9, 2));
         }
         
         #region Properties
@@ -272,9 +269,9 @@ namespace AddCollaborator
         public string UIADDCOLLABORATORButtonSendKeys = "{F5}";
         
         /// <summary>
-        /// Type 'Marc' in text box
+        /// Wait for 3 seconds for user delay between actions; Type 'Marc' in text box
         /// </summary>
-        public string UIItemEditText = "Marc";
+        public string UIAddCollabSearchText = "Marc";
         #endregion
     }
     
@@ -328,11 +325,11 @@ namespace AddCollaborator
         ///
         ///Setup the required data that you'll need to track, and add collaborators.
         /// 
-        ///9 Collaborators | Last updated Jun 10, 2015
+        ///9 Collaborators | Last updated Jun 18, 2015
         /// '
         /// </summary>
         public string UIRequiredDataSetupthePaneDisplayText = "Required Data\r\n\r\nSetup the required data that you\'ll need to track, and add colla" +
-            "borators.\r\n \r\n9 Collaborators | Last updated Jun 10, 2015\r\n ";
+            "borators.\r\n \r\n9 Collaborators | Last updated Jun 18, 2015\r\n ";
         #endregion
     }
     
@@ -678,6 +675,28 @@ namespace AddCollaborator
                 return this.mUIADDCOLLABORATORButton;
             }
         }
+        
+        public HtmlCustom UIREQDATAChevronExpand
+        {
+            get
+            {
+                if ((this.mUIREQDATAChevronExpand == null))
+                {
+                    this.mUIREQDATAChevronExpand = new HtmlCustom(this);
+                    #region Search Criteria
+                    this.mUIREQDATAChevronExpand.SearchProperties["TagName"] = "A";
+                    this.mUIREQDATAChevronExpand.SearchProperties["Id"] = null;
+                    this.mUIREQDATAChevronExpand.SearchProperties[UITestControl.PropertyNames.Name] = null;
+                    this.mUIREQDATAChevronExpand.FilterProperties["Class"] = null;
+                    this.mUIREQDATAChevronExpand.FilterProperties["ControlDefinition"] = "ng-click=\"view.isCollaboratorExpanded = ";
+                    this.mUIREQDATAChevronExpand.FilterProperties["TagInstance"] = "20";
+                    this.mUIREQDATAChevronExpand.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/#/offices/1036/programs/1038/project/1805/pa" +
+                            "rticipant#top");
+                    #endregion
+                }
+                return this.mUIREQDATAChevronExpand;
+            }
+        }
         #endregion
         
         #region Fields
@@ -686,6 +705,8 @@ namespace AddCollaborator
         private HtmlDiv mUIRequiredDataSetupthePane;
         
         private HtmlButton mUIADDCOLLABORATORButton;
+        
+        private HtmlCustom mUIREQDATAChevronExpand;
         #endregion
     }
     
@@ -733,9 +754,7 @@ namespace AddCollaborator
                     this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
                     this.mUIItemEdit.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
                     this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
-                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
-                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
-                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "520";
+                    this.mUIItemEdit.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = @"type=""text"" placeholder=""Add a collaborator..."" ng-model=""view.addedCollaborator"" typeahead-editable=""false"" typeahead-template-url=""addCollaboratorTemplate.html"" typeahead-on-select=""view.onAddCollaboratorSelect($item, $model, $label)"" typeahead=""user.id as user.displayName for user in view.getUsers($viewValue) | filter : $viewValue | limitTo : view.addCollaboratorLimit"" typeahead-input-formatter=""view.addedCollaboratorFormatter($item)""";
                     this.mUIItemEdit.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
                     #endregion
                 }
@@ -789,6 +808,29 @@ namespace AddCollaborator
                 return this.mUICloseButton;
             }
         }
+        
+        public HtmlEdit UIAddCollabSearch
+        {
+            get
+            {
+                if ((this.mUIAddCollabSearch == null))
+                {
+                    this.mUIAddCollabSearch = new HtmlEdit(this);
+                    #region Search Criteria
+                    this.mUIAddCollabSearch.SearchProperties[HtmlEdit.PropertyNames.Id] = null;
+                    this.mUIAddCollabSearch.SearchProperties[HtmlEdit.PropertyNames.Name] = null;
+                    this.mUIAddCollabSearch.SearchProperties[HtmlEdit.PropertyNames.LabeledBy] = null;
+                    this.mUIAddCollabSearch.SearchProperties[HtmlEdit.PropertyNames.Type] = "SINGLELINE";
+                    this.mUIAddCollabSearch.FilterProperties[HtmlEdit.PropertyNames.Title] = null;
+                    this.mUIAddCollabSearch.FilterProperties[HtmlEdit.PropertyNames.Class] = "form-control ng-pristine ng-untouched ng-valid";
+                    this.mUIAddCollabSearch.FilterProperties[HtmlEdit.PropertyNames.ControlDefinition] = "class=\"form-control ng-pristine ng-untou";
+                    this.mUIAddCollabSearch.FilterProperties[HtmlEdit.PropertyNames.TagInstance] = "581";
+                    this.mUIAddCollabSearch.WindowTitles.Add("https://eca-kmt-qa.azurewebsites.net/");
+                    #endregion
+                }
+                return this.mUIAddCollabSearch;
+            }
+        }
         #endregion
         
         #region Fields
@@ -801,6 +843,8 @@ namespace AddCollaborator
         private UIItemTable mUIItemTable;
         
         private HtmlButton mUICloseButton;
+        
+        private HtmlEdit mUIAddCollabSearch;
         #endregion
     }
     
