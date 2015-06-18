@@ -248,7 +248,6 @@ namespace ECA.WebApi.Security
                 actionName);
             SetAuthorizationResult(AuthorizationResult.Allowed);
             base.OnActionExecuting(actionContext);
-
         }
 
         private void SetAuthorizationResult(AuthorizationResult result)

@@ -37,7 +37,7 @@ namespace CAM.Business.Service
         private readonly ILogger logger = new LoggerAdapter(NLog.LogManager.GetCurrentClassLogger());
         private readonly ObjectCache cache;
         private readonly int timeToLiveInSeconds;
-        private Action<string> throwIfResourceTypeIsNotKnown;
+        private readonly Action<string> throwIfResourceTypeIsNotKnown;
 
         /// <summary>
         /// Creates a new ResourceService with the given cam model, the caching object and the lifespan of a cached resource.
