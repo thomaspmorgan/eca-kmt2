@@ -14,7 +14,7 @@ using ECA.Business.Service;
 namespace ECA.WebApi.Controllers
 {
     [RoutePrefix("api/Report")]
-    [Authorize]
+
     public class ReportController : ApiController
     {
         private IReportService reportService;
@@ -48,33 +48,43 @@ namespace ECA.WebApi.Controllers
             reportViewer.LocalReport.ReportEmbeddedResource = "ECA.WebApi.Reports.ProjectAwards.rdlc";
             reportViewer.LocalReport.SetParameters(new ReportParameter("Country", countryName));
             reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
-                
-            
+
+
+            return GetReport(reportViewer, out bytes);
+
+        }
+
+        [Route("RegionAwards")]
+        public HttpResponseMessage GetRegionAwards(int programId)
+        {
+            Contract.Requires(programId != null, "The parameter programId must not be null.");
+
+            byte[] bytes;
+
+            var reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+
+            var rds = new ReportDataSource("RegionAwardDS", reportService.GetRegionAwards(programId).ToList());
+            string programName = reportService.GetProgramName(programId);
+            reportViewer.Reset();
+            reportViewer.LocalReport.DataSources.Add(rds);
+            reportViewer.LocalReport.ReportEmbeddedResource = "ECA.WebApi.Reports.RegionAwards.rdlc";
+            reportViewer.LocalReport.SetParameters(new ReportParameter("Program", programName));
+
+
+            return GetReport(reportViewer, out bytes);
+
+        }
+
+        private static HttpResponseMessage GetReport(ReportViewer reportViewer, out byte[] bytes)
+        {
             Warning[] warnings;
-
             string[] streamids;
-
             string mimeType;
-
             string encoding;
-
             string extension;
 
-
             bytes = reportViewer.LocalReport.Render("Pdf", null, out mimeType, out encoding, out extension, out streamids, out warnings);
-
-
-            //var cd = new System.Net.Mime.ContentDisposition
-
-            //{
-
-            //    FileName = string.Format("ProjectAwards.pdf"),
-
-            //    Inline = true,
-
-            //};
-
-
 
             var result = new HttpResponseMessage(HttpStatusCode.OK);
 
@@ -83,7 +93,6 @@ namespace ECA.WebApi.Controllers
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
 
             return result;
-
         }
 
 
