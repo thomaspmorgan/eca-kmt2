@@ -37,13 +37,13 @@
                     <input st-search="'startYearAsString'" placeholder="" type="search" class="input-lg form-control" />
                 </th>
                 <th>
-                    <select style="height: 45px;" multiple="multiple" class="form-control" id="regionSelect"
+                    <select style="height: 45px;" multiple class="form-control" id="regionSelect"
                             ng-options="s.id as s.name for s in regions track by s.id"
                             ng-model="filteredRegions"
                             ng-change="changeRegionFilter()" />
                 </th>
                 <th>
-                    &nbsp;
+                    {{selectedRegions}}
                 </th>
             </tr>
         </thead>

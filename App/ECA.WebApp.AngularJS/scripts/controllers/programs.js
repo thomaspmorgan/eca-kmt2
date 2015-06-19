@@ -230,7 +230,13 @@ angular.module('staticApp')
 
       $scope.changeRegionFilter = function () {
           var regions = $('#regionSelect').val();
-          alert(regions);
+
+          var items = $("#regionSelect option:selected").map(function () {
+              return $(this).text();
+          }).get();
+
+          $scope.selectedRegions = items.join();
+
           if (regions == null) {
               // all regions should be displayed
               angular.forEach($scope.projects, function (value) {
@@ -241,9 +247,9 @@ angular.module('staticApp')
               angular.forEach($scope.projects, function (value) {
 
                   $scope.showIncludedRegion[value.projectId] = false;
-                  angular.forEach($regions, function (selectedRegion) {
+                  angular.forEach(regions, function (selectedRegion) {
 
-                      if (value.regionIds.indexOf(selectedRegion) > -1) {
+                      if (value.regionIds.indexOf(parseInt(selectedRegion)) > -1) {
                           $scope.showIncludedRegion[value.projectId] = true;
                       }
                   });
