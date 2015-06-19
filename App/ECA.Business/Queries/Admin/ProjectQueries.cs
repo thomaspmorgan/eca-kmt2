@@ -32,6 +32,7 @@ namespace ECA.Business.Queries.Admin
                         let startDate = project.StartDate
                         let regionNames = project.Regions.Select(l => l.LocationName)
                         let regionIds = project.Regions.Select(l => l.LocationId)
+                        let locationNames = project.Locations.Select(l => l.LocationName)
                         where project.ProgramId == programId
                         select new SimpleProjectDTO
                         {
@@ -42,6 +43,7 @@ namespace ECA.Business.Queries.Admin
                             RegionIds = regionIds,
                             ProjectStatusId = status.ProjectStatusId,
                             ProjectStatusName = status.Status,
+                            LocationNames = locationNames,
                             StartDate = startDate,
                             StartYear = startDate.Year,
                             StartYearAsString = startDate.Year.ToString()
