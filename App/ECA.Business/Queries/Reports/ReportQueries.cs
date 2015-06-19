@@ -35,5 +35,23 @@ namespace ECA.Business.Queries.Programs
         {
             return context.Locations.Find(countryId).LocationName;
         }
+
+        public static IQueryable<RegionAwardDTO> CreateGetRegionAwards(EcaContext context, int programId)
+        {
+            Contract.Requires(context != null, "The context must not be null.");
+            var result = (from m in context.MoneyFlows where m.RecipientProject.ProgramId == programId
+                             group m by new {m.RecipientProject.Locations.FirstOrDefault().Region.LocationName}
+                             into grp
+                             select new RegionAwardDTO
+                             {
+                                 Region = grp.Key.LocationName,
+                                 Projects = grp.Count(),
+                                 ProgramValue = grp.Where(m => m.SourceProgramId == programId).Sum(m => m.Value),
+                                 OtherValue = grp.Where(m => m.SourceProgramId == null || m.SourceProgramId != programId).Sum(m => m.Value),
+                                 Average = grp.Average(m => m.Value),
+                             });
+            return result;            
+        }
+        
     }
 }

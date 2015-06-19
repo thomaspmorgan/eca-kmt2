@@ -32,6 +32,11 @@ namespace ECA.Business.Service.Reports
             return this.GetProjectAwardDTOQuery(programId, countryId);
         }
 
+        public IQueryable<RegionAwardDTO> GetRegionAwards(int programId)
+        {
+            logger.Trace("Getting Region Awards for program: [{0}]", programId);
+            return ReportQueries.CreateGetRegionAwards(Context, programId);
+        }
         #endregion
 
         #region Queries
