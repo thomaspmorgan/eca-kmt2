@@ -19,6 +19,10 @@ angular.module('staticApp')
               var path = 'programs/' + id + '/projects';
               return DragonBreath.get(params, path);
           },
+          getProjectsByPersonId: function (id, params) {
+              var path = 'people/' + id + '/projects';
+              return DragonBreath.get(params, path);
+          },
           update: function (project, id) {
               return DragonBreath.save(project, 'projects')
           },

@@ -753,6 +753,78 @@ namespace ECA.Business.Test.Service.Projects
         }
         #endregion
 
+        #region Get Projects By Person Id
+        [TestMethod]
+        public async Task TestGetProjectsByPersonIdAsync()
+        {
+            var person = new Person
+            {
+                PersonId = 1
+            };
+
+            var project = new Project
+            {
+                ProjectId = 1,
+                Name = "name",
+                StartDate = new DateTime(2013, 5, 1, 06, 32, 00),
+                EndDate = new DateTime(2017, 5, 1, 06, 32, 00),
+                Description = "description"
+            };
+
+            var participant = new Participant
+            {
+                ParticipantId = 1,
+                Person = person,
+                PersonId = person.PersonId,
+                Project = project,
+                ProjectId = project.ProjectId
+            };
+
+            context.Participants.Add(participant);
+
+            Action<PagedQueryResults<ParticipantTimelineDTO>> tester = (queryResults) =>
+            {
+                Assert.AreEqual(1, queryResults.Results.Count());
+
+                var projectResult = queryResults.Results.FirstOrDefault();
+
+                Assert.AreEqual(project.ProjectId, projectResult.ProjectId);
+                Assert.AreEqual(project.Name, projectResult.Name);
+                Assert.AreEqual(project.StartDate, projectResult.StartDate);
+                Assert.AreEqual(project.EndDate, projectResult.EndDate);
+                Assert.AreEqual(project.Description, projectResult.Description);
+
+                Assert.IsNull(projectResult.OfficeSymbol);
+                Assert.IsNull(projectResult.Status);
+            };
+
+            var defaultSorter = new ExpressionSorter<ParticipantTimelineDTO>(x => x.Name, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ParticipantTimelineDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetProjectsByPersonId(person.PersonId, queryOperator);
+            var serviceResultsAsync = await service.GetProjectsByPersonIdAsync(person.PersonId, queryOperator);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+
+        [TestMethod]
+        public async Task TestGetProjectsByPersonIdAsync_NoProjects()
+        {
+            Action<PagedQueryResults<ParticipantTimelineDTO>> tester = (queryResults) =>
+            {
+                Assert.AreEqual(0, queryResults.Results.Count());
+            };
+
+            var defaultSorter = new ExpressionSorter<ParticipantTimelineDTO>(x => x.Name, SortDirection.Ascending);
+            var queryOperator = new QueryableOperator<ParticipantTimelineDTO>(0, 10, defaultSorter);
+            var serviceResults = service.GetProjectsByPersonId(1, queryOperator);
+            var serviceResultsAsync = await service.GetProjectsByPersonIdAsync(1, queryOperator);
+
+            tester(serviceResults);
+            tester(serviceResultsAsync);
+        }
+        #endregion
+
         #region Get Project By Id
         [TestMethod]
         public async Task TestGetProjectById_CheckProperties()

@@ -118,7 +118,7 @@ namespace ECA.Business.Test.Service.Admin
                 var firstResult = results.First();
 
                 Assert.AreEqual(moneyflow.TransactionDate, firstResult.TransactionDate);
-                Assert.AreEqual(moneyflow.SourceType.TypeName, firstResult.Type);
+                Assert.AreEqual(moneyflow.SourceType.TypeName, firstResult.SourceType);
                 Assert.AreEqual(program.Name, firstResult.FromTo);
                 Assert.AreEqual(moneyflow.Value, firstResult.Amount);
                 Assert.AreEqual(moneyflow.Description, firstResult.Description);
