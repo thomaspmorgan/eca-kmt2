@@ -40,6 +40,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         {
             var response = await controller.GetParticipantsAsync(new PagingQueryBindingModel<SimpleParticipantDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleParticipantDTO>>));
+            serviceMock.Verify(x => x.GetParticipantsAsync(It.IsAny<QueryableOperator<SimpleParticipantDTO>>()), Times.Once());
         }
 
         [TestMethod]
@@ -55,6 +56,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
         {
             var response = await controller.GetParticipantsByProjectIdAsync(1, new PagingQueryBindingModel<SimpleParticipantDTO>());
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<PagedQueryResults<SimpleParticipantDTO>>));
+            serviceMock.Verify(x => x.GetParticipantsByProjectIdAsync(It.IsAny<int>(), It.IsAny<QueryableOperator<SimpleParticipantDTO>>()), Times.Once());
         }
 
         [TestMethod]
@@ -72,6 +74,7 @@ namespace ECA.WebApi.Test.Controllers.Programs
                 .ReturnsAsync(new ParticipantDTO());
             var response = await controller.GetParticipantByIdAsync(1);
             Assert.IsInstanceOfType(response, typeof(OkNegotiatedContentResult<ParticipantDTO>));
+            serviceMock.Verify(x => x.GetParticipantByIdAsync(It.IsAny<int>()), Times.Once());
         }
 
         [TestMethod]

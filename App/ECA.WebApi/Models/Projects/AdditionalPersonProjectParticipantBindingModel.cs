@@ -25,6 +25,11 @@ namespace ECA.WebApi.Models.Projects
         public int PersonId { get; set; }
 
         /// <summary>
+        /// The participant type id of this person.
+        /// </summary>
+        public int ParticipantTypeId { get; set; }
+
+        /// <summary>
         /// Returns an AdditionalPersonProjectParticipant for use in the ECA Business layer.
         /// </summary>
         /// <param name="user">The user adding the participant.</param>
@@ -32,7 +37,7 @@ namespace ECA.WebApi.Models.Projects
         public AdditionalPersonProjectParticipant ToAdditionalPersonProjectParticipant(User user)
         {
             Contract.Requires(user != null, "The user must not be null.");
-            return new AdditionalPersonProjectParticipant(user, this.ProjectId, this.PersonId);
+            return new AdditionalPersonProjectParticipant(user, this.ProjectId, this.PersonId, this.ParticipantTypeId);
         }
     }
 }

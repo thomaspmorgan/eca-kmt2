@@ -19,8 +19,9 @@ namespace ECA.Business.Service.Projects
         /// <param name="projectOwner">The project owner that is adding the organization participant.</param>
         /// <param name="projectId">The project id.</param>
         /// <param name="organizationId">The organization id.</param>
-        public AdditionalOrganizationProjectParticipant(User projectOwner, int projectId, int organizationId)
-            : base(projectOwner, projectId)
+        /// <param name="participantTypeId">The participant type id.</param>
+        public AdditionalOrganizationProjectParticipant(User projectOwner, int projectId, int organizationId, int participantTypeId)
+            : base(projectOwner, projectId, participantTypeId)
         {
             Contract.Requires(projectOwner != null, "The project owner must not be null.");
             this.OrganizationId = organizationId;

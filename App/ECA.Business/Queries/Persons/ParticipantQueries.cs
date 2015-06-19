@@ -47,6 +47,7 @@ namespace ECA.Business.Queries.Persons
                             ParticipantType = participantType.Name,
                             ParticipantTypeId = participantType.ParticipantTypeId,
                             PersonId = person.PersonId,
+                            ProjectId = participant.ProjectId,
                             RevisedOn = participant.History.RevisedOn
                         };
             return query;
@@ -82,6 +83,7 @@ namespace ECA.Business.Queries.Persons
                             ParticipantType = participantType.Name,
                             ParticipantTypeId = participantType.ParticipantTypeId,
                             PersonId = default(int?),
+                            ProjectId = participant.ProjectId,
                             RevisedOn = participant.History.RevisedOn
                         };
             return query;
@@ -118,16 +120,7 @@ namespace ECA.Business.Queries.Persons
         {
             Contract.Requires(context != null, "The context must not be null.");
             Contract.Requires(queryOperator != null, "The query operator must not be null.");
-            var query = CreateGetUnionedSimpleParticipantsDTOQuery(context);
-
-            query = from participant in context.Participants
-                    join q in query
-                    on participant.ParticipantId equals q.ParticipantId
-
-                    from project in context.Projects
-                    where project.ProjectId == projectId && participant.Projects.Contains(project)
-                    select q;
-
+            var query = CreateGetUnionedSimpleParticipantsDTOQuery(context).Where(x => x.ProjectId == projectId);
             query = query.Apply(queryOperator);
             return query;
         }
@@ -156,6 +149,7 @@ namespace ECA.Business.Queries.Persons
                             ParticipantType = participantType.Name,
                             ParticipantTypeId = participantType.ParticipantTypeId,
                             PersonId = person.PersonId,
+                            ProjectId = participant.ProjectId,
                             SevisId = participant.SevisId,
                             ContactAgreement = participant.ContactAgreement,
                             Status = participant.Status.Status,
