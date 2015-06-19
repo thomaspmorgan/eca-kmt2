@@ -1,7 +1,7 @@
 <h2 class="person-color tab-header">Timeline</h2>
 
 <div class="list2">
-    <div class="row hover">
+    <div class="row hover" ng-repeat="project in projects" ng-show="!projectsLoading">
         <div class="col-md-1">
             <div class="circle project">
                 PR
@@ -11,23 +11,19 @@
             <div class="row">
                 <div class="col-md-11">
                     <div class="row">
-                        <h4><a href="#">Fullbright Foreign Students - 2014</a></h4>
+                        <h4><a ng-bind-html="project.name" ui-sref="projects.overview({officeId: project.officeId, programId: project.programId, projectId: project.projectId})">{{project.name}}</a></h4>
                     </div>
                     <div class="row">
-                        <h5><strong>2013-2017</strong> <small>ECA/A/E</small></h5>
+                        <h5><strong>{{project.startDate | date : 'yyyy' }}-{{project.endDate | date : 'yyyy'}}</strong> <small>{{project.officeSymbol}}</small></h5>
                     </div>
                 </div>
                 <div class="col-md-1">
-                    <p class="pull-right title-label">Active</p>
+                    <p class="pull-right title-label">{{project.status}}</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-11">
-                    <p class="description">
-                        The Fullbright Foreign Student Program enables graduate students, young professionals,
-                        and artists from abroad to research and study in the United States for one year or longer
-                        at U.S. universities or other appropriate institutions.
-                    </p>
+                    <p class="description">{{project.description}}</p>
                 </div>
                 <div class="col-md-1">
                     <i class="material-icons md-dark md-36 pull-right">expand_less</i>
@@ -35,71 +31,12 @@
             </div>
         </div>
     </div>
-    <div class="row hover">
-        <div class="col-md-1">
-            <div class="circle project">
-                PR
-            </div>
-        </div>
-        <div class="col-md-11">
-            <div class="row">
-                <div class="col-md-11">
-                    <div class="row">
-                        <h4><a href="#">Fullbright Foreign Students - 2014</a></h4>
-                    </div>
-                    <div class="row">
-                        <h5><strong>2013-2017</strong> <small>ECA/A/E</small></h5>
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <p class="pull-right title-label">Completed</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-11">
-                    <p class="description">
-                        The Fullbright Foreign Student Program enables graduate students, young professionals,
-                        and artists from abroad to research and study in the United States for one year or longer
-                        at U.S. universities or other appropriate institutions.
-                    </p>
-                </div>
-                <div class="col-md-1">
-                    <i class="material-icons md-dark md-36 pull-right">expand_less</i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row hover">
-        <div class="col-md-1">
-            <div class="circle project">
-                PR
-            </div>
-        </div>
-        <div class="col-md-11">
-            <div class="row">
-                <div class="col-md-11">
-                    <div class="row">
-                        <h4><a href="#">Fullbright Foreign Students - 2014</a></h4>
-                    </div>
-                    <div class="row">
-                        <h5><strong>2013-2017</strong> <small>ECA/A/E</small></h5>
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <p class="pull-right title-label">Completed</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-11">
-                    <p class="description">
-                        The Fullbright Foreign Student Program enables graduate students, young professionals,
-                        and artists from abroad to research and study in the United States for one year or longer
-                        at U.S. universities or other appropriate institutions.
-                    </p>
-                </div>
-                <div class="col-md-1">
-                    <i class="material-icons md-dark md-36 pull-right">expand_less</i>
-                </div>
+    <div class="row hover" ng-show="projectsLoading">
+        <div class="row">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
             </div>
         </div>
     </div>

@@ -753,7 +753,7 @@ namespace ECA.Business.Test.Service.Projects
         }
         #endregion
 
-        #region
+        #region Get Projects By Person Id
         [TestMethod]
         public async Task TestGetProjectsByPersonIdAsync()
         {
@@ -765,6 +765,7 @@ namespace ECA.Business.Test.Service.Projects
             var project = new Project
             {
                 ProjectId = 1,
+                Name = "name",
                 StartDate = new DateTime(2013, 5, 1, 06, 32, 00),
                 EndDate = new DateTime(2017, 5, 1, 06, 32, 00),
                 Description = "description"
@@ -788,6 +789,7 @@ namespace ECA.Business.Test.Service.Projects
                 var projectResult = queryResults.Results.FirstOrDefault();
 
                 Assert.AreEqual(project.ProjectId, projectResult.ProjectId);
+                Assert.AreEqual(project.Name, projectResult.Name);
                 Assert.AreEqual(project.StartDate, projectResult.StartDate);
                 Assert.AreEqual(project.EndDate, projectResult.EndDate);
                 Assert.AreEqual(project.Description, projectResult.Description);

@@ -17,6 +17,15 @@ namespace ECA.Business.Queries.Models.Admin
         public int ProjectId { get; set; }
 
         /// <summary>
+        /// Gets and sets the program id
+        /// </summary>
+        public int ProgramId { get; set; }
+
+        /// <summary>
+        /// Gets and sets the office id
+        /// </summary>
+        public int OfficeId { get; set; }
+        /// <summary>
         /// Gets or sets the name
         /// </summary>
         public string Name { get; set; }
